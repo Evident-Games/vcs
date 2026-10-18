@@ -14,6 +14,7 @@ using VCS.Desktop.Controls;
 using VCS.Desktop.Services;
 using VCS.Desktop.ViewModels;
 using VCS.Desktop.Views;
+using VCS.Domain.Characters;
 using VCS.Infrastructure.Files;
 using VCS.Infrastructure.Persistence;
 using VCS.Infrastructure.Repositories;
@@ -51,7 +52,8 @@ public sealed class DesktopUiTests
                             new DispatcherAutosaveScheduler(), new ProvidedDisciplineCatalog()),
                         NullLogger<MainViewModel>.Instance, new DisplaySettingsStore(Path.Combine(directory, "display.json")),
                         new SqliteAdvantageCatalog(database), new SqliteSkillCatalog(database),
-                        new CharacterPdfExporter(new ProvidedDisciplineCatalog(), new SqliteSkillCatalog(database)));
+                        new CharacterPdfExporter(new ProvidedDisciplineCatalog(), new SqliteSkillCatalog(database)),
+                        new SqlitePredatorCatalog(database));
                     window = new MainWindow(model);
                     app.MainWindow = window;
                     window.Show();
@@ -77,23 +79,125 @@ public sealed class DesktopUiTests
                     Assert.False(model.Display.UseTabs);
                     Assert.Equal(8, model.Editor!.VisibleSections.Count);
                     Assert.Equal(8, Descendants<SheetSectionView>(window).Count());
-                    var advantageSearch = Find<TextBox>(window, "Buscar vantagem ou defeito");
-                    advantageSearch.Text = "deslumbrante";
-                    var advantageChoice = Find<ListBox>(window, "Catalogo de vantagens e defeitos");
-                    Assert.Single(advantageChoice.Items.Cast<object>());
-                    var advantageType = Find<ComboBox>(window, "Filtrar vantagens ou defeitos");
-                    advantageType.SelectedItem = "Defeitos";
-                    Assert.Empty(advantageChoice.Items.Cast<object>());
-                    advantageType.SelectedItem = "Vantagens";
-                    Assert.Single(advantageChoice.Items.Cast<object>());
-                    Assert.Equal(4, Find<NumericField>(window, "Pontos da vantagem ou defeito").Value);
-                    var addAdvantage = Descendants<Button>(window).Single(x => Equals(x.Content, "Adicionar a ficha"));
-                    var advantagePeer = new System.Windows.Automation.Peers.ButtonAutomationPeer(addAdvantage);
-                    ((System.Windows.Automation.Provider.IInvokeProvider)advantagePeer).Invoke();
+                    var ageChoice = Find<ComboBox>(window, "Idade vampirica");
+                    var identity = Assert.Single(Descendants<IdentitySheetView>(window));
+                    var identityChoices = Descendants<ComboBox>(identity).ToArray();
+                    Assert.Same(ageChoice, identityChoices[0]);
+                    Assert.Equal("Cla", AutomationProperties.GetName(identityChoices[1]));
+                    Assert.Equal("Tipo de predador", AutomationProperties.GetName(identityChoices[2]));
+                    ageChoice.SelectedIndex = 1;
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.Equal(1, model.Editor.AgeIndex);
+                    Assert.Equal(15, model.Editor.ExperienceTotal);
+                    Assert.True(await model.Editor.FlushAsync());
+                    Assert.Equal(VCS.Domain.Characters.VampireAge.Neonate,
+                        (await service.GetAsync(model.Editor.Id)).Details.Advancement!.Age);
+                    ageChoice.SelectedIndex = 0;
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    var advancementView = Assert.Single(Descendants<AdvancementView>(window));
+                    var backgroundSection = Assert.Single(Descendants<SheetSectionView>(window),
+                        x => Descendants<AdvancementView>(x).Contains(advancementView));
+                    Assert.Equal("Background", Assert.IsType<EditorSection>(backgroundSection.DataContext).Key);
+                    Assert.DoesNotContain(Descendants<ComboBox>(advancementView),
+                        x => AutomationProperties.GetName(x) == "Idade vampirica");
+                    Assert.DoesNotContain(Descendants<ComboBox>(advancementView),
+                        x => AutomationProperties.GetName(x) == "Perfil de habilidades");
+                    Assert.DoesNotContain(Descendants<ComboBox>(advancementView),
+                        x => AutomationProperties.GetName(x) == "Tipo de predador");
+                    var initialSkillsView = Assert.Single(Descendants<SkillsView>(window));
+                    var skillProfile = Find<ComboBox>(initialSkillsView, "Perfil de habilidades");
+                    var skillDistribution = Find<TextBlock>(initialSkillsView, "Distribuicao inicial de habilidades");
+                    Assert.Equal("Habilidades iniciais: 4, 3, 3, 3, 2, 2, 2, 2, 1; demais em zero.", skillDistribution.Text);
+                    skillProfile.SelectedIndex = 1;
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.Equal("Habilidades iniciais: 3, 3, 3, 2, 2, 2, 2, 2, 1; demais em zero.", skillDistribution.Text);
+                    Assert.True(await model.Editor.FlushAsync());
+                    Assert.Equal(VCS.Domain.Characters.SkillProfile.Balanced,
+                        (await service.GetAsync(model.Editor.Id)).Details.Advancement!.Profile);
+                    skillProfile.SelectedIndex = 0;
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    var attributeDistribution = Find<TextBlock>(window, "Distribuicao inicial de atributos");
+                    Assert.Equal("Atributos iniciais: 1 atributo com 4 pontos, 3 com 3, 4 com 2 e 1 com 1.", attributeDistribution.Text);
+                    var attributeSection = Assert.Single(Descendants<SheetSectionView>(window),
+                        x => Descendants<TextBlock>(x).Contains(attributeDistribution));
+                    Assert.Equal("Attributes", Assert.IsType<EditorSection>(attributeSection.DataContext).Key);
+                    Assert.DoesNotContain(Descendants<Expander>(window),
+                        x => AutomationProperties.GetName(x) == "Criacao e evolucao");
+                    Assert.DoesNotContain(Descendants<Button>(window),
+                        x => Equals(x.Content, "Concluir criacao e registrar pontos gratuitos"));
+                    Assert.Contains(Descendants<PredatorView>(identity), x => x.IsVisible);
+                    Find<Expander>(window, "Configuracao de predador").IsExpanded = true;
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    var predatorType = Find<ComboBox>(window, "Tipo de predador");
+                    Assert.Equal(13, predatorType.Items.Count);
+                    await AssertComboInteractionAsync(predatorType);
+                    predatorType.SelectedItem = model.Editor.PredatorTypes.Single(x => x.Id == "alleycat");
+                    Find<DotTrack>(window, "Briga").SetCurrentValue(DotTrack.ValueProperty, 1);
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.Contains(Descendants<TextBlock>(predatorType), x => x.Text == "Vira-lata");
+                    Find<ComboBox>(window, "Especializacao do predador").SelectedItem =
+                        model.Editor.PredatorSpecializations.Single(x => x.Skill == "Briga");
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.Contains(Descendants<TextBlock>(Find<ComboBox>(window, "Especializacao do predador")),
+                        x => x.Text == "Briga (Agarramento)");
+                    var applyPredator = Find<Button>(window, "Aplicar predador");
+                    ((System.Windows.Automation.Provider.IInvokeProvider)new System.Windows.Automation.Peers.ButtonAutomationPeer(applyPredator)).Invoke();
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.True(model.Editor.HasAppliedPredator, model.Editor.Error);
+                    Assert.Equal(6, model.Editor.Humanity);
+                    Assert.False(Find<TextBox>(window, "Predador").IsEnabled);
+                    Assert.Equal(1, Find<DotTrack>(window, "Disciplina Celeridade").Minimum);
+                    Find<NumericField>(window, "Maculas").SetCurrentValue(NumericField.ValueProperty, 2);
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    var stainDamage = Find<Button>(window, "Aplicar dano de Maculas");
+                    ((System.Windows.Automation.Provider.IInvokeProvider)new System.Windows.Automation.Peers.ButtonAutomationPeer(stainDamage)).Invoke();
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.Equal(1, model.Editor.WillpowerAggravated);
+                    var remorse = Find<Button>(window, "Registrar falha no Remorso");
+                    ((System.Windows.Automation.Provider.IInvokeProvider)new System.Windows.Automation.Peers.ButtonAutomationPeer(remorse)).Invoke();
+                    await WaitUntilAsync(() => !model.Editor.IsDirty);
+                    Assert.Equal(0, model.Editor.Stains);
+                    Assert.Equal(5, model.Editor.Humanity);
+                    Assert.NotNull((await service.GetAsync(model.Editor.Id)).Details.PredatorSelection);
+                    var removePredator = Find<Button>(window, "Remover predador");
+                    ((System.Windows.Automation.Provider.IInvokeProvider)new System.Windows.Automation.Peers.ButtonAutomationPeer(removePredator)).Invoke();
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.False(model.Editor.HasAppliedPredator);
+                    Assert.DoesNotContain(model.Editor.Advantages.Items, x => x.IsPredatorGrant);
+                    model.Editor.Humanity = 0;
+                    Assert.True(model.Editor.IsWassail);
+                    model.Editor.Notes = "Continua editavel em Wassail";
+                    Assert.False(model.Editor.HasErrors);
+                    model.Editor.Humanity = 7;
+                    model.Editor.WillpowerAggravated = 0;
+                    model.Editor.Skills.Items.Single(x => x.Name == "Briga").Rating = 0;
+                    await WaitUntilAsync(() => !model.Editor.IsDirty);
+                    var meritsView = Assert.Single(Descendants<AdvantageCatalogView>(window));
+                    Assert.Empty(Descendants<NumericField>(meritsView));
+                    Assert.Empty(Descendants<ComboBox>(meritsView));
+                    Find<CheckBox>(window, "Feio").IsChecked = true;
+                    Find<CheckBox>(window, "Deslumbrante").IsChecked = true;
                     await WaitUntilAsync(() => model.Editor.Advantages.Items.Count == 1 && !model.Editor.IsDirty);
+                    Assert.False(Find<CheckBox>(window, "Feio").IsChecked);
+                    Assert.Empty(model.Editor.Flaws.Items);
+                    Assert.Equal(4, Find<DotTrack>(window, "Pontos de Deslumbrante").Value);
                     Assert.Equal("Deslumbrante", model.Editor.Advantages.Items[0].Name);
                     Assert.Equal(4, model.Editor.Advantages.Items[0].Rating);
+                    var addPersonal = Descendants<Button>(meritsView).Single(x => Equals(x.Content, "+ Vantagem pessoal") &&
+                        x.DataContext is MeritFamilyViewModel { Name: "Refúgio" });
+                    ((System.Windows.Automation.Provider.IInvokeProvider)new System.Windows.Automation.Peers.ButtonAutomationPeer(addPersonal)).Invoke();
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Find<TextBox>(meritsView, "Nome da caracteristica pessoal").Text = "Biblioteca pessoal";
+                    Find<TextBox>(meritsView, "Descricao da caracteristica pessoal").Text = "Livros da cronica.";
+                    Find<DotTrack>(meritsView, "Pontos da caracteristica pessoal").SetCurrentValue(DotTrack.ValueProperty, 2);
+                    await WaitUntilAsync(() => !model.Editor.IsDirty);
+                    Assert.Contains((await service.GetAsync(model.Editor.Id)).Traits,
+                        x => x.Name == "Biblioteca pessoal" && x.Rating == 2 && x.Merit == new MeritInfo("Refúgio", "Livros da cronica."));
+                    var removePersonal = Descendants<Button>(meritsView).Single(x => Equals(x.Content, "Remover linha"));
+                    ((System.Windows.Automation.Provider.IInvokeProvider)new System.Windows.Automation.Peers.ButtonAutomationPeer(removePersonal)).Invoke();
+                    await WaitUntilAsync(() => model.Editor.Advantages.Items.Count == 1 && !model.Editor.IsDirty);
                     var loreCollection = Find<ComboBox>(window, "Colecao de loresheet");
+                    await AssertComboInteractionAsync(loreCollection);
                     loreCollection.SelectedItem = "Os Bahari";
                     var loreList = Find<ListBox>(window, "Catalogo de loresheets");
                     Assert.Equal(5, loreList.Items.Count);
@@ -116,7 +220,9 @@ public sealed class DesktopUiTests
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                     ((System.Windows.Automation.Provider.IInvokeProvider)lorePeer).Invoke();
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-                    Assert.Contains("somente um beneficio geral", model.Editor.Error);
+                    Assert.Empty(model.Editor.Error);
+                    Assert.Equal(2, model.Editor.Loresheets.Items.Count);
+                    model.Editor.RemoveInitialLoresheetCommand.Execute(model.Editor.Loresheets.Items[1]);
                     model.Editor.RemoveInitialLoresheetCommand.Execute(model.Editor.Loresheets.Items[0]);
                     loreCollection.SelectedItem = "Os Bahari";
                     loreList.SelectedItem = model.Editor.LoresheetBenefits.Single(x => x.Minimum == 2);
@@ -127,6 +233,7 @@ public sealed class DesktopUiTests
                     var name = Find<TextBox>(window, "Nome do personagem");
                     name.Text = "Smoke UI";
                     var clan = Find<ComboBox>(window, "Cla");
+                    await AssertComboInteractionAsync(clan);
                     Assert.Contains("Brujah", clan.Items.Cast<string>());
                     clan.Text = "Brujah";
                     Find<TextBox>(window, "Ambicao").Text = "Ambicao de teste";
@@ -197,6 +304,8 @@ public sealed class DesktopUiTests
                         tabs.SelectedItem = section;
                         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                         Assert.Equal(section.Sections.Count, Descendants<SheetSectionView>(window).Count());
+                        Assert.Equal(section.Sections.Any(x => x.Key == "Background") ? 1 : 0,
+                            Descendants<AdvancementView>(window).Count());
                     }
                     var organize = (MenuItem)settingsMenu.Items[1];
                     organize.Command.Execute(null);
@@ -269,6 +378,27 @@ public sealed class DesktopUiTests
                         Assert.Equal(30, input.MinHeight);
                         Assert.True(input.ActualHeight <= 34);
                         AssertReadableControls(window);
+                        Find<Expander>(window, "Configuracao de predador").IsExpanded = true;
+                        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                        var predatorView = Descendants<PredatorView>(window).Single();
+                        predatorView.BringIntoView();
+                        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                        AssertReadableControls(predatorView);
+                        var predatorCombo = Find<ComboBox>(window, "Tipo de predador");
+                        predatorCombo.IsDropDownOpen = true;
+                        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                        var predatorItem = Assert.IsType<ComboBoxItem>(predatorCombo.ItemContainerGenerator.ContainerFromItem(predatorCombo.SelectedItem));
+                        Assert.Equal(model.Editor.SelectedPredatorType!.Name, AutomationProperties.GetName(predatorItem));
+                        AssertReadableControls(Assert.IsType<Popup>(predatorCombo.Template.FindName("PART_Popup", predatorCombo)).Child);
+                        predatorCombo.IsDropDownOpen = false;
+                        SaveSnapshot(window, option.Id + "-predadores");
+                        var humanityView = Descendants<HumanityView>(window).Single();
+                        Find<Expander>(window, "Niveis de Humanidade").IsExpanded = true;
+                        humanityView.BringIntoView();
+                        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                        AssertReadableControls(humanityView);
+                        SaveSnapshot(window, option.Id + "-humanidade");
+                        Find<Expander>(window, "Niveis de Humanidade").IsExpanded = false;
                         var loresheetView = Descendants<LoresheetCatalogView>(window).Single();
                         loresheetView.BringIntoView();
                         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
@@ -391,12 +521,42 @@ public sealed class DesktopUiTests
                     await model.CreateNpcCommand.ExecuteAsync(null);
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                     Assert.True(model.Editor!.IsNpc);
+                    Assert.Single(Descendants<AdvancementView>(window));
+                    var npcIdentityChoices = Descendants<ComboBox>(window)
+                        .Where(x => AutomationProperties.GetName(x) is "Idade vampirica" or "Cla" or "Tipo de predador").ToArray();
+                    Assert.Equal(new[] { "Idade vampirica", "Cla", "Tipo de predador" }, npcIdentityChoices.Select(AutomationProperties.GetName));
+                    Assert.True(npcIdentityChoices[0].IsEnabled);
+                    foreach (var meritChoice in Descendants<ComboBox>(window)
+                                 .Where(x => AutomationProperties.GetName(x) == "Vantagem ou defeito NPC"))
+                    {
+                        var placeholder = Assert.IsType<TextBlock>(meritChoice.Template.FindName("Placeholder", meritChoice));
+                        Assert.Equal("Vantagem ou defeito", placeholder.Text);
+                        Assert.Equal(Visibility.Visible, placeholder.Visibility);
+                        Assert.Null(meritChoice.SelectedItem);
+                    }
                     Assert.Equal(model.Editor.VisibleSections.Count, Descendants<NpcSheetView>(window).Count());
                     Assert.DoesNotContain(Descendants<DotTrack>(window), x => AutomationProperties.GetName(x) == "Fisicos do NPC");
                     model.Display.Sections.Single(x => x.Key == "Attributes").IsVisible = true;
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                     Assert.Equal(27, model.Editor.SkillGroups.Sum(x => x.Items.Count));
                     Find<TextBox>(window, "Nome do NPC").Text = "NPC visual";
+                    Assert.DoesNotContain(Descendants<ComboBox>(window),
+                        x => AutomationProperties.GetName(x) == "Disciplina do NPC");
+                    foreach (var discipline in model.Editor.NpcDisciplines)
+                    {
+                        Assert.Contains(Descendants<TextBlock>(window), x => x.Text == discipline.SelectedDiscipline);
+                        Assert.All(discipline.Powers, x => Assert.Equal(discipline.SelectedDiscipline, x.Definition.Discipline));
+                    }
+                    model.Editor.AddNpcDisciplineCommand.Execute(null);
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    var npcDisciplineInput = Descendants<TextBox>(window)
+                        .Single(x => AutomationProperties.GetName(x) == "Disciplina pessoal do NPC" && x.IsVisible);
+                    npcDisciplineInput.Text = "Disciplina digitada";
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.Equal("Disciplina digitada", model.Editor.NpcDisciplines.Last().SelectedDiscipline);
+                    npcDisciplineInput.Text = "";
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.Empty(model.Editor.NpcDisciplines.Last().SelectedDiscipline);
                     Find<DotTrack>(window, "Fisicos do NPC").SetCurrentValue(DotTrack.ValueProperty, 4);
                     var npcHealth = Find<BoxTrack>(window, "Vitalidade NPC");
                     var emptyBox = Descendants<Button>(npcHealth).First();
@@ -413,10 +573,8 @@ public sealed class DesktopUiTests
                     Descendants<Button>(npcWillpower).First().RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                     Assert.Equal(1, model.Editor.WillpowerAggravated);
                     Assert.Equal(0, model.Editor.WillpowerSuperficial);
-                    model.Editor.NpcDisciplines[0].SelectedDiscipline = "Ofuscação";
-                    model.Editor.NpcDisciplines[0].Rating = 2;
-                    model.Editor.NpcMerits[0].Selected = model.Editor.NpcMerits[0].Options.First();
-                    model.Editor.NpcMerits[0].Rating = 2;
+                    model.Editor.NpcDisciplines.Single(x => x.SelectedDiscipline == "Ofuscação").Rating = 2;
+                    Find<CheckBox>(window, "Arsenal oculto").IsChecked = true;
                     await model.ExportPdfCommand.ExecuteAsync(null);
                     Assert.Equal("", model.Error);
                     Assert.True(File.Exists(dialogs.PdfPath));
@@ -432,28 +590,54 @@ public sealed class DesktopUiTests
                         Assert.Equal(tab.Sections.Count, Descendants<NpcSheetView>(window).Count());
                     }
                     model.Display.UseTabs = false;
-                    var evolution = Descendants<Expander>(window).Single(x => Equals(x.Header, "Criacao e evolucao / XP"));
-                    evolution.IsExpanded = true;
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    var evolution = Assert.Single(Descendants<AdvancementView>(window));
                     AssertReadableControls(evolution);
-                    model.Editor.TrackExistingCommand.Execute(null);
-                    model.Editor.ExperienceTotal = 50;
-                    model.Editor.SelectedAdvancement = model.Editor.AdvancementOptions.Single(x => x.Key == "NpcPhysical");
-                    model.Editor.BuyLevelCommand.Execute(null);
-                    Assert.Equal(25, model.Editor.ExperienceSpent);
-                    Assert.Equal(5, model.Editor.NpcPhysical);
+                    model.Editor.Clan = "Brujah";
+                    Find<ComboBox>(window, "Idade vampirica").SelectedIndex = 1;
+                    var npcDiscipline = model.Editor.NpcDisciplines.Single(x => x.SelectedDiscipline == "Ofuscação");
+                    npcDiscipline.Rating = 3;
+                    Assert.Equal(42, model.Editor.ExperienceSpent);
+                    Assert.Equal(-27, model.Editor.ExperienceAvailable);
+                    Assert.Contains("Faltam 27 XP", Find<TextBlock>(evolution, "Aviso de XP faltante").Text);
+                    Assert.True(await model.Editor.FlushAsync());
+                    Assert.Equal(42, (await service.GetAsync(model.Editor.Id)).Details.ExperienceSpent);
+                    Find<NumericField>(evolution, "XP de campanha recebido").SetCurrentValue(NumericField.ValueProperty, 30);
+                    Assert.Equal(3, model.Editor.ExperienceAvailable);
+                    Assert.Empty(model.Editor.ExperienceWarning);
                     await WaitUntilAsync(() => !model.Editor.IsDirty);
                     model.Editor.SelectedLoresheetCollection = "Carna";
                     model.Editor.SelectedLoresheetBenefit = model.Editor.LoresheetBenefits.Single(x => x.Minimum == 1);
                     model.Editor.AddLoresheetCommand.Execute(null);
-                    Assert.Contains("campanha insuficiente", model.Editor.Error);
-                    model.Editor.CampaignXpAward = 3;
-                    model.Editor.AwardCampaignXpCommand.Execute(null);
-                    model.Editor.AddLoresheetCommand.Execute(null);
-                    Assert.Equal(28, model.Editor.ExperienceSpent);
-                    Assert.Equal(3, model.Editor.CampaignExperienceSpent);
+                    Assert.Empty(model.Editor.Error);
+                    Assert.Equal(42, model.Editor.ExperienceSpent);
+                    Assert.Equal(27, model.Editor.CampaignExperienceSpent);
                     Assert.Single(model.Editor.Loresheets.Items);
                     await WaitUntilAsync(() => !model.Editor.IsDirty);
+                    await model.CreateNpcCommand.ExecuteAsync(null);
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.Contains("NPC usa os tres grupos livres",
+                        Find<TextBlock>(window, "Distribuicao inicial de atributos").Text);
+                    Assert.True(Find<ComboBox>(window, "Perfil de habilidades").IsVisible);
+                    model.Editor.Skills.Items.Single(x => x.Name == "Medicina").Rating = 1;
+                    Find<Expander>(window, "Configuracao de predador").IsExpanded = true;
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Find<ComboBox>(window, "Tipo de predador").SelectedItem =
+                        model.Editor.PredatorTypes.Single(x => x.Id == "sandman");
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    ((System.Windows.Automation.Provider.IInvokeProvider)new System.Windows.Automation.Peers.ButtonAutomationPeer(
+                        Find<Button>(window, "Aplicar predador"))).Invoke();
+                    await WaitUntilAsync(() => !model.Editor.IsDirty);
+                    Assert.True(model.Editor.HasAppliedPredator, model.Editor.Error);
+                    Assert.Contains(model.Editor.AdvantageCatalog!.Families.Single(x => x.Name == "Recursos").PersonalEntries,
+                        x => x.Name == "Recursos" && !x.CanEditRating);
+                    Assert.Contains(model.Editor.NpcDisciplines, x => x.SelectedDiscipline == "Auspícios" && !x.CanSelectDiscipline);
+                    Find<NumericField>(window, "Maculas").SetCurrentValue(NumericField.ValueProperty, 1);
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    ((System.Windows.Automation.Provider.IInvokeProvider)new System.Windows.Automation.Peers.ButtonAutomationPeer(
+                        Find<Button>(window, "Registrar falha no Remorso"))).Invoke();
+                    await WaitUntilAsync(() => !model.Editor.IsDirty);
+                    Assert.Equal(6, (await service.GetAsync(model.Editor.Id)).Details.Humanity);
                     Assert.Empty(bindings.Errors);
                     Assert.True(await model.TryCloseAsync());
                     var closed = false;
@@ -487,6 +671,49 @@ public sealed class DesktopUiTests
         var values = Descendants<T>(root).ToArray();
         Assert.Contains(values, x => AutomationProperties.GetName(x) == name);
         return values.Single(x => AutomationProperties.GetName(x) == name);
+    }
+
+    private static async Task AssertComboInteractionAsync(ComboBox combo)
+    {
+        var originalIndex = combo.SelectedIndex;
+        var originalText = combo.Text;
+        combo.BringIntoView();
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        var toggle = Assert.IsType<ToggleButton>(combo.Template.FindName("DropButton", combo));
+        var placeholder = Assert.IsType<TextBlock>(combo.Template.FindName("Placeholder", combo));
+        Assert.False(string.IsNullOrWhiteSpace(placeholder.Text));
+        Assert.Equal(string.IsNullOrEmpty(combo.Text) ? Visibility.Visible : Visibility.Collapsed, placeholder.Visibility);
+        var arrow = Assert.Single(Descendants<System.Windows.Shapes.Path>(toggle));
+        var arrowX = arrow.TransformToAncestor(combo).Transform(new Point()).X;
+        Assert.True(arrowX > combo.ActualWidth / 2,
+            $"Arrow X={arrowX}, combo width={combo.ActualWidth}, toggle width={toggle.ActualWidth}, alignment={toggle.HorizontalAlignment}.");
+        if (!combo.IsEditable)
+        {
+            Assert.Equal(combo.ActualWidth, toggle.ActualWidth, 1);
+            Assert.True(toggle.IsAncestorOf(Assert.IsAssignableFrom<DependencyObject>(
+                combo.InputHitTest(new Point(12, combo.ActualHeight / 2)))));
+        }
+        ((System.Windows.Automation.Provider.IToggleProvider)new System.Windows.Automation.Peers.ToggleButtonAutomationPeer(toggle)
+            .GetPattern(System.Windows.Automation.Peers.PatternInterface.Toggle)).Toggle();
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        var popup = Assert.IsType<Popup>(combo.Template.FindName("PART_Popup", combo));
+        Assert.True(popup.IsOpen);
+        Assert.Same(combo, popup.PlacementTarget);
+        Assert.True(popup.Child.RenderSize.Width >= combo.ActualWidth);
+        var choices = new System.Windows.Automation.Peers.ComboBoxAutomationPeer(combo).GetChildren()
+            .Select(x => x.GetPattern(System.Windows.Automation.Peers.PatternInterface.SelectionItem))
+            .OfType<System.Windows.Automation.Provider.ISelectionItemProvider>().ToArray();
+        Assert.Equal(combo.Items.Count, choices.Length);
+        choices[1].Select();
+        Assert.Equal(1, combo.SelectedIndex);
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        Assert.Equal(Visibility.Collapsed, placeholder.Visibility);
+        combo.IsDropDownOpen = false;
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        Assert.False(popup.IsOpen);
+        combo.SetCurrentValue(ComboBox.SelectedIndexProperty, originalIndex);
+        if (combo.IsEditable) combo.SetCurrentValue(ComboBox.TextProperty, originalText);
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
     }
 
     private static void AssertReadableControls(DependencyObject root)

@@ -1,0 +1,71 @@
+<UserControl x:Class="VCS.Desktop.Views.PredatorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls">
+    <UserControl.Resources>
+        <Style x:Key="PredatorSpecializationItem" TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+            <Setter Property="AutomationProperties.Name" Value="{Binding Label}" />
+        </Style>
+    </UserControl.Resources>
+    <Expander Header="Predador / escolhas e bonus" AutomationProperties.Name="Configuracao de predador" Margin="0,8">
+        <StackPanel Margin="6">
+            <TextBlock Text="{Binding AppliedPredatorSummary}" TextWrapping="Wrap" Margin="0,0,0,10" />
+            <TextBlock Text="Distribua primeiro ao menos 1 ponto na habilidade escolhida. Aplicar registra os bonus gratuitos; consultar o catalogo nao altera a ficha."
+                       Foreground="{DynamicResource VcsMuted}" TextWrapping="Wrap" Margin="0,0,0,8" />
+            <TextBlock Text="{Binding PredatorDescription}" TextWrapping="Wrap" Margin="0,8" />
+            <TextBlock Text="Beneficios" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding PredatorBenefits}" TextWrapping="Wrap" Margin="0,4,0,8" />
+            <TextBlock Text="Custos" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding PredatorCost}" TextWrapping="Wrap" Margin="0,4,0,8" />
+            <StackPanel Visibility="{Binding IsCreating, Converter={StaticResource BoolVisibility}}">
+                <TextBlock Text="Disciplina (+1 ponto)" Style="{StaticResource FieldLabel}" />
+                <ComboBox ItemsSource="{Binding PredatorDisciplines}" SelectedItem="{Binding SelectedPredatorDiscipline}"
+                          Tag="Disciplina" AutomationProperties.Name="Bonus de disciplina do predador" />
+                <TextBlock Text="Especializacao gratuita" Style="{StaticResource FieldLabel}" Margin="0,8,0,2" />
+                <ComboBox ItemsSource="{Binding PredatorSpecializations}" SelectedItem="{Binding SelectedPredatorSpecialization}"
+                          ItemContainerStyle="{StaticResource PredatorSpecializationItem}"
+                          DisplayMemberPath="Label" Tag="Especializacao" AutomationProperties.Name="Especializacao do predador" />
+                <TextBox Text="{Binding PredatorSpecializationText, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" Margin="0,6"
+                         Visibility="{Binding IsPredatorSpecializationFreeText, Converter={StaticResource BoolVisibility}}"
+                         ToolTip="Informe a tradicao, cena, animal ou especializacao. Sem ponto e virgula ou virgula."
+                         AutomationProperties.Name="Texto livre da especializacao do predador" />
+                <TextBlock Text="{Binding PredatorAllocationSummary}" TextWrapping="Wrap" Margin="0,8" />
+                <StackPanel Visibility="{Binding HasPredatorAdvantageAllocation, Converter={StaticResource BoolVisibility}}">
+                    <TextBlock Text="Pontos adicionais de vantagens" FontWeight="SemiBold" />
+                    <ItemsControl ItemsSource="{Binding PredatorAdvantages}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Margin="0,5">
+                                    <controls:NumericField DockPanel.Dock="Right" Value="{Binding Points, Mode=TwoWay}" Maximum="{Binding Maximum}"
+                                                           AutomationProperties.Name="{Binding Name}" />
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+                <StackPanel Visibility="{Binding HasPredatorFlawAllocation, Converter={StaticResource BoolVisibility}}">
+                    <TextBlock Text="Pontos adicionais de defeitos" FontWeight="SemiBold" />
+                    <ItemsControl ItemsSource="{Binding PredatorFlaws}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel Margin="0,5">
+                                    <controls:NumericField DockPanel.Dock="Right" Value="{Binding Points, Mode=TwoWay}" Maximum="{Binding Maximum}"
+                                                           AutomationProperties.Name="{Binding Name}" />
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+                <WrapPanel Margin="0,8">
+                    <Button Content="Aplicar / trocar predador" Command="{Binding ApplyPredatorCommand}" Margin="0,0,8,6"
+                            AutomationProperties.Name="Aplicar predador" />
+                    <Button Content="Remover bonus aplicados" Command="{Binding RemovePredatorCommand}" Margin="0,0,0,6"
+                            Visibility="{Binding HasAppliedPredator, Converter={StaticResource BoolVisibility}}"
+                            AutomationProperties.Name="Remover predador" />
+                </WrapPanel>
+            </StackPanel>
+        </StackPanel>
+    </Expander>
+</UserControl>

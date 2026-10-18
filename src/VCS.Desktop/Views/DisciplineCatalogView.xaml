@@ -9,6 +9,8 @@
         </Grid.RowDefinitions>
         <Expander Header="Disciplinas: niveis de 0 a 5" Margin="0,0,0,12" IsExpanded="True" IsEnabled="{Binding CanEditBuild}">
                 <StackPanel>
+                <TextBlock Text="{Binding InitialDisciplinesDescription}" TextWrapping="Wrap" Margin="8,0,8,8" />
+                <TextBlock Text="{Binding DisciplinesExperience}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" Margin="8,0,8,8" />
                 <ItemsControl ItemsSource="{Binding Disciplines.Items}">
                     <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -16,7 +18,7 @@
                             <Grid Margin="8,3" ToolTip="{Binding AdvancementInfo}">
                                 <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" TextWrapping="Wrap" />
-                                <controls:DotTrack Grid.Column="1" Value="{Binding Rating, Mode=TwoWay}" Minimum="0" Maximum="5"
+                                <controls:DotTrack Grid.Column="1" Value="{Binding Rating, Mode=TwoWay}" Minimum="{Binding Minimum}" Maximum="5"
                                                    AutomationProperties.Name="{Binding Name, StringFormat='Disciplina {0}'}" />
                             </Grid>
                         </DataTemplate>
@@ -30,7 +32,7 @@
         <StackPanel Grid.Row="1" DataContext="{Binding Powers}">
             <TextBlock Text="{Binding DataContext.ClanDisciplines, RelativeSource={RelativeSource AncestorType=UserControl}}"
                        TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" Margin="0,0,0,8" />
-            <TextBlock Text="Evolucao: novo nivel x 5 XP (do cla) ou x 7 XP (fora do cla). Com acompanhamento ativo, compre em Criacao e evolucao / XP."
+            <TextBlock Text="Edite os pontos diretamente; o custo acima dos pontos iniciais e calculado automaticamente."
                        FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" Margin="0,0,0,8" />
             <TextBlock Text="Catalogo pessoal: material fornecido pelo usuario, sem verificacao de regras oficiais."
                        FontSize="12" Foreground="{DynamicResource VcsMuted}" TextWrapping="Wrap" Margin="0,0,0,10" />
@@ -41,7 +43,7 @@
                 <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,12,0"
                          AutomationProperties.Name="Buscar poderes" ToolTip="Buscar por nome, disciplina, custo, dados ou resumo" />
                 <ComboBox Grid.Column="1" ItemsSource="{Binding DisciplineOptions}" SelectedItem="{Binding SelectedDiscipline}"
-                          AutomationProperties.Name="Filtrar disciplina" Margin="0,0,12,0" />
+                          Tag="Disciplina" AutomationProperties.Name="Filtrar disciplina" Margin="0,0,12,0" />
                 <CheckBox Grid.Column="2" Content="Somente conhecidos" IsChecked="{Binding KnownOnly}" VerticalAlignment="Center" />
             </Grid>
             <TextBlock Text="{Binding CountLabel}" Style="{StaticResource FieldLabel}" />

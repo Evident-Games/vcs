@@ -29,6 +29,12 @@ public static class LoresheetRules
             details.CampaignExperienceTotal > details.ExperienceTotal - CharacterAdvancement.StartingXp(state.Age))
             throw new InvalidOperationException("O bonus inicial de idade nao pode ser reclassificado como XP de campanha.");
         var selection = benefit with { Loresheet = benefit.Loresheet with { Payment = payment } };
+        if (state.AutomaticExperience)
+        {
+            var values = traits.Append(selection).ToArray();
+            var calculation = AutomaticExperience.Calculate(details, values);
+            return new(details with { ExperienceSpent = calculation.Spent, CampaignExperienceSpent = calculation.CampaignSpent }, values);
+        }
         if (state.IsCreating)
         {
             if (payment == LoresheetPayment.CampaignXp)
@@ -39,7 +45,7 @@ public static class LoresheetRules
                     : "A criacao permite somente um beneficio geral, mesmo de outra colecao.");
             var values = traits.Append(selection).ToArray();
             if (payment == LoresheetPayment.AdvantagePoints &&
-                traits.Where(x => x.Category == TraitCategory.Advantage).Sum(x => x.Rating) + AdvantagePoints(values) >
+                traits.Where(x => x.Category == TraitCategory.Advantage && !PredatorRules.IsGrant(x)).Sum(x => x.Rating) + AdvantagePoints(values) >
                 CharacterAdvancement.AdvantageBudget(state.Age))
                 throw new InvalidOperationException("Pontos iniciais de vantagens insuficientes. Remova pontos de outra vantagem ou escolha XP inicial.");
             var initialCost = InitialXpCost(values);
@@ -90,7 +96,7 @@ public static class LoresheetRules
                 lore.Description is null || lore.Description.Length > 20000 || !Enum.IsDefined(lore.Payment))
                 issues.Add(new("Loresheets", "Colecao, descricao, pontuacao ou pagamento do beneficio invalidos."));
         }
-        if (details.Advancement?.IsCreating == true)
+        if (details.Advancement is { IsCreating: true, AutomaticExperience: false })
         {
             var selections = traits.Where(x => x.Category == TraitCategory.Loresheet && x.Loresheet is not null).ToArray();
             if (selections.GroupBy(x => x.Loresheet!.IsLineage).Any(x => x.Count() > 1))

@@ -167,14 +167,11 @@ public sealed class AdvancementTests
             var autosave = new ManualAutosave();
             using var editor = new CharacterEditorViewModel(dto, service, NullLogger<CharacterEditorViewModel>.Instance,
                 autosave, new ProvidedDisciplineCatalog());
-            editor.FinishCreationCommand.Execute(null);
-            Assert.True(editor.IsEvolving);
-            Assert.False(editor.CanEditBuild);
-            editor.ExperienceTotal = 100;
-            editor.SelectedAdvancement = editor.AdvancementOptions.Single(x => x.Key == "Resolve");
-            editor.BuyLevelCommand.Execute(null);
+            Assert.True(editor.CanEditBuild);
+            editor.CampaignExperienceTotal = 100;
+            editor.Attributes.Items.Single(x => x.Key == "Resolve").Rating = 2;
             Assert.Equal(10, editor.ExperienceSpent);
-            Assert.Single(editor.PurchaseHistory);
+            Assert.Contains(editor.ExperienceBreakdown, x => x.EndsWith(": 10 XP.", StringComparison.Ordinal));
             await autosave.FireAsync();
             Assert.False(editor.IsDirty);
             var saved = await service.GetAsync(dto.Id);
@@ -186,10 +183,10 @@ public sealed class AdvancementTests
             await files.ExportAsync(saved, path);
             var imported = await service.ImportAsync(await files.ReadAsync(path));
             Assert.Equal(10, imported.Details.ExperienceSpent);
-            Assert.Single(imported.Details.Advancement!.Purchases);
+            Assert.True(imported.Details.Advancement!.AutomaticExperience);
             var backup = Path.Combine(directory, "backup.db");
             await maintenance.BackupAsync(backup);
-            editor.BuyLevelCommand.Execute(null);
+            editor.Attributes.Items.Single(x => x.Key == "Resolve").Rating = 3;
             Assert.Equal(25, editor.ExperienceSpent);
             await autosave.FireAsync();
             await maintenance.RestoreAsync(backup);
@@ -197,11 +194,11 @@ public sealed class AdvancementTests
             Assert.Equal(10, restored.Details.ExperienceSpent);
             var pdf = Path.Combine(directory, "sheet.pdf");
             await new CharacterPdfExporter(new ProvidedDisciplineCatalog(), new SqliteSkillCatalog(database))
-                .ExportAsync(restored, pdf, [new("Identity", "Identidade")]);
+                .ExportAsync(restored, pdf, [new("Background", "Historia e conviccoes")]);
             using var document = PdfReader.Open(pdf, PdfDocumentOpenMode.Import);
             var fields = document.AcroForm.Elements.GetArray("/Fields")!.Elements.Cast<PdfReference>().Select(x => (PdfDictionary)x.Value).ToArray();
             Assert.Contains(fields, x => x.Elements.GetString("/TU") == "Total gasto de XP" && x.Elements.GetString("/V") == "10");
-            Assert.Contains(fields, x => x.Elements.GetString("/V").Contains("Determinacao: 1 -> 2"));
+            Assert.Contains(fields, x => x.Elements.GetString("/V").Contains(": 10 XP."));
         }
         finally { if (Directory.Exists(directory)) Directory.Delete(directory, true); }
     }
@@ -252,7 +249,7 @@ public sealed class AdvancementTests
             Assert.Equal(15, editor.ExperienceTotal); Assert.Equal(1, editor.BloodPotency);
             editor.AgeIndex = 1;
             Assert.Equal(15, editor.ExperienceTotal);
-            editor.ExperienceTotal += 10;
+            editor.CampaignExperienceTotal = 10;
             editor.AgeIndex = 2;
             Assert.Equal(45, editor.ExperienceTotal); Assert.Equal(2, editor.BloodPotency);
             editor.SkillProfileIndex = 2;
@@ -260,24 +257,17 @@ public sealed class AdvancementTests
             var saved = await service.GetAsync(editor.Id);
             Assert.Equal(VampireAge.Ancilla, saved.Details.Advancement!.Age);
             Assert.Equal(SkillProfile.Generalist, saved.Details.Advancement.Profile);
-            editor.FinishCreationCommand.Execute(null);
-            Assert.True(editor.IsCreating);
-            Assert.Contains("Atributos", editor.Error);
+            Assert.True(editor.CanEditBuild);
+            Assert.Empty(editor.Error);
             using var npc = new CharacterEditorViewModel(await service.CreateNpcAsync(), service,
                 NullLogger<CharacterEditorViewModel>.Instance, new ManualAutosave(), new ProvidedDisciplineCatalog());
-            Assert.False(npc.HasAdvancement);
-            npc.NpcPhysical = 4; npc.ExperienceTotal = 50; npc.ExperienceSpent = 10;
-            npc.TrackExistingCommand.Execute(null);
-            Assert.True(npc.IsEvolving);
-            Assert.Equal(10, npc.ExperienceSpent);
-            Assert.Empty(npc.PurchaseHistory);
-            npc.SelectedAdvancement = npc.AdvancementOptions.Single(x => x.Name == "Ofuscação");
-            npc.BuyLevelCommand.Execute(null);
-            Assert.Contains("cla", npc.Error);
+            Assert.True(npc.CanEditBuild);
+            npc.NpcPhysical = 4;
+            npc.CampaignExperienceTotal = 50;
+            npc.Disciplines.Items.Single(x => x.Name == "Ofuscação").Rating = 1;
+            Assert.Contains("cla", npc.DisciplinesExperience);
             npc.Clan = "Brujah";
-            npc.BuyLevelCommand.Execute(null);
-            Assert.Equal(17, npc.ExperienceSpent);
-            Assert.Contains(npc.NpcDisciplines, x => x.SelectedDiscipline == "Ofuscação" && x.Rating == 1);
+            Assert.Equal(7, npc.ExperienceSpent);
             Assert.True(await npc.FlushAsync());
         }
         finally { if (Directory.Exists(directory)) Directory.Delete(directory, true); }

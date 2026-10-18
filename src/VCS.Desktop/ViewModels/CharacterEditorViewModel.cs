@@ -26,7 +26,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     [
         nameof(Name), nameof(MortalName), nameof(Clan), nameof(Generation), nameof(Sire), nameof(Predator),
         nameof(Concept), nameof(Chronicle), nameof(Description), nameof(Notes), nameof(Hunger),
-        nameof(Humanity), nameof(BloodPotency), nameof(HealthSuperficial), nameof(HealthAggravated),
+        nameof(Humanity), nameof(Stains), nameof(BloodPotency), nameof(HealthSuperficial), nameof(HealthAggravated),
         nameof(WillpowerSuperficial), nameof(WillpowerAggravated)
     ];
 
@@ -38,7 +38,9 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         _logger = logger;
         _autosave = autosave;
         var d = character.Details;
-        _advancement = d.Advancement;
+        _advancement = (d.Advancement ?? new()) with { AutomaticExperience = true, IsCreating = true, HasCreationProfile = true };
+        _predatorSelection = d.PredatorSelection;
+        stains = d.Stains;
         name = d.Name; mortalName = d.MortalName; clan = d.Clan; generation = d.Generation;
         sire = d.Sire; predator = d.Predator; concept = d.Concept; chronicle = d.Chronicle;
         description = d.Description; notes = d.Notes;
@@ -50,7 +52,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         Attributes = new(TraitCategory.Attribute, character.Traits);
         Skills = new(TraitCategory.Skill, character.Traits);
         Disciplines = new(TraitCategory.Discipline, character.Traits);
-        foreach (var discipline in catalog.Powers.Where(x => !x.IsRitual && !d.IsNpc).Select(x => x.Discipline).Distinct())
+        foreach (var discipline in catalog.Powers.Where(x => !x.IsRitual).Select(x => x.Discipline).Distinct())
             if (!Disciplines.Items.Any(x => CatalogText.Normalize(x.Name) == CatalogText.Normalize(discipline) ||
                 x.Key == CatalogText.StableId("disc-", discipline)))
                 Disciplines.AddEntry(new(TraitCategory.Discipline, CatalogText.StableId("disc-", discipline), discipline, 0));
@@ -63,7 +65,6 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         if (d.IsNpc)
         {
             foreach (var item in Disciplines.Items) NpcDisciplines.Add(new(this, item));
-            while (NpcDisciplines.Count < 6) NpcDisciplines.Add(new(this));
         }
         IdentityFields =
         [
@@ -91,7 +92,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         foreach (var field in ExtraFields) field.PropertyChanged += OnExtraFieldChanged;
         experienceTotal = d.ExperienceTotal;
         experienceSpent = d.ExperienceSpent;
-        campaignExperienceTotal = d.CampaignExperienceTotal;
+        campaignExperienceTotal = d.Advancement?.AutomaticExperience == true ? d.CampaignExperienceTotal :
+            Math.Max(d.CampaignExperienceTotal, d.ExperienceTotal - CharacterAdvancement.StartingXp(_advancement.Age));
         campaignExperienceSpent = d.CampaignExperienceSpent;
         foreach (var group in Groups) group.Changed += OnTraitsChanged;
         _ready = true;
@@ -99,6 +101,9 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         RefreshAdvancement();
         ValidateDraft();
         RefreshCreation();
+        ConfigurePredatorCatalog(PredatorCatalog.All);
+        RecalculateExperience();
+        ValidateDraft();
     }
 
     [ObservableProperty] private string name;
@@ -195,24 +200,12 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     }
     public SheetFieldViewModel[] IdentityFields { get; }
     public AdvantageCatalogViewModel? AdvantageCatalog { get; private set; }
-    private IReadOnlyList<AdvantageDefinition> _meritOptions = [];
-    public ObservableCollection<NpcMeritSlotViewModel> NpcMerits { get; } = [];
-    [RelayCommand] private void AddNpcMerit() => NpcMerits.Add(new(this, _meritOptions));
     public void ConfigureAdvantageCatalog(IReadOnlyList<AdvantageDefinition> entries)
     {
         _advantageDefinitions = entries;
         ConfigureLoresheets(entries);
         entries = entries.Where(x => x.Category != TraitCategory.Loresheet).ToArray();
-        if (IsNpc)
-        {
-            var existing = Advantages.Items.Concat(Flaws.Items).ToArray();
-            _meritOptions = entries.Concat(existing.Where(x => !entries.Any(e => e.Id == x.Key && e.Category == x.Category))
-                .Select(x => new AdvantageDefinition { Id = x.Key, Name = x.Name, Category = x.Category,
-                    Description = "Entrada pessoal.", Minimum = 0, Maximum = 5 })).OrderBy(x => x.Name).ToArray();
-            NpcMerits.Clear();
-            foreach (var item in existing) NpcMerits.Add(new(this, _meritOptions, item));
-            while (NpcMerits.Count < 6) NpcMerits.Add(new(this, _meritOptions));
-        }
+        AdvantageCatalog?.Dispose();
         AdvantageCatalog = new(entries, Advantages, Flaws);
         OnPropertyChanged(nameof(AdvantageCatalog));
         Advantages.ConfigureCatalog(entries);
@@ -283,6 +276,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         if (!_ready) return;
         Powers.Clan = value;
         RefreshAdvancement();
+        RefreshPredatorDisciplines();
         OnPropertyChanged(nameof(ClanDescription));
         OnPropertyChanged(nameof(ClanDisciplines));
     }
@@ -297,6 +291,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
 
     private void MarkChanged()
     {
+        RecalculateExperience();
         _changeVersion++;
         IsDirty = true;
         Error = "";
@@ -311,6 +306,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         Details = new()
         {
             Advancement = _advancement,
+            PredatorSelection = _predatorSelection, Stains = Stains,
             IsNpc = IsNpc, NpcPhysical = NpcPhysical, NpcSocial = NpcSocial, NpcMental = NpcMental,
             NpcHealthCapacity = NpcHealthCapacity, NpcWillpowerCapacity = NpcWillpowerCapacity,
             Name = Name, MortalName = MortalName, Clan = Clan, Generation = Generation,
@@ -392,6 +388,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         _autosave.Dispose();
         Powers.Changed -= OnPowersChanged;
         Powers.Dispose();
+        AdvantageCatalog?.Dispose();
         Display.LayoutChanged -= OnDisplayChanged;
         foreach (var field in ExtraFields) field.PropertyChanged -= OnExtraFieldChanged;
         foreach (var group in Groups)

@@ -13,7 +13,7 @@ public partial class MainViewModel(
     IDesktopDialogs dialogs, ThemeService themes, Func<CharacterDto, CharacterEditorViewModel> createEditor,
     ILogger<MainViewModel> logger, DisplaySettingsStore? preferencesStore = null,
     IAdvantageCatalog? advantageCatalog = null, ISkillCatalog? skillCatalog = null,
-    ICharacterPdfExporter? pdfExporter = null) : ObservableObject
+    ICharacterPdfExporter? pdfExporter = null, IPredatorCatalog? predatorCatalog = null) : ObservableObject
 {
     private IReadOnlyList<CharacterSummary> _all = [];
     [ObservableProperty] private CharacterEditorViewModel? editor;
@@ -124,6 +124,7 @@ public partial class MainViewModel(
         var next = createEditor(character);
         next.ConfigureAdvantageCatalog(catalogEntries);
         if (skillCatalog is not null) next.ConfigureSkillCatalog(await skillCatalog.ListAsync());
+        if (predatorCatalog is not null) next.ConfigurePredatorCatalog(await predatorCatalog.ListAsync());
         next.ConfigureDisplay(Display);
         next.KnownClans = VCS.Domain.Characters.ClanCatalog.All.Select(x => x.Name)
             .Concat(_all.Select(x => x.Clan)).Append(character.Details.Clan)

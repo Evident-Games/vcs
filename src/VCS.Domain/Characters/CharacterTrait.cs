@@ -4,8 +4,9 @@ public enum TraitCategory { Attribute, Skill, Discipline, Advantage, Flaw, Disci
 
 public enum LoresheetPayment { AdvantagePoints, InitialXp, CampaignXp }
 public sealed record LoresheetInfo(string Collection, bool IsLineage, string Description, LoresheetPayment Payment);
+public sealed record MeritInfo(string Group, string Description);
 public sealed record TraitValue(TraitCategory Category, string Key, string Name, int Rating, string Specialization = "",
-    LoresheetInfo? Loresheet = null);
+    LoresheetInfo? Loresheet = null, MeritInfo? Merit = null);
 
 public sealed class CharacterTrait
 {
@@ -20,6 +21,7 @@ public sealed class CharacterTrait
         Rating = value.Rating;
         Specialization = value.Specialization;
         Loresheet = value.Loresheet;
+        Merit = value.Merit;
     }
 
     public Guid Id { get; private set; }
@@ -29,6 +31,7 @@ public sealed class CharacterTrait
     public int Rating { get; private set; }
     public string Specialization { get; private set; } = "";
     public LoresheetInfo? Loresheet { get; private set; }
+    public MeritInfo? Merit { get; private set; }
 
-    public TraitValue ToValue() => new(Category, Key, Name, Rating, Specialization, Loresheet);
+    public TraitValue ToValue() => new(Category, Key, Name, Rating, Specialization, Loresheet, Merit);
 }

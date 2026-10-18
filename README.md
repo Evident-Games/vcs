@@ -20,7 +20,7 @@ imagens, textos descritivos ou catálogos proprietários do GCS ou dos livros.
 
 ### Só abrir, sem configurar banco
 
-Abra `artifacts\portable-0.13.0\VCS.Desktop.exe` com duplo clique.
+Abra `artifacts\portable-0.14.0\VCS.Desktop.exe` com duplo clique.
 É um executável único e autocontido: pode copiar somente esse arquivo para
 outra pasta ou computador Windows x64. Não precisa de instalador, privilégios
 de administrador, .NET instalado, criação manual de banco ou comandos.
@@ -39,6 +39,7 @@ Na raiz do repositório:
 dotnet restore VCS.slnx
 dotnet build VCS.slnx
 dotnet run --project src\VCS.Desktop
+dotnet publish .\src\VCS.Desktop\VCS.Desktop.csproj -c Release -p:PublishProfile=WindowsX64 -o .\artifacts\portable
 ```
 
 A primeira execução aplica as migrações e abre uma lista vazia. Use
@@ -92,18 +93,30 @@ O editor abre como uma ficha contínua, sem aba de atributos separada por padrã
 - Experiência total, gasta e disponível, além das anotações.
 
 Idades, datas e referências de sangue são preenchidas livremente pelo usuário.
-A experiência disponível é total menos gasta; valores negativos, gasto maior
-que o total ou acima de 1.000.000 são rejeitados. Selecionar poderes ou alterar
-disciplinas em fichas livres não gasta experiência automaticamente.
-Com acompanhamento ativo, use as compras em **Criação e evolução / XP**.
+A experiência disponível é total menos gasta. O custo dos pontos excedentes é
+calculado automaticamente; saldo negativo é permitido e mostra quanto XP falta.
+Selecionar poderes conhecidos não gera outra cobrança além dos níveis de disciplina.
+Valores técnicos inválidos (como XP recebido negativo ou acima do limite) continuam rejeitados.
 
-### Criação e evolução / XP
+### Pontos iniciais e XP automático
 
-PCs novos começam em criação; rascunhos incompletos podem ser salvos.
-Expanda **Criação e evolução / XP** para escolher idade e perfil de habilidades,
-conferir os pontos e concluir a criação. A conclusão registra uma base gratuita
-e libera compras com histórico, XP gasto e saldo. Os campos de pontos ficam
-bloqueados para edição direta; identidade, notas, danos e poderes continuam editáveis.
+Não existe painel de Criação e evolução, seletor de compras, etapa de conclusão
+ou botão de registro de base. Edite os pontos diretamente na ficha.
+- **Identidade:** Idade vampírica, Clã e Tipo de predador, nessa ordem;
+  escolhas, descrição e aplicação dos bônus de predador na mesma seção.
+- **Atributos:** distribuição gratuita, custo dos excedentes e avisos.
+- **Habilidades:** perfil inicial, distribuição, especializações gratuitas e custos.
+- **Disciplinas:** distribuição 2/1, bônus de predador e custos por nível.
+- **Vantagens:** orçamento inicial, loresheets e custo dos pontos excedentes.
+- **Estado:** Potência de Sangue e custo dos níveis acima do inicial.
+- **História e convicções:** XP da idade, XP de campanha concedido pelo mestre,
+  total, gasto calculado, saldo e detalhamento. Se faltar XP, o aviso informa o
+  valor exato, sem impedir autosave, JSON, duplicação ou PDF.
+
+NPCs usam os mesmos cálculos, mas seus três grupos de atributos continuam livres
+de 0 a 5, sem cobrar uma distribuição individual que não faz parte dessa ficha.
+Seleções vazias mostram um texto indicativo, como **Clã** ou **Disciplina**,
+sem salvar esse texto como valor.
 
 | Idade | XP inicial | Potência de Sangue | Vantagens | Desvantagens |
 |---|---:|---:|---:|---:|
@@ -116,40 +129,80 @@ bloqueados para edição direta; identidade, notas, danos e poderes continuam ed
   Especialista: 4,3,3,3,2,2,2,2,1; Equilibrado: 3,3,3,2,2,2,2,2,1;
   Pau para toda obra: 4,3,2,2,2,2,2,1,1. Não são a distribuição de atributos.
 - Disciplinas iniciais: duas do clã, uma com 2 e outra com 1.
-- Compras: atributo e disciplina do clã = próximo nível × 5;
+- Excedentes: atributo e disciplina do clã = novo nível × 5;
   disciplina fora do clã = próximo nível × 7; habilidade = próximo nível × 3;
   Potência de Sangue = próximo nível × 10; vantagem = 3 XP por ponto.
   Desvantagens não geram XP.
 - Especializações: 3 XP cada após consumir as gratuitas aplicáveis.
-  Uma gratuita por ficha; outra de predador quando ele estiver informado.
+  Uma gratuita por ficha; a especialização escolhida no predador é adicional
+  e aplicada automaticamente, sem consumir essa gratuidade.
   Cada habilidade com 4+ ganha uma local. Erudição/Acadêmicos, Ofícios/Artesanato,
   Performance e Ciência ganham outra local ao receber o primeiro ponto.
   Bônus são cumulativos, inclusive na criação; podem ser usados depois.
-- Os tipos de predador e seus bônus de disciplina serão cadastrados depois:
-  nenhum ponto de disciplina é concedido por suposição.
-- Fichas antigas preservam valores e XP sem cobrança retroativa.
-  **Registrar base atual** habilita somente compras futuras, mantendo gastos antigos.
-  NPCs são livres por padrão; podem registrar a base ou optar por criação com regras.
-  **Iniciar criação (zera XP)** é uma opção explícita para fichas livres.
-- Informe o XP total acumulado (já incluindo o bônus de idade); o total gasto
-  é calculado pelas compras. Histórico e base acompanham banco, JSON, dump e PDF.
-  Trocar a idade durante a criação ajusta somente a diferença do bônus de XP
-  e redefine a Potência de Sangue inicial, sem apagar os demais pontos.
+- Os bônus de predador são adicionais à distribuição básica e não custam XP;
+  precisam de aplicação explícita pelo painel descrito abaixo.
+- Os pontos são ordenados do maior para o menor para aplicar a distribuição
+  gratuita automaticamente; somente níveis acima das vagas gratuitas são cobrados.
+  Reduzir pontos ou trocar perfil/idade recalcula os custos, sem compras duplicadas.
+- Ao abrir uma ficha antiga, os pontos existentes passam pelo cálculo automático.
+  O recebido anterior é preservado como campanha, descontando o bônus de idade
+  quando já existia perfil. Gastos antigos deixam de ser o total autoritativo;
+  os dados históricos antigos permanecem armazenados por compatibilidade.
+- Informe somente o XP recebido do mestre. O total soma campanha e idade.
+  Trocar idade preserva os níveis adicionais de Potência e os bônus de predador.
+
+#### Predadores
+
+Em **Identidade → Predador / escolhas e bônus**, consulte
+os 13 tipos fornecidos: Vira-lata, Chantagista, Assassino na Estrada, Trinchador,
+Consensualista, Osíris, Scene Queen, Sereia, Sandman, Ladrão de Sepultura,
+Sacoleiro, Sanguessuga e Fazendeiro. As definições estão no SQLite.
+
+Escolha a disciplina e a especialização; preencha o texto
+quando a opção pedir tradição, cena, animal ou outra especialização pessoal.
+A habilidade precisa ter pelo menos um ponto. Distribua os pontos variáveis
+de vantagens/defeitos e clique em **Aplicar / trocar predador**.
+Consultar ou selecionar no catálogo, por si só, não concede benefícios.
+
+- A disciplina recebe +1 sobre a distribuição básica; a especialização escolhida
+  é gratuita, sem gerar outra gratuidade genérica.
+- Vantagens e defeitos são entradas identificadas como **Predador**, adicionais
+  aos orçamentos básicos de 7/2 ou 9/4; não são compras de XP.
+- Humanidade e Potência de Sangue são ajustadas apenas na aplicação.
+  Trocar a idade preserva o +1 de Potência de Sanguessuga.
+- Trocar/remover desfaz somente os efeitos registrados.
+  As entradas adicionais são protegidas contra edição direta. Se um efeito
+  registrado tiver sido alterado, a operação é recusada com erro explícito.
+- Sacoleiro e Fazendeiro rejeitam Ventrue; Fazendeiro rejeita Potência 3+
+  na escolha. Feitiçaria de Sangue nestes predadores só está disponível para Tremere.
+- Nomes de predador em fichas antigas permanecem texto, **sem aplicação retroativa**.
+  O fluxo de aplicação também funciona em NPCs, sem ativar uma etapa de criação.
+
+#### Humanidade, Máculas e Remorso
+
+Em **Estado**, PC e NPC exibem a referência do nível atual de Humanidade e
+uma lista expansível de todos os níveis 0–10, usando os resumos fornecidos.
+Penalidades sociais, Rubor da Vida, alimentação e sol são referências da mesa;
+o aplicativo não inventa rolagens, dificuldades ou cálculos de dano solar.
+
+Registre as Máculas no campo numérico. **Aplicar 1 Agravado na Vontade** é uma
+ação separada, exige Máculas e espaço na trilha e não consome as Máculas.
+Trilha cheia é recusada, sem sobrescrever marcas nem converter danos por suposição.
+**Falha no Remorso** exige Máculas, limpa todas e reduz a Humanidade em 1,
+atomicamente; repetir sem Máculas ou reduzir abaixo de zero é recusado.
+O contador admite 0–1.000.000 por validação técnica, não como limite de regra.
+
+Humanidade zero mostra **Wassail**, mas mantém a ficha e permite editá-la.
+Nenhum botão apaga o personagem ou bloqueia a aplicação. Seleções, bônus e
+Máculas acompanham autosave, duplicação, JSON, backup e PDF preenchível.
 
 #### Fontes de XP
 
-O XP de campanha é uma parte identificada do XP total, não outro saldo somado a ele.
-**Receber XP de campanha** soma o prêmio ao total e ao recebido de campanha.
-O painel mostra saldo de campanha e saldo inicial/anterior separadamente.
-Compras comuns consomem primeiro o saldo inicial/anterior e depois campanha;
-o histórico registra quanto de cada compra veio da campanha.
-Prêmios recebidos posteriormente não mudam a origem das compras antigas.
-
-Fichas anteriores preservam total e gastos, com campanha inicialmente zero.
-Quando houver saldo antigo comprovadamente de campanha, informe sua parcela
-em **XP de campanha recebido (parte do total)**, sem somá-la novamente.
-Gastos antigos não são recalculados. Em fichas com perfil de criação, o bônus de
-Neófito/Ancillae não pode ser reclassificado como campanha.
+O total é **XP inicial da idade + XP de campanha recebido do mestre**.
+Neófito tem 15 XP iniciais: um custo de 20 XP com campanha zero mostra
+**Faltam 5 XP**, mas permite salvar. Informar 5 XP de campanha zera a falta.
+Custos comuns consomem primeiro o bônus inicial. Loresheets antigos marcados
+como exclusivos de campanha continuam separados dessa verba.
 
 ### Loresheets / Fichas de Conhecimento
 
@@ -162,18 +215,11 @@ de linhagem/descendência está preparada para futuras entradas, sem inventar co
 
 - Cada benefício é comprado individualmente. Comprar o de 5 pontos não concede
   os anteriores nem exige comprá-los; custa 5 pontos ou 15 XP, não a soma dos níveis.
-- Durante a criação: no máximo **um benefício geral e um de linhagem/descendência**,
-  não um por coleção. Com apenas as quatro coleções atuais, cabe um benefício geral.
-- Pagamento inicial: o custo sai dos 7 pontos de vantagens (9 para Ancillae),
-  **ou** é pago a 3 XP por ponto usando o bônus inicial de idade. A caixa de seleção
-  permite escolher a fonte; pontos pagos com XP não consomem o orçamento de vantagens.
-- Na criação em andamento, remover um benefício devolve seus pontos/XP inicial.
-  Rascunhos podem ser salvos; a conclusão confere o orçamento restante de vantagens.
-- Depois da criação: benefícios novos usam **exclusivamente XP de campanha**,
-  a 3 XP por ponto, sem limite de coleções. Saldo inicial de Neófito/Ancillae não serve
-  para essas compras. Benefícios repetidos são rejeitados.
-- Fichas livres, inclusive NPCs, precisam iniciar a criação ou registrar a base atual
-  antes de adicionar loresheets. Não há cobrança retroativa.
+- O custo sai dos 7 pontos gratuitos de vantagens (9 para Ancillae), ou pode ser
+  pago diretamente a 3 XP por ponto pela caixa de seleção. Pontos pagos com XP
+  não consomem o orçamento de vantagens; excedentes desse orçamento também custam XP.
+- Remover um benefício recalcula e devolve o custo. Não há etapa de conclusão
+  nem bloqueio por saldo insuficiente; benefícios repetidos continuam rejeitados.
 - Seleções guardam coleção, classificação, custo, descrição e forma de pagamento.
   Acompanham autosave, duplicação, JSON, dump e PDF preenchível, para PC e NPC.
   Efeitos, seguidores, bônus, penalidades e poderes descritos não são executados automaticamente.
@@ -246,7 +292,7 @@ reduzido; as seções usam cartões arredondados. O seletor de clã mantém uma
 área de clique maior. As descrições das habilidades ficam apenas na dica ao
 passar o mouse; não existem expansores de descrição por habilidade.
 As disciplinas usam linhas compactas e custos de evolução na dica, sem uma
-rolagem interna para os níveis. Os catálogos continuam com painéis de consulta
+rolagem interna para os níveis. Poderes e loresheets continuam com painéis de consulta
 de altura limitada e rolagem própria, além da rolagem principal da ficha.
 
 As trilhas de bolinhas não possuem mais botão “0”. Clique num ponto para
@@ -267,8 +313,8 @@ elas são persistidas no próximo salvamento, sem marcar a abertura como altera�
 Nomes antigos equivalentes, ignorando acentos e caixa, conservam chave e pontuação.
 Ao lado dos pontos de cada habilidade há **especialização em texto livre**,
 até 500 caracteres. Separe especializações por ponto e vírgula, vírgula ou nova linha;
-barras permanecem parte do texto. Fichas livres não calculam custos. Com criação/evolução
-ativa, as especializações respeitam os créditos gratuitos e as compras de 3 XP.
+barras permanecem parte do texto. As especializações respeitam os créditos gratuitos;
+as excedentes custam 3 XP cada, calculados ao editar, sem botão de compra.
 Não há bônus automático de dados. O texto acompanha autosave, duplicação, JSON, dump e PDF,
 tanto em personagens quanto NPCs; habilidades pessoais também o aceitam.
 
@@ -285,16 +331,18 @@ Fichas existentes continuam como personagens; não há conversão automática.
 - Força de Vontade com total de 1 a 20 e apenas caixas vazias ou X.
 - Fome de 0 a 5 e Humanidade de 0 a 10 em caixas; clicar na última marcada reduz o valor.
 - As mesmas 27 habilidades do personagem, sem catálogo exclusivo para NPC.
-- Seis espaços iniciais de disciplinas, seletor, pontos e poderes próprios de cada
-  disciplina. Poderes conhecidos são marcados livremente; rituais têm área separada.
-- Seis espaços combinados de vantagens/defeitos, com seleção e pontos.
-- Botões para adicionar mais espaços e notas livres.
-- Potência de Sangue e acompanhamento opcional de criação/XP.
+- Todas as 11 disciplinas do catálogo já listadas, sem seletor, com pontos e
+  poderes logo abaixo de cada nome. Disciplinas pessoais aceitam nomes livres.
+  Poderes conhecidos são marcados livremente; rituais têm área separada.
+- Vantagens e defeitos nas mesmas famílias dos personagens, com seleção direta,
+  bolinhas e linhas pessoais de nome e descrição.
+- Botões para adicionar linhas pessoais e notas livres.
+- Potência de Sangue e cálculo automático dos pontos iniciais e XP.
 - As mesmas preferências de seções, títulos, ordem, agrupamentos e abas dos PCs,
   mantendo os campos práticos do NPC; o PDF respeita as seções visíveis.
 
-Todos os espaços preenchidos são preservados; espaços vazios adicionais são
-apenas auxiliares de edição e voltam ao mínimo de seis ao reabrir.
+Todas as disciplinas preenchidas são preservadas; espaços pessoais vazios são
+apenas auxiliares de edição. Todas as linhas pessoais de vantagens/defeitos são preservadas.
 Reduzir uma capacidade abaixo das marcas existentes exibe validação, sem apagar
 danos automaticamente nem sobrescrever a ficha salva.
 Os nove atributos individuais internos são preservados por compatibilidade,
@@ -336,20 +384,30 @@ Refúgio, Recursos, Alimentação, Membros, Acompanhando o Tempo, Mítico, Másc
 Linguística e Mortais. Nomes e descrições seguem o material recebido, sem
 certificação de completude ou correção das regras oficiais.
 
-O catálogo usa lista à esquerda e painel de detalhes à direita, como o de poderes,
-com filtro de Todos/Vantagens/Defeitos e indicação de busca sem resultados.
-Na seção **Vantagens e desvantagens**, busque por nome, grupo, tipo ou descrição
-(com ou sem acentos), selecione uma entrada, escolha os pontos e adicione à ficha.
-Custos fixos são pré-preenchidos; faixas usam seus limites no seletor.
+Na seção **Vantagens e desvantagens**, as características ficam organizadas em
+famílias, com vantagens e defeitos relacionados juntos, como as habilidades.
+O grupo Visual aparece como **Beleza**. Marque a opção diretamente na ficha e
+edite suas bolinhas, sem seletor numérico nem painel separado para adicionar.
+A descrição aparece na opção marcada e também ao passar o mouse.
+Custos fixos e faixas respeitam os limites do catálogo; desmarcar remove a escolha.
 Conforme confirmado, **Inimigo** mantém `1+` como referência, mas permite
 de 1 a 5 pontos no aplicativo.
 
-As seleções usam os traços existentes e acompanham autosave, duplicação,
-JSON e dump/restore. Entradas repetidas do mesmo catálogo não são adicionadas
-duas vezes; edite os pontos na lista. Entradas pessoais continuam disponíveis.
-O editor livre mantém a edição de pontos de 0 a 5 e avisa quando a pontuação
-sai da referência do catálogo; descrições não alteram dados, atributos,
-habilidades, fome ou dados de testes automaticamente.
+- Beleza admite uma escolha: Belo, Deslumbrante, Feio ou Repulsivo.
+- Recursos/Destituído e Status/Suspeito/Segregado também são exclusivos entre si.
+  As demais opções podem acumular, inclusive as outras características de Membros.
+- Uma nova escolha exclusiva substitui a anterior. Linhas pessoais incompatíveis
+  ficam com zero pontos, preservando seus textos. Conflitos antigos são exibidos
+  com aviso, sem remoção automática ao abrir a ficha.
+- Cada família aceita **Vantagem pessoal** e **Defeito pessoal**, com nome,
+  descrição livre e pontos de 0 a 5. Entradas antigas sem família aparecem em
+  **Outras características**. Características de predador ficam protegidas e
+  só podem ser removidas/trocadas em Identidade.
+
+As seleções, famílias e descrições pessoais acompanham autosave, duplicação,
+JSON (formato 10, ainda aceita 1–9), backup e PDF preenchível, tanto em PC quanto NPC.
+Os pontos excedentes continuam entrando no cálculo automático de XP; defeitos
+não devolvem XP. Descrições não executam efeitos, bônus ou penalidades automaticamente.
 
 O catálogo é inserido por migração uma única vez, sem criar personagens nem
 adicionar traços automaticamente às fichas. Abrir o aplicativo atualiza
@@ -384,8 +442,8 @@ o custo fica explicitamente indefinido.
 
 A mudança de clã recalcula as informações sem apagar disciplinas/poderes,
 sem conceder pontos e sem gastar XP. Disciplinas fora do clã permanecem
-selecionáveis. A distribuição inicial 2/1 é validada ao concluir a criação
-com acompanhamento ativo; fichas livres não impõem essa distribuição.
+selecionáveis. A distribuição inicial 2/1 é descontada automaticamente dos custos;
+os pontos excedentes geram XP gasto, sem exigir conclusão de criação.
 
 ### Disciplinas, poderes e rituais
 
@@ -500,6 +558,9 @@ da conta Windows e não os versione.
 | `CharacterTraits.Loresheet` | Metadados opcionais do benefício: coleção, classificação, descrição e pagamento |
 | `Characters.Details_CampaignExperienceTotal/Spent` | XP recebido/gasto de campanha como parte dos totais |
 | `SkillCatalog` | 27 habilidades compartilhadas, grupos e descrições |
+| `PredatorCatalog` | 13 tipos, descrições, disciplinas, especializações e opções de bônus/custos |
+| `Characters.Details_PredatorSelection` | JSON opcional com escolhas e registro dos efeitos aplicados |
+| `Characters.Details_Stains` | Máculas registradas, zero nas fichas antigas |
 | `__EFMigrationsHistory` | Histórico de migrações do Entity Framework Core |
 
 `CharacterDetails` é um Value Object imutável mapeado na própria tabela do
@@ -511,7 +572,7 @@ armazenadas como UTC; a revisão é controlada pela aplicação, não por
 ### Migrações
 
 As migrações `InitialCreate`, `CompleteCharacterSheet`, `AdvantageCatalog`, `SkillsAndNpcSheets`,
-`SkillSpecializations`, `CharacterAdvancement` e `LoresheetsAndCampaignXp` já estão em
+`SkillSpecializations`, `CharacterAdvancement`, `LoresheetsAndCampaignXp` e `PredatorsAndHumanity` já estão em
 [Persistence/Migrations](src/VCS.Infrastructure/Persistence/Migrations).
 O aplicativo aplica migrações pendentes no início e rejeita histórico de
 versões desconhecidas mais recentes. A segunda migração adiciona os campos
@@ -528,6 +589,10 @@ A sexta adiciona a base e o histórico de evolução, como JSON em uma coluna
 opcional de `Characters`; fichas antigas ficam livres, sem recalcular gastos.
 A sétima adiciona os 20 benefícios, suas coleções, metadados de seleção e contadores
 de campanha com zero por padrão; preserva personagens, valores e histórico de XP.
+A oitava insere os 13 predadores e adiciona o registro opcional de aplicação
+e Máculas zero, sem alterar os efeitos ou o texto das fichas anteriores.
+A nona adiciona os metadados opcionais de família e descrição pessoal aos traços
+de vantagens/defeitos, sem alterar pontos, identificadores ou nomes anteriores.
 
 Para aplicar manualmente, com o aplicativo fechado:
 
@@ -566,16 +631,22 @@ fichas; não é uma operação de mesclagem.
 
 ### JSON
 
-Arquivos usam `System.Text.Json`, envelope com `FormatVersion: 7` e objeto
-`Character`. A importação também aceita os formatos 1, 2, 3, 4, 5 e 6 anteriores,
+Arquivos usam `System.Text.Json`, envelope com `FormatVersion: 9` e objeto
+`Character`. A importação também aceita os formatos 1, 2, 3, 4, 5, 6, 7 e 8 anteriores,
 usando os valores padrão quando faltam os campos novos.
 O formato 2 introduziu `DisciplinePower`; o formato 3 inclui os campos
 adicionais de identidade, história, sangue e experiência. O formato 4 acrescenta
 tipo de ficha, atributos agrupados e capacidades do NPC. O formato 5 acrescenta
 `Specialization` aos traços, com texto vazio ao importar formatos anteriores.
 O formato 6 acrescenta `Advancement`, com idade, perfil, base gratuita e histórico
-de compras; sua ausência mantém o editor livre. O formato 7 adiciona loresheets e
+de compras, preservados para leitura de dados antigos. O formato 7 adiciona loresheets e
 fontes de XP; campos de campanha ausentes começam em zero, sem inferir sua origem.
+O formato 8 adiciona Máculas e a seleção de predador com origem dos efeitos;
+sem esses campos, não aplica nenhum bônus de predador retroativamente.
+O formato 9 identifica o cálculo automático de XP: totais e gastos são conferidos
+contra os pontos, mas XP faltante é aviso e não bloqueia a importação.
+O formato 10 adiciona a família e a descrição das vantagens/defeitos pessoais;
+fichas antigas continuam aceitas e não perdem suas características.
 Aplicativos anteriores
 podem não conseguir ler esses arquivos. Categorias são nomes de enum, não números. Importações validam
 o formato e as mesmas regras do domínio; arquivos acima de 5 MB, propriedades

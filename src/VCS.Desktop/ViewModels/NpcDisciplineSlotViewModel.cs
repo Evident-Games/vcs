@@ -20,6 +20,11 @@ public partial class NpcDisciplineSlotViewModel : ObservableObject
         RefreshPowers();
     }
     public string[] Options { get; }
+    public bool IsCatalogDiscipline => _editor.Powers.AllPowers.Any(x => !x.Definition.IsRitual &&
+        CatalogText.Normalize(x.Definition.Discipline) == CatalogText.Normalize(SelectedDiscipline));
+    public bool IsCustomDiscipline => !IsCatalogDiscipline;
+    public bool CanSelectDiscipline => _item?.CanEditName ?? true;
+    public int Minimum => _item?.Minimum ?? 0;
     public ObservableCollection<PowerItemViewModel> Powers { get; } = [];
     [ObservableProperty] private string selectedDiscipline;
     [ObservableProperty] private int rating;
@@ -43,6 +48,8 @@ public partial class NpcDisciplineSlotViewModel : ObservableObject
         else Rating = 0;
         Error = "";
         RefreshPowers();
+        OnPropertyChanged(nameof(IsCatalogDiscipline));
+        OnPropertyChanged(nameof(IsCustomDiscipline));
     }
     partial void OnRatingChanged(int value)
     {
@@ -51,7 +58,8 @@ public partial class NpcDisciplineSlotViewModel : ObservableObject
     private void RefreshPowers()
     {
         Powers.Clear();
-        foreach (var power in _editor.Powers.AllPowers.Where(x => x.Definition.Discipline == SelectedDiscipline))
+        foreach (var power in _editor.Powers.AllPowers.Where(x => !x.Definition.IsRitual &&
+                     CatalogText.Normalize(x.Definition.Discipline) == CatalogText.Normalize(SelectedDiscipline)))
             Powers.Add(power);
         SelectedPower = Powers.FirstOrDefault();
     }

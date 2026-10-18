@@ -12,6 +12,12 @@
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="Attributes">
+            <StackPanel>
+            <TextBlock Text="{Binding InitialAttributesDescription}" TextWrapping="Wrap" Margin="8,0,8,12"
+                       Foreground="{DynamicResource VcsMuted}" AutomationProperties.Name="Distribuicao inicial de atributos"
+                       Visibility="{Binding IsCreating, Converter={StaticResource BoolVisibility}}" />
+            <TextBlock Text="Pontos acima da distribuicao inicial: novo nivel x 5 XP. Edite os pontos diretamente." TextWrapping="Wrap" Margin="8,0,8,8" />
+            <TextBlock Text="{Binding AttributesExperience}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" />
             <UniformGrid Columns="3" IsEnabled="{Binding CanEditBuild}">
                 <StackPanel Margin="8">
                     <TextBlock Text="Fisicos" HorizontalAlignment="Center" FontFamily="Georgia" FontStyle="Italic" Margin="0,0,0,12" />
@@ -26,6 +32,7 @@
                     <ItemsControl ItemsSource="{Binding MentalAttributes}" ItemTemplate="{StaticResource AttributeRow}" />
                 </StackPanel>
             </UniformGrid>
+            </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="Skills">
             <views:SkillsView />
@@ -35,12 +42,10 @@
         </DataTemplate>
         <DataTemplate x:Key="Advantages">
             <StackPanel>
+                <TextBlock Text="{Binding InitialAdvantagesDescription}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding AdvantagesExperience}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" />
                 <StackPanel IsEnabled="{Binding CanEditBuild}">
-                <views:AdvantageCatalogView DataContext="{Binding AdvantageCatalog}" Height="520" Margin="0,0,0,20" />
-                <TextBlock Text="Vantagens" Style="{StaticResource SectionTitle}" />
-                <controls:EditableTraitList DataContext="{Binding Advantages}" />
-                <TextBlock Text="Desvantagens" Style="{StaticResource SectionTitle}" Margin="0,24,0,12" />
-                <controls:EditableTraitList DataContext="{Binding Flaws}" />
+                <views:AdvantageCatalogView DataContext="{Binding AdvantageCatalog}" />
                 </StackPanel>
                 <views:LoresheetCatalogView />
             </StackPanel>
@@ -70,11 +75,13 @@
                     </StackPanel>
                     <StackPanel Margin="8,0,0,16">
                         <TextBlock Text="Potencia de Sangue" Style="{StaticResource FieldLabel}" />
+                        <TextBlock Text="{Binding StateExperience}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" />
                         <controls:DotTrack Value="{Binding BloodPotency, Mode=TwoWay}" Maximum="10"
                                            IsEnabled="{Binding CanEditBuild}"
                                            AutomationProperties.Name="Potencia de sangue na ficha" />
                     </StackPanel>
                 </WrapPanel>
+                <views:HumanityView />
                 <TextBlock Text="Sangue: valores de referencia preenchidos pela mesa; sem calculo automatico." TextWrapping="Wrap"
                            Foreground="{DynamicResource VcsMuted}" Margin="8" />
                 <ItemsControl ItemsSource="{Binding BloodFields}" ItemTemplate="{StaticResource SheetExtraField}">
@@ -84,20 +91,7 @@
         </DataTemplate>
         <DataTemplate x:Key="Background">
             <StackPanel>
-                <WrapPanel Margin="8,0,0,16">
-                    <StackPanel Margin="0,0,24,0">
-                        <TextBlock Text="Experiencia total" Style="{StaticResource FieldLabel}" />
-                        <controls:NumericField Value="{Binding ExperienceTotal, Mode=TwoWay}" Maximum="1000000" AutomationProperties.Name="Experiencia total" />
-                    </StackPanel>
-                    <StackPanel Margin="0,0,24,0">
-                        <TextBlock Text="Experiencia gasta" Style="{StaticResource FieldLabel}" />
-                        <controls:NumericField Value="{Binding ExperienceSpent, Mode=TwoWay}" Maximum="1000000" AutomationProperties.Name="Experiencia gasta" IsEnabled="{Binding CanStartAdvancement}" />
-                    </StackPanel>
-                    <StackPanel>
-                        <TextBlock Text="Disponivel" Style="{StaticResource FieldLabel}" />
-                        <TextBlock Text="{Binding ExperienceAvailable}" FontSize="20" />
-                    </StackPanel>
-                </WrapPanel>
+                <views:AdvancementView />
                 <ItemsControl ItemsSource="{Binding BackgroundFields}" ItemTemplate="{StaticResource SheetExtraField}">
                     <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                 </ItemsControl>

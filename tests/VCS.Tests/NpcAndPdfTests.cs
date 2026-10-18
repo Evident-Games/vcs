@@ -68,20 +68,30 @@ public sealed class NpcAndPdfTests : IAsyncLifetime
         using var editor = Editor(dto);
         editor.ConfigureAdvantageCatalog(await new SqliteAdvantageCatalog(_database).ListAsync());
         Assert.True(editor.IsNpc);
-        Assert.Equal(6, editor.NpcDisciplines.Count);
-        Assert.Equal(6, editor.NpcMerits.Count);
+        Assert.Equal(11, editor.NpcDisciplines.Count);
+        Assert.All(editor.NpcDisciplines, x => Assert.True(x.IsCatalogDiscipline));
+        Assert.All(editor.NpcDisciplines, slot =>
+        {
+            Assert.NotEmpty(slot.Powers);
+            Assert.All(slot.Powers, power =>
+            {
+                Assert.Equal(slot.SelectedDiscipline, power.Definition.Discipline);
+                Assert.False(power.Definition.IsRitual);
+            });
+        });
+        Assert.Equal(43, editor.AdvantageCatalog!.Families.Sum(x => x.Options.Count));
         Assert.False(editor.IsDirty);
         editor.NpcPhysical = 4; editor.NpcSocial = 2; editor.NpcMental = 3;
         editor.NpcHealthCapacity = 12; editor.NpcWillpowerCapacity = 8;
         editor.HealthSuperficial = 2; editor.HealthAggravated = 3; editor.WillpowerAggravated = 5;
-        var slot = editor.NpcDisciplines[0];
-        slot.SelectedDiscipline = "Ofuscação"; slot.Rating = 3;
+        var slot = editor.NpcDisciplines.Single(x => x.SelectedDiscipline == "Ofuscação");
+        slot.Rating = 3;
         slot.Powers.Single(x => x.Definition.Name == "Quimerismo").IsKnown = true;
         Assert.All(slot.Powers, x => Assert.Equal("Ofuscação", x.Definition.Discipline));
-        editor.NpcMerits[0].Selected = editor.NpcMerits[0].Options.Single(x => x.Name == "Deslumbrante");
-        editor.NpcMerits[0].Rating = 4;
-        editor.AddNpcDisciplineCommand.Execute(null); editor.AddNpcMeritCommand.Execute(null);
-        Assert.Equal(7, editor.NpcDisciplines.Count); Assert.Equal(7, editor.NpcMerits.Count);
+        editor.AdvantageCatalog.Families.Single(x => x.Name == "Beleza").Options.Single(x => x.Name == "Deslumbrante").IsSelected = true;
+        editor.AddNpcDisciplineCommand.Execute(null);
+        Assert.Equal(12, editor.NpcDisciplines.Count);
+        Assert.Equal(4, Assert.Single(editor.Advantages.Items).Rating);
         Assert.True(await editor.FlushAsync());
         var saved = await _service.GetAsync(dto.Id);
         Assert.Equal(12, saved.Details.NpcHealthCapacity);
@@ -107,6 +117,127 @@ public sealed class NpcAndPdfTests : IAsyncLifetime
         Assert.Equal(12, (await _service.GetAsync(dto.Id)).Details.NpcHealthCapacity);
     }
 
+    [Fact]
+    public async Task Npc_discipline_slots_accept_custom_names_like_player_disciplines()
+    {
+        using var editor = Editor(await _service.CreateNpcAsync());
+        editor.AddNpcDisciplineCommand.Execute(null);
+        var first = editor.NpcDisciplines.Last();
+        editor.AddNpcDisciplineCommand.Execute(null);
+        var second = editor.NpcDisciplines.Last();
+
+        first.SelectedDiscipline = "Disciplina personalizada";
+        first.Rating = 3;
+        second.SelectedDiscipline = "Outra disciplina personalizada";
+        second.Rating = 2;
+
+        Assert.DoesNotContain("Disciplina personalizada", first.Options);
+        Assert.DoesNotContain("Outra disciplina personalizada", second.Options);
+        Assert.Contains(editor.Disciplines.Items, x => x.Name == "Disciplina personalizada" && x.Rating == 3);
+        Assert.Contains(editor.Disciplines.Items, x => x.Name == "Outra disciplina personalizada" && x.Rating == 2);
+        Assert.True(await editor.FlushAsync());
+        using var reopened = Editor(await _service.GetAsync(editor.Id));
+        Assert.Contains(reopened.NpcDisciplines, x => x.SelectedDiscipline == first.SelectedDiscipline && x.Rating == 3);
+        Assert.Contains(reopened.NpcDisciplines, x => x.SelectedDiscipline == second.SelectedDiscipline && x.Rating == 2);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Personal_merit_family_description_dots_and_xp_survive_every_export(bool npc)
+    {
+        using var editor = Editor(npc ? await _service.CreateNpcAsync() : await _service.CreateAsync());
+        var catalog = await new SqliteAdvantageCatalog(_database).ListAsync();
+        editor.ConfigureAdvantageCatalog(catalog);
+        var family = editor.AdvantageCatalog!.Families.Single(x => x.Name == "Refúgio");
+        family.Options.Single(x => x.Name == "Refúgio").Rating = 3;
+        family.Options.Single(x => x.Name == "Arsenal oculto").IsSelected = true;
+        family.AddAdvantageCommand.Execute(null);
+        var custom = Assert.Single(family.PersonalEntries);
+        custom.Name = "Biblioteca secreta";
+        custom.Description = "Colecao e anotacoes da cronica.";
+        custom.Rating = 5;
+        family.AddFlawCommand.Execute(null);
+        var flaw = family.PersonalEntries.Single(x => x.Category == TraitCategory.Flaw);
+        flaw.Name = "Entrada vigiada";
+        flaw.Description = "Detalhes do defeito.";
+        flaw.Rating = 2;
+        Assert.Equal(6, editor.ExperienceSpent);
+        Assert.True(await editor.FlushAsync(), editor.ValidationSummary);
+        custom.Description = "Descricao revisada depois de salvar.";
+        Assert.True(editor.IsDirty);
+        Assert.True(await editor.FlushAsync());
+        var saved = await _service.GetAsync(editor.Id);
+        var expected = new MeritInfo("Refúgio", custom.Description);
+        Assert.Equal(expected, saved.Traits.Single(x => x.Key == custom.Key).Merit);
+        using var reopened = Editor(saved);
+        reopened.ConfigureAdvantageCatalog(catalog);
+        Assert.Contains(reopened.AdvantageCatalog!.Families.Single(x => x.Name == "Refúgio").PersonalEntries,
+            x => x.Key == custom.Key && x.Rating == 5 && x.Description == custom.Description);
+        Assert.Equal(6, reopened.ExperienceSpent);
+        Assert.False(reopened.IsDirty);
+        Assert.Equal(expected, (await _service.DuplicateAsync(editor.Id)).Traits.Single(x => x.Key == custom.Key).Merit);
+        var files = new JsonCharacterFiles();
+        var json = Path.Combine(_directory, "personal.json");
+        await files.ExportAsync(saved, json);
+        var imported = await _service.ImportAsync(await files.ReadAsync(json));
+        Assert.Equal(saved.Traits.OrderBy(x => x.Key), imported.Traits.OrderBy(x => x.Key));
+        var maintenance = new SqliteDatabaseMaintenance(_database);
+        var backup = Path.Combine(_directory, "personal.db");
+        await maintenance.BackupAsync(backup);
+        await _service.DeleteAsync((await _service.ListAsync()).Single(x => x.Id == editor.Id));
+        await maintenance.RestoreAsync(backup);
+        Assert.Equal(expected, (await _service.GetAsync(editor.Id)).Traits.Single(x => x.Key == custom.Key).Merit);
+        var pdf = Path.Combine(_directory, "personal.pdf");
+        await new CharacterPdfExporter(new ProvidedDisciplineCatalog(), new SqliteSkillCatalog(_database))
+            .ExportAsync(saved, pdf, [new("Advantages", "Vantagens e defeitos")]);
+        using var document = PdfReader.Open(pdf, PdfDocumentOpenMode.Import);
+        var fields = document.AcroForm.Elements.GetArray("/Fields")!.Elements.Cast<PdfReference>()
+            .Select(x => (PdfDictionary)x.Value).ToArray();
+        Assert.Contains(fields, x => x.Elements.GetString("/V") == custom.Description);
+        Assert.Contains(fields, x => x.Elements.GetString("/V") == "Refúgio");
+        Assert.Contains(fields, x => x.Elements.GetString("/V") == flaw.Description);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Automatic_xp_shortage_survives_reopen_duplicate_json_and_pdf(bool npc)
+    {
+        using var editor = Editor(npc ? await _service.CreateNpcAsync() : await _service.CreateAsync());
+        editor.AgeIndex = 1;
+        editor.BloodPotency = 2;
+        Assert.Equal(15, editor.ExperienceTotal);
+        Assert.Equal(20, editor.ExperienceSpent);
+        Assert.Contains("Faltam 5 XP", editor.ExperienceWarning);
+        Assert.True(await editor.FlushAsync());
+        var saved = await _service.GetAsync(editor.Id);
+        using var reopened = Editor(saved);
+        Assert.Equal(-5, reopened.ExperienceAvailable);
+        Assert.Contains("Faltam 5 XP", reopened.ExperienceWarning);
+        var copy = await _service.DuplicateAsync(editor.Id);
+        Assert.Equal(saved.Details.Advancement, copy.Details.Advancement);
+        Assert.Equal(20, copy.Details.ExperienceSpent);
+        var json = Path.Combine(_directory, "unpaid.json");
+        var files = new JsonCharacterFiles();
+        await files.ExportAsync(saved, json);
+        var imported = await _service.ImportAsync(await files.ReadAsync(json));
+        Assert.Equal(-5, imported.Details.ExperienceTotal - imported.Details.ExperienceSpent);
+        var pdf = Path.Combine(_directory, "unpaid.pdf");
+        await new CharacterPdfExporter(new ProvidedDisciplineCatalog(), new SqliteSkillCatalog(_database))
+            .ExportAsync(saved, pdf, [new("Background", "Historia e conviccoes")]);
+        using var document = PdfReader.Open(pdf, PdfDocumentOpenMode.Import);
+        Assert.Contains(document.AcroForm.Elements.GetArray("/Fields")!.Elements.Cast<PdfReference>(),
+            x => ((PdfDictionary)x.Value).Elements.GetString("/V").Contains("Faltam 5 XP"));
+        reopened.CampaignExperienceTotal = 5;
+        Assert.Equal(0, reopened.ExperienceAvailable);
+        Assert.Empty(reopened.ExperienceWarning);
+        Assert.True(await reopened.FlushAsync());
+        reopened.BloodPotency = 1;
+        Assert.Equal(0, reopened.ExperienceSpent);
+        Assert.Equal(20, reopened.ExperienceAvailable);
+    }
+
     [Theory]
     [InlineData(0, 5, 0)]
     [InlineData(21, 5, 0)]
@@ -127,26 +258,23 @@ public sealed class NpcAndPdfTests : IAsyncLifetime
         using var editor = Editor(await _service.CreateNpcAsync());
         editor.ConfigureAdvantageCatalog(await new SqliteAdvantageCatalog(_database).ListAsync());
         editor.AddNpcDisciplineCommand.Execute(null);
-        editor.AddNpcMeritCommand.Execute(null);
-        var names = editor.NpcDisciplines[0].Options.Where(x => x.Length != 0).Take(7).ToArray();
+        var family = editor.AdvantageCatalog!.Families.Single(x => x.Name == "Mortais");
+        var names = editor.NpcDisciplines.Take(7).Select(x => x.SelectedDiscipline).ToArray();
         for (var i = 0; i < 7; i++)
         {
-            editor.NpcDisciplines[i].SelectedDiscipline = names[i];
             editor.NpcDisciplines[i].Rating = 2;
-            editor.NpcMerits[i].Selected = editor.NpcMerits[i].Options[i];
-            editor.NpcMerits[i].Rating = 2;
+            family.AddAdvantageCommand.Execute(null);
+            family.PersonalEntries[i].Name = $"Pessoa {i}";
+            family.PersonalEntries[i].Rating = 2;
         }
         editor.NpcDisciplines[1].SelectedDiscipline = names[0];
         Assert.NotEmpty(editor.NpcDisciplines[1].Error);
         Assert.Equal(names[1], editor.NpcDisciplines[1].SelectedDiscipline);
-        editor.NpcMerits[1].Selected = editor.NpcMerits[1].Options[0];
-        Assert.NotEmpty(editor.NpcMerits[1].Error);
-        Assert.Same(editor.NpcMerits[1].Options[1], editor.NpcMerits[1].Selected);
         Assert.True(await editor.FlushAsync());
         using var reopened = Editor(await _service.GetAsync(editor.Id));
         reopened.ConfigureAdvantageCatalog(await new SqliteAdvantageCatalog(_database).ListAsync());
-        Assert.Equal(7, reopened.NpcDisciplines.Count);
-        Assert.Equal(7, reopened.NpcMerits.Count);
+        Assert.Equal(11, reopened.NpcDisciplines.Count);
+        Assert.Equal(7, reopened.AdvantageCatalog!.Families.Single(x => x.Name == "Mortais").PersonalEntries.Count);
         var path = Path.Combine(_directory, "expanded.pdf");
         await new CharacterPdfExporter(new ProvidedDisciplineCatalog(), new SqliteSkillCatalog(_database))
             .ExportAsync(await _service.GetAsync(editor.Id), path, []);
@@ -154,8 +282,8 @@ public sealed class NpcAndPdfTests : IAsyncLifetime
         var titles = document.AcroForm.Elements.GetArray("/Fields")!.Elements.Cast<PdfReference>()
             .Select(x => ((PdfDictionary)x.Value).Elements.GetString("/TU")).ToArray();
         foreach (var name in names) Assert.Contains($"{name} / 5", titles);
-        foreach (var merit in reopened.NpcMerits)
-            Assert.Contains($"{merit.Kind}: {merit.Selected!.Name} / 5", titles);
+        foreach (var merit in reopened.Advantages.Items)
+            Assert.Contains($"Vantagem: {merit.Name} / 5", titles);
     }
 
     [Fact]

@@ -928,6 +928,9 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.Property<string>("Loresheet")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Merit")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(80)
@@ -1164,6 +1167,105 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("VCS.Infrastructure.Persistence.PredatorCatalogRecord", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Definition")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PredatorCatalog", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "alleycat",
+                            Definition = "{\"Id\":\"alleycat\",\"Name\":\"Vira-lata\",\"Description\":\"Um ca\\u00E7ador agressivo que ataca suas v\\u00EDtimas nas ruas, seja disfar\\u00E7ando a ca\\u00E7ada como um assalto ou dominando sua presa pela for\\u00E7a.\",\"Benefits\":\"\\u002B1 Celeridade ou Pot\\u00EAncia; \\u002B3 Contatos Criminosos; especializa\\u00E7\\u00E3o em Intimida\\u00E7\\u00E3o (Assalto \\u00E0 M\\u00E3o Armada) ou Briga (Agarramento).\",\"Cost\":\"Perde 1 ponto de Humanidade.\",\"Disciplines\":[\"Celeridade\",\"Pot\\u00EAncia\"],\"Specializations\":[{\"Skill\":\"Intimida\\u00E7\\u00E3o\",\"Text\":\"Assalto \\u00E0 M\\u00E3o Armada\",\"IsFreeText\":false,\"Label\":\"Intimida\\u00E7\\u00E3o (Assalto \\u00E0 M\\u00E3o Armada)\"},{\"Skill\":\"Briga\",\"Text\":\"Agarramento\",\"IsFreeText\":false,\"Label\":\"Briga (Agarramento)\"}],\"FixedGrants\":[{\"Name\":\"Contatos Criminosos\",\"Category\":3}],\"FixedPoints\":[3],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":-1,\"BloodDelta\":0}",
+                            Name = "Vira-lata"
+                        },
+                        new
+                        {
+                            Id = "extortionist",
+                            Definition = "{\"Id\":\"extortionist\",\"Name\":\"Chantagista\",\"Description\":\"Adquire sangue mediante amea\\u00E7as e extors\\u00E3o.\",\"Benefits\":\"\\u002B1 Domina\\u00E7\\u00E3o ou Pot\\u00EAncia; 3 pontos entre Contatos e Recursos; especializa\\u00E7\\u00E3o em Intimida\\u00E7\\u00E3o (Coer\\u00E7\\u00E3o) ou Ladroagem (Seguran\\u00E7a).\",\"Cost\":\"Inimigo 2 (a v\\u00EDtima extorquida ou a pol\\u00EDcia).\",\"Disciplines\":[\"Domina\\u00E7\\u00E3o\",\"Pot\\u00EAncia\"],\"Specializations\":[{\"Skill\":\"Intimida\\u00E7\\u00E3o\",\"Text\":\"Coer\\u00E7\\u00E3o\",\"IsFreeText\":false,\"Label\":\"Intimida\\u00E7\\u00E3o (Coer\\u00E7\\u00E3o)\"},{\"Skill\":\"Ladroagem\",\"Text\":\"Seguran\\u00E7a\",\"IsFreeText\":false,\"Label\":\"Ladroagem (Seguran\\u00E7a)\"}],\"FixedGrants\":[{\"Name\":\"Inimigo (extorsao)\",\"Category\":4}],\"FixedPoints\":[2],\"AllocationOptions\":[{\"Name\":\"Contatos\",\"Category\":3},{\"Name\":\"Recursos\",\"Category\":3}],\"AllocationPoints\":3,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Name = "Chantagista"
+                        },
+                        new
+                        {
+                            Id = "roadside",
+                            Definition = "{\"Id\":\"roadside\",\"Name\":\"Assassino na Estrada\",\"Description\":\"Um viajante focado em ca\\u00E7ar pessoas em movimento ou distantes da lei, como mochileiros e motoristas solit\\u00E1rios.\",\"Benefits\":\"\\u002B1 Fortitude ou Proteanismo; \\u002B2 Rebanho Itinerante; especializa\\u00E7\\u00E3o em Sobreviv\\u00EAncia (Estradas) ou Investiga\\u00E7\\u00E3o (Grafite Vamp\\u00EDrico).\",\"Cost\":\"Exclus\\u00E3o de Presas 1 (locais sedent\\u00E1rios).\",\"Disciplines\":[\"Fortitude\",\"Proteanismo\"],\"Specializations\":[{\"Skill\":\"Sobreviv\\u00EAncia\",\"Text\":\"Estradas\",\"IsFreeText\":false,\"Label\":\"Sobreviv\\u00EAncia (Estradas)\"},{\"Skill\":\"Investiga\\u00E7\\u00E3o\",\"Text\":\"Grafite Vamp\\u00EDrico\",\"IsFreeText\":false,\"Label\":\"Investiga\\u00E7\\u00E3o (Grafite Vamp\\u00EDrico)\"}],\"FixedGrants\":[{\"Name\":\"Rebanho Itinerante\",\"Category\":3},{\"Name\":\"Exclusao de Presas (locais sedentarios)\",\"Category\":4}],\"FixedPoints\":[2,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Name = "Assassino na Estrada"
+                        },
+                        new
+                        {
+                            Id = "cleaver",
+                            Definition = "{\"Id\":\"cleaver\",\"Name\":\"Trinchador\",\"Description\":\"Um parasita familiar; esconde a sua natureza bestial de seus amigos e familiares mundanos, enquanto se alimenta secretamente deles no conv\\u00EDvio di\\u00E1rio.\",\"Benefits\":\"\\u002B1 Domina\\u00E7\\u00E3o ou Animalismo; \\u002B2 Rebanho; especializa\\u00E7\\u00E3o em Persuas\\u00E3o (Gaslighting) ou Subterf\\u00FAgio (Encobrimento).\",\"Cost\":\"Segredo Sombrio 1: Trinchador.\",\"Disciplines\":[\"Domina\\u00E7\\u00E3o\",\"Animalismo\"],\"Specializations\":[{\"Skill\":\"Persuas\\u00E3o\",\"Text\":\"Gaslighting\",\"IsFreeText\":false,\"Label\":\"Persuas\\u00E3o (Gaslighting)\"},{\"Skill\":\"Subterf\\u00FAgio\",\"Text\":\"Encobrimento\",\"IsFreeText\":false,\"Label\":\"Subterf\\u00FAgio (Encobrimento)\"}],\"FixedGrants\":[{\"Name\":\"Rebanho\",\"Category\":3},{\"Name\":\"Segredo Sombrio (Trinchador)\",\"Category\":4}],\"FixedPoints\":[2,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Name = "Trinchador"
+                        },
+                        new
+                        {
+                            Id = "consensualist",
+                            Definition = "{\"Id\":\"consensualist\",\"Name\":\"Consensualista\",\"Description\":\"S\\u00F3 se alimenta do sangue de pessoas que aceitam e oferecem livremente; pode dizer a verdade ou se disfar\\u00E7ar de trabalhador de caridade/adepto de cena fetiche vamp\\u00EDrica.\",\"Benefits\":\"\\u002B1 Ausp\\u00EDcios ou Fortitude; \\u002B1 Humanidade; especializa\\u00E7\\u00E3o em Medicina (Flebotomia) ou Persuas\\u00E3o (Bolsas).\",\"Cost\":\"Segredo Sombrio 1: Quebrador da M\\u00E1scara; Exclus\\u00E3o de Presa 1 (sem consentimento).\",\"Disciplines\":[\"Ausp\\u00EDcios\",\"Fortitude\"],\"Specializations\":[{\"Skill\":\"Medicina\",\"Text\":\"Flebotomia\",\"IsFreeText\":false,\"Label\":\"Medicina (Flebotomia)\"},{\"Skill\":\"Persuas\\u00E3o\",\"Text\":\"Bolsas\",\"IsFreeText\":false,\"Label\":\"Persuas\\u00E3o (Bolsas)\"}],\"FixedGrants\":[{\"Name\":\"Segredo Sombrio (Quebrador da Mascara)\",\"Category\":4},{\"Name\":\"Exclusao de Presa (sem consentimento)\",\"Category\":4}],\"FixedPoints\":[1,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":1,\"BloodDelta\":0}",
+                            Name = "Consensualista"
+                        },
+                        new
+                        {
+                            Id = "osiris",
+                            Definition = "{\"Id\":\"osiris\",\"Name\":\"Os\\u00EDris\",\"Description\":\"Algu\\u00E9m com poder de multid\\u00E3o (l\\u00EDderes de culto, DJs, celebridades) que bebe o sangue de f\\u00E3s fan\\u00E1ticos e adoradores em transe.\",\"Benefits\":\"\\u002B1 Feiti\\u00E7aria de Sangue (s\\u00F3 Tremere) ou Presen\\u00E7a; 3 pontos em Fama/Rebanho; especializa\\u00E7\\u00E3o em Ocultismo (tradi\\u00E7\\u00E3o espec\\u00EDfica) ou Performance (cena espec\\u00EDfica).\",\"Cost\":\"2 pontos entre Defeitos Inimigos ou Defeitos M\\u00EDticos.\",\"Disciplines\":[\"Feiti\\u00E7aria de Sangue\",\"Presen\\u00E7a\"],\"Specializations\":[{\"Skill\":\"Ocultismo\",\"Text\":\"tradi\\u00E7\\u00E3o espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Ocultismo (tradi\\u00E7\\u00E3o espec\\u00EDfica)\"},{\"Skill\":\"Performance\",\"Text\":\"cena espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Performance (cena espec\\u00EDfica)\"}],\"FixedGrants\":[],\"FixedPoints\":[],\"AllocationOptions\":[{\"Name\":\"Fama\",\"Category\":3},{\"Name\":\"Rebanho\",\"Category\":3}],\"AllocationPoints\":3,\"FlawOptions\":[{\"Name\":\"Inimigo\",\"Category\":4},{\"Name\":\"Perdicao Folclorica\",\"Category\":4},{\"Name\":\"Tabu Folclorico\",\"Category\":4},{\"Name\":\"Estigma\",\"Category\":4},{\"Name\":\"Isca de Estaca\",\"Category\":4}],\"FlawPoints\":2,\"SplitFlaws\":true,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Name = "Osíris"
+                        },
+                        new
+                        {
+                            Id = "scene-queen",
+                            Definition = "{\"Id\":\"scene-queen\",\"Name\":\"Scene Queen\",\"Description\":\"Um socialite que usa seu prest\\u00EDgio dentro de uma subcultura espec\\u00EDfica para encantar as v\\u00EDtimas como um colega influente da mesma cena.\",\"Benefits\":\"\\u002B1 Domina\\u00E7\\u00E3o ou Pot\\u00EAncia; \\u002B1 Contatos; \\u002B1 Fama; especializa\\u00E7\\u00E3o em Etiqueta, Lideran\\u00E7a ou Manha (Cena Espec\\u00EDfica).\",\"Cost\":\"Rejeitado 1 OU Exclus\\u00E3o de Presa 1 (Subcultura diferente).\",\"Disciplines\":[\"Domina\\u00E7\\u00E3o\",\"Pot\\u00EAncia\"],\"Specializations\":[{\"Skill\":\"Etiqueta\",\"Text\":\"Cena Espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Etiqueta (Cena Espec\\u00EDfica)\"},{\"Skill\":\"Lideran\\u00E7a\",\"Text\":\"Cena Espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Lideran\\u00E7a (Cena Espec\\u00EDfica)\"},{\"Skill\":\"Manha\",\"Text\":\"Cena Espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Manha (Cena Espec\\u00EDfica)\"}],\"FixedGrants\":[{\"Name\":\"Contatos\",\"Category\":3},{\"Name\":\"Fama\",\"Category\":3}],\"FixedPoints\":[1,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[{\"Name\":\"Rejeitado\",\"Category\":4},{\"Name\":\"Exclusao de Presa (Subcultura diferente)\",\"Category\":4}],\"FlawPoints\":1,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Name = "Scene Queen"
+                        },
+                        new
+                        {
+                            Id = "siren",
+                            Definition = "{\"Id\":\"siren\",\"Name\":\"Sereia\",\"Description\":\"O predador focado em lux\\u00FAria que ca\\u00E7a pessoas fingindo desejo sexual, alimentando-se enquanto a v\\u00EDtima est\\u00E1 seduzida.\",\"Benefits\":\"\\u002B1 Fortitude ou Presen\\u00E7a; Visual Belo 2; especializa\\u00E7\\u00E3o em Persuas\\u00E3o (Sedu\\u00E7\\u00E3o) ou Subterf\\u00FAgio (Sedu\\u00E7\\u00E3o).\",\"Cost\":\"Inimigo 1 (ex-amante abandonado ou parceiro ciumento).\",\"Disciplines\":[\"Fortitude\",\"Presen\\u00E7a\"],\"Specializations\":[{\"Skill\":\"Persuas\\u00E3o\",\"Text\":\"Sedu\\u00E7\\u00E3o\",\"IsFreeText\":false,\"Label\":\"Persuas\\u00E3o (Sedu\\u00E7\\u00E3o)\"},{\"Skill\":\"Subterf\\u00FAgio\",\"Text\":\"Sedu\\u00E7\\u00E3o\",\"IsFreeText\":false,\"Label\":\"Subterf\\u00FAgio (Sedu\\u00E7\\u00E3o)\"}],\"FixedGrants\":[{\"Name\":\"Visual Belo\",\"Category\":3},{\"Name\":\"Inimigo (ex-amante ou parceiro ciumento)\",\"Category\":4}],\"FixedPoints\":[2,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Name = "Sereia"
+                        },
+                        new
+                        {
+                            Id = "sandman",
+                            Definition = "{\"Id\":\"sandman\",\"Name\":\"Sandman\",\"Description\":\"Extrema furtividade e discri\\u00E7\\u00E3o noturna; esgueira-se pelas casas e suga sangue de pessoas profundamente adormecidas sem deixar rastro.\",\"Benefits\":\"\\u002B1 Ausp\\u00EDcios ou Ofusca\\u00E7\\u00E3o; \\u002B1 Recursos; especializa\\u00E7\\u00E3o em Medicina (Anest\\u00E9sicos) ou Furtividade (Invas\\u00E3o).\",\"Cost\":\"N\\u00E3o h\\u00E1 custo negativo.\",\"Disciplines\":[\"Ausp\\u00EDcios\",\"Ofusca\\u00E7\\u00E3o\"],\"Specializations\":[{\"Skill\":\"Medicina\",\"Text\":\"Anest\\u00E9sicos\",\"IsFreeText\":false,\"Label\":\"Medicina (Anest\\u00E9sicos)\"},{\"Skill\":\"Furtividade\",\"Text\":\"Invas\\u00E3o\",\"IsFreeText\":false,\"Label\":\"Furtividade (Invas\\u00E3o)\"}],\"FixedGrants\":[{\"Name\":\"Recursos\",\"Category\":3}],\"FixedPoints\":[1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Name = "Sandman"
+                        },
+                        new
+                        {
+                            Id = "graverobber",
+                            Definition = "{\"Id\":\"graverobber\",\"Name\":\"Ladr\\u00E3o de Sepultura\",\"Description\":\"Restringe-se a ca\\u00E7ar presas nos cemit\\u00E9rios.\",\"Benefits\":\"\\u002B1 Fortitude ou Obl\\u00EDvio; Es\\u00F4fago de Ferro 3; Ref\\u00FAgio 1; especializa\\u00E7\\u00E3o em Ocultismo (Rituais Tumulares) ou Medicina (texto livre).\",\"Cost\":\"Predador Manifesto 2.\",\"Disciplines\":[\"Fortitude\",\"Obl\\u00EDvio\"],\"Specializations\":[{\"Skill\":\"Ocultismo\",\"Text\":\"Rituais Tumulares\",\"IsFreeText\":false,\"Label\":\"Ocultismo (Rituais Tumulares)\"},{\"Skill\":\"Medicina\",\"Text\":\"especializa\\u00E7\\u00E3o a informar\",\"IsFreeText\":true,\"Label\":\"Medicina (especializa\\u00E7\\u00E3o a informar)\"}],\"FixedGrants\":[{\"Name\":\"Esofago de Ferro\",\"Category\":3},{\"Name\":\"Refugio\",\"Category\":3},{\"Name\":\"Predador Manifesto\",\"Category\":4}],\"FixedPoints\":[3,1,2],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Name = "Ladrão de Sepultura"
+                        },
+                        new
+                        {
+                            Id = "bagger",
+                            Definition = "{\"Id\":\"bagger\",\"Name\":\"Sacoleiro\",\"Description\":\"Evita viol\\u00EAncia de ca\\u00E7a real, adquirindo sangue empacotado em hospitais ou contrabandeando do mercado negro. Ventrue n\\u00E3o pode escolher.\",\"Benefits\":\"\\u002B1 Ofusca\\u00E7\\u00E3o, Obl\\u00EDvio ou Feiti\\u00E7aria de Sangue (s\\u00F3 Tremere); Es\\u00F4fago de Ferro 3; especializa\\u00E7\\u00E3o em Ladroagem (Abrir Fechaduras) ou Manha (Mercado Negro).\",\"Cost\":\"Inimigo 2 (cobrando d\\u00EDvidas ou banindo-o das ruas).\",\"Disciplines\":[\"Ofusca\\u00E7\\u00E3o\",\"Obl\\u00EDvio\",\"Feiti\\u00E7aria de Sangue\"],\"Specializations\":[{\"Skill\":\"Ladroagem\",\"Text\":\"Abrir Fechaduras\",\"IsFreeText\":false,\"Label\":\"Ladroagem (Abrir Fechaduras)\"},{\"Skill\":\"Manha\",\"Text\":\"Mercado Negro\",\"IsFreeText\":false,\"Label\":\"Manha (Mercado Negro)\"}],\"FixedGrants\":[{\"Name\":\"Esofago de Ferro\",\"Category\":3},{\"Name\":\"Inimigo (dividas ou banimento)\",\"Category\":4}],\"FixedPoints\":[3,2],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Name = "Sacoleiro"
+                        },
+                        new
+                        {
+                            Id = "blood-leech",
+                            Definition = "{\"Id\":\"blood-leech\",\"Name\":\"Sanguessuga\",\"Description\":\"Um canibal de Membros e Diablerista ocasional; detesta se alimentar de humanos e busca sangue de outros vampiros.\",\"Benefits\":\"\\u002B1 Celeridade ou Proteanismo; \\u002B1 Pot\\u00EAncia de Sangue; especializa\\u00E7\\u00E3o em Briga (Membros) ou Furtividade (Contra Membros).\",\"Cost\":\"-1 Humanidade; Segredo Sombrio 2 (Diablerista) OU Segregado 2; Exclus\\u00E3o de Presa 2 (Mortais).\",\"Disciplines\":[\"Celeridade\",\"Proteanismo\"],\"Specializations\":[{\"Skill\":\"Briga\",\"Text\":\"Membros\",\"IsFreeText\":false,\"Label\":\"Briga (Membros)\"},{\"Skill\":\"Furtividade\",\"Text\":\"Contra Membros\",\"IsFreeText\":false,\"Label\":\"Furtividade (Contra Membros)\"}],\"FixedGrants\":[{\"Name\":\"Exclusao de Presa (Mortais)\",\"Category\":4}],\"FixedPoints\":[2],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[{\"Name\":\"Segredo Sombrio (Diablerista)\",\"Category\":4},{\"Name\":\"Segregado\",\"Category\":4}],\"FlawPoints\":2,\"SplitFlaws\":false,\"HumanityDelta\":-1,\"BloodDelta\":1}",
+                            Name = "Sanguessuga"
+                        },
+                        new
+                        {
+                            Id = "farmer",
+                            Definition = "{\"Id\":\"farmer\",\"Name\":\"Fazendeiro\",\"Description\":\"N\\u00E3o ataca seres humanos e foca sua alimenta\\u00E7\\u00E3o em animais. Ventrue e Membros com Pot\\u00EAncia de Sangue 3\\u002B n\\u00E3o podem escolher.\",\"Benefits\":\"\\u002B1 Animalismo ou Proteanismo; \\u002B1 Humanidade; especializa\\u00E7\\u00E3o em Empatia com Animais (escolha um) ou Sobreviv\\u00EAncia (Ca\\u00E7a).\",\"Cost\":\"Defeito de Alimenta\\u00E7\\u00E3o 2: Fazendeiro.\",\"Disciplines\":[\"Animalismo\",\"Proteanismo\"],\"Specializations\":[{\"Skill\":\"Empatia com Animais\",\"Text\":\"animal a informar\",\"IsFreeText\":true,\"Label\":\"Empatia com Animais (animal a informar)\"},{\"Skill\":\"Sobreviv\\u00EAncia\",\"Text\":\"Ca\\u00E7a\",\"IsFreeText\":false,\"Label\":\"Sobreviv\\u00EAncia (Ca\\u00E7a)\"}],\"FixedGrants\":[{\"Name\":\"Fazendeiro\",\"Category\":4}],\"FixedPoints\":[2],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":1,\"BloodDelta\":0}",
+                            Name = "Fazendeiro"
+                        });
+                });
+
             modelBuilder.Entity("VCS.Domain.Characters.Character", b =>
                 {
                     b.OwnsOne("VCS.Domain.Characters.CharacterDetails", "Details", b1 =>
@@ -1324,6 +1426,9 @@ namespace VCS.Infrastructure.Persistence.Migrations
                                 .IsRequired()
                                 .HasColumnType("TEXT");
 
+                            b1.Property<string>("PredatorSelection")
+                                .HasColumnType("TEXT");
+
                             b1.Property<string>("Resonance")
                                 .IsRequired()
                                 .HasColumnType("TEXT");
@@ -1335,6 +1440,9 @@ namespace VCS.Infrastructure.Persistence.Migrations
                             b1.Property<string>("Sire")
                                 .IsRequired()
                                 .HasColumnType("TEXT");
+
+                            b1.Property<int>("Stains")
+                                .HasColumnType("INTEGER");
 
                             b1.Property<string>("Touchstones")
                                 .IsRequired()

@@ -29,7 +29,7 @@ public sealed class CharacterService(ICharacterRepository repository)
 
     public async Task<CharacterDto> CreateNpcAsync(CancellationToken cancellationToken = default)
     {
-        var character = Character.Create(new() { IsNpc = true, Name = "Novo NPC" });
+        var character = Character.Create(new() { IsNpc = true, Name = "Novo NPC", BloodPotency = 0 });
         await repository.SaveAsync(character, null, cancellationToken);
         return CharacterDto.From(character);
     }

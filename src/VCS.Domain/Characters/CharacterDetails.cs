@@ -15,6 +15,8 @@ public sealed record CharacterDetails
     public int Generation { get; init; } = 13;
     public string Sire { get; init; } = "";
     public string Predator { get; init; } = "";
+    public PredatorSelection? PredatorSelection { get; init; }
+    public int Stains { get; init; }
     public string Concept { get; init; } = "";
     public string Chronicle { get; init; } = "";
     public string Description { get; init; } = "";

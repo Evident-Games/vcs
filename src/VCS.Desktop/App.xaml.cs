@@ -62,6 +62,7 @@ public partial class App : System.Windows.Application
             builder.Services.AddSingleton<IDisciplineCatalog, ProvidedDisciplineCatalog>();
             builder.Services.AddSingleton<IAdvantageCatalog, SqliteAdvantageCatalog>();
             builder.Services.AddSingleton<ISkillCatalog, SqliteSkillCatalog>();
+            builder.Services.AddSingleton<IPredatorCatalog, SqlitePredatorCatalog>();
             builder.Services.AddSingleton<ICharacterPdfExporter, CharacterPdfExporter>();
             builder.Services.AddSingleton<IDesktopDialogs, DesktopDialogs>();
             builder.Services.AddSingleton<ThemeService>();

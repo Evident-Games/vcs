@@ -34,6 +34,7 @@ public static class CharacterRules
     {
         var issues = new List<ValidationIssue>();
         issues.AddRange(LoresheetRules.Validate(details, traits));
+        issues.AddRange(PredatorRules.Validate(details, traits));
         if (CharacterAdvancement.ValidateHistory(details, traits) is { } advancementIssue)
             issues.Add(new("Advancement", advancementIssue));
         void Text(string field, string? value, int max, bool required = false)
@@ -77,19 +78,20 @@ public static class CharacterRules
         Range(nameof(details.ExperienceSpent), details.ExperienceSpent, 0, 1000000);
         Range(nameof(details.CampaignExperienceTotal), details.CampaignExperienceTotal, 0, 1000000);
         Range(nameof(details.CampaignExperienceSpent), details.CampaignExperienceSpent, 0, 1000000);
-        if (details.CampaignExperienceTotal > details.ExperienceTotal ||
+        if (details.Advancement?.AutomaticExperience != true && (details.CampaignExperienceTotal > details.ExperienceTotal ||
             details.CampaignExperienceSpent > details.CampaignExperienceTotal ||
             details.CampaignExperienceSpent > details.ExperienceSpent ||
-            (long)details.ExperienceTotal - details.ExperienceSpent < LoresheetRules.CampaignAvailable(details))
+            (long)details.ExperienceTotal - details.ExperienceSpent < LoresheetRules.CampaignAvailable(details)))
             issues.Add(new("CampaignExperienceTotal", "As fontes de XP nao conferem: campanha faz parte do total e seus gastos nao podem exceder o recebido."));
         if (details.Advancement is { HasCreationProfile: true } profile && Enum.IsDefined(profile.Age) &&
             details.CampaignExperienceTotal > details.ExperienceTotal - CharacterAdvancement.StartingXp(profile.Age))
             issues.Add(new("CampaignExperienceTotal", "O bonus inicial de Neofito/Ancillae nao pode ser classificado como XP de campanha."));
-        if (details.ExperienceSpent > details.ExperienceTotal)
+        if (details.Advancement?.AutomaticExperience != true && details.ExperienceSpent > details.ExperienceTotal)
             issues.Add(new(nameof(details.ExperienceSpent), "A experiencia gasta nao pode exceder a experiencia total."));
         Range(nameof(details.Generation), details.Generation, 1, 16);
         Range(nameof(details.Hunger), details.Hunger, 0, 5);
         Range(nameof(details.Humanity), details.Humanity, 0, 10);
+        Range(nameof(details.Stains), details.Stains, 0, 1000000);
         Range(nameof(details.BloodPotency), details.BloodPotency, 0, 10);
         Range(nameof(details.NpcPhysical), details.NpcPhysical, 0, 5);
         Range(nameof(details.NpcSocial), details.NpcSocial, 0, 5);
@@ -106,6 +108,13 @@ public static class CharacterRules
             Text("Trait.Key", trait.Key, 80, true);
             Text("Trait.Name", trait.Name, 80, true);
             Text("Trait.Specialization", trait.Specialization, 500);
+            if (trait.Merit is { } merit)
+            {
+                Text("Trait.Merit.Group", merit.Group, 80, true);
+                Text("Trait.Merit.Description", merit.Description, 20000);
+                if (trait.Category is not (TraitCategory.Advantage or TraitCategory.Flaw))
+                    issues.Add(new("Traits", "Familia e descricao pessoal devem pertencer a vantagens ou defeitos."));
+            }
             if (trait.Category != TraitCategory.Skill && !string.IsNullOrEmpty(trait.Specialization))
                 issues.Add(new("Traits", "Especializacoes devem pertencer a habilidades."));
             if (!Enum.IsDefined(trait.Category))
@@ -177,6 +186,7 @@ public static class CharacterRules
         nameof(CharacterDetails.ExperienceSpent) => "Experiencia gasta",
         nameof(CharacterDetails.Hunger) => "Fome",
         nameof(CharacterDetails.Humanity) => "Humanidade",
+        nameof(CharacterDetails.Stains) => "Maculas",
         nameof(CharacterDetails.BloodPotency) => "Potencia de Sangue",
         "Trait.Name" => "Nome do traco",
         "Trait.Key" => "Identificador do traco",

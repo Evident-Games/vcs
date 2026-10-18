@@ -17,20 +17,18 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool payLoresheetWithInitialXp;
     [ObservableProperty] private int campaignExperienceTotal;
     [ObservableProperty] private int campaignExperienceSpent;
-    [ObservableProperty] private int campaignXpAward;
     public int CampaignExperienceAvailable => CampaignExperienceTotal - CampaignExperienceSpent;
     public int NonCampaignExperienceAvailable => ExperienceAvailable - CampaignExperienceAvailable;
     public string LoresheetDescription => SelectedLoresheetBenefit?.Description ?? "Selecione um beneficio da colecao.";
     public string LoresheetCost => SelectedLoresheetBenefit is { } benefit
         ? $"{benefit.LoresheetCollection} / {(benefit.IsLineage ? "Linhagem/descendencia" : "Geral")} / {benefit.Minimum} ponto(s), comprado separadamente. " +
-          (IsCreating ? $"Pague {benefit.Minimum} pontos de vantagens OU {benefit.Minimum * 3} XP inicial de idade."
-              : $"Apos a criacao: {benefit.Minimum * 3} XP exclusivamente de campanha.")
+          $"Use {benefit.Minimum} pontos de vantagens OU {benefit.Minimum * 3} XP (idade primeiro, depois campanha)."
         : "";
-    public string LoresheetRulesSummary => "Loresheets sao vantagens por colecao, mas cada beneficio e independente: nao exige comprar os anteriores. " +
-        "Criacao: no maximo um beneficio geral + um de linhagem/descendencia. As quatro colecoes fornecidas sao gerais. " +
-        "Depois: sem limite de colecoes, pagando pontos x 3 somente com XP de campanha. Efeitos sao referencias; nao alteram dados ou trilhas automaticamente.";
-    public string CampaignXpSummary => $"Saldo de campanha: {CampaignExperienceAvailable} XP. Saldo inicial/anterior: {NonCampaignExperienceAvailable} XP. " +
-        "Em fichas antigas, o XP existente nao e presumido como campanha. Classifique somente o saldo de campanha conhecido em Criacao e evolucao / XP; ele faz parte do total, nao e somado novamente.";
+    public string LoresheetRulesSummary => "Loresheets sao vantagens por colecao; cada beneficio e independente e nao exige os anteriores. " +
+        "Use os pontos gratuitos de vantagens ou pague pontos x 3 XP. Excedentes do orcamento de vantagens tambem custam 3 XP por ponto. " +
+        "Efeitos sao referencias; nao alteram dados ou trilhas automaticamente.";
+    public string CampaignXpSummary => $"XP inicial da idade: {InitialExperience}. XP concedido pelo mestre: {CampaignExperienceTotal}. " +
+        "O total soma as duas fontes. Pontos acima das distribuicoes gratuitas sao calculados automaticamente; saldo negativo gera aviso, sem impedir o salvamento.";
     partial void OnCampaignExperienceTotalChanged(int value) => RefreshLoresheetSummary();
     partial void OnCampaignExperienceSpentChanged(int value) => RefreshLoresheetSummary();
     partial void OnSelectedLoresheetCollectionChanged(string value) => FilterLoresheets();
@@ -106,17 +104,5 @@ public partial class CharacterEditorViewModel
             MarkChanged();
         }
         catch (InvalidOperationException exception) { ReportAdvancementError(exception); }
-    }
-    [RelayCommand]
-    private void AwardCampaignXp()
-    {
-        if (CampaignXpAward <= 0 || (long)ExperienceTotal + CampaignXpAward > 1000000)
-        {
-            ReportAdvancementError(new("Informe um premio de campanha positivo, sem ultrapassar o limite de 1.000.000 XP."));
-            return;
-        }
-        ExperienceTotal += CampaignXpAward;
-        CampaignExperienceTotal += CampaignXpAward;
-        CampaignXpAward = 0;
     }
 }

@@ -23,7 +23,7 @@
                                          Visibility="{Binding IsSkill, Converter={StaticResource BoolVisibility}}"
                                          ToolTip="Especializacao: texto livre" AutomationProperties.Name="Especializacao pessoal" />
                             </StackPanel>
-                            <local:DotTrack Grid.Column="1" Value="{Binding Rating, Mode=TwoWay}" Minimum="{Binding Minimum}" />
+                            <local:DotTrack Grid.Column="1" Value="{Binding Rating, Mode=TwoWay}" Minimum="{Binding Minimum}" IsEnabled="{Binding CanEditRating}" />
                             <Button Grid.Column="2" Content="Remover" Margin="16,0,0,0"
                                     Command="{Binding DataContext.RemoveCommand, ElementName=Root}"
                                     CommandParameter="{Binding}"

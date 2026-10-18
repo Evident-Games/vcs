@@ -132,8 +132,10 @@ public sealed class CharacterPdfExporter(IDisciplineCatalog powers, ISkillCatalo
                 }
                 if (_character.Details.Advancement is { } advancement)
                 {
-                    Heading("Criacao e evolucao / XP");
-                    Text("Etapa", advancement.IsCreating ? "Em criacao" : "Evolucao");
+                    if (advancement.AutomaticExperience && section.Key != "Background") continue;
+                    Heading(advancement.AutomaticExperience ? "Experiencia" : "Criacao e evolucao / XP");
+                    if (!advancement.AutomaticExperience)
+                        Text("Etapa", advancement.IsCreating ? "Em criacao" : "Evolucao");
                     if (advancement.HasCreationProfile)
                         Text("Idade vampirica", advancement.Age switch { VampireAge.Child => "Crianca da noite", VampireAge.Neonate => "Neofito", _ => "Ancillae" });
                     Text("XP total", _character.Details.ExperienceTotal.ToString(CultureInfo.InvariantCulture));
@@ -142,8 +144,15 @@ public sealed class CharacterPdfExporter(IDisciplineCatalog powers, ISkillCatalo
                     Text("XP de campanha recebido", _character.Details.CampaignExperienceTotal.ToString(CultureInfo.InvariantCulture));
                     Text("XP de campanha gasto", _character.Details.CampaignExperienceSpent.ToString(CultureInfo.InvariantCulture));
                     Text("Saldo de XP de campanha", LoresheetRules.CampaignAvailable(_character.Details).ToString(CultureInfo.InvariantCulture));
-                    Text("Historico de XP", string.Join(Environment.NewLine, advancement.Purchases.Select(x =>
-                        $"{x.Utc:yyyy-MM-dd HH:mm} UTC | {x.Name}: {(x.Specialization.Length == 0 ? $"{x.From} -> {x.To}" : x.Specialization)} | {x.Cost} XP ({x.CampaignCost} campanha)")), true);
+                    if (advancement.AutomaticExperience)
+                    {
+                        var calculation = AutomaticExperience.Calculate(_character.Details, _character.Traits);
+                        Text("Custos de XP", string.Join(Environment.NewLine, calculation.Costs.Select(x => $"{x.Name}: {x.Cost} XP.")), true);
+                        Text("Avisos de XP", string.Join(Environment.NewLine, calculation.Warnings.Select(x => x.Message)), true);
+                    }
+                    else
+                        Text("Historico de XP", string.Join(Environment.NewLine, advancement.Purchases.Select(x =>
+                            $"{x.Utc:yyyy-MM-dd HH:mm} UTC | {x.Name}: {(x.Specialization.Length == 0 ? $"{x.From} -> {x.To}" : x.Specialization)} | {x.Cost} XP ({x.CampaignCost} campanha)")), true);
                 }
             }
         }
@@ -154,9 +163,29 @@ public sealed class CharacterPdfExporter(IDisciplineCatalog powers, ISkillCatalo
             Text("Nome", _character.Details.Name);
             Text("Cla", _character.Details.Clan);
             Text("Geracao", _character.Details.Generation.ToString(CultureInfo.InvariantCulture));
-            if (npc) return;
+            if (npc) { PredatorReference(); return; }
             foreach (var property in new[] { "MortalName", "Sire", "Predator", "Concept", "Chronicle", "Description", "Ambition", "Desire" })
                 Detail(property);
+            PredatorReference();
+        }
+
+        private void PredatorReference()
+        {
+            if (_character.Details.PredatorSelection is not { } selection)
+            {
+                if (_character.Details.IsNpc) Text("Predador", _character.Details.Predator);
+                return;
+            }
+            var definition = PredatorCatalog.Find(selection.Id)!;
+            Text("Predador aplicado", definition.Name);
+            Text("Descricao do predador", definition.Description, true);
+            Text("Disciplina de predador", $"{selection.Discipline}: +1");
+            Text("Especializacao de predador", $"{selection.Skill} ({selection.Specialization})");
+            Text("Ajustes iniciais do predador", $"Humanidade {selection.HumanityDelta:+0;-0;0}; Potencia de Sangue {selection.BloodDelta:+0;-0;0}");
+            Text("Vantagens e defeitos adicionais do predador", string.Join(Environment.NewLine,
+                selection.Grants.Select(x => $"{(x.Category == TraitCategory.Flaw ? "Defeito" : "Vantagem")}: {x.Name} ({x.Rating})")), true);
+            Text("Beneficios do predador", definition.Benefits, true);
+            Text("Custos do predador", definition.Cost, true);
         }
 
         private void Skills()
@@ -246,7 +275,15 @@ public sealed class CharacterPdfExporter(IDisciplineCatalog powers, ISkillCatalo
         {
             if (_character.Details.IsNpc) Heading("Vantagens e defeitos");
             var entries = _character.Traits.Where(x => x.Category is TraitCategory.Advantage or TraitCategory.Flaw).ToArray();
-            foreach (var entry in entries) Rating($"{(entry.Category == TraitCategory.Flaw ? "Defeito" : "Vantagem")}: {entry.Name}", entry.Rating, 5);
+            foreach (var entry in entries)
+            {
+                Rating($"{(entry.Category == TraitCategory.Flaw ? "Defeito" : "Vantagem")}: {entry.Name}", entry.Rating, 5);
+                if (entry.Merit is { } merit)
+                {
+                    Text("Familia", merit.Group);
+                    Text($"Descricao de {entry.Name}", merit.Description, true);
+                }
+            }
             if (_character.Details.IsNpc)
                 for (var i = entries.Length; i < 6; i++) { Text($"Vantagem / defeito {i + 1}", ""); Rating($"Pontos {i + 1}", 0, 5); }
             var loresheets = _character.Traits.Where(x => x.Category == TraitCategory.Loresheet).ToArray();
@@ -278,9 +315,12 @@ public sealed class CharacterPdfExporter(IDisciplineCatalog powers, ISkillCatalo
             Damage("Forca de Vontade", willpower, details.WillpowerSuperficial, details.WillpowerAggravated, details.IsNpc);
             Rating("Fome", details.Hunger, 5, false);
             Rating("Humanidade", details.Humanity, 10, false);
+            Text("Maculas", details.Stains.ToString(CultureInfo.InvariantCulture));
+            Text("Efeitos da Humanidade atual", HumanityRules.At(details.Humanity).Description, true);
+            Text("Maculas e Remorso", "A mesa determina quando Maculas causam dano Agravado na Forca de Vontade. Falha em Remorso limpa as Maculas e reduz a Humanidade em 1. Nenhuma rolagem automatica.", true);
+            Rating("Potencia de Sangue", details.BloodPotency, 10);
             if (!details.IsNpc)
             {
-                Rating("Potencia de Sangue", details.BloodPotency, 10);
                 foreach (var property in new[] { "Resonance", "BloodSurge", "DamageMend", "PowerBonus", "RouseReroll", "FeedingPenalty", "BaneSeverity" })
                     Detail(property);
             }

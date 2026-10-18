@@ -16,24 +16,36 @@ public partial class TraitItemViewModel : ObservableObject
         rating = value.Rating;
         specialization = value.Specialization;
         Loresheet = value.Loresheet;
+        MeritGroup = value.Merit?.Group;
+        description = value.Merit?.Description ?? "";
     }
     public TraitCategory Category { get; }
     public string Key { get; }
     public LoresheetInfo? Loresheet { get; }
+    public string? MeritGroup { get; internal set; }
+    public string MeritKind => Category == TraitCategory.Flaw ? "Defeito" : "Vantagem";
     public string LoresheetSummary => Loresheet is { } lore
         ? $"{lore.Collection} / {(lore.IsLineage ? "Linhagem" : "Geral")} / {Rating} ponto(s) / " +
           (lore.Payment == LoresheetPayment.AdvantagePoints ? "Pontos de vantagens" : lore.Payment == LoresheetPayment.InitialXp ? $"{Rating * 3} XP inicial" : $"{Rating * 3} XP de campanha")
         : "";
-    public bool CanEditName => Category != TraitCategory.Attribute;
+    public bool IsPredatorGrant => PredatorRules.IsGrant(ToValue());
+    public bool CanEditRating => !IsPredatorGrant;
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanEditName))]
+    [NotifyPropertyChangedFor(nameof(IsNameReadOnly))]
+    [NotifyPropertyChangedFor(nameof(Minimum))]
+    private bool hasPredatorBonus;
+    public bool CanEditName => Category != TraitCategory.Attribute && !IsPredatorGrant && !HasPredatorBonus;
     public bool IsNameReadOnly => !CanEditName;
-    public int Minimum => Category == TraitCategory.Attribute ? 1 : 0;
+    public int Minimum => Category == TraitCategory.Attribute || Category == TraitCategory.Discipline && HasPredatorBonus ? 1 : 0;
     public bool IsSkill => Category == TraitCategory.Skill;
     [ObservableProperty] private string name;
     [ObservableProperty] private int rating;
     [ObservableProperty] private string advancementInfo = "";
     [ObservableProperty] private string description = "";
     [ObservableProperty] private string specialization;
-    public TraitValue ToValue() => new(Category, Key, Name, Rating, Specialization, Loresheet);
+    public TraitValue ToValue() => new(Category, Key, Name, Rating, Specialization, Loresheet,
+        MeritGroup is { } group ? new(group, Description) : null);
 }
 
 public partial class TraitGroupViewModel : ObservableObject, IDisposable
@@ -87,7 +99,8 @@ public partial class TraitGroupViewModel : ObservableObject, IDisposable
 
     private void OnItemChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName is nameof(TraitItemViewModel.Name) or nameof(TraitItemViewModel.Rating) or nameof(TraitItemViewModel.Specialization))
+        if (e.PropertyName is nameof(TraitItemViewModel.Name) or nameof(TraitItemViewModel.Rating) or
+            nameof(TraitItemViewModel.Specialization) or nameof(TraitItemViewModel.Description))
         {
             if (sender is TraitItemViewModel item) UpdateCatalogInfo(item);
             Changed?.Invoke(this, EventArgs.Empty);
@@ -102,6 +115,11 @@ public partial class TraitGroupViewModel : ObservableObject, IDisposable
 
     private void UpdateCatalogInfo(TraitItemViewModel item)
     {
+        if (item.IsPredatorGrant)
+        {
+            item.AdvancementInfo = "Origem: Predador. Pontos adicionais; remova/troque pelo painel de predador na criacao.";
+            return;
+        }
         if (!_catalog.TryGetValue(item.Key, out var entry)) return;
         var warning = item.Rating < entry.Minimum || item.Rating > entry.Maximum
             ? $" Pontuacao fora da referencia ({entry.Minimum}-{entry.Maximum})." : "";

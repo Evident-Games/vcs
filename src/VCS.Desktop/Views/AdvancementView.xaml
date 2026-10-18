@@ -2,68 +2,36 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:VCS.Desktop.Controls">
-    <Expander Header="Criacao e evolucao / XP" AutomationProperties.Name="Criacao e evolucao" Margin="0,0,0,10">
-        <ScrollViewer MaxHeight="310" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="8">
-                <TextBlock Text="{Binding CreationSummary}" TextWrapping="Wrap" Margin="0,0,0,8" />
-                <WrapPanel Visibility="{Binding CanStartAdvancement, Converter={StaticResource BoolVisibility}}">
-                    <Button Content="Registrar base atual (sem XP retroativo)" Command="{Binding TrackExistingCommand}" Margin="0,0,8,8" />
-                    <Button Content="Iniciar criacao (zera XP)" Command="{Binding StartCreationCommand}" Margin="0,0,0,8" />
-                </WrapPanel>
-                <StackPanel Visibility="{Binding IsCreating, Converter={StaticResource BoolVisibility}}">
-                    <UniformGrid Columns="2">
-                        <StackPanel Margin="0,0,8,8">
-                            <TextBlock Text="Idade vampirica" Style="{StaticResource FieldLabel}" />
-                            <ComboBox ItemsSource="{Binding AgeOptions}" SelectedIndex="{Binding AgeIndex}" AutomationProperties.Name="Idade vampirica" />
-                        </StackPanel>
-                        <StackPanel Margin="0,0,0,8">
-                            <TextBlock Text="Pontos iniciais de habilidades" Style="{StaticResource FieldLabel}" />
-                            <ComboBox ItemsSource="{Binding SkillProfileOptions}" SelectedIndex="{Binding SkillProfileIndex}" AutomationProperties.Name="Perfil de habilidades" />
-                        </StackPanel>
-                    </UniformGrid>
-                    <TextBlock Text="{Binding CreationValidation}" TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" />
-                    <Button Content="Concluir criacao e registrar pontos gratuitos" Command="{Binding FinishCreationCommand}" Margin="0,8" HorizontalAlignment="Left" />
-                </StackPanel>
-                <TextBlock Text="{Binding FreeSpecializationSummary}" TextWrapping="Wrap" Margin="0,4,0,8" />
-                <WrapPanel>
-                    <StackPanel Margin="0,0,24,8">
-                        <TextBlock Text="XP total (inclui bonus inicial)" Style="{StaticResource FieldLabel}" />
-                        <controls:NumericField Value="{Binding ExperienceTotal, Mode=TwoWay}" Maximum="1000000" AutomationProperties.Name="XP total da evolucao" />
-                    </StackPanel>
-                    <StackPanel Margin="0,0,24,8"><TextBlock Text="Total gasto de XP" Style="{StaticResource FieldLabel}" /><TextBlock Text="{Binding ExperienceSpent}" FontSize="20" AutomationProperties.Name="Total gasto de XP" /></StackPanel>
-                    <StackPanel><TextBlock Text="XP disponivel" Style="{StaticResource FieldLabel}" /><TextBlock Text="{Binding ExperienceAvailable}" FontSize="20" /></StackPanel>
-                </WrapPanel>
-                <TextBlock Text="Fontes de XP" FontWeight="SemiBold" Margin="0,8" />
-                <TextBlock Text="{Binding CampaignXpSummary}" TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" Margin="0,0,0,8" />
-                <WrapPanel>
-                    <StackPanel Margin="0,0,20,8">
-                        <TextBlock Text="XP de campanha recebido (parte do total)" Style="{StaticResource FieldLabel}" />
-                        <controls:NumericField Value="{Binding CampaignExperienceTotal, Mode=TwoWay}" Maximum="1000000"
-                                               AutomationProperties.Name="XP de campanha recebido" />
-                    </StackPanel>
-                    <StackPanel Margin="0,0,20,8">
-                        <TextBlock Text="Novo premio de campanha" Style="{StaticResource FieldLabel}" />
-                        <controls:NumericField Value="{Binding CampaignXpAward, Mode=TwoWay}" Maximum="1000000" AutomationProperties.Name="Premio de XP de campanha" />
-                    </StackPanel>
-                    <Button Content="Receber XP de campanha (soma ao total)" Command="{Binding AwardCampaignXpCommand}" VerticalAlignment="Bottom" Margin="0,0,0,8" />
-                </WrapPanel>
-                <StackPanel Visibility="{Binding IsEvolving, Converter={StaticResource BoolVisibility}}">
-                    <ComboBox ItemsSource="{Binding AdvancementOptions}" SelectedItem="{Binding SelectedAdvancement}" DisplayMemberPath="Label"
-                              AutomationProperties.Name="Traco para evoluir" />
-                    <TextBlock Text="{Binding PurchasePreview}" TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" Margin="0,6" />
-                    <Button Content="Comprar proximo ponto" Command="{Binding BuyLevelCommand}" HorizontalAlignment="Left" Margin="0,0,0,8" />
-                    <DockPanel>
-                        <Button DockPanel.Dock="Right" Content="Adicionar especializacao" Command="{Binding BuySpecializationCommand}" Margin="8,0,0,0" />
-                        <TextBox Text="{Binding NewSpecialization, UpdateSourceTrigger=PropertyChanged}" MaxLength="500"
-                                 ToolTip="Selecione uma habilidade acima. Bonus gratuitos sao usados antes dos 3 XP."
-                                 AutomationProperties.Name="Nova especializacao por XP" />
-                    </DockPanel>
-                    <TextBlock Text="Historico de compras" FontWeight="SemiBold" Margin="0,12,0,6" />
-                    <ItemsControl ItemsSource="{Binding PurchaseHistory}">
-                        <ItemsControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="0,2" /></DataTemplate></ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
+    <StackPanel Margin="8" AutomationProperties.Name="Experiencia da ficha">
+        <TextBlock Text="Experiencia" Style="{StaticResource FieldLabel}" />
+        <TextBlock Text="{Binding CampaignXpSummary}" TextWrapping="Wrap" Margin="0,0,0,8" />
+        <WrapPanel>
+            <StackPanel Margin="0,0,24,8">
+                <TextBlock Text="XP inicial da idade" Style="{StaticResource FieldLabel}" />
+                <TextBlock Text="{Binding InitialExperience}" FontSize="20" />
             </StackPanel>
-        </ScrollViewer>
-    </Expander>
+            <StackPanel Margin="0,0,24,8">
+                <TextBlock Text="XP de campanha recebido do mestre" Style="{StaticResource FieldLabel}" />
+                <controls:NumericField Value="{Binding CampaignExperienceTotal, Mode=TwoWay}" Maximum="{Binding MaximumCampaignExperience}"
+                                       AutomationProperties.Name="XP de campanha recebido" />
+            </StackPanel>
+            <StackPanel Margin="0,0,24,8">
+                <TextBlock Text="XP total" Style="{StaticResource FieldLabel}" />
+                <TextBlock Text="{Binding ExperienceTotal}" FontSize="20" AutomationProperties.Name="XP total da evolucao" />
+            </StackPanel>
+            <StackPanel Margin="0,0,24,8">
+                <TextBlock Text="XP gasto (calculado)" Style="{StaticResource FieldLabel}" />
+                <TextBlock Text="{Binding ExperienceSpent}" FontSize="20" AutomationProperties.Name="Total gasto de XP" />
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="XP disponivel" Style="{StaticResource FieldLabel}" />
+                <TextBlock Text="{Binding ExperienceAvailable}" FontSize="20" />
+            </StackPanel>
+        </WrapPanel>
+        <TextBlock Text="{Binding ExperienceWarning}" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap"
+                   AutomationProperties.Name="Aviso de XP faltante" />
+        <ItemsControl ItemsSource="{Binding ExperienceBreakdown}">
+            <ItemsControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="0,2" /></DataTemplate></ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
 </UserControl>

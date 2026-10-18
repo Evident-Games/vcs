@@ -7,7 +7,7 @@
         <Grid>
             <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
             <ComboBox ItemsSource="{Binding LoresheetCollections}" SelectedItem="{Binding SelectedLoresheetCollection}" Margin="0,0,8,0"
-                      AutomationProperties.Name="Colecao de loresheet" />
+                      Tag="Colecao de loresheet" AutomationProperties.Name="Colecao de loresheet" />
             <TextBox Grid.Column="1" Text="{Binding LoresheetSearch, UpdateSourceTrigger=PropertyChanged}" ToolTip="Buscar beneficio, colecao ou descricao"
                      AutomationProperties.Name="Buscar loresheet" />
         </Grid>
@@ -31,11 +31,10 @@
                 </StackPanel>
             </ScrollViewer>
         </Grid>
-        <CheckBox Content="Pagar com XP inicial de idade em vez de pontos de vantagens"
+        <CheckBox Content="Pagar com XP em vez de pontos gratuitos de vantagens"
                   IsChecked="{Binding PayLoresheetWithInitialXp}" Visibility="{Binding IsCreating, Converter={StaticResource BoolVisibility}}" />
         <Button Content="Adicionar / comprar beneficio de loresheet" Command="{Binding AddLoresheetCommand}" HorizontalAlignment="Left" Margin="0,8"
                 AutomationProperties.Name="Adicionar beneficio de loresheet" />
-        <TextBlock Text="{Binding CampaignXpSummary}" TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" Margin="0,0,0,10" />
         <TextBlock Text="Beneficios desta ficha" FontWeight="SemiBold" />
         <ItemsControl ItemsSource="{Binding Loresheets.Items}">
             <ItemsControl.ItemTemplate><DataTemplate>
@@ -44,7 +43,7 @@
                         <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextWrapping="Wrap" />
                         <TextBlock Text="{Binding LoresheetSummary}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" />
                         <TextBlock Text="{Binding Loresheet.Description}" TextWrapping="Wrap" Margin="0,4" />
-                        <Button Content="Remover da criacao / devolver custo"
+                        <Button Content="Remover da ficha / recalcular custo"
                                 Command="{Binding DataContext.RemoveInitialLoresheetCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                 CommandParameter="{Binding}" HorizontalAlignment="Left"
                                 Visibility="{Binding DataContext.IsCreating, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolVisibility}}" />

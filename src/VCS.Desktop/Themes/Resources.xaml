@@ -66,6 +66,9 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="PredatorNameItem" TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+        <Setter Property="AutomationProperties.Name" Value="{Binding Name}" />
+    </Style>
     <Style TargetType="ComboBox">
         <Setter Property="MinHeight" Value="36" />
         <Setter Property="Foreground" Value="{DynamicResource VcsText}" />
@@ -76,36 +79,61 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
-                        <Border x:Name="ComboBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="7" />
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" /><ColumnDefinition Width="36" />
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="ComboBorder" Grid.ColumnSpan="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="7" />
                         <ContentPresenter x:Name="DisplayValue" Content="{TemplateBinding SelectionBoxItem}"
                                           ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                          Margin="10,6,34,6" VerticalAlignment="Center" IsHitTestVisible="False"
+                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                          ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                          Margin="10,6,0,6" VerticalAlignment="Center" IsHitTestVisible="False"
                                           TextElement.Foreground="{DynamicResource VcsText}" />
-                        <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" Margin="2,1,32,1" Padding="8,4"
+                        <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" Margin="2,1,0,1" Padding="8,4"
                                  Background="{DynamicResource VcsInput}" Foreground="{DynamicResource VcsText}"
                                  CaretBrush="{DynamicResource VcsText}" BorderThickness="0" MinHeight="0"
                                  IsReadOnly="{TemplateBinding IsReadOnly}" VerticalContentAlignment="Center" />
-                        <ToggleButton x:Name="DropButton" Focusable="False" HorizontalContentAlignment="Right"
+                        <TextBlock x:Name="Placeholder" Text="{TemplateBinding Tag}" Visibility="Collapsed"
+                                   Margin="10,6,0,6" VerticalAlignment="Center" IsHitTestVisible="False"
+                                   Foreground="{DynamicResource VcsMuted}" TextTrimming="CharacterEllipsis" />
+                        <ToggleButton x:Name="DropButton" Grid.ColumnSpan="2" Style="{x:Null}"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                      Focusable="False" ClickMode="Press"
                                       IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
                             <ToggleButton.Template>
                                 <ControlTemplate TargetType="ToggleButton">
-                                    <Border Background="Transparent"><TextBlock Text="v" Foreground="{DynamicResource VcsText}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" /></Border>
+                                    <Border Background="Transparent">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" /><ColumnDefinition Width="36" />
+                                            </Grid.ColumnDefinitions>
+                                            <Path Grid.Column="1" Data="M 1,1 L 5,5 L 9,1" Stroke="{DynamicResource VcsText}" StrokeThickness="1.5"
+                                                  Width="10" Height="5" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
                                 </ControlTemplate>
                             </ToggleButton.Template>
                         </ToggleButton>
-                        <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True" Focusable="False">
+                        <Popup x:Name="PART_Popup" Grid.ColumnSpan="2" IsOpen="{TemplateBinding IsDropDownOpen}"
+                               PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom"
+                               AllowsTransparency="True" Focusable="False">
                             <Border Background="{DynamicResource VcsInput}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1"
                                     MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                <ScrollViewer><ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" /></ScrollViewer>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                    <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
                             </Border>
                         </Popup>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="Placeholder" Property="Visibility" Value="Visible" />
+                        </Trigger>
                         <Trigger Property="IsEditable" Value="True">
                             <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
                             <Setter TargetName="DisplayValue" Property="Visibility" Value="Hidden" />
-                            <Setter TargetName="DropButton" Property="HorizontalAlignment" Value="Right" />
-                            <Setter TargetName="DropButton" Property="Width" Value="30" />
+                            <Setter TargetName="DropButton" Property="Grid.Column" Value="1" />
+                            <Setter TargetName="DropButton" Property="Grid.ColumnSpan" Value="1" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{DynamicResource VcsAccent}" />

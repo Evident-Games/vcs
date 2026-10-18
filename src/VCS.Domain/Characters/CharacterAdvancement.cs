@@ -8,12 +8,14 @@ public sealed record ExperiencePurchase(DateTime Utc, TraitCategory? Category, s
 
 public sealed record AdvancementState
 {
+    public bool AutomaticExperience { get; init; }
     public bool IsCreating { get; init; } = true;
     public bool HasCreationProfile { get; init; } = true;
     public VampireAge Age { get; init; }
     public SkillProfile Profile { get; init; }
     public TraitValue[] Baseline { get; init; } = [];
     public int BaselineBloodPotency { get; init; }
+    public PredatorSelection? BaselinePredatorSelection { get; init; }
     public int BaselineSpent { get; init; }
     public int BaselineCampaignSpent { get; init; }
     public int BaselineNpcPhysical { get; init; }
@@ -22,16 +24,19 @@ public sealed record AdvancementState
     public ExperiencePurchase[] Purchases { get; init; } = [];
 
     public bool Equals(AdvancementState? other) => other is not null &&
-        IsCreating == other.IsCreating && HasCreationProfile == other.HasCreationProfile && Age == other.Age && Profile == other.Profile &&
-        BaselineBloodPotency == other.BaselineBloodPotency && BaselineSpent == other.BaselineSpent && BaselineCampaignSpent == other.BaselineCampaignSpent &&
+        AutomaticExperience == other.AutomaticExperience && IsCreating == other.IsCreating && HasCreationProfile == other.HasCreationProfile && Age == other.Age && Profile == other.Profile &&
+        BaselineBloodPotency == other.BaselineBloodPotency && BaselinePredatorSelection == other.BaselinePredatorSelection &&
+        BaselineSpent == other.BaselineSpent && BaselineCampaignSpent == other.BaselineCampaignSpent &&
         BaselineNpcPhysical == other.BaselineNpcPhysical && BaselineNpcSocial == other.BaselineNpcSocial &&
         BaselineNpcMental == other.BaselineNpcMental && Baseline.SequenceEqual(other.Baseline) && Purchases.SequenceEqual(other.Purchases);
 
     public override int GetHashCode()
     {
         var hash = new HashCode();
+        hash.Add(AutomaticExperience);
         hash.Add(IsCreating); hash.Add(HasCreationProfile); hash.Add(Age); hash.Add(Profile); hash.Add(BaselineBloodPotency); hash.Add(BaselineSpent);
         hash.Add(BaselineCampaignSpent);
+        hash.Add(BaselinePredatorSelection);
         hash.Add(BaselineNpcPhysical); hash.Add(BaselineNpcSocial); hash.Add(BaselineNpcMental);
         foreach (var value in Baseline) hash.Add(value);
         foreach (var value in Purchases) hash.Add(value);
@@ -71,14 +76,16 @@ public static class CharacterAdvancement
         (skill.Rating >= 1 && new[] { "Erudição", "Acadêmicos", "Academics", "Ofícios", "Artesanato", "Craft",
             "Performance", "Ciência", "Science" }.Any(x => ClanCatalog.SameName(x, skill.Name)) ? 1 : 0);
 
-    private static int GeneralSpecializations(CharacterDetails details) => string.IsNullOrWhiteSpace(details.Predator) ? 1 : 2;
+    private static int GeneralSpecializations(CharacterDetails details) =>
+        details.PredatorSelection is not null || string.IsNullOrWhiteSpace(details.Predator) ? 1 : 2;
 
     public static int FreeSpecializationsRemaining(CharacterDetails details, IEnumerable<TraitValue> traits)
     {
-        var paid = details.Advancement?.Purchases.Count(x => x.Specialization.Length != 0 && x.Cost > 0) ?? 0;
+        var paid = details.Advancement?.AutomaticExperience == true ? 0 :
+            details.Advancement?.Purchases.Count(x => x.Specialization.Length != 0 && x.Cost > 0) ?? 0;
         var values = traits.Where(x => x.Category == TraitCategory.Skill).ToArray();
-        var local = values.Sum(x => Math.Max(0, LocalFreeSpecializations(x) - SpecializationCount(x.Specialization)));
-        var usedGeneral = values.Sum(x => Math.Max(0, SpecializationCount(x.Specialization) - LocalFreeSpecializations(x)));
+        var local = values.Sum(x => Math.Max(0, LocalFreeSpecializations(x) - PredatorRules.SpecializationCount(details, x)));
+        var usedGeneral = values.Sum(x => Math.Max(0, PredatorRules.SpecializationCount(details, x) - LocalFreeSpecializations(x)));
         return local + Math.Max(0, GeneralSpecializations(details) + paid - usedGeneral);
     }
 
@@ -87,28 +94,31 @@ public static class CharacterAdvancement
         var state = details.Advancement ?? throw new InvalidOperationException("Ative as regras de criacao.");
         var issues = new List<string>();
         issues.AddRange(LoresheetRules.Validate(details, traits).Select(x => x.Message));
+        issues.AddRange(PredatorRules.Validate(details, traits).Select(x => x.Message));
         if (!details.IsNpc && !traits.Where(x => x.Category == TraitCategory.Attribute).Select(x => x.Rating)
                 .OrderDescending().SequenceEqual(new[] { 4, 3, 3, 3, 2, 2, 2, 2, 1 }))
             issues.Add("Atributos: distribua 1 x 4, 3 x 3, 4 x 2 e 1 x 1.");
         if (!traits.Where(x => x.Category == TraitCategory.Skill && x.Rating > 0).Select(x => x.Rating)
                 .OrderDescending().SequenceEqual(SkillDistribution(state.Profile)))
             issues.Add("Habilidades: a distribuicao nao corresponde ao perfil escolhido; as demais ficam em zero.");
-        var disciplines = traits.Where(x => x.Category == TraitCategory.Discipline && x.Rating > 0).ToArray();
+        var disciplines = traits.Where(x => x.Category == TraitCategory.Discipline)
+            .Select(x => details.PredatorSelection?.DisciplineKey == x.Key ? x with { Rating = x.Rating - 1 } : x)
+            .Where(x => x.Rating > 0).ToArray();
         if (!disciplines.Select(x => x.Rating).OrderDescending().SequenceEqual(new[] { 2, 1 }) ||
             disciplines.Any(x => DisciplineAdvancement.IsInClan(details.Clan, x.Name) != true))
             issues.Add("Disciplinas: escolha duas do cla, uma com 2 pontos e outra com 1.");
-        if (traits.Where(x => x.Category == TraitCategory.Advantage).Sum(x => x.Rating) + LoresheetRules.AdvantagePoints(traits) != AdvantageBudget(state.Age))
+        if (traits.Where(x => x.Category == TraitCategory.Advantage && !PredatorRules.IsGrant(x)).Sum(x => x.Rating) + LoresheetRules.AdvantagePoints(traits) != AdvantageBudget(state.Age))
             issues.Add($"Vantagens: distribua {AdvantageBudget(state.Age)} pontos.");
-        if (traits.Where(x => x.Category == TraitCategory.Flaw).Sum(x => x.Rating) != FlawBudget(state.Age))
+        if (traits.Where(x => x.Category == TraitCategory.Flaw && !PredatorRules.IsGrant(x)).Sum(x => x.Rating) != FlawBudget(state.Age))
             issues.Add($"Desvantagens: distribua {FlawBudget(state.Age)} pontos.");
-        if (details.BloodPotency != StartingBlood(state.Age))
-            issues.Add($"Potencia de Sangue inicial: {StartingBlood(state.Age)}.");
+        if (details.BloodPotency != StartingBlood(state.Age) + (details.PredatorSelection?.BloodDelta ?? 0))
+            issues.Add($"Potencia de Sangue inicial: {StartingBlood(state.Age) + (details.PredatorSelection?.BloodDelta ?? 0)} (inclui predador).");
         if (details.ExperienceTotal < StartingXp(state.Age))
             issues.Add($"O XP total inicial deve incluir o bonus de {StartingXp(state.Age)} XP.");
         if (details.ExperienceSpent != LoresheetRules.InitialXpCost(traits) || state.Purchases.Length != 0)
             issues.Add("Pontos iniciais sao gratuitos; compre evolucoes depois de concluir a criacao.");
         var excess = traits.Where(x => x.Category == TraitCategory.Skill)
-            .Sum(x => Math.Max(0, SpecializationCount(x.Specialization) - LocalFreeSpecializations(x)));
+            .Sum(x => Math.Max(0, PredatorRules.SpecializationCount(details, x) - LocalFreeSpecializations(x)));
         if (traits.Any(x => x.Category == TraitCategory.Skill && x.Rating == 0 && SpecializationCount(x.Specialization) > 0))
             issues.Add("Especializacoes exigem pelo menos um ponto na habilidade.");
         if (excess > GeneralSpecializations(details))
@@ -130,6 +140,7 @@ public static class CharacterAdvancement
             Advancement = (details.Advancement ?? new() { HasCreationProfile = false }) with
             {
                 IsCreating = false, Baseline = traits.ToArray(), BaselineBloodPotency = details.BloodPotency,
+                BaselinePredatorSelection = details.PredatorSelection,
                 BaselineSpent = details.ExperienceSpent, Purchases = [],
                 BaselineCampaignSpent = details.CampaignExperienceSpent,
                 BaselineNpcPhysical = details.NpcPhysical, BaselineNpcSocial = details.NpcSocial, BaselineNpcMental = details.NpcMental
@@ -204,8 +215,8 @@ public static class CharacterAdvancement
             if (combined.Length > 500) throw new InvalidOperationException("Especializacoes: limite de 500 caracteres.");
             var paid = state.Purchases.Count(x => x.Specialization.Length != 0 && x.Cost > 0);
             var usedGeneral = traits.Where(x => x.Category == TraitCategory.Skill)
-                .Sum(x => Math.Max(0, SpecializationCount(x.Specialization) - LocalFreeSpecializations(x)));
-            var free = SpecializationCount(trait.Specialization) < LocalFreeSpecializations(trait) ||
+                .Sum(x => Math.Max(0, PredatorRules.SpecializationCount(details, x) - LocalFreeSpecializations(x)));
+            var free = PredatorRules.SpecializationCount(details, trait) < LocalFreeSpecializations(trait) ||
                 usedGeneral < GeneralSpecializations(details) + paid;
             cost = free ? 0 : 3;
             values[index] = trait with { Specialization = combined };
@@ -239,9 +250,21 @@ public static class CharacterAdvancement
             state.Purchases.Any(x => x is null || x.Specialization is null || x.Clan is null) ||
             state.Baseline.Any(x => x is null))
             return "Dados de criacao/evolucao invalidos.";
+        if (state.AutomaticExperience)
+        {
+            if (traits.Count > 200 || traits.Any(x => x.Rating is < 0 or > 10 || x.Specialization is null) ||
+                details.CampaignExperienceTotal < 0 ||
+                details.CampaignExperienceTotal > 1000000 - StartingXp(state.Age) || details.BloodPotency is < 0 or > 10)
+                return "Pontos ou fontes de XP invalidos.";
+            var calculated = AutomaticExperience.Calculate(details, traits);
+            return details.ExperienceTotal == calculated.Total && details.ExperienceSpent == calculated.Spent &&
+                details.CampaignExperienceSpent == calculated.CampaignSpent ? null : "Os valores de XP nao correspondem aos pontos da ficha.";
+        }
         if (state.IsCreating)
             return state.Purchases.Length == 0 && details.ExperienceSpent == LoresheetRules.InitialXpCost(traits) &&
                 details.CampaignExperienceSpent == 0 ? null : "Na criacao, gastos de XP devem corresponder somente aos loresheets pagos com XP inicial.";
+        if (details.PredatorSelection != state.BaselinePredatorSelection)
+            return "O predador aplicado nao pode ser alterado depois da criacao.";
         if (CharacterRules.Validate(details with
             {
                 Advancement = null, ExperienceSpent = state.BaselineSpent,

@@ -3,6 +3,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:VCS.Desktop.Controls">
     <StackPanel IsEnabled="{Binding CanEditBuild}">
+        <StackPanel Margin="8,0,8,12" Visibility="{Binding IsCreating, Converter={StaticResource BoolVisibility}}">
+            <TextBlock Text="Pontos iniciais de habilidades" Style="{StaticResource FieldLabel}" />
+            <ComboBox ItemsSource="{Binding SkillProfileOptions}" SelectedIndex="{Binding SkillProfileIndex}"
+                      Tag="Perfil de habilidades" AutomationProperties.Name="Perfil de habilidades" />
+            <TextBlock Text="{Binding InitialSkillsDescription}" TextWrapping="Wrap" Margin="0,6,0,0"
+                       Foreground="{DynamicResource VcsMuted}" AutomationProperties.Name="Distribuicao inicial de habilidades" />
+        </StackPanel>
+        <TextBlock Text="Pontos excedentes: novo nivel x 3 XP. Edite os pontos e especializacoes diretamente." TextWrapping="Wrap" Margin="8,0,8,8" />
+        <TextBlock Text="{Binding FreeSpecializationSummary}" TextWrapping="Wrap" Margin="8,0,8,8" />
+        <TextBlock Text="{Binding SkillsExperience}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" Margin="8,0,8,8" />
         <ItemsControl ItemsSource="{Binding SkillGroups}">
             <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="3" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -20,7 +30,7 @@
                                             <controls:DotTrack Value="{Binding Rating, Mode=TwoWay}" AutomationProperties.Name="{Binding Name}" />
                                             <TextBox Grid.Column="1" Text="{Binding Specialization, UpdateSourceTrigger=PropertyChanged}"
                                                      MaxLength="500" MinHeight="30" Padding="6,3" Margin="6,0,0,0" FontSize="12"
-                                                     ToolTip="Texto livre. Separe especializacoes por ponto e virgula. Apos a criacao, use Evolucao."
+                                                     ToolTip="Separe especializacoes por ponto e virgula. As adicionais custam 3 XP cada, calculados automaticamente."
                                                      AutomationProperties.Name="{Binding Name, StringFormat='Especializacao de {0}'}" />
                                         </Grid>
                                     </StackPanel>

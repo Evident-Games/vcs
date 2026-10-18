@@ -9,9 +9,19 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
     public DbSet<Character> Characters => Set<Character>();
     public DbSet<AdvantageDefinition> AdvantageCatalog => Set<AdvantageDefinition>();
     public DbSet<SkillDefinition> SkillCatalog => Set<SkillDefinition>();
+    public DbSet<PredatorCatalogRecord> PredatorCatalog => Set<PredatorCatalogRecord>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        var predators = modelBuilder.Entity<PredatorCatalogRecord>();
+        predators.ToTable("PredatorCatalog");
+        predators.HasKey(x => x.Id);
+        predators.Property(x => x.Name).HasMaxLength(80).IsRequired();
+        predators.Property(x => x.Definition).IsRequired();
+        predators.HasData(Domain.Characters.PredatorCatalog.All.Select(x => new PredatorCatalogRecord
+        {
+            Id = x.Id, Name = x.Name, Definition = JsonSerializer.Serialize(x)
+        }));
         var skills = modelBuilder.Entity<SkillDefinition>();
         skills.ToTable("SkillCatalog");
         skills.HasKey(x => x.Id);
@@ -43,6 +53,9 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         character.Ignore(x => x.WillpowerCapacity);
         character.OwnsOne(x => x.Details, details =>
         {
+            details.Property(x => x.PredatorSelection).HasConversion(
+                x => JsonSerializer.Serialize(x, (JsonSerializerOptions?)null),
+                x => JsonSerializer.Deserialize<PredatorSelection>(x, (JsonSerializerOptions?)null));
             details.Property(x => x.Advancement).HasConversion(
                 x => JsonSerializer.Serialize(x, (JsonSerializerOptions?)null),
                 x => JsonSerializer.Deserialize<AdvancementState>(x, (JsonSerializerOptions?)null));
@@ -64,6 +77,9 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         trait.Property(x => x.Loresheet).HasConversion(
             x => JsonSerializer.Serialize(x, (JsonSerializerOptions?)null),
             x => JsonSerializer.Deserialize<LoresheetInfo>(x, (JsonSerializerOptions?)null));
+        trait.Property(x => x.Merit).HasConversion(
+            x => JsonSerializer.Serialize(x, (JsonSerializerOptions?)null),
+            x => JsonSerializer.Deserialize<MeritInfo>(x, (JsonSerializerOptions?)null));
         trait.HasIndex("CharacterId", nameof(CharacterTrait.Category), nameof(CharacterTrait.Key)).IsUnique();
     }
 }

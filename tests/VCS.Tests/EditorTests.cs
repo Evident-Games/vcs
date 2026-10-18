@@ -304,8 +304,10 @@ public sealed class EditorTests : IAsyncLifetime
             _autosave, new ProvidedDisciplineCatalog());
         foreach (var field in editor.IdentityFields.Concat(editor.BackgroundFields).Concat(editor.BloodFields))
             field.Value = "Valor de " + field.Label;
-        editor.ExperienceTotal = 50;
-        editor.ExperienceSpent = 15;
+        editor.AgeIndex = 1;
+        editor.CampaignExperienceTotal = 35;
+        editor.Clan = "Brujah";
+        editor.Disciplines.Items.Single(x => x.Name == "Potência").Rating = 3;
         Assert.Equal(35, editor.ExperienceAvailable);
         await _autosave.FireAsync();
         Assert.False(editor.IsDirty);
@@ -320,10 +322,12 @@ public sealed class EditorTests : IAsyncLifetime
         Assert.Equal(editor.BackgroundFields.Select(x => x.Value), reopened.BackgroundFields.Select(x => x.Value));
         Assert.Equal(editor.BloodFields.Select(x => x.Value), reopened.BloodFields.Select(x => x.Value));
         Assert.Equal(35, reopened.ExperienceAvailable);
-        reopened.ExperienceSpent = 51;
-        Assert.True(reopened.HasErrors);
-        Assert.False(await reopened.FlushAsync());
-        Assert.Equal(15, (await _service.GetAsync(editor.Id)).Details.ExperienceSpent);
+        reopened.CampaignExperienceTotal = 0;
+        reopened.Disciplines.Items.Single(x => x.Name == "Potência").Rating = 4;
+        Assert.False(reopened.HasErrors);
+        Assert.Contains("Faltam 20 XP", reopened.ExperienceWarning);
+        Assert.True(await reopened.FlushAsync());
+        Assert.Equal(35, (await _service.GetAsync(editor.Id)).Details.ExperienceSpent);
     }
 
     [Fact]
@@ -440,35 +444,26 @@ public sealed class EditorTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Advantage_catalog_search_selection_costs_and_autosave_work()
+    public async Task Advantage_families_selection_dots_limits_and_autosave_work()
     {
         var database = new DatabaseAccess(Path.Combine(_directory, "test.db"));
         using var editor = await CreateEditorAsync();
         editor.ConfigureAdvantageCatalog(await new SqliteAdvantageCatalog(database).ListAsync());
         var catalog = editor.AdvantageCatalog!;
-        Assert.Equal(43, catalog.Entries.Count);
+        Assert.Equal(43, catalog.Families.Sum(x => x.Options.Count));
         Assert.False(editor.IsDirty);
-        catalog.Search = "esofago";
-        Assert.Equal("Esôfago de Ferro", Assert.Single(catalog.Entries).Name);
-        Assert.Equal(3, catalog.Points);
-        Assert.Equal(3, catalog.Minimum);
-        Assert.Equal(3, catalog.Maximum);
-        catalog.Points = 2;
-        catalog.AddSelectedCommand.Execute(null);
-        Assert.Empty(editor.Advantages.Items);
-        Assert.Contains("3", catalog.Message);
-        catalog.Points = 3;
-        catalog.AddSelectedCommand.Execute(null);
+        var feeding = catalog.Families.Single(x => x.Name == "Alimentação");
+        var ironOption = feeding.Options.Single(x => x.Name == "Esôfago de Ferro");
+        Assert.Equal(3, ironOption.Minimum);
+        Assert.Equal(3, ironOption.Maximum);
+        ironOption.Rating = 2;
         var iron = Assert.Single(editor.Advantages.Items);
         Assert.Equal(3, iron.Rating);
         Assert.Contains("sangue rançoso", iron.AdvancementInfo);
-        catalog.AddSelectedCommand.Execute(null);
+        ironOption.IsSelected = true;
         Assert.Single(editor.Advantages.Items);
-        Assert.Contains("ja esta", catalog.Message);
-        catalog.Search = "inimigo";
-        catalog.SelectedEntry = catalog.Entries.Single(x => x.Name == "Inimigo");
-        catalog.Points = 5;
-        catalog.AddSelectedCommand.Execute(null);
+        var enemy = catalog.Families.Single(x => x.Name == "Mortais").Options.Single(x => x.Name == "Inimigo");
+        enemy.Rating = 5;
         Assert.Equal(5, Assert.Single(editor.Flaws.Items).Rating);
         await _autosave.FireAsync();
         Assert.False(editor.IsDirty);
@@ -478,15 +473,11 @@ public sealed class EditorTests : IAsyncLifetime
         Assert.Equal(1, saved.Traits.Single(x => x.Key == "Charisma").Rating);
         iron.Rating = 1;
         Assert.Contains("fora da referencia", iron.AdvancementInfo);
-        editor.Advantages.RemoveCommand.Execute(iron);
-        catalog.Search = "esofago";
-        catalog.AddSelectedCommand.Execute(null);
+        Assert.NotEmpty(ironOption.Warning);
+        ironOption.IsSelected = false;
+        Assert.Empty(editor.Advantages.Items);
+        ironOption.IsSelected = true;
         Assert.Single(editor.Advantages.Items);
-        catalog.Search = "sem resultado xyz";
-        Assert.Empty(catalog.Entries);
-        Assert.False(catalog.HasSelection);
-        catalog.AddSelectedCommand.Execute(null);
-        Assert.Contains("Selecione", catalog.Message);
         Assert.True(await editor.FlushAsync());
     }
 

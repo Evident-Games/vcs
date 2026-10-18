@@ -33,13 +33,12 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
         <DockPanel Margin="0,0,0,12">
             <TextBlock Text="{Binding Status}" DockPanel.Dock="Right" Foreground="{DynamicResource VcsAccent}" VerticalAlignment="Center" />
             <TextBlock Text="{Binding Name}" FontFamily="Georgia" FontSize="27" TextTrimming="CharacterEllipsis" />
         </DockPanel>
-        <views:AdvancementView Grid.Row="1" />
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="1">
             <ContentControl Content="{Binding}">
                 <ContentControl.Style>
                     <Style TargetType="ContentControl">
@@ -56,7 +55,7 @@
                        TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Visibility="{Binding NoVisibleSections, Converter={StaticResource BoolVisibility}}" />
         </Grid>
-        <ScrollViewer Grid.Row="3" MaxHeight="100" VerticalScrollBarVisibility="Auto" Margin="0,8,0,0">
+        <ScrollViewer Grid.Row="2" MaxHeight="100" VerticalScrollBarVisibility="Auto" Margin="0,8,0,0">
             <StackPanel>
                 <TextBlock Text="{Binding ValidationSummary}" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap" />
                 <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap" />

@@ -171,9 +171,8 @@ public sealed class LoresheetTests
             using var editor = new CharacterEditorViewModel(dto, service, NullLogger<CharacterEditorViewModel>.Instance,
                 new ManualAutosave(), new ProvidedDisciplineCatalog());
             editor.ConfigureAdvantageCatalog(catalog);
-            Assert.Equal(43, editor.AdvantageCatalog!.Entries.Count);
+            Assert.Equal(43, editor.AdvantageCatalog!.Families.Sum(x => x.Options.Count));
             Assert.Equal(20, editor.LoresheetBenefits.Count);
-            if (npc) editor.StartCreationCommand.Execute(null);
             editor.AgeIndex = 2;
             editor.SelectedLoresheetCollection = "Os Bahari";
             Assert.Equal(5, editor.LoresheetBenefits.Count);
@@ -185,23 +184,21 @@ public sealed class LoresheetTests
             Assert.Single(editor.Loresheets.Items);
             Assert.True(await editor.FlushAsync());
             var initial = await service.GetAsync(editor.Id);
-            var baseline = CharacterAdvancement.EstablishBaseline(initial.Details, initial.Traits);
-            dto = await service.SaveAsync(initial with { Details = baseline });
+            dto = initial;
             using var evolving = new CharacterEditorViewModel(dto, service, NullLogger<CharacterEditorViewModel>.Instance,
                 new ManualAutosave(), new ProvidedDisciplineCatalog());
             evolving.ConfigureAdvantageCatalog(catalog);
             evolving.SelectedLoresheetCollection = "Theo Bell";
             evolving.SelectedLoresheetBenefit = evolving.LoresheetBenefits.Single(x => x.Minimum == 5);
+            evolving.PayLoresheetWithInitialXp = true;
             evolving.AddLoresheetCommand.Execute(null);
-            Assert.Contains("campanha insuficiente", evolving.Error);
-            Assert.Single(evolving.Loresheets.Items);
-            evolving.CampaignXpAward = 30;
-            evolving.AwardCampaignXpCommand.Execute(null);
+            Assert.Empty(evolving.Error);
+            Assert.Equal(2, evolving.Loresheets.Items.Count);
+            evolving.CampaignExperienceTotal = 30;
             Assert.Equal(65, evolving.ExperienceTotal);
-            evolving.AddLoresheetCommand.Execute(null);
             Assert.Equal(30, evolving.ExperienceSpent);
-            Assert.Equal(15, evolving.CampaignExperienceSpent);
-            Assert.Equal(15, evolving.CampaignExperienceAvailable);
+            Assert.Equal(0, evolving.CampaignExperienceSpent);
+            Assert.Equal(30, evolving.CampaignExperienceAvailable);
             Assert.True(await evolving.FlushAsync());
             var saved = await service.GetAsync(dto.Id);
             var copy = await service.DuplicateAsync(saved.Id);
@@ -230,7 +227,7 @@ public sealed class LoresheetTests
             Assert.Contains(fields, x => x.Elements.GetString("/V") == "Amaldiçoada Original");
             Assert.Contains(fields, x => x.Elements.GetString("/V") == "Neutralidade de Seita");
             Assert.Contains(fields, x => x.Elements.GetString("/V") == "15 XP inicial de idade");
-            Assert.Contains(fields, x => x.Elements.GetString("/V") == "15 XP de campanha");
+            Assert.Equal(2, fields.Count(x => x.Elements.GetString("/V") == "15 XP inicial de idade"));
         }
         finally { if (Directory.Exists(directory)) Directory.Delete(directory, true); }
     }
