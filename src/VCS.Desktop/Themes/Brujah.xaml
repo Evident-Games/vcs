@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="VcsBackground" Color="#FF7214" />
+    <SolidColorBrush x:Key="VcsCard" Color="#FFB53D" />
+    <SolidColorBrush x:Key="VcsText" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="VcsMuted" Color="#C30011" />
+    <SolidColorBrush x:Key="VcsBorder" Color="#A90015" />
+    <SolidColorBrush x:Key="VcsAccent" Color="#A90015" />
+    <SolidColorBrush x:Key="VcsInput" Color="#333333" />
+    <SolidColorBrush x:Key="VcsHover" Color="#C30011" />
+    <SolidColorBrush x:Key="VcsSelection" Color="#C30011" />
+</ResourceDictionary>
