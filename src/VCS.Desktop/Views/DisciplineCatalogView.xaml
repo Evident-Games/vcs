@@ -1,0 +1,71 @@
+<UserControl x:Class="VCS.Desktop.Views.DisciplineCatalogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls">
+    <Grid Margin="0,12,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+            <RowDefinition Height="440" />
+        </Grid.RowDefinitions>
+        <Expander Header="Disciplinas: niveis de 0 a 5" Margin="0,0,0,12" IsExpanded="True" IsEnabled="{Binding CanEditBuild}">
+                <StackPanel>
+                <ItemsControl ItemsSource="{Binding Disciplines.Items}">
+                    <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="8,3" ToolTip="{Binding AdvancementInfo}">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" TextWrapping="Wrap" />
+                                <controls:DotTrack Grid.Column="1" Value="{Binding Rating, Mode=TwoWay}" Minimum="0" Maximum="5"
+                                                   AutomationProperties.Name="{Binding Name, StringFormat='Disciplina {0}'}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Expander Header="Editar nomes ou adicionar disciplinas pessoais" Margin="8">
+                    <controls:EditableTraitList DataContext="{Binding Disciplines}" />
+                </Expander>
+                </StackPanel>
+        </Expander>
+        <StackPanel Grid.Row="1" DataContext="{Binding Powers}">
+            <TextBlock Text="{Binding DataContext.ClanDisciplines, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" Margin="0,0,0,8" />
+            <TextBlock Text="Evolucao: novo nivel x 5 XP (do cla) ou x 7 XP (fora do cla). Com acompanhamento ativo, compre em Criacao e evolucao / XP."
+                       FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" Margin="0,0,0,8" />
+            <TextBlock Text="Catalogo pessoal: material fornecido pelo usuario, sem verificacao de regras oficiais."
+                       FontSize="12" Foreground="{DynamicResource VcsMuted}" TextWrapping="Wrap" Margin="0,0,0,10" />
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" /><ColumnDefinition Width="230" /><ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,12,0"
+                         AutomationProperties.Name="Buscar poderes" ToolTip="Buscar por nome, disciplina, custo, dados ou resumo" />
+                <ComboBox Grid.Column="1" ItemsSource="{Binding DisciplineOptions}" SelectedItem="{Binding SelectedDiscipline}"
+                          AutomationProperties.Name="Filtrar disciplina" Margin="0,0,12,0" />
+                <CheckBox Grid.Column="2" Content="Somente conhecidos" IsChecked="{Binding KnownOnly}" VerticalAlignment="Center" />
+            </Grid>
+            <TextBlock Text="{Binding CountLabel}" Style="{StaticResource FieldLabel}" />
+        </StackPanel>
+        <TabControl Grid.Row="2" DataContext="{Binding Powers}" Background="Transparent" BorderThickness="0"
+                    AutomationProperties.Name="Poderes e rituais">
+            <TabItem Header="Poderes">
+                <Grid Margin="0,10,0,0">
+                    <controls:PowerBrowser Items="{Binding Powers}" Selected="{Binding SelectedPower, Mode=TwoWay}" />
+                    <TextBlock Text="Nenhum poder encontrado. Ajuste a busca ou os filtros."
+                               Visibility="{Binding NoPowers, Converter={StaticResource BoolVisibility}}"
+                               HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" Margin="28"
+                               TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" IsHitTestVisible="False" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Rituais">
+                <Grid Margin="0,10,0,0">
+                    <controls:PowerBrowser Items="{Binding Rituals}" Selected="{Binding SelectedRitual, Mode=TwoWay}" />
+                    <TextBlock Text="Nenhum ritual encontrado. Ajuste a busca ou os filtros."
+                               Visibility="{Binding NoRituals, Converter={StaticResource BoolVisibility}}"
+                               HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" Margin="28"
+                               TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" IsHitTestVisible="False" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

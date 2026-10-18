@@ -1,0 +1,56 @@
+<UserControl x:Class="VCS.Desktop.Views.LoresheetCatalogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel Margin="0,16,0,0">
+        <TextBlock Text="Loresheets / Fichas de Conhecimento" Style="{StaticResource SectionTitle}" />
+        <TextBlock Text="{Binding LoresheetRulesSummary}" TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" Margin="0,0,0,10" />
+        <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+            <ComboBox ItemsSource="{Binding LoresheetCollections}" SelectedItem="{Binding SelectedLoresheetCollection}" Margin="0,0,8,0"
+                      AutomationProperties.Name="Colecao de loresheet" />
+            <TextBox Grid.Column="1" Text="{Binding LoresheetSearch, UpdateSourceTrigger=PropertyChanged}" ToolTip="Buscar beneficio, colecao ou descricao"
+                     AutomationProperties.Name="Buscar loresheet" />
+        </Grid>
+        <Grid Margin="0,10">
+            <Grid.ColumnDefinitions><ColumnDefinition Width="2*" /><ColumnDefinition Width="3*" /></Grid.ColumnDefinitions>
+            <ListBox ItemsSource="{Binding LoresheetBenefits}" SelectedItem="{Binding SelectedLoresheetBenefit}" Height="220" Margin="0,0,12,0"
+                     AutomationProperties.Name="Catalogo de loresheets">
+                <ListBox.ItemTemplate><DataTemplate>
+                    <StackPanel Margin="4">
+                        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding LoresheetCollection}" Foreground="{DynamicResource VcsMuted}" FontSize="12" />
+                        <TextBlock Text="{Binding PointsLabel, StringFormat='Custo individual: {0} ponto(s)'}" Foreground="{DynamicResource VcsMuted}" FontSize="12" />
+                    </StackPanel>
+                </DataTemplate></ListBox.ItemTemplate>
+            </ListBox>
+            <ScrollViewer Grid.Column="1" MaxHeight="220" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="{Binding SelectedLoresheetBenefit.Name}" FontFamily="Georgia" FontSize="20" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding LoresheetCost}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" Margin="0,8" />
+                    <TextBlock Text="{Binding LoresheetDescription}" TextWrapping="Wrap" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <CheckBox Content="Pagar com XP inicial de idade em vez de pontos de vantagens"
+                  IsChecked="{Binding PayLoresheetWithInitialXp}" Visibility="{Binding IsCreating, Converter={StaticResource BoolVisibility}}" />
+        <Button Content="Adicionar / comprar beneficio de loresheet" Command="{Binding AddLoresheetCommand}" HorizontalAlignment="Left" Margin="0,8"
+                AutomationProperties.Name="Adicionar beneficio de loresheet" />
+        <TextBlock Text="{Binding CampaignXpSummary}" TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" Margin="0,0,0,10" />
+        <TextBlock Text="Beneficios desta ficha" FontWeight="SemiBold" />
+        <ItemsControl ItemsSource="{Binding Loresheets.Items}">
+            <ItemsControl.ItemTemplate><DataTemplate>
+                <Border BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1" Padding="0,8">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding LoresheetSummary}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" />
+                        <TextBlock Text="{Binding Loresheet.Description}" TextWrapping="Wrap" Margin="0,4" />
+                        <Button Content="Remover da criacao / devolver custo"
+                                Command="{Binding DataContext.RemoveInitialLoresheetCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding}" HorizontalAlignment="Left"
+                                Visibility="{Binding DataContext.IsCreating, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolVisibility}}" />
+                    </StackPanel>
+                </Border>
+            </DataTemplate></ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

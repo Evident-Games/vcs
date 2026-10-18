@@ -1,0 +1,139 @@
+<UserControl x:Class="VCS.Desktop.Views.NpcSheetView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls"
+    xmlns:views="clr-namespace:VCS.Desktop.Views">
+    <UserControl.Resources>
+        <DataTemplate x:Key="NpcIdentity">
+                <StackPanel>
+                    <TextBlock Text="NPC / Ficha pratica" Style="{StaticResource FieldLabel}" />
+                    <UniformGrid Columns="3">
+                        <StackPanel Margin="6">
+                            <TextBlock Text="Nome *" Style="{StaticResource FieldLabel}" />
+                            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" AutomationProperties.Name="Nome do NPC" />
+                        </StackPanel>
+                        <StackPanel Margin="6">
+                            <TextBlock Text="Cla" Style="{StaticResource FieldLabel}" />
+                            <controls:ClanSelector Value="{Binding Clan, Mode=TwoWay}" Catalog="{Binding KnownClans}" />
+                        </StackPanel>
+                        <StackPanel Margin="6">
+                            <TextBlock Text="Geracao" Style="{StaticResource FieldLabel}" />
+                            <controls:NumericField Value="{Binding Generation, Mode=TwoWay}" Minimum="1" Maximum="16" />
+                        </StackPanel>
+                    </UniformGrid>
+                </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="NpcAttributes">
+                    <UniformGrid Columns="3" IsEnabled="{Binding CanEditBuild}">
+                        <StackPanel Margin="6"><TextBlock Text="Fisicos" /><controls:DotTrack Value="{Binding NpcPhysical, Mode=TwoWay}" AutomationProperties.Name="Fisicos do NPC" /></StackPanel>
+                        <StackPanel Margin="6"><TextBlock Text="Sociais" /><controls:DotTrack Value="{Binding NpcSocial, Mode=TwoWay}" AutomationProperties.Name="Sociais do NPC" /></StackPanel>
+                        <StackPanel Margin="6"><TextBlock Text="Mentais" /><controls:DotTrack Value="{Binding NpcMental, Mode=TwoWay}" AutomationProperties.Name="Mentais do NPC" /></StackPanel>
+                    </UniformGrid>
+        </DataTemplate>
+        <DataTemplate x:Key="NpcState">
+                <StackPanel>
+                    <TextBlock Text="Vitalidade: clique para alternar vazia, cheia e X. As caixas sao agrupadas por estado." Foreground="{DynamicResource VcsMuted}" TextWrapping="Wrap" />
+                    <UniformGrid Columns="2">
+                        <StackPanel Margin="6">
+                            <TextBlock Text="Vitalidade / total de caixas" Style="{StaticResource FieldLabel}" />
+                            <controls:NumericField Value="{Binding NpcHealthCapacity, Mode=TwoWay}" Minimum="1" Maximum="20" AutomationProperties.Name="Total de vitalidade NPC" />
+                            <controls:BoxTrack Capacity="{Binding NpcHealthCapacity}" Superficial="{Binding HealthSuperficial, Mode=TwoWay}"
+                                               Aggravated="{Binding HealthAggravated, Mode=TwoWay}" Margin="0,8" AutomationProperties.Name="Vitalidade NPC" />
+                        </StackPanel>
+                        <StackPanel Margin="6">
+                            <TextBlock Text="Forca de Vontade / total de caixas" Style="{StaticResource FieldLabel}" />
+                            <controls:NumericField Value="{Binding NpcWillpowerCapacity, Mode=TwoWay}" Minimum="1" Maximum="20" AutomationProperties.Name="Total de vontade NPC" />
+                            <controls:BoxTrack Mode="Cross" Capacity="{Binding NpcWillpowerCapacity}" Aggravated="{Binding WillpowerAggravated, Mode=TwoWay}"
+                                               Margin="0,8" AutomationProperties.Name="Vontade NPC" />
+                        </StackPanel>
+                    </UniformGrid>
+                    <TextBlock Text="Ao reduzir o total, limpe antes as marcas excedentes. Valores invalidos nao sobrescrevem a ficha salva." Foreground="{DynamicResource VcsMuted}" TextWrapping="Wrap" />
+                    <TextBlock Text="Fome" Style="{StaticResource FieldLabel}" Margin="6,16,0,0" />
+                    <controls:BoxTrack Mode="Count" Capacity="5" Value="{Binding Hunger, Mode=TwoWay}" AutomationProperties.Name="Fome NPC" />
+                    <TextBlock Text="Humanidade" Style="{StaticResource FieldLabel}" Margin="6,16,0,0" />
+                    <controls:BoxTrack Mode="Count" Capacity="10" Value="{Binding Humanity, Mode=TwoWay}" AutomationProperties.Name="Humanidade NPC" />
+                    <TextBlock Text="Potencia de Sangue" Style="{StaticResource FieldLabel}" Margin="6,16,0,0" />
+                    <controls:DotTrack Value="{Binding BloodPotency, Mode=TwoWay}" Maximum="10" IsEnabled="{Binding CanEditBuild}" AutomationProperties.Name="Potencia de sangue NPC" />
+                </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="NpcSkills"><views:SkillsView /></DataTemplate>
+        <DataTemplate x:Key="NpcDisciplines">
+                <StackPanel>
+                    <ItemsControl ItemsSource="{Binding NpcDisciplines}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1" Padding="0,12">
+                                    <StackPanel>
+                                        <ComboBox ItemsSource="{Binding Options}" SelectedItem="{Binding SelectedDiscipline}" AutomationProperties.Name="Disciplina do NPC"
+                                                  IsEnabled="{Binding DataContext.CanEditBuild, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+                                        <controls:DotTrack Value="{Binding Rating, Mode=TwoWay}" Margin="0,8" AutomationProperties.Name="Nivel da disciplina NPC"
+                                                           IsEnabled="{Binding DataContext.CanEditBuild, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+                                        <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap" />
+                                        <Expander Header="Poderes desta disciplina">
+                                            <controls:PowerBrowser Items="{Binding Powers}" Selected="{Binding SelectedPower, Mode=TwoWay}" Height="370" />
+                                        </Expander>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Content="+ Espaco de disciplina" Command="{Binding AddNpcDisciplineCommand}" Margin="0,12" IsEnabled="{Binding CanEditBuild}" />
+                    <Expander Header="Rituais (separados das disciplinas)">
+                        <controls:PowerBrowser Items="{Binding Powers.Rituals}" Selected="{Binding Powers.SelectedRitual, Mode=TwoWay}" Height="370" />
+                    </Expander>
+                </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="NpcAdvantages">
+                <StackPanel>
+                <StackPanel IsEnabled="{Binding CanEditBuild}">
+                    <ItemsControl ItemsSource="{Binding NpcMerits}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,8">
+                                    <ComboBox ItemsSource="{Binding Options}" SelectedItem="{Binding Selected}" DisplayMemberPath="Name" AutomationProperties.Name="Vantagem ou defeito NPC" />
+                                    <TextBlock Text="{Binding Kind}" Foreground="{DynamicResource VcsMuted}" />
+                                    <controls:DotTrack Value="{Binding Rating, Mode=TwoWay}" AutomationProperties.Name="Pontos da vantagem NPC" />
+                                    <TextBlock Text="{Binding Selected.Description}" TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" />
+                                    <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap" />
+                                    <Button Content="Limpar espaco" Command="{Binding ClearCommand}" HorizontalAlignment="Left" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Content="+ Espaco de vantagem / defeito" Command="{Binding AddNpcMeritCommand}" Margin="0,12" />
+                </StackPanel>
+                <views:LoresheetCatalogView />
+                </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="NpcBackground">
+            <StackPanel>
+                <TextBlock Text="Predador (bonus de disciplina sera cadastrado depois)" Style="{StaticResource FieldLabel}" />
+                <TextBox Text="{Binding Predator, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" />
+                <TextBlock Text="Conceito" Style="{StaticResource FieldLabel}" Margin="0,8,0,0" />
+                <TextBox Text="{Binding Concept, UpdateSourceTrigger=PropertyChanged}" MaxLength="200" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="NpcNotes">
+                <StackPanel>
+                    <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap"
+                             MinHeight="200" MaxHeight="500" VerticalScrollBarVisibility="Auto" MaxLength="100000" AutomationProperties.Name="Notas do NPC" />
+                </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <ContentControl Content="{Binding Editor}">
+        <ContentControl.Style>
+            <Style TargetType="ContentControl">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Key}" Value="Identity"><Setter Property="ContentTemplate" Value="{StaticResource NpcIdentity}" /></DataTrigger>
+                    <DataTrigger Binding="{Binding Key}" Value="Attributes"><Setter Property="ContentTemplate" Value="{StaticResource NpcAttributes}" /></DataTrigger>
+                    <DataTrigger Binding="{Binding Key}" Value="State"><Setter Property="ContentTemplate" Value="{StaticResource NpcState}" /></DataTrigger>
+                    <DataTrigger Binding="{Binding Key}" Value="Skills"><Setter Property="ContentTemplate" Value="{StaticResource NpcSkills}" /></DataTrigger>
+                    <DataTrigger Binding="{Binding Key}" Value="Disciplines"><Setter Property="ContentTemplate" Value="{StaticResource NpcDisciplines}" /></DataTrigger>
+                    <DataTrigger Binding="{Binding Key}" Value="Advantages"><Setter Property="ContentTemplate" Value="{StaticResource NpcAdvantages}" /></DataTrigger>
+                    <DataTrigger Binding="{Binding Key}" Value="Background"><Setter Property="ContentTemplate" Value="{StaticResource NpcBackground}" /></DataTrigger>
+                    <DataTrigger Binding="{Binding Key}" Value="Notes"><Setter Property="ContentTemplate" Value="{StaticResource NpcNotes}" /></DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ContentControl.Style>
+    </ContentControl>
+</UserControl>

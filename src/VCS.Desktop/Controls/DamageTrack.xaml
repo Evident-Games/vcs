@@ -1,0 +1,26 @@
+<UserControl x:Class="VCS.Desktop.Controls.DamageTrack"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:VCS.Desktop.Controls" x:Name="Root">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Capacidade: " />
+            <TextBlock Text="{Binding Capacity, ElementName=Root}" FontWeight="SemiBold" />
+        </StackPanel>
+        <ProgressBar Height="12" Minimum="0" Maximum="{Binding Capacity, ElementName=Root}"
+                     Value="{Binding Remaining, ElementName=Root, Mode=OneWay}" Foreground="{DynamicResource VcsAccent}"
+                     AutomationProperties.Name="Pontos restantes" />
+        <WrapPanel Margin="0,14,0,0">
+            <StackPanel Margin="0,0,24,0">
+                <TextBlock Text="Dano superficial" Style="{StaticResource FieldLabel}" />
+                <local:NumericField Value="{Binding Superficial, ElementName=Root, Mode=TwoWay}"
+                                    Maximum="{Binding Capacity, ElementName=Root}" />
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Dano agravado" Style="{StaticResource FieldLabel}" />
+                <local:NumericField Value="{Binding Aggravated, ElementName=Root, Mode=TwoWay}"
+                                    Maximum="{Binding Capacity, ElementName=Root}" />
+            </StackPanel>
+        </WrapPanel>
+    </StackPanel>
+</UserControl>

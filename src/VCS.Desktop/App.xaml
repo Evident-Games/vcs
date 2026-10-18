@@ -1,0 +1,8 @@
+<Application x:Class="VCS.Desktop.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+    <Application.Resources>
+        <ResourceDictionary Source="/VCS.Desktop;component/Themes/Resources.xaml" />
+    </Application.Resources>
+</Application>

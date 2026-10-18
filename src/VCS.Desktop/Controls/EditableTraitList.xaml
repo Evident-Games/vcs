@@ -1,0 +1,39 @@
+<UserControl x:Class="VCS.Desktop.Controls.EditableTraitList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:VCS.Desktop.Controls" x:Name="Root">
+    <StackPanel>
+        <ItemsControl ItemsSource="{Binding Items}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1" Padding="0,9">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" MinWidth="130" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Margin="0,0,16,0">
+                                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                                         IsReadOnly="{Binding IsNameReadOnly}" MaxLength="80"
+                                         AutomationProperties.Name="Nome do traco" />
+                                <TextBlock Text="{Binding AdvancementInfo}" FontSize="12" TextWrapping="Wrap"
+                                           Foreground="{DynamicResource VcsMuted}" Margin="0,4,0,0" />
+                                <TextBox Text="{Binding Specialization, UpdateSourceTrigger=PropertyChanged}" MaxLength="500" Margin="0,4,0,0"
+                                         Visibility="{Binding IsSkill, Converter={StaticResource BoolVisibility}}"
+                                         ToolTip="Especializacao: texto livre" AutomationProperties.Name="Especializacao pessoal" />
+                            </StackPanel>
+                            <local:DotTrack Grid.Column="1" Value="{Binding Rating, Mode=TwoWay}" Minimum="{Binding Minimum}" />
+                            <Button Grid.Column="2" Content="Remover" Margin="16,0,0,0"
+                                    Command="{Binding DataContext.RemoveCommand, ElementName=Root}"
+                                    CommandParameter="{Binding}"
+                                    Visibility="{Binding CanEditName, Converter={StaticResource BoolVisibility}}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Button Content="+ Adicionar entrada" Command="{Binding AddCommand}" HorizontalAlignment="Left"
+                Margin="0,16,0,0" Visibility="{Binding CanEdit, Converter={StaticResource BoolVisibility}}" />
+    </StackPanel>
+</UserControl>

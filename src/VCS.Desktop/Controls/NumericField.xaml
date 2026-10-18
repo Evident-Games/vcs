@@ -1,0 +1,14 @@
+<UserControl x:Class="VCS.Desktop.Controls.NumericField"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="Root"
+    Focusable="False">
+    <StackPanel Orientation="Horizontal">
+        <Button Content="-" Width="30" Padding="4" Click="Decrease"
+                AutomationProperties.Name="Diminuir valor" />
+        <Border MinWidth="36" Padding="7,4" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Value, ElementName=Root}" HorizontalAlignment="Center" />
+        </Border>
+        <Button Content="+" Width="30" Padding="4" Click="Increase"
+                AutomationProperties.Name="Aumentar valor" />
+    </StackPanel>
+</UserControl>

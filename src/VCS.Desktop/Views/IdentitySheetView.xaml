@@ -1,0 +1,64 @@
+<UserControl x:Class="VCS.Desktop.Views.IdentitySheetView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls">
+    <UserControl.Resources>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="Padding" Value="9,4" />
+        </Style>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="MinHeight" Value="30" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <TextBlock Text="FICHA DE PERSONAGEM" HorizontalAlignment="Left" FontSize="11" Margin="8,0,0,8"
+                   Foreground="{DynamicResource VcsMuted}" />
+        <UniformGrid Columns="3">
+            <StackPanel Margin="6,4">
+                <TextBlock Text="Nome *" Style="{StaticResource FieldLabel}" />
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="120"
+                         AutomationProperties.Name="Nome do personagem" />
+            </StackPanel>
+            <StackPanel Margin="6,4">
+                <TextBlock Text="Conceito" Style="{StaticResource FieldLabel}" />
+                <TextBox Text="{Binding Concept, UpdateSourceTrigger=PropertyChanged}" MaxLength="200" AutomationProperties.Name="Conceito" />
+            </StackPanel>
+            <StackPanel Margin="6,4">
+                <TextBlock Text="Predador" Style="{StaticResource FieldLabel}" />
+                <TextBox Text="{Binding Predator, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" AutomationProperties.Name="Predador" />
+            </StackPanel>
+            <StackPanel Margin="6,4">
+                <TextBlock Text="Cronica" Style="{StaticResource FieldLabel}" />
+                <TextBox Text="{Binding Chronicle, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" AutomationProperties.Name="Cronica" />
+            </StackPanel>
+            <StackPanel Margin="6,4">
+                <TextBlock Text="Nome mortal" Style="{StaticResource FieldLabel}" />
+                <TextBox Text="{Binding MortalName, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" AutomationProperties.Name="Nome mortal" />
+            </StackPanel>
+            <StackPanel Margin="6,4">
+                <TextBlock Text="Cla" Style="{StaticResource FieldLabel}" />
+                <controls:ClanSelector Value="{Binding Clan, Mode=TwoWay}" Catalog="{Binding KnownClans}" />
+            </StackPanel>
+            <StackPanel Margin="6,4">
+                <TextBlock Text="Sire / Senhor" Style="{StaticResource FieldLabel}" />
+                <TextBox Text="{Binding Sire, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" AutomationProperties.Name="Sire" />
+            </StackPanel>
+            <StackPanel Margin="6,4">
+                <TextBlock Text="Geracao" Style="{StaticResource FieldLabel}" />
+                <controls:NumericField Value="{Binding Generation, Mode=TwoWay}" Minimum="1" Maximum="16" />
+            </StackPanel>
+        </UniformGrid>
+        <ItemsControl ItemsSource="{Binding IdentityFields}" ItemTemplate="{StaticResource SheetExtraField}">
+            <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <TextBlock Text="{Binding Clan}" ToolTip="{Binding ClanDescription}" FontSize="12"
+                   Foreground="{DynamicResource VcsMuted}" Margin="8,6,8,4" />
+        <TextBlock Text="{Binding ClanDisciplines}" TextWrapping="Wrap" FontSize="12"
+                   Foreground="{DynamicResource VcsAccent}" Margin="8,0,8,8" />
+        <TextBlock Text="Descricao" Style="{StaticResource FieldLabel}" />
+        <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True"
+                 TextWrapping="Wrap" MinHeight="60" MaxHeight="160" MaxLength="20000"
+                 VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Descricao do personagem" />
+    </StackPanel>
+</UserControl>

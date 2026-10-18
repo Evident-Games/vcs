@@ -1,0 +1,213 @@
+<ui:FluentWindow x:Class="VCS.Desktop.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:views="clr-namespace:VCS.Desktop.Views"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls"
+    Title="VCS - Vampire Character Sheet" Width="1240" Height="850" MinWidth="1000" MinHeight="680"
+    WindowStartupLocation="CenterScreen" ExtendsContentIntoTitleBar="True"
+    Background="{DynamicResource VcsBackground}" Foreground="{DynamicResource VcsText}"
+    FontFamily="Segoe UI" FontSize="14">
+    <Grid>
+        <Grid.InputBindings>
+            <KeyBinding Key="N" Modifiers="Control" Command="{Binding CreateCommand}" />
+            <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenCommand}" />
+            <KeyBinding Key="S" Modifiers="Control" Command="{Binding Editor.SaveCommand}" />
+        </Grid.InputBindings>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ui:TitleBar Title="VCS  /  Vampire Character Sheet"
+                     Foreground="{DynamicResource VcsText}" ButtonsForeground="{DynamicResource VcsText}" />
+        <Border Grid.Row="1" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1" Padding="12,4">
+            <Menu IsEnabled="{Binding IsIdle}" Background="Transparent" Foreground="{DynamicResource VcsText}"
+                  AutomationProperties.Name="Menu principal">
+                <MenuItem Header="_Arquivo">
+                    <MenuItem Header="_Novo personagem" Command="{Binding CreateCommand}" InputGestureText="Ctrl+N" />
+                    <MenuItem Header="_Abrir ficha" Command="{Binding OpenCommand}" InputGestureText="Ctrl+O" ToolTip="Abrir a ficha selecionada ou voltar a lista" />
+                    <MenuItem Header="_Salvar" Command="{Binding Editor.SaveCommand}" IsEnabled="{Binding IsEditing}" InputGestureText="Ctrl+S" />
+                    <MenuItem Header="Lista de personagens" Command="{Binding BackCommand}" IsEnabled="{Binding IsEditing}" />
+                    <Separator />
+                    <MenuItem Header="_Importar JSON..." Command="{Binding ImportCommand}" />
+                    <MenuItem Header="_Exportar JSON..." Command="{Binding ExportCommand}" IsEnabled="{Binding CanActOnCharacter}" />
+                    <MenuItem Header="Novo _NPC" Command="{Binding CreateNpcCommand}" />
+                    <MenuItem Header="Exportar PDF preenchivel..." Command="{Binding ExportPdfCommand}" IsEnabled="{Binding CanActOnCharacter}" />
+                </MenuItem>
+                <MenuItem Header="_Editar">
+                    <MenuItem Header="_Duplicar personagem" Command="{Binding DuplicateCommand}" IsEnabled="{Binding CanActOnCharacter}" />
+                    <MenuItem Header="E_xcluir personagem..." Command="{Binding DeleteCommand}" IsEnabled="{Binding CanActOnCharacter}" />
+                </MenuItem>
+                <MenuItem Header="E_xibir">
+                    <MenuItem Header="Exibir por abas" IsCheckable="True" IsChecked="{Binding Display.UseTabs, Mode=TwoWay}" StaysOpenOnClick="True" />
+                    <MenuItem Header="Organizar abas..." Command="{Binding ToggleLayoutSettingsCommand}" />
+                    <MenuItem Header="Secoes" ItemsSource="{Binding Display.Sections}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                <Setter Property="Header" Value="{Binding Title}" />
+                                <Setter Property="IsCheckable" Value="True" />
+                                <Setter Property="IsChecked" Value="{Binding IsVisible, Mode=TwoWay}" />
+                                <Setter Property="StaysOpenOnClick" Value="True" />
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                    <MenuItem Header="Lista lateral de personagens" IsCheckable="True" IsChecked="{Binding Display.ShowSidebar, Mode=TwoWay}" />
+                    <Separator />
+                    <MenuItem Header="Temas" ItemsSource="{Binding Display.Themes}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                <Setter Property="Header" Value="{Binding Name}" />
+                                <Setter Property="IsCheckable" Value="True" />
+                                <Setter Property="IsChecked" Value="{Binding IsSelected, Mode=OneWay}" />
+                                <Setter Property="Command" Value="{Binding DataContext.Display.SelectThemeCommand, RelativeSource={RelativeSource AncestorType=Menu}}" />
+                                <Setter Property="CommandParameter" Value="{Binding Id}" />
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Ferramentas">
+                    <MenuItem Header="Criar dump do banco..." Command="{Binding BackupCommand}" ToolTip="Salvar copia SQLite do banco completo" />
+                    <MenuItem Header="Restaurar dump..." Command="{Binding RestoreCommand}" ToolTip="Substitui o banco completo, com confirmacao" />
+                </MenuItem>
+                <MenuItem Header="A_juda">
+                    <MenuItem Header="Como usar o VCS" Command="{Binding ToggleHelpCommand}" />
+                </MenuItem>
+            </Menu>
+        </Border>
+        <Grid Grid.Row="2" IsEnabled="{Binding IsIdle}">
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+            <Border Width="230" Padding="12" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,1,0"
+                    Background="{DynamicResource VcsCard}" Visibility="{Binding Display.ShowSidebar, Converter={StaticResource BoolVisibility}}">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top">
+                        <TextBlock Text="Personagens" FontSize="20" FontFamily="Georgia" Margin="0,0,0,12" />
+                        <Border Background="{DynamicResource VcsInput}" BorderBrush="{DynamicResource VcsBorder}"
+                                BorderThickness="1" CornerRadius="15" Margin="0,0,0,12" Padding="2">
+                            <DockPanel>
+                                <Button x:Name="NewSheetButton" DockPanel.Dock="Right" Content="+" Width="24" Height="24"
+                                        MinWidth="24" MinHeight="24" Padding="0" FontSize="18" Click="OnNewSheetMenu"
+                                        ToolTip="Criar ficha de PC ou NPC" AutomationProperties.Name="Adicionar ficha">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="Circle" CornerRadius="12" Background="{DynamicResource VcsHover}"
+                                                    BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                  TextElement.Foreground="{DynamicResource VcsAccent}" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Circle" Property="BorderBrush" Value="{DynamicResource VcsAccent}" /></Trigger>
+                                                <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Circle" Property="BorderBrush" Value="{DynamicResource VcsText}" /><Setter TargetName="Circle" Property="BorderThickness" Value="2" /></Trigger>
+                                                <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Circle" Property="Opacity" Value="0.5" /></Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                    <Button.ContextMenu>
+                                        <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                                                     Background="{DynamicResource VcsCard}" Foreground="{DynamicResource VcsText}">
+                                            <MenuItem Header="PC / Personagem" Command="{Binding CreateCommand}" AutomationProperties.Name="Criar PC" />
+                                            <MenuItem Header="NPC / Ficha pratica" Command="{Binding CreateNpcCommand}" AutomationProperties.Name="Criar NPC" />
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+                                <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ToolTip="Buscar por nome, cla ou cronica"
+                                         Background="Transparent" BorderThickness="0" Padding="7,2" MinWidth="0" MinHeight="24" Height="24"
+                                         VerticalContentAlignment="Center" AutomationProperties.Name="Busca lateral de personagens" />
+                            </DockPanel>
+                        </Border>
+                    </StackPanel>
+                    <ListBox ItemsSource="{Binding Characters}" SelectedItem="{Binding SelectedCharacter}" BorderThickness="0"
+                             Background="Transparent" AutomationProperties.Name="Lista lateral de personagens">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding DataContext.OpenCharacterCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        CommandParameter="{Binding}" HorizontalContentAlignment="Stretch" Background="Transparent" BorderThickness="0" MinHeight="40">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding Clan}" Foreground="{DynamicResource VcsMuted}" TextWrapping="Wrap" FontSize="12" />
+                                        <TextBlock Text="{Binding SheetType}" Foreground="{DynamicResource VcsMuted}" FontSize="11" />
+                                    </StackPanel>
+                                </Button>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+            </Border>
+            <Grid Grid.Column="1" Margin="20">
+            <views:HomeView Visibility="{Binding IsHome, Converter={StaticResource BoolVisibility}}" />
+            <Grid Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibility}}">
+                <ContentControl Content="{Binding Editor}">
+                    <ContentControl.ContentTemplate>
+                        <DataTemplate><views:CharacterEditorView /></DataTemplate>
+                    </ContentControl.ContentTemplate>
+                </ContentControl>
+            </Grid>
+            </Grid>
+            <Border Grid.ColumnSpan="2" Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                    BorderThickness="1" Padding="24" Margin="36" MaxWidth="850"
+                    Visibility="{Binding IsLayoutSettingsOpen, Converter={StaticResource BoolVisibility}}">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top">
+                        <DockPanel>
+                            <Button Content="Concluir" Command="{Binding ToggleLayoutSettingsCommand}" DockPanel.Dock="Right" />
+                            <TextBlock Text="Organizar abas" Style="{StaticResource SectionTitle}" />
+                        </DockPanel>
+                        <TextBlock Text="Mesmo nome de aba agrupa secoes. Personalize o titulo e as ordens (1-99). A ordem da aba usa o menor numero das secoes agrupadas. As mudancas sao salvas automaticamente."
+                                   TextWrapping="Wrap" Margin="0,8,0,16" />
+                        <CheckBox Content="Exibir por abas (desmarque para ficha continua)" IsChecked="{Binding Display.UseTabs, Mode=TwoWay}" Margin="0,0,0,16" />
+                    </StackPanel>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Display.Sections}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,6">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="190" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="105" /><ColumnDefinition Width="105" /></Grid.ColumnDefinitions>
+                                        <CheckBox Content="{Binding Title}" IsChecked="{Binding IsVisible, Mode=TwoWay}" VerticalAlignment="Center" />
+                                        <StackPanel Grid.Column="1" Margin="4">
+                                            <TextBlock Text="Titulo da secao" Style="{StaticResource FieldLabel}" />
+                                            <TextBox Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" MaxLength="80"
+                                                     AutomationProperties.Name="{Binding Title, StringFormat='Titulo de {0}'}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2" Margin="4">
+                                            <TextBlock Text="Nome da aba" Style="{StaticResource FieldLabel}" />
+                                            <TextBox Text="{Binding TabName, UpdateSourceTrigger=PropertyChanged}" MaxLength="80"
+                                                     AutomationProperties.Name="{Binding Title, StringFormat='Aba de {0}'}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="3" Margin="4">
+                                            <TextBlock Text="Ordem secao" Style="{StaticResource FieldLabel}" />
+                                            <controls:NumericField Value="{Binding SectionOrder, Mode=TwoWay}" Minimum="1" Maximum="99"
+                                                                   AutomationProperties.Name="{Binding Title, StringFormat='Ordem de {0}'}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="4" Margin="4">
+                                            <TextBlock Text="Ordem aba" Style="{StaticResource FieldLabel}" />
+                                            <controls:NumericField Value="{Binding TabOrder, Mode=TwoWay}" Minimum="1" Maximum="99" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+            <Border Grid.ColumnSpan="2" Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                    BorderThickness="1" Padding="24" Margin="36" MaxWidth="850"
+                    Visibility="{Binding IsHelpOpen, Converter={StaticResource BoolVisibility}}">
+                <StackPanel>
+                    <TextBlock Text="VCS - Como usar" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="Arquivo: criar, abrir, salvar e importar/exportar fichas JSON.&#10;&#10;Editar: duplicar ou excluir a ficha aberta ou selecionada.&#10;&#10;Exibir: escolher temas, ficha continua e organizar abas. Use o mesmo nome para agrupar secoes.&#10;&#10;Ferramentas: criar e restaurar dumps do banco completo.&#10;&#10;Na lista, abra uma ficha com duplo clique ou Enter. Ctrl+N cria, Ctrl+O abre e Ctrl+S salva. Alteracoes validas tambem sao salvas automaticamente."
+                               TextWrapping="Wrap" Margin="0,0,0,24" />
+                    <Button Content="Fechar ajuda" Command="{Binding ToggleHelpCommand}" HorizontalAlignment="Left" />
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Border Grid.Row="3" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource VcsBorder}" Padding="24,10">
+            <StackPanel>
+                <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding Message}" Foreground="{DynamicResource VcsMuted}" TextWrapping="Wrap" FontSize="12" />
+                <ProgressBar Height="3" IsIndeterminate="True" Margin="0,6,0,0"
+                             Visibility="{Binding IsBusy, Converter={StaticResource BoolVisibility}}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</ui:FluentWindow>

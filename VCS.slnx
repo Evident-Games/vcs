@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/VCS.Application/VCS.Application.csproj" />
+    <Project Path="src/VCS.Desktop/VCS.Desktop.csproj" />
+    <Project Path="src/VCS.Domain/VCS.Domain.csproj" />
+    <Project Path="src/VCS.Infrastructure/VCS.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/VCS.Tests/VCS.Tests.csproj" />
+  </Folder>
+</Solution>

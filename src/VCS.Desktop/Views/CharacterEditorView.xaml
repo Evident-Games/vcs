@@ -1,0 +1,66 @@
+<UserControl x:Class="VCS.Desktop.Views.CharacterEditorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:views="clr-namespace:VCS.Desktop.Views">
+    <UserControl.Resources>
+        <DataTemplate x:Key="Continuous">
+            <ScrollViewer x:Name="SheetScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                          AutomationProperties.Name="Ficha completa">
+                <ItemsControl ItemsSource="{Binding VisibleSections}" Margin="0,0,12,0">
+                    <ItemsControl.ItemTemplate><DataTemplate><views:SheetSectionView /></DataTemplate></ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </DataTemplate>
+        <DataTemplate x:Key="Tabbed">
+            <TabControl ItemsSource="{Binding VisibleTabs}" SelectedItem="{Binding SelectedTab}"
+                        Background="Transparent" BorderThickness="0" AutomationProperties.Name="Secoes da ficha">
+                <TabControl.ItemContainerStyle>
+                    <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+                        <Setter Property="AutomationProperties.Name" Value="{Binding Title}" />
+                    </Style>
+                </TabControl.ItemContainerStyle>
+                <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Title}" /></DataTemplate></TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,12,10,0">
+                            <ItemsControl ItemsSource="{Binding Sections}">
+                                <ItemsControl.ItemTemplate><DataTemplate><views:SheetSectionView /></DataTemplate></ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+        <DockPanel Margin="0,0,0,12">
+            <TextBlock Text="{Binding Status}" DockPanel.Dock="Right" Foreground="{DynamicResource VcsAccent}" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding Name}" FontFamily="Georgia" FontSize="27" TextTrimming="CharacterEllipsis" />
+        </DockPanel>
+        <views:AdvancementView Grid.Row="1" />
+        <Grid Grid.Row="2">
+            <ContentControl Content="{Binding}">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="ContentTemplate" Value="{StaticResource Continuous}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Display.UseTabs}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource Tabbed}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+            <TextBlock Text="Nenhuma secao visivel. Ative uma secao em Exibir > Organizar abas."
+                       TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Visibility="{Binding NoVisibleSections, Converter={StaticResource BoolVisibility}}" />
+        </Grid>
+        <ScrollViewer Grid.Row="3" MaxHeight="100" VerticalScrollBarVisibility="Auto" Margin="0,8,0,0">
+            <StackPanel>
+                <TextBlock Text="{Binding ValidationSummary}" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,8 @@
+<UserControl x:Class="VCS.Desktop.Controls.ClanSelector"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="Root">
+    <ComboBox IsEditable="True" IsTextSearchEnabled="False"
+              ItemsSource="{Binding Catalog, ElementName=Root}"
+              Text="{Binding Value, ElementName=Root, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              AutomationProperties.Name="Cla" ToolTip="Selecione um dos 14 clas ou digite um cla personalizado." />
+</UserControl>

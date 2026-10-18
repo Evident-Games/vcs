@@ -1,0 +1,38 @@
+<UserControl x:Class="VCS.Desktop.Views.SkillsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls">
+    <StackPanel IsEnabled="{Binding CanEditBuild}">
+        <ItemsControl ItemsSource="{Binding SkillGroups}">
+            <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="3" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="8">
+                        <TextBlock Text="{Binding Name}" FontFamily="Georgia" FontSize="18" Margin="0,0,0,12" />
+                        <TextBlock Text="Pontos / especializacao" FontSize="11" Foreground="{DynamicResource VcsMuted}" Margin="0,0,0,8" />
+                        <ItemsControl ItemsSource="{Binding Items}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,0,0,8">
+                                        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" ToolTip="{Binding Description}" />
+                                        <Grid>
+                                            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" MinWidth="60" /></Grid.ColumnDefinitions>
+                                            <controls:DotTrack Value="{Binding Rating, Mode=TwoWay}" AutomationProperties.Name="{Binding Name}" />
+                                            <TextBox Grid.Column="1" Text="{Binding Specialization, UpdateSourceTrigger=PropertyChanged}"
+                                                     MaxLength="500" MinHeight="30" Padding="6,3" Margin="6,0,0,0" FontSize="12"
+                                                     ToolTip="Texto livre. Separe especializacoes por ponto e virgula. Apos a criacao, use Evolucao."
+                                                     AutomationProperties.Name="{Binding Name, StringFormat='Especializacao de {0}'}" />
+                                        </Grid>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Expander Header="Habilidades pessoais / edicao livre" Margin="8">
+            <controls:EditableTraitList DataContext="{Binding Skills}" />
+        </Expander>
+    </StackPanel>
+</UserControl>
