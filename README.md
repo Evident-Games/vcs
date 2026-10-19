@@ -1,3 +1,5 @@
+	• "Este programa é um software livre: você pode redistribuí-lo e/ou modificá-lo sob os termos da Licença Pública Geral GNU conforme publicada pela Free Software Foundation, versão 3."
+
 # VCS - Vampire Character Sheet
 
 Aplicativo desktop Windows para criar e organizar fichas pessoais de RPG,
