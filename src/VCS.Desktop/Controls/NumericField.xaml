@@ -1,0 +1,48 @@
+<UserControl x:Class="VCS.Desktop.Controls.NumericField"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="Root"
+    Focusable="False">
+    <UserControl.Resources>
+        <Style x:Key="NumericStepButton" TargetType="Button">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="MinWidth" Value="16" />
+            <Setter Property="MinHeight" Value="16" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsText}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="StepCircle" Background="{DynamicResource VcsInput}"
+                                BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="StepCircle" Property="Background" Value="{DynamicResource VcsHover}" />
+                                <Setter TargetName="StepCircle" Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="StepCircle" Property="Background" Value="{DynamicResource VcsSelection}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.55" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal">
+        <Button Content="−" Style="{StaticResource NumericStepButton}" Click="Decrease"
+                AutomationProperties.Name="Diminuir valor" />
+        <Border MinWidth="28" Padding="4,2" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Value, ElementName=Root}" HorizontalAlignment="Center" />
+        </Border>
+        <Button Content="+" Style="{StaticResource NumericStepButton}" Click="Increase"
+                AutomationProperties.Name="Aumentar valor" />
+    </StackPanel>
+</UserControl>

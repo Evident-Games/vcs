@@ -1,0 +1,172 @@
+<UserControl x:Class="VCS.Desktop.Views.IdentitySheetView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls">
+    <UserControl.Resources>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="Padding" Value="9,4" />
+        </Style>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="MinHeight" Value="30" />
+        </Style>
+        <Style x:Key="IdentityLabel" TargetType="TextBlock" BasedOn="{StaticResource FieldLabel}">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Opacity" Value="0.78" />
+            <Setter Property="Height" Value="18" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="IdentityHint" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsMuted}" />
+            <Setter Property="Opacity" Value="0.68" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style x:Key="IdentityHelpButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Width" Value="18" />
+            <Setter Property="Height" Value="18" />
+            <Setter Property="MinWidth" Value="18" />
+            <Setter Property="MinHeight" Value="18" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsAccent}" />
+            <Setter Property="ToolTipService.InitialShowDelay" Value="150" />
+            <Setter Property="ToolTipService.ShowDuration" Value="20000" />
+            <Setter Property="ToolTipService.Placement" Value="Top" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="HelpCircle" Background="{DynamicResource VcsInput}"
+                                BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="9">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="HelpCircle" Property="Background" Value="{DynamicResource VcsHover}" />
+                                <Setter TargetName="HelpCircle" Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="HelpCircle" Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <TextBlock Text="{Binding IdentityHeading}" AutomationProperties.Name="{Binding IdentityHeading}"
+                   HorizontalAlignment="Left" FontSize="11" Margin="8,0,0,8"
+                   Foreground="{DynamicResource VcsMuted}" />
+        <Grid x:Name="IdentityGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22" /><RowDefinition Height="Auto" />
+                <RowDefinition Height="30" /><RowDefinition Height="Auto" />
+                <RowDefinition Height="30" /><RowDefinition Height="Auto" />
+                <RowDefinition Height="30" /><RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+                <Style TargetType="Grid" x:Key="IdentityLabelRow">
+                    <Setter Property="Margin" Value="6,0,6,3" />
+                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                </Style>
+            </Grid.Resources>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Nome" Style="{StaticResource IdentityLabel}" Margin="6,0,6,3" VerticalAlignment="Bottom" />
+            <TextBox Grid.Row="1" Grid.Column="0" Margin="6,0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="120"
+                     VerticalAlignment="Top" AutomationProperties.Name="{Binding IdentityNameAutomationLabel}" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Nome Mortal" Style="{StaticResource IdentityLabel}" Margin="6,0,6,3" VerticalAlignment="Bottom" />
+            <TextBox Grid.Row="3" Grid.Column="0" Margin="6,0" Text="{Binding MortalName, UpdateSourceTrigger=PropertyChanged}" MaxLength="120"
+                     VerticalAlignment="Top" AutomationProperties.Name="Nome mortal" />
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Crônica" Style="{StaticResource IdentityLabel}" Margin="6,0,6,3" VerticalAlignment="Bottom" />
+            <TextBox Grid.Row="5" Grid.Column="0" Margin="6,0" Text="{Binding Chronicle, UpdateSourceTrigger=PropertyChanged}" MaxLength="120"
+                     VerticalAlignment="Top" controls:FitText.IsEnabled="True" AutomationProperties.Name="Cronica" />
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Sire" Style="{StaticResource IdentityLabel}" Margin="6,0,6,3" VerticalAlignment="Bottom" />
+            <TextBox Grid.Row="7" Grid.Column="0" Margin="6,0" Text="{Binding Sire, UpdateSourceTrigger=PropertyChanged}" MaxLength="120"
+                     VerticalAlignment="Top" AutomationProperties.Name="Sire" />
+
+            <Grid Grid.Row="0" Grid.Column="1" Style="{StaticResource IdentityLabelRow}">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <TextBlock Text="Conceito" Style="{StaticResource IdentityLabel}" />
+                <Button Grid.Column="1" Content="?" Style="{StaticResource IdentityHelpButton}" Click="ShowHelp"
+                        ToolTip="Uma frase ou ideia central que resume quem este personagem é."
+                        AutomationProperties.Name="Ajuda sobre conceito" />
+            </Grid>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="6,0" Text="{Binding Concept, UpdateSourceTrigger=PropertyChanged}" MaxLength="200"
+                     VerticalAlignment="Top" controls:FitText.IsEnabled="True" AutomationProperties.Name="Conceito" />
+            <Grid Grid.Row="2" Grid.Column="1" Style="{StaticResource IdentityLabelRow}">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <TextBlock Text="Ambição" Style="{StaticResource IdentityLabel}" />
+                <Button Grid.Column="1" Content="?" Style="{StaticResource IdentityHelpButton}" Click="ShowHelp"
+                        ToolTip="Um objetivo de longo prazo que orienta as ações do personagem."
+                        AutomationProperties.Name="Ajuda sobre ambição" />
+            </Grid>
+            <TextBox Grid.Row="3" Grid.Column="1" Margin="6,0" Text="{Binding IdentityFields[0].Value, UpdateSourceTrigger=PropertyChanged}" MaxLength="500"
+                     VerticalAlignment="Top" controls:FitText.IsEnabled="True" AutomationProperties.Name="Ambicao" />
+            <Grid Grid.Row="4" Grid.Column="1" Style="{StaticResource IdentityLabelRow}">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <TextBlock Text="Desejo" Style="{StaticResource IdentityLabel}" />
+                <Button Grid.Column="1" Content="?" Style="{StaticResource IdentityHelpButton}" Click="ShowHelp"
+                        ToolTip="Uma motivação imediata ou objetivo de curto prazo do personagem."
+                        AutomationProperties.Name="Ajuda sobre desejo" />
+            </Grid>
+            <TextBox Grid.Row="5" Grid.Column="1" Margin="6,0" Text="{Binding IdentityFields[1].Value, UpdateSourceTrigger=PropertyChanged}" MaxLength="500"
+                     VerticalAlignment="Top" controls:FitText.IsEnabled="True" AutomationProperties.Name="Desejo" />
+
+            <Grid Grid.Row="0" Grid.Column="2" Style="{StaticResource IdentityLabelRow}">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="76" /></Grid.ColumnDefinitions>
+                <TextBlock Text="Idade" Style="{StaticResource IdentityLabel}" />
+                <Button Grid.Column="1" Content="?" Style="{StaticResource IdentityHelpButton}" Margin="0,0,6,0" Click="ShowHelp"
+                        ToolTip="A idade define os pontos iniciais: Criança da Noite (0 XP), Neófito (15 XP) ou Ancillae (35 XP). Também determina Potência de Sangue e orçamento inicial de vantagens e defeitos."
+                        AutomationProperties.Name="Ajuda sobre idade" />
+                <TextBlock Grid.Column="2" Text="Geração" Style="{StaticResource IdentityLabel}" ToolTip="{Binding GenerationGuidance}" />
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="2" Margin="6,0" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="76" /></Grid.ColumnDefinitions>
+                <ComboBox Margin="0,0,6,0" ItemsSource="{Binding AgeOptions}" SelectedIndex="{Binding AgeIndex}" IsEnabled="{Binding IsCreating}"
+                          Tag="Idade vampirica" AutomationProperties.Name="Idade vampirica" />
+                <controls:NumericField Grid.Column="1" Value="{Binding Generation, Mode=TwoWay}" VerticalAlignment="Center"
+                                       Minimum="1" Maximum="16" ToolTip="{Binding GenerationGuidance}"
+                                       AutomationProperties.Name="Geracao" />
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="2" Style="{StaticResource IdentityLabelRow}">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <TextBlock Text="Clã" Style="{StaticResource IdentityLabel}" />
+                <Button Grid.Column="1" Content="?" Style="{StaticResource IdentityHelpButton}"
+                        Click="ShowHelp" Tag="{Binding ClanHelp}" AutomationProperties.Name="Informacoes do cla">
+                    <Button.ToolTip>
+                        <ToolTip Placement="Top">
+                            <TextBlock Text="{Binding PlacementTarget.DataContext.ClanHelp, RelativeSource={RelativeSource AncestorType=ToolTip}}"
+                                       TextWrapping="Wrap" MaxWidth="400" />
+                        </ToolTip>
+                    </Button.ToolTip>
+                </Button>
+            </Grid>
+            <controls:ClanSelector Grid.Row="3" Grid.Column="2" Margin="6,0" VerticalAlignment="Top"
+                                   Value="{Binding Clan, Mode=TwoWay}" Catalog="{Binding KnownClans}" />
+            <Grid Grid.Row="4" Grid.Column="2" Style="{StaticResource IdentityLabelRow}">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <TextBlock Text="Predador" Style="{StaticResource IdentityLabel}" />
+                <Button Grid.Column="1" Content="?" Style="{StaticResource IdentityHelpButton}"
+                        Click="ShowHelp" Tag="{Binding PredatorHelp}" AutomationProperties.Name="Informacoes do predador">
+                    <Button.ToolTip>
+                        <ToolTip Placement="Top">
+                            <TextBlock Text="{Binding PlacementTarget.DataContext.PredatorHelp, RelativeSource={RelativeSource AncestorType=ToolTip}}"
+                                       TextWrapping="Wrap" MaxWidth="360" />
+                        </ToolTip>
+                    </Button.ToolTip>
+                </Button>
+            </Grid>
+            <ComboBox Grid.Row="5" Grid.Column="2" Margin="6,0" VerticalAlignment="Top"
+                      ItemsSource="{Binding PredatorTypes}" SelectedItem="{Binding SelectedPredatorType}"
+                      ItemContainerStyle="{StaticResource PredatorNameItem}" DisplayMemberPath="Name"
+                      Tag="Tipo de predador" AutomationProperties.Name="Tipo de predador" />
+        </Grid>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,33 @@
+<UserControl x:Class="VCS.Desktop.Controls.DotTrack"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="Root">
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <ItemsControl ItemsSource="{Binding Dots, ElementName=Root}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Tag="{Binding Number}" Click="SelectDot" Padding="3" Margin="1"
+                            Background="Transparent" BorderThickness="0"
+                            ToolTip="Clique para definir o nivel; repita no ponto selecionado para diminuir. No nivel 1, repita para zerar se permitido."
+                            AutomationProperties.Name="{Binding Number}">
+                        <Ellipse Width="13" Height="13" Stroke="{DynamicResource VcsAccent}" StrokeThickness="1.5">
+                            <Ellipse.Style>
+                                <Style TargetType="Ellipse">
+                                    <Setter Property="Fill" Value="Transparent" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Filled}" Value="True">
+                                            <Setter Property="Fill" Value="{DynamicResource VcsAccent}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <TextBlock Text="{Binding Value, ElementName=Root}" Margin="9,0,0,0" VerticalAlignment="Center" />
+    </StackPanel>
+</UserControl>

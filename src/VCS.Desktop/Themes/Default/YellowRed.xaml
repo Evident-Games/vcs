@@ -1,0 +1,15 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="VcsBackground" Color="#F4E6B5" />
+    <SolidColorBrush x:Key="VcsCard" Color="#FFF5D6" />
+    <!-- Texto de dentro: cartoes, campos, listas e menus abertos. -->
+    <SolidColorBrush x:Key="VcsText" Color="#302724" />
+    <!-- Texto de fora: direto sobre o fundo da janela (titulo, menu principal, cabecalho e status). -->
+    <SolidColorBrush x:Key="VcsOuterText" Color="#302724" />
+    <SolidColorBrush x:Key="VcsMuted" Color="#68513D" />
+    <SolidColorBrush x:Key="VcsBorder" Color="#A48D62" />
+    <SolidColorBrush x:Key="VcsAccent" Color="#97142B" />
+    <SolidColorBrush x:Key="VcsInput" Color="#FFFAE8" />
+    <SolidColorBrush x:Key="VcsHover" Color="#F2DFB8" />
+    <SolidColorBrush x:Key="VcsSelection" Color="#EED2B1" />
+</ResourceDictionary>
