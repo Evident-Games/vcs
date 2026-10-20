@@ -102,6 +102,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         campaignExperienceSpent = d.CampaignExperienceSpent;
         foreach (var group in Groups) group.Changed += OnTraitsChanged;
         SyncAttributeBase();
+        SyncDisciplineBase();
         _ready = true;
         ConfigureDisplay(Display);
         RefreshAdvancement();
@@ -320,6 +321,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     {
         if (!_ready) return;
         if (ReferenceEquals(sender, Attributes)) SyncAttributeBase();
+        else if (ReferenceEquals(sender, Disciplines)) SyncDisciplineBase();
         RefreshAdvancement();
         OnPropertyChanged(nameof(HealthCapacity));
         OnPropertyChanged(nameof(WillpowerCapacity));

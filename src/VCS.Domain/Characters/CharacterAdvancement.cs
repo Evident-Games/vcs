@@ -9,6 +9,9 @@ public sealed record ExperiencePurchase(DateTime Utc, TraitCategory? Category, s
 /// <summary>Initial rating chosen for an attribute; XP is charged only for levels above it.</summary>
 public sealed record AttributeBaseRating(string Key, int Rating);
 
+/// <summary>Initial rating chosen for one of the two chargen clan disciplines; XP is charged only for levels above it.</summary>
+public sealed record DisciplineBaseRating(string Key, int Rating);
+
 public sealed record AdvancementState
 {
     public bool AutomaticExperience { get; init; }
@@ -26,6 +29,7 @@ public sealed record AdvancementState
     public int BaselineNpcMental { get; init; }
     public ExperiencePurchase[] Purchases { get; init; } = [];
     public AttributeBaseRating[] AttributeBase { get; init; } = [];
+    public DisciplineBaseRating[] DisciplineBase { get; init; } = [];
 
     public bool Equals(AdvancementState? other) => other is not null &&
         AutomaticExperience == other.AutomaticExperience && IsCreating == other.IsCreating && HasCreationProfile == other.HasCreationProfile && Age == other.Age && Profile == other.Profile &&
@@ -33,7 +37,7 @@ public sealed record AdvancementState
         BaselineSpent == other.BaselineSpent && BaselineCampaignSpent == other.BaselineCampaignSpent &&
         BaselineNpcPhysical == other.BaselineNpcPhysical && BaselineNpcSocial == other.BaselineNpcSocial &&
         BaselineNpcMental == other.BaselineNpcMental && Baseline.SequenceEqual(other.Baseline) && Purchases.SequenceEqual(other.Purchases) &&
-        AttributeBase.SequenceEqual(other.AttributeBase);
+        AttributeBase.SequenceEqual(other.AttributeBase) && DisciplineBase.SequenceEqual(other.DisciplineBase);
 
     public override int GetHashCode()
     {
@@ -46,6 +50,7 @@ public sealed record AdvancementState
         foreach (var value in Baseline) hash.Add(value);
         foreach (var value in Purchases) hash.Add(value);
         foreach (var value in AttributeBase) hash.Add(value);
+        foreach (var value in DisciplineBase) hash.Add(value);
         return hash.ToHashCode();
     }
 }
@@ -55,9 +60,16 @@ public sealed record AdvancementResult(CharacterDetails Details, IReadOnlyList<T
 public static class CharacterAdvancement
 {
     public static readonly int[] AttributeDistribution = [4, 3, 3, 3, 2, 2, 2, 2, 1];
+    public static readonly int[] DisciplineDistribution = [2, 1];
 
     public static bool MatchesAttributeDistribution(IEnumerable<int> ratings) =>
         ratings.OrderByDescending(x => x).SequenceEqual(AttributeDistribution);
+
+    /// <summary>Discipline traits with the predator bonus subtracted back out, so only chargen-level ratings remain.</summary>
+    private static TraitValue[] PredatorAdjustedDisciplines(CharacterDetails details, IEnumerable<TraitValue> traits, bool requireInClan) =>
+        traits.Where(x => x.Category == TraitCategory.Discipline)
+            .Select(x => details.PredatorSelection?.DisciplineKey == x.Key ? x with { Rating = x.Rating - 1 } : x)
+            .Where(x => x.Rating > 0 && (!requireInClan || DisciplineAdvancement.IsInClan(details.Clan, x.Name) == true)).ToArray();
 
     /// <summary>
     /// Releases the attribute base when any attribute drops below it and records a new one
@@ -74,6 +86,25 @@ public static class CharacterAdvancement
         }
         return MatchesAttributeDistribution(values.Select(x => x.Rating))
             ? state with { AttributeBase = values.Select(x => new AttributeBaseRating(x.Key, x.Rating)).ToArray() }
+            : state;
+    }
+
+    /// <summary>
+    /// Releases the discipline base when either tracked discipline drops below it and records a new one
+    /// whenever the predator-adjusted in-clan discipline ratings form exactly the initial 2/1 split.
+    /// </summary>
+    public static AdvancementState SyncDisciplineBase(AdvancementState state, CharacterDetails details, IEnumerable<TraitValue> traits)
+    {
+        var values = traits.Where(x => x.Category == TraitCategory.Discipline).ToArray();
+        if (state.DisciplineBase.Length > 0)
+        {
+            var ratings = values.ToDictionary(x => x.Key, x => x.Rating);
+            if (state.DisciplineBase.All(x => ratings.GetValueOrDefault(x.Key, 0) >= x.Rating)) return state;
+            state = state with { DisciplineBase = [] };
+        }
+        var disciplines = PredatorAdjustedDisciplines(details, values, requireInClan: true);
+        return disciplines.Select(x => x.Rating).OrderDescending().SequenceEqual(DisciplineDistribution)
+            ? state with { DisciplineBase = disciplines.Select(x => new DisciplineBaseRating(x.Key, x.Rating)).ToArray() }
             : state;
     }
 
@@ -114,9 +145,9 @@ public static class CharacterAdvancement
         traits.Where(x => x.Category == TraitCategory.Flaw && !PredatorRules.IsGrant(x)).Sum(x => x.Rating);
     public static int[] SkillDistribution(SkillProfile profile) => profile switch
     {
-        SkillProfile.Specialist => [4, 3, 3, 3, 2, 2, 2, 2, 1],
-        SkillProfile.Balanced => [3, 3, 3, 2, 2, 2, 2, 2, 1],
-        SkillProfile.Generalist => [4, 3, 2, 2, 2, 2, 2, 1, 1],
+        SkillProfile.Specialist => [4, 3, 3, 3, 2, 2, 2, 1, 1, 1],
+        SkillProfile.Balanced => [3, 3, 3, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1],
+        SkillProfile.Generalist => [3, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         _ => throw new ArgumentOutOfRangeException(nameof(profile))
     };
 
@@ -158,10 +189,8 @@ public static class CharacterAdvancement
         if (!traits.Where(x => x.Category == TraitCategory.Skill && x.Rating > 0).Select(x => x.Rating)
                 .OrderDescending().SequenceEqual(SkillDistribution(state.Profile)))
             issues.Add("Habilidades: a distribuicao nao corresponde ao perfil escolhido; as demais ficam em zero.");
-        var disciplines = traits.Where(x => x.Category == TraitCategory.Discipline)
-            .Select(x => details.PredatorSelection?.DisciplineKey == x.Key ? x with { Rating = x.Rating - 1 } : x)
-            .Where(x => x.Rating > 0).ToArray();
-        if (!disciplines.Select(x => x.Rating).OrderDescending().SequenceEqual(new[] { 2, 1 }) ||
+        var disciplines = PredatorAdjustedDisciplines(details, traits, requireInClan: false);
+        if (!disciplines.Select(x => x.Rating).OrderDescending().SequenceEqual(DisciplineDistribution) ||
             disciplines.Any(x => DisciplineAdvancement.IsInClan(details.Clan, x.Name) != true))
             issues.Add("Disciplinas: escolha duas do cla, uma com 2 pontos e outra com 1.");
         if (details.PredatorSelection is { } chosen && PredatorRules.Unallocated(chosen) is var (advantages, flaws) && advantages + flaws > 0)

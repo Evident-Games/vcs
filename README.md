@@ -160,8 +160,8 @@ sem salvar esse texto como valor.
   base libera a redistribuição automaticamente. Sem base registrada, a
   distribuição é tratada como personalizada e os atributos não geram XP.
 - Habilidades, conforme os perfis fornecidos pelo usuário; demais em zero:
-  Especialista: 4,3,3,3,2,2,2,2,1; Equilibrado: 3,3,3,2,2,2,2,2,1;
-  Pau para toda obra: 4,3,2,2,2,2,2,1,1. Não são a distribuição de atributos.
+  Especialista: 4,3,3,3,2,2,2,1,1,1; Equilibrado: 3,3,3,2,2,2,2,2,1,1,1,1,1,1;
+  Pau para toda obra: 3,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1. Não são a distribuição de atributos.
 - Disciplinas iniciais: duas do clã, uma com 2 e outra com 1.
 - Excedentes: atributo e disciplina do clã = novo nível × 5;
   disciplina fora do clã = próximo nível × 7; habilidade = próximo nível × 3;

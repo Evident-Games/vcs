@@ -33,21 +33,17 @@ public static class AutomaticExperience
         }
         Distribution(TraitCategory.Skill, CharacterAdvancement.SkillDistribution(state.Profile), 3, "Skills");
 
-        var disciplines = traits.Where(x => x.Category == TraitCategory.Discipline)
-            .Select(x => (Trait: x, Bonus: details.PredatorSelection?.DisciplineKey == x.Key ? 1 : 0))
-            .Where(x => x.Trait.Rating > 0).OrderByDescending(x => x.Trait.Rating - x.Bonus)
-            .ThenBy(x => x.Trait.Key, StringComparer.Ordinal).ToArray();
-        var freeDiscipline = 0;
-        foreach (var discipline in disciplines)
+        foreach (var discipline in traits.Where(x => x.Category == TraitCategory.Discipline))
         {
-            var inClan = DisciplineAdvancement.IsInClan(details.Clan, discipline.Trait.Name);
+            var inClan = DisciplineAdvancement.IsInClan(details.Clan, discipline.Name);
             if (inClan is null)
             {
-                warnings.Add(new("Disciplines", $"Selecione um cla conhecido para calcular o XP de {discipline.Trait.Name}."));
+                warnings.Add(new("Disciplines", $"Selecione um cla conhecido para calcular o XP de {discipline.Name}."));
                 continue;
             }
-            var free = inClan.Value && freeDiscipline < 2 ? (freeDiscipline++ == 0 ? 2 : 1) : 0;
-            Levels("Disciplines", discipline.Trait, free + discipline.Bonus, inClan.Value ? 5 : 7);
+            var bonus = details.PredatorSelection?.DisciplineKey == discipline.Key ? 1 : 0;
+            var baseFree = state.DisciplineBase.FirstOrDefault(x => x.Key == discipline.Key)?.Rating ?? 0;
+            Levels("Disciplines", discipline, baseFree + bonus, inClan.Value ? 5 : 7);
         }
         var advantagePoints = traits.Where(x => x.Category == TraitCategory.Advantage && !PredatorRules.IsGrant(x)).Sum(x => x.Rating) +
             LoresheetRules.AdvantagePoints(traits);

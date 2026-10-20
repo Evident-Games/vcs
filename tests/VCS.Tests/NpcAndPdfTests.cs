@@ -134,8 +134,8 @@ public sealed class NpcAndPdfTests : IAsyncLifetime
         second.SelectedDiscipline = "Outra disciplina personalizada";
         second.Rating = 2;
 
-        Assert.DoesNotContain("Disciplina personalizada", first.Options);
-        Assert.DoesNotContain("Outra disciplina personalizada", second.Options);
+        Assert.DoesNotContain("Disciplina personalizada", first.Options.Select(x => x.Value));
+        Assert.DoesNotContain("Outra disciplina personalizada", second.Options.Select(x => x.Value));
         Assert.Contains(editor.Disciplines.Items, x => x.Name == "Disciplina personalizada" && x.Rating == 3);
         Assert.Contains(editor.Disciplines.Items, x => x.Name == "Outra disciplina personalizada" && x.Rating == 2);
         Assert.Single(editor.Disciplines.Items, x => x.Name.StartsWith("Disciplina", StringComparison.Ordinal));
@@ -437,7 +437,7 @@ public sealed class NpcAndPdfTests : IAsyncLifetime
         using var editor = Editor(await _service.CreateNpcAsync());
         editor.ConfigureAdvantageCatalog(await new SqliteAdvantageCatalog(_database).ListAsync());
         var family = editor.AdvantageCatalog!.Families.Single(x => x.Name == "Mortais");
-        var names = editor.NpcDisciplines[0].Options.Take(7).ToArray();
+        var names = editor.NpcDisciplines[0].Options.Select(x => x.Value).Take(7).ToArray();
         for (var i = 0; i < 7; i++)
         {
             if (i >= editor.NpcDisciplines.Count) editor.AddNpcDisciplineCommand.Execute(null);

@@ -25,7 +25,11 @@ public sealed class AutomaticExperienceTests
             new(TraitCategory.Discipline, "celerity", "Celeridade", 1),
             new(TraitCategory.Advantage, "merit", "Vantagem", 5),
             new(TraitCategory.Advantage, "merit2", "Outra vantagem", 2)];
-        var result = AutomaticExperience.Calculate(Details with { Advancement = Details.Advancement! with { Profile = profile } }, traits);
+        var disciplineBase = new DisciplineBaseRating[] { new("potence", 2), new("celerity", 1) };
+        var result = AutomaticExperience.Calculate(Details with
+        {
+            Advancement = Details.Advancement! with { Profile = profile, DisciplineBase = disciplineBase }
+        }, traits);
         Assert.Equal(15, result.Total);
         Assert.Equal(0, result.Spent);
         Assert.Empty(result.Warnings);
@@ -43,7 +47,10 @@ public sealed class AutomaticExperienceTests
             new(TraitCategory.Advantage, "merit2", "Outra vantagem", 5)];
         var attributeBase = CharacterRules.DefaultAttributes.Select((x, i) =>
             new AttributeBaseRating(x.Key, CharacterAdvancement.AttributeDistribution[i])).ToArray();
-        var details = Details with { BloodPotency = 2, Advancement = Details.Advancement! with { AttributeBase = attributeBase } };
+        var details = Details with { BloodPotency = 2, Advancement = Details.Advancement! with
+        {
+            AttributeBase = attributeBase, DisciplineBase = [new("potence", 2), new("celerity", 1)]
+        } };
         Assert.DoesNotContain(AutomaticExperience.Calculate(Details, traits).Costs, x => x.Section == "Attributes");
         var result = AutomaticExperience.Calculate(details, traits);
         Assert.Equal(470, result.Costs.Where(x => x.Section == "Attributes").Sum(x => x.Cost));
@@ -67,7 +74,8 @@ public sealed class AutomaticExperienceTests
     {
         var details = Details with
         {
-            PredatorSelection = new("alleycat", "potence", "Potência", "brawl", "Briga", "Agarramento", true, [], -1, 0)
+            PredatorSelection = new("alleycat", "potence", "Potência", "brawl", "Briga", "Agarramento", true, [], -1, 0),
+            Advancement = Details.Advancement! with { DisciplineBase = [new("potence", 2), new("celerity", 1)] }
         };
         var initial = AutomaticExperience.Calculate(details,
             [new(TraitCategory.Discipline, "potence", "Potência", 3),
@@ -82,6 +90,26 @@ public sealed class AutomaticExperienceTests
             PredatorSelection = details.PredatorSelection! with { DisciplineKey = "obfuscate", Discipline = "Ofuscação" }
         }, [new(TraitCategory.Discipline, "obfuscate", "Ofuscação", 2)]);
         Assert.Equal(14, outOfClan.Spent);
+    }
+
+    [Fact]
+    public void Buying_a_third_discipline_does_not_charge_for_the_original_two()
+    {
+        var details = Details with
+        {
+            Clan = "Gangrel",
+            PredatorSelection = new("alleycat", "fortitude", "Fortitude", "brawl", "Briga", "Agarramento", true, [], -1, 0)
+        };
+        TraitValue[] chargenPicks = [new(TraitCategory.Discipline, "animalism", "Animalismo", 2),
+            new(TraitCategory.Discipline, "protean", "Proteanismo", 1)];
+        var advancement = CharacterAdvancement.SyncDisciplineBase(details.Advancement!, details, chargenPicks);
+        Assert.Equal(2, advancement.DisciplineBase.Length);
+
+        TraitValue[] traits = [.. chargenPicks, new(TraitCategory.Discipline, "fortitude", "Fortitude", 2)];
+        var result = AutomaticExperience.Calculate(details with { Advancement = advancement }, traits);
+
+        Assert.Equal(0, result.Costs.Where(x => x.Name is "Animalismo" or "Proteanismo").Sum(x => x.Cost));
+        Assert.Equal(10, result.Costs.Single(x => x.Name == "Fortitude").Cost);
     }
 
     [Fact]

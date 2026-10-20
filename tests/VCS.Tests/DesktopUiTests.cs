@@ -218,10 +218,10 @@ public sealed class DesktopUiTests
                     Assert.Equal(3, skillColumns.Count);
                     Assert.All(skillColumns, x => Assert.Equal(skillColumns[0].Y, x.Y, 1));
                     Assert.True(skillColumns[0].X < skillColumns[1].X && skillColumns[1].X < skillColumns[2].X);
-                    Assert.Equal("1 × ●●●● · 3 × ●●● · 4 × ●● · 1 × ● · demais em 0", skillDistribution.Text);
+                    Assert.Equal("1 × ●●●● · 3 × ●●● · 3 × ●● · 3 × ● · demais em 0", skillDistribution.Text);
                     skillProfile.SelectedIndex = 1;
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-                    Assert.Equal("3 × ●●● · 5 × ●● · 1 × ● · demais em 0", skillDistribution.Text);
+                    Assert.Equal("3 × ●●● · 5 × ●● · 6 × ● · demais em 0", skillDistribution.Text);
                     Assert.True(await model.Editor.FlushAsync());
                     Assert.Equal(VCS.Domain.Characters.SkillProfile.Balanced,
                         (await service.GetAsync(model.Editor.Id)).Details.Advancement!.Profile);

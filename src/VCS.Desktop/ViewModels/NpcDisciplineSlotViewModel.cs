@@ -21,11 +21,12 @@ public sealed partial class NpcDisciplineSlotViewModel : ObservableObject, IDisp
         _selected = item?.Name ?? "";
         Attach(item);
         Options = [.. editor.Powers.AllPowers.Where(x => !x.Definition.IsRitual).Select(x => x.Definition.Discipline)
-            .Concat(editor.Disciplines.Items.Select(x => x.Name)).Where(x => x.Length != 0).Distinct().Order()];
+            .Concat(editor.Disciplines.Items.Select(x => x.Name)).Where(x => x.Length != 0).Distinct().Order()
+            .Select(x => new SuggestionItem(x))];
         RefreshPowers();
     }
 
-    public string[] Options { get; }
+    public SuggestionItem[] Options { get; }
     public bool IsCatalogDiscipline => IsCatalogName(_selected);
     public bool IsCustomDiscipline => !IsCatalogDiscipline;
     public bool CanSelectDiscipline => _item?.CanEditName ?? true;

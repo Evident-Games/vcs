@@ -27,9 +27,10 @@ public sealed class PredatorTests
     private static (CharacterDetails Details, TraitValue[] Traits) Build(string firstSkill = "Medicina", string clan = "Brujah")
     {
         var attributes = new[] { 4, 3, 3, 3, 2, 2, 2, 2, 1 };
+        var specialistSkills = CharacterAdvancement.SkillDistribution(SkillProfile.Specialist);
         var skills = new[] { firstSkill, "Intimidação" }.Concat(PredatorCatalog.All.SelectMany(x => x.Specializations).Select(x => x.Skill))
             .Distinct().Select((name, i) => new TraitValue(TraitCategory.Skill, "skill-" + i, name,
-                i < 9 ? CharacterAdvancement.SkillDistribution(SkillProfile.Specialist)[i] : 0));
+                i < specialistSkills.Length ? specialistSkills[i] : 0));
         var disciplines = ClanCatalog.Find(clan)!.Disciplines.Take(2).Select((name, i) =>
             new TraitValue(TraitCategory.Discipline, "disc-" + i, name, i == 0 ? 2 : 1));
         return (new()

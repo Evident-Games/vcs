@@ -62,6 +62,11 @@ public partial class CharacterEditorViewModel
         if (IsNpc || _advancement is null) return;
         _advancement = CharacterAdvancement.SyncAttributeBase(_advancement, Attributes.Items.Select(x => x.ToValue()));
     }
+    private void SyncDisciplineBase()
+    {
+        if (IsNpc || _advancement is null) return;
+        _advancement = CharacterAdvancement.SyncDisciplineBase(_advancement, Snapshot().Details, Disciplines.Items.Select(x => x.ToValue()));
+    }
     private void RefreshAttributeInfo()
     {
         var bases = _advancement?.AttributeBase.ToDictionary(x => x.Key, x => x.Rating) ?? [];
@@ -83,8 +88,8 @@ public partial class CharacterEditorViewModel
     public bool IsInitialSkillsComplete => !CharacterAdvancement.MissingDistribution(Skills.Items.Select(x => x.Rating),
         CharacterAdvancement.SkillDistribution((SkillProfile)SkillProfileIndex)).Any();
     public const string SkillProfileHelp =
-        "Especialista: 4 · 3 · 3 · 3 · 2 · 2 · 2 · 2 · 1\nEquilibrado: 3 · 3 · 3 · 2 · 2 · 2 · 2 · 2 · 1\n" +
-        "Pau para toda obra: 4 · 3 · 2 · 2 · 2 · 2 · 2 · 1 · 1\n\n" +
+        "Especialista: 4 · 3 · 3 · 3 · 2 · 2 · 2 · 1 · 1 · 1\nEquilibrado: 3 · 3 · 3 · 2 · 2 · 2 · 2 · 2 · 1 · 1 · 1 · 1 · 1 · 1\n" +
+        "Pau para toda obra: 3 · 2 · 2 · 2 · 2 · 2 · 2 · 2 · 2 · 1 · 1 · 1 · 1 · 1 · 1 · 1 · 1 · 1 · 1\n\n" +
         "Distribua esses pontos gratuitos; as demais habilidades ficam em 0. Uma nota maior cobre uma vaga menor.";
     public string InitialAttributesRemaining => MissingRatings(Attributes.Items.Select(x => x.Rating),
         CharacterAdvancement.AttributeDistribution);
@@ -100,7 +105,7 @@ public partial class CharacterEditorViewModel
         }
     }
     public string InitialDisciplinesDescription => "Pontos iniciais gratuitos: duas disciplinas do cla com 2 e 1 pontos, mais o bonus aplicado do predador. Excedentes: novo nivel x 5 XP (do cla) ou x 7 XP (fora do cla).";
-    public static readonly int[] DisciplineDistribution = [2, 1];
+    public static readonly int[] DisciplineDistribution = CharacterAdvancement.DisciplineDistribution;
     public string InitialDisciplinesSpread => $"{DotSpread(DisciplineDistribution)} do clã · +1 × ● do predador";
     public const string DisciplineHelp =
         "1 × ●● disciplina principal do clã\n1 × ● disciplina secundária do clã\n1 × ● do tipo de predador (aplicado na seção Vantagens)\n\n" +

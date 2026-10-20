@@ -8,3 +8,6 @@ artifacts/
 *.db-shm
 *.db-wal
 *.log
+
+.claude
+.tokensave

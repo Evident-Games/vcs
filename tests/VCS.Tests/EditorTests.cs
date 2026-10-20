@@ -484,7 +484,7 @@ public sealed class EditorTests : IAsyncLifetime
         editor.CampaignExperienceTotal = 35;
         editor.Clan = "Brujah";
         editor.Disciplines.Items.Single(x => x.Name == "Potência").Rating = 3;
-        Assert.Equal(35, editor.ExperienceAvailable);
+        Assert.Equal(20, editor.ExperienceAvailable);
         await _autosave.FireAsync();
         Assert.False(editor.IsDirty);
         var saved = await _service.GetAsync(editor.Id);
@@ -497,13 +497,13 @@ public sealed class EditorTests : IAsyncLifetime
         Assert.Equal(editor.IdentityFields.Select(x => x.Value), reopened.IdentityFields.Select(x => x.Value));
         Assert.Equal(editor.BackgroundFields.Select(x => x.Value), reopened.BackgroundFields.Select(x => x.Value));
         Assert.Equal(editor.BloodFields.Select(x => x.Value), reopened.BloodFields.Select(x => x.Value));
-        Assert.Equal(35, reopened.ExperienceAvailable);
+        Assert.Equal(20, reopened.ExperienceAvailable);
         reopened.CampaignExperienceTotal = 0;
         reopened.Disciplines.Items.Single(x => x.Name == "Potência").Rating = 4;
         Assert.False(reopened.HasErrors);
-        Assert.Contains("Faltam 20 XP", reopened.ExperienceWarning);
+        Assert.Contains("Faltam 35 XP", reopened.ExperienceWarning);
         Assert.True(await reopened.FlushAsync());
-        Assert.Equal(35, (await _service.GetAsync(editor.Id)).Details.ExperienceSpent);
+        Assert.Equal(50, (await _service.GetAsync(editor.Id)).Details.ExperienceSpent);
     }
 
     [Fact]
