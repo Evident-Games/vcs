@@ -6,10 +6,10 @@
     <SolidColorBrush x:Key="VcsText" Color="#FFFFFF" />
     <!-- Texto de fora: direto sobre o fundo da janela (titulo, menu principal, cabecalho e status). -->
     <SolidColorBrush x:Key="VcsOuterText" Color="#333333" />
-    <SolidColorBrush x:Key="VcsMuted" Color="#C30011" />
-    <SolidColorBrush x:Key="VcsBorder" Color="#A90015" />
-    <SolidColorBrush x:Key="VcsAccent" Color="#A90015" />
+    <SolidColorBrush x:Key="VcsMuted" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="VcsBorder" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="VcsAccent" Color="#DB0013" />
     <SolidColorBrush x:Key="VcsInput" Color="#333333" />
-    <SolidColorBrush x:Key="VcsHover" Color="#C30011" />
-    <SolidColorBrush x:Key="VcsSelection" Color="#C30011" />
+    <SolidColorBrush x:Key="VcsHover" Color="#DB0013" />
+    <SolidColorBrush x:Key="VcsSelection" Color="#333333" />
 </ResourceDictionary>

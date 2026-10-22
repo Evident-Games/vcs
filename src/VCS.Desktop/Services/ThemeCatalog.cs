@@ -20,19 +20,21 @@ public static class ThemeCatalog
         new ThemeDefinition("yellow-red", "Amarelo e vermelho", ThemeGroup.Default, "YellowRed"),
         new ThemeDefinition("banu-haqim", "Banu Haqim", ThemeGroup.Clan, "BanuHaqim"),
         new ThemeDefinition("brujah", "Brujah", ThemeGroup.Clan, "Brujah"),
+        new ThemeDefinition("caitiff", "Caitiff", ThemeGroup.Clan, "Caitiff"),
         new ThemeDefinition("gangrel", "Gangrel", ThemeGroup.Clan, "Grangel"),
+        new ThemeDefinition("hecata", "Hecata", ThemeGroup.Clan, "Hecata"),
+        new ThemeDefinition("lasombra", "Lasombra", ThemeGroup.Clan, "Lasombra"),
         new ThemeDefinition("malkavian", "Malkavianos", ThemeGroup.Clan, "Malkavianos"),
         new ThemeDefinition("nosferatu", "Nosferatu", ThemeGroup.Clan, "Nosferatu"),
-        new ThemeDefinition("tremere", "Tremere", ThemeGroup.Clan, "Tremere"),
-        new ThemeDefinition("ventrue", "Ventrue", ThemeGroup.Clan, "Ventrue"),
-        new ThemeDefinition("toreador", "Toreador", ThemeGroup.Clan, "Toreador"),
-        new ThemeDefinition("caitiff", "Caitiff", ThemeGroup.Clan, "Caitiff"),
         new ThemeDefinition("ministerio", "O Ministério", ThemeGroup.Clan, "Oministerio"),
         new ThemeDefinition("ravnos", "Ravnos", ThemeGroup.Clan, "Ravnos"),
         new ThemeDefinition("salubri", "Salubri", ThemeGroup.Clan, "Salubri"),
-        new ThemeDefinition("tzimisce", "Tzimisce", ThemeGroup.Clan, "Tzimisce"),
         new ThemeDefinition("sangue-ralo", "Sangue-Ralo", ThemeGroup.Clan, "SangueRalos"),
-        new ThemeDefinition("hecata", "Hecata", ThemeGroup.Clan, "Hecata")
+        new ThemeDefinition("toreador", "Toreador", ThemeGroup.Clan, "Toreador"),
+        new ThemeDefinition("tremere", "Tremere", ThemeGroup.Clan, "Tremere"),
+        new ThemeDefinition("tzimisce", "Tzimisce", ThemeGroup.Clan, "Tzimisce"),
+        new ThemeDefinition("ventrue", "Ventrue", ThemeGroup.Clan, "Ventrue"),
+        
     });
 
     public static ThemeDefinition Get(string id) => All.FirstOrDefault(x => x.Id == id)

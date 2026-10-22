@@ -11,5 +11,5 @@
     <SolidColorBrush x:Key="VcsAccent" Color="#F2F2F2" />
     <SolidColorBrush x:Key="VcsInput" Color="#000000" />
     <SolidColorBrush x:Key="VcsHover" Color="#0C0C0C" />
-    <SolidColorBrush x:Key="VcsSelection" Color="#151515" Opacity="0.2" />
+    <SolidColorBrush x:Key="VcsSelection" Color="#151515"/>
 </ResourceDictionary>
