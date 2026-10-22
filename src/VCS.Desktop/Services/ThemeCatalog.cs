@@ -1,6 +1,6 @@
 namespace VCS.Desktop.Services;
 
-public enum ThemeGroup { Default, Clan }
+public enum ThemeGroup { Default, Clan, Special }
 
 public sealed record ThemeDefinition(string Id, string Name, ThemeGroup Group, string ResourceName)
 {
@@ -11,6 +11,7 @@ public sealed record ThemeDefinition(string Id, string Name, ThemeGroup Group, s
 public static class ThemeCatalog
 {
     public const string DefaultId = "white-red";
+    public const string SpecialId = "coterie";
     public static IReadOnlyList<ThemeDefinition> All { get; } = Array.AsReadOnly(new[]
     {
         new ThemeDefinition("black-white", "Preto e branco", ThemeGroup.Default, "BlackWhite"),
@@ -34,7 +35,8 @@ public static class ThemeCatalog
         new ThemeDefinition("tremere", "Tremere", ThemeGroup.Clan, "Tremere"),
         new ThemeDefinition("tzimisce", "Tzimisce", ThemeGroup.Clan, "Tzimisce"),
         new ThemeDefinition("ventrue", "Ventrue", ThemeGroup.Clan, "Ventrue"),
-        
+        new ThemeDefinition(SpecialId, "O Sínido de Alabastro", ThemeGroup.Special, "Coterie"),
+
     });
 
     public static ThemeDefinition Get(string id) => All.FirstOrDefault(x => x.Id == id)

@@ -633,7 +633,7 @@ public sealed class DesktopUiTests
                     var themeMenu = settingsMenu.Items.OfType<MenuItem>().Last();
                     Assert.Equal("Temas", themeMenu.Header);
                     var themeGroups = themeMenu.Items.OfType<MenuItem>().ToArray();
-                    Assert.Equal(["Padrao", "Clas"], themeGroups.Select(x => (string)x.Header));
+                    Assert.Equal(["Padrao", "Clas", "Especiais"], themeGroups.Select(x => (string)x.Header));
                     Assert.Equal(model.Display.DefaultThemes.Select(x => x.Id),
                         ThemeCatalog.All.Where(x => x.Group == ThemeGroup.Default).Select(x => x.Id));
                     Assert.Equal(5, model.Display.DefaultThemes.Count());
@@ -665,7 +665,7 @@ public sealed class DesktopUiTests
                         if (strict)
                             Assert.True(Contrast(((SolidColorBrush)palette["VcsOuterText"]).Color,
                                 ((SolidColorBrush)palette["VcsBackground"]).Color) >= 4.5,
-                                $"{option.Name}: VcsOuterText/VcsBackground deve ter contraste minimo de 4.5:1.");                        if (option.Id == ThemeCatalog.DefaultId)
+                                $"{option.Name}: VcsOuterText/VcsBackground deve ter contraste minimo de 4.5:1.");                        if (option.Id == ThemeCatalog.DefaultId, ThemeCatalog.SpecialId)
                         {
                             // Outer text follows the window background; text inside cards keeps VcsText.
                             var livePalette = app.Resources.MergedDictionaries.Single(x => x.Contains("VcsBackground"));
