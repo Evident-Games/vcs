@@ -14,6 +14,10 @@ public sealed class SqliteDatabaseMaintenance(DatabaseAccess database) : IDataba
         try
         {
             await using var db = database.CreateContext();
+            // A new app version may carry schema/catalog fixes; keep a copy of the old database first.
+            if ((await db.Database.GetAppliedMigrationsAsync(cancellationToken)).Any() &&
+                (await db.Database.GetPendingMigrationsAsync(cancellationToken)).Any())
+                await Task.Run(() => BackupTo(database.Path + ".before-migrate-" + DateTime.UtcNow.ToString("yyyyMMddHHmmss") + ".bak"), cancellationToken);
             await MigrateKnownSchemaAsync(db, false, cancellationToken);
         }
         finally { database.Gate.Release(); }

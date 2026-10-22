@@ -13,7 +13,8 @@ public partial class MainViewModel(
     IDesktopDialogs dialogs, ThemeService themes, Func<CharacterDto, CharacterEditorViewModel> createEditor,
     ILogger<MainViewModel> logger, DisplaySettingsStore? preferencesStore = null,
     IAdvantageCatalog? advantageCatalog = null, ISkillCatalog? skillCatalog = null,
-    ICharacterPdfExporter? pdfExporter = null, IPredatorCatalog? predatorCatalog = null) : ObservableObject
+    ICharacterPdfExporter? pdfExporter = null, IPredatorCatalog? predatorCatalog = null,
+    UpdateService? updates = null) : ObservableObject
 {
     private IReadOnlyList<CharacterSummary> _all = [];
     [ObservableProperty] private CharacterEditorViewModel? editor;
@@ -23,6 +24,7 @@ public partial class MainViewModel(
     [ObservableProperty] private bool isLayoutSettingsOpen;
     [ObservableProperty] private bool isHelpOpen;
     [ObservableProperty] private string error = "";
+    [ObservableProperty] private UpdateInfo? availableUpdate;
     [ObservableProperty] private string message = "Modo provisorio: banco local criado automaticamente. Nenhuma configuracao necessaria.";
     public ObservableCollection<CharacterSummary> Characters { get; } = [];
     public ObservableCollection<CharacterEditorViewModel> OpenEditors { get; } = [];
@@ -185,6 +187,34 @@ public partial class MainViewModel(
     {
         if (editor is not null && OpenEditors.Contains(editor)) Editor = editor;
     }
+
+    public async Task CheckForUpdateAsync()
+    {
+        if (updates is null) return;
+        try { AvailableUpdate = await updates.CheckAsync(); }
+        catch (Exception exception)
+        {
+            // Offline or GitHub unreachable: the app keeps working without notice.
+            logger.LogWarning(exception, "Checagem de atualizacao falhou");
+            return;
+        }
+        if (AvailableUpdate is not null)
+            Message = $"Nova versao {AvailableUpdate.Version} disponivel (atual {UpdateService.CurrentVersion}). Clique em Atualizar.";
+    }
+
+    [RelayCommand]
+    private Task UpdateAsync() => RunAsync(async () =>
+    {
+        if (updates is null || AvailableUpdate is null) return;
+        Message = "Baixando atualizacao...";
+        if (await updates.ApplyAsync(AvailableUpdate))
+            System.Windows.Application.Current.Shutdown();
+        else
+        {
+            UpdateService.OpenPage(AvailableUpdate.PageUrl);
+            Message = "Sem permissao para atualizar aqui. Baixe a nova versao na pagina aberta.";
+        }
+    });
 
     private async Task RunAsync(Func<Task> action)
     {

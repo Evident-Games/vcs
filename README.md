@@ -44,6 +44,22 @@ dotnet run --project src\VCS.Desktop
 dotnet publish .\src\VCS.Desktop\VCS.Desktop.csproj -c Release -p:PublishProfile=WindowsX64 -o .\artifacts\portable
 ```
 
+### Atualizações via GitHub
+
+Ao abrir, o app consulta a release mais recente de `Evident-Games/vcs` (inclui
+pre-release). Se a tag for maior que a versão do app, a barra inferior mostra
+**Atualizar**: o `.exe` é baixado, conferido pelo SHA-256 da release, substitui o atual
+e o app reinicia. Sem internet nada aparece e o app segue offline. Correções de banco
+e catálogo viajam como migrações no próprio app; antes de aplicar migrações pendentes
+o banco é copiado para `vcs.db.before-migrate-<data>.bak`. `VCS_DISABLE_UPDATE_CHECK=1`
+desliga a consulta.
+
+Para publicar:
+
+1. Suba `<Version>` em `Directory.Build.props` (a tag precisa ser maior, ex. `0.2.0`).
+2. Rode o `dotnet publish` acima.
+3. `gh release create 0.2.0 artifacts\portable\VCS.exe --notes "..."` (anexe um único `.exe`).
+
 A primeira execução aplica as migrações e abre uma lista vazia. Use
 **Arquivo → Novo personagem**, edite a ficha e volte por **Arquivo → Lista de personagens**.
 Para abrir uma ficha na lista, selecione-a e use **Arquivo → Abrir ficha**, Enter ou

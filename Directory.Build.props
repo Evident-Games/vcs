@@ -5,6 +5,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AnalysisLevel>latest</AnalysisLevel>
     <Deterministic>true</Deterministic>
-    <Version>0.14.0</Version>
+    <Version>0.2.0</Version>
   </PropertyGroup>
 </Project>

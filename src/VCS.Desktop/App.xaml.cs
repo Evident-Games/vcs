@@ -38,7 +38,10 @@ public partial class App : System.Windows.Application
                 .CreateLogger();
             var instanceKey = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(databasePath.ToUpperInvariant())));
             _instance = new Mutex(false, @"Local\VCS-" + instanceKey);
-            try { _ownsMutex = _instance.WaitOne(0); }
+            UpdateService.CleanupPreviousVersion();
+            // After a self-update the previous process may still be closing and holding the mutex.
+            var afterUpdate = e.Args.Contains(UpdateService.AfterUpdateArgument);
+            try { _ownsMutex = _instance.WaitOne(afterUpdate ? TimeSpan.FromSeconds(10) : TimeSpan.Zero); }
             catch (AbandonedMutexException)
             {
                 _ownsMutex = true;
@@ -71,6 +74,7 @@ public partial class App : System.Windows.Application
                 new(dto, provider.GetRequiredService<CharacterService>(),
                     provider.GetRequiredService<ILogger<CharacterEditorViewModel>>(), new DispatcherAutosaveScheduler(),
                     provider.GetRequiredService<IDisciplineCatalog>()));
+            builder.Services.AddSingleton<UpdateService>();
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<MainWindow>();
             _host = builder.Build();
@@ -80,6 +84,7 @@ public partial class App : System.Windows.Application
             MainWindow = _host.Services.GetRequiredService<MainWindow>();
             MainWindow.Show();
             await viewModel.InitializeAsync();
+            _ = viewModel.CheckForUpdateAsync();
             Log.Information("VCS iniciado");
         }
         catch (Exception exception)
