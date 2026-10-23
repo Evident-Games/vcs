@@ -1,6 +1,6 @@
 namespace VCS.Desktop.Services;
 
-public enum ThemeGroup { Default, Clan }
+public enum ThemeGroup { Default, Clan, Special }
 
 public sealed record ThemeDefinition(string Id, string Name, ThemeGroup Group, string ResourceName)
 {
@@ -34,7 +34,8 @@ public static class ThemeCatalog
         new ThemeDefinition("tremere", "Tremere", ThemeGroup.Clan, "Tremere"),
         new ThemeDefinition("tzimisce", "Tzimisce", ThemeGroup.Clan, "Tzimisce"),
         new ThemeDefinition("ventrue", "Ventrue", ThemeGroup.Clan, "Ventrue"),
-        
+        new ThemeDefinition("coterie", "O Sínido de Alabastro", ThemeGroup.Special, "Coterie"),
+
     });
 
     public static ThemeDefinition Get(string id) => All.FirstOrDefault(x => x.Id == id)

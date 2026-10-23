@@ -633,7 +633,7 @@ public sealed class DesktopUiTests
                     var themeMenu = settingsMenu.Items.OfType<MenuItem>().Last();
                     Assert.Equal("Temas", themeMenu.Header);
                     var themeGroups = themeMenu.Items.OfType<MenuItem>().ToArray();
-                    Assert.Equal(["Padrao", "Clas"], themeGroups.Select(x => (string)x.Header));
+                    Assert.Equal(["Padrao", "Clas", "Especiais"], themeGroups.Select(x => (string)x.Header));
                     Assert.Equal(model.Display.DefaultThemes.Select(x => x.Id),
                         ThemeCatalog.All.Where(x => x.Group == ThemeGroup.Default).Select(x => x.Id));
                     Assert.Equal(5, model.Display.DefaultThemes.Count());
