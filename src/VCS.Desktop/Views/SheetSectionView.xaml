@@ -10,7 +10,7 @@
                 <TextBlock Text="{Binding Name}" FontSize="13" />
                 <controls:DotTrack x:Name="Track" Value="{Binding Rating, Mode=TwoWay}" AutomationProperties.Name="{Binding Key}" />
                 <!-- Two fixed lines as wide as the dots, so the cost text never widens the column. -->
-                <TextBlock Text="{Binding AdvancementInfo}" FontSize="10" Opacity="0.75" Foreground="{DynamicResource VcsMuted}"
+                <TextBlock Text="{Binding AdvancementInfo}" FontSize="10" Opacity="0.75" Foreground="{DynamicResource VcsInputDescription}"
                            Width="{Binding ActualWidth, ElementName=Track}" Height="28" TextWrapping="Wrap"
                            TextTrimming="CharacterEllipsis" ToolTip="{Binding AdvancementInfo}"
                            AutomationProperties.Name="{Binding Name, StringFormat=Custo de {0}}" />
@@ -21,9 +21,9 @@
             <DockPanel Margin="8,0,8,12">
                 <StackPanel>
                     <TextBlock Text="{Binding AttributesSummary}" FontWeight="SemiBold" TextWrapping="Wrap"
-                               Foreground="{DynamicResource VcsAccent}" AutomationProperties.Name="Atributos que faltam" />
+                               Foreground="{DynamicResource VcsAccentText}" AutomationProperties.Name="Atributos que faltam" />
                     <TextBlock Text="{Binding InitialAttributesDescription}" TextWrapping="Wrap" FontSize="11" Opacity="0.75"
-                               Margin="0,2,0,0" Foreground="{DynamicResource VcsMuted}"
+                               Margin="0,2,0,0" Foreground="{DynamicResource VcsInputDescription}"
                                AutomationProperties.Name="Distribuicao inicial de atributos" />
                 </StackPanel>
             </DockPanel>
@@ -82,7 +82,7 @@
                     </StackPanel>
                     <StackPanel Margin="8,0,0,16">
                         <TextBlock Text="Potencia de Sangue" Style="{StaticResource FieldLabel}" />
-                        <TextBlock Text="{Binding StateExperience}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" />
+                        <TextBlock Text="{Binding StateExperience}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccentText}" />
                         <controls:DotTrack Value="{Binding BloodPotency, Mode=TwoWay}" Maximum="10"
                                            IsEnabled="{Binding CanEditBuild}"
                                            AutomationProperties.Name="Potencia de sangue na ficha" />
@@ -90,7 +90,7 @@
                 </WrapPanel>
                 <views:HumanityView />
                 <TextBlock Text="Sangue: valores de referencia preenchidos pela mesa; sem calculo automatico." TextWrapping="Wrap"
-                           Foreground="{DynamicResource VcsMuted}" Margin="8" />
+                           Foreground="{DynamicResource VcsInputDescription}" Margin="8" />
                 <ItemsControl ItemsSource="{Binding BloodFields}" ItemTemplate="{StaticResource SheetExtraField}">
                     <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -138,7 +138,7 @@
         </Border.Style>
         <StackPanel>
             <TextBlock Text="{Binding Title}" FontFamily="Georgia" FontSize="22" HorizontalAlignment="Center"
-                       Foreground="{DynamicResource VcsAccent}" Margin="0,0,0,16">
+                       Foreground="{DynamicResource VcsAccentText}" Margin="0,0,0,16">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Style.Triggers>

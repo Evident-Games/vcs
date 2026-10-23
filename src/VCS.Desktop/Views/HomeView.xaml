@@ -10,16 +10,16 @@
         <StackPanel Margin="0,0,0,24">
             <TextBlock Text="Personagens" FontFamily="Georgia" FontSize="36" />
             <TextBlock Text="Identidades, escolhas e historias sob o mesmo teto." Margin="0,8,0,0"
-                       Foreground="{DynamicResource VcsMuted}" />
+                       Foreground="{DynamicResource VcsInputDescription}" />
         </StackPanel>
         <TextBlock Grid.Row="1" Text="Arquivo > Novo personagem para criar. Use Arquivo > Abrir ficha, Enter ou duplo clique na ficha para abrir."
-                   Foreground="{DynamicResource VcsMuted}" Margin="0,0,0,20" TextWrapping="Wrap" />
+                   Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,20" TextWrapping="Wrap" />
         <Grid Grid.Row="2" Margin="0,0,0,16">
             <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
             <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" MaxWidth="540" HorizontalAlignment="Stretch"
                      AutomationProperties.Name="Buscar por nome, cla ou cronica" ToolTip="Buscar por nome, cla ou cronica" />
             <TextBlock Grid.Column="1" Text="{Binding CountLabel}" VerticalAlignment="Center" Margin="24,0,0,0"
-                       Foreground="{DynamicResource VcsMuted}" />
+                       Foreground="{DynamicResource VcsInputDescription}" />
         </Grid>
         <Border Grid.Row="3" Style="{StaticResource Card}" Padding="12">
             <Grid>
@@ -55,14 +55,14 @@
                                            TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                                 <Grid Grid.Column="1" VerticalAlignment="Center" Margin="16,0,8,0">
                                     <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Clan}" Foreground="{DynamicResource VcsMuted}"
+                                    <TextBlock Text="{Binding Clan}" Foreground="{DynamicResource VcsInputDescription}"
                                                TextTrimming="CharacterEllipsis" />
                                     <TextBlock Grid.Column="1" Text="{Binding Chronicle}" Margin="12,0,0,0"
-                                               Foreground="{DynamicResource VcsMuted}" TextTrimming="CharacterEllipsis" />
+                                               Foreground="{DynamicResource VcsInputDescription}" TextTrimming="CharacterEllipsis" />
                                 </Grid>
                                 <TextBlock Grid.Column="2" Text="{Binding UpdatedUtc, StringFormat='{}{0:dd/MM/yy}'}"
                                            FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Right"
-                                           Foreground="{DynamicResource VcsMuted}" />
+                                           Foreground="{DynamicResource VcsInputDescription}" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -71,7 +71,7 @@
                             Visibility="{Binding IsEmpty, Converter={StaticResource BoolVisibility}}">
                     <TextBlock Text="Nenhuma ficha encontrada" FontFamily="Georgia" FontSize="26" HorizontalAlignment="Center" />
                     <TextBlock Text="Crie um personagem, importe um JSON ou ajuste a busca." Margin="0,12,0,0"
-                               Foreground="{DynamicResource VcsMuted}" HorizontalAlignment="Center" />
+                               Foreground="{DynamicResource VcsInputDescription}" HorizontalAlignment="Center" />
                 </StackPanel>
             </Grid>
         </Border>

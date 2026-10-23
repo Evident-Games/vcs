@@ -18,7 +18,7 @@
             <Setter Property="ToolTipService.ShowDuration" Value="30000" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -26,14 +26,14 @@
             <Setter Property="Text" Value="?" />
             <Setter Property="FontSize" Value="10" />
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsAccent}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
         <Style x:Key="SkillStat" TargetType="TextBlock">
             <Setter Property="FontSize" Value="12" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsMuted}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
         </Style>
         <DataTemplate DataType="{x:Type vm:TraitItemViewModel}">
             <StackPanel Margin="0,0,0,10">
@@ -95,16 +95,16 @@
                         <TextBlock Style="{StaticResource SkillHelpMark}" />
                     </Border>
                     <TextBlock Text="{Binding InitialSkillsDescription}" Margin="14,0,0,0" FontSize="12" VerticalAlignment="Center"
-                               Foreground="{DynamicResource VcsMuted}" AutomationProperties.Name="Distribuicao inicial de habilidades" />
+                               Foreground="{DynamicResource VcsInputDescription}" AutomationProperties.Name="Distribuicao inicial de habilidades" />
                     <TextBlock Text="{Binding InitialSkillsStatus}" ToolTip="{Binding InitialSkillsRemaining}" Margin="14,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right"
                                TextWrapping="Wrap" TextAlignment="Right" FontSize="12" FontWeight="SemiBold"
                                AutomationProperties.Name="Habilidades que faltam">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="{DynamicResource VcsAccent}" />
+                                <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsInitialSkillsComplete}" Value="True">
-                                        <Setter Property="Foreground" Value="{DynamicResource VcsMuted}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -131,7 +131,7 @@
                                 </Style.Triggers>
                             </Style>
                         </StackPanel.Style>
-                        <TextBlock Text="✦" FontSize="12" Margin="0,0,4,0" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccent}" />
+                        <TextBlock Text="✦" FontSize="12" Margin="0,0,4,0" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}" />
                         <TextBlock Style="{StaticResource SkillStat}" Text="Predador:" />
                         <TextBlock Text="{Binding PredatorSkillLegend}" FontSize="12" FontWeight="SemiBold" Margin="4,0,0,0" VerticalAlignment="Center"
                                    AutomationProperties.Name="Legenda do predador" />
@@ -139,7 +139,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource SkillStat}" Text="XP em habilidades:" />
                         <TextBlock Text="{Binding SkillsExperienceTotal}" FontWeight="SemiBold" Margin="4,0,0,0" VerticalAlignment="Center"
-                                   Foreground="{DynamicResource VcsAccent}" AutomationProperties.Name="XP gasto em habilidades" />
+                                   Foreground="{DynamicResource VcsAccentText}" AutomationProperties.Name="XP gasto em habilidades" />
                         <Border Style="{StaticResource SkillHelp}">
                             <Border.ToolTip>
                                 <ToolTip><TextBlock Text="{Binding SkillsExperienceHelp}" TextWrapping="Wrap" MaxWidth="340" /></ToolTip>
