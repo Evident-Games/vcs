@@ -12,4 +12,15 @@
     <SolidColorBrush x:Key="VcsInput" Color="#251B1F" />
     <SolidColorBrush x:Key="VcsHover" Color="#302026" />
     <SolidColorBrush x:Key="VcsSelection" Color="#43242D" />
+    <SolidColorBrush x:Key="VcsHeaderText" Color="#F3EDF0" />
+    <SolidColorBrush x:Key="VcsFooterText" Color="#F3EDF0" />
+    <SolidColorBrush x:Key="VcsCardText" Color="#F3EDF0" />
+    <SolidColorBrush x:Key="VcsSelectionText" Color="#F3EDF0" />
+    <SolidColorBrush x:Key="VcsInputText" Color="#F3EDF0" />
+    <SolidColorBrush x:Key="VcsInputTitle" Color="#F3EDF0" />
+    <SolidColorBrush x:Key="VcsInputDescription" Color="#C3B1B8" />
+    <SolidColorBrush x:Key="VcsAccentText" Color="#F16B7D" />
+    <SolidColorBrush x:Key="VcsAccentHotbar" Color="#F16B7D" />
+    <SolidColorBrush x:Key="VcsAccentBorder" Color="#F16B7D" />
+    <SolidColorBrush x:Key="VcsScroll" Color="#C3B1B8" />
 </ResourceDictionary>

@@ -6,7 +6,7 @@
     xmlns:vm="clr-namespace:VCS.Desktop.ViewModels">
     <UserControl.Resources>
         <Style x:Key="NpcLabel" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{DynamicResource VcsAccent}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
             <Setter Property="FontFamily" Value="Georgia" />
             <Setter Property="FontSize" Value="13" />
             <Setter Property="FontWeight" Value="SemiBold" />
@@ -26,11 +26,11 @@
                         <Border x:Name="Face" Width="18" Height="18" CornerRadius="9" BorderThickness="1"
                                 BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}">
                             <TextBlock Text="{TemplateBinding Content}" FontSize="12" LineHeight="12" LineStackingStrategy="BlockLineHeight"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccent}" />
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                                <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter TargetName="Face" Property="Opacity" Value="0.35" />
@@ -50,7 +50,7 @@
             <Setter Property="Margin" Value="2,0" />
         </Style>
         <Style x:Key="NpcTitle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{DynamicResource VcsAccent}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
             <Setter Property="FontFamily" Value="Georgia" />
             <Setter Property="FontSize" Value="17" />
             <Setter Property="FontStyle" Value="Italic" />
@@ -58,7 +58,7 @@
         </Style>
         <!-- Same heading as the player sheet sections. -->
         <Style x:Key="NpcSection" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{DynamicResource VcsAccent}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
             <Setter Property="FontFamily" Value="Georgia" />
             <Setter Property="FontSize" Value="22" />
             <Setter Property="HorizontalAlignment" Value="Center" />

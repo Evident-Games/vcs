@@ -6,7 +6,7 @@
     xmlns:controls="clr-namespace:VCS.Desktop.Controls"
     Title="VCS - Vampire Character Sheet" Width="1240" Height="850" MinWidth="1000" MinHeight="680"
     WindowStartupLocation="CenterScreen" ExtendsContentIntoTitleBar="True"
-    Background="{DynamicResource VcsBackground}" Foreground="{DynamicResource VcsOuterText}"
+    Background="{DynamicResource VcsBackground}" Foreground="{DynamicResource VcsHeaderText}"
     FontFamily="Segoe UI" FontSize="14">
     <ui:FluentWindow.Resources>
         <Style x:Key="ThemeOptionItem" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
@@ -30,9 +30,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ui:TitleBar Title="VCS  /  Vampire Character Sheet" Height="30" Padding="12,0" FontSize="11"
-                     Foreground="{DynamicResource VcsOuterText}" ButtonsForeground="{DynamicResource VcsOuterText}" />
+                     Foreground="{DynamicResource VcsHeaderText}" ButtonsForeground="{DynamicResource VcsHeaderText}" />
         <Border Grid.Row="1" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1" Padding="4,0">
-            <Menu IsEnabled="{Binding IsIdle}" Background="Transparent" Foreground="{DynamicResource VcsOuterText}"
+            <Menu IsEnabled="{Binding IsIdle}" Background="Transparent" Foreground="{DynamicResource VcsHeaderText}"
                   AutomationProperties.Name="Menu principal">
                 <MenuItem Header="_Arquivo">
                     <MenuItem Header="_Novo personagem" Command="{Binding CreateCommand}" InputGestureText="Ctrl+N" />
@@ -98,13 +98,13 @@
                                         ToolTip="Criar ficha de PC ou NPC" AutomationProperties.Name="Adicionar ficha">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
-                                            <Border x:Name="Circle" CornerRadius="9" Background="{DynamicResource VcsHover}"
+                                            <Border x:Name="Circle" CornerRadius="9" Background="{DynamicResource VcsInput}"
                                                     BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1">
                                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                                  TextElement.Foreground="{DynamicResource VcsAccent}" />
+                                                                  TextElement.Foreground="{DynamicResource VcsAccentText}" />
                                             </Border>
                                             <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Circle" Property="BorderBrush" Value="{DynamicResource VcsAccent}" /></Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Circle" Property="Background" Value="{DynamicResource VcsSelection}" /><Setter TargetName="Circle" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /></Trigger>
                                                 <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Circle" Property="BorderBrush" Value="{DynamicResource VcsText}" /><Setter TargetName="Circle" Property="BorderThickness" Value="2" /></Trigger>
                                                 <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Circle" Property="Opacity" Value="0.5" /></Trigger>
                                             </ControlTemplate.Triggers>
@@ -156,7 +156,7 @@
                                     <StackPanel>
                                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
                                                    FontFamily="Georgia" FontSize="14" />
-                                        <TextBlock Text="{Binding Clan}" Foreground="{DynamicResource VcsMuted}"
+                                        <TextBlock Text="{Binding Clan}" Foreground="{DynamicResource VcsInputDescription}"
                                                    TextTrimming="CharacterEllipsis" FontSize="11" />
                                     </StackPanel>
                                 </Button>
@@ -180,21 +180,21 @@
                                         CommandParameter="{Binding}" AutomationProperties.Name="{Binding TabTitle, StringFormat='Aba {0}'}">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="NPC" FontSize="10" FontWeight="Bold" Margin="0,0,6,0" VerticalAlignment="Center"
-                                                   Foreground="{DynamicResource VcsAccent}"
+                                                   Foreground="{DynamicResource VcsAccentText}"
                                                    Visibility="{Binding IsNpc, Converter={StaticResource BoolVisibility}}" />
                                         <TextBlock Text="{Binding TabTitle}" TextTrimming="CharacterEllipsis" FontFamily="Georgia"
                                                    Foreground="{DynamicResource VcsText}" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </Button>
                                 <Button Content="×" Width="22" Height="22" Padding="0" Margin="4,0,0,0" Background="Transparent" BorderThickness="0"
-                                        Foreground="{DynamicResource VcsMuted}" ToolTip="Fechar ficha"
+                                        Foreground="{DynamicResource VcsInputDescription}" ToolTip="Fechar ficha"
                                         Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                         CommandParameter="{Binding}" AutomationProperties.Name="{Binding TabTitle, StringFormat='Fechar {0}'}" />
                             </StackPanel>
                         </Border>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                <Setter TargetName="Tab" Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                                <Setter TargetName="Tab" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
                                 <Setter TargetName="Tab" Property="Background" Value="{DynamicResource VcsSelection}" />
                             </DataTrigger>
                         </DataTemplate.Triggers>
@@ -257,20 +257,20 @@
                                 <DockPanel>
                                     <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6">
                                         <Button DockPanel.Dock="Right" Content="×" Width="22" Height="22" Padding="0" Background="Transparent"
-                                                BorderThickness="0" Foreground="{DynamicResource VcsMuted}" ToolTip="Fechar ficha"
+                                                BorderThickness="0" Foreground="{DynamicResource VcsInputDescription}" ToolTip="Fechar ficha"
                                                 Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                                 CommandParameter="{Binding}" AutomationProperties.Name="{Binding TabTitle, StringFormat='Fechar painel {0}'}" />
                                         <TextBlock DockPanel.Dock="Right" Text="{Binding Status}" FontSize="11" Margin="0,0,8,0"
-                                                   Foreground="{DynamicResource VcsMuted}" VerticalAlignment="Center" />
+                                                   Foreground="{DynamicResource VcsInputDescription}" VerticalAlignment="Center" />
                                         <TextBlock Text="{Binding TabTitle}" FontFamily="Georgia" FontSize="15" FontStyle="Italic"
-                                                   Foreground="{DynamicResource VcsAccent}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                                                   Foreground="{DynamicResource VcsAccentText}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                                     </DockPanel>
                                     <views:CharacterEditorView IsPane="True" />
                                 </DockPanel>
                             </Border>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                    <Setter TargetName="Pane" Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                                    <Setter TargetName="Pane" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -297,7 +297,7 @@
                             <RadioButton GroupName="SheetMode" Content="Bento compacto" IsChecked="{Binding Display.UseBento, Mode=TwoWay}" />
                         </StackPanel>
                         <TextBlock Text="Bento com varias fichas abertas: as fichas (PCs e NPCs) aparecem lado a lado em grade automatica: 2 fichas lado a lado, 3-4 em 2x2, 5+ em 3 colunas. Clique em um painel para torna-lo a ficha ativa."
-                                   TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" Margin="0,-8,0,16"
+                                   TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="0,-8,0,16"
                                    AutomationProperties.Name="Nota de fichas lado a lado" />
                     </StackPanel>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -313,14 +313,14 @@
                                             <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="28" /><ColumnDefinition Width="210" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
                                             <Button Content="⋮⋮" Cursor="SizeAll" Width="22" Height="32" Padding="0" Margin="0,0,6,0"
                                                     FontSize="14" FontWeight="Bold" Background="Transparent" BorderThickness="0"
-                                                    Foreground="{DynamicResource VcsMuted}" VerticalAlignment="Center"
+                                                    Foreground="{DynamicResource VcsInputDescription}" VerticalAlignment="Center"
                                                     PreviewMouseLeftButtonDown="OnSectionHandleDown" PreviewMouseMove="OnSectionHandleMove"
                                                     PreviewKeyDown="OnSectionHandleKey"
                                                     ToolTip="Arraste para reordenar. Pelo teclado: Alt + seta para cima/baixo."
                                                     AutomationProperties.Name="{Binding Title, StringFormat='Mover {0}'}" />
                                             <TextBlock Grid.Column="1" Text="{Binding SectionOrder}" VerticalAlignment="Center"
                                                        HorizontalAlignment="Center" FontSize="11" Opacity="0.6"
-                                                       Foreground="{DynamicResource VcsMuted}" />
+                                                       Foreground="{DynamicResource VcsInputDescription}" />
                                             <CheckBox Grid.Column="2" Content="{Binding Title}" IsChecked="{Binding IsVisible, Mode=TwoWay}" VerticalAlignment="Center" />
                                             <StackPanel Grid.Column="3" Margin="4,0">
                                                 <TextBlock Text="Titulo da secao" Style="{StaticResource FieldLabel}" />
@@ -351,9 +351,9 @@
                 </StackPanel>
             </Border>
         </Grid>
-        <Border Grid.Row="3" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource VcsBorder}" Padding="24,10">
+        <Border Grid.Row="3" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource VcsBorder}" Padding="24,10" TextElement.Foreground="{DynamicResource VcsFooterText}">
             <StackPanel>
-                <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" />
                 <DockPanel>
                     <Button DockPanel.Dock="Right" Content="Atualizar" Command="{Binding UpdateCommand}" Margin="12,0,0,0">
                         <Button.Style>
@@ -366,7 +366,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <TextBlock Text="{Binding Message}" Foreground="{DynamicResource VcsMuted}" TextWrapping="Wrap" FontSize="12"
+                    <TextBlock Text="{Binding Message}" Foreground="{DynamicResource VcsFooterText}" TextWrapping="Wrap" FontSize="12"
                                VerticalAlignment="Center" />
                 </DockPanel>
                 <ProgressBar Height="3" IsIndeterminate="True" Margin="0,6,0,0"
