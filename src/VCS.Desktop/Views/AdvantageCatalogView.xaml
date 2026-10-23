@@ -15,14 +15,14 @@
             <Setter Property="FontFamily" Value="Georgia" />
             <Setter Property="FontStyle" Value="Italic" />
             <Setter Property="FontSize" Value="12" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsMuted}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
         </Style>
         <Style x:Key="Guidance" TargetType="TextBlock">
             <Setter Property="FontSize" Value="12" />
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="Margin" Value="0,0,0,8" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsMuted}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
             <Style.Triggers>
                 <Trigger Property="Text" Value=""><Setter Property="Visibility" Value="Collapsed" /></Trigger>
             </Style.Triggers>
@@ -31,7 +31,7 @@
             <Setter Property="FontSize" Value="12" />
             <Setter Property="FontStyle" Value="Italic" />
             <Setter Property="Margin" Value="0,4,0,0" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsMuted}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
             <Setter Property="Visibility" Value="Collapsed" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="0"><Setter Property="Visibility" Value="Visible" /></DataTrigger>
@@ -47,11 +47,11 @@
                         <Border x:Name="Face" Width="16" Height="16" CornerRadius="8" BorderThickness="1"
                                 BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}">
                             <TextBlock Text="{TemplateBinding Content}" FontSize="11" LineHeight="11" LineStackingStrategy="BlockLineHeight"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccent}" />
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                                <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter TargetName="Face" Property="Opacity" Value="0.35" />
@@ -67,7 +67,7 @@
             <Setter Property="CornerRadius" Value="8" />
             <Setter Property="Margin" Value="0,0,4,0" />
             <Setter Property="Background" Value="{DynamicResource VcsInput}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Cursor" Value="Help" />
             <Setter Property="ToolTip" Value="{Binding Warning}" />
@@ -91,7 +91,7 @@
             <Setter Property="BorderBrush" Value="Transparent" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsPredator}" Value="True">
-                    <Setter Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -100,7 +100,7 @@
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsPredator}" Value="True">
-                    <Setter Property="Foreground" Value="{DynamicResource VcsAccent}" />
+                    <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
                     <Setter Property="FontWeight" Value="SemiBold" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsPending}" Value="True">
@@ -112,7 +112,7 @@
             <Setter Property="FontSize" Value="10.5" />
             <Setter Property="FontStyle" Value="Italic" />
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsMuted}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Subtitle}" Value=""><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
             </Style.Triggers>
@@ -129,7 +129,7 @@
                                             Placeholder="categoria" EditorName="Categoria da caracteristica" IsEnabled="{Binding CanEditCategory}"
                                             Style="{StaticResource EditableOnly}" Margin="0,0,10,0" VerticalAlignment="Bottom" />
                     <TextBlock Text="{Binding Category}" Style="{StaticResource FixedOnly}" FontSize="12" FontStyle="Italic"
-                               Foreground="{DynamicResource VcsMuted}" TextTrimming="CharacterEllipsis" Margin="0,0,10,4" VerticalAlignment="Bottom" />
+                               Foreground="{DynamicResource VcsInputDescription}" TextTrimming="CharacterEllipsis" Margin="0,0,10,4" VerticalAlignment="Bottom" />
                     <controls:SuggestionBox Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Suggestions="{Binding NameSuggestions}"
                                             Placeholder="escolha ou escreva" EditorName="Nome da caracteristica" IsEnabled="{Binding CanEditName}"
                                             Style="{StaticResource EditableOnly}" ToolTip="{Binding Reference}" Margin="0,0,10,0" VerticalAlignment="Bottom" />
@@ -144,7 +144,7 @@
                     </controls:DotTrack>
                     <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,4">
                         <Border Style="{StaticResource WarningMark}">
-                            <TextBlock Text="!" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccent}"
+                            <TextBlock Text="!" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <Button Command="{Binding ToggleDetailsCommand}" Margin="0,0,4,0" ToolTip="Referência e anotações"
@@ -166,12 +166,12 @@
                 <Border Margin="190,6,62,4" Padding="12,6,6,8" BorderThickness="2,0,0,0" BorderBrush="{DynamicResource VcsBorder}"
                         Visibility="{Binding IsExpanded, Converter={StaticResource BoolVisibility}}">
                     <StackPanel>
-                        <TextBlock Text="{Binding Reference}" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" Margin="0,0,0,6" />
+                        <TextBlock Text="{Binding Reference}" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,6" />
                         <TextBox Style="{StaticResource PaperLineTextBox}" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" Tag="anotações"
                                  AcceptsReturn="True" TextWrapping="Wrap" MinHeight="44" MaxLength="20000" FontSize="12.5"
                                  IsReadOnly="{Binding IsLocked}"
                                  AutomationProperties.Name="Anotacoes da caracteristica" />
-                        <TextBlock Text="{Binding Warning}" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}"
+                        <TextBlock Text="{Binding Warning}" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccentText}"
                                    Visibility="{Binding HasWarning, Converter={StaticResource BoolVisibility}}" />
                     </StackPanel>
                 </Border>

@@ -9,10 +9,10 @@
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <TextBlock Text="remover" TextDecorations="Underline" FontSize="11" Background="Transparent"
-                               Foreground="{DynamicResource VcsMuted}" Opacity="0.76" />
+                               Foreground="{DynamicResource VcsInputDescription}" Opacity="0.76" />
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <TextBlock Text="{Binding AppliedPredatorSummary}" TextWrapping="Wrap" FontSize="11" Foreground="{DynamicResource VcsMuted}" Opacity="0.76" AutomationProperties.Name="Resumo do predador" />
+        <TextBlock Text="{Binding AppliedPredatorSummary}" TextWrapping="Wrap" FontSize="11" Foreground="{DynamicResource VcsInputDescription}" Opacity="0.76" AutomationProperties.Name="Resumo do predador" />
     </DockPanel>
 </UserControl>

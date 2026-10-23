@@ -24,14 +24,14 @@ public sealed class ThemeService
         var appResources = System.Windows.Application.Current.Resources;
         appResources[SystemColors.HighlightBrushKey] = replacement["VcsSelection"];
         appResources[SystemColors.InactiveSelectionHighlightBrushKey] = replacement["VcsSelection"];
-        appResources[SystemColors.HighlightTextBrushKey] = replacement["VcsText"];
-        appResources[SystemColors.InactiveSelectionHighlightTextBrushKey] = replacement["VcsText"];
+        appResources[SystemColors.HighlightTextBrushKey] = replacement["VcsSelectionText"];
+        appResources[SystemColors.InactiveSelectionHighlightTextBrushKey] = replacement["VcsSelectionText"];
         var accent = ((SolidColorBrush)replacement["VcsAccent"]).Color;
         ApplicationAccentColorManager.Apply(accent, appearance, false, false);
         foreach (Window window in System.Windows.Application.Current.Windows)
         {
             window.SetResourceReference(System.Windows.Controls.Control.BackgroundProperty, "VcsBackground");
-            window.SetResourceReference(System.Windows.Controls.Control.ForegroundProperty, "VcsOuterText");
+            window.SetResourceReference(System.Windows.Controls.Control.ForegroundProperty, "VcsHeaderText");
         }
         _appliedTheme = themeId;
     }
@@ -40,8 +40,26 @@ public sealed class ThemeService
     public static ResourceDictionary Load(ThemeDefinition theme)
     {
         var palette = new ResourceDictionary { Source = new Uri(theme.ResourcePath, UriKind.Relative) };
-        if (!palette.Contains("VcsOuterText")) palette["VcsOuterText"] = palette["VcsText"];
+        // New semantic color roles fall back to the legacy palette keys. This keeps saved themes
+        // working while letting each surface be customized independently going forward.
+        SetFallback(palette, "VcsOuterText", "VcsText");
+        SetFallback(palette, "VcsHeaderText", "VcsOuterText");
+        SetFallback(palette, "VcsFooterText", "VcsOuterText");
+        SetFallback(palette, "VcsCardText", "VcsText");
+        SetFallback(palette, "VcsSelectionText", "VcsText");
+        SetFallback(palette, "VcsInputText", "VcsText");
+        SetFallback(palette, "VcsInputTitle", "VcsText");
+        SetFallback(palette, "VcsInputDescription", "VcsMuted");
+        SetFallback(palette, "VcsAccentText", "VcsAccent");
+        SetFallback(palette, "VcsAccentHotbar", "VcsAccent");
+        SetFallback(palette, "VcsAccentBorder", "VcsAccent");
+        SetFallback(palette, "VcsScroll", "VcsMuted");
         return palette;
+    }
+
+    private static void SetFallback(ResourceDictionary palette, string key, string legacyKey)
+    {
+        if (!palette.Contains(key)) palette[key] = palette[legacyKey];
     }
 
     public static bool IsDark(Color background) =>

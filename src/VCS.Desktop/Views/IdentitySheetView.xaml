@@ -19,7 +19,7 @@
         </Style>
         <Style x:Key="IdentityHint" TargetType="TextBlock">
             <Setter Property="FontSize" Value="10" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsMuted}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
             <Setter Property="Opacity" Value="0.68" />
             <Setter Property="TextWrapping" Value="Wrap" />
         </Style>
@@ -32,7 +32,7 @@
             <Setter Property="Margin" Value="0" />
             <Setter Property="FontSize" Value="10" />
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsAccent}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
             <Setter Property="ToolTipService.InitialShowDelay" Value="150" />
             <Setter Property="ToolTipService.ShowDuration" Value="20000" />
             <Setter Property="ToolTipService.Placement" Value="Top" />
@@ -46,10 +46,10 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="HelpCircle" Property="Background" Value="{DynamicResource VcsHover}" />
-                                <Setter TargetName="HelpCircle" Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                                <Setter TargetName="HelpCircle" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
                             </Trigger>
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="HelpCircle" Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                                <Setter TargetName="HelpCircle" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -60,7 +60,7 @@
     <StackPanel>
         <TextBlock Text="{Binding IdentityHeading}" AutomationProperties.Name="{Binding IdentityHeading}"
                    HorizontalAlignment="Left" FontSize="11" Margin="8,0,0,8"
-                   Foreground="{DynamicResource VcsMuted}" />
+                   Foreground="{DynamicResource VcsInputDescription}" />
         <Grid x:Name="IdentityGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" />

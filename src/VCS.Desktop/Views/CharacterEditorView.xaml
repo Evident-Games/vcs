@@ -60,7 +60,7 @@
                                 <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1"
                                         Margin="0,0,4,4" Padding="0,0,0,3">
                                     <TextBlock Text="{Binding Title}" FontFamily="Georgia" FontSize="13" FontStyle="Italic"
-                                               Foreground="{DynamicResource VcsAccent}" TextTrimming="CharacterEllipsis" />
+                                               Foreground="{DynamicResource VcsAccentText}" TextTrimming="CharacterEllipsis" />
                                 </Border>
                                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                                               controls:ScrollChaining.IsEnabled="True">
@@ -94,7 +94,7 @@
                     </Style.Triggers>
                 </Style>
             </DockPanel.Style>
-            <TextBlock Text="{Binding Status}" DockPanel.Dock="Right" Foreground="{DynamicResource VcsAccent}" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding Status}" DockPanel.Dock="Right" Foreground="{DynamicResource VcsAccentText}" VerticalAlignment="Center" />
             <TextBlock Text="{Binding Name, ValidatesOnNotifyDataErrors=False}" FontFamily="Georgia" FontSize="27" TextTrimming="CharacterEllipsis" />
         </DockPanel>
         <Grid Grid.Row="1">
@@ -151,8 +151,8 @@
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
-                <TextBlock Text="{Binding ValidationSummary}" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap" />
-                <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding ValidationSummary}" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

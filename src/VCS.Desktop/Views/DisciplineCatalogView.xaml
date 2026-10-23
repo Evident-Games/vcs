@@ -18,7 +18,7 @@
             <Setter Property="ToolTipService.ShowDuration" Value="30000" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -26,14 +26,14 @@
             <Setter Property="Text" Value="?" />
             <Setter Property="FontSize" Value="10" />
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsAccent}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
         <Style x:Key="Stat" TargetType="TextBlock">
             <Setter Property="FontSize" Value="12" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsMuted}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
         </Style>
         <Style x:Key="GroupTitle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Georgia" />
@@ -45,7 +45,7 @@
             <Setter Property="FontFamily" Value="Georgia" />
             <Setter Property="FontStyle" Value="Italic" />
             <Setter Property="FontSize" Value="12" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsMuted}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
             <Setter Property="VerticalAlignment" Value="Bottom" />
         </Style>
         <Style x:Key="FieldTag" TargetType="TextBlock" BasedOn="{StaticResource ColumnHead}">
@@ -73,11 +73,11 @@
                         <Border x:Name="Face" Width="16" Height="16" CornerRadius="8" BorderThickness="1"
                                 BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}">
                             <TextBlock Text="{TemplateBinding Content}" FontSize="11" LineHeight="11" LineStackingStrategy="BlockLineHeight"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccent}" />
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                                <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter TargetName="Face" Property="Opacity" Value="0.35" />
@@ -89,7 +89,7 @@
         </Style>
         <Style x:Key="WarningMark" TargetType="Border" BasedOn="{StaticResource Help}">
             <Setter Property="Visibility" Value="{Binding HasWarning, Converter={StaticResource BoolVisibility}}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
             <Setter Property="ToolTip" Value="{Binding Warning}" />
         </Style>
 
@@ -100,7 +100,7 @@
                 <Button DockPanel.Dock="Right" Style="{StaticResource PredatorTag}" Margin="6,0,8,0"
                         Command="{Binding DataContext.TogglePredatorDisciplineCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                         AutomationProperties.Name="{Binding Name, StringFormat='Predador em {0}'}" />
-                <TextBlock Text="◆" FontSize="8" Margin="0,0,5,0" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccent}"
+                <TextBlock Text="◆" FontSize="8" Margin="0,0,5,0" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}"
                            ToolTip="Disciplina do clã"
                            Visibility="{Binding IsClanDiscipline, Converter={StaticResource BoolVisibility}}" />
                 <TextBlock Text="{Binding Name}" FontSize="13" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
@@ -123,7 +123,7 @@
                                             EditorName="Disciplina do NPC" IsEnabled="{Binding CanSelectDiscipline}"
                                             Margin="0,0,10,0" VerticalAlignment="Bottom" />
                 </DockPanel>
-                <TextBlock Text="{Binding Error}" FontSize="11" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap" Margin="0,2,0,0">
+                <TextBlock Text="{Binding Error}" FontSize="11" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" Margin="0,2,0,0">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
@@ -182,7 +182,7 @@
                             <Button DockPanel.Dock="Right" Content="Restaurar do catálogo" Command="{Binding RestoreCatalogCommand}" FontSize="11"
                                     Padding="8,2" Visibility="{Binding IsCatalog, Converter={StaticResource BoolVisibility}}"
                                     AutomationProperties.Name="Restaurar poder do catalogo" />
-                            <TextBlock Text="{Binding SourceLabel}" FontSize="11" FontStyle="Italic" Foreground="{DynamicResource VcsMuted}" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding SourceLabel}" FontSize="11" FontStyle="Italic" Foreground="{DynamicResource VcsInputDescription}" VerticalAlignment="Center" />
                         </DockPanel>
                         <DockPanel Margin="0,0,0,6">
                             <TextBlock Text="Pré-requisito" Style="{StaticResource FieldTag}" />
@@ -192,7 +192,7 @@
                         <TextBlock Text="Descrição e sistema" Style="{StaticResource FieldTag}" />
                         <TextBox Style="{StaticResource Lines}" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
                                  Tag="como o poder funciona" AutomationProperties.Name="Descricao do poder" />
-                        <TextBlock Text="{Binding Warning}" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}"
+                        <TextBlock Text="{Binding Warning}" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccentText}"
                                    Visibility="{Binding HasWarning, Converter={StaticResource BoolVisibility}}" />
                     </StackPanel>
                 </Border>
@@ -258,7 +258,7 @@
                                 <Button DockPanel.Dock="Right" Content="Restaurar do catálogo" Command="{Binding RestoreCatalogCommand}" FontSize="11"
                                         Padding="8,2" Visibility="{Binding IsCatalog, Converter={StaticResource BoolVisibility}}"
                                         AutomationProperties.Name="Restaurar ritual do catalogo" />
-                                <TextBlock Text="{Binding SourceLabel}" FontSize="11" FontStyle="Italic" Foreground="{DynamicResource VcsMuted}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding SourceLabel}" FontSize="11" FontStyle="Italic" Foreground="{DynamicResource VcsInputDescription}" VerticalAlignment="Center" />
                             </DockPanel>
                         </StackPanel>
                     </Grid>
@@ -274,7 +274,7 @@
                 <DockPanel Margin="0,0,0,8" Visibility="{Binding IsCreating, Converter={StaticResource BoolVisibility}}">
                     <TextBlock Text="Pontos iniciais" Style="{StaticResource Stat}" Margin="0,0,10,0" />
                     <TextBlock Text="{Binding InitialDisciplinesSpread}" FontSize="12" VerticalAlignment="Center"
-                               Foreground="{DynamicResource VcsMuted}" AutomationProperties.Name="Distribuicao inicial de disciplinas" />
+                               Foreground="{DynamicResource VcsInputDescription}" AutomationProperties.Name="Distribuicao inicial de disciplinas" />
                     <Border Style="{StaticResource Help}">
                         <Border.ToolTip>
                             <ToolTip><TextBlock Text="{x:Static vm:CharacterEditorViewModel.DisciplineHelp}" TextWrapping="Wrap" MaxWidth="340" /></ToolTip>
@@ -285,10 +285,10 @@
                                FontSize="12" FontWeight="SemiBold" AutomationProperties.Name="Disciplinas que faltam">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="{DynamicResource VcsAccent}" />
+                                <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsInitialDisciplinesComplete}" Value="True">
-                                        <Setter Property="Foreground" Value="{DynamicResource VcsMuted}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -297,7 +297,7 @@
                 </DockPanel>
                 <WrapPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,24,0">
-                        <TextBlock Text="◆" FontSize="8" Margin="0,0,4,0" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccent}" />
+                        <TextBlock Text="◆" FontSize="8" Margin="0,0,4,0" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}" />
                         <TextBlock Style="{StaticResource Stat}" Text="Clã:" />
                         <TextBlock Text="{Binding ClanDisciplinesShort}" FontSize="12" FontWeight="SemiBold" Margin="4,0,0,0" VerticalAlignment="Center"
                                    AutomationProperties.Name="Disciplinas do cla" />
@@ -316,7 +316,7 @@
                                 </Style.Triggers>
                             </Style>
                         </StackPanel.Style>
-                        <TextBlock Text="✦" FontSize="12" Margin="0,0,4,0" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccent}" />
+                        <TextBlock Text="✦" FontSize="12" Margin="0,0,4,0" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}" />
                         <TextBlock Style="{StaticResource Stat}" Text="Predador:" />
                         <TextBlock Text="{Binding PredatorDisciplineLegend}" FontSize="12" FontWeight="SemiBold" Margin="4,0,0,0" VerticalAlignment="Center"
                                    AutomationProperties.Name="Legenda do predador" />
@@ -324,7 +324,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource Stat}" Text="XP em disciplinas:" />
                         <TextBlock Text="{Binding DisciplinesExperienceTotal}" FontWeight="SemiBold" Margin="4,0,0,0" VerticalAlignment="Center"
-                                   Foreground="{DynamicResource VcsAccent}" AutomationProperties.Name="XP gasto em disciplinas" />
+                                   Foreground="{DynamicResource VcsAccentText}" AutomationProperties.Name="XP gasto em disciplinas" />
                         <Border Style="{StaticResource Help}">
                             <Border.ToolTip>
                                 <ToolTip><TextBlock Text="{Binding DisciplinesExperienceHelp}" TextWrapping="Wrap" MaxWidth="340" /></ToolTip>
@@ -380,7 +380,7 @@
             </Grid>
             <ItemsControl ItemsSource="{Binding PowerRows}" ItemTemplate="{StaticResource PowerRow}" AutomationProperties.Name="Poderes da ficha" />
             <TextBlock Text="Nenhum poder. Use + para adicionar uma linha e escolha do catálogo ou escreva o seu."
-                       FontSize="12" FontStyle="Italic" Foreground="{DynamicResource VcsMuted}" Margin="0,4,0,0"
+                       FontSize="12" FontStyle="Italic" Foreground="{DynamicResource VcsInputDescription}" Margin="0,4,0,0"
                        Visibility="{Binding HasNoPowerRows, Converter={StaticResource BoolVisibility}}" />
 
             <StackPanel Orientation="Horizontal" Margin="0,22,0,8">
@@ -390,7 +390,7 @@
             </StackPanel>
             <ItemsControl ItemsSource="{Binding RitualRows}" ItemTemplate="{StaticResource RitualBlock}" AutomationProperties.Name="Rituais da ficha" />
             <TextBlock Text="Nenhum ritual. Use + para adicionar."
-                       FontSize="12" FontStyle="Italic" Foreground="{DynamicResource VcsMuted}" Margin="0,4,0,0"
+                       FontSize="12" FontStyle="Italic" Foreground="{DynamicResource VcsInputDescription}" Margin="0,4,0,0"
                        Visibility="{Binding HasNoRitualRows, Converter={StaticResource BoolVisibility}}" />
         </StackPanel>
     </StackPanel>

@@ -14,7 +14,7 @@
                                 <ControlTemplate TargetType="ToggleButton">
                                     <Border x:Name="HeadingBorder" Background="Transparent" CornerRadius="5" Padding="{TemplateBinding Padding}">
                                         <DockPanel>
-                                            <TextBlock x:Name="Arrow" Text="+" Width="22" Foreground="{DynamicResource VcsMuted}" />
+                                            <TextBlock x:Name="Arrow" Text="+" Width="22" Foreground="{DynamicResource VcsInputDescription}" />
                                             <ContentPresenter TextElement.Foreground="{TemplateBinding Foreground}" RecognizesAccessKey="True" />
                                         </DockPanel>
                                     </Border>
@@ -53,9 +53,9 @@
                             BorderBrush="Transparent" BorderThickness="0">
                         <Grid>
                             <Grid.ColumnDefinitions><ColumnDefinition x:Name="CheckColumn" Width="22" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /><ColumnDefinition x:Name="ArrowColumn" Width="16" /></Grid.ColumnDefinitions>
-                            <TextBlock x:Name="Tick" Text="X" Visibility="Hidden" Foreground="{DynamicResource VcsAccent}" />
+                            <TextBlock x:Name="Tick" Text="X" Visibility="Hidden" Foreground="{DynamicResource VcsAccentText}" />
                             <ContentPresenter Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" TextElement.Foreground="{TemplateBinding Foreground}" />
-                            <TextBlock x:Name="Gesture" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="20,0,0,0" Foreground="{DynamicResource VcsMuted}" />
+                            <TextBlock x:Name="Gesture" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="20,0,0,0" Foreground="{DynamicResource VcsInputDescription}" />
                             <TextBlock x:Name="SubmenuArrow" Grid.Column="3" Text="&gt;" Margin="6,0,0,0" Visibility="Hidden" Foreground="{DynamicResource VcsText}" />
                             <Popup x:Name="PART_Popup" Placement="Right" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                    AllowsTransparency="True" Focusable="False">
@@ -96,7 +96,7 @@
                             <Setter TargetName="MenuBorder" Property="CornerRadius" Value="0" />
                             <Setter TargetName="Gesture" Property="Visibility" Value="Collapsed" />
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource VcsMuted}" /></Trigger>
+                        <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" /></Trigger>
                         <!-- An open top-level header becomes a tab that flows into its square-topped dropdown. -->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -114,13 +114,13 @@
             <!-- Top-level items sit on the window background, so they use the outer text color until opened. -->
             <Trigger Property="Role" Value="TopLevelHeader">
                 <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Foreground" Value="{DynamicResource VcsOuterText}" />
+                <Setter Property="Foreground" Value="{DynamicResource VcsHeaderText}" />
                 <Setter Property="Padding" Value="8,3" />
                 <Setter Property="FontSize" Value="12.5" />
             </Trigger>
             <Trigger Property="Role" Value="TopLevelItem">
                 <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Foreground" Value="{DynamicResource VcsOuterText}" />
+                <Setter Property="Foreground" Value="{DynamicResource VcsHeaderText}" />
                 <Setter Property="Padding" Value="8,3" />
                 <Setter Property="FontSize" Value="12.5" />
             </Trigger>
@@ -134,7 +134,7 @@
     </Style>
     <Style TargetType="ProgressBar">
         <Setter Property="Background" Value="{DynamicResource VcsSelection}" />
-        <Setter Property="Foreground" Value="{DynamicResource VcsAccent}" />
+        <Setter Property="Foreground" Value="{DynamicResource VcsAccentHotbar}" />
         <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ProgressBar">
             <Grid x:Name="PART_Track" Background="{TemplateBinding Background}">
                 <Border x:Name="PART_Indicator" Background="{TemplateBinding Foreground}" HorizontalAlignment="Left" CornerRadius="4" />

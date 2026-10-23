@@ -28,7 +28,7 @@
                 <TextBlock Text="{Binding ExperienceAvailable}" FontSize="20" />
             </StackPanel>
         </WrapPanel>
-        <TextBlock Text="{Binding ExperienceWarning}" Foreground="{DynamicResource VcsAccent}" TextWrapping="Wrap"
+        <TextBlock Text="{Binding ExperienceWarning}" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap"
                    AutomationProperties.Name="Aviso de XP faltante" />
         <ItemsControl ItemsSource="{Binding ExperienceBreakdown}">
             <ItemsControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="0,2" /></DataTemplate></ItemsControl.ItemTemplate>
