@@ -71,6 +71,7 @@
                     <MenuItem Header="Temas">
                         <MenuItem Header="Padrao" ItemsSource="{Binding Display.DefaultThemes}" ItemContainerStyle="{StaticResource ThemeOptionItem}" />
                         <MenuItem Header="Clas" ItemsSource="{Binding Display.ClanThemes}" ItemContainerStyle="{StaticResource ThemeOptionItem}" />
+                        <MenuItem Header="Especiais" ItemsSource="{Binding Display.SpecialThemes}" ItemContainerStyle="{StaticResource ThemeOptionItem}" />
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Ferramentas">

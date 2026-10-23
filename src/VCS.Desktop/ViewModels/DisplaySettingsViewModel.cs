@@ -93,6 +93,8 @@ public partial class DisplaySettingsViewModel : ObservableObject
     public ThemeOption[] Themes { get; } = ThemeCatalog.All.Select(x => new ThemeOption(x.Id, x.Name, x.Group)).ToArray();
     public IEnumerable<ThemeOption> DefaultThemes => Themes.Where(x => x.Group == ThemeGroup.Default);
     public IEnumerable<ThemeOption> ClanThemes => Themes.Where(x => x.Group == ThemeGroup.Clan);
+    public IEnumerable<ThemeOption> SpecialThemes => Themes.Where(x => x.Group == ThemeGroup.Special);
+
     public bool IsContinuous
     {
         get => !UseTabs && !UseBento;
