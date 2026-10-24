@@ -14,7 +14,7 @@ public partial class SkillsView : UserControl
     {
         InitializeComponent();
         DataContextChanged += (_, _) => Attach(DataContext as CharacterEditorViewModel);
-        Unloaded += (_, _) => Attach(null);
+        Unloaded += (_, _) => Detach();
         Loaded += (_, _) => Attach(DataContext as CharacterEditorViewModel);
     }
 
@@ -28,6 +28,15 @@ public partial class SkillsView : UserControl
         _editor = editor;
         if (_editor is not null) _editor.SkillGroups.CollectionChanged += OnGroupsChanged;
         Rebuild();
+    }
+
+    /// <summary>Stops listening but keeps the rows, so reattaching a cached sheet does not rebuild every skill.</summary>
+    private void Detach()
+    {
+        if (_editor is not null) _editor.SkillGroups.CollectionChanged -= OnGroupsChanged;
+        foreach (var group in _watched) group.PersonalItems.CollectionChanged -= OnPersonalChanged;
+        _watched.Clear();
+        _editor = null;
     }
 
     private void OnGroupsChanged(object? sender, NotifyCollectionChangedEventArgs e) => Rebuild();
