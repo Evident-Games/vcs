@@ -7,19 +7,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Microsoft.Extensions.Logging.Abstractions;
 using VCS.Application.Characters;
 using VCS.Desktop.Catalogs;
 using VCS.Desktop.Controls;
 using VCS.Desktop.Layout;
 using VCS.Desktop.Sheet;
-using VCS.Desktop.Shell;
 using VCS.Desktop.Themes;
 using VCS.Domain.Advancement;
 using VCS.Domain.Characters;
-using VCS.Infrastructure.Catalogs;
-using VCS.Infrastructure.Characters;
-using VCS.Infrastructure.Persistence;
 
 namespace VCS.Tests;
 
