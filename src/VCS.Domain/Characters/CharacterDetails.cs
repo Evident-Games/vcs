@@ -1,3 +1,6 @@
+using VCS.Domain.Advancement;
+using VCS.Domain.Predators;
+
 namespace VCS.Domain.Characters;
 
 public sealed record CharacterDetails

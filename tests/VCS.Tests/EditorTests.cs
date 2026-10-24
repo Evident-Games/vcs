@@ -1,12 +1,14 @@
 using Microsoft.Extensions.Logging.Abstractions;
-using VCS.Application.Abstractions;
 using VCS.Application.Characters;
-using VCS.Desktop.Services;
-using VCS.Desktop.ViewModels;
+using VCS.Desktop.Layout;
+using VCS.Desktop.Sheet;
+using VCS.Desktop.Shell;
+using VCS.Desktop.Themes;
+using VCS.Domain.Advancement;
 using VCS.Domain.Characters;
-using VCS.Infrastructure.Files;
+using VCS.Infrastructure.Catalogs;
+using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
-using VCS.Infrastructure.Repositories;
 
 namespace VCS.Tests;
 

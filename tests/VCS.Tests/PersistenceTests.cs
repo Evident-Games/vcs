@@ -1,11 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using VCS.Application.Abstractions;
 using VCS.Application.Characters;
-using VCS.Infrastructure.Files;
+using VCS.Infrastructure.Catalogs;
+using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
-using VCS.Infrastructure.Repositories;
 
 namespace VCS.Tests;
 

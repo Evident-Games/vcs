@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using VCS.Desktop.Services;
-using VCS.Infrastructure.Files;
+using VCS.Desktop.Shell;
 using VCS.Infrastructure.Persistence;
 
 namespace VCS.Tests;

@@ -1,3 +1,4 @@
+using VCS.Domain.Advancement;
 using VCS.Domain.Characters;
 
 namespace VCS.Tests;

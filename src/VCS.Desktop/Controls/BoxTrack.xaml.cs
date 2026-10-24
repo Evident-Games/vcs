@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using VCS.Domain.Characters;
 
 namespace VCS.Desktop.Controls;
 
@@ -33,7 +34,7 @@ public partial class BoxTrack : UserControl
     public Box[] Boxes => (Box[])GetValue(BoxesProperty);
     public BoxTrack() { InitializeComponent(); Refresh(); }
     private static void Changed(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((BoxTrack)d).Refresh();
-    private void Refresh() => SetValue(BoxesPropertyKey, Enumerable.Range(1, Math.Clamp(Capacity, 1, VCS.Domain.Characters.CharacterRules.NpcMaximumBoxes))
+    private void Refresh() => SetValue(BoxesPropertyKey, Enumerable.Range(1, Math.Clamp(Capacity, 1, CharacterRules.NpcMaximumBoxes))
         .Select(i => new Box(i, Mode == "Count" ? (i <= Value ? "X" : "") :
             i <= Aggravated ? "X" : i <= Aggravated + Superficial ? "\u25a0" : "",
             $"Caixa {i}: " + (Mode == "Count" ? (i <= Value ? "marcada" : "vazia") :

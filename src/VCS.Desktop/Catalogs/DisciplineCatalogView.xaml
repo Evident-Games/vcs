@@ -1,0 +1,398 @@
+<UserControl x:Class="VCS.Desktop.Catalogs.DisciplineCatalogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls"
+    xmlns:catalogs="clr-namespace:VCS.Desktop.Catalogs"
+    xmlns:sheet="clr-namespace:VCS.Desktop.Sheet">
+    <UserControl.Resources>
+        <Style x:Key="Help" TargetType="Border">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Margin" Value="6,0,0,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Background" Value="{DynamicResource VcsInput}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Cursor" Value="Help" />
+            <Setter Property="ToolTipService.InitialShowDelay" Value="150" />
+            <Setter Property="ToolTipService.ShowDuration" Value="30000" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="HelpMark" TargetType="TextBlock">
+            <Setter Property="Text" Value="?" />
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="Stat" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
+        </Style>
+        <Style x:Key="GroupTitle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Georgia" />
+            <Setter Property="FontStyle" Value="Italic" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="ColumnHead" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Georgia" />
+            <Setter Property="FontStyle" Value="Italic" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+        </Style>
+        <Style x:Key="FieldTag" TargetType="TextBlock" BasedOn="{StaticResource ColumnHead}">
+            <Setter Property="Margin" Value="0,0,8,3" />
+        </Style>
+        <Style x:Key="Line" TargetType="TextBox" BasedOn="{StaticResource PaperLineTextBox}">
+            <Setter Property="FontSize" Value="12.5" />
+            <Setter Property="Margin" Value="0,0,10,0" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+        </Style>
+        <Style x:Key="Lines" TargetType="TextBox" BasedOn="{StaticResource Line}">
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="MinHeight" Value="44" />
+            <Setter Property="MaxLength" Value="20000" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+        </Style>
+        <Style x:Key="Mini" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Face" Width="16" Height="16" CornerRadius="8" BorderThickness="1"
+                                BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}">
+                            <TextBlock Text="{TemplateBinding Content}" FontSize="11" LineHeight="11" LineStackingStrategy="BlockLineHeight"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Face" Property="Opacity" Value="0.35" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="WarningMark" TargetType="Border" BasedOn="{StaticResource Help}">
+            <Setter Property="Visibility" Value="{Binding HasWarning, Converter={StaticResource BoolVisibility}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+            <Setter Property="ToolTip" Value="{Binding Warning}" />
+        </Style>
+
+        <DataTemplate x:Key="DisciplineCell" DataType="{x:Type sheet:TraitItemViewModel}">
+            <DockPanel Margin="10,0,10,8" ToolTip="{Binding AdvancementInfo}">
+                <controls:DotTrack DockPanel.Dock="Right" Value="{Binding Rating, Mode=TwoWay}" Minimum="{Binding Minimum}" Maximum="5"
+                                   AutomationProperties.Name="{Binding Name, StringFormat='Disciplina {0}'}" />
+                <Button DockPanel.Dock="Right" Style="{StaticResource PredatorTag}" Margin="6,0,8,0"
+                        Command="{Binding DataContext.TogglePredatorDisciplineCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        AutomationProperties.Name="{Binding Name, StringFormat='Predador em {0}'}" />
+                <TextBlock Text="◆" FontSize="8" Margin="0,0,5,0" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}"
+                           ToolTip="Disciplina do clã"
+                           Visibility="{Binding IsClanDiscipline, Converter={StaticResource BoolVisibility}}" />
+                <TextBlock Text="{Binding Name}" FontSize="13" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+            </DockPanel>
+        </DataTemplate>
+
+        <Style x:Key="PcOnly" TargetType="FrameworkElement">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsNpc}" Value="True"><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="NpcDisciplineSlot" DataType="{x:Type sheet:NpcDisciplineSlotViewModel}">
+            <StackPanel Margin="10,0,10,8">
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" Style="{StaticResource Mini}" Content="×" Command="{Binding RemoveCommand}" Margin="6,0,0,3"
+                            VerticalAlignment="Bottom" ToolTip="Remover esta disciplina" AutomationProperties.Name="Remover disciplina do NPC" />
+                    <controls:DotTrack DockPanel.Dock="Right" Value="{Binding Rating, Mode=TwoWay}" Minimum="{Binding Minimum}" Maximum="5"
+                                       VerticalAlignment="Bottom" AutomationProperties.Name="Nivel da disciplina do NPC" />
+                    <controls:SuggestionBox Text="{Binding SelectedDiscipline}" Suggestions="{Binding Options}" Placeholder="escolha ou escreva"
+                                            EditorName="Disciplina do NPC" IsEnabled="{Binding CanSelectDiscipline}"
+                                            Margin="0,0,10,0" VerticalAlignment="Bottom" />
+                </DockPanel>
+                <TextBlock Text="{Binding Error}" FontSize="11" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" Margin="0,2,0,0">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Error}" Value=""><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="PowerRow" DataType="{x:Type catalogs:PowerRowViewModel}">
+            <StackPanel Margin="0,0,0,6">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" /><ColumnDefinition Width="100" /><ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="120" /><ColumnDefinition Width="150" /><ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="62" />
+                    </Grid.ColumnDefinitions>
+                    <controls:SuggestionBox Text="{Binding Discipline, UpdateSourceTrigger=PropertyChanged}" Suggestions="{Binding DisciplineSuggestions}"
+                                            Placeholder="disciplina" EditorName="Disciplina do poder" Margin="0,0,10,0" VerticalAlignment="Bottom" />
+                    <controls:DotTrack Grid.Column="1" Value="{Binding Level, Mode=TwoWay}" Minimum="1" Maximum="5" VerticalAlignment="Bottom"
+                                       IsHitTestVisible="{Binding CanEditLevel}" AutomationProperties.Name="Nivel do poder"
+                                       RenderTransformOrigin="0,1">
+                        <controls:DotTrack.LayoutTransform><ScaleTransform ScaleX="0.78" ScaleY="0.78" /></controls:DotTrack.LayoutTransform>
+                    </controls:DotTrack>
+                    <controls:SuggestionBox Grid.Column="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Suggestions="{Binding NameSuggestions}"
+                                            Placeholder="escolha ou escreva o poder" EditorName="Nome do poder" Margin="0,0,10,0" VerticalAlignment="Bottom" />
+                    <TextBox Grid.Column="3" Style="{StaticResource Line}" Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" MaxLength="200"
+                             Tag="custo" ToolTip="{Binding Cost}" AutomationProperties.Name="Custo do poder" />
+                    <TextBox Grid.Column="4" Style="{StaticResource Line}" Text="{Binding DicePool, UpdateSourceTrigger=PropertyChanged}" MaxLength="200"
+                             Tag="parada (vs. teste)" ToolTip="{Binding DicePool}" AutomationProperties.Name="Parada de dados do poder" />
+                    <TextBox Grid.Column="5" Style="{StaticResource Line}" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" MaxLength="200"
+                             Tag="duração" AutomationProperties.Name="Duracao do poder" />
+                    <StackPanel Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,4">
+                        <Border Style="{StaticResource WarningMark}" Margin="0,0,4,0"><TextBlock Text="!" Style="{StaticResource HelpMark}" /></Border>
+                        <Button Command="{Binding ToggleDetailsCommand}" Margin="0,0,4,0" ToolTip="Extras: descrição, sistema e pré-requisito"
+                                AutomationProperties.Name="Extras do poder">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource Mini}">
+                                    <Setter Property="Content" Value="▸" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsExpanded}" Value="True"><Setter Property="Content" Value="▾" /></DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Style="{StaticResource Mini}" Content="×" Command="{Binding RemoveCommand}" ToolTip="Remover poder"
+                                AutomationProperties.Name="Remover poder" />
+                    </StackPanel>
+                </Grid>
+                <Border Margin="250,6,62,4" Padding="12,6,6,8" BorderThickness="2,0,0,0" BorderBrush="{DynamicResource VcsBorder}"
+                        Visibility="{Binding IsExpanded, Converter={StaticResource BoolVisibility}}">
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,6">
+                            <Button DockPanel.Dock="Right" Content="Restaurar do catálogo" Command="{Binding RestoreCatalogCommand}" FontSize="11"
+                                    Padding="8,2" Visibility="{Binding IsCatalog, Converter={StaticResource BoolVisibility}}"
+                                    AutomationProperties.Name="Restaurar poder do catalogo" />
+                            <TextBlock Text="{Binding SourceLabel}" FontSize="11" FontStyle="Italic" Foreground="{DynamicResource VcsInputDescription}" VerticalAlignment="Center" />
+                        </DockPanel>
+                        <DockPanel Margin="0,0,0,6">
+                            <TextBlock Text="Pré-requisito" Style="{StaticResource FieldTag}" />
+                            <TextBox Style="{StaticResource Line}" Text="{Binding Prerequisite, UpdateSourceTrigger=PropertyChanged}" MaxLength="200"
+                                     Tag="amálgama ou poder anterior" AutomationProperties.Name="Pre-requisito do poder" />
+                        </DockPanel>
+                        <TextBlock Text="Descrição e sistema" Style="{StaticResource FieldTag}" />
+                        <TextBox Style="{StaticResource Lines}" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                 Tag="como o poder funciona" AutomationProperties.Name="Descricao do poder" />
+                        <TextBlock Text="{Binding Warning}" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccentText}"
+                                   Visibility="{Binding HasWarning, Converter={StaticResource BoolVisibility}}" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="RitualBlock" DataType="{x:Type catalogs:PowerRowViewModel}">
+            <Border Margin="0,0,0,14" Padding="0,0,0,10" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource VcsBorder}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="170" /><ColumnDefinition Width="100" /><ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="150" /><ColumnDefinition Width="150" /><ColumnDefinition Width="62" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                        <TextBlock Text="Disciplina" Style="{StaticResource ColumnHead}" />
+                        <TextBlock Grid.Column="2" Text="Ritual / cerimônia" Style="{StaticResource ColumnHead}" />
+                        <TextBlock Grid.Column="3" Text="Custo de ativação" Style="{StaticResource ColumnHead}" />
+                        <TextBlock Grid.Column="4" Text="Parada de dados" Style="{StaticResource ColumnHead}" />
+                        <controls:SuggestionBox Grid.Row="1" Text="{Binding Discipline, UpdateSourceTrigger=PropertyChanged}" Suggestions="{Binding DisciplineSuggestions}"
+                                                Placeholder="disciplina" EditorName="Disciplina do ritual" Margin="0,0,10,0" />
+                        <controls:DotTrack Grid.Row="1" Grid.Column="1" Value="{Binding Level, Mode=TwoWay}" Minimum="1" Maximum="5" VerticalAlignment="Bottom"
+                                           IsHitTestVisible="{Binding CanEditLevel}" AutomationProperties.Name="Nivel do ritual">
+                            <controls:DotTrack.LayoutTransform><ScaleTransform ScaleX="0.78" ScaleY="0.78" /></controls:DotTrack.LayoutTransform>
+                        </controls:DotTrack>
+                        <controls:SuggestionBox Grid.Row="1" Grid.Column="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Suggestions="{Binding NameSuggestions}"
+                                                Placeholder="escolha ou escreva o ritual" EditorName="Nome do ritual" Margin="0,0,10,0" />
+                        <TextBox Grid.Row="1" Grid.Column="3" Style="{StaticResource Line}" Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" MaxLength="200"
+                                 ToolTip="{Binding Cost}" AutomationProperties.Name="Custo do ritual" />
+                        <TextBox Grid.Row="1" Grid.Column="4" Style="{StaticResource Line}" Text="{Binding DicePool, UpdateSourceTrigger=PropertyChanged}" MaxLength="200"
+                                 ToolTip="{Binding DicePool}" AutomationProperties.Name="Parada de dados do ritual" />
+                        <StackPanel Grid.Row="1" Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,4">
+                            <Border Style="{StaticResource WarningMark}" Margin="0,0,4,0"><TextBlock Text="!" Style="{StaticResource HelpMark}" /></Border>
+                            <Button Style="{StaticResource Mini}" Content="×" Command="{Binding RemoveCommand}" ToolTip="Remover ritual"
+                                    AutomationProperties.Name="Remover ritual" />
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="24" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <DockPanel Margin="0,0,0,6">
+                                <TextBlock Text="Ingredientes" Style="{StaticResource FieldTag}" />
+                                <TextBox Style="{StaticResource Line}" Margin="0" Text="{Binding Ingredients, UpdateSourceTrigger=PropertyChanged}" MaxLength="20000"
+                                         AutomationProperties.Name="Ingredientes do ritual" />
+                            </DockPanel>
+                            <TextBlock Text="Processo" Style="{StaticResource FieldTag}" />
+                            <TextBox Style="{StaticResource Lines}" Margin="0,0,0,6" Text="{Binding Process, UpdateSourceTrigger=PropertyChanged}"
+                                     AutomationProperties.Name="Processo do ritual" />
+                            <TextBlock Text="Sistema" Style="{StaticResource FieldTag}" />
+                            <TextBox Style="{StaticResource Lines}" Margin="0" Text="{Binding System, UpdateSourceTrigger=PropertyChanged}"
+                                     AutomationProperties.Name="Sistema do ritual" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <DockPanel Margin="0,0,0,6">
+                                <TextBlock Text="Pré-requisito" Style="{StaticResource FieldTag}" />
+                                <TextBox Style="{StaticResource Line}" Margin="0" Text="{Binding Prerequisite, UpdateSourceTrigger=PropertyChanged}" MaxLength="200"
+                                         AutomationProperties.Name="Pre-requisito do ritual" />
+                            </DockPanel>
+                            <TextBlock Text="Descrição" Style="{StaticResource FieldTag}" />
+                            <TextBox Style="{StaticResource Lines}" Margin="0" MinHeight="96" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                     AutomationProperties.Name="Descricao do ritual" />
+                            <DockPanel Margin="0,6,0,0">
+                                <Button DockPanel.Dock="Right" Content="Restaurar do catálogo" Command="{Binding RestoreCatalogCommand}" FontSize="11"
+                                        Padding="8,2" Visibility="{Binding IsCatalog, Converter={StaticResource BoolVisibility}}"
+                                        AutomationProperties.Name="Restaurar ritual do catalogo" />
+                                <TextBlock Text="{Binding SourceLabel}" FontSize="11" FontStyle="Italic" Foreground="{DynamicResource VcsInputDescription}" VerticalAlignment="Center" />
+                            </DockPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <StackPanel IsEnabled="{Binding CanEditBuild}">
+        <Border Margin="8,0,8,14" Padding="12,10" CornerRadius="8" BorderThickness="1" Style="{StaticResource PcOnly}"
+                BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}">
+            <StackPanel>
+                <DockPanel Margin="0,0,0,8" Visibility="{Binding IsCreating, Converter={StaticResource BoolVisibility}}">
+                    <TextBlock Text="Pontos iniciais" Style="{StaticResource Stat}" Margin="0,0,10,0" />
+                    <TextBlock Text="{Binding InitialDisciplinesSpread}" FontSize="12" VerticalAlignment="Center"
+                               Foreground="{DynamicResource VcsInputDescription}" AutomationProperties.Name="Distribuicao inicial de disciplinas" />
+                    <Border Style="{StaticResource Help}">
+                        <Border.ToolTip>
+                            <ToolTip><TextBlock Text="{x:Static sheet:CharacterEditorViewModel.DisciplineHelp}" TextWrapping="Wrap" MaxWidth="340" /></ToolTip>
+                        </Border.ToolTip>
+                        <TextBlock Style="{StaticResource HelpMark}" />
+                    </Border>
+                    <TextBlock Text="{Binding InitialDisciplinesStatus}" Margin="14,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right"
+                               FontSize="12" FontWeight="SemiBold" AutomationProperties.Name="Disciplinas que faltam">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsInitialDisciplinesComplete}" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </DockPanel>
+                <WrapPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,24,0">
+                        <TextBlock Text="◆" FontSize="8" Margin="0,0,4,0" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}" />
+                        <TextBlock Style="{StaticResource Stat}" Text="Clã:" />
+                        <TextBlock Text="{Binding ClanDisciplinesShort}" FontSize="12" FontWeight="SemiBold" Margin="4,0,0,0" VerticalAlignment="Center"
+                                   AutomationProperties.Name="Disciplinas do cla" />
+                        <Border Style="{StaticResource Help}">
+                            <Border.ToolTip>
+                                <ToolTip><TextBlock Text="{Binding PredatorDisciplineHint}" TextWrapping="Wrap" MaxWidth="340" /></ToolTip>
+                            </Border.ToolTip>
+                            <TextBlock Style="{StaticResource HelpMark}" />
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,24,0" ToolTip="Marque ✦ ao lado de uma destas disciplinas para receber +1 gratuito do predador.">
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PredatorDisciplineLegend}" Value=""><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <TextBlock Text="✦" FontSize="12" Margin="0,0,4,0" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}" />
+                        <TextBlock Style="{StaticResource Stat}" Text="Predador:" />
+                        <TextBlock Text="{Binding PredatorDisciplineLegend}" FontSize="12" FontWeight="SemiBold" Margin="4,0,0,0" VerticalAlignment="Center"
+                                   AutomationProperties.Name="Legenda do predador" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource Stat}" Text="XP em disciplinas:" />
+                        <TextBlock Text="{Binding DisciplinesExperienceTotal}" FontWeight="SemiBold" Margin="4,0,0,0" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource VcsAccentText}" AutomationProperties.Name="XP gasto em disciplinas" />
+                        <Border Style="{StaticResource Help}">
+                            <Border.ToolTip>
+                                <ToolTip><TextBlock Text="{Binding DisciplinesExperienceHelp}" TextWrapping="Wrap" MaxWidth="340" /></ToolTip>
+                            </Border.ToolTip>
+                            <TextBlock Style="{StaticResource HelpMark}" />
+                        </Border>
+                    </StackPanel>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <ItemsControl ItemsSource="{Binding DisciplineItems}" ItemTemplate="{StaticResource DisciplineCell}"
+                      Style="{StaticResource PcOnly}" AutomationProperties.Name="Disciplinas da ficha">
+            <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="3" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <Expander Header="Editar nomes ou adicionar disciplinas pessoais" Margin="8,0,8,4" FontSize="12">
+            <Expander.Style>
+                <Style TargetType="Expander" BasedOn="{StaticResource {x:Type Expander}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsNpc}" Value="True"><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Expander.Style>
+            <controls:EditableTraitList DataContext="{Binding Disciplines}" />
+        </Expander>
+        <StackPanel Visibility="{Binding IsNpc, Converter={StaticResource BoolVisibility}}">
+            <ItemsControl ItemsSource="{Binding NpcDisciplines}" ItemTemplate="{StaticResource NpcDisciplineSlot}"
+                          AutomationProperties.Name="Disciplinas do NPC">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="3" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <Button Style="{StaticResource Mini}" Content="+" Command="{Binding AddNpcDisciplineCommand}" HorizontalAlignment="Center"
+                    ToolTip="Adicionar mais uma disciplina" AutomationProperties.Name="Adicionar disciplina do NPC" />
+        </StackPanel>
+
+        <StackPanel DataContext="{Binding Powers}" Margin="8,18,8,0">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                <TextBlock Text="Poderes" Style="{StaticResource GroupTitle}" />
+                <Button Style="{StaticResource Mini}" Content="+" Command="{Binding AddPowerCommand}" Margin="8,0,0,0"
+                        ToolTip="Adicionar poder" AutomationProperties.Name="Adicionar poder" />
+            </StackPanel>
+            <Grid Margin="0,0,0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" /><ColumnDefinition Width="100" /><ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="120" /><ColumnDefinition Width="150" /><ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="62" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Disciplina" Style="{StaticResource ColumnHead}" />
+                <TextBlock Grid.Column="1" Text="Nível" Style="{StaticResource ColumnHead}" />
+                <TextBlock Grid.Column="2" Text="Poder" Style="{StaticResource ColumnHead}" />
+                <TextBlock Grid.Column="3" Text="Custo" Style="{StaticResource ColumnHead}" />
+                <TextBlock Grid.Column="4" Text="Parada de dados" Style="{StaticResource ColumnHead}" />
+                <TextBlock Grid.Column="5" Text="Duração" Style="{StaticResource ColumnHead}" />
+            </Grid>
+            <ItemsControl ItemsSource="{Binding PowerRows}" ItemTemplate="{StaticResource PowerRow}" AutomationProperties.Name="Poderes da ficha" />
+            <TextBlock Text="Nenhum poder. Use + para adicionar uma linha e escolha do catálogo ou escreva o seu."
+                       FontSize="12" FontStyle="Italic" Foreground="{DynamicResource VcsInputDescription}" Margin="0,4,0,0"
+                       Visibility="{Binding HasNoPowerRows, Converter={StaticResource BoolVisibility}}" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,22,0,8">
+                <TextBlock Text="Rituais e cerimônias" Style="{StaticResource GroupTitle}" />
+                <Button Style="{StaticResource Mini}" Content="+" Command="{Binding AddRitualCommand}" Margin="8,0,0,0"
+                        ToolTip="Adicionar ritual" AutomationProperties.Name="Adicionar ritual" />
+            </StackPanel>
+            <ItemsControl ItemsSource="{Binding RitualRows}" ItemTemplate="{StaticResource RitualBlock}" AutomationProperties.Name="Rituais da ficha" />
+            <TextBlock Text="Nenhum ritual. Use + para adicionar."
+                       FontSize="12" FontStyle="Italic" Foreground="{DynamicResource VcsInputDescription}" Margin="0,4,0,0"
+                       Visibility="{Binding HasNoRitualRows, Converter={StaticResource BoolVisibility}}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

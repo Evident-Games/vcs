@@ -1,6 +1,11 @@
-using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using VCS.Domain.Advancement;
+using VCS.Domain.Advantages;
 using VCS.Domain.Characters;
+using VCS.Domain.Predators;
+using VCS.Domain.Skills;
+using VCS.Infrastructure.Catalogs.Seed;
 
 namespace VCS.Infrastructure.Persistence;
 
@@ -18,7 +23,7 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         predators.HasKey(x => x.Id);
         predators.Property(x => x.Name).HasMaxLength(80).IsRequired();
         predators.Property(x => x.Definition).IsRequired();
-        predators.HasData(Domain.Characters.PredatorCatalog.All.Select(x => new PredatorCatalogRecord
+        predators.HasData(Domain.Predators.PredatorCatalog.All.Select(x => new PredatorCatalogRecord
         {
             Id = x.Id, Name = x.Name, Definition = JsonSerializer.Serialize(x)
         }));
@@ -28,7 +33,7 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         skills.Property(x => x.Name).HasMaxLength(80).IsRequired();
         skills.Property(x => x.Group).HasMaxLength(80).IsRequired();
         skills.Property(x => x.Description).IsRequired();
-        skills.HasData(Data.ProvidedSkills.All);
+        skills.HasData(ProvidedSkills.All);
         var catalog = modelBuilder.Entity<AdvantageDefinition>();
         catalog.ToTable("AdvantageCatalog", table => table.HasCheckConstraint("CK_AdvantageCatalog_Points",
             "\"Minimum\" >= 1 AND \"Maximum\" >= \"Minimum\" AND \"Maximum\" <= 5"));
@@ -39,8 +44,8 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         catalog.Property(x => x.Description).IsRequired();
         catalog.Property(x => x.LoresheetCollection).HasMaxLength(80).IsRequired();
         catalog.Property(x => x.PointsLabel).IsRequired();
-        catalog.HasData(Data.ProvidedAdvantages.All);
-        catalog.HasData(Data.ProvidedLoresheets.All);
+        catalog.HasData(ProvidedAdvantages.All);
+        catalog.HasData(ProvidedLoresheets.All);
         var character = modelBuilder.Entity<Character>();
         character.ToTable("Characters");
         character.HasKey(x => x.Id);
