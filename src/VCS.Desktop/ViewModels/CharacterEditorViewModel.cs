@@ -22,6 +22,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     private bool _ready;
     private bool _disposed;
     private IReadOnlyList<ValidationIssue> _issues = [];
+    private readonly Dictionary<string, SheetFieldViewModel> _extraFields;
     private static readonly HashSet<string> EditableProperties =
     [
         nameof(Name), nameof(MortalName), nameof(Clan), nameof(Generation), nameof(Sire),
@@ -93,6 +94,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
             new("RouseReroll", "Rerrolagem de Sangue", d.RouseReroll), new("FeedingPenalty", "Penalidade de alimentacao", d.FeedingPenalty),
             new("BaneSeverity", "Gravidade da Perdicao", d.BaneSeverity)
         ];
+        _extraFields = ExtraFields.ToDictionary(x => x.Key);
         InitializeNpcSheet(d);
         foreach (var field in ExtraFields) field.PropertyChanged += OnExtraFieldChanged;
         experienceTotal = d.ExperienceTotal;
@@ -185,6 +187,11 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     }
     [ObservableProperty] private bool isDirty;
     [ObservableProperty] private bool isSaving;
+    /// <summary>Theme used inside this sheet; null follows the application theme.</summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(EffectiveSheetThemeId))]
+    private string? sheetThemeId;
+    public string EffectiveSheetThemeId => SheetThemeId ?? Display.ThemeId;
     [ObservableProperty] private string error = "";
     [ObservableProperty] private string status = "Salvo localmente";
     [ObservableProperty] private int experienceTotal;
@@ -198,12 +205,19 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     public void ConfigureDisplay(DisplaySettingsViewModel display)
     {
         Display.LayoutChanged -= OnDisplayChanged;
+        Display.PropertyChanged -= OnDisplayPropertyChanged;
         Display = display;
         Display.LayoutChanged += OnDisplayChanged;
+        Display.PropertyChanged += OnDisplayPropertyChanged;
         OnPropertyChanged(nameof(Display));
+        OnPropertyChanged(nameof(EffectiveSheetThemeId));
         RefreshSections();
     }
     private void OnDisplayChanged(object? sender, EventArgs e) => RefreshSections();
+    private void OnDisplayPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(DisplaySettingsViewModel.ThemeId)) OnPropertyChanged(nameof(EffectiveSheetThemeId));
+    }
     private void RefreshSections()
     {
         var tabKey = SelectedTab?.Sections.FirstOrDefault()?.Key;
@@ -390,7 +404,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         },
         Traits = [.. Groups.SelectMany(x => x.Items).Select(x => x.ToValue()), .. Powers.SelectedValues()]
     };
-    private string Extra(string key) => ExtraFields.Single(x => x.Key == key).Value;
+    private string Extra(string key) => _extraFields[key].Value;
 
     private void ValidateDraft()
     {
@@ -454,6 +468,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         Powers.Dispose();
         AdvantageCatalog?.Dispose();
         Display.LayoutChanged -= OnDisplayChanged;
+        Display.PropertyChanged -= OnDisplayPropertyChanged;
         foreach (var field in ExtraFields) field.PropertyChanged -= OnExtraFieldChanged;
         DetachNpcAttacks();
         foreach (var group in Groups)

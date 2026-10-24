@@ -25,12 +25,7 @@ public partial class TraitItemViewModel : ObservableObject
     public LoresheetInfo? Loresheet { get; }
     public string? MeritGroup { get; internal set; }
     public string? SkillGroup { get; internal set; }
-    public string MeritKind => Category == TraitCategory.Flaw ? "Defeito" : "Vantagem";
     public int SpecializationCount => CharacterAdvancement.SpecializationCount(Specialization);
-    public string LoresheetSummary => Loresheet is { } lore
-        ? $"{lore.Collection} / {(lore.IsLineage ? "Linhagem" : "Geral")} / {Rating} ponto(s) / " +
-          (lore.Payment == LoresheetPayment.AdvantagePoints ? "Pontos de vantagens" : lore.Payment == LoresheetPayment.InitialXp ? $"{Rating * 3} XP inicial" : $"{Rating * 3} XP de campanha")
-        : "";
     public bool IsPredatorGrant => PredatorRules.IsGrant(ToValue());
     public bool CanEditRating => !IsPredatorGrant;
     [ObservableProperty]

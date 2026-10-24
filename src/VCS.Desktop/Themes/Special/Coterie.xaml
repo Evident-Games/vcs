@@ -1,26 +1,42 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <SolidColorBrush x:Key="VcsBackground" Color="#0C0B0D" />
-    <SolidColorBrush x:Key="VcsCard" Color="#1B191C" />
-    <!-- Texto de dentro: cartoes, campos, listas e menus abertos. -->
-    <SolidColorBrush x:Key="VcsText" Color="#FEF4E3" />
-    <!-- Texto de fora: direto sobre o fundo da janela (titulo, menu principal, cabecalho e status). -->
-    <SolidColorBrush x:Key="VcsOuterText" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsMuted" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsBorder" Color="#B1AAA0" />
-    <SolidColorBrush x:Key="VcsAccent" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsInput" Color="#78131F" />
-    <SolidColorBrush x:Key="VcsHover" Color="#8D8373" />
-    <SolidColorBrush x:Key="VcsSelection" Color="#8D8373" />
-    <SolidColorBrush x:Key="VcsHeaderText" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsFooterText" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsCardText" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsSelectionText" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsInputText" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsInputTitle" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsInputDescription" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsAccentText" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsAccentHotbar" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsAccentBorder" Color="#FEF4E3" />
-    <SolidColorBrush x:Key="VcsScroll" Color="#FEF4E3" />
+    <!-- Aplicacao: janela, titulo, menu principal, lista lateral, abas de fichas e status. -->
+    <SolidColorBrush x:Key="VcsAppBackground" Color="#0C0B0D" />
+    <SolidColorBrush x:Key="VcsAppOuterText" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsAppHeaderText" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsAppFooterText" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsAppCard" Color="#1B191C" />
+    <SolidColorBrush x:Key="VcsAppCardText" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsAppBorder" Color="#B1AAA0" />
+    <SolidColorBrush x:Key="VcsAppInput" Color="#78131F" />
+    <SolidColorBrush x:Key="VcsAppInputText" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsAppInputTitle" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsAppInputDescription" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsAppAccent" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsAppAccentText" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsAppAccentBorder" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsAppAccentHotbar" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsAppHover" Color="#8D8373" />
+    <SolidColorBrush x:Key="VcsAppSelection" Color="#8D8373" />
+    <SolidColorBrush x:Key="VcsAppSelectionText" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsAppScroll" Color="#FEF4E3" />
+
+    <!-- Ficha: tudo dentro da ficha aberta. Pode vir de outro tema que o da aplicacao. -->
+    <SolidColorBrush x:Key="VcsSheetBackground" Color="#0C0B0D" />
+    <SolidColorBrush x:Key="VcsSheetOuterText" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsSheetCard" Color="#1B191C" />
+    <SolidColorBrush x:Key="VcsSheetCardText" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsSheetBorder" Color="#B1AAA0" />
+    <SolidColorBrush x:Key="VcsSheetInput" Color="#78131F" />
+    <SolidColorBrush x:Key="VcsSheetInputText" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsSheetInputTitle" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsSheetInputDescription" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsSheetAccent" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsSheetAccentText" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsSheetAccentBorder" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsSheetAccentHotbar" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsSheetHover" Color="#8D8373" />
+    <SolidColorBrush x:Key="VcsSheetSelection" Color="#8D8373" />
+    <SolidColorBrush x:Key="VcsSheetSelectionText" Color="#FEF4E3" />
+    <SolidColorBrush x:Key="VcsSheetScroll" Color="#FEF4E3" />
 </ResourceDictionary>

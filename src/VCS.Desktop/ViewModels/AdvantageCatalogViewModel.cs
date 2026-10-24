@@ -257,13 +257,6 @@ public partial class MeritFamilyViewModel : ObservableObject
     public bool HasAdvantages => AdvantageOptions.Count > 0 || AdvantagePersonalEntries.Count > 0;
     public bool HasFlaws => FlawOptions.Count > 0 || FlawPersonalEntries.Count > 0;
     [ObservableProperty] private string message = "";
-    public string SelectionHint => Name switch
-    {
-        "Beleza" => "Escolha uma opcao de beleza.",
-        "Recursos" => "Recursos ou Destituido: escolha uma opcao.",
-        "Membros" => "Status, Suspeito e Segregado sao exclusivos entre si. As demais opcoes podem acumular.",
-        _ => "As opcoes desta familia podem acumular."
-    };
     public string ConflictWarning => FamilyItems.Where(x => x.Rating > 0)
         .GroupBy(ExclusiveSet).Any(x => x.Key is not null && x.Select(Identity).Distinct().Count() > 1)
         ? "Ha escolhas exclusivas juntas nesta familia. Revise as entradas; nenhum dado antigo foi removido." : "";

@@ -119,7 +119,7 @@
             <Style TargetType="Border">
                 <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
                 <Setter Property="Background" Value="{DynamicResource VcsCard}" />
-                <Setter Property="TextElement.Foreground" Value="{DynamicResource VcsText}" />
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource VcsCardText}" />
                 <Setter Property="BorderThickness" Value="1" />
                 <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="Padding" Value="14" />

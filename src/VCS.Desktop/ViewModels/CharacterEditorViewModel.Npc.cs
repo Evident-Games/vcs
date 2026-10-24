@@ -12,9 +12,9 @@ public partial class CharacterEditorViewModel
     public string TabTitle => string.IsNullOrWhiteSpace(Name) ? (IsNpc ? "NPC sem nome" : "Sem nome") : Name;
     partial void OnNameChanged(string value) => OnPropertyChanged(nameof(TabTitle));
     public ObservableCollection<NpcAttackViewModel> NpcAttacks { get; } = [];
-    public SheetFieldViewModel NpcBloodSurge => BloodFields.Single(x => x.Key == "BloodSurge");
-    public SheetFieldViewModel NpcDamageMend => BloodFields.Single(x => x.Key == "DamageMend");
-    public SheetFieldViewModel NpcPowerBonus => BloodFields.Single(x => x.Key == "PowerBonus");
+    public SheetFieldViewModel NpcBloodSurge => _extraFields["BloodSurge"];
+    public SheetFieldViewModel NpcDamageMend => _extraFields["DamageMend"];
+    public SheetFieldViewModel NpcPowerBonus => _extraFields["PowerBonus"];
 
     private void InitializeNpcSheet(CharacterDetails details)
     {
@@ -117,10 +117,10 @@ public partial class CharacterEditorViewModel
     public const int NpcMeritSlotsPerKind = 3;
     public ObservableCollection<NpcDisciplineSlotViewModel> NpcDisciplines { get; } = [];
 
-    public SheetFieldViewModel NpcTrueAge => BackgroundFields.Single(x => x.Key == "TrueAge");
-    public SheetFieldViewModel NpcApparentAge => BackgroundFields.Single(x => x.Key == "ApparentAge");
-    public SheetFieldViewModel NpcHistory => BackgroundFields.Single(x => x.Key == "History");
-    public SheetFieldViewModel NpcAppearance => BackgroundFields.Single(x => x.Key == "Appearance");
+    public SheetFieldViewModel NpcTrueAge => _extraFields["TrueAge"];
+    public SheetFieldViewModel NpcApparentAge => _extraFields["ApparentAge"];
+    public SheetFieldViewModel NpcHistory => _extraFields["History"];
+    public SheetFieldViewModel NpcAppearance => _extraFields["Appearance"];
     [RelayCommand] private void AddNpcDiscipline() => NpcDisciplines.Add(new(this));
 
     // Rated disciplines get a line; empty lines pad the fixed NPC layout.

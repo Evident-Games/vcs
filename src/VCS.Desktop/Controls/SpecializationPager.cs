@@ -2,7 +2,6 @@ using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using VCS.Domain.Characters;
 
 namespace VCS.Desktop.Controls;
@@ -34,7 +33,7 @@ public sealed class SpecializationPager : UserControl
         _previous = MiniButton("‹", "Especializacoes anteriores", () => GoTo(_page - 1));
         _next = MiniButton("›", "Proximas especializacoes", () => GoTo(_page + 1));
         _add = MiniButton("+", "Adicionar especializacao", AddLine);
-        _count.SetResourceReference(TextBlock.ForegroundProperty, "VcsMuted");
+        _count.SetResourceReference(TextBlock.ForegroundProperty, "VcsInputDescription");
         var side = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Top, Margin = new(6, 4, 0, 0) };
         side.Children.Add(_previous);
         side.Children.Add(_count);

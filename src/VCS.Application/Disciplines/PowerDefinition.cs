@@ -10,7 +10,6 @@ public sealed record PowerDefinition(
 {
     public string BaseDescription => "Descricao base da disciplina nao fornecida.";
     public string Ingredients => "Nao informado no material fornecido.";
-    public string Mechanics => Summary;
     public bool IsRitual => Discipline == "Rituais";
     public string RequiredDiscipline => IsRitual ? "Feitiçaria de Sangue" : Discipline;
 }

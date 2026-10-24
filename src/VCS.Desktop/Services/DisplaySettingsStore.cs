@@ -6,6 +6,19 @@ namespace VCS.Desktop.Services;
 
 public sealed class DisplaySettingsStore(string path)
 {
+    private static readonly JsonSerializerOptions WriteOptions = new()
+    {
+        WriteIndented = true,
+        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+    };
+    private static readonly Dictionary<string, string> LegacyDefaultTabs = new()
+    {
+        ["Identity"] = "Identidade e atributos", ["Attributes"] = "Identidade e atributos",
+        ["Skills"] = "Habilidades", ["Disciplines"] = "Disciplinas",
+        ["Advantages"] = "Vantagens e desvantagens", ["State"] = "Estado e sangue",
+        ["Background"] = "Historia e conviccoes", ["Notes"] = "Anotacoes"
+    };
+
     public void Load(DisplaySettingsViewModel settings)
     {
         if (!File.Exists(path)) return;
@@ -18,6 +31,8 @@ public sealed class DisplaySettingsStore(string path)
             : ThemeCatalog.DefaultId);
         if (!ThemeCatalog.All.Any(x => x.Id == themeId))
             throw new InvalidDataException("O arquivo de preferencias possui um tema desconhecido.");
+        if (saved.SheetThemes is not null && saved.SheetThemes.Values.Any(id => !ThemeCatalog.All.Any(x => x.Id == id)))
+            throw new InvalidDataException("O arquivo de preferencias possui um tema de ficha desconhecido.");
         if (saved.TabNames is not null && saved.TabNames.Any(x =>
             !settings.Sections.Any(s => s.Key == x.Key) || x.Value is null || x.Value.Length > 80))
             throw new InvalidDataException("O arquivo de preferencias possui uma organizacao de abas invalida.");
@@ -30,6 +45,7 @@ public sealed class DisplaySettingsStore(string path)
         settings.UseBento = saved.UseBento && !saved.UseTabs;
         settings.ShowSidebar = saved.ShowSidebar;
         settings.ThemeId = themeId;
+        foreach (var (sheet, sheetTheme) in saved.SheetThemes ?? []) settings.SheetThemeIds[sheet] = sheetTheme;
         foreach (var section in settings.Sections) section.IsVisible = !saved.HiddenSections.Contains(section.Key);
         if (saved.TabNames is not null && !legacyDefaultTabs)
             foreach (var section in settings.Sections)
@@ -54,15 +70,8 @@ public sealed class DisplaySettingsStore(string path)
 
     private static bool MatchesLegacyDefaults(Dictionary<string, string>? tabNames)
     {
-        if (tabNames is null || tabNames.Count != 8) return false;
-        var legacyDefaults = new Dictionary<string, string>
-        {
-            ["Identity"] = "Identidade e atributos", ["Attributes"] = "Identidade e atributos",
-            ["Skills"] = "Habilidades", ["Disciplines"] = "Disciplinas",
-            ["Advantages"] = "Vantagens e desvantagens", ["State"] = "Estado e sangue",
-            ["Background"] = "Historia e conviccoes", ["Notes"] = "Anotacoes"
-        };
-        return legacyDefaults.All(x => tabNames.TryGetValue(x.Key, out var value) && value == x.Value);
+        if (tabNames is null || tabNames.Count != LegacyDefaultTabs.Count) return false;
+        return LegacyDefaultTabs.All(x => tabNames.TryGetValue(x.Key, out var value) && value == x.Value);
     }
 
     public void Save(DisplaySettingsViewModel settings)
@@ -76,9 +85,7 @@ public sealed class DisplaySettingsStore(string path)
                 TabNames: settings.Sections.ToDictionary(x => x.Key, x => x.TabName),
                 ShowSidebar: settings.ShowSidebar,
                 Layout: settings.Sections.ToDictionary(x => x.Key, x => new SectionLayout(x.Caption, x.SectionOrder, x.TabOrder)),
-                UseBento: settings.UseBento),
-                new JsonSerializerOptions { WriteIndented = true,
-                    DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull }));
+                UseBento: settings.UseBento, SheetThemes: settings.SheetThemeIds), WriteOptions));
             File.Move(temporary, path, true);
         }
         finally { if (File.Exists(temporary)) File.Delete(temporary); }
@@ -86,6 +93,6 @@ public sealed class DisplaySettingsStore(string path)
 
     private sealed record Preferences(bool UseTabs, string[] HiddenSections, string? ThemeId = null, bool? DarkTheme = null,
         Dictionary<string, string>? TabNames = null, bool ShowSidebar = true, Dictionary<string, SectionLayout>? Layout = null,
-        bool UseBento = false);
+        bool UseBento = false, Dictionary<Guid, string>? SheetThemes = null);
     private sealed record SectionLayout(string Caption, int SectionOrder, int TabOrder);
 }

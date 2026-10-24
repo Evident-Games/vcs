@@ -75,7 +75,8 @@
     </UserControl.Resources>
     <StackPanel IsEnabled="{Binding CanEditBuild}">
         <Border Margin="8,0,8,14" Padding="12,10" CornerRadius="8" BorderThickness="1"
-                BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}">
+                BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}"
+                TextElement.Foreground="{DynamicResource VcsInputText}">
             <Border.Style>
                 <Style TargetType="Border">
                     <Style.Triggers>

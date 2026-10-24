@@ -1,4 +1,3 @@
-using VCS.Application.Disciplines;
 using VCS.Desktop.ViewModels;
 using VCS.Domain.Characters;
 using VCS.Infrastructure.Files;

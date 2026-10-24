@@ -22,7 +22,7 @@
                                 <TextBlock Text="{Binding Heading}" TextWrapping="Wrap" />
                             </CheckBox>
                             <TextBlock Text="{Binding Definition.Discipline}" FontSize="12" Margin="25,5,0,0"
-                                       Foreground="{DynamicResource VcsMuted}" />
+                                       Foreground="{DynamicResource VcsInputDescription}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -37,11 +37,11 @@
                             <DataTemplate>
                                 <StackPanel>
                                     <TextBlock Text="{Binding Heading}" FontSize="22" FontFamily="Georgia" TextWrapping="Wrap" Margin="0,0,0,12" />
-                                    <TextBlock Text="{Binding Definition.Discipline}" Foreground="{DynamicResource VcsMuted}" Margin="0,0,0,12" />
+                                    <TextBlock Text="{Binding Definition.Discipline}" Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,12" />
                                     <CheckBox Content="Conhecido pelo personagem" IsChecked="{Binding IsKnown, Mode=TwoWay}"
                                               Margin="0,0,0,16" />
                                     <TextBlock Text="{Binding Warning}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" Margin="0,0,0,12" />
-                                    <TextBlock Text="{Binding AdvancementInfo}" TextWrapping="Wrap" Foreground="{DynamicResource VcsMuted}" Margin="0,0,0,16" />
+                                    <TextBlock Text="{Binding AdvancementInfo}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,16" />
                                     <TextBlock Text="Descricao base" Style="{StaticResource FieldLabel}" />
                                     <TextBlock Text="{Binding Definition.BaseDescription}" TextWrapping="Wrap" Margin="0,0,0,16" />
                                     <TextBlock Text="Ingredientes" Style="{StaticResource FieldLabel}" />
