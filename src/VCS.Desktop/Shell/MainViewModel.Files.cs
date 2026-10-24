@@ -53,7 +53,7 @@ public partial class MainViewModel
         var id = Editor?.Id ?? SelectedCharacter?.Id;
         if (id is null) { Error = "Selecione uma ficha para exportar."; return; }
         var character = await service.GetAsync(id.Value);
-        var sections = Display.Sections.Where(x => x.IsVisible).OrderBy(x => x.SectionOrder)
+        var sections = Display.Pc.Sections.Where(x => x.IsVisible).OrderBy(x => x.SectionOrder)
             .Select(x => new PdfSection(x.Key, string.IsNullOrWhiteSpace(x.Caption) ? x.Title : x.Caption.Trim())).ToArray();
         if (character.Details.IsNpc) sections = [];
         else if (sections.Length == 0)

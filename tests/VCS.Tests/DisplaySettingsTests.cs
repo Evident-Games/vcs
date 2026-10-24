@@ -12,19 +12,19 @@ public sealed class DisplaySettingsTests
         var display = new DisplaySettingsViewModel();
         var changes = 0;
         display.LayoutChanged += (_, _) => changes++;
-        var state = display.Sections.Single(x => x.Key == "State");
-        display.MoveSection(state, 0);
-        Assert.Same(state, display.OrderedSections[0]);
-        Assert.Equal(Enumerable.Range(1, display.Sections.Length), display.OrderedSections.Select(x => x.SectionOrder));
+        var state = display.Pc.Sections.Single(x => x.Key == "State");
+        display.Pc.MoveSection(state, 0);
+        Assert.Same(state, display.Pc.OrderedSections[0]);
+        Assert.Equal(Enumerable.Range(1, display.Pc.Sections.Length), display.Pc.OrderedSections.Select(x => x.SectionOrder));
         Assert.Equal(1, state.TabOrder);
-        Assert.Equal(2, display.Sections.Single(x => x.Key == "Identity").TabOrder);
+        Assert.Equal(2, display.Pc.Sections.Single(x => x.Key == "Identity").TabOrder);
         Assert.Equal(1, changes);
-        display.MoveSection(state, 99);
-        Assert.Same(state, display.OrderedSections[^1]);
-        display.MoveSection(state, display.OrderedSections.Count - 1);
+        display.Pc.MoveSection(state, 99);
+        Assert.Same(state, display.Pc.OrderedSections[^1]);
+        display.Pc.MoveSection(state, display.Pc.OrderedSections.Count - 1);
         Assert.Equal(2, changes);
-        display.Sections.Single(x => x.Key == "Notes").SectionOrder = 0;
-        Assert.Equal("Notes", display.OrderedSections[0].Key);
+        display.Pc.Sections.Single(x => x.Key == "Notes").SectionOrder = 0;
+        Assert.Equal("Notes", display.Pc.OrderedSections[0].Key);
     }
 
     [Fact]
@@ -109,31 +109,31 @@ public sealed class DisplaySettingsTests
             Assert.False(display.UseTabs);
             Assert.Equal("white-red", display.ThemeId);
             Assert.Equal("white-red", Assert.Single(display.Themes, x => x.IsSelected).Id);
-            Assert.All(display.Sections, x => Assert.True(x.IsVisible));
+            Assert.All(display.Pc.Sections, x => Assert.True(x.IsVisible));
             display.UseTabs = true;
             display.ShowSidebar = false;
             display.SelectThemeCommand.Execute(themeId);
-            display.Sections.Single(x => x.Key == "Identity").TabName = "Minha ficha";
-            display.Sections.Single(x => x.Key == "State").TabName = "Minha ficha";
-            display.Sections.Single(x => x.Key == "State").Caption = "Estado de sangue";
-            display.Sections.Single(x => x.Key == "State").SectionOrder = 1;
-            display.Sections.Single(x => x.Key == "State").TabOrder = 2;
-            display.Sections.Single(x => x.Key == "Attributes").IsVisible = false;
-            display.Sections.Single(x => x.Key == "Notes").IsVisible = false;
+            display.Pc.Sections.Single(x => x.Key == "Identity").TabName = "Minha ficha";
+            display.Pc.Sections.Single(x => x.Key == "State").TabName = "Minha ficha";
+            display.Pc.Sections.Single(x => x.Key == "State").Caption = "Estado de sangue";
+            display.Pc.Sections.Single(x => x.Key == "State").SectionOrder = 1;
+            display.Pc.Sections.Single(x => x.Key == "State").TabOrder = 2;
+            display.Pc.Sections.Single(x => x.Key == "Attributes").IsVisible = false;
+            display.Pc.Sections.Single(x => x.Key == "Notes").IsVisible = false;
             store.Save(display);
             var reloaded = new DisplaySettingsViewModel();
             store.Load(reloaded);
             Assert.True(reloaded.UseTabs);
             Assert.False(reloaded.ShowSidebar);
-            Assert.Equal("Estado de sangue", reloaded.Sections.Single(x => x.Key == "State").Caption);
-            Assert.Equal(1, reloaded.Sections.Single(x => x.Key == "State").SectionOrder);
-            Assert.Equal(2, reloaded.Sections.Single(x => x.Key == "State").TabOrder);
+            Assert.Equal("Estado de sangue", reloaded.Pc.Sections.Single(x => x.Key == "State").Caption);
+            Assert.Equal(1, reloaded.Pc.Sections.Single(x => x.Key == "State").SectionOrder);
+            Assert.Equal(2, reloaded.Pc.Sections.Single(x => x.Key == "State").TabOrder);
             Assert.Equal(themeId, reloaded.ThemeId);
-            Assert.Equal("Minha ficha", reloaded.Sections.Single(x => x.Key == "Identity").TabName);
-            Assert.Equal("Minha ficha", reloaded.Sections.Single(x => x.Key == "State").TabName);
+            Assert.Equal("Minha ficha", reloaded.Pc.Sections.Single(x => x.Key == "Identity").TabName);
+            Assert.Equal("Minha ficha", reloaded.Pc.Sections.Single(x => x.Key == "State").TabName);
             Assert.Equal(themeId, Assert.Single(reloaded.Themes, x => x.IsSelected).Id);
             Assert.DoesNotContain("DarkTheme", File.ReadAllText(path));
-            Assert.Equal(new[] { "Attributes", "Notes" }, reloaded.Sections.Where(x => !x.IsVisible).Select(x => x.Key));
+            Assert.Equal(new[] { "Attributes", "Notes" }, reloaded.Pc.Sections.Where(x => !x.IsVisible).Select(x => x.Key));
             Assert.Single(Directory.GetFiles(directory));
         }
 
@@ -153,9 +153,9 @@ public sealed class DisplaySettingsTests
             new DisplaySettingsStore(path).Load(display);
             Assert.Equal(expectedId, display.ThemeId);
             Assert.True(display.UseTabs);
-            Assert.False(display.Sections.Single(x => x.Key == "Notes").IsVisible);
-            Assert.Equal("Identidade", display.Sections.Single(x => x.Key == "Identity").TabName);
-            Assert.Equal("Atributos", display.Sections.Single(x => x.Key == "Attributes").TabName);
+            Assert.False(display.Pc.Sections.Single(x => x.Key == "Notes").IsVisible);
+            Assert.Equal("Identidade", display.Pc.Sections.Single(x => x.Key == "Identity").TabName);
+            Assert.Equal("Atributos", display.Pc.Sections.Single(x => x.Key == "Attributes").TabName);
         }
         finally { File.Delete(path); }
     }
@@ -176,10 +176,10 @@ public sealed class DisplaySettingsTests
                 """);
             var display = new DisplaySettingsViewModel();
             new DisplaySettingsStore(path).Load(display);
-            Assert.Equal("Identidade", display.Sections.Single(x => x.Key == "Identity").TabName);
-            Assert.Equal("Atributos", display.Sections.Single(x => x.Key == "Attributes").TabName);
-            Assert.Equal("História", display.Sections.Single(x => x.Key == "Background").TabName);
-            Assert.Equal("História", display.Sections.Single(x => x.Key == "Notes").TabName);
+            Assert.Equal("Identidade", display.Pc.Sections.Single(x => x.Key == "Identity").TabName);
+            Assert.Equal("Atributos", display.Pc.Sections.Single(x => x.Key == "Attributes").TabName);
+            Assert.Equal("História", display.Pc.Sections.Single(x => x.Key == "Background").TabName);
+            Assert.Equal("História", display.Pc.Sections.Single(x => x.Key == "Notes").TabName);
         }
         finally { File.Delete(path); }
     }
@@ -214,7 +214,7 @@ public sealed class DisplaySettingsTests
             var display = new DisplaySettingsViewModel();
             Assert.Throws<InvalidDataException>(() => new DisplaySettingsStore(path).Load(display));
             Assert.False(display.UseTabs);
-            Assert.Equal("Identidade", display.Sections[0].TabName);
+            Assert.Equal("Identidade", display.Pc.Sections[0].TabName);
         }
         finally { File.Delete(path); }
     }
