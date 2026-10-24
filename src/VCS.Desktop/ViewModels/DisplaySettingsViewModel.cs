@@ -1,91 +1,42 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.ComponentModel;
 using VCS.Desktop.Services;
 
 namespace VCS.Desktop.ViewModels;
-
-public partial class SectionOption(string key, string title) : ObservableObject
-{
-    public string Key { get; } = key;
-    public string Title { get; } = title;
-    [ObservableProperty] private bool isVisible = true;
-    [ObservableProperty] private string tabName = key switch
-    {
-        "Identity" => "Identidade",
-        "Attributes" => "Atributos",
-        "Skills" => "Habilidades",
-        "Disciplines" => "Disciplinas",
-        "Advantages" => "Vantagens",
-        "State" => "Estado",
-        "Background" or "Notes" => "História",
-        _ => title
-    };
-    [ObservableProperty] private string caption = title;
-    [ObservableProperty] private int sectionOrder;
-    [ObservableProperty] private int tabOrder;
-}
 
 public partial class DisplaySettingsViewModel : ObservableObject
 {
     public DisplaySettingsViewModel()
     {
-        for (var i = 0; i < Sections.Length; i++)
-        {
-            Sections[i].SectionOrder = i + 1;
-            Sections[i].TabOrder = Array.FindIndex(Sections, section => section.TabName == Sections[i].TabName) + 1;
-            Sections[i].PropertyChanged += OnSectionChanged;
-        }
-        OrderedSections = new(Sections);
+        Pc.Changed += OnLayoutChanged;
+        Npc.Changed += OnLayoutChanged;
     }
-    /// <summary>Sections in display order; the organizer list binds here so drag and drop can reorder it.</summary>
-    public System.Collections.ObjectModel.ObservableCollection<SectionOption> OrderedSections { get; }
-    private bool _reordering;
 
-    /// <summary>Moves a section to a new position; tab order follows the first section of each tab group.</summary>
-    public void MoveSection(SectionOption section, int index)
+    public SheetLayout Pc { get; } = SheetLayout.CreatePc();
+    public SheetLayout Npc { get; } = SheetLayout.CreateNpc();
+    public SheetLayout LayoutFor(bool npc) => npc ? Npc : Pc;
+    /// <summary>PC sections, the layout most callers mean.</summary>
+    public SectionOption[] Sections => Pc.Sections;
+    public System.Collections.ObjectModel.ObservableCollection<SectionOption> OrderedSections => Pc.OrderedSections;
+    public void MoveSection(SectionOption section, int index) =>
+        (Npc.Sections.Contains(section) ? Npc : Pc).MoveSection(section, index);
+
+    /// <summary>Layout shown in the layout editor; opens on the active sheet's kind.</summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(EditedLayout), nameof(IsEditingPc))]
+    private bool isEditingNpc;
+    public bool IsEditingPc
     {
-        var current = OrderedSections.IndexOf(section);
-        index = Math.Clamp(index, 0, OrderedSections.Count - 1);
-        if (current < 0 || current == index) return;
-        OrderedSections.Move(current, index);
-        _reordering = true;
-        try
-        {
-            var tabs = OrderedSections.Select(TabKey).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
-            for (var i = 0; i < OrderedSections.Count; i++)
-            {
-                OrderedSections[i].SectionOrder = i + 1;
-                OrderedSections[i].TabOrder = tabs.FindIndex(x =>
-                    string.Equals(x, TabKey(OrderedSections[i]), StringComparison.OrdinalIgnoreCase)) + 1;
-            }
-        }
-        finally { _reordering = false; }
+        get => !IsEditingNpc;
+        set { if (value) IsEditingNpc = false; }
+    }
+    public SheetLayout EditedLayout => LayoutFor(IsEditingNpc);
+
+    private void OnLayoutChanged(object? sender, EventArgs e)
+    {
         LayoutChanged?.Invoke(this, EventArgs.Empty);
         Changed?.Invoke(this, EventArgs.Empty);
     }
-
-    private static string TabKey(SectionOption section)
-    {
-        var name = section.TabName.Trim();
-        return name.Length > 0 ? name : string.IsNullOrWhiteSpace(section.Caption) ? section.Title : section.Caption.Trim();
-    }
-
-    private void SyncOrderedSections()
-    {
-        var sorted = Sections.OrderBy(x => x.SectionOrder).ThenBy(x => Array.IndexOf(Sections, x)).ToArray();
-        for (var i = 0; i < sorted.Length; i++)
-        {
-            var from = OrderedSections.IndexOf(sorted[i]);
-            if (from != i) OrderedSections.Move(from, i);
-        }
-    }
-    public SectionOption[] Sections { get; } =
-    [
-        new("Identity", "Identidade"), new("Attributes", "Atributos"), new("Skills", "Habilidades"),
-        new("Disciplines", "Disciplinas"), new("Advantages", "Vantagens e desvantagens"),
-        new("State", "Estado e sangue"), new("Background", "Historia e conviccoes"), new("Notes", "Anotacoes")
-    ];
     [ObservableProperty] private bool useTabs;
     [ObservableProperty] private bool useBento;
     [ObservableProperty] private bool showSidebar = true;
@@ -146,14 +97,12 @@ public partial class DisplaySettingsViewModel : ObservableObject
     {
         if (value) UseBento = false;
         OnPropertyChanged(nameof(IsContinuous));
-        LayoutChanged?.Invoke(this, EventArgs.Empty);
         Changed?.Invoke(this, EventArgs.Empty);
     }
     partial void OnUseBentoChanged(bool value)
     {
         if (value) UseTabs = false;
         OnPropertyChanged(nameof(IsContinuous));
-        LayoutChanged?.Invoke(this, EventArgs.Empty);
         Changed?.Invoke(this, EventArgs.Empty);
     }
     partial void OnThemeIdChanging(string value) => ThemeCatalog.Get(value);
@@ -169,17 +118,6 @@ public partial class DisplaySettingsViewModel : ObservableObject
         ThemeId = id;
         foreach (var theme in Themes) theme.RefreshSelection();
     }
-    private void OnSectionChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (_reordering) return;
-        if (e.PropertyName == nameof(SectionOption.SectionOrder)) SyncOrderedSections();
-        if (e.PropertyName is nameof(SectionOption.IsVisible) or nameof(SectionOption.TabName) or
-            nameof(SectionOption.Caption) or nameof(SectionOption.SectionOrder) or nameof(SectionOption.TabOrder))
-        {
-            LayoutChanged?.Invoke(this, EventArgs.Empty);
-            Changed?.Invoke(this, EventArgs.Empty);
-        }
-    }
 }
 
 public partial class ThemeOption(string id, string name, ThemeGroup group) : ObservableObject
@@ -191,5 +129,10 @@ public partial class ThemeOption(string id, string name, ThemeGroup group) : Obs
     public void RefreshSelection() => OnPropertyChanged(nameof(IsSelected));
 }
 
-public sealed record EditorSection(string Key, string Title, CharacterEditorViewModel Editor);
+/// <summary>A section shown in one sheet; the option carries its live title, tab and bento size.</summary>
+public sealed record EditorSection(SectionOption Option, CharacterEditorViewModel Editor)
+{
+    public string Key => Option.Key;
+    public string Title => Option.DisplayTitle;
+}
 public sealed record EditorTab(string Title, IReadOnlyList<EditorSection> Sections);

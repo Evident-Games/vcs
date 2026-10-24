@@ -16,6 +16,8 @@ public sealed class CharacterService(ICharacterRepository repository)
             .ToArray();
     }
 
+    public Task WarmUpAsync(CancellationToken cancellationToken = default) => repository.WarmUpAsync(cancellationToken);
+
     public async Task<CharacterDto> GetAsync(Guid id, CancellationToken cancellationToken = default) =>
         CharacterDto.From(await repository.GetAsync(id, cancellationToken)
             ?? throw new KeyNotFoundException("Personagem nao encontrado."));

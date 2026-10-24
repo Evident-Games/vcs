@@ -56,7 +56,7 @@
             <Setter Property="FontStyle" Value="Italic" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        <!-- Same heading as the player sheet sections. -->
+        <!-- Same heading as the player sheet sections; only the header part keeps its own. -->
         <Style x:Key="NpcSection" TargetType="TextBlock">
             <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
             <Setter Property="FontFamily" Value="Georgia" />
@@ -71,10 +71,6 @@
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="Margin" Value="0,0,0,8" />
         </Style>
-        <Style x:Key="NpcCard" TargetType="Border" BasedOn="{StaticResource Card}">
-            <Setter Property="Padding" Value="18,14" />
-            <Setter Property="Margin" Value="0,0,0,14" />
-        </Style>
         <Style x:Key="NpcText" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
             <Setter Property="AcceptsReturn" Value="True" />
             <Setter Property="TextWrapping" Value="Wrap" />
@@ -84,9 +80,8 @@
             <Setter Property="MinHeight" Value="70" />
             <Setter Property="MaxHeight" Value="320" />
         </Style>
-    </UserControl.Resources>
-    <StackPanel AutomationProperties.Name="Ficha rapida de NPC">
-        <Border Style="{StaticResource NpcCard}">
+        <!-- One template per NPC section; Part picks which one this view shows. -->
+        <DataTemplate x:Key="NpcHeader">
             <StackPanel>
                 <TextBlock Text="{Binding IdentityHeading}" Style="{StaticResource NpcSection}" AutomationProperties.Name="FICHA DE NPC" />
                 <Grid>
@@ -111,11 +106,9 @@
                                            VerticalAlignment="Center" AutomationProperties.Name="Geracao do NPC" />
                 </Grid>
             </StackPanel>
-        </Border>
-
-        <Border Style="{StaticResource NpcCard}">
+        </DataTemplate>
+        <DataTemplate x:Key="NpcCombat">
             <StackPanel>
-                <TextBlock Text="Combate" Style="{StaticResource NpcSection}" />
                 <Grid Margin="0,0,0,0">
                     <Grid.ColumnDefinitions><ColumnDefinition Width="150" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
                     <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
@@ -216,11 +209,9 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-        </Border>
-
-        <Border Style="{StaticResource NpcCard}">
+        </DataTemplate>
+        <DataTemplate x:Key="NpcAttributes">
             <StackPanel>
-                <TextBlock Text="Atributos" Style="{StaticResource NpcSection}" />
                 <UniformGrid Columns="3">
                     <StackPanel>
                         <TextBlock Text="Físicos" Style="{StaticResource NpcGroup}" />
@@ -239,32 +230,24 @@
                     </StackPanel>
                 </UniformGrid>
             </StackPanel>
-        </Border>
-
-        <Border Style="{StaticResource NpcCard}">
+        </DataTemplate>
+        <DataTemplate x:Key="NpcSkills">
             <StackPanel>
-                <TextBlock Text="Habilidades" Style="{StaticResource NpcSection}" />
                 <views:SkillsView />
             </StackPanel>
-        </Border>
-
-        <Border Style="{StaticResource NpcCard}">
+        </DataTemplate>
+        <DataTemplate x:Key="NpcDisciplines">
             <StackPanel>
-                <TextBlock Text="Disciplinas" Style="{StaticResource NpcSection}" />
                 <views:DisciplineCatalogView />
             </StackPanel>
-        </Border>
-
-        <Border Style="{StaticResource NpcCard}">
+        </DataTemplate>
+        <DataTemplate x:Key="NpcAdvantages">
             <StackPanel>
-                <TextBlock Text="Vantagens e defeitos" Style="{StaticResource NpcSection}" />
                 <views:AdvantageCatalogView DataContext="{Binding AdvantageCatalog}" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=FrameworkElement}}" />
             </StackPanel>
-        </Border>
-
-        <Border Style="{StaticResource NpcCard}">
+        </DataTemplate>
+        <DataTemplate x:Key="NpcHistory">
             <StackPanel>
-                <TextBlock Text="Histórico" Style="{StaticResource NpcSection}" />
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" />
@@ -286,6 +269,7 @@
                 <TextBox Style="{StaticResource NpcText}" Text="{Binding NpcAppearance.Value, UpdateSourceTrigger=PropertyChanged}" MinHeight="80"
                          AutomationProperties.Name="Aparencia do NPC" />
             </StackPanel>
-        </Border>
-    </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <ContentControl x:Name="Body" Content="{Binding}" Focusable="False" />
 </UserControl>

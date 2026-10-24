@@ -3,16 +3,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:views="clr-namespace:VCS.Desktop.Views"
     xmlns:controls="clr-namespace:VCS.Desktop.Controls"
-    xmlns:services="clr-namespace:VCS.Desktop.Services"
-    services:SheetTheme.Id="{Binding EffectiveSheetThemeId}">
+>
     <UserControl.Style>
-        <!-- The sheet paints its own surface so a sheet theme can differ from the application theme. -->
+        <!-- The host pane paints the sheet surface; the sheet sets its text color for that surface. -->
         <Style TargetType="views:CharacterEditorView">
-            <Setter Property="Background" Value="{DynamicResource VcsBackground}" />
             <Setter Property="Foreground" Value="{DynamicResource VcsOuterText}" />
             <Style.Triggers>
                 <Trigger Property="IsPane" Value="True">
-                    <Setter Property="Background" Value="Transparent" />
                     <Setter Property="Foreground" Value="{DynamicResource VcsCardText}" />
                 </Trigger>
             </Style.Triggers>
@@ -54,27 +51,19 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemContainerStyle>
                     <Style TargetType="ContentPresenter">
-                        <Setter Property="controls:BentoPanel.ColumnSpan" Value="1" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Key}" Value="Identity"><Setter Property="controls:BentoPanel.ColumnSpan" Value="2" /></DataTrigger>
-                            <DataTrigger Binding="{Binding Key}" Value="Attributes"><Setter Property="controls:BentoPanel.ColumnSpan" Value="2" /></DataTrigger>
-                            <DataTrigger Binding="{Binding Key}" Value="Skills">
-                                <Setter Property="controls:BentoPanel.ColumnSpan" Value="2" />
-                                <Setter Property="controls:BentoPanel.RowWeight" Value="1.6" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Key}" Value="Notes"><Setter Property="controls:BentoPanel.ColumnSpan" Value="2" /></DataTrigger>
-                        </Style.Triggers>
+                        <Setter Property="controls:BentoPanel.ColumnSpan" Value="{Binding Option.Span}" />
+                        <Setter Property="controls:BentoPanel.RowWeight" Value="{Binding Option.RowWeight}" />
                     </Style>
                 </ItemsControl.ItemContainerStyle>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}" TextElement.Foreground="{DynamicResource VcsCardText}"
                                 BorderThickness="1" CornerRadius="8" Padding="8,6,4,6"
-                                AutomationProperties.Name="{Binding Title, StringFormat=Bloco {0}}">
+                                AutomationProperties.Name="{Binding Option.DisplayTitle, StringFormat=Bloco {0}}">
                             <DockPanel>
                                 <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1"
                                         Margin="0,0,4,4" Padding="0,0,0,3">
-                                    <TextBlock Text="{Binding Title}" FontFamily="Georgia" FontSize="13" FontStyle="Italic"
+                                    <TextBlock Text="{Binding Option.DisplayTitle}" FontFamily="Georgia" FontSize="13" FontStyle="Italic"
                                                Foreground="{DynamicResource VcsAccentText}" TextTrimming="CharacterEllipsis" />
                                 </Border>
                                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
@@ -90,11 +79,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </DataTemplate>
-        <DataTemplate x:Key="NpcQuick">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Ficha de NPC">
-                <views:NpcQuickSheetView Margin="0,0,12,0" />
-            </ScrollViewer>
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
@@ -130,30 +114,24 @@
                             <DataTrigger Binding="{Binding Display.UseTabs}" Value="True">
                                 <Setter Property="ContentTemplate" Value="{StaticResource Tabbed}" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Display.UseBento}" Value="True">
+                            <!-- Only a shown sheet switches to bento; sheets kept built but hidden skip the rebuild. -->
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Display.UseBento}" Value="True" />
+                                    <Condition Binding="{Binding IsVisible, RelativeSource={RelativeSource AncestorType=views:CharacterEditorView}}" Value="True" />
+                                </MultiDataTrigger.Conditions>
                                 <Setter Property="ContentTemplate" Value="{StaticResource Bento}" />
-                            </DataTrigger>
+                            </MultiDataTrigger>
                             <DataTrigger Binding="{Binding IsPane, RelativeSource={RelativeSource AncestorType=views:CharacterEditorView}}" Value="True">
                                 <Setter Property="ContentTemplate" Value="{StaticResource Continuous}" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsNpc}" Value="True">
-                                <Setter Property="ContentTemplate" Value="{StaticResource NpcQuick}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ContentControl.Style>
             </ContentControl>
-            <TextBlock Text="Nenhuma secao visivel. Ative uma secao em Exibir > Organizar abas."
-                       TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Visibility" Value="{Binding NoVisibleSections, Converter={StaticResource BoolVisibility}}" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsNpc}" Value="True"><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
+            <TextBlock Text="Nenhuma secao visivel. Ative uma secao em Exibir > Layout da ficha."
+                       TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Visibility="{Binding NoVisibleSections, Converter={StaticResource BoolVisibility}}" />
         </Grid>
         <ScrollViewer Grid.Row="2" MaxHeight="100" VerticalScrollBarVisibility="Auto">
             <StackPanel>

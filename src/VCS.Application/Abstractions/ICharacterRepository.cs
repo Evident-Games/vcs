@@ -8,6 +8,8 @@ public interface ICharacterRepository
     Task<Character?> GetAsync(Guid id, CancellationToken cancellationToken = default);
     Task SaveAsync(Character character, long? expectedRevision, CancellationToken cancellationToken = default);
     Task DeleteAsync(Guid id, long expectedRevision, CancellationToken cancellationToken = default);
+    /// <summary>Prepares the save path ahead of the first autosave; must not change any data.</summary>
+    Task WarmUpAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
 }
 
 public sealed class CharacterConflictException()

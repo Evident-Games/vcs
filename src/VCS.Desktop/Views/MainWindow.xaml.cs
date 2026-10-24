@@ -71,12 +71,42 @@ public partial class MainWindow : FluentWindow
         }
         e.Effects = DragDropEffects.Move;
         if (ReferenceEquals(dragged, target)) return;
-        _viewModel.Display.MoveSection(dragged, _viewModel.Display.OrderedSections.IndexOf(target));
+        EditedLayout.MoveSection(dragged, EditedLayout.OrderedSections.IndexOf(target));
         var row = FindRow(dragged);
         if (row is not null) row.Opacity = 0.45;
     }
 
     private void OnSectionDrop(object sender, DragEventArgs e) => e.Handled = true;
+
+    private SheetLayout EditedLayout => _viewModel.Display.EditedLayout;
+
+    private void OnTabDragOver(object sender, DragEventArgs e)
+    {
+        e.Effects = e.Data.GetDataPresent(typeof(SectionOption)) ? DragDropEffects.Move : DragDropEffects.None;
+        e.Handled = true;
+    }
+
+    // Dropping on a tab column moves the section into that tab; the "Nova aba" target creates one.
+    private void OnTabDrop(object sender, DragEventArgs e)
+    {
+        e.Handled = true;
+        if (e.Data.GetData(typeof(SectionOption)) is not SectionOption section) return;
+        var tab = (sender as FrameworkElement)?.DataContext is LayoutTab target ? target.Name : EditedLayout.NewTabName();
+        EditedLayout.MoveToTab(section, tab);
+    }
+
+    private void OnTabRenamed(object sender, RoutedEventArgs e)
+    {
+        if (sender is System.Windows.Controls.TextBox { DataContext: LayoutTab tab } box && box.Text.Trim() != tab.Name)
+            EditedLayout.RenameTab(tab.Name, box.Text);
+    }
+
+    private void OnTabNameKey(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key != System.Windows.Input.Key.Enter) return;
+        ((UIElement)sender).MoveFocus(new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next));
+        e.Handled = true;
+    }
 
     private void OnSectionHandleKey(object sender, System.Windows.Input.KeyEventArgs e)
     {
@@ -84,8 +114,7 @@ public partial class MainWindow : FluentWindow
         if ((System.Windows.Input.Keyboard.Modifiers & System.Windows.Input.ModifierKeys.Alt) == 0 ||
             key is not (System.Windows.Input.Key.Up or System.Windows.Input.Key.Down) ||
             (sender as FrameworkElement)?.DataContext is not SectionOption section) return;
-        var display = _viewModel.Display;
-        display.MoveSection(section, display.OrderedSections.IndexOf(section) + (key == System.Windows.Input.Key.Up ? -1 : 1));
+        EditedLayout.MoveSection(section, EditedLayout.OrderedSections.IndexOf(section) + (key == System.Windows.Input.Key.Up ? -1 : 1));
         e.Handled = true;
         Dispatcher.BeginInvoke(() => FindHandle(section)?.Focus(), System.Windows.Threading.DispatcherPriority.Input);
     }

@@ -41,6 +41,23 @@ public sealed class PersistenceTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task Save_warm_up_rolls_back_and_leaves_data_unchanged()
+    {
+        await _service.WarmUpAsync();
+        var created = await _service.CreateAsync();
+        var draft = created with { Details = created.Details with { Name = "Antes" } };
+        var saved = await _service.SaveAsync(draft);
+        await _service.WarmUpAsync();
+        var reloaded = await _service.GetAsync(saved.Id);
+        Assert.Equal(saved.Revision, reloaded.Revision);
+        Assert.Equal(saved.UpdatedUtc, reloaded.UpdatedUtc);
+        Assert.Equal("Antes", reloaded.Details.Name);
+        Assert.Equal(saved.Traits.Length, reloaded.Traits.Length);
+        var next = await _service.SaveAsync(reloaded with { Details = reloaded.Details with { Name = "Depois" } });
+        Assert.Equal(saved.Revision + 1, next.Revision);
+    }
+
+    [Fact]
     public async Task Migration_crud_search_and_cascade_work()
     {
         var created = await _service.CreateAsync();
