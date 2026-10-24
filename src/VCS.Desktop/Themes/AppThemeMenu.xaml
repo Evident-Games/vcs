@@ -1,0 +1,9 @@
+<MenuItem x:Class="VCS.Desktop.Themes.AppThemeMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Header="Tema da aplicacao">
+    <!-- Application theme choices; used in Exibir and in the right-click menus. -->
+    <MenuItem Header="Padrao" ItemsSource="{Binding Display.DefaultThemes}" ItemContainerStyle="{StaticResource ThemeOptionItem}" />
+    <MenuItem Header="Clas" ItemsSource="{Binding Display.ClanThemes}" ItemContainerStyle="{StaticResource ThemeOptionItem}" />
+    <MenuItem Header="Especiais" ItemsSource="{Binding Display.SpecialThemes}" ItemContainerStyle="{StaticResource ThemeOptionItem}" />
+</MenuItem>

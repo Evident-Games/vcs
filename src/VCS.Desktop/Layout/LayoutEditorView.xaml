@@ -1,0 +1,204 @@
+<UserControl x:Class="VCS.Desktop.Layout.LayoutEditorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls">
+    <!-- Layout editor: a live preview per mode. Changes apply at once to every open sheet of the chosen kind. -->
+    <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+            BorderThickness="1" CornerRadius="12" Padding="24" Margin="36" MaxWidth="980"
+            Visibility="{Binding IsLayoutSettingsOpen, Converter={StaticResource BoolVisibility}}"
+            TextElement.Foreground="{DynamicResource VcsOuterText}" AutomationProperties.Name="Layout da ficha">
+        <Border.Resources>
+            <!-- Wpf.Ui radio buttons carry their own text color; on this surface they use the outer text. -->
+            <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
+                <Setter Property="Foreground" Value="{DynamicResource VcsOuterText}" />
+            </Style>
+            <Style x:Key="LayoutChip" TargetType="Border">
+                <Setter Property="Background" Value="{DynamicResource VcsInput}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Cursor" Value="SizeAll" />
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource VcsInputText}" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True"><Setter Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /></Trigger>
+                    <DataTrigger Binding="{Binding IsVisible}" Value="False"><Setter Property="Opacity" Value="0.45" /></DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="TileButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Padding" Value="7,1" />
+                <Setter Property="MinHeight" Value="22" />
+                <Setter Property="FontSize" Value="11" />
+                <Setter Property="Margin" Value="0,0,4,0" />
+            </Style>
+        </Border.Resources>
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <Button Content="Concluir" Command="{Binding ToggleLayoutSettingsCommand}" DockPanel.Dock="Right" />
+                <TextBlock Text="Layout da ficha" Style="{StaticResource SectionTitle}" />
+            </DockPanel>
+            <WrapPanel DockPanel.Dock="Top" Margin="0,14,0,8">
+                <TextBlock Text="Ficha:" VerticalAlignment="Center" Margin="0,0,10,0" />
+                <RadioButton GroupName="LayoutKind" Content="Personagem" IsChecked="{Binding Display.IsEditingPc, Mode=TwoWay}" Margin="0,0,14,0" />
+                <RadioButton GroupName="LayoutKind" Content="NPC" IsChecked="{Binding Display.IsEditingNpc, Mode=TwoWay}" Margin="0,0,36,0" />
+                <TextBlock Text="Modo:" VerticalAlignment="Center" Margin="0,0,10,0" />
+                <RadioButton GroupName="SheetMode" Content="Lista" IsChecked="{Binding Display.IsContinuous, Mode=TwoWay}" Margin="0,0,14,0" />
+                <RadioButton GroupName="SheetMode" Content="Abas" IsChecked="{Binding Display.UseTabs, Mode=TwoWay}" Margin="0,0,14,0" />
+                <RadioButton GroupName="SheetMode" Content="Bento" IsChecked="{Binding Display.UseBento, Mode=TwoWay}" />
+            </WrapPanel>
+            <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,14" Foreground="{DynamicResource VcsInputDescription}"
+                       AutomationProperties.Name="Dica do layout">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Text" Value="Arraste pela alca ⋮⋮ para mudar a ordem; desmarque para esconder a secao. Alt + setas tambem movem." />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Display.UseTabs}" Value="True">
+                                <Setter Property="Text" Value="Cada coluna e uma aba. Arraste uma secao para outra coluna, ou para 'Nova aba'. Clique no nome para renomear." />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Display.UseBento}" Value="True">
+                                <Setter Property="Text" Value="Mini bento: arraste um bloco sobre outro para trocar de lugar; ↔ muda a largura e ↕ a altura. Com varias fichas abertas, o bento mostra as fichas lado a lado." />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <Grid>
+                <!-- Lista -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Visibility="{Binding Display.IsContinuous, Converter={StaticResource BoolVisibility}}">
+                    <ItemsControl x:Name="SectionOrganizer" ItemsSource="{Binding Display.EditedLayout.OrderedSections}"
+                                  AutomationProperties.Name="Ordem das secoes">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border x:Name="SectionRow" Margin="0,3" Padding="6,4" CornerRadius="8" BorderThickness="1"
+                                        BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}"
+                                        TextElement.Foreground="{DynamicResource VcsCardText}" AllowDrop="True" DragOver="OnSectionDragOver" Drop="OnSectionDrop"
+                                        AutomationProperties.Name="{Binding Title, StringFormat='Linha de {0}'}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="28" /><ColumnDefinition Width="230" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                        <Button Content="⋮⋮" Cursor="SizeAll" Width="22" Height="32" Padding="0" Margin="0,0,6,0"
+                                                FontSize="14" FontWeight="Bold" Background="Transparent" BorderThickness="0"
+                                                Foreground="{DynamicResource VcsInputDescription}" VerticalAlignment="Center"
+                                                PreviewMouseLeftButtonDown="OnSectionHandleDown" PreviewMouseMove="OnSectionHandleMove"
+                                                PreviewKeyDown="OnSectionHandleKey"
+                                                ToolTip="Arraste para reordenar. Pelo teclado: Alt + seta para cima/baixo."
+                                                AutomationProperties.Name="{Binding Title, StringFormat='Mover {0}'}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding SectionOrder}" VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center" FontSize="11" Opacity="0.6"
+                                                   Foreground="{DynamicResource VcsInputDescription}" />
+                                        <CheckBox Grid.Column="2" Content="{Binding Title}" IsChecked="{Binding IsVisible, Mode=TwoWay}" VerticalAlignment="Center" />
+                                        <StackPanel Grid.Column="3" Margin="4,0">
+                                            <TextBlock Text="Titulo da secao" Style="{StaticResource FieldLabel}" />
+                                            <TextBox Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" MaxLength="80"
+                                                     AutomationProperties.Name="{Binding Title, StringFormat='Titulo de {0}'}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+                <!-- Abas -->
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                              Visibility="{Binding Display.UseTabs, Converter={StaticResource BoolVisibility}}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <ItemsControl ItemsSource="{Binding Display.EditedLayout.Tabs}" AutomationProperties.Name="Abas do layout">
+                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="190" Margin="0,0,10,0" Padding="8" CornerRadius="10" BorderThickness="1" VerticalAlignment="Top"
+                                            BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}"
+                                            TextElement.Foreground="{DynamicResource VcsCardText}"
+                                            AllowDrop="True" DragOver="OnTabDragOver" Drop="OnTabDrop"
+                                            AutomationProperties.Name="{Binding Name, StringFormat='Coluna da aba {0}'}">
+                                        <StackPanel>
+                                            <TextBox Text="{Binding Name, Mode=OneWay}" MaxLength="80" FontWeight="SemiBold"
+                                                     LostFocus="OnTabRenamed" KeyDown="OnTabNameKey"
+                                                     AutomationProperties.Name="{Binding Name, StringFormat='Nome da aba {0}'}" />
+                                            <ItemsControl ItemsSource="{Binding Sections}" Margin="0,4,0,0">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Style="{StaticResource LayoutChip}" Padding="9,6" Margin="0,6,0,0"
+                                                                PreviewMouseLeftButtonDown="OnSectionHandleDown" PreviewMouseMove="OnSectionHandleMove"
+                                                                AutomationProperties.Name="{Binding DisplayTitle, StringFormat='Secao {0}'}">
+                                                            <TextBlock Text="{Binding DisplayTitle}" TextTrimming="CharacterEllipsis" />
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Border Width="150" MinHeight="90" Padding="10" CornerRadius="10" BorderThickness="1" VerticalAlignment="Top"
+                                BorderBrush="{DynamicResource VcsBorder}" Background="Transparent" Opacity="0.8"
+                                AllowDrop="True" DragOver="OnTabDragOver" Drop="OnTabDrop" AutomationProperties.Name="Nova aba">
+                            <TextBlock Text="+ Nova aba&#10;Arraste uma secao aqui" TextWrapping="Wrap" TextAlignment="Center"
+                                       VerticalAlignment="Center" Foreground="{DynamicResource VcsInputDescription}" />
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+                <!-- Bento -->
+                <DockPanel Visibility="{Binding Display.UseBento, Converter={StaticResource BoolVisibility}}">
+                    <ItemsControl DockPanel.Dock="Bottom" Margin="0,10,0,0" ItemsSource="{Binding Display.EditedLayout.OrderedSections}"
+                                  AutomationProperties.Name="Secoes ocultas">
+                        <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsVisible}" Value="False"><Setter Property="Visibility" Value="Visible" /></DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource TileButton}" Margin="0,0,6,6" Command="{Binding ToggleVisibleCommand}"
+                                        Content="{Binding DisplayTitle}" ContentStringFormat="+ {0}" ToolTip="Mostrar esta secao" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Border Height="340" Padding="8" CornerRadius="10" BorderThickness="1"
+                            BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}">
+                        <ItemsControl ItemsSource="{Binding Display.EditedLayout.OrderedSections}" AutomationProperties.Name="Mini bento">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate><controls:BentoPanel Columns="4" Gap="6" NarrowWidth="0" /></ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ContentPresenter">
+                                    <Setter Property="controls:BentoPanel.ColumnSpan" Value="{Binding Span}" />
+                                    <Setter Property="controls:BentoPanel.RowWeight" Value="{Binding RowWeight}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsVisible}" Value="False"><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource LayoutChip}" Padding="10,8" AllowDrop="True"
+                                            DragOver="OnSectionDragOver" Drop="OnSectionDrop"
+                                            PreviewMouseLeftButtonDown="OnSectionHandleDown" PreviewMouseMove="OnSectionHandleMove"
+                                            AutomationProperties.Name="{Binding DisplayTitle, StringFormat='Bloco do layout {0}'}">
+                                        <DockPanel>
+                                            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                                                <Button Style="{StaticResource TileButton}" Command="{Binding CycleSpanCommand}"
+                                                        Content="{Binding Span}" ContentStringFormat="↔ {0}/4" ToolTip="Largura (colunas)"
+                                                        AutomationProperties.Name="{Binding DisplayTitle, StringFormat='Largura de {0}'}" />
+                                                <Button Style="{StaticResource TileButton}" Command="{Binding CycleHeightCommand}"
+                                                        Content="{Binding HeightLabel}" ContentStringFormat="↕ {0}" ToolTip="Altura: P, M ou G"
+                                                        AutomationProperties.Name="{Binding DisplayTitle, StringFormat='Altura de {0}'}" />
+                                                <Button Style="{StaticResource TileButton}" Command="{Binding ToggleVisibleCommand}"
+                                                        Content="Ocultar" AutomationProperties.Name="{Binding DisplayTitle, StringFormat='Ocultar {0}'}" />
+                                            </StackPanel>
+                                            <TextBlock Text="{Binding DisplayTitle}" FontFamily="Georgia" FontSize="14" FontStyle="Italic"
+                                                       TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
+                                        </DockPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                </DockPanel>
+            </Grid>
+        </DockPanel>
+    </Border>
+</UserControl>

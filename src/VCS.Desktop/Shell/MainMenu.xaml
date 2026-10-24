@@ -1,0 +1,42 @@
+<UserControl x:Class="VCS.Desktop.Shell.MainMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:themes="clr-namespace:VCS.Desktop.Themes">
+    <!-- Main menu bar. -->
+    <Border BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1" Padding="4,0">
+        <Menu IsEnabled="{Binding IsIdle}" Background="Transparent" Foreground="{DynamicResource VcsHeaderText}"
+              AutomationProperties.Name="Menu principal">
+            <MenuItem Header="_Arquivo">
+                <MenuItem Header="_Novo personagem" Command="{Binding CreateCommand}" InputGestureText="Ctrl+N" />
+                <MenuItem Header="_Abrir ficha" Command="{Binding OpenCommand}" InputGestureText="Ctrl+O" ToolTip="Abrir a ficha selecionada ou voltar a lista" />
+                <MenuItem Header="_Salvar" Command="{Binding Editor.SaveCommand}" IsEnabled="{Binding IsEditing}" InputGestureText="Ctrl+S" />
+                <MenuItem Header="Lista de personagens" Command="{Binding BackCommand}" IsEnabled="{Binding IsEditing}" />
+                <Separator />
+                <MenuItem Header="_Importar JSON..." Command="{Binding ImportCommand}" />
+                <MenuItem Header="_Exportar JSON..." Command="{Binding ExportCommand}" IsEnabled="{Binding CanActOnCharacter}" />
+                <MenuItem Header="Novo _NPC" Command="{Binding CreateNpcCommand}" />
+                <MenuItem Header="Exportar PDF preenchivel..." Command="{Binding ExportPdfCommand}" IsEnabled="{Binding CanActOnCharacter}" />
+            </MenuItem>
+            <MenuItem Header="_Editar">
+                <MenuItem Header="_Duplicar personagem" Command="{Binding DuplicateCommand}" IsEnabled="{Binding CanActOnCharacter}" />
+                <MenuItem Header="E_xcluir personagem..." Command="{Binding DeleteCommand}" IsEnabled="{Binding CanActOnCharacter}" />
+            </MenuItem>
+            <MenuItem Header="E_xibir">
+                <MenuItem Header="Layout da ficha..." Command="{Binding ToggleLayoutSettingsCommand}" />
+                <MenuItem Header="Lista lateral de personagens" IsCheckable="True" IsChecked="{Binding Display.ShowSidebar, Mode=TwoWay}" />
+                <Separator />
+                <MenuItem Header="Temas">
+                    <themes:AppThemeMenu />
+                    <themes:SheetThemeMenu />
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Ferramentas">
+                <MenuItem Header="Criar dump do banco..." Command="{Binding BackupCommand}" ToolTip="Salvar copia SQLite do banco completo" />
+                <MenuItem Header="Restaurar dump..." Command="{Binding RestoreCommand}" ToolTip="Substitui o banco completo, com confirmacao" />
+            </MenuItem>
+            <MenuItem Header="A_juda">
+                <MenuItem Header="Como usar o VCS" Command="{Binding ToggleHelpCommand}" />
+            </MenuItem>
+        </Menu>
+    </Border>
+</UserControl>

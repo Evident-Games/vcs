@@ -142,4 +142,15 @@
             </Grid>
         </ControlTemplate></Setter.Value></Setter>
     </Style>
+    <!-- Theme choices in AppThemeMenu and SheetThemeMenu; the menu's DataContext is the main view model. -->
+    <Style x:Key="ThemeOptionItem" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+        <Setter Property="Header" Value="{Binding Name}" />
+        <Setter Property="IsCheckable" Value="True" />
+        <Setter Property="IsChecked" Value="{Binding IsSelected, Mode=OneWay}" />
+        <Setter Property="Command" Value="{Binding DataContext.Display.SelectThemeCommand, RelativeSource={RelativeSource AncestorType=MenuBase}}" />
+        <Setter Property="CommandParameter" Value="{Binding Id}" />
+    </Style>
+    <Style x:Key="SheetThemeOptionItem" TargetType="MenuItem" BasedOn="{StaticResource ThemeOptionItem}">
+        <Setter Property="Command" Value="{Binding DataContext.SelectSheetThemeCommand, RelativeSource={RelativeSource AncestorType=MenuBase}}" />
+    </Style>
 </ResourceDictionary>
