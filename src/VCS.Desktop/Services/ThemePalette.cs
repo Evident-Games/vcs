@@ -3,15 +3,12 @@ using System.Windows;
 
 namespace VCS.Desktop.Services;
 
-/// <summary>Application palette: the application block of a theme under the shared Vcs* keys.</summary>
+/// <summary>Application palette: starts with the default theme's application block under the shared Vcs* keys.</summary>
 public sealed class ThemePalette : ResourceDictionary
 {
-    public ThemePalette() => Fill(ThemeCatalog.DefaultId);
-
-    public void Fill(string themeId) => Fill(ThemeService.Load(ThemeCatalog.Get(themeId)));
-
-    public void Fill(ResourceDictionary palette)
+    public ThemePalette()
     {
-        foreach (DictionaryEntry entry in palette) this[entry.Key] = entry.Value;
+        foreach (DictionaryEntry entry in ThemeService.Load(ThemeCatalog.Get(ThemeCatalog.DefaultId)))
+            this[entry.Key] = entry.Value;
     }
 }

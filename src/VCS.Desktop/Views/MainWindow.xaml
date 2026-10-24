@@ -10,6 +10,7 @@
     Background="{DynamicResource VcsBackground}" Foreground="{DynamicResource VcsOuterText}"
     FontFamily="Segoe UI" FontSize="14">
     <ui:FluentWindow.Resources>
+        <views:EditorViewCache x:Key="EditorViews" />
         <Style x:Key="ThemeOptionItem" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
             <Setter Property="Header" Value="{Binding Name}" />
             <Setter Property="IsCheckable" Value="True" />
@@ -221,12 +222,7 @@
                 <ContentControl>
                     <ContentControl.Style>
                         <Style TargetType="ContentControl">
-                            <Setter Property="Content" Value="{Binding Editor}" />
-                            <Setter Property="ContentTemplate">
-                                <Setter.Value>
-                                    <DataTemplate><views:CharacterEditorView /></DataTemplate>
-                                </Setter.Value>
-                            </Setter>
+                            <Setter Property="Content" Value="{Binding Editor, Converter={StaticResource EditorViews}}" />
                             <Style.Triggers>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
@@ -235,7 +231,6 @@
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="Visibility" Value="Collapsed" />
                                     <Setter Property="Content" Value="{x:Null}" />
-                                    <Setter Property="ContentTemplate" Value="{x:Null}" />
                                 </MultiDataTrigger>
                             </Style.Triggers>
                         </Style>

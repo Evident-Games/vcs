@@ -61,11 +61,20 @@ public partial class MainViewModel(
 
     private void OnCharacterSaved(CharacterDto saved)
     {
-        _all = _all.Select(x => x.Id == saved.Id
-            ? new CharacterSummary(saved.Id, saved.Details.Name, saved.Details.Clan, saved.Details.Chronicle, saved.UpdatedUtc, saved.Revision, saved.Details.IsNpc)
-            : x).ToArray();
-        ApplyFilter();
+        var summary = new CharacterSummary(saved.Id, saved.Details.Name, saved.Details.Clan, saved.Details.Chronicle,
+            saved.UpdatedUtc, saved.Revision, saved.Details.IsNpc);
+        _all = _all.Select(x => x.Id == saved.Id ? summary : x).ToArray();
+        // Autosave runs while typing: replace the one row instead of rebuilding the whole list.
+        var index = Characters.Select(x => x.Id).ToList().IndexOf(saved.Id);
+        if (index < 0 || !MatchesSearch(summary)) { ApplyFilter(); return; }
+        var wasSelected = SelectedCharacter?.Id == saved.Id;
+        Characters[index] = summary;
+        if (wasSelected) SelectedCharacter = summary;
     }
+
+    private bool MatchesSearch(CharacterSummary character) =>
+        new[] { character.Name, character.Clan, character.Chronicle }
+            .Any(x => x.Contains(SearchText.Trim(), StringComparison.OrdinalIgnoreCase));
 
     partial void OnIsBusyChanged(bool value) => OnPropertyChanged(nameof(IsIdle));
     partial void OnSearchTextChanged(string value) => ApplyFilter();
@@ -73,10 +82,8 @@ public partial class MainViewModel(
     private void ApplyFilter()
     {
         var selectedId = SelectedCharacter?.Id;
-        var term = SearchText.Trim();
         Characters.Clear();
-        foreach (var character in _all.Where(c => new[] { c.Name, c.Clan, c.Chronicle }
-                     .Any(x => x.Contains(term, StringComparison.OrdinalIgnoreCase))))
+        foreach (var character in _all.Where(MatchesSearch))
             Characters.Add(character);
         SelectedCharacter = Characters.FirstOrDefault(x => x.Id == selectedId) ?? Characters.FirstOrDefault();
         OnPropertyChanged(nameof(HasCharacters));
