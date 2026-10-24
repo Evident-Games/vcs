@@ -46,9 +46,9 @@ public sealed class DisplaySettingsStore(string path)
         if (saved.Npc is { } savedNpc) Apply(settings.Npc, savedNpc.HiddenSections ?? [], null, savedNpc.Layout);
         if (legacyDefaultTabs)
         {
-            var orderedTabs = settings.Sections.OrderBy(x => x.SectionOrder)
+            var orderedTabs = settings.Pc.Sections.OrderBy(x => x.SectionOrder)
                 .Select(x => x.TabName).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
-            foreach (var section in settings.Sections)
+            foreach (var section in settings.Pc.Sections)
                 section.TabOrder = Array.FindIndex(orderedTabs, name =>
                     string.Equals(name, section.TabName, StringComparison.OrdinalIgnoreCase)) + 1;
         }
@@ -99,7 +99,7 @@ public sealed class DisplaySettingsStore(string path)
         {
             File.WriteAllText(temporary, JsonSerializer.Serialize(new Preferences(settings.UseTabs,
                 Hidden(settings.Pc), settings.ThemeId,
-                TabNames: settings.Sections.ToDictionary(x => x.Key, x => x.TabName),
+                TabNames: settings.Pc.Sections.ToDictionary(x => x.Key, x => x.TabName),
                 ShowSidebar: settings.ShowSidebar,
                 Layout: Sections(settings.Pc),
                 UseBento: settings.UseBento, SheetThemes: settings.SheetThemeIds,

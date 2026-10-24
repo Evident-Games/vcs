@@ -570,7 +570,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
             var stateHandle = Find<Button>(window, "Mover Estado e sangue");
             Assert.True(Find<Border>(window, "Linha de Estado e sangue").AllowDrop);
             Assert.Contains("Arraste", Assert.IsType<string>(stateHandle.ToolTip));
-            model.Display.MoveSection(model.Display.Sections.Single(x => x.Key == "State"), 0);
+            model.Display.Pc.MoveSection(model.Display.Pc.Sections.Single(x => x.Key == "State"), 0);
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             var firstRow = Assert.IsAssignableFrom<DependencyObject>(Find<ItemsControl>(window, "Ordem das secoes")
                 .ItemContainerGenerator.ContainerFromIndex(0));
@@ -633,10 +633,10 @@ public sealed class DesktopUiTests(WpfApp wpf)
             Assert.All(Descendants<SheetSectionView>(window), x => Assert.False(x.IsCompact));
             var reopenedSettings = new DisplaySettingsViewModel();
             new DisplaySettingsStore(Path.Combine(directory, "display.json")).Load(reopenedSettings);
-            Assert.False(reopenedSettings.Sections.Single(x => x.Key == "Attributes").IsVisible);
-            Assert.Equal("Ficha principal", reopenedSettings.Sections.Single(x => x.Key == "State").TabName);
-            Assert.Equal("Estado de sangue", reopenedSettings.Sections.Single(x => x.Key == "State").Caption);
-            Assert.Equal(1, reopenedSettings.Sections.Single(x => x.Key == "State").SectionOrder);
+            Assert.False(reopenedSettings.Pc.Sections.Single(x => x.Key == "Attributes").IsVisible);
+            Assert.Equal("Ficha principal", reopenedSettings.Pc.Sections.Single(x => x.Key == "State").TabName);
+            Assert.Equal("Estado de sangue", reopenedSettings.Pc.Sections.Single(x => x.Key == "State").Caption);
+            Assert.Equal(1, reopenedSettings.Pc.Sections.Single(x => x.Key == "State").SectionOrder);
     });
 
     /// <summary>Every application theme applies, stays readable (default themes) and persists.</summary>
