@@ -1,4 +1,3 @@
-using VCS.Application.Abstractions;
 using VCS.Domain.Characters;
 
 namespace VCS.Application.Characters;

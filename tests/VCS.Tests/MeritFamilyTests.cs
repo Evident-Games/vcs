@@ -1,8 +1,9 @@
-using VCS.Desktop.ViewModels;
+using VCS.Desktop.Catalogs;
+using VCS.Desktop.Sheet;
+using VCS.Domain.Advantages;
 using VCS.Domain.Characters;
+using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Persistence;
-using VCS.Infrastructure.Repositories;
-using VCS.Infrastructure.Files;
 
 namespace VCS.Tests;
 

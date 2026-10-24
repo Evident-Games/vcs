@@ -6,15 +6,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using VCS.Application.Abstractions;
+using VCS.Application.Catalogs;
 using VCS.Application.Characters;
-using VCS.Application.Disciplines;
-using VCS.Desktop.Services;
-using VCS.Desktop.ViewModels;
-using VCS.Desktop.Views;
-using VCS.Infrastructure.Files;
+using VCS.Application.Maintenance;
+using VCS.Desktop.Layout;
+using VCS.Desktop.Sheet;
+using VCS.Desktop.Shell;
+using VCS.Desktop.Themes;
+using VCS.Infrastructure.Catalogs;
+using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
-using VCS.Infrastructure.Repositories;
 
 namespace VCS.Desktop;
 

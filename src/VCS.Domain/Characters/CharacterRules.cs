@@ -1,3 +1,7 @@
+using VCS.Domain.Advancement;
+using VCS.Domain.Advantages;
+using VCS.Domain.Predators;
+
 namespace VCS.Domain.Characters;
 
 public sealed record ValidationIssue(string Field, string Message);

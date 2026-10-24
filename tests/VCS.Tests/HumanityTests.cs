@@ -1,3 +1,4 @@
+using VCS.Domain.Blood;
 using VCS.Domain.Characters;
 
 namespace VCS.Tests;

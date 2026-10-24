@@ -1,5 +1,6 @@
-using VCS.Desktop.Services;
-using VCS.Desktop.ViewModels;
+using VCS.Desktop.Layout;
+using VCS.Desktop.Themes;
+
 
 namespace VCS.Tests;
 

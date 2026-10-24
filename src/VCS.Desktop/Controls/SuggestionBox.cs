@@ -5,8 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using VCS.Application.Disciplines;
-using VCS.Desktop.ViewModels;
+using VCS.Application.Catalogs;
+using VCS.Desktop.Catalogs;
 
 namespace VCS.Desktop.Controls;
 

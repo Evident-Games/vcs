@@ -1,0 +1,45 @@
+using System.Globalization;
+using System.Text.RegularExpressions;
+using VCS.Application.Catalogs;
+
+namespace VCS.Infrastructure.Catalogs;
+
+public sealed partial class ProvidedDisciplineCatalog : IDisciplineCatalog
+{
+    public ProvidedDisciplineCatalog()
+    {
+        using var stream = typeof(ProvidedDisciplineCatalog).Assembly.GetManifestResourceStream(
+            "VCS.Infrastructure.Catalogs.Seed.Disciplines.txt")
+            ?? throw new InvalidDataException("O catalogo de disciplinas nao foi incluido no aplicativo.");
+        using var reader = new StreamReader(stream);
+        Powers = Parse(reader.ReadToEnd());
+    }
+
+    public IReadOnlyList<PowerDefinition> Powers { get; }
+
+    public static IReadOnlyList<PowerDefinition> Parse(string text)
+    {
+        var matches = EntryPattern().Matches(text);
+        var headers = Regex.Matches(text, @"^Disciplina:", RegexOptions.Multiline).Count;
+        if (headers == 0 || matches.Count != headers)
+            throw new InvalidDataException("O catalogo possui uma entrada incompleta ou malformada.");
+        var powers = matches.Select(match =>
+        {
+            var discipline = match.Groups["discipline"].Value.Trim();
+            var name = match.Groups["name"].Value.Trim();
+            return new PowerDefinition(CatalogText.StableId("power-", discipline + "\n" + name),
+                discipline, name, int.Parse(match.Groups["level"].Value, CultureInfo.InvariantCulture),
+                match.Groups["cost"].Value.Trim(), match.Groups["pool"].Value.Trim(), match.Groups["summary"].Value.Trim(),
+                match.Groups["amalgam"].Success ? match.Groups["amalgam"].Value.Trim() : null,
+                match.Groups["amalgamLevel"].Success ? int.Parse(match.Groups["amalgamLevel"].Value, CultureInfo.InvariantCulture) : 0);
+        }).ToArray();
+        if (powers.Any(x => x.Level is < 1 or > 5 || x.Name.Length is < 1 or > 80 ||
+                string.IsNullOrWhiteSpace(x.Cost) || string.IsNullOrWhiteSpace(x.DicePool) || string.IsNullOrWhiteSpace(x.Summary)) ||
+            powers.Select(x => x.Id).Distinct().Count() != powers.Length)
+            throw new InvalidDataException("O catalogo possui valores invalidos ou poderes duplicados.");
+        return Array.AsReadOnly(powers);
+    }
+
+    [GeneratedRegex(@"^Disciplina: (?<discipline>[^\r\n]+)\r?\nNome da habilidade: (?<name>[^\r\n]+) \(Nível (?<level>[0-9]+)(?: - Amálgama: (?<amalgam>[^\r\n]+) (?<amalgamLevel>[1-5]))?\)\r?\nCusto: (?<cost>[^\r\n]+)\r?\nParada de dados: (?<pool>[^\r\n]+)\r?\nResumo: (?<summary>[^\r\n]+)", RegexOptions.Multiline)]
+    private static partial Regex EntryPattern();
+}

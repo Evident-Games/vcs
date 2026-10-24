@@ -9,14 +9,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Microsoft.Extensions.Logging.Abstractions;
 using VCS.Application.Characters;
+using VCS.Desktop.Catalogs;
 using VCS.Desktop.Controls;
-using VCS.Desktop.Services;
-using VCS.Desktop.ViewModels;
-using VCS.Desktop.Views;
+using VCS.Desktop.Layout;
+using VCS.Desktop.Sheet;
+using VCS.Desktop.Shell;
+using VCS.Desktop.Themes;
+using VCS.Domain.Advancement;
 using VCS.Domain.Characters;
-using VCS.Infrastructure.Files;
+using VCS.Infrastructure.Catalogs;
+using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
-using VCS.Infrastructure.Repositories;
 
 namespace VCS.Tests;
 
@@ -191,7 +194,7 @@ public sealed class DesktopUiTests
                     Assert.Equal(1, model.Editor.AgeIndex);
                     Assert.Equal(15, model.Editor.ExperienceTotal);
                     Assert.True(await model.Editor.FlushAsync());
-                    Assert.Equal(VCS.Domain.Characters.VampireAge.Neonate,
+                    Assert.Equal(VampireAge.Neonate,
                         (await service.GetAsync(model.Editor.Id)).Details.Advancement!.Age);
                     ageChoice.SelectedIndex = 0;
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
@@ -222,7 +225,7 @@ public sealed class DesktopUiTests
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                     Assert.Equal("3 × ●●● · 5 × ●● · 6 × ● · demais em 0", skillDistribution.Text);
                     Assert.True(await model.Editor.FlushAsync());
-                    Assert.Equal(VCS.Domain.Characters.SkillProfile.Balanced,
+                    Assert.Equal(SkillProfile.Balanced,
                         (await service.GetAsync(model.Editor.Id)).Details.Advancement!.Profile);
                     skillProfile.SelectedIndex = 0;
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
@@ -457,7 +460,7 @@ public sealed class DesktopUiTests
                     Assert.Equal("Descrição longa do personagem.", saved.Details.Description);
                     Assert.Equal(2, saved.Details.Hunger);
                     Assert.Equal(4, saved.Details.BloodPotency);
-                    Assert.Contains(saved.Traits, x => x.Category == VCS.Domain.Characters.TraitCategory.Discipline && x.Name == "Ofuscação" && x.Rating == 2);
+                    Assert.Contains(saved.Traits, x => x.Category == TraitCategory.Discipline && x.Name == "Ofuscação" && x.Rating == 2);
                     Assert.Equal(1, saved.Details.HealthSuperficial);
                     Assert.Equal(3, saved.Traits.Single(x => x.Key == "Stamina").Rating);
                     name.Text = "";
@@ -557,6 +560,7 @@ public sealed class DesktopUiTests
                     Assert.True(model.IsLayoutSettingsOpen);
                     Assert.False(model.Display.IsEditingNpc);
                     var layoutEditor = Find<Border>(window, "Layout da ficha");
+                    AssertReadableControls(layoutEditor);
                     var modes = Descendants<RadioButton>(layoutEditor).Where(x => x.GroupName == "SheetMode").ToArray();
                     Assert.Equal(["Lista", "Abas", "Bento"], modes.Select(x => (string)x.Content));
                     modes[1].IsChecked = true;
@@ -819,7 +823,7 @@ public sealed class DesktopUiTests
                         Assert.Single(personalSkillGroup.PersonalItems, x => x.IsDraft);
                         await WaitUntilAsync(() => !model.Editor.IsDirty);
                         Assert.Contains((await service.GetAsync(model.Editor.Id)).Traits,
-                            x => x.Name == "Pista" && x.Skill == new VCS.Domain.Characters.SkillInfo("Físicas") &&
+                            x => x.Name == "Pista" && x.Skill == new SkillInfo("Físicas") &&
                                  x.Specialization == "Investigacao");
                         var skillDescription = Descendants<TextBlock>(skillsView).Single(x => Equals(x.ToolTip, model.Editor.SkillGroups[0].Items[0].Description));
                         Assert.False(string.IsNullOrEmpty((string)skillDescription.ToolTip));
@@ -962,7 +966,7 @@ public sealed class DesktopUiTests
                     var lateral = Find<ListBox>(window, "Lista lateral de personagens");
                     lateral.UpdateLayout();
                     var originalButton = Descendants<Button>(lateral).Single(x =>
-                        x.DataContext is VCS.Application.Characters.CharacterSummary summary && summary.Id == originalId);
+                        x.DataContext is CharacterSummary summary && summary.Id == originalId);
                     var sidePeer = new System.Windows.Automation.Peers.ButtonAutomationPeer(originalButton);
                     ((System.Windows.Automation.Provider.IInvokeProvider)sidePeer).Invoke();
                     await WaitUntilAsync(() => model.Editor?.Id == originalId);
@@ -1197,6 +1201,8 @@ public sealed class DesktopUiTests
                 var brush = current switch
                 {
                     Border border => border.Background, Panel panel => panel.Background,
+                    // A Wpf.Ui radio button paints its Background inside the check circle, not behind the label.
+                    RadioButton => null,
                     Control control => control.Background, _ => null
                 };
                 if (brush is SolidColorBrush { Color.A: 255 } solid) { background = solid; break; }
