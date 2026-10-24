@@ -31,6 +31,8 @@ public partial class MainViewModel(
     public bool HasOpenEditors => OpenEditors.Count != 0;
     public bool HasManyOpen => OpenEditors.Count > 1;
     public int SheetColumns => OpenEditors.Count switch { <= 2 => Math.Max(1, OpenEditors.Count), <= 4 => 2, _ => 3 };
+    public bool IsSideBySide => Display.UseBento && HasManyOpen;
+    public int LayoutColumns => IsSideBySide ? SheetColumns : 1;
     public bool IsHome => Editor is null;
     public bool IsEditing => Editor is not null;
     public bool IsIdle => !IsBusy;
@@ -41,6 +43,7 @@ public partial class MainViewModel(
     public DisplaySettingsViewModel Display { get; } = new();
     public bool CanActOnCharacter => Editor is not null || SelectedCharacter is not null;
     private bool _displayInitialized;
+    private Task _warmUp = Task.CompletedTask;
 
     partial void OnSelectedCharacterChanged(CharacterSummary? value)
     {
@@ -94,6 +97,7 @@ public partial class MainViewModel(
     public Task InitializeAsync() => RunAsync(async () =>
     {
         await RefreshAsync();
+        if (_warmUp.IsCompleted) _warmUp = WarmUpSaveAsync();
         if (!_displayInitialized)
         {
             try
@@ -109,8 +113,15 @@ public partial class MainViewModel(
         }
     });
 
+    private void NotifyLayout()
+    {
+        OnPropertyChanged(nameof(IsSideBySide));
+        OnPropertyChanged(nameof(LayoutColumns));
+    }
+
     private void OnDisplayChanged(object? sender, EventArgs e)
     {
+        NotifyLayout();
         try
         {
             if (preferencesStore is not null)
@@ -162,6 +173,7 @@ public partial class MainViewModel(
         OnPropertyChanged(nameof(HasOpenEditors));
         OnPropertyChanged(nameof(HasManyOpen));
         OnPropertyChanged(nameof(SheetColumns));
+        NotifyLayout();
     }
 
     private void CloseEditor(CharacterEditorViewModel editor)
@@ -297,6 +309,7 @@ public partial class MainViewModel(
     private void ToggleLayoutSettings()
     {
         IsHelpOpen = false;
+        if (!IsLayoutSettingsOpen) Display.IsEditingNpc = Editor?.IsNpc ?? false;
         IsLayoutSettingsOpen = !IsLayoutSettingsOpen;
     }
 
@@ -458,6 +471,14 @@ public partial class MainViewModel(
             Error = "Aguarde a operacao em andamento antes de fechar.";
             return false;
         }
+        await _warmUp;
         return await CloseAllEditorsAsync();
+    }
+
+    /// <summary>Background warm-up so the first autosave does not stall the UI; failures only cost that speed-up.</summary>
+    private async Task WarmUpSaveAsync()
+    {
+        try { await Task.Run(() => service.WarmUpAsync()); }
+        catch (Exception exception) { logger.LogDebug(exception, "Aquecimento do salvamento falhou"); }
     }
 }

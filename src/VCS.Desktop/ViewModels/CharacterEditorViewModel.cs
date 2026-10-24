@@ -202,36 +202,51 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     public ObservableCollection<EditorTab> VisibleTabs { get; } = [];
     [ObservableProperty] private EditorTab? selectedTab;
     public bool NoVisibleSections => VisibleSections.Count == 0;
+    /// <summary>Section arrangement for this sheet's kind (PC or NPC).</summary>
+    public SheetLayout Layout => Display.LayoutFor(IsNpc);
     public void ConfigureDisplay(DisplaySettingsViewModel display)
     {
-        Display.LayoutChanged -= OnDisplayChanged;
+        Layout.Changed -= OnLayoutChanged;
         Display.PropertyChanged -= OnDisplayPropertyChanged;
         Display = display;
-        Display.LayoutChanged += OnDisplayChanged;
+        Layout.Changed += OnLayoutChanged;
         Display.PropertyChanged += OnDisplayPropertyChanged;
         OnPropertyChanged(nameof(Display));
+        OnPropertyChanged(nameof(Layout));
         OnPropertyChanged(nameof(EffectiveSheetThemeId));
         RefreshSections();
     }
-    private void OnDisplayChanged(object? sender, EventArgs e) => RefreshSections();
+    private void OnLayoutChanged(object? sender, EventArgs e) => RefreshSections();
     private void OnDisplayPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(DisplaySettingsViewModel.ThemeId)) OnPropertyChanged(nameof(EffectiveSheetThemeId));
     }
+    /// <summary>
+    /// Syncs the shown sections with the layout, reusing existing section objects so their views are not rebuilt.
+    /// Titles and bento sizes are bound live to the options, so only order, visibility and tabs need work here.
+    /// </summary>
     private void RefreshSections()
     {
-        var tabKey = SelectedTab?.Sections.FirstOrDefault()?.Key;
-        VisibleSections.Clear();
-        foreach (var section in Display.Sections.Where(x => x.IsVisible).OrderBy(x => x.SectionOrder))
-            VisibleSections.Add(new(section.Key, string.IsNullOrWhiteSpace(section.Caption) ? section.Title : section.Caption.Trim(), this));
-        VisibleTabs.Clear();
-        foreach (var group in VisibleSections.GroupBy(x =>
+        var wanted = Layout.Sections.Where(x => x.IsVisible).OrderBy(x => x.SectionOrder).ToArray();
+        var existing = VisibleSections.ToDictionary(x => x.Option);
+        for (var i = VisibleSections.Count - 1; i >= 0; i--)
+            if (!wanted.Contains(VisibleSections[i].Option)) VisibleSections.RemoveAt(i);
+        for (var i = 0; i < wanted.Length; i++)
         {
-            var name = Display.Sections.Single(s => s.Key == x.Key).TabName.Trim();
-            return name.Length == 0 ? x.Title : name;
-        }, StringComparer.OrdinalIgnoreCase).OrderBy(g => g.Min(x => Display.Sections.Single(s => s.Key == x.Key).TabOrder)))
-            VisibleTabs.Add(new(group.Key, group.ToArray()));
-        SelectedTab = VisibleTabs.FirstOrDefault(x => x.Sections.Any(s => s.Key == tabKey)) ?? VisibleTabs.FirstOrDefault();
+            if (!existing.TryGetValue(wanted[i], out var section)) VisibleSections.Insert(i, new(wanted[i], this));
+            else if (VisibleSections.IndexOf(section) is var from && from != i) VisibleSections.Move(from, i);
+        }
+        var tabs = VisibleSections.GroupBy(x => SheetLayout.TabKey(x.Option), StringComparer.OrdinalIgnoreCase)
+            .OrderBy(g => g.Min(x => x.Option.TabOrder)).Select(g => new EditorTab(g.Key, g.ToArray())).ToArray();
+        var sameTabs = tabs.Length == VisibleTabs.Count && tabs.Zip(VisibleTabs).All(x =>
+            x.First.Title == x.Second.Title && x.First.Sections.SequenceEqual(x.Second.Sections));
+        if (!sameTabs)
+        {
+            var tabKey = SelectedTab?.Sections.FirstOrDefault()?.Key;
+            VisibleTabs.Clear();
+            foreach (var tab in tabs) VisibleTabs.Add(tab);
+            SelectedTab = VisibleTabs.FirstOrDefault(x => x.Sections.Any(s => s.Key == tabKey)) ?? VisibleTabs.FirstOrDefault();
+        }
         OnPropertyChanged(nameof(NoVisibleSections));
     }
     public SheetFieldViewModel[] IdentityFields { get; }
@@ -467,7 +482,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         Powers.Changed -= OnPowersChanged;
         Powers.Dispose();
         AdvantageCatalog?.Dispose();
-        Display.LayoutChanged -= OnDisplayChanged;
+        Layout.Changed -= OnLayoutChanged;
         Display.PropertyChanged -= OnDisplayPropertyChanged;
         foreach (var field in ExtraFields) field.PropertyChanged -= OnExtraFieldChanged;
         DetachNpcAttacks();

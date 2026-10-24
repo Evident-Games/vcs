@@ -4,7 +4,15 @@
     xmlns:controls="clr-namespace:VCS.Desktop.Controls"
     xmlns:views="clr-namespace:VCS.Desktop.Views">
     <UserControl.Resources>
+        <!-- Body templates are keyed by section key; SheetSectionView.xaml.cs picks one. -->
         <DataTemplate x:Key="Identity"><views:IdentitySheetView /></DataTemplate>
+        <DataTemplate x:Key="NpcHeader"><views:NpcQuickSheetView Part="NpcHeader" /></DataTemplate>
+        <DataTemplate x:Key="NpcCombat"><views:NpcQuickSheetView Part="NpcCombat" /></DataTemplate>
+        <DataTemplate x:Key="NpcAttributes"><views:NpcQuickSheetView Part="NpcAttributes" /></DataTemplate>
+        <DataTemplate x:Key="NpcSkills"><views:NpcQuickSheetView Part="NpcSkills" /></DataTemplate>
+        <DataTemplate x:Key="NpcDisciplines"><views:NpcQuickSheetView Part="NpcDisciplines" /></DataTemplate>
+        <DataTemplate x:Key="NpcAdvantages"><views:NpcQuickSheetView Part="NpcAdvantages" /></DataTemplate>
+        <DataTemplate x:Key="NpcHistory"><views:NpcQuickSheetView Part="NpcHistory" /></DataTemplate>
         <DataTemplate x:Key="AttributeRow">
             <StackPanel Margin="0,6">
                 <TextBlock Text="{Binding Name}" FontSize="13" />
@@ -137,7 +145,7 @@
             </Style>
         </Border.Style>
         <StackPanel>
-            <TextBlock Text="{Binding Title}" FontFamily="Georgia" FontSize="22" HorizontalAlignment="Center"
+            <TextBlock Text="{Binding Option.DisplayTitle}" FontFamily="Georgia" FontSize="22" HorizontalAlignment="Center"
                        Foreground="{DynamicResource VcsAccentText}" Margin="0,0,0,16">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
@@ -145,26 +153,13 @@
                             <DataTrigger Binding="{Binding IsCompact, RelativeSource={RelativeSource AncestorType=views:SheetSectionView}}" Value="True">
                                 <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
+                            <!-- The NPC header shows its own heading. -->
+                            <DataTrigger Binding="{Binding Key}" Value="NpcHeader"><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-            <ContentControl Content="{Binding Editor}">
-                <ContentControl.Style>
-                    <Style TargetType="ContentControl">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Key}" Value="Identity"><Setter Property="ContentTemplate" Value="{StaticResource Identity}" /></DataTrigger>
-                            <DataTrigger Binding="{Binding Key}" Value="Attributes"><Setter Property="ContentTemplate" Value="{StaticResource Attributes}" /></DataTrigger>
-                            <DataTrigger Binding="{Binding Key}" Value="Skills"><Setter Property="ContentTemplate" Value="{StaticResource Skills}" /></DataTrigger>
-                            <DataTrigger Binding="{Binding Key}" Value="Disciplines"><Setter Property="ContentTemplate" Value="{StaticResource Disciplines}" /></DataTrigger>
-                            <DataTrigger Binding="{Binding Key}" Value="Advantages"><Setter Property="ContentTemplate" Value="{StaticResource Advantages}" /></DataTrigger>
-                            <DataTrigger Binding="{Binding Key}" Value="State"><Setter Property="ContentTemplate" Value="{StaticResource State}" /></DataTrigger>
-                            <DataTrigger Binding="{Binding Key}" Value="Background"><Setter Property="ContentTemplate" Value="{StaticResource Background}" /></DataTrigger>
-                            <DataTrigger Binding="{Binding Key}" Value="Notes"><Setter Property="ContentTemplate" Value="{StaticResource Notes}" /></DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ContentControl.Style>
-            </ContentControl>
+            <ContentControl x:Name="Body" Focusable="False" />
         </StackPanel>
     </Border>
 </UserControl>

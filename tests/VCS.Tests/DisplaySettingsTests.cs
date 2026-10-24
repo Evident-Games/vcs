@@ -27,6 +27,41 @@ public sealed class DisplaySettingsTests
     }
 
     [Fact]
+    public void Npc_layout_and_bento_sizes_roundtrip_separately_from_pc()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "VCS-settings-" + Guid.NewGuid().ToString("N"));
+        var path = Path.Combine(directory, "settings.json");
+        try
+        {
+            var display = new DisplaySettingsViewModel();
+            Assert.Equal(7, display.Npc.Sections.Length);
+            var combat = display.Npc.Find("NpcCombat")!;
+            display.Npc.MoveSection(combat, 0);
+            combat.CycleSpanCommand.Execute(null);
+            combat.CycleSpanCommand.Execute(null);
+            combat.CycleHeightCommand.Execute(null);
+            display.Npc.MoveToTab(display.Npc.Find("NpcHistory")!, "Lore");
+            display.Npc.Find("NpcSkills")!.ToggleVisibleCommand.Execute(null);
+            display.Pc.Find("Skills")!.Span = 1;
+            new DisplaySettingsStore(path).Save(display);
+
+            var reloaded = new DisplaySettingsViewModel();
+            new DisplaySettingsStore(path).Load(reloaded);
+            Assert.Equal("NpcCombat", reloaded.Npc.OrderedSections[0].Key);
+            Assert.Equal((4, 3), (reloaded.Npc.Find("NpcCombat")!.Span, reloaded.Npc.Find("NpcCombat")!.Height));
+            Assert.Equal("Lore", reloaded.Npc.Find("NpcHistory")!.TabName);
+            Assert.Contains(reloaded.Npc.Tabs, x => x.Name == "Lore");
+            Assert.False(reloaded.Npc.Find("NpcSkills")!.IsVisible);
+            Assert.Equal(1, reloaded.Pc.Find("Skills")!.Span);
+            Assert.All(reloaded.Pc.Sections, x => Assert.True(x.IsVisible));
+        }
+        finally
+        {
+            if (Directory.Exists(directory)) Directory.Delete(directory, true);
+        }
+    }
+
+    [Fact]
     public void Sheet_modes_are_mutually_exclusive_and_bento_roundtrips()
     {
         var directory = Path.Combine(Path.GetTempPath(), "VCS-settings-" + Guid.NewGuid().ToString("N"));

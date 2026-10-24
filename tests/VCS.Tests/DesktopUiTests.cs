@@ -550,10 +550,16 @@ public sealed class DesktopUiTests
                     Assert.Equal("Cinzas e sangue", savedRitual.Power.Ingredients);
 
                     var settingsMenu = (MenuItem)menu.Items[2];
-                    var modeMenu = (MenuItem)settingsMenu.Items[0];
-                    Assert.Equal(3, modeMenu.Items.Count);
-                    var tabsOption = (MenuItem)modeMenu.Items[1];
-                    tabsOption.IsChecked = true;
+                    Assert.Equal(["Layout da ficha...", "Lista lateral de personagens", "Temas"],
+                        settingsMenu.Items.OfType<MenuItem>().Select(x => (string)x.Header));
+                    ((MenuItem)settingsMenu.Items[0]).Command.Execute(null);
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.True(model.IsLayoutSettingsOpen);
+                    Assert.False(model.Display.IsEditingNpc);
+                    var layoutEditor = Find<Border>(window, "Layout da ficha");
+                    var modes = Descendants<RadioButton>(layoutEditor).Where(x => x.GroupName == "SheetMode").ToArray();
+                    Assert.Equal(["Lista", "Abas", "Bento"], modes.Select(x => (string)x.Content));
+                    modes[1].IsChecked = true;
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                     Assert.True(model.Display.UseTabs);
                     var tabs = Find<TabControl>(window, "Secoes da ficha");
@@ -566,13 +572,18 @@ public sealed class DesktopUiTests
                         Assert.Equal(section.Sections.Any(x => x.Key == "Background") ? 1 : 0,
                             Descendants<AdvancementView>(window).Count());
                     }
-                    var organize = (MenuItem)settingsMenu.Items[1];
-                    organize.Command.Execute(null);
+                    // Tab editor: one column per tab; a section dropped on a column moves into that tab.
+                    Assert.Equal(7, Find<ItemsControl>(window, "Abas do layout").Items.Count);
+                    Assert.True(Find<Border>(window, "Nova aba").AllowDrop);
+                    var pcLayout = model.Display.Pc;
+                    pcLayout.RenameTab("Identidade", "Ficha principal");
+                    pcLayout.MoveToTab(pcLayout.Find("Attributes")!, "Ficha principal");
+                    pcLayout.MoveToTab(pcLayout.Find("State")!, "Ficha principal");
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-                    Assert.True(model.IsLayoutSettingsOpen);
-                    Find<TextBox>(window, "Aba de Identidade").Text = "Ficha principal";
-                    Find<TextBox>(window, "Aba de Atributos").Text = "Ficha principal";
-                    Find<TextBox>(window, "Aba de Estado e sangue").Text = "Ficha principal";
+                    Assert.Equal(5, Find<ItemsControl>(window, "Abas do layout").Items.Count);
+                    modes[0].IsChecked = true;
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.True(model.Display.IsContinuous);
                     Find<TextBox>(window, "Titulo de Estado e sangue").Text = "Estado de sangue";
                     Assert.Empty(Descendants<NumericField>(Find<ItemsControl>(window, "Ordem das secoes")));
                     var stateHandle = Find<Button>(window, "Mover Estado e sangue");
@@ -586,25 +597,35 @@ public sealed class DesktopUiTests
                     Assert.Equal(5, model.Editor.VisibleTabs.Count);
                     Assert.Equal(3, model.Editor.VisibleTabs[0].Sections.Count);
                     Assert.False(model.Editor.IsDirty);
+                    // Unchecking a section in the list editor hides it from the sheet.
+                    Descendants<CheckBox>(Find<ItemsControl>(window, "Ordem das secoes")).Single(x => Equals(x.Content, "Atributos")).IsChecked = false;
+                    // Mini bento: width and height buttons change the live layout.
+                    modes[2].IsChecked = true;
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    SaveSnapshot(window, "layout-editor-bento");
+                    var skillsOption = pcLayout.Find("Skills")!;
+                    var spanBefore = skillsOption.Span;
+                    Find<Button>(window, "Largura de Habilidades").Command.Execute(null);
+                    Assert.Equal(spanBefore % 4 + 1, skillsOption.Span);
+                    Find<Button>(window, "Largura de Habilidades").Command.Execute(null);
+                    Find<Button>(window, "Largura de Habilidades").Command.Execute(null);
+                    Find<Button>(window, "Largura de Habilidades").Command.Execute(null);
+                    Assert.Equal(spanBefore, skillsOption.Span);
+                    Assert.DoesNotContain(Find<ItemsControl>(window, "Mini bento").Items.Cast<SectionOption>()
+                        .Where(x => x.IsVisible), x => x.Key == "Attributes");
+                    modes[1].IsChecked = true;
                     model.ToggleLayoutSettingsCommand.Execute(null);
-                    var sectionMenu = (MenuItem)settingsMenu.Items[2];
-                    settingsMenu.IsSubmenuOpen = true;
-                    sectionMenu.IsSubmenuOpen = true;
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-                    var attributesOption = model.Display.Sections.Single(x => x.Key == "Attributes");
-                    var attributesMenu = Assert.IsType<MenuItem>(sectionMenu.ItemContainerGenerator.ContainerFromItem(attributesOption));
-                    attributesMenu.IsChecked = false;
-                    sectionMenu.IsSubmenuOpen = false;
-                    settingsMenu.IsSubmenuOpen = false;
-                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    tabs = Find<TabControl>(window, "Secoes da ficha");
                     Assert.Equal(5, tabs.Items.Count);
                     Assert.DoesNotContain(model.Editor.VisibleSections, x => x.Key == "Attributes");
                     Assert.Equal(3, model.Editor.PhysicalAttributes.Single(x => x.Key == "Stamina").Rating);
-                    ((MenuItem)modeMenu.Items[2]).IsChecked = true;
+                    model.Display.UseBento = true;
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    var sheetHost = Find<ItemsControl>(window, "Fichas lado a lado");
                     Assert.True(model.Display.UseBento);
                     Assert.False(model.Display.UseTabs);
-                    var bento = Assert.Single(Descendants<BentoPanel>(window));
+                    var bento = Assert.Single(Descendants<BentoPanel>(sheetHost));
                     var bentoSections = Descendants<SheetSectionView>(window).ToArray();
                     Assert.Equal(7, bentoSections.Length);
                     Assert.All(bentoSections, x => Assert.True(x.IsCompact));
@@ -623,16 +644,16 @@ public sealed class DesktopUiTests
                             var overlap = Rect.Intersect(bentoRects[i], bentoRects[j]);
                             Assert.True(overlap.IsEmpty || overlap.Width < 1 || overlap.Height < 1);
                         }
-                    ((MenuItem)modeMenu.Items[0]).IsChecked = true;
+                    model.Display.UseBento = false;
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                     Assert.True(model.Display.IsContinuous);
-                    Assert.Empty(Descendants<BentoPanel>(window));
+                    Assert.Empty(Descendants<BentoPanel>(sheetHost));
                     Assert.Equal(7, Descendants<SheetSectionView>(window).Count());
                     Assert.All(Descendants<SheetSectionView>(window), x => Assert.False(x.IsCompact));
                     var themeMenu = settingsMenu.Items.OfType<MenuItem>().Last();
                     Assert.Equal("Temas", themeMenu.Header);
                     var themeScopes = themeMenu.Items.OfType<MenuItem>().ToArray();
-                    Assert.Equal(["Aplicacao", "Ficha atual"], themeScopes.Select(x => (string)x.Header));
+                    Assert.Equal(["Tema da aplicacao", "Tema da ficha"], themeScopes.Select(x => (string)x.Header));
                     var appThemeMenu = themeScopes[0];
                     var themeGroups = appThemeMenu.Items.OfType<MenuItem>().ToArray();
                     Assert.Equal(["Padrao", "Clas", "Especiais"], themeGroups.Select(x => (string)x.Header));
@@ -963,8 +984,9 @@ public sealed class DesktopUiTests
                     Assert.Equal(openBefore + 1, model.OpenEditors.Count);
                     Assert.Contains(model.OpenEditors, x => x.Id == originalId);
                     Assert.Equal("FICHA DE NPC", Find<TextBlock>(window, "FICHA DE NPC").Text);
-                    Assert.Single(Descendants<NpcQuickSheetView>(window));
-                    Assert.Empty(Descendants<SheetSectionView>(window));
+                    // The NPC sheet is split into sections like the PC sheet, one NPC part per section.
+                    Assert.Equal(7, Descendants<NpcQuickSheetView>(window).Count());
+                    Assert.Equal(7, Descendants<SheetSectionView>(window).Count());
                     Assert.Empty(Descendants<AdvancementView>(window));
                     Find<TextBox>(window, "Nome do NPC").Text = "NPC visual";
                     Assert.Equal("NPC visual", npc.Name);
@@ -1033,7 +1055,9 @@ public sealed class DesktopUiTests
                     Assert.True(File.Exists(dialogs.PdfPath));
                     model.Display.UseTabs = true;
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-                    Assert.Single(Descendants<NpcQuickSheetView>(window));
+                    // NPCs follow the tab layout too: only the selected tab's parts are shown.
+                    Assert.Equal(["Combate", "Atributos", "Disciplinas", "Vantagens", "Histórico"], npc.VisibleTabs.Select(x => x.Title));
+                    Assert.Equal(npc.SelectedTab!.Sections.Count, Descendants<NpcQuickSheetView>(window).Count());
                     model.Display.UseTabs = false;
                     var openTabs = Find<ItemsControl>(window, "Fichas abertas");
                     Assert.True(openTabs.IsVisible);
@@ -1049,13 +1073,16 @@ public sealed class DesktopUiTests
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                     var sheetGrid = Find<ItemsControl>(window, "Fichas lado a lado");
                     Assert.True(sheetGrid.IsVisible);
+                    // Right click: sheet theme on the sheets, application theme everywhere else.
+                    Assert.Equal(["Tema da ficha", "Tema da aplicacao"], sheetGrid.ContextMenu.Items.OfType<MenuItem>().Select(x => (string)x.Header));
+                    Assert.Equal(["Tema da aplicacao"], ((FrameworkElement)window.Content).ContextMenu.Items.OfType<MenuItem>().Select(x => (string)x.Header));
                     var panes = Descendants<CharacterEditorView>(sheetGrid).ToArray();
                     await WaitUntilAsync(() => Descendants<CharacterEditorView>(window).Count() == model.OpenEditors.Count);
                     Assert.Equal(model.OpenEditors.Count, panes.Length);
                     Assert.All(panes, x => Assert.True(x.IsPane));
                     Assert.Contains(Descendants<System.Windows.Controls.Primitives.UniformGrid>(sheetGrid),
                         x => x.Columns == model.SheetColumns && x.Children.Count == model.OpenEditors.Count);
-                    Assert.Single(Descendants<NpcQuickSheetView>(sheetGrid));
+                    Assert.Equal(7, Descendants<NpcQuickSheetView>(sheetGrid).Count());
                     SaveSnapshot(window, "npc-side-by-side");
                     // Side by side, each pane keeps its own sheet theme.
                     Assert.Same(original, model.Editor);
@@ -1265,11 +1292,13 @@ public sealed class DesktopUiTests
         Assert.True(condition(), "A operacao visual nao concluiu no prazo.");
     }
 
+    /// <summary>Visual descendants; open sheets that are built but not shown are skipped.</summary>
     private static IEnumerable<T> Descendants<T>(DependencyObject root) where T : DependencyObject
     {
         for (var i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
         {
             var child = VisualTreeHelper.GetChild(root, i);
+            if (child is CharacterEditorView { IsVisible: false }) continue;
             if (child is T match) yield return match;
             foreach (var descendant in Descendants<T>(child)) yield return descendant;
         }
