@@ -18,7 +18,7 @@
                                          IsReadOnly="{Binding IsNameReadOnly}" MaxLength="80"
                                          AutomationProperties.Name="Nome do traco" />
                                 <TextBlock Text="{Binding AdvancementInfo}" FontSize="12" TextWrapping="Wrap"
-                                           Foreground="{DynamicResource VcsMuted}" Margin="0,4,0,0" />
+                                           Foreground="{DynamicResource VcsInputDescription}" Margin="0,4,0,0" />
                                 <TextBox Text="{Binding Specialization, UpdateSourceTrigger=PropertyChanged}" MaxLength="500" Margin="0,4,0,0"
                                          Visibility="{Binding IsSkill, Converter={StaticResource BoolVisibility}}"
                                          ToolTip="Especializacao: texto livre" AutomationProperties.Name="Especializacao pessoal" />

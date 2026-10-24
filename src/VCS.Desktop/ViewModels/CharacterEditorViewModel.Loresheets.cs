@@ -24,9 +24,6 @@ public partial class CharacterEditorViewModel
         ? $"{benefit.LoresheetCollection} / {(benefit.IsLineage ? "Linhagem/descendencia" : "Geral")} / {benefit.Minimum} ponto(s), comprado separadamente. " +
           $"Use {benefit.Minimum} pontos de vantagens OU {benefit.Minimum * 3} XP (idade primeiro, depois campanha)."
         : "";
-    public string LoresheetRulesSummary => "Loresheets sao vantagens por colecao; cada beneficio e independente e nao exige os anteriores. " +
-        "Use os pontos gratuitos de vantagens ou pague pontos x 3 XP. Excedentes do orcamento de vantagens tambem custam 3 XP por ponto. " +
-        "Efeitos sao referencias; nao alteram dados ou trilhas automaticamente.";
     public string CampaignXpSummary => $"XP inicial da idade: {InitialExperience}. XP concedido pelo mestre: {CampaignExperienceTotal}. " +
         "O total soma as duas fontes. Pontos acima das distribuicoes gratuitas sao calculados automaticamente; saldo negativo gera aviso, sem impedir o salvamento.";
     partial void OnCampaignExperienceTotalChanged(int value) => RefreshLoresheetSummary();

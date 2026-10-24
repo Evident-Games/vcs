@@ -37,7 +37,7 @@
                                   Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}">
                                 <Grid.ContextMenu>
                                     <ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
-                                                 Background="{DynamicResource VcsCard}" Foreground="{DynamicResource VcsText}">
+                                                 Background="{DynamicResource VcsCard}" Foreground="{DynamicResource VcsCardText}">
                                         <MenuItem Header="Abrir ficha" Command="{Binding OpenCharacterCommand}"
                                                   CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                                         <Separator />

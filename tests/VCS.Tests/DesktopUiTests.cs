@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -632,21 +631,25 @@ public sealed class DesktopUiTests
                     Assert.All(Descendants<SheetSectionView>(window), x => Assert.False(x.IsCompact));
                     var themeMenu = settingsMenu.Items.OfType<MenuItem>().Last();
                     Assert.Equal("Temas", themeMenu.Header);
-                    var themeGroups = themeMenu.Items.OfType<MenuItem>().ToArray();
+                    var themeScopes = themeMenu.Items.OfType<MenuItem>().ToArray();
+                    Assert.Equal(["Aplicacao", "Ficha atual"], themeScopes.Select(x => (string)x.Header));
+                    var appThemeMenu = themeScopes[0];
+                    var themeGroups = appThemeMenu.Items.OfType<MenuItem>().ToArray();
                     Assert.Equal(["Padrao", "Clas", "Especiais"], themeGroups.Select(x => (string)x.Header));
                     Assert.Equal(model.Display.DefaultThemes.Select(x => x.Id),
                         ThemeCatalog.All.Where(x => x.Group == ThemeGroup.Default).Select(x => x.Id));
                     Assert.Equal(5, model.Display.DefaultThemes.Count());
-                    Assert.Equal(model.Display.Themes.Length - 5, model.Display.ClanThemes.Count());
+                    Assert.Equal(model.Display.Themes.Length - 5 - model.Display.SpecialThemes.Count(), model.Display.ClanThemes.Count());
                     // The predator snapshots need a chosen predator, so the summary line and tags are visible.
                     model.Editor.SelectedPredatorType ??= model.Editor.PredatorTypes.Single(x => x.Id == "alleycat");
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                     foreach (var option in model.Display.Themes)
                     {
                         var strict = option.Group == ThemeGroup.Default;
-                        var groupMenu = themeGroups[strict ? 0 : 1];
+                        var groupMenu = themeGroups[(int)option.Group];
                         settingsMenu.IsSubmenuOpen = true;
                         themeMenu.IsSubmenuOpen = true;
+                        appThemeMenu.IsSubmenuOpen = true;
                         groupMenu.IsSubmenuOpen = true;
                         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                         var menuPopup = Assert.IsType<Popup>(groupMenu.Template.FindName("PART_Popup", groupMenu));
@@ -661,38 +664,46 @@ public sealed class DesktopUiTests
                         Assert.True(item.IsChecked);
                         Assert.Equal(option.Id, Assert.Single(model.Display.Themes, x => x.IsSelected).Id);
                         var palette = ThemeService.Load(ThemeCatalog.Get(option.Id));
+                        var sheetColors = ThemeService.Load(ThemeCatalog.Get(option.Id), ThemePart.Sheet);
                         Assert.Equal(((SolidColorBrush)palette["VcsOuterText"]).Color, ((SolidColorBrush)window.Foreground).Color);
                         if (strict)
                             Assert.True(Contrast(((SolidColorBrush)palette["VcsOuterText"]).Color,
                                 ((SolidColorBrush)palette["VcsBackground"]).Color) >= 4.5,
-                                $"{option.Name}: VcsOuterText/VcsBackground deve ter contraste minimo de 4.5:1.");                        if (option.Id == ThemeCatalog.DefaultId)
+                                $"{option.Name}: VcsOuterText/VcsBackground deve ter contraste minimo de 4.5:1.");
+                        if (option.Id == ThemeCatalog.DefaultId)
                         {
-                            // Outer text follows the window background; text inside cards keeps VcsText.
+                            // Outer text follows the window background; the title bar and top menu use VcsHeaderText;
+                            // text inside cards keeps VcsText.
                             var livePalette = app.Resources.MergedDictionaries.Single(x => x.Contains("VcsBackground"));
                             var originalOuter = livePalette["VcsOuterText"];
+                            var originalHeader = livePalette["VcsHeaderText"];
                             var sentinel = Color.FromRgb(0x12, 0x9A, 0x34);
+                            var headerSentinel = Color.FromRgb(0x34, 0x12, 0x9A);
                             livePalette["VcsOuterText"] = new SolidColorBrush(sentinel);
+                            livePalette["VcsHeaderText"] = new SolidColorBrush(headerSentinel);
                             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                             var topMenu = Descendants<Menu>(window).First().Items.OfType<MenuItem>().First();
                             Assert.Equal(sentinel, ((SolidColorBrush)window.Foreground).Color);
-                            Assert.Equal(sentinel, ((SolidColorBrush)Descendants<Wpf.Ui.Controls.TitleBar>(window).Single().Foreground).Color);
-                            Assert.Equal(sentinel, ((SolidColorBrush)topMenu.Foreground).Color);
-                            var innerText = ((SolidColorBrush)palette["VcsText"]).Color;
+                            Assert.Equal(headerSentinel, ((SolidColorBrush)Descendants<Wpf.Ui.Controls.TitleBar>(window).Single().Foreground).Color);
+                            Assert.Equal(headerSentinel, ((SolidColorBrush)topMenu.Foreground).Color);
+                            var innerText = ((SolidColorBrush)palette["VcsCardText"]).Color;
                             Assert.Equal(innerText, ((SolidColorBrush)Descendants<TextBlock>(window).First(x => x.Text == "Personagens").Foreground).Color);
                             Assert.DoesNotContain(Descendants<SheetSectionView>(window).SelectMany(Descendants<TextBlock>), x => x.Foreground is SolidColorBrush { Color: var color } && color == sentinel);
                             livePalette["VcsOuterText"] = originalOuter;
+                            livePalette["VcsHeaderText"] = originalHeader;
                             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                         }
                         Assert.Equal(((SolidColorBrush)palette["VcsBackground"]).Color, ((SolidColorBrush)window.Background).Color);
                         var titleBar = Descendants<Wpf.Ui.Controls.TitleBar>(window).Single();
-                        Assert.Equal(((SolidColorBrush)window.Foreground).Color, ((SolidColorBrush)titleBar.Foreground).Color);
-                        Assert.Equal(((SolidColorBrush)window.Foreground).Color, ((SolidColorBrush)titleBar.ButtonsForeground).Color);
-                        Assert.Equal(((SolidColorBrush)palette["VcsAccent"]).Color,
+                        var headerText = ((SolidColorBrush)palette["VcsHeaderText"]).Color;
+                        Assert.Equal(headerText, ((SolidColorBrush)titleBar.Foreground).Color);
+                        Assert.Equal(headerText, ((SolidColorBrush)titleBar.ButtonsForeground).Color);
+                        Assert.Equal(((SolidColorBrush)sheetColors["VcsAccent"]).Color,
                             ((SolidColorBrush)vigor.FindResource("VcsAccent")).Color);
                         if (!strict)
                         {
                             // Clan palettes keep the user's colors; only check that they load, apply and persist.
-                            Assert.Equal(((SolidColorBrush)palette["VcsText"]).Color, ((SolidColorBrush)Find<TextBox>(window, "Nome do personagem").Foreground).Color);
+                            Assert.Equal(((SolidColorBrush)sheetColors["VcsInputText"]).Color, ((SolidColorBrush)Find<TextBox>(window, "Nome do personagem").Foreground).Color);
                             await WaitUntilAsync(() => !model.Editor.IsDirty);
                             var persistedClan = new DisplaySettingsViewModel();
                             new DisplaySettingsStore(Path.Combine(directory, "display.json")).Load(persistedClan);
@@ -700,18 +711,18 @@ public sealed class DesktopUiTests
                             continue;
                         }
                         foreach (var background in new[] { "VcsBackground", "VcsCard", "VcsInput", "VcsHover", "VcsSelection" })
-                            foreach (var foreground in new[] { "VcsText", "VcsMuted", "VcsAccent" })
+                            foreach (var foreground in new[] { "VcsCardText", "VcsInputDescription", "VcsAccent" })
                                 Assert.True(!strict || Contrast(((SolidColorBrush)palette[foreground]).Color,
                                     ((SolidColorBrush)palette[background]).Color) >= 4.5,
                                     $"{option.Name}: {foreground}/{background} deve ter contraste minimo de 4.5:1.");
                         var input = Find<TextBox>(window, "Nome do personagem");
-                        Assert.Equal(((SolidColorBrush)palette["VcsInput"]).Color, ((SolidColorBrush)input.Background).Color);
-                        Assert.Equal(((SolidColorBrush)palette["VcsText"]).Color, ((SolidColorBrush)input.Foreground).Color);
-                        Assert.Equal(((SolidColorBrush)palette["VcsSelection"]).Color, ((SolidColorBrush)input.SelectionBrush).Color);
-                        Assert.Equal(((SolidColorBrush)palette["VcsText"]).Color, ((SolidColorBrush)input.SelectionTextBrush).Color);
+                        Assert.Equal(((SolidColorBrush)sheetColors["VcsInput"]).Color, ((SolidColorBrush)input.Background).Color);
+                        Assert.Equal(((SolidColorBrush)sheetColors["VcsInputText"]).Color, ((SolidColorBrush)input.Foreground).Color);
+                        Assert.Equal(((SolidColorBrush)sheetColors["VcsSelection"]).Color, ((SolidColorBrush)input.SelectionBrush).Color);
+                        Assert.Equal(((SolidColorBrush)sheetColors["VcsSelectionText"]).Color, ((SolidColorBrush)input.SelectionTextBrush).Color);
                         Assert.Equal(((SolidColorBrush)palette["VcsSelection"]).Color,
                             ((SolidColorBrush)app.Resources[SystemColors.InactiveSelectionHighlightBrushKey]).Color);
-                        Assert.Equal(((SolidColorBrush)palette["VcsText"]).Color,
+                        Assert.Equal(((SolidColorBrush)palette["VcsSelectionText"]).Color,
                             ((SolidColorBrush)app.Resources[SystemColors.InactiveSelectionHighlightTextBrushKey]).Color);
                         var inputBorder = Assert.IsType<Border>(input.Template.FindName("InputBorder", input));
                         Assert.Equal(new CornerRadius(7), inputBorder.CornerRadius);
@@ -728,7 +739,7 @@ public sealed class DesktopUiTests
                         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                         var predatorItem = Assert.IsType<ComboBoxItem>(predatorCombo.ItemContainerGenerator.ContainerFromItem(predatorCombo.SelectedItem));
                         Assert.Equal(model.Editor.SelectedPredatorType!.Name, AutomationProperties.GetName(predatorItem));
-                        Assert.Equal(((SolidColorBrush)window.FindResource("VcsText")).Color,
+                        Assert.Equal(((SolidColorBrush)sheetColors["VcsSelectionText"]).Color,
                             ((SolidColorBrush)predatorItem.Foreground).Color);
                         var predatorChoice = Assert.IsType<Border>(predatorItem.Template.FindName("Choice", predatorItem));
                         Assert.True(!strict || Contrast(((SolidColorBrush)predatorItem.Foreground).Color,
@@ -800,9 +811,9 @@ public sealed class DesktopUiTests
                         clanChoice.ApplyTemplate();
                         var clanInput = Assert.IsType<TextBox>(clanChoice.Template.FindName("PART_EditableTextBox", clanChoice));
                         Assert.True(!strict || Contrast(((SolidColorBrush)clanInput.Foreground).Color, ((SolidColorBrush)clanInput.Background).Color) >= 4.5);
-                        Assert.Equal(((SolidColorBrush)window.FindResource("VcsSelection")).Color,
+                        Assert.Equal(((SolidColorBrush)sheetColors["VcsSelection"]).Color,
                             ((SolidColorBrush)clanInput.SelectionBrush).Color);
-                        Assert.Equal(((SolidColorBrush)window.FindResource("VcsText")).Color,
+                        Assert.Equal(((SolidColorBrush)sheetColors["VcsSelectionText"]).Color,
                             ((SolidColorBrush)clanInput.SelectionTextBrush).Color);
                         clanChoice.IsDropDownOpen = true;
                         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
@@ -812,7 +823,7 @@ public sealed class DesktopUiTests
                             clanChoice.ItemContainerGenerator.ContainerFromItem("Brujah"));
                         var selectedClanBackground = Assert.IsType<Border>(
                             selectedClanRow.Template.FindName("Choice", selectedClanRow)).Background;
-                        Assert.Equal(((SolidColorBrush)window.FindResource("VcsText")).Color,
+                        Assert.Equal(((SolidColorBrush)sheetColors["VcsSelectionText"]).Color,
                             ((SolidColorBrush)selectedClanRow.Foreground).Color);
                         Assert.True(!strict || Contrast(((SolidColorBrush)selectedClanRow.Foreground).Color,
                             ((SolidColorBrush)selectedClanBackground).Color) >= 4.5);
@@ -839,6 +850,7 @@ public sealed class DesktopUiTests
                         // Selecting the current theme must not uncheck the only selected item.
                         settingsMenu.IsSubmenuOpen = true;
                         themeMenu.IsSubmenuOpen = true;
+                        appThemeMenu.IsSubmenuOpen = true;
                         groupMenu.IsSubmenuOpen = true;
                         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                         ((System.Windows.Automation.Provider.IInvokeProvider)peer).Invoke();
@@ -846,6 +858,26 @@ public sealed class DesktopUiTests
                         Assert.True(item.IsChecked);
                     }
                     settingsMenu.IsSubmenuOpen = false;
+                    // A sheet theme recolors only that sheet; the application keeps its own theme.
+                    var appPalette = ThemeService.Load(ThemeCatalog.Get(model.Display.ThemeId));
+                    var followedPalette = ThemeService.Load(ThemeCatalog.Get(model.Display.ThemeId), ThemePart.Sheet);
+                    var sheetPalette = ThemeService.Load(ThemeCatalog.Get("brujah"), ThemePart.Sheet);
+                    var appInput = ((SolidColorBrush)followedPalette["VcsInput"]).Color;
+                    var sheetInput = ((SolidColorBrush)sheetPalette["VcsInput"]).Color;
+                    Assert.NotEqual(appInput, sheetInput);
+                    model.SelectSheetThemeCommand.Execute("brujah");
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.False(model.Display.SheetFollowsApp);
+                    Assert.True(Assert.Single(model.Display.SheetThemes, x => x.IsSelected).Id == "brujah");
+                    Assert.Equal(sheetInput, ((SolidColorBrush)Find<TextBox>(window, "Nome do personagem").Background).Color);
+                    Assert.Equal(((SolidColorBrush)appPalette["VcsBackground"]).Color, ((SolidColorBrush)window.Background).Color);
+                    var sheetSettings = new DisplaySettingsViewModel();
+                    new DisplaySettingsStore(Path.Combine(directory, "display.json")).Load(sheetSettings);
+                    Assert.Equal("brujah", sheetSettings.SheetThemeFor(model.Editor!.Id));
+                    model.SelectSheetThemeCommand.Execute("");
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.True(model.Display.SheetFollowsApp);
+                    Assert.Equal(appInput, ((SolidColorBrush)Find<TextBox>(window, "Nome do personagem").Background).Color);
                     window.Width = 1000;
                     window.Height = 680;
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
@@ -1025,6 +1057,20 @@ public sealed class DesktopUiTests
                         x => x.Columns == model.SheetColumns && x.Children.Count == model.OpenEditors.Count);
                     Assert.Single(Descendants<NpcQuickSheetView>(sheetGrid));
                     SaveSnapshot(window, "npc-side-by-side");
+                    // Side by side, each pane keeps its own sheet theme.
+                    Assert.Same(original, model.Editor);
+                    model.SelectSheetThemeCommand.Execute("brujah");
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Color PaneCard(CharacterEditorViewModel editor) => ((SolidColorBrush)Descendants<Border>(sheetGrid)
+                        .Single(x => x.Name == "Pane" && ReferenceEquals(x.DataContext, editor)).Background).Color;
+                    var brujahCard = ((SolidColorBrush)ThemeService.Load(ThemeCatalog.Get("brujah"), ThemePart.Sheet)["VcsCard"]).Color;
+                    var appCard = ((SolidColorBrush)ThemeService.Load(ThemeCatalog.Get(model.Display.ThemeId), ThemePart.Sheet)["VcsCard"]).Color;
+                    Assert.Equal(brujahCard, PaneCard(original));
+                    Assert.Equal(appCard, PaneCard(npc));
+                    SaveSnapshot(window, "sheet-themes-side-by-side");
+                    model.SelectSheetThemeCommand.Execute("");
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    Assert.Equal(appCard, PaneCard(original));
                     var beforeClose = model.OpenEditors.Count;
                     Press(Find<Button>(sheetGrid, $"Fechar painel {npc.TabTitle}"));
                     await WaitUntilAsync(() => model.OpenEditors.Count == beforeClose - 1);

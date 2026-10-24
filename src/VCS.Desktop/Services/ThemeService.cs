@@ -4,6 +4,9 @@ using Wpf.Ui.Appearance;
 
 namespace VCS.Desktop.Services;
 
+/// <summary>Each theme file has an application block (VcsApp*) and a sheet block (VcsSheet*).</summary>
+public enum ThemePart { Application, Sheet }
+
 public sealed class ThemeService
 {
     private string? _appliedTheme;
@@ -17,49 +20,43 @@ public sealed class ThemeService
         ApplicationThemeManager.Apply(appearance);
         foreach (var dictionary in System.Windows.Application.Current.Resources.MergedDictionaries.OfType<Wpf.Ui.Markup.ThemesDictionary>())
             dictionary.Theme = appearance;
-        var dictionaries = System.Windows.Application.Current.Resources.MergedDictionaries;
-        var palette = dictionaries.Single(x => x.Keys.Cast<object>().Contains("VcsBackground"));
-        foreach (var key in replacement.Keys)
-            palette[key] = replacement[key];
-        var appResources = System.Windows.Application.Current.Resources;
-        appResources[SystemColors.HighlightBrushKey] = replacement["VcsSelection"];
-        appResources[SystemColors.InactiveSelectionHighlightBrushKey] = replacement["VcsSelection"];
-        appResources[SystemColors.HighlightTextBrushKey] = replacement["VcsSelectionText"];
-        appResources[SystemColors.InactiveSelectionHighlightTextBrushKey] = replacement["VcsSelectionText"];
+        System.Windows.Application.Current.Resources.MergedDictionaries.OfType<ThemePalette>().Single().Fill(replacement);
+        SetSelectionColors(System.Windows.Application.Current.Resources, replacement);
         var accent = ((SolidColorBrush)replacement["VcsAccent"]).Color;
         ApplicationAccentColorManager.Apply(accent, appearance, false, false);
         foreach (Window window in System.Windows.Application.Current.Windows)
         {
             window.SetResourceReference(System.Windows.Controls.Control.BackgroundProperty, "VcsBackground");
-            window.SetResourceReference(System.Windows.Controls.Control.ForegroundProperty, "VcsHeaderText");
+            window.SetResourceReference(System.Windows.Controls.Control.ForegroundProperty, "VcsOuterText");
         }
         _appliedTheme = themeId;
     }
 
-    /// <summary>Loads a palette; themes without VcsOuterText reuse VcsText for text on the window background.</summary>
-    public static ResourceDictionary Load(ThemeDefinition theme)
+    /// <summary>Loads one block of a theme file under the shared Vcs* keys the styles use.</summary>
+    public static ResourceDictionary Load(ThemeDefinition theme, ThemePart part = ThemePart.Application)
     {
-        var palette = new ResourceDictionary { Source = new Uri(theme.ResourcePath, UriKind.Relative) };
-        // New semantic color roles fall back to the legacy palette keys. This keeps saved themes
-        // working while letting each surface be customized independently going forward.
-        SetFallback(palette, "VcsOuterText", "VcsText");
-        SetFallback(palette, "VcsHeaderText", "VcsOuterText");
-        SetFallback(palette, "VcsFooterText", "VcsOuterText");
-        SetFallback(palette, "VcsCardText", "VcsText");
-        SetFallback(palette, "VcsSelectionText", "VcsText");
-        SetFallback(palette, "VcsInputText", "VcsText");
-        SetFallback(palette, "VcsInputTitle", "VcsText");
-        SetFallback(palette, "VcsInputDescription", "VcsMuted");
-        SetFallback(palette, "VcsAccentText", "VcsAccent");
-        SetFallback(palette, "VcsAccentHotbar", "VcsAccent");
-        SetFallback(palette, "VcsAccentBorder", "VcsAccent");
-        SetFallback(palette, "VcsScroll", "VcsMuted");
+        var file = new ResourceDictionary { Source = new Uri(theme.ResourcePath, UriKind.Relative) };
+        var prefix = part == ThemePart.Application ? "VcsApp" : "VcsSheet";
+        var palette = new ResourceDictionary();
+        foreach (var key in file.Keys.OfType<string>().Where(x => x.StartsWith(prefix, StringComparison.Ordinal)))
+            palette["Vcs" + key[prefix.Length..]] = file[key];
         return palette;
     }
 
-    private static void SetFallback(ResourceDictionary palette, string key, string legacyKey)
+    /// <summary>Loads the sheet block for one sheet; system selection colors are scoped with it.</summary>
+    public static ResourceDictionary LoadSheet(ThemeDefinition theme)
     {
-        if (!palette.Contains(key)) palette[key] = palette[legacyKey];
+        var palette = Load(theme, ThemePart.Sheet);
+        SetSelectionColors(palette, palette);
+        return palette;
+    }
+
+    private static void SetSelectionColors(ResourceDictionary target, ResourceDictionary palette)
+    {
+        target[SystemColors.HighlightBrushKey] = palette["VcsSelection"];
+        target[SystemColors.InactiveSelectionHighlightBrushKey] = palette["VcsSelection"];
+        target[SystemColors.HighlightTextBrushKey] = palette["VcsSelectionText"];
+        target[SystemColors.InactiveSelectionHighlightTextBrushKey] = palette["VcsSelectionText"];
     }
 
     public static bool IsDark(Color background) =>

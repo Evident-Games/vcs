@@ -53,6 +53,7 @@ public partial class MainViewModel(
         if (oldValue is not null) oldValue.IsActive = false;
         if (newValue is not null) newValue.IsActive = true;
         if (newValue is not null) SelectedCharacter = Characters.FirstOrDefault(x => x.Id == newValue.Id) ?? SelectedCharacter;
+        Display.ShowSheet(newValue?.Id);
         OnPropertyChanged(nameof(IsHome));
         OnPropertyChanged(nameof(IsEditing));
         OnPropertyChanged(nameof(CanActOnCharacter));
@@ -138,6 +139,7 @@ public partial class MainViewModel(
         if (skillCatalog is not null) next.ConfigureSkillCatalog(await skillCatalog.ListAsync());
         if (predatorCatalog is not null) next.ConfigurePredatorCatalog(await predatorCatalog.ListAsync());
         next.ConfigureDisplay(Display);
+        next.SheetThemeId = Display.SheetThemeFor(character.Id);
         next.KnownClans = VCS.Domain.Characters.ClanCatalog.All.Select(x => x.Name)
             .Concat(_all.Select(x => x.Clan)).Append(character.Details.Clan)
             .Where(x => !string.IsNullOrWhiteSpace(x)).Distinct(StringComparer.OrdinalIgnoreCase).Order().ToArray();
@@ -181,6 +183,15 @@ public partial class MainViewModel(
     {
         if ((editor ?? Editor) is { } target && await CloseEditorAsync(target)) await RefreshAsync();
     });
+
+    /// <summary>Sets the active sheet theme; an empty id makes the sheet follow the application theme.</summary>
+    [RelayCommand]
+    private void SelectSheetTheme(string id)
+    {
+        if (Editor is null) return;
+        Editor.SheetThemeId = id.Length == 0 ? null : id;
+        Display.SetSheetTheme(Editor.Id, Editor.SheetThemeId);
+    }
 
     [RelayCommand]
     private void ActivateEditor(CharacterEditorViewModel? editor)

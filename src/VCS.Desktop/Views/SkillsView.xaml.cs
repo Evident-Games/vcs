@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Windows;
 using System.Windows.Controls;
 using VCS.Desktop.ViewModels;
 

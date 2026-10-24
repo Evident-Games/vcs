@@ -95,6 +95,42 @@ public partial class DisplaySettingsViewModel : ObservableObject
     public IEnumerable<ThemeOption> ClanThemes => Themes.Where(x => x.Group == ThemeGroup.Clan);
     public IEnumerable<ThemeOption> SpecialThemes => Themes.Where(x => x.Group == ThemeGroup.Special);
 
+    // Sheet themes: each character may override the application theme inside its own sheet.
+    private Guid? _activeSheet;
+    public Dictionary<Guid, string> SheetThemeIds { get; } = [];
+    public ThemeOption[] SheetThemes { get; } =
+        ThemeCatalog.All.Select(x => new ThemeOption(x.Id, x.Name, x.Group) { IsSelected = false }).ToArray();
+    public IEnumerable<ThemeOption> DefaultSheetThemes => SheetThemes.Where(x => x.Group == ThemeGroup.Default);
+    public IEnumerable<ThemeOption> ClanSheetThemes => SheetThemes.Where(x => x.Group == ThemeGroup.Clan);
+    public IEnumerable<ThemeOption> SpecialSheetThemes => SheetThemes.Where(x => x.Group == ThemeGroup.Special);
+    public bool SheetFollowsApp => _activeSheet is not { } id || !SheetThemeIds.ContainsKey(id);
+    public string? SheetThemeFor(Guid id) => SheetThemeIds.GetValueOrDefault(id);
+
+    public void ShowSheet(Guid? id)
+    {
+        _activeSheet = id;
+        RefreshSheetSelection();
+    }
+
+    public void SetSheetTheme(Guid id, string? themeId)
+    {
+        if (themeId is null) SheetThemeIds.Remove(id);
+        else SheetThemeIds[id] = ThemeCatalog.Get(themeId).Id;
+        RefreshSheetSelection();
+        Changed?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void RefreshSheetSelection()
+    {
+        var current = _activeSheet is { } id ? SheetThemeFor(id) : null;
+        foreach (var theme in SheetThemes)
+        {
+            theme.IsSelected = theme.Id == current;
+            theme.RefreshSelection();
+        }
+        OnPropertyChanged(nameof(SheetFollowsApp));
+    }
+
     public bool IsContinuous
     {
         get => !UseTabs && !UseBento;

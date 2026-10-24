@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
-using VCS.Application.Abstractions;
 using VCS.Application.Characters;
 using VCS.Desktop.ViewModels;
 using VCS.Domain.Characters;

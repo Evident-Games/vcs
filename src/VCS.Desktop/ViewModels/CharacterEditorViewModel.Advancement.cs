@@ -22,7 +22,6 @@ public partial class CharacterEditorViewModel
             _advancement = _advancement with { Age = (VampireAge)value };
             BloodPotency = Math.Clamp(BloodPotency + CharacterAdvancement.StartingBlood((VampireAge)value) -
                 CharacterAdvancement.StartingBlood(previous), 0, 10);
-            RefreshCreation();
             MarkChanged();
         }
     }
@@ -33,7 +32,6 @@ public partial class CharacterEditorViewModel
         {
             if (!Enum.IsDefined((SkillProfile)value) || SkillProfileIndex == value) return;
             _advancement = _advancement! with { Profile = (SkillProfile)value };
-            RefreshCreation();
             MarkChanged();
         }
     }
@@ -104,7 +102,6 @@ public partial class CharacterEditorViewModel
             return missing.Length == 0 ? "✓ completa" : $"Faltam: {DotSpread(missing)}";
         }
     }
-    public string InitialDisciplinesDescription => "Pontos iniciais gratuitos: duas disciplinas do cla com 2 e 1 pontos, mais o bonus aplicado do predador. Excedentes: novo nivel x 5 XP (do cla) ou x 7 XP (fora do cla).";
     public static readonly int[] DisciplineDistribution = CharacterAdvancement.DisciplineDistribution;
     public string InitialDisciplinesSpread => $"{DotSpread(DisciplineDistribution)} do clã · +1 × ● do predador";
     public const string DisciplineHelp =
@@ -156,8 +153,14 @@ public partial class CharacterEditorViewModel
                 (selected < budget ? $"faltam {budget - selected}" : "✓ completos") +
                 ". Defeitos não concedem XP; os do predador são adicionais.";
         }
-    }    public int FreeSpecializationsAvailable =>
-        CharacterAdvancement.FreeSpecializationsRemaining(Snapshot().Details, Snapshot().Traits);
+    }    public int FreeSpecializationsAvailable
+    {
+        get
+        {
+            var snapshot = Snapshot();
+            return CharacterAdvancement.FreeSpecializationsRemaining(snapshot.Details, snapshot.Traits);
+        }
+    }
     public const string SpecializationHelp =
         "Escreva uma especialização por linha (Enter) ou separe por ponto e vírgula.\n\n" +
         "Gratuitas: 1 por ficha; +1 em cada habilidade que chega a 4; +1 no primeiro ponto de " +
@@ -168,7 +171,7 @@ public partial class CharacterEditorViewModel
         "Cada ponto acima da distribuição inicial custa o novo nível × 3 XP (ex.: 2→3 = 9 XP).\n\n" +
         (string.IsNullOrEmpty(SkillsExperience) ? "Nenhum XP gasto em habilidades." : SkillsExperience);
     public string FreeSpecializationSummary =>
-        $"Especializacoes gratuitas disponiveis: {CharacterAdvancement.FreeSpecializationsRemaining(Snapshot().Details, Snapshot().Traits)}. " +
+        $"Especializacoes gratuitas disponiveis: {FreeSpecializationsAvailable}. " +
         "1 por ficha; a especializacao escolhida no predador e adicional e aplicada automaticamente. +1 local ao atingir 4; " +
         "+1 local no primeiro ponto de Erudicao, Oficios, Performance e Ciencia. " +
         "Separe uma especializacao por linha ou por ponto e virgula. Excedentes: 3 XP cada, calculados automaticamente.";

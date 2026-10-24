@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Disciplines;
 using VCS.Domain.Characters;
 
 namespace VCS.Desktop.ViewModels;

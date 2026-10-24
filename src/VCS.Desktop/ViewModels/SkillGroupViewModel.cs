@@ -43,13 +43,6 @@ public sealed partial class SkillGroupViewModel
         PersonalItems.Remove(line);
         if (PersonalItems.All(x => !x.IsDraft)) PersonalItems.Add(new(this));
     }
-
-    internal void RemoveIfDeleted(TraitItemViewModel item)
-    {
-        foreach (var line in PersonalItems.Where(x => x.Trait == item).ToArray())
-            PersonalItems.Remove(line);
-        if (PersonalItems.All(x => !x.IsDraft)) PersonalItems.Add(new(this));
-    }
 }
 
 public partial class SkillEntryLineViewModel : ObservableObject
