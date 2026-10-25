@@ -64,30 +64,6 @@
             <Setter Property="MaxLength" Value="20000" />
             <Setter Property="VerticalContentAlignment" Value="Top" />
         </Style>
-        <Style x:Key="Mini" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Focusable" Value="False" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Face" Width="16" Height="16" CornerRadius="8" BorderThickness="1"
-                                BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}">
-                            <TextBlock Text="{TemplateBinding Content}" FontSize="11" LineHeight="11" LineStackingStrategy="BlockLineHeight"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Face" Property="Opacity" Value="0.35" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <Style x:Key="WarningMark" TargetType="Border" BasedOn="{StaticResource Help}">
             <Setter Property="Visibility" Value="{Binding HasWarning, Converter={StaticResource BoolVisibility}}" />
             <Setter Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
@@ -116,7 +92,7 @@
         <DataTemplate x:Key="NpcDisciplineSlot" DataType="{x:Type sheet:NpcDisciplineSlotViewModel}">
             <StackPanel Margin="10,0,10,8">
                 <DockPanel>
-                    <Button DockPanel.Dock="Right" Style="{StaticResource Mini}" Content="×" Command="{Binding RemoveCommand}" Margin="6,0,0,3"
+                    <Button DockPanel.Dock="Right" Style="{StaticResource RoundIconButton}" Content="×" Command="{Binding RemoveCommand}" Margin="6,0,0,3"
                             VerticalAlignment="Bottom" ToolTip="Remover esta disciplina" AutomationProperties.Name="Remover disciplina do NPC" />
                     <controls:DotTrack DockPanel.Dock="Right" Value="{Binding Rating, Mode=TwoWay}" Minimum="{Binding Minimum}" Maximum="5"
                                        VerticalAlignment="Bottom" AutomationProperties.Name="Nivel da disciplina do NPC" />
@@ -164,7 +140,7 @@
                         <Button Command="{Binding ToggleDetailsCommand}" Margin="0,0,4,0" ToolTip="Extras: descrição, sistema e pré-requisito"
                                 AutomationProperties.Name="Extras do poder">
                             <Button.Style>
-                                <Style TargetType="Button" BasedOn="{StaticResource Mini}">
+                                <Style TargetType="Button" BasedOn="{StaticResource RoundIconButton}">
                                     <Setter Property="Content" Value="▸" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsExpanded}" Value="True"><Setter Property="Content" Value="▾" /></DataTrigger>
@@ -172,7 +148,7 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Style="{StaticResource Mini}" Content="×" Command="{Binding RemoveCommand}" ToolTip="Remover poder"
+                        <Button Style="{StaticResource RoundIconButton}" Content="×" Command="{Binding RemoveCommand}" ToolTip="Remover poder"
                                 AutomationProperties.Name="Remover poder" />
                     </StackPanel>
                 </Grid>
@@ -227,7 +203,7 @@
                                  ToolTip="{Binding DicePool}" AutomationProperties.Name="Parada de dados do ritual" />
                         <StackPanel Grid.Row="1" Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,4">
                             <Border Style="{StaticResource WarningMark}" Margin="0,0,4,0"><TextBlock Text="!" Style="{StaticResource HelpMark}" /></Border>
-                            <Button Style="{StaticResource Mini}" Content="×" Command="{Binding RemoveCommand}" ToolTip="Remover ritual"
+                            <Button Style="{StaticResource RoundIconButton}" Content="×" Command="{Binding RemoveCommand}" ToolTip="Remover ritual"
                                     AutomationProperties.Name="Remover ritual" />
                         </StackPanel>
                     </Grid>
@@ -356,14 +332,14 @@
                           AutomationProperties.Name="Disciplinas do NPC">
                 <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="3" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
             </ItemsControl>
-            <Button Style="{StaticResource Mini}" Content="+" Command="{Binding AddNpcDisciplineCommand}" HorizontalAlignment="Center"
+            <Button Style="{StaticResource RoundIconButton}" Content="+" Command="{Binding AddNpcDisciplineCommand}" HorizontalAlignment="Center"
                     ToolTip="Adicionar mais uma disciplina" AutomationProperties.Name="Adicionar disciplina do NPC" />
         </StackPanel>
 
         <StackPanel DataContext="{Binding Powers}" Margin="8,18,8,0">
             <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
                 <TextBlock Text="Poderes" Style="{StaticResource GroupTitle}" />
-                <Button Style="{StaticResource Mini}" Content="+" Command="{Binding AddPowerCommand}" Margin="8,0,0,0"
+                <Button Style="{StaticResource RoundIconButton}" Content="+" Command="{Binding AddPowerCommand}" Margin="8,0,0,0"
                         ToolTip="Adicionar poder" AutomationProperties.Name="Adicionar poder" />
             </StackPanel>
             <Grid Margin="0,0,0,2">
@@ -386,7 +362,7 @@
 
             <StackPanel Orientation="Horizontal" Margin="0,22,0,8">
                 <TextBlock Text="Rituais e cerimônias" Style="{StaticResource GroupTitle}" />
-                <Button Style="{StaticResource Mini}" Content="+" Command="{Binding AddRitualCommand}" Margin="8,0,0,0"
+                <Button Style="{StaticResource RoundIconButton}" Content="+" Command="{Binding AddRitualCommand}" Margin="8,0,0,0"
                         ToolTip="Adicionar ritual" AutomationProperties.Name="Adicionar ritual" />
             </StackPanel>
             <ItemsControl ItemsSource="{Binding RitualRows}" ItemTemplate="{StaticResource RitualBlock}" AutomationProperties.Name="Rituais da ficha" />

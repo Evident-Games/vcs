@@ -71,4 +71,33 @@
             </Border>
         </ControlTemplate></Setter.Value></Setter>
     </Style>
+    <!-- Small round icon button (+, -, x) used beside fields; Width/Height/FontSize size it. -->
+    <Style x:Key="RoundIconButton" TargetType="Button">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Face" CornerRadius="10" BorderThickness="1"
+                            BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}">
+                        <TextBlock Text="{TemplateBinding Content}" FontSize="{TemplateBinding FontSize}" LineHeight="{TemplateBinding FontSize}"
+                                   LineStackingStrategy="BlockLineHeight" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource VcsAccentText}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Face" Property="Opacity" Value="0.35" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

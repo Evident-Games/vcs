@@ -37,30 +37,6 @@
                 <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="0"><Setter Property="Visibility" Value="Visible" /></DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="Mini" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Focusable" Value="False" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Face" Width="16" Height="16" CornerRadius="8" BorderThickness="1"
-                                BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}">
-                            <TextBlock Text="{TemplateBinding Content}" FontSize="11" LineHeight="11" LineStackingStrategy="BlockLineHeight"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Face" Property="Opacity" Value="0.35" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <Style x:Key="WarningMark" TargetType="Border">
             <Setter Property="Width" Value="16" />
             <Setter Property="Height" Value="16" />
@@ -150,7 +126,7 @@
                         <Button Command="{Binding ToggleDetailsCommand}" Margin="0,0,4,0" ToolTip="Referência e anotações"
                                 AutomationProperties.Name="Extras da caracteristica">
                             <Button.Style>
-                                <Style TargetType="Button" BasedOn="{StaticResource Mini}">
+                                <Style TargetType="Button" BasedOn="{StaticResource RoundIconButton}">
                                     <Setter Property="Content" Value="▸" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsExpanded}" Value="True"><Setter Property="Content" Value="▾" /></DataTrigger>
@@ -158,7 +134,7 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Style="{StaticResource Mini}" Content="×" Command="{Binding RemoveCommand}" ToolTip="Remover linha"
+                        <Button Style="{StaticResource RoundIconButton}" Content="×" Command="{Binding RemoveCommand}" ToolTip="Remover linha"
                                 AutomationProperties.Name="Remover caracteristica" />
                     </StackPanel>
                 </Grid>
@@ -190,7 +166,7 @@
     <StackPanel Margin="8,0">
         <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
             <TextBlock Text="Vantagens" Style="{StaticResource GroupTitle}" />
-            <Button Style="{StaticResource Mini}" Content="+" Command="{Binding AddAdvantageRowCommand}" Margin="8,0,0,0"
+            <Button Style="{StaticResource RoundIconButton}" Content="+" Command="{Binding AddAdvantageRowCommand}" Margin="8,0,0,0"
                     ToolTip="Adicionar vantagem" AutomationProperties.Name="Adicionar vantagem" />
         </StackPanel>
         <TextBlock Style="{StaticResource Guidance}"
@@ -202,7 +178,7 @@
 
         <StackPanel Orientation="Horizontal" Margin="0,22,0,4">
             <TextBlock Text="Defeitos" Style="{StaticResource GroupTitle}" />
-            <Button Style="{StaticResource Mini}" Content="+" Command="{Binding AddFlawRowCommand}" Margin="8,0,0,0"
+            <Button Style="{StaticResource RoundIconButton}" Content="+" Command="{Binding AddFlawRowCommand}" Margin="8,0,0,0"
                     ToolTip="Adicionar defeito" AutomationProperties.Name="Adicionar defeito" />
         </StackPanel>
         <TextBlock Style="{StaticResource Guidance}"
