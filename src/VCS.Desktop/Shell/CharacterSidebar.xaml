@@ -1,0 +1,85 @@
+<UserControl x:Class="VCS.Desktop.Shell.CharacterSidebar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Character list beside the sheets: search, new sheet and quick open. -->
+    <Border Width="230" Padding="12" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,1,0"
+            Background="{DynamicResource VcsCard}" TextElement.Foreground="{DynamicResource VcsCardText}" Visibility="{Binding Display.ShowSidebar, Converter={StaticResource BoolVisibility}}">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock Text="Personagens" FontSize="20" FontFamily="Georgia" Margin="0,0,0,12" />
+                <Border Background="{DynamicResource VcsInput}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="10" Margin="0,0,0,12" Padding="1">
+                    <DockPanel>
+                        <Button x:Name="NewSheetButton" DockPanel.Dock="Right" Content="+" Width="18" Height="18"
+                                MinWidth="18" MinHeight="18" Padding="0" FontSize="14" Click="OnNewSheetMenu"
+                                ToolTip="Criar ficha de PC ou NPC" AutomationProperties.Name="Adicionar ficha">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="Circle" CornerRadius="9" Background="{DynamicResource VcsInput}"
+                                            BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                          TextElement.Foreground="{DynamicResource VcsAccentText}" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Circle" Property="Background" Value="{DynamicResource VcsSelection}" /><Setter TargetName="Circle" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /></Trigger>
+                                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Circle" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /><Setter TargetName="Circle" Property="BorderThickness" Value="2" /></Trigger>
+                                        <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Circle" Property="Opacity" Value="0.5" /></Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Button.ContextMenu>
+                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
+                                             Background="{DynamicResource VcsCard}" Foreground="{DynamicResource VcsCardText}">
+                                    <MenuItem Header="PC / Personagem" Command="{Binding CreateCommand}" AutomationProperties.Name="Criar PC" />
+                                    <MenuItem Header="NPC / Ficha pratica" Command="{Binding CreateNpcCommand}" AutomationProperties.Name="Criar NPC" />
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ToolTip="Buscar por nome, cla ou cronica"
+                                 Background="Transparent" BorderThickness="0" Padding="7,0" MinWidth="0" MinHeight="18" Height="18" FontSize="12"
+                                 VerticalContentAlignment="Center" AutomationProperties.Name="Busca lateral de personagens" />
+                    </DockPanel>
+                </Border>
+            </StackPanel>
+            <ListBox ItemsSource="{Binding Characters}" SelectedItem="{Binding SelectedCharacter}" BorderThickness="0"
+                     ItemContainerStyle="{StaticResource SidebarRosterItem}"
+                     Background="Transparent" AutomationProperties.Name="Lista lateral de personagens">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding DataContext.OpenCharacterCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                CommandParameter="{Binding}" HorizontalContentAlignment="Stretch" MinHeight="34" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="Transparent" Padding="8,4">
+                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Button.ContextMenu>
+                                <ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
+                                             Background="{DynamicResource VcsCard}" Foreground="{DynamicResource VcsCardText}">
+                                    <MenuItem Header="Abrir ficha" Command="{Binding OpenCharacterCommand}"
+                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                    <Separator />
+                                    <MenuItem Header="Duplicar personagem" Command="{Binding DuplicateCommand}"
+                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                    <MenuItem Header="Excluir personagem..." Command="{Binding DeleteCommand}"
+                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                            <Button.Tag>
+                                <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=Window}" />
+                            </Button.Tag>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+                                           FontFamily="Georgia" FontSize="14" />
+                                <TextBlock Text="{Binding Clan}" Foreground="{DynamicResource VcsInputDescription}"
+                                           TextTrimming="CharacterEllipsis" FontSize="11" />
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+    </Border>
+</UserControl>

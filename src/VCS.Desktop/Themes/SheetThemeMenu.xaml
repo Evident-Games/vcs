@@ -1,0 +1,12 @@
+<MenuItem x:Class="VCS.Desktop.Themes.SheetThemeMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Header="Tema da ficha" IsEnabled="{Binding IsEditing}">
+    <!-- Theme of the active sheet; "Seguir aplicacao" drops the override. -->
+    <MenuItem Header="Seguir aplicacao" IsCheckable="True" IsChecked="{Binding Display.SheetFollowsApp, Mode=OneWay}"
+              Command="{Binding SelectSheetThemeCommand}" CommandParameter="" />
+    <Separator />
+    <MenuItem Header="Padrao" ItemsSource="{Binding Display.DefaultSheetThemes}" ItemContainerStyle="{StaticResource SheetThemeOptionItem}" />
+    <MenuItem Header="Clas" ItemsSource="{Binding Display.ClanSheetThemes}" ItemContainerStyle="{StaticResource SheetThemeOptionItem}" />
+    <MenuItem Header="Especiais" ItemsSource="{Binding Display.SpecialSheetThemes}" ItemContainerStyle="{StaticResource SheetThemeOptionItem}" />
+</MenuItem>

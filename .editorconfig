@@ -1,0 +1,28 @@
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+insert_final_newline = true
+
+[*.{xaml,csproj,props,pubxml,slnx}]
+indent_size = 4
+
+[*.cs]
+indent_size = 4
+
+# Kept clean by the build (EnforceCodeStyleInBuild + TreatWarningsAsErrors in Directory.Build.props).
+dotnet_diagnostic.IDE0005.severity = warning   # unused using
+dotnet_diagnostic.IDE0051.severity = warning   # unused private member
+dotnet_diagnostic.IDE0052.severity = warning   # private member written but never read
+dotnet_diagnostic.IDE0059.severity = warning   # value assigned but never used
+dotnet_diagnostic.IDE0060.severity = warning   # unused parameter
+
+# IDE0005 needs XML documentation generation; missing doc comments are not required.
+dotnet_diagnostic.CS1591.severity = none
+dotnet_diagnostic.CS1573.severity = none
+
+dotnet_sort_system_directives_first = true
+
+[**/Migrations/**.cs]
+generated_code = true

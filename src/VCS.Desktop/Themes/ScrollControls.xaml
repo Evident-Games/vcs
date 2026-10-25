@@ -11,10 +11,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Thumb">
-                    <Border x:Name="Grip" Background="{DynamicResource VcsMuted}" CornerRadius="5" Margin="3" />
+                    <Border x:Name="Grip" Background="{DynamicResource VcsScroll}" CornerRadius="5" Margin="3" />
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Grip" Property="Background" Value="{DynamicResource VcsAccent}" /></Trigger>
-                        <Trigger Property="IsDragging" Value="True"><Setter TargetName="Grip" Property="Background" Value="{DynamicResource VcsAccent}" /></Trigger>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Grip" Property="Background" Value="{DynamicResource VcsAccentHotbar}" /></Trigger>
+                        <Trigger Property="IsDragging" Value="True"><Setter TargetName="Grip" Property="Background" Value="{DynamicResource VcsAccentHotbar}" /></Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -45,7 +45,7 @@
     <Style TargetType="ScrollBar">
         <Setter Property="Width" Value="16" />
         <Setter Property="Background" Value="{DynamicResource VcsInput}" />
-        <Setter Property="Foreground" Value="{DynamicResource VcsMuted}" />
+        <Setter Property="Foreground" Value="{DynamicResource VcsScroll}" />
         <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
@@ -55,7 +55,7 @@
         </Style.Triggers>
     </Style>
     <Style TargetType="ScrollViewer">
-        <Setter Property="Foreground" Value="{DynamicResource VcsText}" />
+        <Setter Property="Foreground" Value="{DynamicResource VcsInputText}" />
         <Setter Property="controls:ScrollChaining.IsEnabled" Value="True" />
         <Setter Property="Template">
             <Setter.Value>

@@ -8,22 +8,22 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Tag="{Binding Number}" Click="SelectDot" Padding="3" Margin="1"
-                            Background="Transparent" BorderThickness="0"
+                    <Button Tag="{Binding Number}" Click="SelectDot" Margin="1"
                             ToolTip="Clique para definir o nivel; repita no ponto selecionado para diminuir. No nivel 1, repita para zerar se permitido."
                             AutomationProperties.Name="{Binding Number}">
-                        <Ellipse Width="13" Height="13" Stroke="{DynamicResource VcsAccent}" StrokeThickness="1.5">
-                            <Ellipse.Style>
-                                <Style TargetType="Ellipse">
-                                    <Setter Property="Fill" Value="Transparent" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Filled}" Value="True">
-                                            <Setter Property="Fill" Value="{DynamicResource VcsAccent}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Ellipse.Style>
-                        </Ellipse>
+                        <!-- Minimal template: a sheet has ~60 tracks of 5 dots, so each element per dot counts. -->
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="Transparent" Padding="3">
+                                    <Ellipse x:Name="Dot" Width="13" Height="13" Stroke="{DynamicResource VcsAccent}" StrokeThickness="1.5" Fill="Transparent" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Filled}" Value="True">
+                                        <Setter TargetName="Dot" Property="Fill" Value="{DynamicResource VcsAccent}" />
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
                     </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

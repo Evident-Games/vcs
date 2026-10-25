@@ -18,7 +18,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.13");
 
-            modelBuilder.Entity("VCS.Domain.Characters.AdvantageDefinition", b =>
+            modelBuilder.Entity("VCS.Domain.Advantages.AdvantageDefinition", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(80)
@@ -959,7 +959,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.ToTable("CharacterTraits", (string)null);
                 });
 
-            modelBuilder.Entity("VCS.Domain.Characters.SkillDefinition", b =>
+            modelBuilder.Entity("VCS.Domain.Skills.SkillDefinition", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -1172,6 +1172,75 @@ namespace VCS.Infrastructure.Persistence.Migrations
                             Group = "Mentais",
                             Name = "Tecnologia"
                         });
+                });
+
+            modelBuilder.Entity("VCS.Infrastructure.Persistence.ClanCatalogRecord", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Aliases")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Bane")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Disciplines")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("ClanCatalog", (string)null);
+                });
+
+            modelBuilder.Entity("VCS.Infrastructure.Persistence.PowerCatalogRecord", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(120)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AmalgamDiscipline")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("AmalgamLevel")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Cost")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DicePool")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discipline")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PowerCatalog", (string)null);
                 });
 
             modelBuilder.Entity("VCS.Infrastructure.Persistence.PredatorCatalogRecord", b =>
@@ -1405,6 +1474,12 @@ namespace VCS.Infrastructure.Persistence.Migrations
                                 .HasMaxLength(120)
                                 .HasColumnType("TEXT")
                                 .HasColumnName("Name");
+
+                            b1.Property<string>("NoteEntries")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("TEXT")
+                                .HasDefaultValue("[]");
 
                             b1.Property<string>("Notes")
                                 .IsRequired()

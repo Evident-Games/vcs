@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -6,13 +5,15 @@ using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
 using VCS.Application.Characters;
-using VCS.Desktop.Services;
-using VCS.Desktop.ViewModels;
+using VCS.Desktop.Catalogs;
+using VCS.Desktop.Sheet;
+using VCS.Domain.Advancement;
+using VCS.Domain.Advantages;
 using VCS.Domain.Characters;
-using VCS.Infrastructure.Data;
-using VCS.Infrastructure.Files;
+using VCS.Infrastructure.Catalogs;
+using VCS.Infrastructure.Catalogs.Seed;
+using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
-using VCS.Infrastructure.Repositories;
 
 namespace VCS.Tests;
 

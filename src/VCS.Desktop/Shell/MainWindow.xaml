@@ -1,0 +1,41 @@
+<ui:FluentWindow x:Class="VCS.Desktop.Shell.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:database="clr-namespace:VCS.Desktop.Database"
+    xmlns:layout="clr-namespace:VCS.Desktop.Layout"
+    xmlns:shell="clr-namespace:VCS.Desktop.Shell"
+    xmlns:themes="clr-namespace:VCS.Desktop.Themes"
+    Title="VCS - Vampire Character Sheet" Width="1240" Height="850" MinWidth="1000" MinHeight="680"
+    WindowStartupLocation="CenterScreen" ExtendsContentIntoTitleBar="True"
+    Background="{DynamicResource VcsBackground}" Foreground="{DynamicResource VcsOuterText}"
+    FontFamily="Segoe UI" FontSize="14">
+    <Grid>
+        <Grid.ContextMenu>
+            <ContextMenu><themes:AppThemeMenu /></ContextMenu>
+        </Grid.ContextMenu>
+        <Grid.InputBindings>
+            <KeyBinding Key="N" Modifiers="Control" Command="{Binding CreateCommand}" />
+            <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenCommand}" />
+            <KeyBinding Key="S" Modifiers="Control" Command="{Binding Editor.SaveCommand}" />
+        </Grid.InputBindings>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ui:TitleBar Title="VCS  /  Vampire Character Sheet" Height="30" Padding="12,0" FontSize="11"
+                     Foreground="{DynamicResource VcsHeaderText}" ButtonsForeground="{DynamicResource VcsHeaderText}" />
+        <shell:MainMenu Grid.Row="1" />
+        <Grid Grid.Row="2" IsEnabled="{Binding IsIdle}">
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+            <shell:CharacterSidebar />
+            <shell:WorkspaceView Grid.Column="1" />
+            <layout:LayoutEditorView Grid.ColumnSpan="2" />
+            <shell:HelpView Grid.ColumnSpan="2" />
+            <database:DatabaseEditorView Grid.ColumnSpan="2" />
+        </Grid>
+        <shell:StatusBar Grid.Row="3" />
+    </Grid>
+</ui:FluentWindow>

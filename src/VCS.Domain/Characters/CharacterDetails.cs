@@ -1,3 +1,6 @@
+using VCS.Domain.Advancement;
+using VCS.Domain.Predators;
+
 namespace VCS.Domain.Characters;
 
 public sealed record CharacterDetails
@@ -9,8 +12,8 @@ public sealed record CharacterDetails
     public int NpcMental { get; init; }
     public int NpcHealthCapacity { get; init; } = 5;
     public int NpcWillpowerCapacity { get; init; } = 5;
-    private readonly IReadOnlyList<NpcAttack> _npcAttacks = NpcAttackList.Empty;
-    public IReadOnlyList<NpcAttack> NpcAttacks { get => _npcAttacks; init => _npcAttacks = value is null ? null! : new NpcAttackList(value); }
+    private readonly IReadOnlyList<NpcAttack> _npcAttacks = ValueList<NpcAttack>.Empty;
+    public IReadOnlyList<NpcAttack> NpcAttacks { get => _npcAttacks; init => _npcAttacks = value is null ? null! : new ValueList<NpcAttack>(value); }
     public string Name { get; init; } = "Novo personagem";
     public string MortalName { get; init; } = "";
     public string Clan { get; init; } = "";
@@ -22,7 +25,10 @@ public sealed record CharacterDetails
     public string Concept { get; init; } = "";
     public string Chronicle { get; init; } = "";
     public string Description { get; init; } = "";
+    /// <summary>Single free-text notes; NPC sheets use it, PC sheets moved to <see cref="NoteEntries"/>.</summary>
     public string Notes { get; init; } = "";
+    private readonly IReadOnlyList<CharacterNote> _noteEntries = ValueList<CharacterNote>.Empty;
+    public IReadOnlyList<CharacterNote> NoteEntries { get => _noteEntries; init => _noteEntries = value is null ? null! : new ValueList<CharacterNote>(value); }
     public string Ambition { get; init; } = "";
     public string Desire { get; init; } = "";
     public string Resonance { get; init; } = "";
@@ -54,21 +60,4 @@ public sealed record CharacterDetails
     public int HealthAggravated { get; init; }
     public int WillpowerSuperficial { get; init; }
     public int WillpowerAggravated { get; init; }
-}
-
-public sealed record NpcAttack(string Name = "", string DicePool = "", string DamageBonus = "",
-    string DamageType = "", string ActiveDisciplines = "", string Notes = "");
-
-// Value-equality list so CharacterDetails record comparisons ignore the collection instance.
-public sealed class NpcAttackList(IEnumerable<NpcAttack> attacks) : IReadOnlyList<NpcAttack>, IEquatable<NpcAttackList>
-{
-    private readonly NpcAttack[] _items = [.. attacks];
-    public static NpcAttackList Empty { get; } = new([]);
-    public NpcAttack this[int index] => _items[index];
-    public int Count => _items.Length;
-    public IEnumerator<NpcAttack> GetEnumerator() => ((IEnumerable<NpcAttack>)_items).GetEnumerator();
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _items.GetEnumerator();
-    public bool Equals(NpcAttackList? other) => other is not null && _items.SequenceEqual(other._items);
-    public override bool Equals(object? obj) => Equals(obj as NpcAttackList);
-    public override int GetHashCode() => _items.Aggregate(_items.Length, HashCode.Combine);
 }

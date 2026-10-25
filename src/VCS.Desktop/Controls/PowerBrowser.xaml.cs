@@ -1,6 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
-using VCS.Desktop.ViewModels;
+using VCS.Desktop.Catalogs;
 
 namespace VCS.Desktop.Controls;
 
