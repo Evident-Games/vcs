@@ -40,6 +40,21 @@ public sealed class PersistenceTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task Upgrade_renames_blood_check_and_resolve_in_saved_powers()
+    {
+        var created = await _service.CreateAsync();
+        var power = new VCS.Domain.Characters.TraitValue(VCS.Domain.Characters.TraitCategory.DisciplinePower, "p", "Visao", 1,
+            Power: new("Auspícios", "1 Teste de Incitar o Sangue", "Perseverança + Auspícios"));
+        await _service.SaveAsync(created with { Traits = [.. created.Traits, power] });
+        await using (var db = _database.CreateContext())
+            await db.GetService<IMigrator>().MigrateAsync("20261025130648_EditableClansAndPowers");
+        await _maintenance.InitializeAsync();
+        var saved = (await _service.GetAsync(created.Id)).Traits.Single(x => x.Key == "p").Power!;
+        Assert.Equal("1 checagem de sangue", saved.Cost);
+        Assert.Equal("Determinação + Auspícios", saved.DicePool);
+    }
+
+    [Fact]
     public async Task Save_warm_up_rolls_back_and_leaves_data_unchanged()
     {
         await _service.WarmUpAsync();
@@ -77,7 +92,7 @@ public sealed class PersistenceTests : IAsyncLifetime
         Assert.Single(await _service.ListAsync());
         await using var db = _database.CreateContext();
         Assert.Equal(10, await db.Set<Domain.Characters.CharacterTrait>().CountAsync());
-        Assert.Equal(14, (await db.Database.GetAppliedMigrationsAsync()).Count());
+        Assert.Equal(15, (await db.Database.GetAppliedMigrationsAsync()).Count());
         Assert.False(db.Database.HasPendingModelChanges());
     }
 
