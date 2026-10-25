@@ -42,7 +42,7 @@ public static class CharacterRules
         issues.AddRange(LoresheetRules.Validate(details, traits));
         issues.AddRange(PredatorRules.Validate(details, traits));
         if (CharacterAdvancement.ValidateHistory(details, traits) is { } advancementIssue)
-            issues.Add(new("Advancement", advancementIssue));
+            issues.Add(new(nameof(CharacterDetails.Advancement), advancementIssue));
         void Text(string field, string? value, int max, bool required = false)
         {
             if (value is null || (required && string.IsNullOrWhiteSpace(value)) || value.Length > max)
@@ -88,10 +88,10 @@ public static class CharacterRules
             details.CampaignExperienceSpent > details.CampaignExperienceTotal ||
             details.CampaignExperienceSpent > details.ExperienceSpent ||
             (long)details.ExperienceTotal - details.ExperienceSpent < LoresheetRules.CampaignAvailable(details)))
-            issues.Add(new("CampaignExperienceTotal", "As fontes de XP nao conferem: campanha faz parte do total e seus gastos nao podem exceder o recebido."));
+            issues.Add(new(nameof(CharacterDetails.CampaignExperienceTotal), "As fontes de XP nao conferem: campanha faz parte do total e seus gastos nao podem exceder o recebido."));
         if (details.Advancement is { HasCreationProfile: true } profile && Enum.IsDefined(profile.Age) &&
             details.CampaignExperienceTotal > details.ExperienceTotal - CharacterAdvancement.StartingXp(profile.Age))
-            issues.Add(new("CampaignExperienceTotal", "O bonus inicial de Neofito/Ancillae nao pode ser classificado como XP de campanha."));
+            issues.Add(new(nameof(CharacterDetails.CampaignExperienceTotal), "O bonus inicial de Neofito/Ancillae nao pode ser classificado como XP de campanha."));
         if (details.Advancement?.AutomaticExperience != true && details.ExperienceSpent > details.ExperienceTotal)
             issues.Add(new(nameof(details.ExperienceSpent), "A experiencia gasta nao pode exceder a experiencia total."));
         Range(nameof(details.Generation), details.Generation, 1, 16);
@@ -120,7 +120,7 @@ public static class CharacterRules
             issues.Add(new("Willpower", "A Forca de Vontade de NPC usa somente caixas com X."));
 
         if (traits.Count > 200)
-            issues.Add(new("Traits", "Uma ficha pode ter no maximo 200 tracos."));
+            issues.Add(new(nameof(Character.Traits), "Uma ficha pode ter no maximo 200 tracos."));
         foreach (var trait in traits)
         {
             Text("Trait.Key", trait.Key, 80, true);
@@ -131,13 +131,13 @@ public static class CharacterRules
                 Text("Trait.Merit.Group", merit.Group, 80, true);
                 Text("Trait.Merit.Description", merit.Description, 20000);
                 if (trait.Category is not (TraitCategory.Advantage or TraitCategory.Flaw))
-                    issues.Add(new("Traits", "Familia e descricao pessoal devem pertencer a vantagens ou defeitos."));
+                    issues.Add(new(nameof(Character.Traits), "Familia e descricao pessoal devem pertencer a vantagens ou defeitos."));
             }
             if (trait.Skill is { } skill)
             {
                 Text("Trait.Skill.Group", skill.Group, 80, true);
                 if (trait.Category != TraitCategory.Skill)
-                    issues.Add(new("Traits", "O grupo pessoal deve pertencer a uma habilidade."));
+                    issues.Add(new(nameof(Character.Traits), "O grupo pessoal deve pertencer a uma habilidade."));
             }
             if (trait.Power is { } power)
             {
@@ -150,23 +150,23 @@ public static class CharacterRules
                              ("Process", power.Process), ("System", power.System) })
                     Text($"Trait.Power.{field}", text, 20000);
                 if (trait.Category != TraitCategory.DisciplinePower)
-                    issues.Add(new("Traits", "Detalhes de poder devem pertencer a poderes ou rituais."));
+                    issues.Add(new(nameof(Character.Traits), "Detalhes de poder devem pertencer a poderes ou rituais."));
             }
             if (trait.Category != TraitCategory.Skill && !string.IsNullOrEmpty(trait.Specialization))
-                issues.Add(new("Traits", "Especializacoes devem pertencer a habilidades."));
+                issues.Add(new(nameof(Character.Traits), "Especializacoes devem pertencer a habilidades."));
             if (!Enum.IsDefined(trait.Category))
-                issues.Add(new("Traits", "Categoria de traco desconhecida."));
+                issues.Add(new(nameof(Character.Traits), "Categoria de traco desconhecida."));
             Range(trait.Name, trait.Rating,
                 trait.Category is TraitCategory.DisciplinePower ? 1 : 0, 5);
         }
         if (traits.GroupBy(x => (x.Category, x.Key?.ToUpperInvariant())).Any(x => x.Count() > 1))
-            issues.Add(new("Traits", "Existem identificadores de traco duplicados."));
+            issues.Add(new(nameof(Character.Traits), "Existem identificadores de traco duplicados."));
 
         var attributes = traits.Where(x => x.Category == TraitCategory.Attribute).ToList();
         var validAttributes = attributes.Count == DefaultAttributes.Count &&
             DefaultAttributes.All(x => attributes.Count(a => a.Key == x.Key) == 1);
         if (!validAttributes)
-            issues.Add(new("Attributes", "A ficha deve conter exatamente os nove atributos basicos."));
+            issues.Add(new(SheetSection.Attributes, "A ficha deve conter exatamente os nove atributos basicos."));
         else
         {
             Damage("Health", details.HealthSuperficial, details.HealthAggravated,

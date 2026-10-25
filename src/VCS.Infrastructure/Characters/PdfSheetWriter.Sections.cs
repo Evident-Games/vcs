@@ -27,8 +27,8 @@ internal sealed partial class PdfSheetWriter
             Heading(section.Title);
             switch (section.Key)
             {
-                case "Identity": Identity(_character.Details.IsNpc); break;
-                case "Attributes":
+                case SheetSection.Identity: Identity(_character.Details.IsNpc); break;
+                case SheetSection.Attributes:
                     if (_character.Details.IsNpc)
                     {
                         Rating("Fisicos", _character.Details.NpcPhysical, 5);
@@ -39,11 +39,11 @@ internal sealed partial class PdfSheetWriter
                     foreach (var reference in CharacterRules.DefaultAttributes)
                         Rating(reference.Name, _character.Traits.Single(x => x.Category == TraitCategory.Attribute && x.Key == reference.Key).Rating, 5);
                     break;
-                case "Skills": Skills(); break;
-                case "Disciplines": Disciplines(); break;
-                case "Advantages": Advantages(); break;
-                case "State": State(); break;
-                case "Background":
+                case SheetSection.Skills: Skills(); break;
+                case SheetSection.Disciplines: Disciplines(); break;
+                case SheetSection.Advantages: Advantages(); break;
+                case SheetSection.State: State(); break;
+                case SheetSection.Background:
                     if (_character.Details.IsNpc)
                     {
                         Text("Conceito", _character.Details.Concept);
@@ -55,12 +55,12 @@ internal sealed partial class PdfSheetWriter
                     Text("Experiencia total", _character.Details.ExperienceTotal.ToString(CultureInfo.InvariantCulture));
                     Text("Experiencia gasta", _character.Details.ExperienceSpent.ToString(CultureInfo.InvariantCulture));
                     break;
-                case "Notes": Text("Notas", _character.Details.Notes, true); break;
+                case SheetSection.Notes: Text("Notas", _character.Details.Notes, true); break;
                 default: throw new InvalidDataException($"Secao PDF desconhecida: {section.Key}.");
             }
             if (_character.Details.Advancement is { } advancement)
             {
-                if (advancement.AutomaticExperience && section.Key != "Background") continue;
+                if (advancement.AutomaticExperience && section.Key != SheetSection.Background) continue;
                 Heading(advancement.AutomaticExperience ? "Experiencia" : "Criacao e evolucao / XP");
                 if (!advancement.AutomaticExperience)
                     Text("Etapa", advancement.IsCreating ? "Em criacao" : "Evolucao");

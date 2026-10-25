@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using VCS.Domain.Advancement;
 using VCS.Domain.Advantages;
+using VCS.Domain.Characters;
 using VCS.Domain.Clans;
 
 namespace VCS.Desktop.Sheet;
@@ -53,7 +54,7 @@ public partial class CharacterEditorViewModel
         {
             if (IsAttributeSpreadCustom) return "Distribuição personalizada — atributos não geram XP.";
             if (!IsAttributeBaseLocked) return InitialAttributesRemaining;
-            var spent = _experienceCalculation?.Costs.Where(x => x.Section == "Attributes").Sum(x => x.Cost) ?? 0;
+            var spent = _experienceCalculation?.Costs.Where(x => x.Section == SheetSection.Attributes).Sum(x => x.Cost) ?? 0;
             return spent == 0 ? "Nenhum XP gasto em atributos." : $"Total em atributos: {spent} XP.";
         }
     }
@@ -77,7 +78,7 @@ public partial class CharacterEditorViewModel
                 attribute.AdvancementInfo = "";
                 continue;
             }
-            var spent = _experienceCalculation?.Costs.FirstOrDefault(x => x.Section == "Attributes" && x.Name == attribute.Name)?.Cost ?? 0;
+            var spent = _experienceCalculation?.Costs.FirstOrDefault(x => x.Section == SheetSection.Attributes && x.Name == attribute.Name)?.Cost ?? 0;
             var next = attribute.Rating >= 5 ? "" : attribute.Rating < baseRating
                 ? "\npróximo sem custo" : $"\npróximo +{(attribute.Rating + 1) * 5} XP";
             attribute.AdvancementInfo = spent > 0 ? $"base {baseRating} · {spent} XP{next}" : $"base {baseRating}{next}";
@@ -119,7 +120,7 @@ public partial class CharacterEditorViewModel
     }
     public bool IsInitialDisciplinesComplete => MissingDisciplines().Length == 0;
     public string InitialDisciplinesStatus => MissingDisciplines() is { Length: > 0 } missing ? $"Faltam: {DotSpread(missing)}" : "✓ completa";
-    public int DisciplinesExperienceTotal => _experienceCalculation?.Costs.Where(x => x.Section == "Disciplines").Sum(x => x.Cost) ?? 0;
+    public int DisciplinesExperienceTotal => _experienceCalculation?.Costs.Where(x => x.Section == SheetSection.Disciplines).Sum(x => x.Cost) ?? 0;
     public string DisciplinesExperienceHelp =>
         "Cada nível acima dos pontos iniciais custa o novo nível × 5 XP (do clã) ou × 7 XP (fora do clã).\n\n" +
         (string.IsNullOrEmpty(DisciplinesExperience) ? "Nenhum XP gasto em disciplinas." : DisciplinesExperience);
@@ -139,7 +140,7 @@ public partial class CharacterEditorViewModel
             var selected = CharacterAdvancement.AdvantagePoints(traits);
             var status = selected < budget ? $"faltam {budget - selected}"
                 : selected > budget ? $"excedente {selected - budget} × 3 = {(selected - budget) * 3} XP" : "✓ completos";
-            var xp = _experienceCalculation?.Costs.Where(x => x.Section == "Advantages").Sum(x => x.Cost) ?? 0;
+            var xp = _experienceCalculation?.Costs.Where(x => x.Section == SheetSection.Advantages).Sum(x => x.Cost) ?? 0;
             return $"Base da idade: {budget} pontos · Usados: {selected} · {status}" +
                 (xp > 0 ? $" · XP em vantagens: {xp}" : "") + ". Cada ponto acima da base custa 3 XP; os do predador são gratuitos.";
         }
@@ -168,7 +169,7 @@ public partial class CharacterEditorViewModel
         "Gratuitas: 1 por ficha; +1 em cada habilidade que chega a 4; +1 no primeiro ponto de " +
         "Erudição, Ofícios, Performance e Ciência. A do predador é adicional e aplicada automaticamente.\n\n" +
         "Cada especialização além das gratuitas custa 3 XP.";
-    public int SkillsExperienceTotal => _experienceCalculation?.Costs.Where(x => x.Section == "Skills").Sum(x => x.Cost) ?? 0;
+    public int SkillsExperienceTotal => _experienceCalculation?.Costs.Where(x => x.Section == SheetSection.Skills).Sum(x => x.Cost) ?? 0;
     public string SkillsExperienceHelp =>
         "Cada ponto acima da distribuição inicial custa o novo nível × 3 XP (ex.: 2→3 = 9 XP).\n\n" +
         (string.IsNullOrEmpty(SkillsExperience) ? "Nenhum XP gasto em habilidades." : SkillsExperience);
@@ -179,12 +180,12 @@ public partial class CharacterEditorViewModel
         "Separe uma especializacao por linha ou por ponto e virgula. Excedentes: 3 XP cada, calculados automaticamente.";
     public int InitialExperience => CharacterAdvancement.StartingXp((VampireAge)AgeIndex);
     public int MaximumCampaignExperience => 1000000 - InitialExperience;
-    public string ExperienceWarning => SectionExperience("Background");
-    public string AttributesExperience => SectionExperience("Attributes");
-    public string SkillsExperience => SectionExperience("Skills");
-    public string DisciplinesExperience => SectionExperience("Disciplines");
-    public string AdvantagesExperience => SectionExperience("Advantages");
-    public string StateExperience => SectionExperience("State");
+    public string ExperienceWarning => SectionExperience(SheetSection.Background);
+    public string AttributesExperience => SectionExperience(SheetSection.Attributes);
+    public string SkillsExperience => SectionExperience(SheetSection.Skills);
+    public string DisciplinesExperience => SectionExperience(SheetSection.Disciplines);
+    public string AdvantagesExperience => SectionExperience(SheetSection.Advantages);
+    public string StateExperience => SectionExperience(SheetSection.State);
     public string[] ExperienceBreakdown => _experienceCalculation?.Costs.Select(x => $"{x.Name}: {x.Cost} XP.").ToArray() ?? [];
     private string SectionExperience(string section) => _experienceCalculation is not { } calculation ? "" :
         string.Join(Environment.NewLine, calculation.Costs.Where(x => x.Section == section).Select(x => $"{x.Name}: {x.Cost} XP.")

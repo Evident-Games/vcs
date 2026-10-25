@@ -140,7 +140,7 @@ public static class PredatorRules
     public static IReadOnlyList<ValidationIssue> Validate(CharacterDetails details, IReadOnlyList<TraitValue> traits)
     {
         if (details.PredatorSelection is not { } receipt)
-            return traits.Any(IsGrant) ? [new("Predator", "Pontos de predador sem registro de origem.")] : [];
+            return traits.Any(IsGrant) ? [new(nameof(CharacterDetails.Predator), "Pontos de predador sem registro de origem.")] : [];
         var definition = PredatorCatalog.Find(receipt.Id);
         if (definition is null || receipt.Grants is null || receipt.Grants.Length > 20 ||
             receipt.Grants.Any(x => x is null || string.IsNullOrWhiteSpace(x.Key) || string.IsNullOrWhiteSpace(x.Name) ||
@@ -158,7 +158,7 @@ public static class PredatorRules
                 (x.IsFreeText || ClanCatalog.SameName(x.Text, receipt.Specialization))) ||
             receipt.HumanityDelta != definition.HumanityDelta || receipt.BloodDelta != definition.BloodDelta ||
             !ClanCatalog.SameName(details.Predator, definition.Name))
-            return [new("Predator", "Registro dos bonus do predador invalido ou nome diferente do predador aplicado.")];
+            return [new(nameof(CharacterDetails.Predator), "Registro dos bonus do predador invalido ou nome diferente do predador aplicado.")];
         if (details.Advancement?.IsCreating != true) return [];
         try
         {
@@ -175,9 +175,9 @@ public static class PredatorRules
                 receipt.SkillKey.Length > 0 && !traits.Any(x => x.Key == receipt.SkillKey && x.Category == TraitCategory.Skill &&
                     x.Specialization.Split([',', ';', '\r', '\n'], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
                         .Any(s => ClanCatalog.SameName(s, receipt.Specialization))))
-                return [new("Predator", "Os bonus/custos do predador foram alterados. Remova e reaplique o predador antes de concluir.")];
+                return [new(nameof(CharacterDetails.Predator), "Os bonus/custos do predador foram alterados. Remova e reaplique o predador antes de concluir.")];
         }
-        catch (InvalidOperationException exception) { return [new("Predator", exception.Message)]; }
+        catch (InvalidOperationException exception) { return [new(nameof(CharacterDetails.Predator), exception.Message)]; }
         return [];
     }
 }
