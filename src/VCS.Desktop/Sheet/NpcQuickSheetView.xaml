@@ -14,31 +14,11 @@
             <Setter Property="Margin" Value="0,0,8,0" />
         </Style>
         <!-- Round "bolinha" buttons, same look as the player sheet's mini buttons. -->
-        <Style x:Key="NpcSmallButton" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Focusable" Value="False" />
-            <Setter Property="Background" Value="Transparent" />
+        <Style x:Key="NpcSmallButton" TargetType="Button" BasedOn="{StaticResource RoundIconButton}">
             <Setter Property="Margin" Value="2,0" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Face" Width="18" Height="18" CornerRadius="9" BorderThickness="1"
-                                BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}">
-                            <TextBlock Text="{TemplateBinding Content}" FontSize="12" LineHeight="12" LineStackingStrategy="BlockLineHeight"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsAccentText}" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Face" Property="Opacity" Value="0.35" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Width" Value="18" />
+            <Setter Property="Height" Value="18" />
+            <Setter Property="FontSize" Value="12" />
         </Style>
         <!-- Typed box count between the − and + bolinhas. -->
         <Style x:Key="NpcCount" TargetType="TextBox" BasedOn="{StaticResource PaperLineTextBox}">
