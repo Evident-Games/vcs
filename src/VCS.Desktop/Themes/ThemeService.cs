@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using Wpf.Ui.Appearance;
 
@@ -37,20 +38,30 @@ public sealed class ThemeService
         _accent = accent;
         foreach (Window window in System.Windows.Application.Current.Windows)
         {
-            window.SetResourceReference(System.Windows.Controls.Control.BackgroundProperty, "VcsBackground");
-            window.SetResourceReference(System.Windows.Controls.Control.ForegroundProperty, "VcsOuterText");
+            window.SetResourceReference(Control.BackgroundProperty, "VcsBackground");
+            window.SetResourceReference(Control.ForegroundProperty, "VcsOuterText");
         }
         _appliedTheme = themeId;
     }
 
-    /// <summary>Loads one block of a theme file under the shared Vcs* keys the styles use.</summary>
+    /// <summary>
+    /// Loads one block of a theme file under the shared Vcs* keys the styles use. The application block may
+    /// list only what differs: missing colors come from the sheet block, header and footer text from outer text.
+    /// </summary>
     public static ResourceDictionary Load(ThemeDefinition theme, ThemePart part = ThemePart.Application)
     {
         var file = new ResourceDictionary { Source = new Uri(theme.ResourcePath, UriKind.Relative) };
-        var prefix = part == ThemePart.Application ? "VcsApp" : "VcsSheet";
         var palette = new ResourceDictionary();
-        foreach (var key in file.Keys.OfType<string>().Where(x => x.StartsWith(prefix, StringComparison.Ordinal)))
-            palette["Vcs" + key[prefix.Length..]] = file[key];
+        void Copy(string prefix)
+        {
+            foreach (var key in file.Keys.OfType<string>().Where(x => x.StartsWith(prefix, StringComparison.Ordinal)))
+                palette["Vcs" + key[prefix.Length..]] = file[key];
+        }
+        Copy("VcsSheet");
+        if (part == ThemePart.Sheet) return palette;
+        Copy("VcsApp");
+        foreach (var key in new[] { "VcsHeaderText", "VcsFooterText" })
+            if (!palette.Contains(key)) palette[key] = palette["VcsOuterText"];
         return palette;
     }
 
