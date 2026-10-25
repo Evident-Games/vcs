@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using VCS.Application.Catalogs;
 using VCS.Application.Characters;
 using VCS.Desktop.Catalogs;
-using VCS.Desktop.Layout;
 using VCS.Domain.Advancement;
 using VCS.Domain.Advantages;
 using VCS.Domain.Characters;
@@ -193,68 +191,11 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     }
     [ObservableProperty] private bool isDirty;
     [ObservableProperty] private bool isSaving;
-    /// <summary>Theme used inside this sheet; null follows the application theme.</summary>
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(EffectiveSheetThemeId))]
-    private string? sheetThemeId;
-    public string EffectiveSheetThemeId => SheetThemeId ?? Display.ThemeId;
     [ObservableProperty] private string error = "";
     [ObservableProperty] private string status = "Salvo localmente";
     [ObservableProperty] private int experienceTotal;
     [ObservableProperty] private int experienceSpent;
     public int ExperienceAvailable => ExperienceTotal - ExperienceSpent;
-    public DisplaySettingsViewModel Display { get; private set; } = new();
-    public ObservableCollection<EditorSection> VisibleSections { get; } = [];
-    public ObservableCollection<EditorTab> VisibleTabs { get; } = [];
-    [ObservableProperty] private EditorTab? selectedTab;
-    public bool NoVisibleSections => VisibleSections.Count == 0;
-    /// <summary>Section arrangement for this sheet's kind (PC or NPC).</summary>
-    public SheetLayout Layout => Display.LayoutFor(IsNpc);
-    public void ConfigureDisplay(DisplaySettingsViewModel display)
-    {
-        Layout.Changed -= OnLayoutChanged;
-        Display.PropertyChanged -= OnDisplayPropertyChanged;
-        Display = display;
-        Layout.Changed += OnLayoutChanged;
-        Display.PropertyChanged += OnDisplayPropertyChanged;
-        OnPropertyChanged(nameof(Display));
-        OnPropertyChanged(nameof(Layout));
-        OnPropertyChanged(nameof(EffectiveSheetThemeId));
-        RefreshSections();
-    }
-    private void OnLayoutChanged(object? sender, EventArgs e) => RefreshSections();
-    private void OnDisplayPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(DisplaySettingsViewModel.ThemeId)) OnPropertyChanged(nameof(EffectiveSheetThemeId));
-    }
-    /// <summary>
-    /// Syncs the shown sections with the layout, reusing existing section objects so their views are not rebuilt.
-    /// Titles and bento sizes are bound live to the options, so only order, visibility and tabs need work here.
-    /// </summary>
-    private void RefreshSections()
-    {
-        var wanted = Layout.Sections.Where(x => x.IsVisible).OrderBy(x => x.SectionOrder).ToArray();
-        var existing = VisibleSections.ToDictionary(x => x.Option);
-        for (var i = VisibleSections.Count - 1; i >= 0; i--)
-            if (!wanted.Contains(VisibleSections[i].Option)) VisibleSections.RemoveAt(i);
-        for (var i = 0; i < wanted.Length; i++)
-        {
-            if (!existing.TryGetValue(wanted[i], out var section)) VisibleSections.Insert(i, new(wanted[i], this));
-            else if (VisibleSections.IndexOf(section) is var from && from != i) VisibleSections.Move(from, i);
-        }
-        var tabs = VisibleSections.GroupBy(x => SheetLayout.TabKey(x.Option), StringComparer.OrdinalIgnoreCase)
-            .OrderBy(g => g.Min(x => x.Option.TabOrder)).Select(g => new EditorTab(g.Key, g.ToArray())).ToArray();
-        var sameTabs = tabs.Length == VisibleTabs.Count && tabs.Zip(VisibleTabs).All(x =>
-            x.First.Title == x.Second.Title && x.First.Sections.SequenceEqual(x.Second.Sections));
-        if (!sameTabs)
-        {
-            var tabKey = SelectedTab?.Sections.FirstOrDefault()?.Key;
-            VisibleTabs.Clear();
-            foreach (var tab in tabs) VisibleTabs.Add(tab);
-            SelectedTab = VisibleTabs.FirstOrDefault(x => x.Sections.Any(s => s.Key == tabKey)) ?? VisibleTabs.FirstOrDefault();
-        }
-        OnPropertyChanged(nameof(NoVisibleSections));
-    }
     public SheetFieldViewModel[] IdentityFields { get; }
     public AdvantageCatalogViewModel? AdvantageCatalog { get; private set; }
     public void ConfigureAdvantageCatalog(IReadOnlyList<AdvantageDefinition> entries)
@@ -386,100 +327,6 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     }
 
     private void OnPowersChanged(object? sender, EventArgs e) => MarkChanged();
-
-    private void MarkChanged()
-    {
-        RecalculateExperience();
-        _changeVersion++;
-        IsDirty = true;
-        Error = "";
-        Status = "Alteracoes nao salvas";
-        ValidateDraft();
-        RefreshCreation();
-        _autosave.Schedule(async () => { await FlushAsync(); });
-    }
-
-    private CharacterDto Snapshot() => _current with
-    {
-        Details = new()
-        {
-            Advancement = _advancement,
-            PredatorSelection = _predatorSelection, Stains = Stains,
-            IsNpc = IsNpc, NpcPhysical = NpcPhysical, NpcSocial = NpcSocial, NpcMental = NpcMental,
-            NpcHealthCapacity = NpcHealthCapacity, NpcWillpowerCapacity = NpcWillpowerCapacity,
-            Name = Name, MortalName = MortalName, Clan = Clan, Generation = Generation,
-            Sire = Sire, Predator = Predator, Concept = Concept, Chronicle = Chronicle,
-            Description = Description, Notes = Notes, Hunger = Hunger, Humanity = Humanity,
-            BloodPotency = BloodPotency, HealthSuperficial = HealthSuperficial, HealthAggravated = HealthAggravated,
-            WillpowerSuperficial = WillpowerSuperficial, WillpowerAggravated = WillpowerAggravated,
-            Ambition = Extra("Ambition"), Desire = Extra("Desire"), Resonance = Extra("Resonance"),
-            ChronicleTenets = Extra("ChronicleTenets"), Touchstones = Extra("Touchstones"), Convictions = Extra("Convictions"),
-            ClanBane = Extra("ClanBane"), TrueAge = Extra("TrueAge"), ApparentAge = Extra("ApparentAge"),
-            BirthDate = Extra("BirthDate"), DeathDate = Extra("DeathDate"), Appearance = Extra("Appearance"),
-            DistinguishingFeatures = Extra("DistinguishingFeatures"), History = Extra("History"),
-            BloodSurge = Extra("BloodSurge"), DamageMend = Extra("DamageMend"), PowerBonus = Extra("PowerBonus"),
-            RouseReroll = Extra("RouseReroll"), FeedingPenalty = Extra("FeedingPenalty"), BaneSeverity = Extra("BaneSeverity"),
-            ExperienceTotal = ExperienceTotal, ExperienceSpent = ExperienceSpent,
-            CampaignExperienceTotal = CampaignExperienceTotal, CampaignExperienceSpent = CampaignExperienceSpent,
-            NpcAttacks = [.. NpcAttacks.Select(x => x.ToValue())]
-        },
-        Traits = [.. Groups.SelectMany(x => x.Items).Select(x => x.ToValue()), .. Powers.SelectedValues()]
-    };
-    private string Extra(string key) => _extraFields[key].Value;
-
-    private void ValidateDraft()
-    {
-        var snapshot = Snapshot();
-        var previousFields = _issues.Select(x => x.Field).ToArray();
-        _issues = CharacterRules.Validate(snapshot.Details, snapshot.Traits);
-        foreach (var field in previousFields.Concat(_issues.Select(x => x.Field)).Distinct())
-            ErrorsChanged?.Invoke(this, new(field));
-        OnPropertyChanged(nameof(HasErrors));
-        OnPropertyChanged(nameof(ValidationSummary));
-    }
-
-    [RelayCommand]
-    private async Task SaveAsync() => await FlushAsync();
-
-    public async Task<bool> FlushAsync()
-    {
-        _autosave.Cancel();
-        await _saveGate.WaitAsync();
-        try
-        {
-            if (!IsDirty) return true;
-            ValidateDraft();
-            if (HasErrors)
-            {
-                Status = "Corrija a validacao para salvar";
-                return false;
-            }
-            IsSaving = true;
-            Error = "";
-            Status = "Salvando...";
-            var version = _changeVersion;
-            var saved = await _service.SaveAsync(Snapshot());
-            _current = saved;
-            Saved?.Invoke(saved);
-            OnPropertyChanged(nameof(UpdatedUtc));
-            IsDirty = version != _changeVersion;
-            Status = IsDirty ? "Alteracoes nao salvas" : $"Salvo as {DateTime.Now:HH:mm:ss}";
-            if (IsDirty && !_disposed) _autosave.Schedule(async () => { await FlushAsync(); });
-            return !IsDirty;
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "Falha ao salvar personagem {CharacterId}", Id);
-            Error = exception.Message;
-            Status = "Falha ao salvar; alteracoes continuam pendentes";
-            return false;
-        }
-        finally
-        {
-            IsSaving = false;
-            _saveGate.Release();
-        }
-    }
 
     public void Dispose()
     {
