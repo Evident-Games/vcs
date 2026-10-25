@@ -49,6 +49,15 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         name = d.Name; mortalName = d.MortalName; clan = d.Clan; generation = d.Generation;
         sire = d.Sire; predator = d.Predator; concept = d.Concept; chronicle = d.Chronicle;
         description = d.Description; notes = d.Notes;
+        // PC sheets keep notes as a titled list; older sheets bring their single text in as the first note.
+        var noteEntries = d.NoteEntries;
+        if (!d.IsNpc && noteEntries.Count == 0 && !string.IsNullOrWhiteSpace(d.Notes))
+        {
+            noteEntries = [new(character.Id, "Anotações", d.Notes, character.UpdatedUtc)];
+            notes = "";
+        }
+        Notebook = new(noteEntries);
+        Notebook.Changed += OnNotebookChanged;
         hunger = d.Hunger; humanity = d.Humanity; bloodPotency = d.BloodPotency;
         healthSuperficial = d.HealthSuperficial; healthAggravated = d.HealthAggravated;
         willpowerSuperficial = d.WillpowerSuperficial; willpowerAggravated = d.WillpowerAggravated;
@@ -134,6 +143,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     [ObservableProperty] private string chronicle;
     [ObservableProperty] private string description;
     [ObservableProperty] private string notes;
+    public NotesViewModel Notebook { get; }
+    private void OnNotebookChanged(object? sender, EventArgs e) => MarkChanged();
     [ObservableProperty] private int hunger;
     [ObservableProperty] private int humanity;
     [ObservableProperty] private int bloodPotency;
@@ -345,6 +356,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         Display.PropertyChanged -= OnDisplayPropertyChanged;
         foreach (var field in ExtraFields) field.PropertyChanged -= OnExtraFieldChanged;
         DetachNpcAttacks();
+        Notebook.Changed -= OnNotebookChanged;
         foreach (var group in Groups)
         {
             group.Changed -= OnTraitsChanged;

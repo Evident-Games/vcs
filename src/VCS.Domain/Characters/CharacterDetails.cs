@@ -12,8 +12,8 @@ public sealed record CharacterDetails
     public int NpcMental { get; init; }
     public int NpcHealthCapacity { get; init; } = 5;
     public int NpcWillpowerCapacity { get; init; } = 5;
-    private readonly IReadOnlyList<NpcAttack> _npcAttacks = NpcAttackList.Empty;
-    public IReadOnlyList<NpcAttack> NpcAttacks { get => _npcAttacks; init => _npcAttacks = value is null ? null! : new NpcAttackList(value); }
+    private readonly IReadOnlyList<NpcAttack> _npcAttacks = ValueList<NpcAttack>.Empty;
+    public IReadOnlyList<NpcAttack> NpcAttacks { get => _npcAttacks; init => _npcAttacks = value is null ? null! : new ValueList<NpcAttack>(value); }
     public string Name { get; init; } = "Novo personagem";
     public string MortalName { get; init; } = "";
     public string Clan { get; init; } = "";
@@ -25,7 +25,10 @@ public sealed record CharacterDetails
     public string Concept { get; init; } = "";
     public string Chronicle { get; init; } = "";
     public string Description { get; init; } = "";
+    /// <summary>Single free-text notes; NPC sheets use it, PC sheets moved to <see cref="NoteEntries"/>.</summary>
     public string Notes { get; init; } = "";
+    private readonly IReadOnlyList<CharacterNote> _noteEntries = ValueList<CharacterNote>.Empty;
+    public IReadOnlyList<CharacterNote> NoteEntries { get => _noteEntries; init => _noteEntries = value is null ? null! : new ValueList<CharacterNote>(value); }
     public string Ambition { get; init; } = "";
     public string Desire { get; init; } = "";
     public string Resonance { get; init; } = "";

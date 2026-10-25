@@ -42,7 +42,8 @@ public partial class CharacterEditorViewModel
             RouseReroll = Extra("RouseReroll"), FeedingPenalty = Extra("FeedingPenalty"), BaneSeverity = Extra("BaneSeverity"),
             ExperienceTotal = ExperienceTotal, ExperienceSpent = ExperienceSpent,
             CampaignExperienceTotal = CampaignExperienceTotal, CampaignExperienceSpent = CampaignExperienceSpent,
-            NpcAttacks = [.. NpcAttacks.Select(x => x.ToValue())]
+            NpcAttacks = [.. NpcAttacks.Select(x => x.ToValue())],
+            NoteEntries = Notebook.ToValues()
         },
         Traits = [.. Groups.SelectMany(x => x.Items).Select(x => x.ToValue()), .. Powers.SelectedValues()]
     };

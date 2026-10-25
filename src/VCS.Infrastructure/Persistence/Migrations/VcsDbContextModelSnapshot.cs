@@ -1406,6 +1406,12 @@ namespace VCS.Infrastructure.Persistence.Migrations
                                 .HasColumnType("TEXT")
                                 .HasColumnName("Name");
 
+                            b1.Property<string>("NoteEntries")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("TEXT")
+                                .HasDefaultValue("[]");
+
                             b1.Property<string>("Notes")
                                 .IsRequired()
                                 .HasColumnType("TEXT");

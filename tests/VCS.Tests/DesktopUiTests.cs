@@ -880,6 +880,28 @@ public sealed class DesktopUiTests(WpfApp wpf)
             settingsMenu.IsSubmenuOpen = false;
     });
 
+    /// <summary>The notes section lists titled notes and edits the selected one, text starting at the top.</summary>
+    [Fact]
+    public Task Notes_section_lists_and_edits_notes() => _wpf.RunAsync(async ui =>
+    {
+            var (app, window, model, service, dialogs, directory) = ui;
+            var editor = await ui.CreatePcAsync();
+            editor.Notebook.AddCommand.Execute(null);
+            editor.Notebook.SelectedNote!.Title = "Pistas";
+            editor.Notebook.SelectedNote.Text = "Primeira linha" + Environment.NewLine + "Segunda linha";
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+            var list = Find<ListBox>(window, "Lista de notas");
+            list.BringIntoView();
+            await WaitUntilAsync(() => list.IsVisible && list.Items.Count == 1);
+            var text = Find<TextBox>(window, "Texto da nota");
+            Assert.Equal(VerticalAlignment.Top, text.VerticalContentAlignment);
+            Assert.Equal("Pistas", Find<TextBox>(window, "Titulo da nota").Text);
+            text.BringIntoView();
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+            AssertReadableControls(Descendants<SheetSectionView>(window).Single(x => ((EditorSection)x.DataContext).Key == "Notes"));
+            SaveSnapshot(window, "notas");
+    });
+
     /// <summary>A sheet theme recolors only that sheet and persists per character.</summary>
     [Fact]
     public Task Sheet_theme_overrides_only_its_sheet() => _wpf.RunAsync(async ui =>

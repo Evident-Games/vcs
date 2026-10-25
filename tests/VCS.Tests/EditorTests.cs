@@ -38,6 +38,42 @@ public sealed class EditorTests : IAsyncLifetime
         new ProvidedDisciplineCatalog());
 
     [Fact]
+    public async Task Notes_are_a_searchable_list_saved_with_the_sheet_and_old_text_becomes_the_first_note()
+    {
+        var created = await _service.CreateAsync();
+        var legacy = await _service.SaveAsync(created with { Details = created.Details with { Notes = "Texto antigo" } });
+        using (var editor = new CharacterEditorViewModel(legacy, _service, NullLogger<CharacterEditorViewModel>.Instance,
+                   _autosave, new ProvidedDisciplineCatalog()))
+        {
+            var first = Assert.Single(editor.Notebook.Notes);
+            Assert.Equal(("Anotações", "Texto antigo"), (first.Title, first.Text));
+            Assert.Same(first, editor.Notebook.SelectedNote);
+            Assert.Equal("", editor.Notes);
+            Assert.False(editor.IsDirty);
+
+            editor.Notebook.AddCommand.Execute(null);
+            var added = editor.Notebook.SelectedNote!;
+            added.Title = "Pistas";
+            added.Text = "O sire esta em Chicago.";
+            Assert.True(editor.IsDirty);
+            editor.Notebook.SearchText = "chicago";
+            Assert.Equal([added], editor.Notebook.VisibleNotes.Cast<NoteViewModel>());
+            editor.Notebook.SearchText = "";
+            Assert.True(await editor.FlushAsync());
+        }
+        var saved = await _service.GetAsync(legacy.Id);
+        Assert.Equal("", saved.Details.Notes);
+        Assert.Equal(["Pistas", "Anotações"], saved.Details.NoteEntries.OrderByDescending(x => x.UpdatedUtc).Select(x => x.Title));
+
+        using var reopened = new CharacterEditorViewModel(saved, _service, NullLogger<CharacterEditorViewModel>.Instance,
+            _autosave, new ProvidedDisciplineCatalog());
+        Assert.Equal(2, reopened.Notebook.Notes.Count);
+        reopened.Notebook.DeleteCommand.Execute(reopened.Notebook.Notes.Single(x => x.Title == "Anotações"));
+        Assert.True(await reopened.FlushAsync());
+        Assert.Equal("Pistas", Assert.Single((await _service.GetAsync(legacy.Id)).Details.NoteEntries).Title);
+    }
+
+    [Fact]
     public async Task Personal_disciplines_are_typed_lines_like_personal_skills()
     {
         using var editor = await CreateEditorAsync();
