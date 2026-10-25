@@ -1,26 +1,26 @@
 Animalismo
 Disciplina: Animalismo
 Nome da habilidade: Laço com Familiar (Nível 1)
-Custo: O sangue para criar um carniçal (1 Teste de Incitar)
+Custo: O sangue para criar um carniçal (1 checagem de sangue)
 Parada de dados: Nenhuma
 Resumo: Cria um vínculo mental duradouro com um animal que se torna um carniçal do vampiro. Garante empatia mútua, permitindo que o animal atue como espião ou guarda-costas sem a necessidade contínua de rolar dados para comandos simples.
 
 Disciplina: Animalismo
 Nome da habilidade: Sentir a Besta (Nível 1)
 Custo: Nenhum
-Parada de dados: Perseverança + Animalismo vs Autocontrole + Lábia
+Parada de dados: Determinação + Animalismo vs Autocontrole + Lábia
 Resumo: O vampiro foca seus sentidos sobrenaturais para detectar a Besta em outros, identificando instantaneamente se o alvo é um vampiro, lobisomem, carniçal ou qual a sua emoção mortal dominante no momento.
 
 Disciplina: Animalismo
 Nome da habilidade: Sussurros Selvagens (Nível 2)
-Custo: 1 Teste de Incitar o Sangue (por cena)
-Parada de dados: Manipulação + Animalismo vs Atributo + Perseverança (caso o animal seja hostil)
+Custo: 1 checagem de sangue (por cena)
+Parada de dados: Manipulação + Animalismo vs Atributo + Determinação (caso o animal seja hostil)
 Resumo: O vampiro se comunica verbalmente com animais, podendo fazer perguntas, dar instruções e compreendê-los. As respostas e obediência variam de acordo com a inteligência nativa do bicho.
 
 Disciplina: Animalismo
 Nome da habilidade: Acalmar a Besta (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
-Parada de dados: Carisma + Animalismo vs Vigor + Perseverança (mortais) ou Perseverança + Autocontrole (vampiros)
+Custo: 1 checagem de sangue
+Parada de dados: Carisma + Animalismo vs Vigor + Determinação (mortais) ou Determinação + Autocontrole (vampiros)
 Resumo: Reduz o pânico, a letargia ou a fúria em um alvo. Em mortais, tira completamente a vontade de lutar. Em vampiros, pode reprimir o Frenesi ou impedir que o alvo use pontos de Força de Vontade por um turno.
 
 Disciplina: Animalismo
@@ -31,20 +31,20 @@ Resumo: O vampiro aprende a extrair sustento aprimorado de feras. Alimentar-se d
 
 Disciplina: Animalismo
 Nome da habilidade: Subjugar o Espírito (Nível 4)
-Custo: 1 Teste de Incitar o Sangue
-Parada de dados: Manipulação + Animalismo vs Perseverança + Inteligência (caso seja familiar de outro vampiro)
+Custo: 1 checagem de sangue
+Parada de dados: Manipulação + Animalismo vs Determinação + Inteligência (caso seja familiar de outro vampiro)
 Resumo: O vampiro transfere sua consciência para o corpo de um animal, enxergando pelos olhos dele e controlando-o totalmente. Durante o efeito, o corpo do próprio vampiro fica inerte, como se estivesse em torpor.
 
 Disciplina: Animalismo
 Nome da habilidade: Domínio Animal (Nível 5)
-Custo: 1 ou 2 Testes de Incitar o Sangue
+Custo: 1 ou 2 checagens de sangue
 Parada de dados: Carisma + Animalismo
 Resumo: Uma evolução dos Sussurros Selvagens, permitindo comandar telepaticamente enxames, bandos ou matilhas inteiras de uma só vez (como nuvens de insetos, matilhas de cães ou revoada de corvos) para destruir obstáculos ou atacar inimigos.
 
 Disciplina: Animalismo
 Nome da habilidade: Extrair a Besta (Nível 5)
-Custo: 1 Teste de Incitar o Sangue
-Parada de dados: Raciocínio + Animalismo vs Autocontrole + Perseverança
+Custo: 1 checagem de sangue
+Parada de dados: Raciocínio + Animalismo vs Autocontrole + Determinação
 Resumo: Durante um Frenesi, o vampiro pode projetar forçosamente a própria fúria para o corpo de outra pessoa próxima. O alvo assumirá o Frenesi no lugar do vampiro, perdendo o controle e atacando os outros brutalmente.
 Auspícios
 Disciplina: Auspícios
@@ -61,38 +61,38 @@ Resumo: Concede a chance de detectar presenças ocultas por magia, vampiros usan
 
 Disciplina: Auspícios
 Nome da habilidade: Premonição (Nível 2)
-Custo: 1 Teste de Incitar o Sangue (ou grátis em uso passivo)
-Parada de dados: Perseverança + Auspícios
+Custo: 1 checagem de sangue (ou grátis em uso passivo)
+Parada de dados: Determinação + Auspícios
 Resumo: O vampiro recebe "flashes" de intuição sobre o futuro imediato ou ameaças escondidas. Pode salvar a vida do personagem, alertando-o sobre emboscadas ou revelando quem é o verdadeiro traidor em uma sala.
 
 Disciplina: Auspícios
 Nome da habilidade: Compartilhar os Sentidos (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
-Parada de dados: Perseverança + Auspícios
+Custo: 1 checagem de sangue
+Parada de dados: Determinação + Auspícios
 Resumo: O vampiro se conecta mentalmente a um alvo na sua linha de visão, passando a ver, ouvir e sentir exatamente tudo o que o alvo está experimentando em tempo real, independentemente da distância em que ele for depois.
 
 Disciplina: Auspícios
 Nome da habilidade: Sondar a Alma (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Inteligência + Auspícios vs Autocontrole + Lábia
 Resumo: Permite "ler" a aura da pessoa. Revela o estado emocional atual, se a criatura é humana ou sobrenatural e identifica manchas escuras que provam que o vampiro cometeu diablerie (devorou a alma de outro).
 
 Disciplina: Auspícios
 Nome da habilidade: O Toque do Espírito (Nível 4)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Inteligência + Auspícios
 Resumo: Ao tocar um objeto inanimado ou o chão de um local, o vampiro lê os fortes ecos emocionais presos nele. Consegue ver o rosto de quem tocou por último e reproduzir cenas traumáticas ou intensas ocorridas na presença do item.
 
 Disciplina: Auspícios
 Nome da habilidade: Clarividência (Nível 5)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Inteligência + Auspícios
 Resumo: A percepção se desliga do corpo físico e se projeta livremente pelo mundo, como uma câmera fantasma invisível. Permite espiar covis inimigos ou conversas distantes sem precisar estar perto do local.
 
 Disciplina: Auspícios
 Nome da habilidade: Telepatia (Nível 5)
-Custo: 1 Teste de Incitar o Sangue
-Parada de dados: Perseverança + Auspícios vs Raciocínio + Perseverança
+Custo: 1 checagem de sangue
+Parada de dados: Determinação + Auspícios vs Raciocínio + Determinação
 Resumo: Além de ler superficialmente os pensamentos alheios e vasculhar a mente do alvo em busca de memórias específicas, o vampiro pode projetar seus próprios pensamentos diretamente na mente do alvo.
 Celeridade
 Disciplina: Celeridade
@@ -109,50 +109,50 @@ Resumo: Ignora completamente as penalidades por lutar sem cobertura contra atira
 
 Disciplina: Celeridade
 Nome da habilidade: Rapidez (Nível 2)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: Ao ativar, o vampiro soma seu nível total de Celeridade a qualquer rolagem de Destreza não relacionada a ataques de combate (como fugir, escalar, correr ou realizar furtos). O efeito dura uma cena inteira.
 
 Disciplina: Celeridade
 Nome da habilidade: Piscar / Travessia (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Destreza + Atletismo (para Travessia)
 Resumo: O vampiro pode cruzar curtas distâncias instantaneamente para golpear, ou usar a inércia da supervelocidade para correr literalmente nas paredes ou por cima da água por turnos limitados sem cair.
 
 Disciplina: Celeridade
 Nome da habilidade: Mira Infalível (Nível 4)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: A percepção mental do vampiro acelera, fazendo os inimigos se moverem em câmera lenta. Ele reduz a zero qualquer penalidade de tiro por cobertura, clima ou movimentação do alvo.
 
 Disciplina: Celeridade
 Nome da habilidade: Fração de Segundos (Nível 5)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: O vampiro se move de forma tão impossível que consegue "rebobinar" eventos da narrativa que acabaram de acontecer na rodada. Se alguém caiu de um prédio, ele já estará lá embaixo segurando o alvo, reagindo mais rápido que as consequências normais da física.
 Dominação
 Disciplina: Dominação
 Nome da habilidade: Compelir (Nível 1)
 Custo: Nenhum
-Parada de dados: Carisma + Dominação vs Inteligência + Perseverança
+Parada de dados: Carisma + Dominação vs Inteligência + Determinação
 Resumo: Exige contato visual ininterrupto. O vampiro comanda o alvo em uma frase curta ("Pare!", "Largue a arma!"). O comando deve ser imediato e se resolver no mesmo turno, não podendo ser obviamente letal ao alvo.
 
 Disciplina: Dominação
 Nome da habilidade: Obscurecer Memória (Nível 1)
 Custo: Nenhum
-Parada de dados: Carisma + Dominação vs Inteligência + Perseverança
+Parada de dados: Carisma + Dominação vs Inteligência + Determinação
 Resumo: O vampiro foca seu olhar em alguém e apaga os últimos minutos da memória recente do alvo (a duração da cena atual). A vítima fica momentaneamente confusa, incapaz de lembrar o que acabou de fazer ou de ver.
 
 Disciplina: Dominação
 Nome da habilidade: Sugestão Hipnótica (Nível 2)
-Custo: 1 Teste de Incitar o Sangue
-Parada de dados: Manipulação + Dominação vs Inteligência + Perseverança
+Custo: 1 checagem de sangue
+Parada de dados: Manipulação + Dominação vs Inteligência + Determinação
 Resumo: O vampiro implanta um comando complexo na mente do alvo, condicionado a um gatilho. Quando o evento determinado ocorrer ("Quando o sino tocar..."), a vítima executará o comando imposto.
 
 Disciplina: Dominação
 Nome da habilidade: O Esquece-me (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
-Parada de dados: Inteligência + Dominação vs Inteligência + Perseverança
+Custo: 1 checagem de sangue
+Parada de dados: Inteligência + Dominação vs Inteligência + Determinação
 Resumo: Versão muito mais agressiva do Obscurecer Memória. Permite que o vampiro destrua e reescreva seletivamente as memórias antigas e complexas de uma vítima, podendo mudar lembranças inteiras sobre a vida dela.
 
 Disciplina: Dominação
@@ -169,13 +169,13 @@ Resumo: Modifica fundamentalmente como o cérebro da vítima processa a Dominaç
 
 Disciplina: Dominação
 Nome da habilidade: Comando em Massa (Nível 5)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Carisma + Dominação
 Resumo: O limite do controle singular é quebrado. O vampiro pode aplicar poderes como Compelir ou Sugestão Hipnótica em todo um grupo de mortais de uma só vez, independentemente do contato visual direto, desde que consigam ouvir a voz do vampiro.
 
 Disciplina: Dominação
 Nome da habilidade: Ditame Terminal (Nível 5)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: A última barreira moral da Dominação cai. O vampiro ganha a capacidade assustadora de comandar suas vítimas a realizarem ações obviamente letais, permitindo ordens como atear fogo em si mesmas ou atirar na própria cabeça.
 Fortitude
@@ -193,31 +193,31 @@ Resumo: Fortalece o escudo psíquico. O vampiro passa a somar seus pontos de For
 
 Disciplina: Fortitude
 Nome da habilidade: Resiliência das Bestas (Nível 2)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: O personagem consegue aguentar danos imensos. Durante uma cena, o dano superficial causado por ataques contundentes e cortes simples é cortado pela metade antes mesmo de sofrer as reduções padrão das regras de dano vampírico.
 
 Disciplina: Fortitude
 Nome da habilidade: Ignorar Danos (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Vigor + Fortitude
 Resumo: A pele do vampiro rejeita ferimentos letais. Como uma ação defensiva, o jogador pode rolar os dados e converter o dano Agravado recebido de balas, fogo ou presas em dano Superficial suportável.
 
 Disciplina: Fortitude
 Nome da habilidade: Fortificar Barreira Íntima (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: Fornece imunidade quase total contra poderes sobrenaturais que tentam ler pensamentos, controlar emoções ou invadir a mente, servindo como a defesa perfeita contra a disciplina Dominação.
 
 Disciplina: Fortitude
 Nome da habilidade: Proteção de Mármore (Nível 4)
-Custo: 2 Testes de Incitar o Sangue
+Custo: 2 checagens de sangue
 Parada de dados: Nenhuma
 Resumo: A resistência beira o nível divino. Uma vez por noite, o vampiro torna sua pele impenetrável por alguns turnos. Nenhum ataque físico mundano consegue causar dano, repelindo balas, lâminas pesadas e explosões.
 
 Disciplina: Fortitude
 Nome da habilidade: Agonia da Carne (Nível 5)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Vigor + Fortitude
 Resumo: Quando atacado fisicamente em combate corporal, o vampiro se recusa a ceder. Quem o acertou também sofre parte do impacto refletido diretamente em seu próprio corpo, recebendo de volta uma porção do dano desferido na forma contundente.
 Ofuscação
@@ -235,13 +235,13 @@ Resumo: Abafa todo o som causado diretamente pelas ações físicas do vampiro. 
 
 Disciplina: Ofuscação
 Nome da habilidade: Passagem Invisível (Nível 2)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Raciocínio + Furtividade
 Resumo: Extensão do Manto de Sombras. Permite que o vampiro mantenha a invisibilidade enquanto se desloca e caminha pelo ambiente. Ele não pode atacar ninguém durante o percurso e, se alguém colidir fisicamente contra ele, a ilusão quebra.
 
 Disciplina: Ofuscação
 Nome da habilidade: Máscara das Mil Faces (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Manipulação + Ofuscação
 Resumo: Em vez de se tornar invisível, o vampiro força as mentes ao redor a enxergarem uma aparência completamente diferente para ele. Pode criar a ilusão mental de vestir roupas que não possui, ou parecer com uma pessoa genérica para passar por seguranças.
 
@@ -253,13 +253,13 @@ Resumo: Estende os efeitos mágicos da Ofuscação (Passagem Invisível e Másca
 
 Disciplina: Ofuscação
 Nome da habilidade: Ocultar (Nível 4)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Inteligência + Ofuscação
 Resumo: O personagem cria ilusões potentes em um objeto inanimado do tamanho máximo de uma casa, ou remove esse objeto das mentes locais. Pode esconder a porta de um cofre no meio da parede ou fazer um baú valioso sumir de vista.
 
 Disciplina: Ofuscação
 Nome da habilidade: Manto do Grupo (Nível 5)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Carisma + Ofuscação
 Resumo: O ápice da invisibilidade. O vampiro pode envolver aliados próximos dentro do raio do poder. Tanto ele quanto o restante do grupo se tornam invisíveis ou mudam de aparência usando a Máscara das Mil Faces simultaneamente, protegendo todo o círculo.
 Potência
@@ -277,7 +277,7 @@ Resumo: A força bruta permite rasgar carne e quebrar ossos. Seus ataques corpor
 
 Disciplina: Potência
 Nome da habilidade: Bravura (Nível 2)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: Durante toda a cena, o personagem soma o seu nível de Potência diretamente no dano de qualquer ataque físico bem-sucedido usando Briga ou armas de combate corpo-a-corpo (como estacas, tacos e espadas).
 
@@ -289,13 +289,13 @@ Resumo: O vampiro morde e drena sangue de forma bestial no meio de um combate. E
 
 Disciplina: Potência
 Nome da habilidade: Poção de Força (Nível 4)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: O personagem concentra sua superforça no próprio sangue. Se ele der esse sangue para que outros bebam na mesma cena (como Carniçais ou outros vampiros), quem bebeu também ganhará metade do nível de Potência do vampiro original por um tempo.
 
 Disciplina: Potência
 Nome da habilidade: Choque Terrestre (Nível 5)
-Custo: 2 Testes de Incitar o Sangue
+Custo: 2 checagens de sangue
 Parada de dados: Força + Potência vs Vigor + Atletismo
 Resumo: O vampiro esmurra o chão ou pisa com força titânica, criando uma onda de choque que quebra o piso e arremessa todos num raio de vários metros ao chão. As vítimas caem e recebem dano contundente pelo tremor brutal.
 Presença
@@ -319,20 +319,20 @@ Resumo: Transforma a mordida do vampiro em uma droga extremamente viciante. As v
 
 Disciplina: Presença
 Nome da habilidade: Transe (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Carisma + Presença vs Autocontrole + Inteligência
 Resumo: Convence instantaneamente o alvo de que o vampiro é seu amigo mais fiel e verdadeiro. O alvo passará a proteger o vampiro, compartilhar segredos e defendê-lo de aliados, durando até ser fisicamente ferido por ele.
 
 Disciplina: Presença
 Nome da habilidade: Convocação (Nível 4)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Manipulação + Presença vs Autocontrole + Inteligência
 Resumo: O vampiro foca em uma pessoa com quem ele já tenha interagido antes e a chama mentalmente. O alvo sentirá um desejo desesperado e incontrolável de ir até a localização do vampiro o mais rápido possível, não importando a distância.
 
 Disciplina: Presença
 Nome da habilidade: Majestade (Nível 5)
-Custo: 2 Testes de Incitar o Sangue
-Parada de dados: Carisma + Presença vs Autocontrole + Perseverança
+Custo: 2 checagens de sangue
+Parada de dados: Carisma + Presença vs Autocontrole + Determinação
 Resumo: A aura do vampiro se torna divina ou apavorante em nível absoluto. Ninguém ao redor consegue agir agressivamente, levantar a voz ou atacar o vampiro sem antes passar num teste dificílimo, rendendo-se à veneração ou ao terror submisso.
 Proteanismo
 Disciplina: Proteanismo
@@ -349,25 +349,25 @@ Resumo: Os olhos do vampiro brilham em um vermelho predatório (ou amarelo fenda
 
 Disciplina: Proteanismo
 Nome da habilidade: Armas da Fera (Nível 2)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: O vampiro projeta garras afiadas nas mãos ou presas alongadas monstruosas. Esses ataques desarmados passam a causar dano Agravado profundo, rasgando carne de vampiros e armaduras corporais com extrema facilidade.
 
 Disciplina: Proteanismo
 Nome da habilidade: Fusão com a Terra (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: Como uma poça de sangue afundando no solo, o vampiro derrete e entra dentro da terra natural (grama, barro, areia, mas não concreto ou asfalto) para descansar o dia inteiro no subsolo em segurança perfeita.
 
 Disciplina: Proteanismo
 Nome da habilidade: Mudança de Forma (Nível 4)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: O vampiro se transforma integralmente em um animal selvagem grande e combativo (usualmente um grande lobo). Ganha todos os sentidos, a velocidade e as capacidades letais da fera.
 
 Disciplina: Proteanismo
 Nome da habilidade: Forma de Névoa (Nível 5)
-Custo: 1 a 3 Testes de Incitar o Sangue
+Custo: 1 a 3 checagens de sangue
 Parada de dados: Nenhuma
 Resumo: O corpo, as roupas e pertences se desfazem em uma neblina fria. Nessa forma, o vampiro se torna totalmente imune a ataques físicos convencionais, pode voar ou flutuar pelos ares e passar por baixo de portas, tubulações ou frestas finas.
 Feitiçaria de Sangue
@@ -379,66 +379,66 @@ Resumo: Bebendo uma única gota de sangue (fresco ou ressecado), o Feiticeiro de
 
 Disciplina: Feitiçaria de Sangue
 Nome da habilidade: Sangue Corrosivo (Nível 1)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: O personagem força propriedades ácidas e tóxicas no próprio suor ou sangue. Pode derreter algemas, destruir fechaduras de portas de metal, queimar evidências ou corroer cordas rapidamente usando apenas o próprio fluido.
 
 Disciplina: Feitiçaria de Sangue
 Nome da habilidade: Extinguir Vitae (Nível 2)
-Custo: 1 Teste de Incitar o Sangue
-Parada de dados: Inteligência + Feitiçaria de Sangue vs Vigor + Perseverança
+Custo: 1 checagem de sangue
+Parada de dados: Inteligência + Feitiçaria de Sangue vs Vigor + Determinação
 Resumo: O feiticeiro evapora a magia no sangue de outro vampiro à distância, aumentando instantaneamente os níveis de Fome do alvo e possivelmente forçando o inimigo a um frenesi por sangue.
 
 Disciplina: Feitiçaria de Sangue
 Nome da habilidade: Toque do Escorpião (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
-Parada de dados: Força + Feitiçaria de Sangue vs Vigor + Perseverança
+Custo: 1 checagem de sangue
+Parada de dados: Força + Feitiçaria de Sangue vs Vigor + Determinação
 Resumo: O usuário converte sua vitae num veneno místico paralisante e o aplica em uma lâmina ou tenta tocá-lo na pele do inimigo. Causa fortes espasmos e rouba as capacidades motoras e a vitalidade de mortais e vampiros.
 
 Disciplina: Feitiçaria de Sangue
 Nome da habilidade: Roubo de Vitae (Nível 4)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Inteligência + Feitiçaria de Sangue vs Raciocínio + Ocultismo
 Resumo: O feiticeiro drena violentamente o sangue do corpo de um alvo (mortal ou vampiro) à distância, forçando a energia vital a voar pelos ares ou entrar misticamente nas veias do próprio feiticeiro, curando-o e causando ferimentos graves na vítima.
 
 Disciplina: Feitiçaria de Sangue
 Nome da habilidade: Caldeirão de Sangue (Nível 5)
-Custo: 1 Teste de Incitar o Sangue
-Parada de dados: Inteligência + Feitiçaria de Sangue vs Vigor + Perseverança
+Custo: 1 checagem de sangue
+Parada de dados: Inteligência + Feitiçaria de Sangue vs Vigor + Determinação
 Resumo: Com um toque e uma palavra, o Feiticeiro faz o sangue ferver de dentro para fora no corpo da vítima. Os vasos sanguíneos da vítima estouram e o sangue vaporiza em uma nuvem vermelha escarlate, causando morte excruciante.
 Disciplina: Rituais
 Nome da habilidade: Despertar com a Brisa do Entardecer (Nível 1)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Inteligência + Feitiçaria de Sangue (Dificuldade 1)
 Resumo: Protege o sono diurno vulnerável do vampiro. Se qualquer ameaça tentar invadir seu esconderijo enquanto ele dorme de dia, o ritual desperta o vampiro instantaneamente e permite que ele aja durante aquele turno de luz do dia sem penalidades letárgicas.
 
 Disciplina: Rituais
 Nome da habilidade: Ilusão de Morte Pacífica (Nível 2)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Inteligência + Feitiçaria de Sangue (Dificuldade 2)
 Resumo: Lança pó e sangue falso em um cadáver recém-assassinado pelo vampiro. Em segundos, esconde marcas de presas, arranhões de garras ou perda severa de sangue. Quando o legista examinar, o corpo parecerá ter morrido de ataque cardíaco natural.
 
 Disciplina: Rituais
 Nome da habilidade: Proteção contra Feras (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Inteligência + Feitiçaria de Sangue (Dificuldade 3)
 Resumo: Ao desenhar sigilos de sangue por 30 minutos em um ambiente ou num objeto (como um carro ou taco), o mago cria uma barreira mística dolorosa e flamejante contra Lobisomens. Qualquer lupino que tentar cruzar a porta ou tocar no objeto marcado receberá muito dano místico.
 
 Disciplina: Rituais
 Nome da habilidade: Proteção contra Cainitas (Nível 4)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Inteligência + Feitiçaria de Sangue (Dificuldade 4)
 Resumo: Funciona como a Proteção contra Feras, mas queima e repele outros Vampiros. Torna Refúgios impenetráveis ou cria armas e roupas místicas que eletrocutam ou queimam cainitas que toquem no alvo protegido.
 
 Disciplina: Rituais
 Nome da habilidade: Fuga para o Santuário Verdadeiro (Nível 5)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Inteligência + Feitiçaria de Sangue (Dificuldade 5)
 Resumo: Cria dois círculos de cinzas e sangue (um na base segura e outro que o mago usa durante emergências nas ruas). Ao entrar no círculo de emergência, o corpo do Feiticeiro desaparece instantaneamente e é teleportado ileso de volta para o seu santuário particular.
 Oblívio
 Disciplina: Oblívio
 Nome da habilidade: Visão do Oblívio (Nível 1)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: Os olhos do vampiro ficam completamente negros. Ele passa a enxergar através de qualquer escuridão (mesmo as sobrenaturais criadas por outros poderes) e consegue ver fantasmas ou espíritos inquietos no ambiente.
 
@@ -450,31 +450,31 @@ Resumo: As sombras do ambiente literalmente se curvam e se agarram ao corpo do L
 
 Disciplina: Oblívio
 Nome da habilidade: Braços de Ahriman (Nível 2)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Raciocínio + Oblívio vs Força + Atletismo (para agarrar)
 Resumo: O vampiro invoca tentáculos de pura escuridão que brotam de cantos não iluminados da sala. Esses tentáculos podem açoitar, esmagar ou prender inimigos à distância, causando dano superficial e agarrando os alvos.
 
 Disciplina: Oblívio
 Nome da habilidade: Toque do Oblívio (Nível 3)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Força + Briga
 Resumo: O vampiro canaliza a força destrutiva do Abismo em suas mãos. Um soco ou agarrão bem-sucedido causa dano agravado (queimando a vítima com energia necrótica) e murcha o membro atingido, reduzindo a Força do alvo no combate.
 
 Disciplina: Oblívio
 Nome da habilidade: Mortalha Estígia (Nível 4)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Raciocínio + Oblívio
 Resumo: O vampiro preenche uma sala ou área ampla com uma fumaça de escuridão absoluta. Mortais sufocam e perdem vitalidade lá dentro, os sons são abafados, e todos (exceto o próprio Lasombra) ficam totalmente cegos.
 
 Disciplina: Oblívio
 Nome da habilidade: Passo Sombrio (Nível 5)
-Custo: 1 Teste de Incitar o Sangue
+Custo: 1 checagem de sangue
 Parada de dados: Nenhuma
 Resumo: O vampiro dá um passo para dentro de uma sombra projetada na parede ou no chão e desaparece. No mesmo turno, ele emerge instantaneamente de outra sombra que esteja no seu campo de visão ou em um local que ele conheça muito bem.
 
 Disciplina: Oblívio
 Nome da habilidade: Avatar Tenebroso (Nível 5)
-Custo: 2 Testes de Incitar o Sangue
+Custo: 2 checagens de sangue
 Parada de dados: Nenhuma
 Resumo: O corpo do vampiro se dissolve, tornando-se uma mancha bidimensional de sombra rastejante. Ele fica imune a qualquer ataque físico, pode deslizar por rachaduras e paredes, e é capaz de envolver e asfixiar vítimas pelo toque.
 Disciplina: Ofuscação
