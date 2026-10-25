@@ -48,9 +48,11 @@ public sealed class ThemeService
     /// Loads one block of a theme file under the shared Vcs* keys the styles use. The application block may
     /// list only what differs: missing colors come from the sheet block, header and footer text from outer text.
     /// </summary>
-    public static ResourceDictionary Load(ThemeDefinition theme, ThemePart part = ThemePart.Application)
+    public static ResourceDictionary Load(ThemeDefinition theme, ThemePart part = ThemePart.Application) =>
+        Load(new ResourceDictionary { Source = new Uri(theme.ResourcePath, UriKind.Relative) }, part);
+
+    public static ResourceDictionary Load(ResourceDictionary file, ThemePart part)
     {
-        var file = new ResourceDictionary { Source = new Uri(theme.ResourcePath, UriKind.Relative) };
         var palette = new ResourceDictionary();
         void Copy(string prefix)
         {

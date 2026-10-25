@@ -3,16 +3,6 @@ using Microsoft.Win32;
 
 namespace VCS.Desktop.Shell;
 
-public interface IDesktopDialogs
-{
-    string? OpenJson();
-    string? SaveJson();
-    string? OpenBackup();
-    string? SaveBackup();
-    string? SavePdf() => throw new NotSupportedException("Exportacao PDF nao disponivel neste dialogo.");
-    bool Confirm(string message);
-}
-
 public sealed class DesktopDialogs : IDesktopDialogs
 {
     public string? OpenJson() => Open("Ficha VCS (*.json)|*.json");
