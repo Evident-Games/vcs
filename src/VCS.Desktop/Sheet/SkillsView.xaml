@@ -58,7 +58,7 @@
                                               CountName="{Binding Name, StringFormat='Quantidade de especializacoes de {0}'}" />
             </StackPanel>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type sheet:SkillEntryLineViewModel}">
+        <DataTemplate DataType="{x:Type sheet:PersonalTraitLineViewModel}">
             <StackPanel Margin="0,0,0,10">
                 <DockPanel>
                     <controls:DotTrack DockPanel.Dock="Right" Value="{Binding Rating, Mode=TwoWay}"

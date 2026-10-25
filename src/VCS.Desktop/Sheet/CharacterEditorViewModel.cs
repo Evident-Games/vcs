@@ -67,7 +67,12 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         Powers = new(catalog, Disciplines, character.Traits);
         Powers.Clan = clan;
         Powers.Changed += OnPowersChanged;
-        var disciplineView = new System.Windows.Data.ListCollectionView(Disciplines.Items) { IsLiveSorting = true };
+        PersonalDisciplines = new(Disciplines);
+        // The grid shows catalog and predator disciplines; personal ones are edited as lines below it.
+        var disciplineView = new System.Windows.Data.ListCollectionView(Disciplines.Items)
+        {
+            IsLiveSorting = true, Filter = x => !PersonalDisciplinesViewModel.IsPersonal((TraitItemViewModel)x)
+        };
         disciplineView.SortDescriptions.Add(new(nameof(TraitItemViewModel.IsClanDiscipline), System.ComponentModel.ListSortDirection.Descending));
         disciplineView.SortDescriptions.Add(new(nameof(TraitItemViewModel.Name), System.ComponentModel.ListSortDirection.Ascending));
         disciplineView.LiveSortingProperties.Add(nameof(TraitItemViewModel.IsClanDiscipline));
@@ -245,6 +250,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         ? $"Disciplinas do cla: {string.Join(", ", definition.Disciplines)}."
         : "Disciplinas e custos de XP nao definidos para este cla. Nenhum custo sera presumido.";
     public System.ComponentModel.ICollectionView DisciplineItems { get; }
+    public PersonalDisciplinesViewModel PersonalDisciplines { get; }
     public string ClanDisciplinesShort => ClanCatalog.Find(Clan) is { } definition
         ? string.Join(" · ", definition.Disciplines) : "clã sem disciplinas definidas";
     private void RefreshClanDisciplines()

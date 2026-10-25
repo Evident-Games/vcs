@@ -3,7 +3,7 @@ using VCS.Domain.Characters;
 
 namespace VCS.Desktop.Sheet;
 
-public sealed partial class SkillGroupViewModel
+public sealed partial class SkillGroupViewModel : IPersonalTraitOwner
 {
     private readonly TraitGroupViewModel _skills;
     public SkillGroupViewModel(string name, IReadOnlyList<TraitItemViewModel> items,
@@ -22,9 +22,9 @@ public sealed partial class SkillGroupViewModel
 
     public string Name { get; }
     public IReadOnlyList<TraitItemViewModel> Items { get; }
-    public ObservableCollection<SkillEntryLineViewModel> PersonalItems { get; } = [];
+    public ObservableCollection<PersonalTraitLineViewModel> PersonalItems { get; } = [];
 
-    internal void Materialize(SkillEntryLineViewModel draft)
+    public void Materialize(PersonalTraitLineViewModel draft)
     {
         if (draft.Trait is not null ||
             string.IsNullOrWhiteSpace(draft.Name) && string.IsNullOrWhiteSpace(draft.Specialization)) return;
@@ -34,7 +34,7 @@ public sealed partial class SkillGroupViewModel
         PersonalItems.Add(new(this));
     }
 
-    internal void RemoveIfEmpty(SkillEntryLineViewModel line)
+    public void RemoveIfEmpty(PersonalTraitLineViewModel line)
     {
         if (line.Trait is not { } item ||
             !string.IsNullOrWhiteSpace(item.Name) || !string.IsNullOrWhiteSpace(item.Specialization)) return;

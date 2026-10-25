@@ -38,6 +38,28 @@ public sealed class EditorTests : IAsyncLifetime
         new ProvidedDisciplineCatalog());
 
     [Fact]
+    public async Task Personal_disciplines_are_typed_lines_like_personal_skills()
+    {
+        using var editor = await CreateEditorAsync();
+        var gridBefore = editor.DisciplineItems.Cast<TraitItemViewModel>().Count();
+        var draft = Assert.Single(editor.PersonalDisciplines.Lines);
+        Assert.True(draft.IsDraft);
+        draft.Rating = 2;
+        Assert.True(draft.IsDraft);
+        draft.Name = "Quimerismo";
+        Assert.False(draft.IsDraft);
+        var added = Assert.Single(editor.Disciplines.Items, x => x.Name == "Quimerismo");
+        Assert.Equal(2, added.Rating);
+        Assert.Equal(2, editor.PersonalDisciplines.Lines.Count);
+        Assert.True(editor.PersonalDisciplines.Lines[^1].IsDraft);
+        Assert.Equal(gridBefore, editor.DisciplineItems.Cast<TraitItemViewModel>().Count());
+        Assert.DoesNotContain(editor.DisciplineItems.Cast<TraitItemViewModel>(), x => x.Name == "Quimerismo");
+        draft.Name = "";
+        Assert.DoesNotContain(editor.Disciplines.Items, x => x.Name == "Quimerismo");
+        Assert.True(Assert.Single(editor.PersonalDisciplines.Lines).IsDraft);
+    }
+
+    [Fact]
     public async Task Initial_distributions_show_remaining_ratings_and_generation_guidance_allows_diablerie()
     {
         using var editor = await CreateEditorAsync();
