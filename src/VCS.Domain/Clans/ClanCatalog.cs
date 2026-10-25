@@ -8,7 +8,24 @@ public sealed record ClanDefinition(
 
 public static class ClanCatalog
 {
-    public static IReadOnlyList<ClanDefinition> All { get; } = Array.AsReadOnly(new[]
+    /// <summary>
+    /// Clans in use: the built-in ones, with user edits (same name) replacing them and user clans added after.
+    /// Set at startup and after each edit from the database editor.
+    /// </summary>
+    // ponytail: process-wide catalog read by the rules; fine for a single-user desktop app, a per-call catalog if that changes.
+    private static IReadOnlyList<ClanDefinition>? _configured;
+    public static IReadOnlyList<ClanDefinition> All => _configured ?? BuiltIn;
+
+    public static void Configure(IEnumerable<ClanDefinition> custom)
+    {
+        var edits = custom.ToArray();
+        _configured = Array.AsReadOnly([.. BuiltIn.Select(x => edits.FirstOrDefault(edit => SameName(edit.Name, x.Name)) ?? x),
+            .. edits.Where(edit => !BuiltIn.Any(x => SameName(x.Name, edit.Name)))]);
+    }
+
+    public static bool IsBuiltIn(string name) => BuiltIn.Any(x => SameName(x.Name, name));
+
+    public static IReadOnlyList<ClanDefinition> BuiltIn { get; } = Array.AsReadOnly(new[]
     {
         Clan("Banu Haqim", "Juízes, estudiosos e assassinos com forte ligação ao controle de sangue.",
             ["Feitiçaria de Sangue", "Celeridade", "Ofuscação"], ["Assamitas", "Assamita"],

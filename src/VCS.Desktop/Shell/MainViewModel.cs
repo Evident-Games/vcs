@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using VCS.Application.Catalogs;
 using VCS.Application.Characters;
 using VCS.Application.Maintenance;
+using VCS.Desktop.Database;
 using VCS.Desktop.Layout;
 using VCS.Desktop.Sheet;
 using VCS.Desktop.Themes;
@@ -17,7 +18,7 @@ public partial class MainViewModel(
     ILogger<MainViewModel> logger, DisplaySettingsStore? preferencesStore = null,
     IAdvantageCatalog? advantageCatalog = null, ISkillCatalog? skillCatalog = null,
     ICharacterPdfExporter? pdfExporter = null, IPredatorCatalog? predatorCatalog = null,
-    UpdateService? updates = null) : ObservableObject
+    UpdateService? updates = null, DatabaseEditorViewModel? database = null) : ObservableObject
 {
     private IReadOnlyList<CharacterSummary> _all = [];
 
@@ -32,6 +33,9 @@ public partial class MainViewModel(
     [ObservableProperty] private bool isLayoutSettingsOpen;
 
     [ObservableProperty] private bool isHelpOpen;
+    [ObservableProperty] private bool isDatabaseEditorOpen;
+    public DatabaseEditorViewModel? Database => database;
+    public bool CanEditDatabase => database is not null;
 
     [ObservableProperty] private string error = "";
 
@@ -164,6 +168,7 @@ public partial class MainViewModel(
     private void ToggleLayoutSettings()
     {
         IsHelpOpen = false;
+        IsDatabaseEditorOpen = false;
         if (!IsLayoutSettingsOpen) Display.IsEditingNpc = Editor?.IsNpc ?? false;
         IsLayoutSettingsOpen = !IsLayoutSettingsOpen;
     }
@@ -172,8 +177,19 @@ public partial class MainViewModel(
     private void ToggleHelp()
     {
         IsLayoutSettingsOpen = false;
+        IsDatabaseEditorOpen = false;
         IsHelpOpen = !IsHelpOpen;
     }
+
+    [RelayCommand]
+    private Task ToggleDatabaseEditorAsync() => RunAsync(async () =>
+    {
+        if (database is null) return;
+        IsLayoutSettingsOpen = false;
+        IsHelpOpen = false;
+        if (!IsDatabaseEditorOpen) await database.LoadAsync();
+        IsDatabaseEditorOpen = !IsDatabaseEditorOpen;
+    });
 
     public async Task<bool> TryCloseAsync()
     {

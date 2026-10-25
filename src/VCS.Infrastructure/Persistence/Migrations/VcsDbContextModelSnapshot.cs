@@ -1174,6 +1174,75 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("VCS.Infrastructure.Persistence.ClanCatalogRecord", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Aliases")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Bane")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Disciplines")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("ClanCatalog", (string)null);
+                });
+
+            modelBuilder.Entity("VCS.Infrastructure.Persistence.PowerCatalogRecord", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(120)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AmalgamDiscipline")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("AmalgamLevel")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Cost")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DicePool")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discipline")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PowerCatalog", (string)null);
+                });
+
             modelBuilder.Entity("VCS.Infrastructure.Persistence.PredatorCatalogRecord", b =>
                 {
                     b.Property<string>("Id")

@@ -15,6 +15,8 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
     public DbSet<AdvantageDefinition> AdvantageCatalog => Set<AdvantageDefinition>();
     public DbSet<SkillDefinition> SkillCatalog => Set<SkillDefinition>();
     public DbSet<PredatorCatalogRecord> PredatorCatalog => Set<PredatorCatalogRecord>();
+    public DbSet<ClanCatalogRecord> ClanCatalog => Set<ClanCatalogRecord>();
+    public DbSet<PowerCatalogRecord> PowerCatalog => Set<PowerCatalogRecord>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,6 +29,16 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         {
             Id = x.Id, Name = x.Name, Definition = JsonSerializer.Serialize(x)
         }));
+        var clans = modelBuilder.Entity<ClanCatalogRecord>();
+        clans.ToTable("ClanCatalog");
+        clans.HasKey(x => x.Name);
+        clans.Property(x => x.Name).HasMaxLength(80);
+        var powers = modelBuilder.Entity<PowerCatalogRecord>();
+        powers.ToTable("PowerCatalog");
+        powers.HasKey(x => x.Id);
+        powers.Property(x => x.Id).HasMaxLength(120);
+        powers.Property(x => x.Discipline).HasMaxLength(80).IsRequired();
+        powers.Property(x => x.Name).HasMaxLength(80).IsRequired();
         var skills = modelBuilder.Entity<SkillDefinition>();
         skills.ToTable("SkillCatalog");
         skills.HasKey(x => x.Id);

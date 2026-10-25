@@ -77,7 +77,7 @@ public sealed class PersistenceTests : IAsyncLifetime
         Assert.Single(await _service.ListAsync());
         await using var db = _database.CreateContext();
         Assert.Equal(10, await db.Set<Domain.Characters.CharacterTrait>().CountAsync());
-        Assert.Equal(13, (await db.Database.GetAppliedMigrationsAsync()).Count());
+        Assert.Equal(14, (await db.Database.GetAppliedMigrationsAsync()).Count());
         Assert.False(db.Database.HasPendingModelChanges());
     }
 
