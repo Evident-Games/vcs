@@ -77,7 +77,7 @@ public sealed class PersistenceTests : IAsyncLifetime
         Assert.Single(await _service.ListAsync());
         await using var db = _database.CreateContext();
         Assert.Equal(10, await db.Set<Domain.Characters.CharacterTrait>().CountAsync());
-        Assert.Equal(12, (await db.Database.GetAppliedMigrationsAsync()).Count());
+        Assert.Equal(13, (await db.Database.GetAppliedMigrationsAsync()).Count());
         Assert.False(db.Database.HasPendingModelChanges());
     }
 
@@ -223,7 +223,7 @@ public sealed class PersistenceTests : IAsyncLifetime
         var jsonPath = Path.Combine(_directory, "powers.json");
         var files = new JsonCharacterFiles();
         await files.ExportAsync(saved, jsonPath);
-        Assert.Contains("\"FormatVersion\": 11", await File.ReadAllTextAsync(jsonPath));
+        Assert.Contains("\"FormatVersion\": 12", await File.ReadAllTextAsync(jsonPath));
         var imported = await _service.ImportAsync(await files.ReadAsync(jsonPath));
         Assert.Equal(expected, imported.Traits.Where(x => x.Category == Domain.Characters.TraitCategory.DisciplinePower).OrderBy(x => x.Key));
         var backupPath = Path.Combine(_directory, "powers.db");

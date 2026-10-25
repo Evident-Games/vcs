@@ -64,6 +64,14 @@ public static class CharacterRules
         issues.Text(nameof(details.Chronicle), details.Chronicle, 120);
         issues.Text(nameof(details.Description), details.Description, 20000);
         issues.Text(nameof(details.Notes), details.Notes, 100000);
+        if (details.NoteEntries is null || details.NoteEntries.Count > 500)
+            issues.Add(new(nameof(details.NoteEntries), "Uma ficha pode ter no maximo 500 notas."));
+        foreach (var note in details.NoteEntries ?? [])
+        {
+            if (note is null) { issues.Add(new(nameof(details.NoteEntries), "Nota invalida.")); continue; }
+            issues.Text("NoteEntries.Title", note.Title, 120);
+            issues.Text("NoteEntries.Text", note.Text, 100000);
+        }
         foreach (var (field, value) in new (string, string)[]
         {
             (nameof(details.Ambition), details.Ambition), (nameof(details.Desire), details.Desire),
@@ -244,6 +252,8 @@ public static class CharacterRules
         nameof(CharacterDetails.Chronicle) => "Cronica",
         nameof(CharacterDetails.Description) => "Descricao",
         nameof(CharacterDetails.Notes) => "Anotacoes",
+        "NoteEntries.Title" => "Titulo da nota",
+        "NoteEntries.Text" => "Texto da nota",
         nameof(CharacterDetails.Ambition) => "Ambicao",
         nameof(CharacterDetails.Desire) => "Desejo",
         nameof(CharacterDetails.Resonance) => "Ressonancia",

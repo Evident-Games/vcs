@@ -55,7 +55,7 @@ internal sealed partial class PdfSheetWriter
                     Text("Experiencia total", _character.Details.ExperienceTotal.ToString(CultureInfo.InvariantCulture));
                     Text("Experiencia gasta", _character.Details.ExperienceSpent.ToString(CultureInfo.InvariantCulture));
                     break;
-                case SheetSection.Notes: Text("Notas", _character.Details.Notes, true); break;
+                case SheetSection.Notes: Notes(); break;
                 default: throw new InvalidDataException($"Secao PDF desconhecida: {section.Key}.");
             }
             if (_character.Details.Advancement is { } advancement)
@@ -298,6 +298,12 @@ internal sealed partial class PdfSheetWriter
         Detail("History");
         Detail("Appearance");
         PredatorReference();
+    }
+
+    private void Notes()
+    {
+        if (!string.IsNullOrWhiteSpace(_character.Details.Notes)) Text("Notas", _character.Details.Notes, true);
+        foreach (var note in _character.Details.NoteEntries) Text(string.IsNullOrWhiteSpace(note.Title) ? "Nota" : note.Title, note.Text, true);
     }
 
     private void State()

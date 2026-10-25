@@ -117,10 +117,64 @@
                          VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Descricao do personagem" />
             </StackPanel>
         </DataTemplate>
+        <!-- Notes: searchable list of titled notes on the left, the selected note on the right. -->
         <DataTemplate x:Key="Notes">
-            <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" AcceptsTab="True"
-                     TextWrapping="Wrap" MinHeight="240" MaxHeight="600" VerticalScrollBarVisibility="Auto" MaxLength="100000"
-                     AutomationProperties.Name="Anotacoes do personagem" />
+            <Grid DataContext="{Binding Notebook}" MinHeight="340">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="230" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                <DockPanel Margin="0,0,14,0">
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+                        <Button DockPanel.Dock="Right" Content="+ Nova nota" Command="{Binding AddCommand}" Margin="8,0,0,0"
+                                AutomationProperties.Name="Nova nota" />
+                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PaperLineTextBox}"
+                                 Tag="Buscar notas" AutomationProperties.Name="Buscar notas" />
+                    </DockPanel>
+                    <ListBox ItemsSource="{Binding VisibleNotes}" SelectedItem="{Binding SelectedNote}" MaxHeight="520"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Lista de notas">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="2,3">
+                                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding Preview}" FontSize="11" TextTrimming="CharacterEllipsis" Opacity="0.8" />
+                                    <TextBlock Text="{Binding DateLabel}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+                <DockPanel Grid.Column="1" DataContext="{Binding SelectedNote}">
+                    <DockPanel.Style>
+                        <Style TargetType="DockPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DockPanel.Style>
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+                        <Button DockPanel.Dock="Right" Content="Excluir" Margin="8,0,0,0" ToolTip="Excluir esta nota"
+                                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=Grid}}"
+                                CommandParameter="{Binding}" AutomationProperties.Name="Excluir nota" />
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding DateLabel}" FontSize="11" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" FontFamily="Georgia" FontSize="17"
+                                 Style="{StaticResource PaperLineTextBox}" Tag="Titulo da nota" Margin="0,0,12,0"
+                                 AutomationProperties.Name="Titulo da nota" />
+                    </DockPanel>
+                    <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" AcceptsTab="True"
+                             TextWrapping="Wrap" VerticalContentAlignment="Top" MinHeight="300" MaxHeight="560"
+                             VerticalScrollBarVisibility="Auto" MaxLength="100000" Padding="10,8"
+                             AutomationProperties.Name="Texto da nota" />
+                </DockPanel>
+                <TextBlock Grid.Column="1" Text="Nenhuma nota ainda. Use + Nova nota para comecar." TextWrapping="Wrap"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsInputDescription}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasNotes}" Value="True"><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
         </DataTemplate>
     </UserControl.Resources>
     <Border>

@@ -55,7 +55,7 @@ public sealed class SpecializationTests : IAsyncLifetime
         var path = Path.Combine(_directory, "sheet.json");
         var files = new JsonCharacterFiles();
         await files.ExportAsync(saved, path);
-        Assert.Contains("\"FormatVersion\": 11", await File.ReadAllTextAsync(path));
+        Assert.Contains("\"FormatVersion\": 12", await File.ReadAllTextAsync(path));
         var imported = await _service.ImportAsync(await files.ReadAsync(path));
         Assert.Equal(saved.Traits.OrderBy(x => x.Key), imported.Traits.OrderBy(x => x.Key));
         var maintenance = new SqliteDatabaseMaintenance(_database);

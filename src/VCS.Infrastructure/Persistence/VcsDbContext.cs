@@ -66,12 +66,20 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
                 x => JsonSerializer.Deserialize<AdvancementState>(x, (JsonSerializerOptions?)null));
             details.Property(x => x.NpcAttacks).HasConversion(
                 x => JsonSerializer.Serialize(x, (JsonSerializerOptions?)null),
-                x => new NpcAttackList(JsonSerializer.Deserialize<NpcAttack[]>(x, (JsonSerializerOptions?)null) ?? Array.Empty<NpcAttack>()),
+                x => new ValueList<NpcAttack>(JsonSerializer.Deserialize<NpcAttack[]>(x, (JsonSerializerOptions?)null) ?? Array.Empty<NpcAttack>()),
                 new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<IReadOnlyList<NpcAttack>>(
                     (a, b) => a == null ? b == null : b != null && a.SequenceEqual(b),
                     x => x.Aggregate(0, (hash, attack) => HashCode.Combine(hash, attack)),
-                    x => new NpcAttackList(x)))
-                .HasDefaultValue(NpcAttackList.Empty).IsRequired();
+                    x => new ValueList<NpcAttack>(x)))
+                .HasDefaultValue(ValueList<NpcAttack>.Empty).IsRequired();
+            details.Property(x => x.NoteEntries).HasConversion(
+                x => JsonSerializer.Serialize(x, (JsonSerializerOptions?)null),
+                x => new ValueList<CharacterNote>(JsonSerializer.Deserialize<CharacterNote[]>(x, (JsonSerializerOptions?)null) ?? Array.Empty<CharacterNote>()),
+                new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<IReadOnlyList<CharacterNote>>(
+                    (a, b) => a == null ? b == null : b != null && a.SequenceEqual(b),
+                    x => x.Aggregate(0, (hash, note) => HashCode.Combine(hash, note)),
+                    x => new ValueList<CharacterNote>(x)))
+                .HasDefaultValue(ValueList<CharacterNote>.Empty).IsRequired();
             details.Property(x => x.Name).HasColumnName("Name").HasMaxLength(120).IsRequired();
             details.Property(x => x.Clan).HasColumnName("Clan").HasMaxLength(80).IsRequired();
             details.Property(x => x.Chronicle).HasColumnName("Chronicle").HasMaxLength(120).IsRequired();
