@@ -12,10 +12,19 @@ public sealed partial class ProvidedDisciplineCatalog : IDisciplineCatalog
             "VCS.Infrastructure.Catalogs.Seed.Disciplines.txt")
             ?? throw new InvalidDataException("O catalogo de disciplinas nao foi incluido no aplicativo.");
         using var reader = new StreamReader(stream);
-        Powers = Parse(reader.ReadToEnd());
+        Powers = BuiltIn = Parse(reader.ReadToEnd());
     }
 
-    public IReadOnlyList<PowerDefinition> Powers { get; }
+    /// <summary>Powers in use: built-in ones with user edits applied, then user powers.</summary>
+    public IReadOnlyList<PowerDefinition> Powers { get; private set; }
+    public IReadOnlyList<PowerDefinition> BuiltIn { get; }
+
+    public void Apply(IEnumerable<PowerDefinition> edits)
+    {
+        var byId = edits.ToDictionary(x => x.Id);
+        var builtInIds = BuiltIn.Select(x => x.Id).ToHashSet();
+        Powers = Array.AsReadOnly([.. BuiltIn.Select(x => byId.GetValueOrDefault(x.Id, x)), .. byId.Values.Where(x => !builtInIds.Contains(x.Id))]);
+    }
 
     public static IReadOnlyList<PowerDefinition> Parse(string text)
     {

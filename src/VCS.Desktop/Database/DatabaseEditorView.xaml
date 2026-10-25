@@ -1,0 +1,193 @@
+<UserControl x:Class="VCS.Desktop.Database.DatabaseEditorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:database="clr-namespace:VCS.Desktop.Database"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls"
+    Visibility="{Binding IsDatabaseEditorOpen, Converter={StaticResource BoolVisibility}}">
+    <!-- Editar › Banco de dados: one tab per catalog, a searchable list on the left and the entry form on the right. -->
+    <UserControl.Resources>
+        <Style x:Key="FormLabel" TargetType="TextBlock" BasedOn="{StaticResource FieldLabel}">
+            <Setter Property="Margin" Value="0,10,0,3" />
+        </Style>
+        <Style x:Key="LongText" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="MinHeight" Value="110" />
+            <Setter Property="MaxHeight" Value="260" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        </Style>
+
+        <DataTemplate DataType="{x:Type database:SkillDraft}">
+            <StackPanel>
+                <TextBlock Text="Nome" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" AutomationProperties.Name="Nome da habilidade no banco" />
+                <TextBlock Text="Grupo" Style="{StaticResource FormLabel}" />
+                <ComboBox ItemsSource="{x:Static database:SkillDraft.Groups}" Text="{Binding Group, UpdateSourceTrigger=PropertyChanged}" IsEditable="True"
+                          AutomationProperties.Name="Grupo da habilidade no banco" />
+                <TextBlock Text="Descricao" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource LongText}" MaxLength="20000" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type database:AdvantageDraft}">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="2*" /><ColumnDefinition Width="12" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Nome" Style="{StaticResource FormLabel}" />
+                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" AutomationProperties.Name="Nome da vantagem no banco" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Tipo" Style="{StaticResource FormLabel}" />
+                        <ComboBox ItemsSource="{x:Static database:AdvantageDraft.Categories}" SelectedItem="{Binding Category}" />
+                    </StackPanel>
+                </Grid>
+                <TextBlock Text="Familia (grupo)" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Group, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" />
+                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                    <TextBlock Text="Pontos: minimo" Style="{StaticResource FieldLabel}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <controls:NumericField Value="{Binding Minimum, Mode=TwoWay}" Minimum="1" Maximum="5" Width="76" />
+                    <TextBlock Text="maximo" Style="{StaticResource FieldLabel}" VerticalAlignment="Center" Margin="16,0,8,0" />
+                    <controls:NumericField Value="{Binding Maximum, Mode=TwoWay}" Minimum="1" Maximum="5" Width="76" />
+                </StackPanel>
+                <TextBlock Text="Rotulo dos pontos (ex.: • a •••)" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding PointsLabel, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" />
+                <TextBlock Text="Colecao (loresheets)" Style="{StaticResource FormLabel}" />
+                <DockPanel>
+                    <CheckBox DockPanel.Dock="Right" Content="Linhagem" IsChecked="{Binding IsLineage}" Margin="12,0,0,0" />
+                    <TextBox Text="{Binding LoresheetCollection, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" />
+                </DockPanel>
+                <TextBlock Text="Descricao" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource LongText}" MaxLength="20000" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type database:PowerDraft}">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="12" /><ColumnDefinition Width="*" /><ColumnDefinition Width="12" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Disciplina (nova ou existente)" Style="{StaticResource FormLabel}" />
+                        <TextBox Text="{Binding Discipline, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" AutomationProperties.Name="Disciplina do poder no banco" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Poder" Style="{StaticResource FormLabel}" />
+                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" AutomationProperties.Name="Nome do poder no banco" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="4">
+                        <TextBlock Text="Nivel" Style="{StaticResource FormLabel}" />
+                        <controls:NumericField Value="{Binding Level, Mode=TwoWay}" Minimum="1" Maximum="5" Width="76" />
+                    </StackPanel>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="12" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Custo" Style="{StaticResource FormLabel}" />
+                        <TextBox Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" MaxLength="200" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Parada de dados" Style="{StaticResource FormLabel}" />
+                        <TextBox Text="{Binding DicePool, UpdateSourceTrigger=PropertyChanged}" MaxLength="200" />
+                    </StackPanel>
+                </Grid>
+                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                    <TextBlock Text="Amalgama (opcional):" Style="{StaticResource FieldLabel}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <TextBox Text="{Binding AmalgamDiscipline, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" Width="180" />
+                    <TextBlock Text="nivel" Style="{StaticResource FieldLabel}" VerticalAlignment="Center" Margin="12,0,8,0" />
+                    <controls:NumericField Value="{Binding AmalgamLevel, Mode=TwoWay}" Minimum="0" Maximum="5" Width="76" />
+                </StackPanel>
+                <TextBlock Text="Resumo" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Summary, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource LongText}" MaxLength="20000" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type database:ClanDraft}">
+            <StackPanel>
+                <TextBlock Text="Nome" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" AutomationProperties.Name="Nome do cla no banco">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CanRename}" Value="False">
+                                    <Setter Property="IsReadOnly" Value="True" />
+                                    <Setter Property="ToolTip" Value="Clas do aplicativo mantem o nome; crie um novo cla para outro nome." />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBlock Text="Disciplinas do cla (separadas por virgula)" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Disciplines, UpdateSourceTrigger=PropertyChanged}" MaxLength="500" AutomationProperties.Name="Disciplinas do cla no banco" />
+                <TextBlock Text="Outros nomes (separados por virgula)" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Aliases, UpdateSourceTrigger=PropertyChanged}" MaxLength="500" />
+                <TextBlock Text="Descricao" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource LongText}" MinHeight="70" MaxLength="2000" />
+                <TextBlock Text="Perdicao" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Bane, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource LongText}" MinHeight="70" MaxLength="2000" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="12"
+            Padding="24" Margin="36" MaxWidth="1100" TextElement.Foreground="{DynamicResource VcsOuterText}"
+            AutomationProperties.Name="Banco de dados">
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6">
+                <Button Content="Fechar" Command="{Binding ToggleDatabaseEditorCommand}" DockPanel.Dock="Right" />
+                <TextBlock Text="Banco de dados" Style="{StaticResource SectionTitle}" />
+            </DockPanel>
+            <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,12" Foreground="{DynamicResource VcsInputDescription}"
+                       Text="Itens do aplicativo podem ser editados e restaurados, mas nao excluidos, porque fichas podem usa-los. Os seus podem ser excluidos. Fichas abertas usam as mudancas ao serem reabertas." />
+            <TabControl ItemsSource="{Binding Database.Tabs}" SelectedIndex="0" AutomationProperties.Name="Catalogos do banco">
+                <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Title}" /></DataTemplate></TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate DataType="{x:Type database:CatalogTabViewModel}">
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="300" /><ColumnDefinition Width="20" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                            <DockPanel>
+                                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+                                    <Button DockPanel.Dock="Right" Content="+ Novo" Command="{Binding NewCommand}" Margin="8,0,0,0"
+                                            AutomationProperties.Name="{Binding Title, StringFormat='Novo item em {0}'}" />
+                                    <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PaperLineTextBox}"
+                                             Tag="Buscar" AutomationProperties.Name="{Binding Title, StringFormat='Buscar em {0}'}" />
+                                </DockPanel>
+                                <ListBox ItemsSource="{Binding VisibleRows}" SelectedItem="{Binding SelectedRow}" Height="440"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True"
+                                         AutomationProperties.Name="{Binding Title, StringFormat='Lista de {0}'}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <DockPanel Margin="2,2">
+                                                <TextBlock DockPanel.Dock="Right" Text="{Binding Badge}" FontSize="10" FontStyle="Italic" VerticalAlignment="Top"
+                                                           Foreground="{DynamicResource VcsAccentText}" Margin="6,0,0,0" />
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                                    <TextBlock Text="{Binding Subtitle}" FontSize="11" TextTrimming="CharacterEllipsis" Opacity="0.8" />
+                                                </StackPanel>
+                                            </DockPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </DockPanel>
+                            <DockPanel Grid.Column="2">
+                                <StackPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
+                                    <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Status}" Foreground="{DynamicResource VcsInputDescription}" TextWrapping="Wrap" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                        <Button Content="Salvar" Command="{Binding SaveCommand}" Margin="0,0,8,0"
+                                                AutomationProperties.Name="{Binding Title, StringFormat='Salvar em {0}'}" />
+                                        <Button Content="Restaurar padrao" Command="{Binding ResetCommand}" IsEnabled="{Binding CanReset}" Margin="0,0,8,0" />
+                                        <Button Content="Excluir" Command="{Binding DeleteCommand}" IsEnabled="{Binding CanDelete}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="420">
+                                    <ContentControl Content="{Binding Draft}" Focusable="False" Margin="0,0,10,0" />
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Grid>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+        </DockPanel>
+    </Border>
+</UserControl>

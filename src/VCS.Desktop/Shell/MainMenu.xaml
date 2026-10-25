@@ -20,6 +20,9 @@
             <MenuItem Header="_Editar">
                 <MenuItem Header="_Duplicar personagem" Command="{Binding DuplicateCommand}" IsEnabled="{Binding CanActOnCharacter}" />
                 <MenuItem Header="E_xcluir personagem..." Command="{Binding DeleteCommand}" IsEnabled="{Binding CanActOnCharacter}" />
+                <Separator />
+                <MenuItem Header="_Banco de dados..." Command="{Binding ToggleDatabaseEditorCommand}" IsEnabled="{Binding CanEditDatabase}"
+                          ToolTip="Adicionar ou editar habilidades, vantagens, disciplinas e clas" />
             </MenuItem>
             <MenuItem Header="E_xibir">
                 <MenuItem Header="Layout da ficha..." Command="{Binding ToggleLayoutSettingsCommand}" />

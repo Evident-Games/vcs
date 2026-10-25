@@ -902,6 +902,39 @@ public sealed class DesktopUiTests(WpfApp wpf)
             SaveSnapshot(window, "notas");
     });
 
+    /// <summary>Editar › Banco de dados lists the four catalogs and adds a skill from the form.</summary>
+    [Fact]
+    public Task Database_editor_adds_a_skill() => _wpf.RunAsync(async ui =>
+    {
+            var (app, window, model, service, dialogs, directory) = ui;
+            var editMenu = (MenuItem)Descendants<Menu>(window).Single().Items[1];
+            var databaseItem = editMenu.Items.OfType<MenuItem>().Single(x => Equals(x.Header, "_Banco de dados..."));
+            await ((CommunityToolkit.Mvvm.Input.IAsyncRelayCommand)databaseItem.Command).ExecuteAsync(null);
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+            Assert.True(model.IsDatabaseEditorOpen);
+            var tabs = Find<TabControl>(window, "Catalogos do banco");
+            Assert.Equal(["Habilidades", "Vantagens e defeitos", "Disciplinas e poderes", "Clas"],
+                model.Database!.Tabs.Select(x => x.Title));
+            var skills = model.Database.Tabs[0];
+            Assert.Equal(27, skills.Rows.Count);
+            Press(Find<Button>(window, "Novo item em Habilidades"));
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+            Find<TextBox>(window, "Nome da habilidade no banco").Text = "Navegacao";
+            await skills.SaveCommand.ExecuteAsync(null);
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+            Assert.Equal("", skills.Error);
+            Assert.Equal("Navegacao", skills.SelectedRow!.Title);
+            Assert.Equal("seu", skills.SelectedRow.Badge);
+            Assert.True(skills.CanDelete);
+            AssertReadableControls(Find<Border>(window, "Banco de dados"));
+            SaveSnapshot(window, "banco-de-dados");
+            tabs.SelectedIndex = 3;
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+            Assert.True(Find<TextBox>(window, "Nome do cla no banco").IsReadOnly);
+            await model.ToggleDatabaseEditorCommand.ExecuteAsync(null);
+            Assert.False(model.IsDatabaseEditorOpen);
+    });
+
     /// <summary>A sheet theme recolors only that sheet and persists per character.</summary>
     [Fact]
     public Task Sheet_theme_overrides_only_its_sheet() => _wpf.RunAsync(async ui =>
