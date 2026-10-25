@@ -1,12 +1,14 @@
 using Microsoft.Extensions.Logging.Abstractions;
-using VCS.Application.Abstractions;
 using VCS.Application.Characters;
-using VCS.Desktop.Services;
-using VCS.Desktop.ViewModels;
+using VCS.Desktop.Layout;
+using VCS.Desktop.Sheet;
+using VCS.Desktop.Shell;
+using VCS.Desktop.Themes;
+using VCS.Domain.Advancement;
 using VCS.Domain.Characters;
-using VCS.Infrastructure.Files;
+using VCS.Infrastructure.Catalogs;
+using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
-using VCS.Infrastructure.Repositories;
 
 namespace VCS.Tests;
 
@@ -34,6 +36,64 @@ public sealed class EditorTests : IAsyncLifetime
     private async Task<CharacterEditorViewModel> CreateEditorAsync() => new(
         await _service.CreateAsync(), _service, NullLogger<CharacterEditorViewModel>.Instance, _autosave,
         new ProvidedDisciplineCatalog());
+
+    [Fact]
+    public async Task Notes_are_a_searchable_list_saved_with_the_sheet_and_old_text_becomes_the_first_note()
+    {
+        var created = await _service.CreateAsync();
+        var legacy = await _service.SaveAsync(created with { Details = created.Details with { Notes = "Texto antigo" } });
+        using (var editor = new CharacterEditorViewModel(legacy, _service, NullLogger<CharacterEditorViewModel>.Instance,
+                   _autosave, new ProvidedDisciplineCatalog()))
+        {
+            var first = Assert.Single(editor.Notebook.Notes);
+            Assert.Equal(("Anotações", "Texto antigo"), (first.Title, first.Text));
+            Assert.Same(first, editor.Notebook.SelectedNote);
+            Assert.Equal("", editor.Notes);
+            Assert.False(editor.IsDirty);
+
+            editor.Notebook.AddCommand.Execute(null);
+            var added = editor.Notebook.SelectedNote!;
+            added.Title = "Pistas";
+            added.Text = "O sire esta em Chicago.";
+            Assert.True(editor.IsDirty);
+            editor.Notebook.SearchText = "chicago";
+            Assert.Equal([added], editor.Notebook.VisibleNotes.Cast<NoteViewModel>());
+            editor.Notebook.SearchText = "";
+            Assert.True(await editor.FlushAsync());
+        }
+        var saved = await _service.GetAsync(legacy.Id);
+        Assert.Equal("", saved.Details.Notes);
+        Assert.Equal(["Pistas", "Anotações"], saved.Details.NoteEntries.OrderByDescending(x => x.UpdatedUtc).Select(x => x.Title));
+
+        using var reopened = new CharacterEditorViewModel(saved, _service, NullLogger<CharacterEditorViewModel>.Instance,
+            _autosave, new ProvidedDisciplineCatalog());
+        Assert.Equal(2, reopened.Notebook.Notes.Count);
+        reopened.Notebook.DeleteCommand.Execute(reopened.Notebook.Notes.Single(x => x.Title == "Anotações"));
+        Assert.True(await reopened.FlushAsync());
+        Assert.Equal("Pistas", Assert.Single((await _service.GetAsync(legacy.Id)).Details.NoteEntries).Title);
+    }
+
+    [Fact]
+    public async Task Personal_disciplines_are_typed_lines_like_personal_skills()
+    {
+        using var editor = await CreateEditorAsync();
+        var gridBefore = editor.DisciplineItems.Cast<TraitItemViewModel>().Count();
+        var draft = Assert.Single(editor.PersonalDisciplines.Lines);
+        Assert.True(draft.IsDraft);
+        draft.Rating = 2;
+        Assert.True(draft.IsDraft);
+        draft.Name = "Quimerismo";
+        Assert.False(draft.IsDraft);
+        var added = Assert.Single(editor.Disciplines.Items, x => x.Name == "Quimerismo");
+        Assert.Equal(2, added.Rating);
+        Assert.Equal(2, editor.PersonalDisciplines.Lines.Count);
+        Assert.True(editor.PersonalDisciplines.Lines[^1].IsDraft);
+        Assert.Equal(gridBefore, editor.DisciplineItems.Cast<TraitItemViewModel>().Count());
+        Assert.DoesNotContain(editor.DisciplineItems.Cast<TraitItemViewModel>(), x => x.Name == "Quimerismo");
+        draft.Name = "";
+        Assert.DoesNotContain(editor.Disciplines.Items, x => x.Name == "Quimerismo");
+        Assert.True(Assert.Single(editor.PersonalDisciplines.Lines).IsDraft);
+    }
 
     [Fact]
     public async Task Initial_distributions_show_remaining_ratings_and_generation_guidance_allows_diablerie()
@@ -513,13 +573,13 @@ public sealed class EditorTests : IAsyncLifetime
         editor.Name = "Persistido";
         editor.Attributes.Items[0].Rating = 4;
         Assert.True(await editor.FlushAsync());
-        foreach (var section in editor.Display.Sections) section.IsVisible = false;
+        foreach (var section in editor.Display.Pc.Sections) section.IsVisible = false;
         Assert.Empty(editor.VisibleSections);
         Assert.True(editor.NoVisibleSections);
         Assert.False(editor.IsDirty);
         Assert.Null(editor.SelectedTab);
         editor.Display.UseTabs = true;
-        editor.Display.Sections.Single(x => x.Key == "Attributes").IsVisible = true;
+        editor.Display.Pc.Sections.Single(x => x.Key == "Attributes").IsVisible = true;
         Assert.Equal("Attributes", Assert.Single(editor.VisibleSections).Key);
         Assert.Equal("Attributes", Assert.Single(editor.SelectedTab!.Sections).Key);
         Assert.Equal(4, editor.PhysicalAttributes[0].Rating);
@@ -608,17 +668,17 @@ public sealed class EditorTests : IAsyncLifetime
         Assert.Equal(new[] { "Background", "Notes" }, editor.VisibleTabs[^1].Sections.Select(x => x.Key));
         Assert.Equal(7, editor.VisibleTabs.Count);
         editor.SelectedTab = firstTab;
-        editor.Display.Sections.Single(x => x.Key == "State").TabName = " Identidade ";
+        editor.Display.Pc.Sections.Single(x => x.Key == "State").TabName = " Identidade ";
         Assert.Equal(6, editor.VisibleTabs.Count);
         Assert.Equal(2, editor.VisibleTabs[0].Sections.Count);
         Assert.Equal(editor.VisibleTabs[0], editor.SelectedTab);
-        editor.Display.Sections.Single(x => x.Key == "Attributes").TabName = "Atributos separados";
+        editor.Display.Pc.Sections.Single(x => x.Key == "Attributes").TabName = "Atributos separados";
         Assert.Equal(6, editor.VisibleTabs.Count);
-        editor.Display.Sections.Single(x => x.Key == "State").IsVisible = false;
+        editor.Display.Pc.Sections.Single(x => x.Key == "State").IsVisible = false;
         Assert.DoesNotContain(editor.VisibleTabs.SelectMany(x => x.Sections), x => x.Key == "State");
-        foreach (var section in editor.Display.Sections) section.TabName = "Tudo";
+        foreach (var section in editor.Display.Pc.Sections) section.TabName = "Tudo";
         Assert.Single(editor.VisibleTabs);
-        foreach (var section in editor.Display.Sections) section.IsVisible = false;
+        foreach (var section in editor.Display.Pc.Sections) section.IsVisible = false;
         Assert.Empty(editor.VisibleTabs);
         Assert.Null(editor.SelectedTab);
         Assert.False(editor.IsDirty);
@@ -685,15 +745,15 @@ public sealed class EditorTests : IAsyncLifetime
     public async Task Section_and_tab_order_and_titles_can_be_changed_independently()
     {
         using var editor = await CreateEditorAsync();
-        var state = editor.Display.Sections.Single(x => x.Key == "State");
+        var state = editor.Display.Pc.Sections.Single(x => x.Key == "State");
         state.Caption = "Estado de sangue";
         state.SectionOrder = 1;
-        editor.Display.Sections.Single(x => x.Key == "Identity").SectionOrder = 10;
-        editor.Display.Sections.Single(x => x.Key == "Attributes").SectionOrder = 11;
+        editor.Display.Pc.Sections.Single(x => x.Key == "Identity").SectionOrder = 10;
+        editor.Display.Pc.Sections.Single(x => x.Key == "Attributes").SectionOrder = 11;
         state.TabName = "Sangue";
         state.TabOrder = 1;
-        editor.Display.Sections.Single(x => x.Key == "Identity").TabOrder = 20;
-        editor.Display.Sections.Single(x => x.Key == "Attributes").TabOrder = 20;
+        editor.Display.Pc.Sections.Single(x => x.Key == "Identity").TabOrder = 20;
+        editor.Display.Pc.Sections.Single(x => x.Key == "Attributes").TabOrder = 20;
         Assert.Equal("State", editor.VisibleSections[0].Key);
         Assert.Equal("Estado de sangue", editor.VisibleSections[0].Title);
         Assert.Equal("Sangue", editor.VisibleTabs[0].Title);

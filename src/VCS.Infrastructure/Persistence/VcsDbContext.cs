@@ -1,6 +1,11 @@
-using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using VCS.Domain.Advancement;
+using VCS.Domain.Advantages;
 using VCS.Domain.Characters;
+using VCS.Domain.Predators;
+using VCS.Domain.Skills;
+using VCS.Infrastructure.Catalogs.Seed;
 
 namespace VCS.Infrastructure.Persistence;
 
@@ -10,6 +15,8 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
     public DbSet<AdvantageDefinition> AdvantageCatalog => Set<AdvantageDefinition>();
     public DbSet<SkillDefinition> SkillCatalog => Set<SkillDefinition>();
     public DbSet<PredatorCatalogRecord> PredatorCatalog => Set<PredatorCatalogRecord>();
+    public DbSet<ClanCatalogRecord> ClanCatalog => Set<ClanCatalogRecord>();
+    public DbSet<PowerCatalogRecord> PowerCatalog => Set<PowerCatalogRecord>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -18,17 +25,27 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         predators.HasKey(x => x.Id);
         predators.Property(x => x.Name).HasMaxLength(80).IsRequired();
         predators.Property(x => x.Definition).IsRequired();
-        predators.HasData(Domain.Characters.PredatorCatalog.All.Select(x => new PredatorCatalogRecord
+        predators.HasData(Domain.Predators.PredatorCatalog.All.Select(x => new PredatorCatalogRecord
         {
             Id = x.Id, Name = x.Name, Definition = JsonSerializer.Serialize(x)
         }));
+        var clans = modelBuilder.Entity<ClanCatalogRecord>();
+        clans.ToTable("ClanCatalog");
+        clans.HasKey(x => x.Name);
+        clans.Property(x => x.Name).HasMaxLength(80);
+        var powers = modelBuilder.Entity<PowerCatalogRecord>();
+        powers.ToTable("PowerCatalog");
+        powers.HasKey(x => x.Id);
+        powers.Property(x => x.Id).HasMaxLength(120);
+        powers.Property(x => x.Discipline).HasMaxLength(80).IsRequired();
+        powers.Property(x => x.Name).HasMaxLength(80).IsRequired();
         var skills = modelBuilder.Entity<SkillDefinition>();
         skills.ToTable("SkillCatalog");
         skills.HasKey(x => x.Id);
         skills.Property(x => x.Name).HasMaxLength(80).IsRequired();
         skills.Property(x => x.Group).HasMaxLength(80).IsRequired();
         skills.Property(x => x.Description).IsRequired();
-        skills.HasData(Data.ProvidedSkills.All);
+        skills.HasData(ProvidedSkills.All);
         var catalog = modelBuilder.Entity<AdvantageDefinition>();
         catalog.ToTable("AdvantageCatalog", table => table.HasCheckConstraint("CK_AdvantageCatalog_Points",
             "\"Minimum\" >= 1 AND \"Maximum\" >= \"Minimum\" AND \"Maximum\" <= 5"));
@@ -39,8 +56,8 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         catalog.Property(x => x.Description).IsRequired();
         catalog.Property(x => x.LoresheetCollection).HasMaxLength(80).IsRequired();
         catalog.Property(x => x.PointsLabel).IsRequired();
-        catalog.HasData(Data.ProvidedAdvantages.All);
-        catalog.HasData(Data.ProvidedLoresheets.All);
+        catalog.HasData(ProvidedAdvantages.All);
+        catalog.HasData(ProvidedLoresheets.All);
         var character = modelBuilder.Entity<Character>();
         character.ToTable("Characters");
         character.HasKey(x => x.Id);
@@ -61,12 +78,20 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
                 x => JsonSerializer.Deserialize<AdvancementState>(x, (JsonSerializerOptions?)null));
             details.Property(x => x.NpcAttacks).HasConversion(
                 x => JsonSerializer.Serialize(x, (JsonSerializerOptions?)null),
-                x => new NpcAttackList(JsonSerializer.Deserialize<NpcAttack[]>(x, (JsonSerializerOptions?)null) ?? Array.Empty<NpcAttack>()),
+                x => new ValueList<NpcAttack>(JsonSerializer.Deserialize<NpcAttack[]>(x, (JsonSerializerOptions?)null) ?? Array.Empty<NpcAttack>()),
                 new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<IReadOnlyList<NpcAttack>>(
                     (a, b) => a == null ? b == null : b != null && a.SequenceEqual(b),
                     x => x.Aggregate(0, (hash, attack) => HashCode.Combine(hash, attack)),
-                    x => new NpcAttackList(x)))
-                .HasDefaultValue(NpcAttackList.Empty).IsRequired();
+                    x => new ValueList<NpcAttack>(x)))
+                .HasDefaultValue(ValueList<NpcAttack>.Empty).IsRequired();
+            details.Property(x => x.NoteEntries).HasConversion(
+                x => JsonSerializer.Serialize(x, (JsonSerializerOptions?)null),
+                x => new ValueList<CharacterNote>(JsonSerializer.Deserialize<CharacterNote[]>(x, (JsonSerializerOptions?)null) ?? Array.Empty<CharacterNote>()),
+                new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<IReadOnlyList<CharacterNote>>(
+                    (a, b) => a == null ? b == null : b != null && a.SequenceEqual(b),
+                    x => x.Aggregate(0, (hash, note) => HashCode.Combine(hash, note)),
+                    x => new ValueList<CharacterNote>(x)))
+                .HasDefaultValue(ValueList<CharacterNote>.Empty).IsRequired();
             details.Property(x => x.Name).HasColumnName("Name").HasMaxLength(120).IsRequired();
             details.Property(x => x.Clan).HasColumnName("Clan").HasMaxLength(80).IsRequired();
             details.Property(x => x.Chronicle).HasColumnName("Chronicle").HasMaxLength(120).IsRequired();

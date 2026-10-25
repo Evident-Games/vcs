@@ -1,0 +1,15 @@
+<UserControl x:Class="VCS.Desktop.Shell.HelpView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Short usage help. -->
+    <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+            BorderThickness="1" Padding="24" Margin="36" MaxWidth="850"
+            Visibility="{Binding IsHelpOpen, Converter={StaticResource BoolVisibility}}">
+        <StackPanel>
+            <TextBlock Text="VCS - Como usar" Style="{StaticResource SectionTitle}" />
+            <TextBlock Text="Arquivo: criar, abrir, salvar e importar/exportar fichas JSON.&#10;&#10;Editar: duplicar ou excluir a ficha aberta ou selecionada.&#10;&#10;Exibir: escolher temas, ficha continua e organizar abas. Use o mesmo nome para agrupar secoes.&#10;&#10;Ferramentas: criar e restaurar dumps do banco completo.&#10;&#10;Na lista, abra uma ficha com duplo clique ou Enter. Ctrl+N cria, Ctrl+O abre e Ctrl+S salva. Alteracoes validas tambem sao salvas automaticamente."
+                       TextWrapping="Wrap" Margin="0,0,0,24" />
+            <Button Content="Fechar ajuda" Command="{Binding ToggleHelpCommand}" HorizontalAlignment="Left" />
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -10,7 +10,7 @@
             <Setter Property="MinHeight" Value="16" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="FontSize" Value="9" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsText}" />
+            <Setter Property="Foreground" Value="{DynamicResource VcsInputText}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">

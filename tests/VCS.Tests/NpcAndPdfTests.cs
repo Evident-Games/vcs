@@ -3,13 +3,13 @@ using Microsoft.Extensions.Logging.Abstractions;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
-using VCS.Application.Abstractions;
 using VCS.Application.Characters;
-using VCS.Desktop.ViewModels;
+using VCS.Desktop.Sheet;
+using VCS.Domain.Blood;
 using VCS.Domain.Characters;
-using VCS.Infrastructure.Files;
+using VCS.Infrastructure.Catalogs;
+using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
-using VCS.Infrastructure.Repositories;
 
 namespace VCS.Tests;
 
@@ -538,7 +538,7 @@ public sealed class NpcAndPdfTests : IAsyncLifetime
 
     private CharacterEditorViewModel Editor(CharacterDto dto) => new(dto, _service,
         NullLogger<CharacterEditorViewModel>.Instance, new NoAutosave(), new ProvidedDisciplineCatalog());
-    private sealed class NoAutosave : VCS.Desktop.Services.IAutosaveScheduler
+    private sealed class NoAutosave : IAutosaveScheduler
     {
         public void Schedule(Func<Task> action) { }
         public void Cancel() { }

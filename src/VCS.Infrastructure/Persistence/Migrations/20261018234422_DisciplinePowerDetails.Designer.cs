@@ -20,7 +20,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.13");
 
-            modelBuilder.Entity("VCS.Domain.Characters.AdvantageDefinition", b =>
+            modelBuilder.Entity("VCS.Domain.Advantages.AdvantageDefinition", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(80)
@@ -961,7 +961,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.ToTable("CharacterTraits", (string)null);
                 });
 
-            modelBuilder.Entity("VCS.Domain.Characters.SkillDefinition", b =>
+            modelBuilder.Entity("VCS.Domain.Skills.SkillDefinition", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");

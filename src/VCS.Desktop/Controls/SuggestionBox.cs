@@ -5,8 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using VCS.Application.Disciplines;
-using VCS.Desktop.ViewModels;
+using VCS.Application.Catalogs;
+using VCS.Desktop.Catalogs;
 
 namespace VCS.Desktop.Controls;
 
@@ -70,7 +70,7 @@ public sealed class SuggestionBox : UserControl
         };
 
         var chevron = new TextBlock { Text = "▾", FontSize = 11, VerticalAlignment = VerticalAlignment.Center };
-        chevron.SetResourceReference(TextBlock.ForegroundProperty, "VcsMuted");
+        chevron.SetResourceReference(TextBlock.ForegroundProperty, "VcsInputDescription");
         _toggle = new Button
         {
             Content = chevron, Focusable = false, Cursor = Cursors.Hand, HorizontalAlignment = HorizontalAlignment.Right,
@@ -191,7 +191,7 @@ public sealed class SuggestionBox : UserControl
         note.SetValue(TextBlock.FontSizeProperty, 10.5);
         note.SetValue(TextBlock.FontStyleProperty, FontStyles.Italic);
         note.SetValue(TextBlock.TextTrimmingProperty, TextTrimming.CharacterEllipsis);
-        note.SetResourceReference(TextBlock.ForegroundProperty, "VcsMuted");
+        note.SetResourceReference(TextBlock.ForegroundProperty, "VcsInputDescription");
         var text = new FrameworkElementFactory(typeof(StackPanel));
         text.AppendChild(value);
         text.AppendChild(note);

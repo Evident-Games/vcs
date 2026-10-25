@@ -1,4 +1,3 @@
-using VCS.Application.Abstractions;
 using VCS.Domain.Characters;
 
 namespace VCS.Application.Characters;
@@ -15,6 +14,8 @@ public sealed class CharacterService(ICharacterRepository repository)
             .Select(c => new CharacterSummary(c.Id, c.Details.Name, c.Details.Clan, c.Details.Chronicle, c.UpdatedUtc, c.Revision, c.Details.IsNpc))
             .ToArray();
     }
+
+    public Task WarmUpAsync(CancellationToken cancellationToken = default) => repository.WarmUpAsync(cancellationToken);
 
     public async Task<CharacterDto> GetAsync(Guid id, CancellationToken cancellationToken = default) =>
         CharacterDto.From(await repository.GetAsync(id, cancellationToken)

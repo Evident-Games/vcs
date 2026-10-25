@@ -6,15 +6,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using VCS.Application.Abstractions;
+using VCS.Application.Catalogs;
 using VCS.Application.Characters;
-using VCS.Application.Disciplines;
-using VCS.Desktop.Services;
-using VCS.Desktop.ViewModels;
-using VCS.Desktop.Views;
-using VCS.Infrastructure.Files;
+using VCS.Application.Maintenance;
+using VCS.Desktop.Database;
+using VCS.Desktop.Layout;
+using VCS.Desktop.Sheet;
+using VCS.Desktop.Shell;
+using VCS.Desktop.Themes;
+using VCS.Domain.Advantages;
+using VCS.Domain.Clans;
+using VCS.Domain.Skills;
+using VCS.Infrastructure.Catalogs;
+using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
-using VCS.Infrastructure.Repositories;
 
 namespace VCS.Desktop;
 
@@ -62,9 +67,17 @@ public partial class App : System.Windows.Application
             builder.Services.AddSingleton<IDatabaseMaintenance, SqliteDatabaseMaintenance>();
             builder.Services.AddSingleton<ICharacterFiles, JsonCharacterFiles>();
             builder.Services.AddSingleton<CharacterService>();
-            builder.Services.AddSingleton<IDisciplineCatalog, ProvidedDisciplineCatalog>();
-            builder.Services.AddSingleton<IAdvantageCatalog, SqliteAdvantageCatalog>();
-            builder.Services.AddSingleton<ISkillCatalog, SqliteSkillCatalog>();
+            builder.Services.AddSingleton<ProvidedDisciplineCatalog>();
+            builder.Services.AddSingleton<IDisciplineCatalog>(p => p.GetRequiredService<ProvidedDisciplineCatalog>());
+            builder.Services.AddSingleton<SqliteAdvantageCatalog>();
+            builder.Services.AddSingleton<IAdvantageCatalog>(p => p.GetRequiredService<SqliteAdvantageCatalog>());
+            builder.Services.AddSingleton<IEditableCatalog<AdvantageDefinition>>(p => p.GetRequiredService<SqliteAdvantageCatalog>());
+            builder.Services.AddSingleton<SqliteSkillCatalog>();
+            builder.Services.AddSingleton<ISkillCatalog>(p => p.GetRequiredService<SqliteSkillCatalog>());
+            builder.Services.AddSingleton<IEditableCatalog<SkillDefinition>>(p => p.GetRequiredService<SqliteSkillCatalog>());
+            builder.Services.AddSingleton<IEditableCatalog<PowerDefinition>, SqlitePowerCatalog>();
+            builder.Services.AddSingleton<IEditableCatalog<ClanDefinition>, SqliteClanCatalog>();
+            builder.Services.AddSingleton<DatabaseEditorViewModel>();
             builder.Services.AddSingleton<IPredatorCatalog, SqlitePredatorCatalog>();
             builder.Services.AddSingleton<ICharacterPdfExporter, CharacterPdfExporter>();
             builder.Services.AddSingleton<IDesktopDialogs, DesktopDialogs>();
@@ -80,6 +93,9 @@ public partial class App : System.Windows.Application
             _host = builder.Build();
             await _host.StartAsync();
             await _host.Services.GetRequiredService<IDatabaseMaintenance>().InitializeAsync();
+            // Clan and power edits from the database editor replace the built-in ones in memory.
+            await _host.Services.GetRequiredService<IEditableCatalog<ClanDefinition>>().RefreshAsync();
+            await _host.Services.GetRequiredService<IEditableCatalog<PowerDefinition>>().RefreshAsync();
             var viewModel = _host.Services.GetRequiredService<MainViewModel>();
             MainWindow = _host.Services.GetRequiredService<MainWindow>();
             MainWindow.Show();
