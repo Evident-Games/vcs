@@ -3,15 +3,23 @@ using VCS.Domain.Advancement;
 
 namespace VCS.Desktop.Sheet;
 
-public partial class SkillEntryLineViewModel : ObservableObject
+/// <summary>Owner of personal trait lines: turns a typed draft into a trait and drops a line whose name was cleared.</summary>
+public interface IPersonalTraitOwner
 {
-    private readonly SkillGroupViewModel _group;
+    void Materialize(PersonalTraitLineViewModel draft);
+    void RemoveIfEmpty(PersonalTraitLineViewModel line);
+}
+
+/// <summary>A personal skill or discipline line; the last line of a list is an empty draft that becomes a trait when typed in.</summary>
+public partial class PersonalTraitLineViewModel : ObservableObject
+{
+    private readonly IPersonalTraitOwner _group;
     private TraitItemViewModel? _trait;
     private string name = "";
     private string specialization = "";
     private int rating;
 
-    internal SkillEntryLineViewModel(SkillGroupViewModel group, TraitItemViewModel? trait = null)
+    internal PersonalTraitLineViewModel(IPersonalTraitOwner group, TraitItemViewModel? trait = null)
     {
         _group = group;
         Attach(trait);
