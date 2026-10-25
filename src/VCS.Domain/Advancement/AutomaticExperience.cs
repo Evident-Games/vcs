@@ -34,46 +34,46 @@ public static class AutomaticExperience
         {
             var bases = state.AttributeBase.ToDictionary(x => x.Key, x => x.Rating);
             foreach (var attribute in traits.Where(x => x.Category == TraitCategory.Attribute))
-                Levels("Attributes", attribute, bases.GetValueOrDefault(attribute.Key, 1), 5);
+                Levels(SheetSection.Attributes, attribute, bases.GetValueOrDefault(attribute.Key, 1), 5);
         }
-        Distribution(TraitCategory.Skill, CharacterAdvancement.SkillDistribution(state.Profile), 3, "Skills");
+        Distribution(TraitCategory.Skill, CharacterAdvancement.SkillDistribution(state.Profile), 3, SheetSection.Skills);
 
         foreach (var discipline in traits.Where(x => x.Category == TraitCategory.Discipline))
         {
             var inClan = DisciplineAdvancement.IsInClan(details.Clan, discipline.Name);
             if (inClan is null)
             {
-                warnings.Add(new("Disciplines", $"Selecione um cla conhecido para calcular o XP de {discipline.Name}."));
+                warnings.Add(new(SheetSection.Disciplines, $"Selecione um cla conhecido para calcular o XP de {discipline.Name}."));
                 continue;
             }
             var bonus = details.PredatorSelection?.DisciplineKey == discipline.Key ? 1 : 0;
             var baseFree = state.DisciplineBase.FirstOrDefault(x => x.Key == discipline.Key)?.Rating ?? 0;
-            Levels("Disciplines", discipline, baseFree + bonus, inClan.Value ? 5 : 7);
+            Levels(SheetSection.Disciplines, discipline, baseFree + bonus, inClan.Value ? 5 : 7);
         }
         var advantagePoints = traits.Where(x => x.Category == TraitCategory.Advantage && !PredatorRules.IsGrant(x)).Sum(x => x.Rating) +
             LoresheetRules.AdvantagePoints(traits);
         var advantageCost = Math.Max(0, advantagePoints - CharacterAdvancement.AdvantageBudget(state.Age)) * 3;
-        if (advantageCost > 0) costs.Add(new("Advantages", "Vantagens acima dos pontos iniciais", advantageCost));
+        if (advantageCost > 0) costs.Add(new(SheetSection.Advantages, "Vantagens acima dos pontos iniciais", advantageCost));
         var loresheetInitial = LoresheetRules.InitialXpCost(traits);
         var loresheetCampaign = traits.Where(x => x.Category == TraitCategory.Loresheet && x.Loresheet?.Payment == LoresheetPayment.CampaignXp)
             .Sum(x => x.Rating * 3);
         if (loresheetInitial + loresheetCampaign > 0)
-            costs.Add(new("Advantages", "Loresheets pagos com XP", loresheetInitial + loresheetCampaign));
+            costs.Add(new(SheetSection.Advantages, "Loresheets pagos com XP", loresheetInitial + loresheetCampaign));
         var skills = traits.Where(x => x.Category == TraitCategory.Skill).ToArray();
         var specializationCount = skills.Sum(x => Math.Max(0,
             PredatorRules.SpecializationCount(details, x) - CharacterAdvancement.LocalFreeSpecializations(x)));
         var specializationCost = Math.Max(0, specializationCount - (details.PredatorSelection is not null || string.IsNullOrWhiteSpace(details.Predator) ? 1 : 2)) * 3;
-        if (specializationCost > 0) costs.Add(new("Skills", "Especializacoes adicionais", specializationCost));
+        if (specializationCost > 0) costs.Add(new(SheetSection.Skills, "Especializacoes adicionais", specializationCost));
         if (skills.Any(x => x.Rating == 0 && CharacterAdvancement.SpecializationCount(x.Specialization) > 0))
-            warnings.Add(new("Skills", "Especializacoes exigem pelo menos um ponto na habilidade."));
+            warnings.Add(new(SheetSection.Skills, "Especializacoes exigem pelo menos um ponto na habilidade."));
         var freeBlood = Math.Clamp(CharacterAdvancement.StartingBlood(state.Age) + (details.PredatorSelection?.BloodDelta ?? 0), 0, 10);
-        Levels("State", new(TraitCategory.Attribute, "BloodPotency", "Potencia de Sangue", details.BloodPotency), freeBlood, 10);
+        Levels(SheetSection.State, new(TraitCategory.Attribute, "BloodPotency", "Potencia de Sangue", details.BloodPotency), freeBlood, 10);
         var total = CharacterAdvancement.StartingXp(state.Age) + details.CampaignExperienceTotal;
         var spent = costs.Sum(x => x.Cost);
         var campaignSpent = loresheetCampaign + Math.Max(0, spent - loresheetCampaign - CharacterAdvancement.StartingXp(state.Age));
-        if (spent > total) warnings.Add(new("Background", $"Faltam {spent - total} XP para pagar os pontos da ficha."));
+        if (spent > total) warnings.Add(new(SheetSection.Background, $"Faltam {spent - total} XP para pagar os pontos da ficha."));
         if (loresheetCampaign > details.CampaignExperienceTotal)
-            warnings.Add(new("Advantages", $"Faltam {loresheetCampaign - details.CampaignExperienceTotal} XP de campanha para os loresheets."));
+            warnings.Add(new(SheetSection.Advantages, $"Faltam {loresheetCampaign - details.CampaignExperienceTotal} XP de campanha para os loresheets."));
         return new(total, spent, campaignSpent, costs, warnings);
     }
 }

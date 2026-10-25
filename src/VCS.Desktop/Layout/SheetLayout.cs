@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using VCS.Domain.Characters;
 
 namespace VCS.Desktop.Layout;
 
@@ -26,10 +27,10 @@ public sealed class SheetLayout
     }
 
     public static SheetLayout CreatePc() => new("Personagem",
-        new("Identity", "Identidade", "Identidade", 2), new("Attributes", "Atributos", "Atributos", 2),
-        new("Skills", "Habilidades", "Habilidades", 2, 2), new("Disciplines", "Disciplinas", "Disciplinas"),
-        new("Advantages", "Vantagens e desvantagens", "Vantagens"), new("State", "Estado e sangue", "Estado"),
-        new("Background", "Historia e conviccoes", "História"), new("Notes", "Anotacoes", "História", 2));
+        new(SheetSection.Identity, "Identidade", "Identidade", 2), new(SheetSection.Attributes, "Atributos", "Atributos", 2),
+        new(SheetSection.Skills, "Habilidades", "Habilidades", 2, 2), new(SheetSection.Disciplines, "Disciplinas", "Disciplinas"),
+        new(SheetSection.Advantages, "Vantagens e desvantagens", "Vantagens"), new(SheetSection.State, "Estado e sangue", "Estado"),
+        new(SheetSection.Background, "Historia e conviccoes", "História"), new(SheetSection.Notes, "Anotacoes", "História", 2));
 
     public static SheetLayout CreateNpc() => new("NPC",
         new("NpcHeader", "Ficha de NPC", "Combate", 2), new("NpcCombat", "Combate", "Combate", 2, 2),

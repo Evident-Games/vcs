@@ -1,6 +1,7 @@
 using System.IO;
 using System.Text.Json;
 using VCS.Desktop.Themes;
+using VCS.Domain.Characters;
 
 namespace VCS.Desktop.Layout;
 
@@ -13,10 +14,10 @@ public sealed class DisplaySettingsStore(string path)
     };
     private static readonly Dictionary<string, string> LegacyDefaultTabs = new()
     {
-        ["Identity"] = "Identidade e atributos", ["Attributes"] = "Identidade e atributos",
-        ["Skills"] = "Habilidades", ["Disciplines"] = "Disciplinas",
-        ["Advantages"] = "Vantagens e desvantagens", ["State"] = "Estado e sangue",
-        ["Background"] = "Historia e conviccoes", ["Notes"] = "Anotacoes"
+        [SheetSection.Identity] = "Identidade e atributos", [SheetSection.Attributes] = "Identidade e atributos",
+        [SheetSection.Skills] = "Habilidades", [SheetSection.Disciplines] = "Disciplinas",
+        [SheetSection.Advantages] = "Vantagens e desvantagens", [SheetSection.State] = "Estado e sangue",
+        [SheetSection.Background] = "Historia e conviccoes", [SheetSection.Notes] = "Anotacoes"
     };
 
     public void Load(DisplaySettingsViewModel settings)
