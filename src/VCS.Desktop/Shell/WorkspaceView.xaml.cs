@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using VCS.Desktop.Sheet;
 
 namespace VCS.Desktop.Shell;
@@ -9,7 +10,7 @@ public partial class WorkspaceView : UserControl
 {
     public WorkspaceView() => InitializeComponent();
 
-    private void OnSheetPaneMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private void OnSheetPaneMouseDown(object sender, MouseButtonEventArgs e)
     {
         if ((sender as FrameworkElement)?.DataContext is CharacterEditorViewModel editor) ((MainViewModel)DataContext).ActivateEditorCommand.Execute(editor);
     }
