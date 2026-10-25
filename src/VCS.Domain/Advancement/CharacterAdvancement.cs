@@ -228,26 +228,7 @@ public static class CharacterAdvancement
         if (state.Purchases.Length >= 2000) throw new InvalidOperationException("Limite de 2000 compras atingido.");
         if (category == TraitCategory.Loresheet)
             throw new InvalidOperationException("Use o catalogo de loresheets para comprar o beneficio inteiro.");
-        if (category is null && key != "BloodPotency")
-        {
-            if (!details.IsNpc || key is not ("NpcPhysical" or "NpcSocial" or "NpcMental") || specialization.Length != 0)
-                throw new InvalidOperationException("Atributo agrupado de NPC invalido.");
-            var rating = key == "NpcPhysical" ? details.NpcPhysical : key == "NpcSocial" ? details.NpcSocial : details.NpcMental;
-            if (rating >= 5) throw new InvalidOperationException("Nivel maximo atingido.");
-            var price = (rating + 1) * 5;
-            if (details.ExperienceTotal - details.ExperienceSpent < price) throw new InvalidOperationException($"XP insuficiente. Custo: {price} XP.");
-            var label = key == "NpcPhysical" ? "Fisicos" : key == "NpcSocial" ? "Sociais" : "Mentais";
-            return new(details with
-            {
-                NpcPhysical = details.NpcPhysical + (key == "NpcPhysical" ? 1 : 0),
-                NpcSocial = details.NpcSocial + (key == "NpcSocial" ? 1 : 0),
-                NpcMental = details.NpcMental + (key == "NpcMental" ? 1 : 0),
-                ExperienceSpent = details.ExperienceSpent + price,
-                CampaignExperienceSpent = details.CampaignExperienceSpent + LoresheetRules.CampaignCost(details, price),
-                Advancement = state with { Purchases = [.. state.Purchases,
-                    new(DateTime.UtcNow, null, key, label, rating, rating + 1, price, CampaignCost: LoresheetRules.CampaignCost(details, price))] }
-            }, traits);
-        }
+        if (category is null && key != "BloodPotency") return BuyNpcPool(details, state, traits, key, specialization);
         var values = traits.ToArray();
         var index = category is null ? -1 : Array.FindIndex(values, x => x.Category == category && x.Key == key);
         if (index < 0 && category is TraitCategory.Advantage or TraitCategory.Discipline && !string.IsNullOrWhiteSpace(newTraitName))
@@ -261,20 +242,8 @@ public static class CharacterAdvancement
         var cost = 0;
         if (specialization.Length > 0)
         {
-            if (trait?.Category != TraitCategory.Skill) throw new InvalidOperationException("Selecione uma habilidade para especializar.");
-            if (trait.Rating < 1) throw new InvalidOperationException("A habilidade precisa ter pelo menos um ponto.");
-            if (SpecializationCount(specialization) != 1) throw new InvalidOperationException("Adicione uma especializacao por vez.");
-            var existing = trait.Specialization.Split([',', ';', '\r', '\n'], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-            if (existing.Any(x => ClanCatalog.SameName(x, specialization))) throw new InvalidOperationException("Esta especializacao ja existe.");
-            var combined = string.IsNullOrWhiteSpace(trait.Specialization) ? specialization : trait.Specialization + "; " + specialization;
-            if (combined.Length > 500) throw new InvalidOperationException("Especializacoes: limite de 500 caracteres.");
-            var paid = state.Purchases.Count(x => x.Specialization.Length != 0 && x.Cost > 0);
-            var usedGeneral = traits.Where(x => x.Category == TraitCategory.Skill)
-                .Sum(x => Math.Max(0, PredatorRules.SpecializationCount(details, x) - LocalFreeSpecializations(x)));
-            var free = PredatorRules.SpecializationCount(details, trait) < LocalFreeSpecializations(trait) ||
-                usedGeneral < GeneralSpecializations(details) + paid;
-            cost = free ? 0 : 3;
-            values[index] = trait with { Specialization = combined };
+            (cost, var combined) = SpecializationPurchase(details, state, traits, trait, specialization);
+            values[index] = trait! with { Specialization = combined };
         }
         else
         {
@@ -296,18 +265,62 @@ public static class CharacterAdvancement
         }, values);
     }
 
+    /// <summary>One point in an NPC grouped attribute (physical, social or mental), at new level x 5 XP.</summary>
+    private static AdvancementResult BuyNpcPool(CharacterDetails details, AdvancementState state, IReadOnlyList<TraitValue> traits,
+        string key, string specialization)
+    {
+        if (!details.IsNpc || key is not ("NpcPhysical" or "NpcSocial" or "NpcMental") || specialization.Length != 0)
+            throw new InvalidOperationException("Atributo agrupado de NPC invalido.");
+        var rating = key == "NpcPhysical" ? details.NpcPhysical : key == "NpcSocial" ? details.NpcSocial : details.NpcMental;
+        if (rating >= 5) throw new InvalidOperationException("Nivel maximo atingido.");
+        var price = (rating + 1) * 5;
+        if (details.ExperienceTotal - details.ExperienceSpent < price) throw new InvalidOperationException($"XP insuficiente. Custo: {price} XP.");
+        var label = key == "NpcPhysical" ? "Fisicos" : key == "NpcSocial" ? "Sociais" : "Mentais";
+        return new(details with
+        {
+            NpcPhysical = details.NpcPhysical + (key == "NpcPhysical" ? 1 : 0),
+            NpcSocial = details.NpcSocial + (key == "NpcSocial" ? 1 : 0),
+            NpcMental = details.NpcMental + (key == "NpcMental" ? 1 : 0),
+            ExperienceSpent = details.ExperienceSpent + price,
+            CampaignExperienceSpent = details.CampaignExperienceSpent + LoresheetRules.CampaignCost(details, price),
+            Advancement = state with { Purchases = [.. state.Purchases,
+                new(DateTime.UtcNow, null, key, label, rating, rating + 1, price, CampaignCost: LoresheetRules.CampaignCost(details, price))] }
+        }, traits);
+    }
+
+    /// <summary>Checks a new specialization and prices it: free while local or general free slots remain, else 3 XP.</summary>
+    private static (int Cost, string Combined) SpecializationPurchase(CharacterDetails details, AdvancementState state,
+        IReadOnlyList<TraitValue> traits, TraitValue? trait, string specialization)
+    {
+        if (trait?.Category != TraitCategory.Skill) throw new InvalidOperationException("Selecione uma habilidade para especializar.");
+        if (trait.Rating < 1) throw new InvalidOperationException("A habilidade precisa ter pelo menos um ponto.");
+        if (SpecializationCount(specialization) != 1) throw new InvalidOperationException("Adicione uma especializacao por vez.");
+        var existing = trait.Specialization.Split([',', ';', '\r', '\n'], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        if (existing.Any(x => ClanCatalog.SameName(x, specialization))) throw new InvalidOperationException("Esta especializacao ja existe.");
+        var combined = string.IsNullOrWhiteSpace(trait.Specialization) ? specialization : trait.Specialization + "; " + specialization;
+        if (combined.Length > 500) throw new InvalidOperationException("Especializacoes: limite de 500 caracteres.");
+        var paid = state.Purchases.Count(x => x.Specialization.Length != 0 && x.Cost > 0);
+        var usedGeneral = traits.Where(x => x.Category == TraitCategory.Skill)
+            .Sum(x => Math.Max(0, PredatorRules.SpecializationCount(details, x) - LocalFreeSpecializations(x)));
+        var free = PredatorRules.SpecializationCount(details, trait) < LocalFreeSpecializations(trait) ||
+            usedGeneral < GeneralSpecializations(details) + paid;
+        return (free ? 0 : 3, combined);
+    }
+
+    private static bool HasValidShape(AdvancementState state) =>
+        Enum.IsDefined(state.Age) && Enum.IsDefined(state.Profile) &&
+        state.Purchases is not null && state.Baseline is not null && state.Purchases.Length <= 2000 &&
+        state.AttributeBase is not null && state.AttributeBase.Length is 0 or 9 &&
+        state.AttributeBase.All(x => x is not null && x.Rating is >= 1 and <= 4) &&
+        (state.AttributeBase.Length != 9 || MatchesAttributeDistribution(state.AttributeBase.Select(x => x.Rating))) &&
+        state.Purchases.All(x => x is not null && x.Specialization is not null && x.Clan is not null) &&
+        state.Baseline.All(x => x is not null);
+
     public static string? ValidateHistory(CharacterDetails details, IReadOnlyList<TraitValue> traits)
     {
         var state = details.Advancement;
         if (state is null) return null;
-        if (!Enum.IsDefined(state.Age) || !Enum.IsDefined(state.Profile) ||
-            state.Purchases is null || state.Baseline is null || state.Purchases.Length > 2000 ||
-            state.AttributeBase is null || state.AttributeBase.Length is not (0 or 9) ||
-            state.AttributeBase.Any(x => x is null || x.Rating is < 1 or > 4) ||
-            state.AttributeBase.Length == 9 && !MatchesAttributeDistribution(state.AttributeBase.Select(x => x.Rating)) ||
-            state.Purchases.Any(x => x is null || x.Specialization is null || x.Clan is null) ||
-            state.Baseline.Any(x => x is null))
-            return "Dados de criacao/evolucao invalidos.";
+        if (!HasValidShape(state)) return "Dados de criacao/evolucao invalidos.";
         if (state.AutomaticExperience)
         {
             if (traits.Count > 200 || traits.Any(x => x.Rating is < 0 or > 10 || x.Specialization is null) ||
@@ -331,14 +344,32 @@ public static class CharacterAdvancement
                 NpcPhysical = state.BaselineNpcPhysical, NpcSocial = state.BaselineNpcSocial, NpcMental = state.BaselineNpcMental,
                 HealthSuperficial = 0, HealthAggravated = 0, WillpowerSuperficial = 0, WillpowerAggravated = 0
             }, state.Baseline).Count != 0) return "A base inicial do historico e invalida.";
-        var replay = details with
+        if (ReplayPurchases(details, state, out var replay, out var values) is { } replayError) return replayError;
+        if (replay.ExperienceSpent != details.ExperienceSpent || replay.CampaignExperienceSpent != details.CampaignExperienceSpent ||
+            replay.BloodPotency != details.BloodPotency ||
+            replay.NpcPhysical != details.NpcPhysical || replay.NpcSocial != details.NpcSocial || replay.NpcMental != details.NpcMental)
+            return "XP gasto e Potencia de Sangue devem acompanhar as compras registradas.";
+        bool Tracked(TraitValue x) => x.Category != TraitCategory.DisciplinePower &&
+            (x.Rating > 0 || !string.IsNullOrEmpty(x.Specialization));
+        var expectedValues = values.Where(Tracked).OrderBy(x => x.Category).ThenBy(x => x.Key).ToArray();
+        var actual = traits.Where(Tracked).OrderBy(x => x.Category).ThenBy(x => x.Key).ToArray();
+        return expectedValues.SequenceEqual(actual) ? null : "Use Evolucao para alterar pontos ou especializacoes apos concluir a criacao.";
+    }
+
+    /// <summary>
+    /// Re-runs every recorded purchase from the baseline; returns an error when one no longer matches what was recorded.
+    /// </summary>
+    private static string? ReplayPurchases(CharacterDetails details, AdvancementState state,
+        out CharacterDetails replay, out IReadOnlyList<TraitValue> values)
+    {
+        replay = details with
         {
             BloodPotency = state.BaselineBloodPotency, ExperienceSpent = state.BaselineSpent,
             CampaignExperienceSpent = state.BaselineCampaignSpent, CampaignExperienceTotal = 1000000,
             NpcPhysical = state.BaselineNpcPhysical, NpcSocial = state.BaselineNpcSocial, NpcMental = state.BaselineNpcMental,
             ExperienceTotal = 2000000, Advancement = state with { Purchases = [] }
         };
-        IReadOnlyList<TraitValue> values = state.Baseline;
+        values = state.Baseline;
         try
         {
             foreach (var entry in state.Purchases)
@@ -367,14 +398,6 @@ public static class CharacterAdvancement
             }
         }
         catch (InvalidOperationException exception) { return exception.Message; }
-        if (replay.ExperienceSpent != details.ExperienceSpent || replay.CampaignExperienceSpent != details.CampaignExperienceSpent ||
-            replay.BloodPotency != details.BloodPotency ||
-            replay.NpcPhysical != details.NpcPhysical || replay.NpcSocial != details.NpcSocial || replay.NpcMental != details.NpcMental)
-            return "XP gasto e Potencia de Sangue devem acompanhar as compras registradas.";
-        bool Tracked(TraitValue x) => x.Category != TraitCategory.DisciplinePower &&
-            (x.Rating > 0 || !string.IsNullOrEmpty(x.Specialization));
-        var expectedValues = values.Where(Tracked).OrderBy(x => x.Category).ThenBy(x => x.Key).ToArray();
-        var actual = traits.Where(Tracked).OrderBy(x => x.Category).ThenBy(x => x.Key).ToArray();
-        return expectedValues.SequenceEqual(actual) ? null : "Use Evolucao para alterar pontos ou especializacoes apos concluir a criacao.";
+        return null;
     }
 }

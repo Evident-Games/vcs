@@ -46,47 +46,11 @@ public static class PredatorRules
         var hasDiscipline = !string.IsNullOrWhiteSpace(choice.Discipline);
         if (hasDiscipline && !PredatorCatalog.DisciplinesFor(definition, details.Clan).Any(x => ClanCatalog.SameName(x, choice.Discipline)))
             throw new InvalidOperationException("Disciplina invalida para este predador/cla. Feiticaria de Sangue e exclusiva de Tremere.");
-        if (choice.SpecializationIndex < -1 || choice.SpecializationIndex >= definition.Specializations.Length)
-            throw new InvalidOperationException("Escolha uma especializacao do predador.");
-        TraitValue? skill = null;
-        var specialization = "";
-        if (choice.SpecializationIndex >= 0)
-        {
-            var option = definition.Specializations[choice.SpecializationIndex];
-            skill = traits.SingleOrDefault(x => x.Category == TraitCategory.Skill && ClanCatalog.SameName(x.Name, option.Skill))
-                ?? throw new InvalidOperationException("A habilidade escolhida nao esta na ficha. Carregue o catalogo de habilidades.");
-            if (skill.Rating < 1) throw new InvalidOperationException($"Coloque pelo menos um ponto em {skill.Name} para receber a especializacao do predador.");
-            specialization = option.IsFreeText ? (choice.SpecializationText ?? "").Trim() : option.Text;
-            if (string.IsNullOrWhiteSpace(specialization) || specialization.Length > 120 ||
-                CharacterAdvancement.SpecializationCount(specialization) != 1)
-                throw new InvalidOperationException("Informe uma especializacao de 1 a 120 caracteres, sem separadores.");
-        }
+        var (skill, specialization) = ChosenSpecialization(definition, traits, choice);
         var discipline = hasDiscipline
             ? traits.SingleOrDefault(x => x.Category == TraitCategory.Discipline && ClanCatalog.SameName(x.Name, choice.Discipline)) : null;
         if (discipline?.Rating >= 5) throw new InvalidOperationException("A disciplina ja esta no nivel maximo.");
-        var grants = new List<TraitValue>();
-        void Grant(PredatorAllocation entry, int points)
-        {
-            if (points > 0) grants.Add(new(entry.Category, $"predator:{definition.Id}:{grants.Count}", entry.Name, points));
-        }
-        for (var i = 0; i < definition.FixedGrants.Length; i++) Grant(definition.FixedGrants[i], definition.FixedPoints[i]);
-        void Allocate(PredatorAllocation[] options, int[] allocation, int budget, bool chooseOne)
-        {
-            // Points may stay unallocated while the sheet is being built; CreationIssues reports what is left.
-            if (allocation is null || allocation.Length != options.Length || allocation.Any(x => x < 0 || x > 5) ||
-                allocation.Sum() > budget || chooseOne && allocation.Count(x => x > 0) > 1)
-                throw new InvalidOperationException($"Distribua no maximo {budget} ponto(s) nas opcoes do predador" +
-                    (chooseOne ? ", em uma unica opcao." : "."));
-            for (var i = 0; i < options.Length; i++)
-            {
-                var max = MaximumFor(options[i].Name);
-                if (allocation[i] > max || options[i].Name == "Isca de Estaca" && allocation[i] == 1)
-                    throw new InvalidOperationException($"{options[i].Name}: use a pontuacao do catalogo (maximo {max}).");
-                Grant(options[i], allocation[i]);
-            }
-        }
-        Allocate(definition.AllocationOptions, choice.AdvantageAllocation, definition.AllocationPoints, false);
-        Allocate(definition.FlawOptions, choice.FlawAllocation, definition.FlawPoints, definition.FlawPoints > 0 && !definition.SplitFlaws);
+        var grants = Grants(definition, choice);
         var humanity = details.Humanity + definition.HumanityDelta;
         var potency = details.BloodPotency + definition.BloodDelta;
         if (humanity is < 0 or > 10 || potency is < 0 or > 10)
@@ -107,6 +71,53 @@ public static class PredatorRules
             PredatorSelection = new(definition.Id, disciplineKey, hasDiscipline ? choice.Discipline : "", skill?.Key ?? "", skill?.Name ?? "",
                 specialization, added, grants.ToArray(), definition.HumanityDelta, definition.BloodDelta)
         }, values);
+    }
+
+    /// <summary>The skill and text of the chosen predator specialization; (null, "") when none is chosen yet.</summary>
+    private static (TraitValue? Skill, string Specialization) ChosenSpecialization(PredatorDefinition definition,
+        IReadOnlyList<TraitValue> traits, PredatorChoice choice)
+    {
+        if (choice.SpecializationIndex < -1 || choice.SpecializationIndex >= definition.Specializations.Length)
+            throw new InvalidOperationException("Escolha uma especializacao do predador.");
+        if (choice.SpecializationIndex < 0) return (null, "");
+        var option = definition.Specializations[choice.SpecializationIndex];
+        var skill = traits.SingleOrDefault(x => x.Category == TraitCategory.Skill && ClanCatalog.SameName(x.Name, option.Skill))
+            ?? throw new InvalidOperationException("A habilidade escolhida nao esta na ficha. Carregue o catalogo de habilidades.");
+        if (skill.Rating < 1) throw new InvalidOperationException($"Coloque pelo menos um ponto em {skill.Name} para receber a especializacao do predador.");
+        var specialization = option.IsFreeText ? (choice.SpecializationText ?? "").Trim() : option.Text;
+        if (string.IsNullOrWhiteSpace(specialization) || specialization.Length > 120 ||
+            CharacterAdvancement.SpecializationCount(specialization) != 1)
+            throw new InvalidOperationException("Informe uma especializacao de 1 a 120 caracteres, sem separadores.");
+        return (skill, specialization);
+    }
+
+    /// <summary>Fixed grants plus the advantage and flaw points the player allocated, as keyed predator traits.</summary>
+    private static List<TraitValue> Grants(PredatorDefinition definition, PredatorChoice choice)
+    {
+        var grants = new List<TraitValue>();
+        void Grant(PredatorAllocation entry, int points)
+        {
+            if (points > 0) grants.Add(new(entry.Category, $"predator:{definition.Id}:{grants.Count}", entry.Name, points));
+        }
+        void Allocate(PredatorAllocation[] options, int[] allocation, int budget, bool chooseOne)
+        {
+            // Points may stay unallocated while the sheet is being built; CreationIssues reports what is left.
+            if (allocation is null || allocation.Length != options.Length || allocation.Any(x => x < 0 || x > 5) ||
+                allocation.Sum() > budget || chooseOne && allocation.Count(x => x > 0) > 1)
+                throw new InvalidOperationException($"Distribua no maximo {budget} ponto(s) nas opcoes do predador" +
+                    (chooseOne ? ", em uma unica opcao." : "."));
+            for (var i = 0; i < options.Length; i++)
+            {
+                var max = MaximumFor(options[i].Name);
+                if (allocation[i] > max || options[i].Name == "Isca de Estaca" && allocation[i] == 1)
+                    throw new InvalidOperationException($"{options[i].Name}: use a pontuacao do catalogo (maximo {max}).");
+                Grant(options[i], allocation[i]);
+            }
+        }
+        for (var i = 0; i < definition.FixedGrants.Length; i++) Grant(definition.FixedGrants[i], definition.FixedPoints[i]);
+        Allocate(definition.AllocationOptions, choice.AdvantageAllocation, definition.AllocationPoints, false);
+        Allocate(definition.FlawOptions, choice.FlawAllocation, definition.FlawPoints, definition.FlawPoints > 0 && !definition.SplitFlaws);
+        return grants;
     }
 
     public static AdvancementResult Remove(CharacterDetails details, IReadOnlyList<TraitValue> traits, bool requireSelection = true)
