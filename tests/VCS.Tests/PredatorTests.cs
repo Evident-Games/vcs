@@ -202,7 +202,6 @@ public sealed class PredatorTests
                 autosave, new ProvidedDisciplineCatalog());
             editor.ConfigureSkillCatalog(await new SqliteSkillCatalog(database).ListAsync());
             editor.ConfigureAdvantageCatalog(await new SqliteAdvantageCatalog(database).ListAsync());
-            editor.ConfigurePredatorCatalog(await new SqlitePredatorCatalog(database).ListAsync());
             Assert.Null(editor.SelectedPredatorType);
             editor.Clan = "Brujah";
             var brawl = editor.Skills.Items.Single(x => x.Name == "Briga");
@@ -268,7 +267,6 @@ public sealed class PredatorTests
                 autosave, new ProvidedDisciplineCatalog());
             editor.ConfigureSkillCatalog(await new SqliteSkillCatalog(database).ListAsync());
             editor.ConfigureAdvantageCatalog(await new SqliteAdvantageCatalog(database).ListAsync());
-            editor.ConfigurePredatorCatalog(await new SqlitePredatorCatalog(database).ListAsync());
             Assert.Equal(13, editor.PredatorTypes.Count);
             editor.Clan = "Brujah";
             editor.Skills.Items.Single(x => x.Name == "Briga").Rating = 1;
@@ -344,7 +342,7 @@ public sealed class PredatorTests
             Assert.Equal(0, saved.Details.BloodPotency);
             Assert.Equal(0, saved.Details.Stains);
             Assert.Null(saved.Details.PredatorSelection);
-            Assert.Equal(13, (await new SqlitePredatorCatalog(database).ListAsync()).Count);
+            Assert.Equal(13, PredatorCatalog.All.Count);
         }
         finally { if (Directory.Exists(directory)) Directory.Delete(directory, true); }
     }
