@@ -102,22 +102,25 @@ public sealed class CatalogEditingTests : IAsyncLifetime
     public async Task Clans_can_be_added_and_built_in_clans_edited_then_reset_for_the_rules()
     {
         var catalog = new SqliteClanCatalog(_database);
-        await catalog.SaveAsync(new ClanDefinition("Ahrimanes", "Linhagem de magos xamas.", ["Animalismo", "Presenca"], []));
+        await catalog.SaveAsync(new ClanDefinition("", "Ahrimanes", "Linhagem de magos xamas.", ["Animalismo", "Presenca"], []));
+        var ahrimanes = ClanCatalog.Find("ahrimanes")!;
+        Assert.StartsWith("clan-custom-", ahrimanes.Id);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => catalog.SaveAsync(new ClanDefinition("", "Brujah", "", [], [])));
         Assert.Equal(["Animalismo", "Presenca"], ClanCatalog.Find("ahrimanes")!.Disciplines);
         Assert.True(DisciplineAdvancement.IsInClan("Ahrimanes", "Animalismo"));
 
         var brujah = ClanCatalog.Find("Brujah")!;
-        await catalog.SaveAsync(brujah with { Disciplines = ["Celeridade", "Potência", "Ofuscação"] }, "Brujah");
+        await catalog.SaveAsync(brujah with { Disciplines = ["Celeridade", "Potência", "Ofuscação"] }, brujah.Id);
         Assert.True(DisciplineAdvancement.IsInClan("Brujah", "Ofuscação"));
-        await Assert.ThrowsAsync<InvalidOperationException>(() => catalog.SaveAsync(brujah with { Name = "Rebeldes" }, "Brujah"));
-        await Assert.ThrowsAsync<InvalidOperationException>(() => catalog.DeleteAsync("Brujah"));
-        await catalog.ResetAsync("Brujah");
+        await Assert.ThrowsAsync<InvalidOperationException>(() => catalog.SaveAsync(brujah with { Name = "Rebeldes" }, brujah.Id));
+        await Assert.ThrowsAsync<InvalidOperationException>(() => catalog.DeleteAsync("clan-brujah"));
+        await catalog.ResetAsync("clan-brujah");
         Assert.False(DisciplineAdvancement.IsInClan("Brujah", "Ofuscação"));
 
-        await catalog.SaveAsync(new ClanDefinition("Ahrimanes Renascidos", "", ["Animalismo"], []), "Ahrimanes");
+        await catalog.SaveAsync(ahrimanes with { Name = "Ahrimanes Renascidos", Disciplines = ["Animalismo"] }, ahrimanes.Id);
         Assert.Null(ClanCatalog.Find("Ahrimanes"));
-        Assert.NotNull(ClanCatalog.Find("Ahrimanes Renascidos"));
-        await catalog.DeleteAsync("Ahrimanes Renascidos");
+        Assert.Equal(ahrimanes.Id, ClanCatalog.Find("Ahrimanes Renascidos")!.Id);
+        await catalog.DeleteAsync(ahrimanes.Id);
         Assert.Equal(ClanCatalog.BuiltIn.Count, ClanCatalog.All.Count);
     }
 }

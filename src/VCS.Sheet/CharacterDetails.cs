@@ -14,6 +14,8 @@ public sealed record CharacterDetails
     public string Name { get; init; } = "Novo personagem";
     public string MortalName { get; init; } = "";
     public string Clan { get; init; } = "";
+    /// <summary>Id of <see cref="Clan"/> in the clan catalog; empty for a clan typed by hand.</summary>
+    public string ClanKey { get; init; } = "";
     public int Generation { get; init; } = 13;
     public string Sire { get; init; } = "";
     public string Predator { get; init; } = "";
