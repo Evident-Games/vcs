@@ -132,9 +132,9 @@ public sealed class LoresheetTests
         var traits = CharacterRules.DefaultAttributes;
         var details = CharacterAdvancement.EstablishBaseline(Creating(VampireAge.Neonate), traits)
             with { ExperienceTotal = 35, CampaignExperienceTotal = 20 };
-        var first = CharacterAdvancement.Buy(details, traits, TraitCategory.Attribute, "Strength");
+        var first = CharacterAdvancement.Buy(details, traits, TraitCategory.Attribute, "attribute-strength");
         Assert.Equal(0, first.Details.CampaignExperienceSpent);
-        var second = CharacterAdvancement.Buy(first.Details, first.Traits, TraitCategory.Attribute, "Strength");
+        var second = CharacterAdvancement.Buy(first.Details, first.Traits, TraitCategory.Attribute, "attribute-strength");
         Assert.Equal(10, second.Details.CampaignExperienceSpent);
         Assert.Equal(10, LoresheetRules.CampaignAvailable(second.Details));
         Assert.Throws<InvalidOperationException>(() => LoresheetRules.Select(second.Details, second.Traits, Benefit(), LoresheetPayment.CampaignXp));
@@ -266,7 +266,7 @@ public sealed class LoresheetTests
             await maintenance.InitializeAsync();
             var repository = new SqliteCharacterRepository(database);
             var details = CharacterAdvancement.EstablishBaseline(Creating(), CharacterRules.DefaultAttributes);
-            var purchase = CharacterAdvancement.Buy(details, CharacterRules.DefaultAttributes, TraitCategory.Attribute, "Strength");
+            var purchase = CharacterAdvancement.Buy(details, CharacterRules.DefaultAttributes, TraitCategory.Attribute, "attribute-strength");
             var character = CharacterRules.Create(purchase.Details, purchase.Traits);
             await repository.SaveAsync(character, null);
             await using (var db = database.CreateContext())
