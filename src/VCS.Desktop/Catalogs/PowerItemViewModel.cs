@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Application.Catalogs;
+using VCS.Content.Disciplines;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Characters;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Catalogs;
 

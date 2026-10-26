@@ -1,7 +1,8 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using VCS.Application.Characters;
-using VCS.Domain.Characters;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Infrastructure.Characters;
 

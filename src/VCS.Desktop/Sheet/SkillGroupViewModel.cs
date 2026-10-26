@@ -1,5 +1,5 @@
 using System.Collections.ObjectModel;
-using VCS.Domain.Characters;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
 

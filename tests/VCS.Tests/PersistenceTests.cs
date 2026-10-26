@@ -5,6 +5,7 @@ using VCS.Application.Characters;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Validation;
 
 namespace VCS.Tests;
 
@@ -43,7 +44,7 @@ public sealed class PersistenceTests : IAsyncLifetime
     public async Task Upgrade_renames_blood_check_and_resolve_in_saved_powers()
     {
         var created = await _service.CreateAsync();
-        var power = new VCS.Domain.Characters.TraitValue(VCS.Domain.Characters.TraitCategory.DisciplinePower, "p", "Visao", 1,
+        var power = new VCS.Sheet.TraitValue(VCS.Sheet.TraitCategory.DisciplinePower, "p", "Visao", 1,
             Power: new("Auspícios", "1 Teste de Incitar o Sangue", "Perseverança + Auspícios"));
         await _service.SaveAsync(created with { Traits = [.. created.Traits, power] });
         await using (var db = _database.CreateContext())
@@ -78,7 +79,7 @@ public sealed class PersistenceTests : IAsyncLifetime
         var saved = await _service.SaveAsync(created with
         {
             Details = created.Details with { Name = "Alice", Clan = "Meu cla", Chronicle = "Lisboa" },
-            Traits = [.. created.Traits, new(Domain.Characters.TraitCategory.Skill, "custom", "Pesquisa pessoal", 3)]
+            Traits = [.. created.Traits, new(VCS.Sheet.TraitCategory.Skill, "custom", "Pesquisa pessoal", 3)]
         });
         Assert.Equal(2, saved.Revision);
         Assert.Single(await _service.ListAsync("ALICE"));
@@ -91,7 +92,7 @@ public sealed class PersistenceTests : IAsyncLifetime
         await _service.DeleteAsync((await _service.ListAsync("Alice")).Single(x => x.Id == saved.Id));
         Assert.Single(await _service.ListAsync());
         await using var db = _database.CreateContext();
-        Assert.Equal(10, await db.Set<Domain.Characters.CharacterTrait>().CountAsync());
+        Assert.Equal(10, await db.Set<VCS.Sheet.CharacterTrait>().CountAsync());
         Assert.Equal(15, (await db.Database.GetAppliedMigrationsAsync()).Count());
         Assert.False(db.Database.HasPendingModelChanges());
     }
@@ -128,9 +129,9 @@ public sealed class PersistenceTests : IAsyncLifetime
         var repository = new SqliteCharacterRepository(_database);
         var first = (await repository.GetAsync(created.Id))!;
         var stale = (await repository.GetAsync(created.Id))!;
-        first.Update(first.Details with { Name = "Primeiro" }, first.Traits.Select(x => x.ToValue()).ToArray());
+        CharacterRules.Update(first, first.Details with { Name = "Primeiro" }, first.Traits.Select(x => x.ToValue()).ToArray());
         await repository.SaveAsync(first, created.Revision);
-        stale.Update(stale.Details with { Name = "Obsoleto" }, stale.Traits.Select(x => x.ToValue()).ToArray());
+        CharacterRules.Update(stale, stale.Details with { Name = "Obsoleto" }, stale.Traits.Select(x => x.ToValue()).ToArray());
         await Assert.ThrowsAsync<CharacterConflictException>(() => repository.SaveAsync(stale, created.Revision));
         var saved = await _service.GetAsync(created.Id);
         Assert.Equal("Primeiro", saved.Details.Name);
@@ -229,25 +230,25 @@ public sealed class PersistenceTests : IAsyncLifetime
         var saved = await _service.SaveAsync(created with
         {
             Traits = [.. created.Traits,
-                new(Domain.Characters.TraitCategory.DisciplinePower, power.Id, power.Name, power.Level),
-                new(Domain.Characters.TraitCategory.DisciplinePower, ritual.Id, ritual.Name, ritual.Level)]
+                new(VCS.Sheet.TraitCategory.DisciplinePower, power.Id, power.Name, power.Level),
+                new(VCS.Sheet.TraitCategory.DisciplinePower, ritual.Id, ritual.Name, ritual.Level)]
         });
-        var expected = saved.Traits.Where(x => x.Category == Domain.Characters.TraitCategory.DisciplinePower).OrderBy(x => x.Key).ToArray();
+        var expected = saved.Traits.Where(x => x.Category == VCS.Sheet.TraitCategory.DisciplinePower).OrderBy(x => x.Key).ToArray();
         var copy = await _service.DuplicateAsync(saved.Id);
-        Assert.Equal(expected, copy.Traits.Where(x => x.Category == Domain.Characters.TraitCategory.DisciplinePower).OrderBy(x => x.Key));
+        Assert.Equal(expected, copy.Traits.Where(x => x.Category == VCS.Sheet.TraitCategory.DisciplinePower).OrderBy(x => x.Key));
         var jsonPath = Path.Combine(_directory, "powers.json");
         var files = new JsonCharacterFiles();
         await files.ExportAsync(saved, jsonPath);
         Assert.Contains("\"FormatVersion\": 12", await File.ReadAllTextAsync(jsonPath));
         var imported = await _service.ImportAsync(await files.ReadAsync(jsonPath));
-        Assert.Equal(expected, imported.Traits.Where(x => x.Category == Domain.Characters.TraitCategory.DisciplinePower).OrderBy(x => x.Key));
+        Assert.Equal(expected, imported.Traits.Where(x => x.Category == VCS.Sheet.TraitCategory.DisciplinePower).OrderBy(x => x.Key));
         var backupPath = Path.Combine(_directory, "powers.db");
         await _maintenance.BackupAsync(backupPath);
         await _service.SaveAsync(saved with { Traits = created.Traits });
-        Assert.DoesNotContain((await _service.GetAsync(saved.Id)).Traits, x => x.Category == Domain.Characters.TraitCategory.DisciplinePower);
+        Assert.DoesNotContain((await _service.GetAsync(saved.Id)).Traits, x => x.Category == VCS.Sheet.TraitCategory.DisciplinePower);
         await _maintenance.RestoreAsync(backupPath);
         var restored = await _service.GetAsync(saved.Id);
-        Assert.Equal(expected, restored.Traits.Where(x => x.Category == Domain.Characters.TraitCategory.DisciplinePower).OrderBy(x => x.Key));
+        Assert.Equal(expected, restored.Traits.Where(x => x.Category == VCS.Sheet.TraitCategory.DisciplinePower).OrderBy(x => x.Key));
     }
 
     [Theory]
@@ -310,11 +311,11 @@ public sealed class PersistenceTests : IAsyncLifetime
         var catalog = new SqliteAdvantageCatalog(_database);
         var entries = await catalog.ListAsync();
         Assert.Equal(63, entries.Count);
-        Assert.Equal(18, entries.Count(x => x.Category == Domain.Characters.TraitCategory.Advantage));
-        Assert.Equal(25, entries.Count(x => x.Category == Domain.Characters.TraitCategory.Flaw));
+        Assert.Equal(18, entries.Count(x => x.Category == VCS.Sheet.TraitCategory.Advantage));
+        Assert.Equal(25, entries.Count(x => x.Category == VCS.Sheet.TraitCategory.Flaw));
         Assert.Equal(63, entries.Select(x => x.Id).Distinct().Count());
         Assert.Equal(11, entries.Select(x => x.Group).Distinct().Count());
-        Assert.Equal(20, entries.Count(x => x.Category == Domain.Characters.TraitCategory.Loresheet));
+        Assert.Equal(20, entries.Count(x => x.Category == VCS.Sheet.TraitCategory.Loresheet));
         Assert.All(entries, x =>
         {
             Assert.InRange(x.Minimum, 1, 5);
@@ -344,8 +345,8 @@ public sealed class PersistenceTests : IAsyncLifetime
         var original = await _service.CreateAsync();
         var saved = await _service.SaveAsync(original with
         {
-            Traits = [.. original.Traits, .. entries.Where(x => x.Category != Domain.Characters.TraitCategory.Loresheet)
-                .Select(x => new Domain.Characters.TraitValue(x.Category, x.Id, x.Name, x.Maximum))]
+            Traits = [.. original.Traits, .. entries.Where(x => x.Category != VCS.Sheet.TraitCategory.Loresheet)
+                .Select(x => new VCS.Sheet.TraitValue(x.Category, x.Id, x.Name, x.Maximum))]
         });
         Assert.Equal(original.Details, saved.Details);
         var copy = await _service.DuplicateAsync(saved.Id);

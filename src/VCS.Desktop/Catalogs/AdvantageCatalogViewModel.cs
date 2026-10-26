@@ -1,9 +1,9 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Application.Catalogs;
+using VCS.Content.Advantages;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Catalogs;
 

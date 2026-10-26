@@ -3,7 +3,7 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using VCS.Application.Catalogs;
 using VCS.Desktop.Catalogs;
-using VCS.Domain.Characters;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
 

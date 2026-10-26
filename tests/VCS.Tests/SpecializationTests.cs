@@ -8,10 +8,11 @@ using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
 using VCS.Application.Characters;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 

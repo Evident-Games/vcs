@@ -6,11 +6,12 @@ using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
 using VCS.Application.Characters;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Advancement;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Advancement;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 
@@ -212,7 +213,7 @@ public sealed class AdvancementTests
             var maintenance = new SqliteDatabaseMaintenance(database);
             await maintenance.InitializeAsync();
             var repository = new SqliteCharacterRepository(database);
-            var legacy = Character.Create(new() { ExperienceTotal = 80, ExperienceSpent = 20, BloodPotency = 2 });
+            var legacy = CharacterRules.Create(new() { ExperienceTotal = 80, ExperienceSpent = 20, BloodPotency = 2 });
             await repository.SaveAsync(legacy, null);
             await using (var context = database.CreateContext())
             {

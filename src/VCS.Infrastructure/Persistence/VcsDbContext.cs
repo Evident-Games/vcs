@@ -1,11 +1,9 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using VCS.Domain.Advancement;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
-using VCS.Domain.Predators;
-using VCS.Domain.Skills;
+using VCS.Content.Advantages;
+using VCS.Content.Skills;
 using VCS.Infrastructure.Catalogs.Seed;
+using VCS.Sheet;
 
 namespace VCS.Infrastructure.Persistence;
 
@@ -25,7 +23,7 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         predators.HasKey(x => x.Id);
         predators.Property(x => x.Name).HasMaxLength(80).IsRequired();
         predators.Property(x => x.Definition).IsRequired();
-        predators.HasData(Domain.Predators.PredatorCatalog.All.Select(x => new PredatorCatalogRecord
+        predators.HasData(VCS.Content.Predators.PredatorCatalog.All.Select(x => new PredatorCatalogRecord
         {
             Id = x.Id, Name = x.Name, Definition = JsonSerializer.Serialize(x)
         }));
@@ -66,8 +64,6 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
             x => x, x => DateTime.SpecifyKind(x, DateTimeKind.Utc));
         character.Property(x => x.UpdatedUtc).HasConversion(
             x => x, x => DateTime.SpecifyKind(x, DateTimeKind.Utc));
-        character.Ignore(x => x.HealthCapacity);
-        character.Ignore(x => x.WillpowerCapacity);
         character.OwnsOne(x => x.Details, details =>
         {
             details.Property(x => x.PredatorSelection).HasConversion(

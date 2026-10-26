@@ -5,13 +5,15 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using VCS.Application.Catalogs;
 using VCS.Application.Characters;
+using VCS.Content.Advantages;
+using VCS.Content.Clans;
+using VCS.Content.Predators;
+using VCS.Content.Skills;
 using VCS.Desktop.Catalogs;
-using VCS.Domain.Advancement;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
-using VCS.Domain.Clans;
-using VCS.Domain.Predators;
-using VCS.Domain.Skills;
+using VCS.Rules.V5.Advancement;
+using VCS.Rules.V5.Clans;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
 

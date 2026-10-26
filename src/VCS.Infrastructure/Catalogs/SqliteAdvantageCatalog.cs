@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using VCS.Application.Catalogs;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
+using VCS.Content.Advantages;
 using VCS.Infrastructure.Catalogs.Seed;
 using VCS.Infrastructure.Persistence;
+using VCS.Sheet;
 
 namespace VCS.Infrastructure.Catalogs;
 

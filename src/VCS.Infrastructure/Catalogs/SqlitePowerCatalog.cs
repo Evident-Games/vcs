@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VCS.Application.Catalogs;
+using VCS.Content.Disciplines;
 using VCS.Infrastructure.Persistence;
 
 namespace VCS.Infrastructure.Catalogs;

@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Domain.Clans;
+using VCS.Content.Clans;
 
 namespace VCS.Desktop.Database;
 

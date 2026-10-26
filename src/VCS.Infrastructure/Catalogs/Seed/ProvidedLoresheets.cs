@@ -1,5 +1,6 @@
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
+
+using VCS.Content.Advantages;
+using VCS.Sheet;
 
 namespace VCS.Infrastructure.Catalogs.Seed;
 
