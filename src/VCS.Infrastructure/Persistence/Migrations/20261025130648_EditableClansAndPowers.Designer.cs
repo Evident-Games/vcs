@@ -4,8 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Sheet;
+using VCS.Rules.V5.Validation;
 
 #nullable disable
 
@@ -21,7 +22,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.13");
 
-            modelBuilder.Entity("VCS.Domain.Advantages.AdvantageDefinition", b =>
+            modelBuilder.Entity("VCS.Content.Advantages.AdvantageDefinition", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(80)
@@ -891,7 +892,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("VCS.Domain.Characters.Character", b =>
+            modelBuilder.Entity("VCS.Sheet.Character", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -912,7 +913,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.ToTable("Characters", (string)null);
                 });
 
-            modelBuilder.Entity("VCS.Domain.Characters.CharacterTrait", b =>
+            modelBuilder.Entity("VCS.Sheet.CharacterTrait", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -962,7 +963,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.ToTable("CharacterTraits", (string)null);
                 });
 
-            modelBuilder.Entity("VCS.Domain.Skills.SkillDefinition", b =>
+            modelBuilder.Entity("VCS.Content.Skills.SkillDefinition", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -1345,9 +1346,9 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("VCS.Domain.Characters.Character", b =>
+            modelBuilder.Entity("VCS.Sheet.Character", b =>
                 {
-                    b.OwnsOne("VCS.Domain.Characters.CharacterDetails", "Details", b1 =>
+                    b.OwnsOne("VCS.Sheet.CharacterDetails", "Details", b1 =>
                         {
                             b1.Property<Guid>("CharacterId")
                                 .HasColumnType("TEXT");
@@ -1563,16 +1564,16 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VCS.Domain.Characters.CharacterTrait", b =>
+            modelBuilder.Entity("VCS.Sheet.CharacterTrait", b =>
                 {
-                    b.HasOne("VCS.Domain.Characters.Character", null)
+                    b.HasOne("VCS.Sheet.Character", null)
                         .WithMany("Traits")
                         .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VCS.Domain.Characters.Character", b =>
+            modelBuilder.Entity("VCS.Sheet.Character", b =>
                 {
                     b.Navigation("Traits");
                 });

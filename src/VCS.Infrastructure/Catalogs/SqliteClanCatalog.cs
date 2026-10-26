@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using VCS.Application.Catalogs;
-using VCS.Domain.Clans;
+using VCS.Content.Clans;
 using VCS.Infrastructure.Persistence;
 
 namespace VCS.Infrastructure.Catalogs;

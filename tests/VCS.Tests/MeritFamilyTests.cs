@@ -1,9 +1,10 @@
+using VCS.Content.Advantages;
 using VCS.Desktop.Catalogs;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 
