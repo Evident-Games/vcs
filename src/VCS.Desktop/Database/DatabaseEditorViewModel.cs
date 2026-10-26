@@ -22,7 +22,7 @@ public sealed class DatabaseEditorViewModel(
         new CatalogTab<PowerDefinition, PowerDraft>("Disciplinas e poderes", powers, x => (x.Name, $"{x.Discipline} · nivel {x.Level}"),
             x => new(x?.Value ?? new("", "", "", 1, "", "", ""))),
         new CatalogTab<ClanDefinition, ClanDraft>("Clas", clans, x => (x.Name, string.Join(" · ", x.Disciplines)),
-            x => new(x?.Value ?? new("", "", [], []), x?.IsBuiltIn == true))
+            x => new(x?.Value ?? new("", "", "", [], []), x?.IsBuiltIn == true))
     ];
 
     public async Task LoadAsync()

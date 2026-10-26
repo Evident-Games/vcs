@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
+using VCS.Content.Clans;
 using VCS.Infrastructure.Catalogs;
 using VCS.Sheet;
 
@@ -19,7 +20,7 @@ internal sealed partial class LegacyContentIds
     internal static readonly string[] Migrations =
     [
         "20261026192826_ContentIdsAdvantagesAndPredators", "20261026194137_ContentIdsAttributes",
-        "20261026194910_ContentIdsDisciplinesAndPowers"
+        "20261026194910_ContentIdsDisciplinesAndPowers", "20261026195623_ContentIdsClans"
     ];
 
     private static readonly Dictionary<string, string> Advantages = new(StringComparer.Ordinal)
@@ -186,10 +187,15 @@ internal sealed partial class LegacyContentIds
     }.ToDictionary(x => OldStableId("power-", x.Discipline + "\n" + x.Name), x => x.Id, StringComparer.Ordinal);
 
     private readonly IReadOnlySet<string> _customRituals;
+    private readonly IReadOnlyList<ClanDefinition> _clans;
 
     /// <param name="customRituals">Ids of rituals the user created ("ritual-custom-…"), once "power-custom-…".</param>
-    public LegacyContentIds(IReadOnlySet<string>? customRituals = null) =>
+    /// <param name="clans">Clans to find a sheet's clan id by its name; the clans in use by default.</param>
+    public LegacyContentIds(IReadOnlySet<string>? customRituals = null, IReadOnlyList<ClanDefinition>? clans = null)
+    {
         _customRituals = customRituals ?? new HashSet<string>();
+        _clans = clans ?? ClanCatalog.All;
+    }
 
     /// <summary>Upgrades one sheet: its traits first, then everything that names them by key.</summary>
     public (CharacterDetails Details, TraitValue[] Traits) Upgrade(CharacterDetails details, IReadOnlyList<TraitValue> traits)
@@ -216,7 +222,8 @@ internal sealed partial class LegacyContentIds
             DisciplineBase = [.. state.DisciplineBase.Select(x => x with { Key = Rename(TraitCategory.Discipline, x.Key) })],
             BaselinePredatorSelection = Selection(state.BaselinePredatorSelection)
         };
-        return (details with { PredatorSelection = Selection(details.PredatorSelection), Advancement = advancement }, upgraded);
+        var clanKey = details.ClanKey.Length > 0 ? details.ClanKey : ClanCatalog.Find(_clans, details.Clan)?.Id ?? "";
+        return (details with { ClanKey = clanKey, PredatorSelection = Selection(details.PredatorSelection), Advancement = advancement }, upgraded);
     }
 
     public static string Predator(string id) => Predators.GetValueOrDefault(id, id);
@@ -263,7 +270,9 @@ internal sealed partial class LegacyContentIds
         await using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
         var connection = db.Database.GetDbConnection();
         var rituals = await db.PowerCatalog.Where(x => x.Id.StartsWith("ritual-custom-")).Select(x => x.Id).ToListAsync(cancellationToken);
-        var converter = new LegacyContentIds(rituals.ToHashSet());
+        // Sheets name their clan; user clans must be known to find its id.
+        var clans = ClanCatalog.Merge(SqliteClanCatalog.Definitions(await db.ClanCatalog.AsNoTracking().ToListAsync(cancellationToken)));
+        var converter = new LegacyContentIds(rituals.ToHashSet(), clans);
         var traits = new List<(string CharacterId, string Id, TraitValue Value)>();
         await using (var read = connection.CreateCommand())
         {
@@ -273,20 +282,22 @@ internal sealed partial class LegacyContentIds
                 traits.Add((rows.GetString(0), rows.GetString(1), new TraitValue((TraitCategory)rows.GetInt32(2), rows.GetString(3), "", 0,
                     Power: rows.IsDBNull(4) ? null : JsonSerializer.Deserialize<PowerInfo>(rows.GetString(4)))));
         }
-        var characters = new List<(string Id, string? Predator, string? Advancement)>();
+        var characters = new List<(string Id, string? Predator, string? Advancement, string Clan, string ClanKey)>();
         await using (var read = connection.CreateCommand())
         {
-            read.CommandText = "SELECT \"Id\", \"Details_PredatorSelection\", \"Details_Advancement\" FROM \"Characters\"";
+            read.CommandText = "SELECT \"Id\", \"Details_PredatorSelection\", \"Details_Advancement\", \"Clan\", \"ClanKey\" FROM \"Characters\"";
             await using var rows = await read.ExecuteReaderAsync(cancellationToken);
             while (await rows.ReadAsync(cancellationToken))
-                characters.Add((rows.GetString(0), rows.IsDBNull(1) ? null : rows.GetString(1), rows.IsDBNull(2) ? null : rows.GetString(2)));
+                characters.Add((rows.GetString(0), rows.IsDBNull(1) ? null : rows.GetString(1), rows.IsDBNull(2) ? null : rows.GetString(2),
+                    rows.GetString(3), rows.GetString(4)));
         }
-        foreach (var (id, predator, advancement) in characters)
+        foreach (var (id, predator, advancement, clan, clanKey) in characters)
         {
             var own = traits.Where(x => x.CharacterId == id).ToArray();
             // Same (default) serializer options as the column conversions in VcsDbContext.
             var details = new CharacterDetails
             {
+                Clan = clan, ClanKey = clanKey,
                 PredatorSelection = predator is null ? null : JsonSerializer.Deserialize<PredatorSelection>(predator),
                 Advancement = advancement is null ? null : JsonSerializer.Deserialize<AdvancementState>(advancement)
             };
@@ -295,7 +306,7 @@ internal sealed partial class LegacyContentIds
                 await db.Database.ExecuteSqlAsync($"UPDATE \"CharacterTraits\" SET \"Key\" = {upgraded.Key} WHERE \"Id\" = {trait.Id}", cancellationToken);
             if (newDetails != details)
                 await db.Database.ExecuteSqlAsync(
-                    $"UPDATE \"Characters\" SET \"Details_PredatorSelection\" = {Json(newDetails.PredatorSelection)}, \"Details_Advancement\" = {Json(newDetails.Advancement)} WHERE \"Id\" = {id}",
+                    $"UPDATE \"Characters\" SET \"Details_PredatorSelection\" = {Json(newDetails.PredatorSelection)}, \"Details_Advancement\" = {Json(newDetails.Advancement)}, \"ClanKey\" = {newDetails.ClanKey} WHERE \"Id\" = {id}",
                     cancellationToken);
         }
         await transaction.CommitAsync(cancellationToken);

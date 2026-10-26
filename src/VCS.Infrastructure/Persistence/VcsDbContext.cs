@@ -29,8 +29,10 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         }));
         var clans = modelBuilder.Entity<ClanCatalogRecord>();
         clans.ToTable("ClanCatalog");
-        clans.HasKey(x => x.Name);
-        clans.Property(x => x.Name).HasMaxLength(80);
+        clans.HasKey(x => x.Id);
+        clans.Property(x => x.Id).HasMaxLength(80);
+        clans.Property(x => x.Name).HasMaxLength(80).IsRequired();
+        clans.HasIndex(x => x.Name).IsUnique();
         var powers = modelBuilder.Entity<PowerCatalogRecord>();
         powers.ToTable("PowerCatalog");
         powers.HasKey(x => x.Id);
@@ -90,6 +92,7 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
                 .HasDefaultValue(ValueList<CharacterNote>.Empty).IsRequired();
             details.Property(x => x.Name).HasColumnName("Name").HasMaxLength(120).IsRequired();
             details.Property(x => x.Clan).HasColumnName("Clan").HasMaxLength(80).IsRequired();
+            details.Property(x => x.ClanKey).HasColumnName("ClanKey").HasMaxLength(80).IsRequired().HasDefaultValue("");
             details.Property(x => x.Chronicle).HasColumnName("Chronicle").HasMaxLength(120).IsRequired();
             details.HasIndex(x => x.Name);
         });
