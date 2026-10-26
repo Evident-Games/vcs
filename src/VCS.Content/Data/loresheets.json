@@ -1,0 +1,222 @@
+[
+  {
+    "id": "loresheet-bahari-1",
+    "group": "Ficha de Conhecimento",
+    "name": "Reputação Perigosa",
+    "category": "loresheet",
+    "minimum": 1,
+    "maximum": 1,
+    "pointsLabel": "1",
+    "description": "Uma vez por história, concede dois dados extras em testes de Intimidação contra adoradores de Caim que conheçam sua afiliação.",
+    "loresheetCollection": "Os Bahari"
+  },
+  {
+    "id": "loresheet-bahari-2",
+    "group": "Ficha de Conhecimento",
+    "name": "Escarificação Ritual",
+    "category": "loresheet",
+    "minimum": 2,
+    "maximum": 2,
+    "pointsLabel": "2",
+    "description": "Uma vez por sessão, permite que você cause dano Agravado em si mesmo (escarificação) para recuperar um nível de dano (Superficial ou Agravado) na Força de Vontade.",
+    "loresheetCollection": "Os Bahari"
+  },
+  {
+    "id": "loresheet-bahari-3",
+    "group": "Ficha de Conhecimento",
+    "name": "Sacrifício dos Filhos",
+    "category": "loresheet",
+    "minimum": 3,
+    "maximum": 3,
+    "pointsLabel": "3",
+    "description": "Cometer Diablerie em sua própria Criança concede três dados extras na parada de Humanidade + Potência de Sangue para absorver Disciplinas.",
+    "loresheetCollection": "Os Bahari"
+  },
+  {
+    "id": "loresheet-bahari-4",
+    "group": "Ficha de Conhecimento",
+    "name": "Sangue do Útero",
+    "category": "loresheet",
+    "minimum": 4,
+    "maximum": 4,
+    "pointsLabel": "4",
+    "description": "Uma vez por história, beber sangue do útero concede dois pontos temporários em Vigor ou Determinação (aumentando Vitalidade/Força de Vontade) até o amanhecer.",
+    "loresheetCollection": "Os Bahari"
+  },
+  {
+    "id": "loresheet-bahari-5",
+    "group": "Ficha de Conhecimento",
+    "name": "Amaldiçoada Original",
+    "category": "loresheet",
+    "minimum": 5,
+    "maximum": 5,
+    "pointsLabel": "5",
+    "description": "Permite andar na primeira/última hora de sol e fazer sexo sem Inflamar o Sangue, mas você atrai o defeito Predador Manifesto, falha mais fácil em testes de difamação e causa enxaqueca em quem usar Auspícios em você.",
+    "loresheetCollection": "Os Bahari"
+  },
+  {
+    "id": "loresheet-theo-bell-1",
+    "group": "Ficha de Conhecimento",
+    "name": "Célula Rebelde",
+    "category": "loresheet",
+    "minimum": 1,
+    "maximum": 1,
+    "pointsLabel": "1",
+    "description": "Fornece um grupo mortal rebelde (equivalente a Aliado de 3 pontos) que fará uma missão perigosa sozinha para você antes de debandar até a próxima história.",
+    "loresheetCollection": "Theo Bell"
+  },
+  {
+    "id": "loresheet-theo-bell-2",
+    "group": "Ficha de Conhecimento",
+    "name": "Anarch Verdadeiro",
+    "category": "loresheet",
+    "minimum": 2,
+    "maximum": 2,
+    "pointsLabel": "2",
+    "description": "Garante dois sucessos automáticos em qualquer teste investigativo envolvendo vampiros que desertaram da Camarilla para o Movimento Anarch.",
+    "loresheetCollection": "Theo Bell"
+  },
+  {
+    "id": "loresheet-theo-bell-3",
+    "group": "Ficha de Conhecimento",
+    "name": "Informação de Contato",
+    "category": "loresheet",
+    "minimum": 3,
+    "maximum": 3,
+    "pointsLabel": "3",
+    "description": "Permite contatar Theo Bell para enviar uma mensagem; os efeitos e a resposta dependem do Narrador e da importância do recado.",
+    "loresheetCollection": "Theo Bell"
+  },
+  {
+    "id": "loresheet-theo-bell-4",
+    "group": "Ficha de Conhecimento",
+    "name": "Círculo de Bell",
+    "category": "loresheet",
+    "minimum": 4,
+    "maximum": 4,
+    "pointsLabel": "4",
+    "description": "Transforma Theo Bell em um Mawla de 5 pontos, trazendo conselhos valiosos, mas também complicações e perigos devido à associação com ele.",
+    "loresheetCollection": "Theo Bell"
+  },
+  {
+    "id": "loresheet-theo-bell-5",
+    "group": "Ficha de Conhecimento",
+    "name": "Neutralidade de Seita",
+    "category": "loresheet",
+    "minimum": 5,
+    "maximum": 5,
+    "pointsLabel": "5",
+    "description": "Concede seguidores Brujah leais e cinco pontos para distribuir livremente entre Contatos, Refúgio, Mawla e Lacaios até que eles decidam se rebelar.",
+    "loresheetCollection": "Theo Bell"
+  },
+  {
+    "id": "loresheet-cainite-heresy-1",
+    "group": "Ficha de Conhecimento",
+    "name": "Que Ele tenha Compreensão",
+    "category": "loresheet",
+    "minimum": 1,
+    "maximum": 1,
+    "pointsLabel": "1",
+    "description": "Uma vez por história, o Narrador é obrigado a fornecer uma pista grátis para detectar ou entender os planos da Heresia.",
+    "loresheetCollection": "Heresia Cainita"
+  },
+  {
+    "id": "loresheet-cainite-heresy-2",
+    "group": "Ficha de Conhecimento",
+    "name": "Mão da Heresia",
+    "category": "loresheet",
+    "minimum": 2,
+    "maximum": 2,
+    "pointsLabel": "2",
+    "description": "Garante três pontos para distribuir entre Aliados, Rebanho, Mawla ou Lacaios no culto, mas aplica o defeito Segredo Sombrio (Heresia).",
+    "loresheetCollection": "Heresia Cainita"
+  },
+  {
+    "id": "loresheet-cainite-heresy-3",
+    "group": "Ficha de Conhecimento",
+    "name": "Contra-Inquisição",
+    "category": "loresheet",
+    "minimum": 3,
+    "maximum": 3,
+    "pointsLabel": "3",
+    "description": "Permite usar Determinação + Heresia Cainita para detectar passivamente a Fé Verdadeira em mortais ou saber em quem confiar.",
+    "loresheetCollection": "Heresia Cainita"
+  },
+  {
+    "id": "loresheet-cainite-heresy-4",
+    "group": "Ficha de Conhecimento",
+    "name": "Celebrante Vermelho",
+    "category": "loresheet",
+    "minimum": 4,
+    "maximum": 4,
+    "pointsLabel": "4",
+    "description": "Uma vez por história, induz humanos a um frenesi extático (Pentecostes Vermelho) com ervas, custando uma Checagem de Sangue e podendo causar frenesi em Membros.",
+    "loresheetCollection": "Heresia Cainita"
+  },
+  {
+    "id": "loresheet-cainite-heresy-5",
+    "group": "Ficha de Conhecimento",
+    "name": "Nomeado na Profecia",
+    "category": "loresheet",
+    "minimum": 5,
+    "maximum": 5,
+    "pointsLabel": "5",
+    "description": "Uma vez por história, devido à sua importância nas profecias, você pode ditar o vencedor de um conflito Social fornecendo uma desculpa plausível.",
+    "loresheetCollection": "Heresia Cainita"
+  },
+  {
+    "id": "loresheet-carna-1",
+    "group": "Ficha de Conhecimento",
+    "name": "Abraçar a Visão",
+    "category": "loresheet",
+    "minimum": 1,
+    "maximum": 1,
+    "pointsLabel": "1",
+    "description": "O conforto entre colegas de subfacção lhe garante um dado adicional em todos os testes de Força de Vontade perto deles.",
+    "loresheetCollection": "Carna"
+  },
+  {
+    "id": "loresheet-carna-2",
+    "group": "Ficha de Conhecimento",
+    "name": "O Rastro Rebelde",
+    "category": "loresheet",
+    "minimum": 2,
+    "maximum": 2,
+    "pointsLabel": "2",
+    "description": "Permite rolar Força de Vontade (Dificuldade igual à Potência do Sangue ingerido) para ignorar completamente o risco de criar um Laço de Sangue.",
+    "loresheetCollection": "Carna"
+  },
+  {
+    "id": "loresheet-carna-3",
+    "group": "Ficha de Conhecimento",
+    "name": "Rituais Heterodoxos",
+    "category": "loresheet",
+    "minimum": 3,
+    "maximum": 3,
+    "pointsLabel": "3",
+    "description": "Uma vez por história, realiza um ritual sem Checagem de Sangue, mas um Crítico Bestial causa um trauma/paranoia temporária até o fim da história.",
+    "loresheetCollection": "Carna"
+  },
+  {
+    "id": "loresheet-carna-4",
+    "group": "Ficha de Conhecimento",
+    "name": "Laço Reimaginado",
+    "category": "loresheet",
+    "minimum": 4,
+    "maximum": 4,
+    "pointsLabel": "4",
+    "description": "Transar com um alvo contorna a perdição Tremere e cria um Laço de Sangue temporário (até o fim da história) entre você, o alvo e Carna.",
+    "loresheetCollection": "Carna"
+  },
+  {
+    "id": "loresheet-carna-5",
+    "group": "Ficha de Conhecimento",
+    "name": "Livro da Guerra dos Túmulos",
+    "category": "loresheet",
+    "minimum": 5,
+    "maximum": 5,
+    "pointsLabel": "5",
+    "description": "Imuniza contra Laços de Sangue e dá sucesso automático em testes de Ocultismo sobre a Gehenna, mas a paranoia custa 1 dado em testes Sociais/Mentais.",
+    "loresheetCollection": "Carna"
+  }
+]

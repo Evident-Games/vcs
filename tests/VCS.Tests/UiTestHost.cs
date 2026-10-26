@@ -103,7 +103,7 @@ public sealed class UiSession : IDisposable
             NullLogger<MainViewModel>.Instance, new DisplaySettingsStore(Path.Combine(session.Directory, "display.json")),
             new SqliteAdvantageCatalog(database), new SqliteSkillCatalog(database),
             new CharacterPdfExporter(new ProvidedDisciplineCatalog(), new SqliteSkillCatalog(database)),
-            new SqlitePredatorCatalog(database), database: new DatabaseEditorViewModel(new SqliteSkillCatalog(database),
+            database: new DatabaseEditorViewModel(new SqliteSkillCatalog(database),
                 new SqliteAdvantageCatalog(database), new SqlitePowerCatalog(database, new ProvidedDisciplineCatalog()),
                 new SqliteClanCatalog(database)));
         session.Window = new MainWindow(session.Model);

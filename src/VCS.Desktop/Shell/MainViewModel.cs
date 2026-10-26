@@ -17,7 +17,7 @@ public partial class MainViewModel(
     IDesktopDialogs dialogs, ThemeService themes, Func<CharacterDto, CharacterEditorViewModel> createEditor,
     ILogger<MainViewModel> logger, DisplaySettingsStore? preferencesStore = null,
     IAdvantageCatalog? advantageCatalog = null, ISkillCatalog? skillCatalog = null,
-    ICharacterPdfExporter? pdfExporter = null, IPredatorCatalog? predatorCatalog = null,
+    ICharacterPdfExporter? pdfExporter = null,
     UpdateService? updates = null, DatabaseEditorViewModel? database = null) : ObservableObject
 {
     private IReadOnlyList<CharacterSummary> _all = [];

@@ -5,10 +5,10 @@ using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
 using VCS.Application.Characters;
+using VCS.Content.Advantages;
 using VCS.Desktop.Catalogs;
 using VCS.Desktop.Sheet;
 using VCS.Infrastructure.Catalogs;
-using VCS.Infrastructure.Catalogs.Seed;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
 using VCS.Rules.V5.Advancement;
@@ -188,7 +188,7 @@ public sealed class LoresheetTests
             Assert.All(lores, x => Assert.False(x.IsLineage));
             foreach (var group in lores.GroupBy(x => x.LoresheetCollection))
                 Assert.Equal(new[] { 1, 2, 3, 4, 5 }, group.Select(x => x.Minimum).Order());
-            Assert.Equal(ProvidedLoresheets.All.Select(x => x.Description).Order(), lores.Select(x => x.Description).Order());
+            Assert.Equal(AdvantageCatalog.Loresheets.Select(x => x.Description).Order(), lores.Select(x => x.Description).Order());
             var dto = npc ? await service.CreateNpcAsync() : await service.CreateAsync();
             using var editor = new CharacterEditorViewModel(dto, service, NullLogger<CharacterEditorViewModel>.Instance,
                 new ManualAutosave(), new ProvidedDisciplineCatalog());

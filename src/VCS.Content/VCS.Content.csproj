@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Data\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\VCS.Sheet\VCS.Sheet.csproj" />
   </ItemGroup>
 </Project>

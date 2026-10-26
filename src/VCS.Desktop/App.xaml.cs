@@ -79,7 +79,6 @@ public partial class App : System.Windows.Application
             builder.Services.AddSingleton<IEditableCatalog<PowerDefinition>, SqlitePowerCatalog>();
             builder.Services.AddSingleton<IEditableCatalog<ClanDefinition>, SqliteClanCatalog>();
             builder.Services.AddSingleton<DatabaseEditorViewModel>();
-            builder.Services.AddSingleton<IPredatorCatalog, SqlitePredatorCatalog>();
             builder.Services.AddSingleton<ICharacterPdfExporter, CharacterPdfExporter>();
             builder.Services.AddSingleton<IDesktopDialogs, DesktopDialogs>();
             builder.Services.AddSingleton<ThemeService>();
