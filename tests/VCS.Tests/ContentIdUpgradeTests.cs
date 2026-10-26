@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using VCS.Application.Characters;
+using VCS.Content;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
-using VCS.Content;
 using VCS.Infrastructure.Persistence;
 using VCS.Rules.V5.Validation;
 using VCS.Sheet;
@@ -99,7 +99,12 @@ public sealed class ContentIdUpgradeTests : IAsyncLifetime
         Assert.Equal(saved.Revision, upgraded.Revision);
         Assert.Equal("clan-brujah", upgraded.Details.ClanKey);
         await using (var db = _database.CreateContext())
+        {
             Assert.StartsWith("clan-custom-", (await db.ClanCatalog.SingleAsync(x => x.Name == "Ahrimanes")).Id);
+            // Only the edit stays in the database; unedited built-in content comes from the JSON files.
+            Assert.Equal("advantage-looks-beautiful", (await db.AdvantageCatalog.SingleAsync()).Id);
+            Assert.Empty(db.SkillCatalog);
+        }
         Assert.Empty(CharacterRules.Validate(upgraded.Details, upgraded.Traits));
         var renamed = new Dictionary<string, string>
         {

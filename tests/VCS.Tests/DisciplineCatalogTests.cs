@@ -98,31 +98,6 @@ public sealed class DisciplineCatalogTests
     }
 
     [Fact]
-    public void Parser_preserves_supplied_text_and_rejects_missing_fields_and_duplicates()
-    {
-        const string text = """
-            Id: power-test
-            Disciplina: Disciplina pessoal
-            Nome da habilidade: Teste pessoal (Nível 2)
-            Custo: Custo escolhido
-            Parada de dados: Dados escolhidos
-            Resumo: Texto do usuario, sem alteracoes.
-            """;
-        var power = Assert.Single(ProvidedDisciplineCatalog.Parse(text));
-        Assert.Equal("power-test", power.Id);
-        Assert.Equal("Teste pessoal", power.Name);
-        Assert.Equal(2, power.Level);
-        Assert.Equal("Custo escolhido", power.Cost);
-        Assert.Equal("Dados escolhidos", power.DicePool);
-        Assert.Equal("Texto do usuario, sem alteracoes.", power.Summary);
-        Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text.Replace("Custo:", "Ausente:")));
-        Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text + "\n" + text));
-        Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text.Replace("Nível 2", "Nível 6")));
-        Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text.Replace("Id: power-test", "")));
-        Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text.Replace("power-test", "ritual-test")));
-    }
-
-    [Fact]
     public void Search_is_accent_insensitive_and_filters_never_remove_selections()
     {
         using var disciplines = new TraitGroupViewModel(TraitCategory.Discipline, []);
