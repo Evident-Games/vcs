@@ -33,7 +33,7 @@ public partial class TraitGroupViewModel : ObservableObject, IDisposable
     [RelayCommand]
     private void Add()
     {
-        AddEntry(new(_category, Guid.NewGuid().ToString("N"), "", 0));
+        AddEntry(new(_category, TraitKeys.Personal(_category), "", 0));
     }
 
     public void AddEntry(TraitValue value)

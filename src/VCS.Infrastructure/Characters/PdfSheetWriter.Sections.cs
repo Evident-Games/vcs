@@ -1,7 +1,7 @@
 using System.Globalization;
 using PdfSharp.Drawing;
-using VCS.Application.Catalogs;
 using VCS.Application.Characters;
+using VCS.Content;
 using VCS.Content.Predators;
 using VCS.Content.Skills;
 using VCS.Rules.V5.Advancement;
