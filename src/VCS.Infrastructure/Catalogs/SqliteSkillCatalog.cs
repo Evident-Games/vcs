@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using VCS.Application.Catalogs;
 using VCS.Content.Skills;
-using VCS.Infrastructure.Catalogs.Seed;
 using VCS.Infrastructure.Persistence;
 
 namespace VCS.Infrastructure.Catalogs;
 
+/// <summary>Built-in skills come from <see cref="SkillCatalog"/>; the database holds only the user's edits (same id) and new skills.</summary>
 public sealed class SqliteSkillCatalog(DatabaseAccess database) : ISkillCatalog, IEditableCatalog<SkillDefinition>
 {
     public async Task<IReadOnlyList<SkillDefinition>> ListAsync(CancellationToken cancellationToken = default)
@@ -14,7 +14,9 @@ public sealed class SqliteSkillCatalog(DatabaseAccess database) : ISkillCatalog,
         try
         {
             await using var db = database.CreateContext();
-            return await db.SkillCatalog.AsNoTracking().OrderBy(x => x.Name).ToArrayAsync(cancellationToken);
+            var rows = await db.SkillCatalog.AsNoTracking().ToDictionaryAsync(x => x.Id, cancellationToken);
+            var builtIn = SkillCatalog.BuiltIn.Select(x => rows.GetValueOrDefault(x.Id) ?? x).ToArray();
+            return [.. builtIn.Concat(rows.Values.Where(x => Seed(x.Id) is null)).OrderBy(x => x.Name)];
         }
         finally { database.Gate.Release(); }
     }
@@ -35,7 +37,9 @@ public sealed class SqliteSkillCatalog(DatabaseAccess database) : ISkillCatalog,
         {
             await using var db = database.CreateContext();
             var existing = await db.SkillCatalog.FindAsync([skill.Id], cancellationToken);
-            if (existing is null) db.SkillCatalog.Add(skill);
+            // A built-in skill saved as shipped needs no row, so later app versions can still update it.
+            if (Seed(skill.Id) == skill) { if (existing is not null) db.SkillCatalog.Remove(existing); }
+            else if (existing is null) db.SkillCatalog.Add(skill);
             else db.Entry(existing).CurrentValues.SetValues(skill);
             await db.SaveChangesAsync(cancellationToken);
         }
@@ -58,5 +62,5 @@ public sealed class SqliteSkillCatalog(DatabaseAccess database) : ISkillCatalog,
         SaveAsync(Seed(id) ?? throw new InvalidOperationException("Somente itens do aplicativo podem ser restaurados."),
             null, cancellationToken);
 
-    private static SkillDefinition? Seed(string id) => ProvidedSkills.All.FirstOrDefault(x => x.Id == id);
+    private static SkillDefinition? Seed(string id) => SkillCatalog.BuiltIn.FirstOrDefault(x => x.Id == id);
 }

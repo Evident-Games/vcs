@@ -4,15 +4,10 @@ public sealed record DisciplineDefinition(string Id, string Name);
 
 public static class DisciplineCatalog
 {
-    public static IReadOnlyList<DisciplineDefinition> BuiltIn { get; } =
-    [
-        new("discipline-animalism", "Animalismo"), new("discipline-auspex", "Auspícios"),
-        new("discipline-blood-sorcery", "Feitiçaria de Sangue"), new("discipline-celerity", "Celeridade"),
-        new("discipline-dominate", "Dominação"), new("discipline-fortitude", "Fortitude"),
-        new("discipline-obfuscate", "Ofuscação"), new("discipline-oblivion", "Oblívio"),
-        new("discipline-potence", "Potência"), new("discipline-presence", "Presença"),
-        new("discipline-protean", "Proteanismo")
-    ];
+    public static IReadOnlyList<DisciplineDefinition> BuiltIn { get; } = BuiltInContent.Load<DisciplineDefinition>("disciplines.json");
+
+    /// <summary>Built-in powers and rituals; the database editor can override them by id.</summary>
+    public static IReadOnlyList<PowerDefinition> Powers { get; } = BuiltInContent.Load<PowerDefinition>("powers.json");
 
     /// <summary>
     /// Sheet key of a discipline named by the catalog: its built-in id, or a stable custom key for a discipline that
