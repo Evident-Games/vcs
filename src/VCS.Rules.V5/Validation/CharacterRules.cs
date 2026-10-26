@@ -17,22 +17,22 @@ public static class CharacterRules
 {
     public static IReadOnlyList<TraitValue> DefaultAttributes { get; } = Array.AsReadOnly(new[]
     {
-        new TraitValue(TraitCategory.Attribute, "Strength", "Forca", 1),
-        new TraitValue(TraitCategory.Attribute, "Dexterity", "Destreza", 1),
-        new TraitValue(TraitCategory.Attribute, "Stamina", "Vigor", 1),
-        new TraitValue(TraitCategory.Attribute, "Charisma", "Carisma", 1),
-        new TraitValue(TraitCategory.Attribute, "Manipulation", "Manipulacao", 1),
-        new TraitValue(TraitCategory.Attribute, "Composure", "Autocontrole", 1),
-        new TraitValue(TraitCategory.Attribute, "Intelligence", "Inteligencia", 1),
-        new TraitValue(TraitCategory.Attribute, "Wits", "Raciocinio", 1),
-        new TraitValue(TraitCategory.Attribute, "Resolve", "Determinacao", 1)
+        new TraitValue(TraitCategory.Attribute, "attribute-strength", "Forca", 1),
+        new TraitValue(TraitCategory.Attribute, "attribute-dexterity", "Destreza", 1),
+        new TraitValue(TraitCategory.Attribute, "attribute-stamina", "Vigor", 1),
+        new TraitValue(TraitCategory.Attribute, "attribute-charisma", "Carisma", 1),
+        new TraitValue(TraitCategory.Attribute, "attribute-manipulation", "Manipulacao", 1),
+        new TraitValue(TraitCategory.Attribute, "attribute-composure", "Autocontrole", 1),
+        new TraitValue(TraitCategory.Attribute, "attribute-intelligence", "Inteligencia", 1),
+        new TraitValue(TraitCategory.Attribute, "attribute-wits", "Raciocinio", 1),
+        new TraitValue(TraitCategory.Attribute, "attribute-resolve", "Determinacao", 1)
     });
 
     public const int NpcMaximumBoxes = 100;
 
-    public static int HealthCapacity(IEnumerable<TraitValue> traits) => Attribute(traits, "Stamina") + 3;
+    public static int HealthCapacity(IEnumerable<TraitValue> traits) => Attribute(traits, "attribute-stamina") + 3;
     public static int WillpowerCapacity(IEnumerable<TraitValue> traits) =>
-        Attribute(traits, "Composure") + Attribute(traits, "Resolve");
+        Attribute(traits, "attribute-composure") + Attribute(traits, "attribute-resolve");
 
     private static int Attribute(IEnumerable<TraitValue> traits, string key) =>
         traits.Single(x => x.Category == TraitCategory.Attribute && x.Key == key).Rating;
