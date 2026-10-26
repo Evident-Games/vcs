@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Catalogs;
+using VCS.Content;
 using VCS.Content.Advantages;
 using VCS.Desktop.Catalogs;
 using VCS.Rules.V5.Advantages;

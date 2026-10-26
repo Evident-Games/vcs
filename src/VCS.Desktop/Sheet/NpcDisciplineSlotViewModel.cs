@@ -1,7 +1,8 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Application.Catalogs;
+using VCS.Content;
+using VCS.Content.Disciplines;
 using VCS.Desktop.Catalogs;
 using VCS.Sheet;
 
@@ -94,8 +95,8 @@ public sealed partial class NpcDisciplineSlotViewModel : ObservableObject, IDisp
         else
         {
             Release();
-            var id = CatalogText.StableId("disc-", name);
-            if (_editor.Disciplines.Items.Any(x => x.Key == id)) id = Guid.NewGuid().ToString("N");
+            var id = DisciplineCatalog.KeyFor(name);
+            if (_editor.Disciplines.Items.Any(x => x.Key == id)) id = TraitKeys.Personal(TraitCategory.Discipline);
             _editor.Disciplines.AddEntry(new(TraitCategory.Discipline, id, name, rating));
             Attach(_editor.Disciplines.Items.Last());
         }

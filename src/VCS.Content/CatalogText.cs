@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace VCS.Application.Catalogs;
+namespace VCS.Content;
 
 public static class CatalogText
 {
