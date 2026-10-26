@@ -66,7 +66,16 @@ public sealed class ContentIdUpgradeTests : IAsyncLifetime
     public async Task Old_database_gets_english_ids_and_keeps_catalog_edits_and_revisions()
     {
         var created = await _service.CreateAsync();
-        var saved = await _service.SaveAsync(created with { Traits = [.. created.Traits, .. OldTraits(), .. CurrentTraits()] });
+        var saved = await _service.SaveAsync(created with
+        {
+            Details = created.Details with { Clan = "Brujah" }, Traits = [.. created.Traits, .. OldTraits(), .. CurrentTraits()]
+        });
+        // Straight to the table: saving through SqliteClanCatalog would reconfigure the shared clan list other tests read.
+        await using (var db = _database.CreateContext())
+        {
+            db.ClanCatalog.Add(new() { Id = "clan-custom-0123456789abcdef0123456789abcdef", Name = "Ahrimanes" });
+            await db.SaveChangesAsync();
+        }
         var catalog = new SqliteAdvantageCatalog(_database);
         var beautiful = (await catalog.ListAsync()).Single(x => x.Id == "advantage-looks-beautiful");
         beautiful.Description = "Editada pelo usuario.";
@@ -88,6 +97,9 @@ public sealed class ContentIdUpgradeTests : IAsyncLifetime
 
         var upgraded = await _service.GetAsync(saved.Id);
         Assert.Equal(saved.Revision, upgraded.Revision);
+        Assert.Equal("clan-brujah", upgraded.Details.ClanKey);
+        await using (var db = _database.CreateContext())
+            Assert.StartsWith("clan-custom-", (await db.ClanCatalog.SingleAsync(x => x.Name == "Ahrimanes")).Id);
         Assert.Empty(CharacterRules.Validate(upgraded.Details, upgraded.Traits));
         var renamed = new Dictionary<string, string>
         {

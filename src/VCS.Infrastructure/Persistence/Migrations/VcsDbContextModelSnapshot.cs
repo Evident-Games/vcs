@@ -1105,7 +1105,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("VCS.Infrastructure.Persistence.ClanCatalogRecord", b =>
                 {
-                    b.Property<string>("Name")
+                    b.Property<string>("Id")
                         .HasMaxLength(80)
                         .HasColumnType("TEXT");
 
@@ -1125,7 +1125,15 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("ClanCatalog", (string)null);
                 });
@@ -1404,6 +1412,14 @@ namespace VCS.Infrastructure.Persistence.Migrations
                             b1.Property<string>("ClanBane")
                                 .IsRequired()
                                 .HasColumnType("TEXT");
+
+                            b1.Property<string>("ClanKey")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasMaxLength(80)
+                                .HasColumnType("TEXT")
+                                .HasDefaultValue("")
+                                .HasColumnName("ClanKey");
 
                             b1.Property<string>("Concept")
                                 .IsRequired()
