@@ -13,7 +13,8 @@ namespace VCS.Infrastructure.Persistence;
 internal static partial class LegacyContentIds
 {
     /// <summary>Migrations after which saved sheets still hold old ids; the upgrade is idempotent, so each one reruns it.</summary>
-    internal static readonly string[] Migrations = ["20261026192826_ContentIdsAdvantagesAndPredators"];
+    internal static readonly string[] Migrations =
+        ["20261026192826_ContentIdsAdvantagesAndPredators", "20261026194137_ContentIdsAttributes"];
 
     private static readonly Dictionary<string, string> Advantages = new(StringComparer.Ordinal)
     {
@@ -84,10 +85,16 @@ internal static partial class LegacyContentIds
 
     public static TraitValue Upgrade(TraitValue value) => value with { Key = Key(value.Category, value.Key) };
 
+    private static readonly string[] Attributes =
+        ["Strength", "Dexterity", "Stamina", "Charisma", "Manipulation", "Composure", "Intelligence", "Wits", "Resolve"];
+
+    private static string Attribute(string key) => Attributes.Contains(key) ? "attribute-" + key.ToLowerInvariant() : key;
+
     public static string Predator(string id) => Predators.GetValueOrDefault(id, id);
 
     public static string Key(TraitCategory? category, string key)
     {
+        if (category == TraitCategory.Attribute) return Attribute(key);
         if (category is not (TraitCategory.Advantage or TraitCategory.Flaw or TraitCategory.Loresheet)) return key;
         if (Advantages.TryGetValue(key, out var advantage)) return advantage;
         if (key.StartsWith("adv-custom-", StringComparison.Ordinal))
@@ -109,6 +116,7 @@ internal static partial class LegacyContentIds
     {
         Baseline = [.. state.Baseline.Select(Upgrade)],
         Purchases = [.. state.Purchases.Select(x => x with { Key = Key(x.Category, x.Key) })],
+        AttributeBase = [.. state.AttributeBase.Select(x => x with { Key = Attribute(x.Key) })],
         BaselinePredatorSelection = Upgrade(state.BaselinePredatorSelection)
     };
 

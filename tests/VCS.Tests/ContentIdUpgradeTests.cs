@@ -6,6 +6,7 @@ using VCS.Application.Characters;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Validation;
 using VCS.Sheet;
 
 namespace VCS.Tests;
@@ -39,6 +40,13 @@ public sealed class ContentIdUpgradeTests : IAsyncLifetime
         new(TraitCategory.Advantage, "adv-custom-0123456789abcdef0123456789abcdef", "Vantagem propria", 1, Merit: new("Outros", ""))
     ];
 
+    private static readonly (string From, string To)[] OldKeys =
+    [
+        ("Strength", "attribute-strength"), ("Dexterity", "attribute-dexterity"), ("Stamina", "attribute-stamina"),
+        ("Charisma", "attribute-charisma"), ("Manipulation", "attribute-manipulation"), ("Composure", "attribute-composure"),
+        ("Intelligence", "attribute-intelligence"), ("Wits", "attribute-wits"), ("Resolve", "attribute-resolve")
+    ];
+
     [Fact]
     public async Task Old_database_gets_english_ids_and_keeps_catalog_edits_and_revisions()
     {
@@ -51,15 +59,24 @@ public sealed class ContentIdUpgradeTests : IAsyncLifetime
         await using (var db = _database.CreateContext())
             await db.GetService<IMigrator>().MigrateAsync("20261025140036_RenameBloodCheckAndResolve");
         await using (var db = _database.CreateContext())
+        {
             Assert.Equal("Editada pelo usuario.", (await db.AdvantageCatalog.SingleAsync(x => x.Id == "catalog-visual-belo")).Description);
+            // Keys the sheet held before they were renamed in the code.
+            foreach (var (from, to) in OldKeys)
+                await db.Database.ExecuteSqlAsync($"UPDATE \"CharacterTraits\" SET \"Key\" = {from} WHERE \"Key\" = {to}");
+        }
 
         await _maintenance.InitializeAsync();
 
         var upgraded = await _service.GetAsync(saved.Id);
         Assert.Equal(saved.Revision, upgraded.Revision);
-        Assert.Contains(upgraded.Traits, x => x.Key == "advantage-looks-beautiful");
-        Assert.Contains(upgraded.Traits, x => x.Key == "flaw-looks-ugly");
-        Assert.Contains(upgraded.Traits, x => x.Key == "advantage-custom-0123456789abcdef0123456789abcdef");
+        Assert.Empty(CharacterRules.Validate(upgraded.Details, upgraded.Traits));
+        var renamed = new Dictionary<string, string>
+        {
+            ["catalog-visual-belo"] = "advantage-looks-beautiful", ["catalog-feio"] = "flaw-looks-ugly",
+            ["adv-custom-0123456789abcdef0123456789abcdef"] = "advantage-custom-0123456789abcdef0123456789abcdef"
+        };
+        Assert.Equal(saved.Traits.Select(x => renamed.GetValueOrDefault(x.Key, x.Key)).Order(), upgraded.Traits.Select(x => x.Key).Order());
         Assert.Equal("Editada pelo usuario.", (await catalog.ListAsync()).Single(x => x.Id == "advantage-looks-beautiful").Description);
     }
 
