@@ -49,10 +49,8 @@ public sealed class JsonCharacterFiles : ICharacterFiles
         if (file is null || file.FormatVersion is < 1 or > FormatVersion || file.Character is not { } loaded ||
             loaded.Details is null || loaded.Traits is null || loaded.Traits.Any(x => x is null))
             throw new InvalidDataException("Formato de ficha invalido ou versao nao suportada.");
-        var character = loaded with
-        {
-            Details = LegacyContentIds.Upgrade(loaded.Details), Traits = [.. loaded.Traits.Select(LegacyContentIds.Upgrade)]
-        };
+        var (details, traits) = new LegacyContentIds().Upgrade(loaded.Details, loaded.Traits);
+        var character = loaded with { Details = details, Traits = traits };
         var issues = CharacterRules.Validate(character.Details, character.Traits);
         if (issues.Count != 0)
             throw new CharacterValidationException(issues);
