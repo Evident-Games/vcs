@@ -22,7 +22,7 @@ public sealed class CharacterTests
     {
         var traits = CharacterRules.DefaultAttributes.Select(t => t with
         {
-            Rating = t.Key switch { "Stamina" => 4, "Composure" => 3, "Resolve" => 5, _ => 1 }
+            Rating = t.Key switch { "attribute-stamina" => 4, "attribute-composure" => 3, "attribute-resolve" => 5, _ => 1 }
         }).ToArray();
         var character = CharacterRules.Create(new(), traits);
         Assert.Equal(7, CharacterRules.HealthCapacity(character.Traits.Select(x => x.ToValue())));

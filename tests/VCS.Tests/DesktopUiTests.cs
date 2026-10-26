@@ -212,25 +212,25 @@ public sealed class DesktopUiTests(WpfApp wpf)
             var originalAttributes = model.Editor.Attributes.Items.ToDictionary(x => x.Key, x => x.Rating);
             var attributeBase = new Dictionary<string, int>
             {
-                ["Charisma"] = 4, ["Manipulation"] = 3, ["Composure"] = 3, ["Wits"] = 3,
-                ["Strength"] = 2, ["Dexterity"] = 2, ["Resolve"] = 2, ["Intelligence"] = 2, ["Stamina"] = 1
+                ["attribute-charisma"] = 4, ["attribute-manipulation"] = 3, ["attribute-composure"] = 3, ["attribute-wits"] = 3,
+                ["attribute-strength"] = 2, ["attribute-dexterity"] = 2, ["attribute-resolve"] = 2, ["attribute-intelligence"] = 2, ["attribute-stamina"] = 1
             };
             foreach (var (key, rating) in attributeBase) model.Editor.Attributes.Items.Single(x => x.Key == key).Rating = rating;
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             var columnWidths = Descendants<ItemsControl>(attributeSection).Where(x => x.Parent is StackPanel { Parent: UniformGrid })
                 .Select(x => x.ActualWidth).ToArray();
-            foreach (var key in new[] { "Manipulation", "Wits" })
+            foreach (var key in new[] { "attribute-manipulation", "attribute-wits" })
                 Descendants<Button>(Find<DotTrack>(attributeSection, key)).Single(x => x.Tag is 4).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-            Assert.Contains("próximo +25 XP", model.Editor.Attributes.Items.Single(x => x.Key == "Wits").AdvancementInfo);
+            Assert.Contains("próximo +25 XP", model.Editor.Attributes.Items.Single(x => x.Key == "attribute-wits").AdvancementInfo);
             Assert.Equal(columnWidths, Descendants<ItemsControl>(attributeSection).Where(x => x.Parent is StackPanel { Parent: UniformGrid })
                 .Select(x => x.ActualWidth).ToArray());
             foreach (var column in Descendants<ItemsControl>(attributeSection).Where(x => x.Parent is StackPanel { Parent: UniformGrid }))
                 Assert.True(column.ActualWidth <= ((FrameworkElement)column.Parent).ActualWidth);
-            var staminaTrack = Find<DotTrack>(attributeSection, "Stamina");
+            var staminaTrack = Find<DotTrack>(attributeSection, "attribute-stamina");
             Assert.Equal(0, staminaTrack.Minimum);
             Descendants<Button>(staminaTrack).Single(x => x.Tag is 1).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            Assert.Equal(0, model.Editor.Attributes.Items.Single(x => x.Key == "Stamina").Rating);
+            Assert.Equal(0, model.Editor.Attributes.Items.Single(x => x.Key == "attribute-stamina").Rating);
             Assert.False(model.Editor.HasErrors, model.Editor.ValidationSummary);
             foreach (var (key, rating) in originalAttributes) model.Editor.Attributes.Items.Single(x => x.Key == key).Rating = rating;
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
@@ -410,7 +410,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
             Find<TextBox>(window, "Ambicao").Text = "Ambicao de teste";
             Find<TextBox>(window, "Pilares").Text = "Pilar pessoal";
             Find<TextBox>(window, "Historia").Text = "Historia do personagem";
-            var vigor = Find<DotTrack>(window, "Stamina");
+            var vigor = Find<DotTrack>(window, "attribute-stamina");
             vigor.SetCurrentValue(DotTrack.ValueProperty, 3);
             Find<DotTrack>(window, "Fome na ficha").SetCurrentValue(DotTrack.ValueProperty, 2);
             Find<DotTrack>(window, "Potencia de sangue na ficha").SetCurrentValue(DotTrack.ValueProperty, 4);
@@ -429,7 +429,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
             Assert.Equal(4, saved.Details.BloodPotency);
             Assert.Contains(saved.Traits, x => x.Category == TraitCategory.Discipline && x.Name == "Ofuscação" && x.Rating == 2);
             Assert.Equal(1, saved.Details.HealthSuperficial);
-            Assert.Equal(3, saved.Traits.Single(x => x.Key == "Stamina").Rating);
+            Assert.Equal(3, saved.Traits.Single(x => x.Key == "attribute-stamina").Rating);
             name.Text = "";
             Assert.True(model.Editor.HasErrors);
             Assert.True(Validation.GetHasError(name));
@@ -477,7 +477,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
             Find<TextBox>(weaponPager, "Especializacao de Armas Brancas 3").Text = "";
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             Assert.Equal(2, model.Editor.Skills.Items.Single(x => x.Name == "Armas Brancas").SpecializationCount);
-            var attributeTrack = Find<DotTrack>(window, "Strength");
+            var attributeTrack = Find<DotTrack>(window, "attribute-strength");
             attributeTrack.SetCurrentValue(DotTrack.ValueProperty, 1);
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             Descendants<Button>(attributeTrack).Single(x => x.Tag is 1).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
@@ -526,7 +526,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
     public Task Layout_editor_rearranges_sheets_and_persists() => _wpf.RunAsync(async ui =>
     {
             var (app, window, model, service, dialogs, directory) = ui;
-            await ui.CreatePcAsync(x => x.PhysicalAttributes.Single(a => a.Key == "Stamina").Rating = 3);
+            await ui.CreatePcAsync(x => x.PhysicalAttributes.Single(a => a.Key == "attribute-stamina").Rating = 3);
             var menu = Descendants<Menu>(window).Single();
             var settingsMenu = (MenuItem)menu.Items[2];
             Assert.Equal(["Layout da ficha...", "Lista lateral de personagens", "Temas"],
@@ -599,7 +599,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
             tabs = Find<TabControl>(window, "Secoes da ficha");
             Assert.Equal(5, tabs.Items.Count);
             Assert.DoesNotContain(model.Editor.VisibleSections, x => x.Key == "Attributes");
-            Assert.Equal(3, model.Editor.PhysicalAttributes.Single(x => x.Key == "Stamina").Rating);
+            Assert.Equal(3, model.Editor.PhysicalAttributes.Single(x => x.Key == "attribute-stamina").Rating);
             model.Display.UseBento = true;
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             var sheetHost = Find<ItemsControl>(window, "Fichas lado a lado");
@@ -647,7 +647,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
             var menu = Descendants<Menu>(window).Single();
             var settingsMenu = (MenuItem)menu.Items[2];
             var addSheet = Find<Button>(window, "Adicionar ficha");
-            var vigor = Find<DotTrack>(window, "Stamina");
+            var vigor = Find<DotTrack>(window, "attribute-stamina");
             var themeMenu = settingsMenu.Items.OfType<MenuItem>().Last();
             Assert.Equal("Temas", themeMenu.Header);
             var themeScopes = themeMenu.Items.OfType<MenuItem>().ToArray();

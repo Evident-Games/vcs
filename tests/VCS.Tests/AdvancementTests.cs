@@ -67,8 +67,8 @@ public sealed class AdvancementTests
     }
 
     [Theory]
-    [InlineData(TraitCategory.Attribute, "Strength", 25)]
-    [InlineData(TraitCategory.Attribute, "Resolve", 10)]
+    [InlineData(TraitCategory.Attribute, "attribute-strength", 25)]
+    [InlineData(TraitCategory.Attribute, "attribute-resolve", 10)]
     [InlineData(TraitCategory.Skill, "skill1", 12)]
     [InlineData(TraitCategory.Discipline, "presence", 15)]
     [InlineData(TraitCategory.Discipline, "obfuscate", 7)]
@@ -91,14 +91,14 @@ public sealed class AdvancementTests
     public void Rejects_invalid_creation_insufficient_xp_maximum_and_unknown_clan()
     {
         var (details, traits) = Build();
-        var changed = traits.Select(x => x.Key == "Strength" ? x with { Rating = 5 } : x).ToArray();
+        var changed = traits.Select(x => x.Key == "attribute-strength" ? x with { Rating = 5 } : x).ToArray();
         Assert.Throws<InvalidOperationException>(() => CharacterAdvancement.FinalizeCreation(details, changed));
-        Assert.Throws<InvalidOperationException>(() => CharacterAdvancement.Buy(details, traits, TraitCategory.Attribute, "Resolve"));
+        Assert.Throws<InvalidOperationException>(() => CharacterAdvancement.Buy(details, traits, TraitCategory.Attribute, "attribute-resolve"));
         details = CharacterAdvancement.FinalizeCreation(details, traits);
-        Assert.Throws<InvalidOperationException>(() => CharacterAdvancement.Buy(details, traits, TraitCategory.Attribute, "Strength"));
+        Assert.Throws<InvalidOperationException>(() => CharacterAdvancement.Buy(details, traits, TraitCategory.Attribute, "attribute-strength"));
         Assert.Throws<InvalidOperationException>(() => CharacterAdvancement.Buy(details with { Clan = "Personalizado" }, traits, TraitCategory.Discipline, "presence"));
-        var first = CharacterAdvancement.Buy(details with { ExperienceTotal = 100 }, traits, TraitCategory.Attribute, "Strength");
-        Assert.Throws<InvalidOperationException>(() => CharacterAdvancement.Buy(first.Details, first.Traits, TraitCategory.Attribute, "Strength"));
+        var first = CharacterAdvancement.Buy(details with { ExperienceTotal = 100 }, traits, TraitCategory.Attribute, "attribute-strength");
+        Assert.Throws<InvalidOperationException>(() => CharacterAdvancement.Buy(first.Details, first.Traits, TraitCategory.Attribute, "attribute-strength"));
     }
 
     [Fact]
@@ -169,7 +169,7 @@ public sealed class AdvancementTests
                 autosave, new ProvidedDisciplineCatalog());
             Assert.True(editor.CanEditBuild);
             editor.CampaignExperienceTotal = 100;
-            editor.Attributes.Items.Single(x => x.Key == "Resolve").Rating = 2;
+            editor.Attributes.Items.Single(x => x.Key == "attribute-resolve").Rating = 2;
             Assert.Equal(10, editor.ExperienceSpent);
             Assert.Contains(editor.ExperienceBreakdown, x => x.EndsWith(": 10 XP.", StringComparison.Ordinal));
             await autosave.FireAsync();
@@ -186,7 +186,7 @@ public sealed class AdvancementTests
             Assert.True(imported.Details.Advancement!.AutomaticExperience);
             var backup = Path.Combine(directory, "backup.db");
             await maintenance.BackupAsync(backup);
-            editor.Attributes.Items.Single(x => x.Key == "Resolve").Rating = 3;
+            editor.Attributes.Items.Single(x => x.Key == "attribute-resolve").Rating = 3;
             Assert.Equal(25, editor.ExperienceSpent);
             await autosave.FireAsync();
             await maintenance.RestoreAsync(backup);
@@ -227,7 +227,7 @@ public sealed class AdvancementTests
             var tracked = CharacterAdvancement.EstablishBaseline(dto.Details, dto.Traits);
             Assert.Equal(20, tracked.Advancement!.BaselineSpent);
             Assert.Empty(tracked.Advancement.Purchases);
-            var purchase = CharacterAdvancement.Buy(tracked, dto.Traits, TraitCategory.Attribute, "Strength");
+            var purchase = CharacterAdvancement.Buy(tracked, dto.Traits, TraitCategory.Attribute, "attribute-strength");
             Assert.Equal(30, purchase.Details.ExperienceSpent);
             Assert.Empty(CharacterRules.Validate(purchase.Details, purchase.Traits));
         }
