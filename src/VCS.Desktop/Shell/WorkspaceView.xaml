@@ -46,7 +46,7 @@
     <Grid Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibility}}">
         <!-- One host for every open sheet: each sheet is built once, then shown alone or side by side.
              Switching sheets or turning bento on/off only changes visibility and columns. -->
-        <ItemsControl ItemsSource="{Binding OpenEditors}" Focusable="False" AutomationProperties.Name="Fichas lado a lado">
+        <ItemsControl ItemsSource="{Binding OpenEditors}" Focusable="False" Background="Transparent" AutomationProperties.Name="Fichas lado a lado">
             <ItemsControl.ContextMenu>
                 <ContextMenu>
                     <themes:SheetThemeMenu />
