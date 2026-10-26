@@ -1,7 +1,7 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using VCS.Application.Maintenance;
-using VCS.Domain.Characters;
+using VCS.Rules.V5.Validation;
 
 namespace VCS.Infrastructure.Persistence;
 

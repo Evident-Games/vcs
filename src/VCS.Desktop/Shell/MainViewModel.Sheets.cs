@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.Input;
 using VCS.Application.Characters;
+using VCS.Content.Clans;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Clans;
 
 namespace VCS.Desktop.Shell;
 

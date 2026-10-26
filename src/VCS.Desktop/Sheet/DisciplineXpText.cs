@@ -1,4 +1,4 @@
-using VCS.Domain.Clans;
+using VCS.Rules.V5.Clans;
 
 namespace VCS.Desktop.Sheet;
 

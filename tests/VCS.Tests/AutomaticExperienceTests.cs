@@ -1,5 +1,7 @@
-using VCS.Domain.Advancement;
-using VCS.Domain.Characters;
+
+using VCS.Rules.V5.Advancement;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 

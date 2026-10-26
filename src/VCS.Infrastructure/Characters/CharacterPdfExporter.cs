@@ -1,7 +1,7 @@
 using PdfSharp.Fonts;
 using VCS.Application.Catalogs;
 using VCS.Application.Characters;
-using VCS.Domain.Characters;
+using VCS.Rules.V5.Validation;
 
 namespace VCS.Infrastructure.Characters;
 

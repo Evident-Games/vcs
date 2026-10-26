@@ -1,4 +1,5 @@
-using VCS.Domain.Advantages;
+
+using VCS.Content.Advantages;
 
 namespace VCS.Application.Catalogs;
 

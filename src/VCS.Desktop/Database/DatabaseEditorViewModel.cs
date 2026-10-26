@@ -1,8 +1,9 @@
 using VCS.Application.Catalogs;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
-using VCS.Domain.Clans;
-using VCS.Domain.Skills;
+using VCS.Content.Advantages;
+using VCS.Content.Clans;
+using VCS.Content.Disciplines;
+using VCS.Content.Skills;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Database;
 

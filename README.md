@@ -839,8 +839,9 @@ Directory.Build.props
 global.json
 dotnet-tools.json
 src\
-  VCS.Domain\
-    Characters\                Agregado, Value Objects, categorias e regras
+  VCS.Sheet\                   Ficha do personagem: dados, sem regras de edição
+  VCS.Content\                 Informações do jogo: clãs, disciplinas, habilidades, vantagens, predadores
+  VCS.Rules.V5\                Regras da 5ª edição: validação, XP, Potência de Sangue, Humanidade
   VCS.Application\
     Abstractions\              Repositório, manutenção e arquivos
     Characters\                DTOs e casos de uso
@@ -863,9 +864,14 @@ tests\
 artifacts\                     Saídas locais ignoradas pelo Git
 ```
 
-- [VCS.Domain](src/VCS.Domain): sem dependências de WPF, EF ou SQLite.
-  `Character` é a raiz do agregado; apenas estados válidos são aceitos.
-- [VCS.Application](src/VCS.Application): depende apenas do domínio; expõe
+- [VCS.Sheet](src/VCS.Sheet): a ficha (`Character`); não depende de nada e não
+  conhece regras de edição.
+- [VCS.Content](src/VCS.Content): as informações do jogo; depende só da ficha.
+- [VCS.Rules.V5](src/VCS.Rules.V5): as regras da 5ª edição; depende da ficha e das
+  informações. `CharacterRules.Create`/`Update` validam antes de gravar na ficha,
+  então só estados válidos são aceitos.
+  Nenhum dos três depende de WPF, EF ou SQLite.
+- [VCS.Application](src/VCS.Application): depende da ficha, das informações e das regras; expõe
   casos de uso e contratos, sem conhecer janelas ou o provedor de banco.
 - [VCS.Infrastructure](src/VCS.Infrastructure): implementa os contratos,
   usa contextos curtos, consultas sem tracking e transações explícitas.
