@@ -42,9 +42,9 @@ public partial class MeritFamilyViewModel : ObservableObject
         var id = Options.FirstOrDefault(x => AdvantageCatalogViewModel.Matches(x.Definition, item))?.Definition.Id;
         return Name switch
         {
-            "Beleza" => "beleza",
-            "Recursos" when id is "catalog-recursos" or "catalog-destituido" => "recursos",
-            "Membros" when id is "catalog-status" or "catalog-suspeito" or "catalog-segregado" => "status",
+            "Beleza" => "looks",
+            "Recursos" when id is "advantage-resources" or "flaw-destitute" => "resources",
+            "Membros" when id is "advantage-status" or "flaw-suspect" or "flaw-shunned" => "status",
             _ => null
         };
     }

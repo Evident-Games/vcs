@@ -37,7 +37,7 @@ public sealed class SqliteAdvantageCatalog(DatabaseAccess database) : IAdvantage
         CatalogValidation.Range("Minimo", value.Minimum, 1, 5);
         CatalogValidation.Range("Maximo", value.Maximum, value.Minimum, 5);
         var entry = Copy(value);
-        if (entry.Id.Length == 0) entry.Id = "adv-custom-" + Guid.NewGuid().ToString("N");
+        if (entry.Id.Length == 0) entry.Id = CustomIdPrefix(entry.Category) + Guid.NewGuid().ToString("N");
         await database.Gate.WaitAsync(cancellationToken);
         try
         {
@@ -65,6 +65,13 @@ public sealed class SqliteAdvantageCatalog(DatabaseAccess database) : IAdvantage
     public Task ResetAsync(string id, CancellationToken cancellationToken = default) =>
         SaveAsync(Seed(id) ?? throw new InvalidOperationException("Somente itens do aplicativo podem ser restaurados."),
             null, cancellationToken);
+
+    internal static string CustomIdPrefix(TraitCategory category) => category switch
+    {
+        TraitCategory.Flaw => "flaw-custom-",
+        TraitCategory.Loresheet => "loresheet-custom-",
+        _ => "advantage-custom-"
+    };
 
     private static AdvantageDefinition? Seed(string id) =>
         ProvidedAdvantages.All.Concat(ProvidedLoresheets.All).FirstOrDefault(x => x.Id == id);

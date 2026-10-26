@@ -89,26 +89,26 @@ public sealed class PredatorTests
         var (details, traits) = Build();
         var medicine = traits.Single(x => x.Name == "Medicina");
         traits = traits.Select(x => x == medicine ? x with { Specialization = "Cirurgia" } : x).ToArray();
-        var sandman = PredatorRules.Apply(details, traits, Choice(PredatorCatalog.Find("sandman")!));
-        var alley = PredatorRules.Apply(sandman.Details, sandman.Traits, Choice(PredatorCatalog.Find("alleycat")!));
-        Assert.DoesNotContain(alley.Traits, x => x.Key.StartsWith("predator:sandman:"));
+        var sandman = PredatorRules.Apply(details, traits, Choice(PredatorCatalog.Find("predator-sandman")!));
+        var alley = PredatorRules.Apply(sandman.Details, sandman.Traits, Choice(PredatorCatalog.Find("predator-alleycat")!));
+        Assert.DoesNotContain(alley.Traits, x => x.Key.StartsWith("predator:predator-sandman:"));
         Assert.Equal("Cirurgia", alley.Traits.Single(x => x.Key == medicine.Key).Specialization);
         Assert.Equal(details.Humanity - 1, alley.Details.Humanity);
         var reverted = PredatorRules.Remove(alley.Details, alley.Traits);
         Assert.Equal(details, reverted.Details);
         Assert.Equal(traits.Where(x => x.Rating > 0).OrderBy(x => x.Key), reverted.Traits.Where(x => x.Rating > 0).OrderBy(x => x.Key));
         var preexisting = traits.Select(x => x.Key == medicine.Key ? x with { Specialization = "Anestésicos" } : x).ToArray();
-        var same = PredatorRules.Apply(details, preexisting, Choice(PredatorCatalog.Find("sandman")!));
+        var same = PredatorRules.Apply(details, preexisting, Choice(PredatorCatalog.Find("predator-sandman")!));
         Assert.False(same.Details.PredatorSelection!.SpecializationAdded);
         Assert.Equal("Anestésicos", PredatorRules.Remove(same.Details, same.Traits).Traits.Single(x => x.Key == medicine.Key).Specialization);
         Assert.Empty(CharacterRules.Validate(same.Details, same.Traits));
     }
 
     [Theory]
-    [InlineData("bagger", "Ventrue", 1)]
-    [InlineData("farmer", "ventrue", 0)]
-    [InlineData("farmer", "Gangrel", 3)]
-    [InlineData("farmer", "Gangrel", 10)]
+    [InlineData("predator-bagger", "Ventrue", 1)]
+    [InlineData("predator-farmer", "ventrue", 0)]
+    [InlineData("predator-farmer", "Gangrel", 3)]
+    [InlineData("predator-farmer", "Gangrel", 10)]
     public void Restrictions_reject_forbidden_choices(string id, string clan, int blood)
     {
         var definition = PredatorCatalog.Find(id)!;
@@ -117,18 +117,18 @@ public sealed class PredatorTests
     }
 
     [Theory]
-    [InlineData("scene-queen", 1)]
-    [InlineData("blood-leech", 1)]
-    [InlineData("osiris", 1)]
-    [InlineData("osiris", 2)]
-    [InlineData("osiris", 3)]
-    [InlineData("osiris", 4)]
+    [InlineData("predator-scene-queen", 1)]
+    [InlineData("predator-blood-leech", 1)]
+    [InlineData("predator-osiris", 1)]
+    [InlineData("predator-osiris", 2)]
+    [InlineData("predator-osiris", 3)]
+    [InlineData("predator-osiris", 4)]
     public void Alternative_and_mythic_flaws_follow_the_selected_allocation(string id, int index)
     {
         var definition = PredatorCatalog.Find(id)!;
         var (details, traits) = Build(definition.Specializations[0].Skill, "Tremere");
         var allocation = new int[definition.FlawOptions.Length];
-        allocation[index] = id == "osiris" && index < 4 ? 1 : definition.FlawPoints;
+        allocation[index] = id == "predator-osiris" && index < 4 ? 1 : definition.FlawPoints;
         allocation[0] = definition.FlawPoints - allocation[index];
         var result = PredatorRules.Apply(details, traits, Choice(definition) with { FlawAllocation = allocation });
         Assert.Empty(CharacterRules.Validate(result.Details, result.Traits));
@@ -141,7 +141,7 @@ public sealed class PredatorTests
     public void Rejects_invalid_allocations_free_text_clan_and_tampered_grants()
     {
         var (details, traits) = Build("Ocultismo");
-        var osiris = PredatorCatalog.Find("osiris")!;
+        var osiris = PredatorCatalog.Find("predator-osiris")!;
         Assert.DoesNotContain("Feitiçaria de Sangue", PredatorRules.DisciplinesFor(osiris, "Banu Haqim"));
         Assert.Throws<InvalidOperationException>(() => PredatorRules.Apply(details, traits, Choice(osiris)));
         var valid = Choice(osiris, "Presença") with { AdvantageAllocation = [1, 2], FlawAllocation = [0, 1, 1, 0, 0] };
@@ -163,13 +163,13 @@ public sealed class PredatorTests
         var zeroSkill = traits.Select(x => x.Name == "Ocultismo" ? x with { Rating = 0 } : x).ToArray();
         Assert.Throws<InvalidOperationException>(() => PredatorRules.Apply(details, zeroSkill, valid));
         Assert.Throws<InvalidOperationException>(() => PredatorRules.Apply(details with { Humanity = 10 }, traits,
-            Choice(PredatorCatalog.Find("farmer")!)));
+            Choice(PredatorCatalog.Find("predator-farmer")!)));
     }
 
     [Fact]
     public void Predator_applies_without_discipline_or_specialization_and_asks_for_them()
     {
-        var definition = PredatorCatalog.Find("blood-leech")!;
+        var definition = PredatorCatalog.Find("predator-blood-leech")!;
         var (details, traits) = Build("Briga");
         var choice = Choice(definition) with { Discipline = "", SpecializationIndex = -1 };
         var result = PredatorRules.Apply(details, traits, choice);
@@ -207,7 +207,7 @@ public sealed class PredatorTests
             editor.Clan = "Brujah";
             var brawl = editor.Skills.Items.Single(x => x.Name == "Briga");
             brawl.Rating = 1;
-            editor.SelectedPredatorType = editor.PredatorTypes.Single(x => x.Id == "blood-leech");
+            editor.SelectedPredatorType = editor.PredatorTypes.Single(x => x.Id == "predator-blood-leech");
             Assert.True(editor.HasAppliedPredator, editor.Error);
 
             var celerity = editor.Disciplines.Items.Single(x => x.Name == "Celeridade");
@@ -272,7 +272,7 @@ public sealed class PredatorTests
             Assert.Equal(13, editor.PredatorTypes.Count);
             editor.Clan = "Brujah";
             editor.Skills.Items.Single(x => x.Name == "Briga").Rating = 1;
-            editor.SelectedPredatorType = editor.PredatorTypes.Single(x => x.Id == "blood-leech");
+            editor.SelectedPredatorType = editor.PredatorTypes.Single(x => x.Id == "predator-blood-leech");
             Assert.Equal(!npc, editor.HasAppliedPredator);
             foreach (var flaw in editor.PredatorFlaws) flaw.Points = 0;
             editor.PredatorFlaws[1].Points = 2;
