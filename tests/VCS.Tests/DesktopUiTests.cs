@@ -1148,6 +1148,9 @@ public sealed class DesktopUiTests(WpfApp wpf)
             // Right click: sheet theme on the sheets, application theme everywhere else.
             Assert.Equal(["Tema da ficha", "Tema da aplicacao"], sheetGrid.ContextMenu.Items.OfType<MenuItem>().Select(x => (string)x.Header));
             Assert.Equal(["Tema da aplicacao"], ((FrameworkElement)window.Content).ContextMenu.Items.OfType<MenuItem>().Select(x => (string)x.Header));
+            // Without a background, empty space is not hit-testable and the right click opens nothing.
+            Assert.NotNull(((Panel)window.Content).Background);
+            Assert.NotNull(sheetGrid.Background);
             var panes = Descendants<CharacterEditorView>(sheetGrid).ToArray();
             await WaitUntilAsync(() => Descendants<CharacterEditorView>(window).Count() == model.OpenEditors.Count);
             Assert.Equal(model.OpenEditors.Count, panes.Length);
