@@ -7,19 +7,20 @@ using PdfSharp.Pdf.IO;
 using VCS.Application.Characters;
 using VCS.Desktop.Catalogs;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Advancement;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Catalogs.Seed;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Advancement;
+using VCS.Rules.V5.Advantages;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 
 public sealed class LoresheetTests
 {
-    private static TraitValue Benefit(int points = 5, string key = "lore-test", bool lineage = false) =>
+    private static TraitValue Benefit(int points = 5, string key = "loresheet-test", bool lineage = false) =>
         new(TraitCategory.Loresheet, key, "Beneficio " + key, points,
             Loresheet: new("Colecao " + key, lineage, "Descricao do beneficio.", LoresheetPayment.AdvantagePoints));
     private static CharacterDetails Creating(VampireAge age = VampireAge.Ancilla) =>
@@ -131,9 +132,9 @@ public sealed class LoresheetTests
         var traits = CharacterRules.DefaultAttributes;
         var details = CharacterAdvancement.EstablishBaseline(Creating(VampireAge.Neonate), traits)
             with { ExperienceTotal = 35, CampaignExperienceTotal = 20 };
-        var first = CharacterAdvancement.Buy(details, traits, TraitCategory.Attribute, "Strength");
+        var first = CharacterAdvancement.Buy(details, traits, TraitCategory.Attribute, "attribute-strength");
         Assert.Equal(0, first.Details.CampaignExperienceSpent);
-        var second = CharacterAdvancement.Buy(first.Details, first.Traits, TraitCategory.Attribute, "Strength");
+        var second = CharacterAdvancement.Buy(first.Details, first.Traits, TraitCategory.Attribute, "attribute-strength");
         Assert.Equal(10, second.Details.CampaignExperienceSpent);
         Assert.Equal(10, LoresheetRules.CampaignAvailable(second.Details));
         Assert.Throws<InvalidOperationException>(() => LoresheetRules.Select(second.Details, second.Traits, Benefit(), LoresheetPayment.CampaignXp));
@@ -265,8 +266,8 @@ public sealed class LoresheetTests
             await maintenance.InitializeAsync();
             var repository = new SqliteCharacterRepository(database);
             var details = CharacterAdvancement.EstablishBaseline(Creating(), CharacterRules.DefaultAttributes);
-            var purchase = CharacterAdvancement.Buy(details, CharacterRules.DefaultAttributes, TraitCategory.Attribute, "Strength");
-            var character = Character.Create(purchase.Details, purchase.Traits);
+            var purchase = CharacterAdvancement.Buy(details, CharacterRules.DefaultAttributes, TraitCategory.Attribute, "attribute-strength");
+            var character = CharacterRules.Create(purchase.Details, purchase.Traits);
             await repository.SaveAsync(character, null);
             await using (var db = database.CreateContext())
                 await db.GetService<IMigrator>().MigrateAsync("20261018021329_CharacterAdvancement");

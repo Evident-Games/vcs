@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Domain.Skills;
+using VCS.Content.Skills;
 
 namespace VCS.Desktop.Database;
 

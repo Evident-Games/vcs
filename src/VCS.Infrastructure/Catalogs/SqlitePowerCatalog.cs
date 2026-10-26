@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VCS.Application.Catalogs;
+using VCS.Content.Disciplines;
 using VCS.Infrastructure.Persistence;
 
 namespace VCS.Infrastructure.Catalogs;
@@ -29,7 +30,7 @@ public sealed class SqlitePowerCatalog(DatabaseAccess database, ProvidedDiscipli
         CatalogValidation.Text("Custo", value.Cost, 200);
         CatalogValidation.Text("Parada de dados", value.DicePool, 200);
         CatalogValidation.Text("Resumo", value.Summary, 20000);
-        var power = value.Id.Length == 0 ? value with { Id = "power-custom-" + Guid.NewGuid().ToString("N") } : value;
+        var power = value.Id.Length == 0 ? value with { Id = (value.IsRitual ? "ritual-custom-" : "power-custom-") + Guid.NewGuid().ToString("N") } : value;
         await database.Gate.WaitAsync(cancellationToken);
         try
         {

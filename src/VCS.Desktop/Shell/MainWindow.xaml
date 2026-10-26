@@ -10,7 +10,8 @@
     WindowStartupLocation="CenterScreen" ExtendsContentIntoTitleBar="True"
     Background="{DynamicResource VcsBackground}" Foreground="{DynamicResource VcsOuterText}"
     FontFamily="Segoe UI" FontSize="14">
-    <Grid>
+    <!-- Transparent, not null: empty space must take the right click that opens the theme menu. -->
+    <Grid Background="Transparent">
         <Grid.ContextMenu>
             <ContextMenu><themes:AppThemeMenu /></ContextMenu>
         </Grid.ContextMenu>

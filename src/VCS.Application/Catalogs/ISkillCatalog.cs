@@ -1,4 +1,4 @@
-using VCS.Domain.Skills;
+using VCS.Content.Skills;
 
 namespace VCS.Application.Catalogs;
 

@@ -1,7 +1,7 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using VCS.Application.Maintenance;
-using VCS.Domain.Characters;
+using VCS.Rules.V5.Validation;
 
 namespace VCS.Infrastructure.Persistence;
 
@@ -90,7 +90,10 @@ public sealed class SqliteDatabaseMaintenance(DatabaseAccess database) : IDataba
         var known = db.Database.GetMigrations().ToHashSet();
         if ((requireExisting && applied.Length == 0) || applied.Any(x => !known.Contains(x)))
             throw new InvalidDataException("Banco sem esquema VCS conhecido ou de uma versao mais recente.");
+        var pending = (await db.Database.GetPendingMigrationsAsync(cancellationToken)).ToArray();
         await db.Database.MigrateAsync(cancellationToken);
+        if (pending.Intersect(LegacyContentIds.Migrations).Any())
+            await LegacyContentIds.UpgradeAsync(db, cancellationToken);
     }
 
     private void BackupTo(string path)

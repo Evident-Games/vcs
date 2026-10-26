@@ -1,9 +1,10 @@
+using VCS.Content.Advantages;
 using VCS.Desktop.Catalogs;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 
@@ -94,7 +95,7 @@ public sealed class MeritFamilyTests : IAsyncLifetime
         Assert.All(row.NameSuggestions, x => Assert.Contains(x.Value, new[] { "Visual Belo", "Deslumbrante" }));
         Type(row, "Deslumbrante");
         var item = Assert.Single(advantages.Items);
-        Assert.Equal("catalog-deslumbrante", item.Key);
+        Assert.Equal("advantage-looks-stunning", item.Key);
         Assert.Equal(4, item.Rating);
         Assert.True(row.IsCatalog);
         Assert.Equal("Beleza", row.Category);
@@ -143,7 +144,7 @@ public sealed class MeritFamilyTests : IAsyncLifetime
         Assert.Equal(2, sheet.AdvantageRows.Count);
         var beauty = sheet.AdvantageRows.Single(x => x.IsCatalog);
         beauty.Notes = "Olhos claros.";
-        Assert.Equal(new MeritInfo("Beleza", "Olhos claros."), advantages.Items.Single(x => x.Key == "catalog-visual-belo").ToValue().Merit);
+        Assert.Equal(new MeritInfo("Beleza", "Olhos claros."), advantages.Items.Single(x => x.Key == "advantage-looks-beautiful").ToValue().Merit);
         beauty.Rating = 0;
         Assert.Equal(2, beauty.Rating);
 
@@ -207,9 +208,9 @@ public sealed class MeritFamilyTests : IAsyncLifetime
     public void Existing_conflicts_are_visible_without_data_loss_and_personal_text_survives_new_selection()
     {
         using var advantages = new TraitGroupViewModel(TraitCategory.Advantage,
-            [new(TraitCategory.Advantage, "catalog-deslumbrante", "Deslumbrante", 4)]);
+            [new(TraitCategory.Advantage, "advantage-looks-stunning", "Deslumbrante", 4)]);
         using var flaws = new TraitGroupViewModel(TraitCategory.Flaw,
-            [new(TraitCategory.Flaw, "catalog-feio", "Feio", 1)]);
+            [new(TraitCategory.Flaw, "flaw-looks-ugly", "Feio", 1)]);
         using var sheet = new AdvantageCatalogViewModel(_entries, advantages, flaws);
         var beauty = sheet.Families.Single(x => x.Name == "Beleza");
         Assert.NotEmpty(beauty.ConflictWarning);

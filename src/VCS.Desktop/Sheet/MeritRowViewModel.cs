@@ -1,9 +1,9 @@
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using VCS.Content.Advantages;
 using VCS.Desktop.Catalogs;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
 
@@ -210,7 +210,7 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
             Release();
             var group = _sheet.Traits(Kind);
             var family = _sheet.FamilyByName(_category)?.Name ?? AdvantageCatalogViewModel.OtherFamily;
-            group.AddEntry(new(Kind, Guid.NewGuid().ToString("N"), name, rating, Merit: new(family, notes)));
+            group.AddEntry(new(Kind, TraitKeys.Personal(Kind), name, rating, Merit: new(family, notes)));
             Attach(group.Items.Last());
         }
     }

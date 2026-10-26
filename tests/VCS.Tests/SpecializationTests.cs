@@ -8,10 +8,11 @@ using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
 using VCS.Application.Characters;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 
@@ -55,7 +56,7 @@ public sealed class SpecializationTests : IAsyncLifetime
         var path = Path.Combine(_directory, "sheet.json");
         var files = new JsonCharacterFiles();
         await files.ExportAsync(saved, path);
-        Assert.Contains("\"FormatVersion\": 12", await File.ReadAllTextAsync(path));
+        Assert.Contains("\"FormatVersion\": 13", await File.ReadAllTextAsync(path));
         var imported = await _service.ImportAsync(await files.ReadAsync(path));
         Assert.Equal(saved.Traits.OrderBy(x => x.Key), imported.Traits.OrderBy(x => x.Key));
         var maintenance = new SqliteDatabaseMaintenance(_database);

@@ -1,6 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
-using VCS.Domain.Characters;
+using VCS.Rules.V5.Validation;
 
 namespace VCS.Desktop.Controls;
 

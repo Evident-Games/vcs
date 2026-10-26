@@ -1,7 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Domain.Advancement;
-using VCS.Domain.Characters;
-using VCS.Domain.Predators;
+using VCS.Content.Predators;
+using VCS.Rules.V5.Advancement;
+using VCS.Rules.V5.Predators;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
 

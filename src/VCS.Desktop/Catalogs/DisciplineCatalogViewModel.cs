@@ -3,8 +3,10 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Application.Catalogs;
+using VCS.Content;
+using VCS.Content.Disciplines;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Characters;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Catalogs;
 
@@ -48,13 +50,13 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
 
     public PowerRowViewModel AddRow(bool isRitual)
     {
-        var row = new PowerRowViewModel(this, isRitual, NewKey()) { IsExpanded = isRitual };
+        var row = new PowerRowViewModel(this, isRitual, NewKey(isRitual)) { IsExpanded = isRitual };
         Rows(isRitual).Add(row);
         RowsChanged();
         return row;
     }
 
-    private static string NewKey() => "power-" + Guid.NewGuid().ToString("N");
+    private static string NewKey(bool isRitual) => TraitKeys.Personal(TraitCategory.DisciplinePower, isRitual);
     private ObservableCollection<PowerRowViewModel> Rows(bool isRitual) => isRitual ? RitualRows : PowerRows;
 
     private void LoadRow(TraitValue value)
@@ -114,7 +116,7 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
         Unbind(row);
         if (match is null)
         {
-            row.Key = NewKey();
+            row.Key = NewKey(row.IsRitual);
         }
         else
         {
@@ -180,9 +182,9 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
 
     private void EnsureDiscipline(PowerItemViewModel entry)
     {
-        if (entry.IsUnavailable || _disciplines.Items.Any(x => x.Key == CatalogText.StableId("disc-", entry.Definition.RequiredDiscipline) ||
+        if (entry.IsUnavailable || _disciplines.Items.Any(x => x.Key == DisciplineCatalog.KeyFor(entry.Definition.RequiredDiscipline) ||
                 CatalogText.Normalize(x.Name) == CatalogText.Normalize(entry.Definition.RequiredDiscipline))) return;
-        _disciplines.AddEntry(new(TraitCategory.Discipline, CatalogText.StableId("disc-", entry.Definition.RequiredDiscipline),
+        _disciplines.AddEntry(new(TraitCategory.Discipline, DisciplineCatalog.KeyFor(entry.Definition.RequiredDiscipline),
             entry.Definition.RequiredDiscipline, 0));
     }
 
@@ -211,7 +213,7 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
     }
 
     private int Rating(string discipline) => _disciplines.Items
-        .Where(x => x.Key == CatalogText.StableId("disc-", discipline) ||
+        .Where(x => x.Key == DisciplineCatalog.KeyFor(discipline) ||
                     CatalogText.Normalize(x.Name) == CatalogText.Normalize(discipline))
         .Select(x => x.Rating).DefaultIfEmpty(0).Max();
 

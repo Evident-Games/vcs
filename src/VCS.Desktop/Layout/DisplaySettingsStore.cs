@@ -1,7 +1,7 @@
 using System.IO;
 using System.Text.Json;
 using VCS.Desktop.Themes;
-using VCS.Domain.Characters;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Layout;
 
