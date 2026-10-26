@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Application.Catalogs;
+using VCS.Content.Disciplines;
 
 namespace VCS.Desktop.Database;
 

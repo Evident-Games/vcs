@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Domain.Advancement;
+using VCS.Rules.V5.Advancement;
 
 namespace VCS.Desktop.Sheet;
 

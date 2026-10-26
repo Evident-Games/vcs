@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VCS.Domain\VCS.Domain.csproj" />
+    <ProjectReference Include="..\VCS.Sheet\VCS.Sheet.csproj" />
+    <ProjectReference Include="..\VCS.Content\VCS.Content.csproj" />
+    <ProjectReference Include="..\VCS.Rules.V5\VCS.Rules.V5.csproj" />
   </ItemGroup>
 </Project>

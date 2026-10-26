@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using VCS.Application.Catalogs;
-using VCS.Domain.Predators;
+using VCS.Content.Predators;
 using VCS.Infrastructure.Persistence;
 
 namespace VCS.Infrastructure.Catalogs;

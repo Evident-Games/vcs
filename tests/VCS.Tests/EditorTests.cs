@@ -4,11 +4,11 @@ using VCS.Desktop.Layout;
 using VCS.Desktop.Sheet;
 using VCS.Desktop.Shell;
 using VCS.Desktop.Themes;
-using VCS.Domain.Advancement;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Advancement;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 

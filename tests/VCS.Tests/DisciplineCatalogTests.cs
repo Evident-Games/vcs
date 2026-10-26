@@ -1,7 +1,7 @@
 using VCS.Desktop.Catalogs;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Catalogs;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 

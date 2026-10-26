@@ -3,7 +3,7 @@ using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using VCS.Application.Catalogs;
 using VCS.Application.Characters;
-using VCS.Domain.Skills;
+using VCS.Content.Skills;
 
 namespace VCS.Infrastructure.Characters;
 

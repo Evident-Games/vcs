@@ -5,14 +5,16 @@ using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
 using VCS.Application.Characters;
+using VCS.Content.Clans;
+using VCS.Content.Predators;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Advancement;
-using VCS.Domain.Characters;
-using VCS.Domain.Clans;
-using VCS.Domain.Predators;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Advancement;
+using VCS.Rules.V5.Predators;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 
@@ -140,7 +142,7 @@ public sealed class PredatorTests
     {
         var (details, traits) = Build("Ocultismo");
         var osiris = PredatorCatalog.Find("osiris")!;
-        Assert.DoesNotContain("Feitiçaria de Sangue", PredatorCatalog.DisciplinesFor(osiris, "Banu Haqim"));
+        Assert.DoesNotContain("Feitiçaria de Sangue", PredatorRules.DisciplinesFor(osiris, "Banu Haqim"));
         Assert.Throws<InvalidOperationException>(() => PredatorRules.Apply(details, traits, Choice(osiris)));
         var valid = Choice(osiris, "Presença") with { AdvantageAllocation = [1, 2], FlawAllocation = [0, 1, 1, 0, 0] };
         var result = PredatorRules.Apply(details, traits, valid);

@@ -2,8 +2,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
+using VCS.Content.Advantages;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
 

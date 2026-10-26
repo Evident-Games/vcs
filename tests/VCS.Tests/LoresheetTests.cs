@@ -7,13 +7,14 @@ using PdfSharp.Pdf.IO;
 using VCS.Application.Characters;
 using VCS.Desktop.Catalogs;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Advancement;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Catalogs.Seed;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Advancement;
+using VCS.Rules.V5.Advantages;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 
@@ -266,7 +267,7 @@ public sealed class LoresheetTests
             var repository = new SqliteCharacterRepository(database);
             var details = CharacterAdvancement.EstablishBaseline(Creating(), CharacterRules.DefaultAttributes);
             var purchase = CharacterAdvancement.Buy(details, CharacterRules.DefaultAttributes, TraitCategory.Attribute, "Strength");
-            var character = Character.Create(purchase.Details, purchase.Traits);
+            var character = CharacterRules.Create(purchase.Details, purchase.Traits);
             await repository.SaveAsync(character, null);
             await using (var db = database.CreateContext())
                 await db.GetService<IMigrator>().MigrateAsync("20261018021329_CharacterAdvancement");

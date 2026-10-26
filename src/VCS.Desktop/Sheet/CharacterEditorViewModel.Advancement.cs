@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Logging;
-using VCS.Domain.Advancement;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
-using VCS.Domain.Clans;
+using VCS.Content.Advantages;
+using VCS.Rules.V5.Advancement;
+using VCS.Rules.V5.Clans;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
 

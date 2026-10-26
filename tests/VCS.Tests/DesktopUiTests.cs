@@ -13,8 +13,7 @@ using VCS.Desktop.Controls;
 using VCS.Desktop.Layout;
 using VCS.Desktop.Sheet;
 using VCS.Desktop.Themes;
-using VCS.Domain.Advancement;
-using VCS.Domain.Characters;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 

@@ -1,12 +1,13 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using VCS.Content.Clans;
+using VCS.Content.Predators;
 using VCS.Desktop.Catalogs;
-using VCS.Domain.Advancement;
-using VCS.Domain.Blood;
-using VCS.Domain.Characters;
-using VCS.Domain.Clans;
-using VCS.Domain.Predators;
+using VCS.Rules.V5.Advancement;
+using VCS.Rules.V5.Blood;
+using VCS.Rules.V5.Predators;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
 
@@ -123,7 +124,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         var selected = SelectedPredatorDiscipline;
         PredatorDisciplines.Clear();
         if (SelectedPredatorType is { } type)
-            foreach (var item in PredatorCatalog.DisciplinesFor(type, Clan)) PredatorDisciplines.Add(item);
+            foreach (var item in PredatorRules.DisciplinesFor(type, Clan)) PredatorDisciplines.Add(item);
         _syncingPredator = true;
         try { SelectedPredatorDiscipline = PredatorDisciplines.FirstOrDefault(x => x == selected); }
         finally { _syncingPredator = false; }
