@@ -20,7 +20,7 @@ namespace VCS.Tests;
 
 public sealed class LoresheetTests
 {
-    private static TraitValue Benefit(int points = 5, string key = "lore-test", bool lineage = false) =>
+    private static TraitValue Benefit(int points = 5, string key = "loresheet-test", bool lineage = false) =>
         new(TraitCategory.Loresheet, key, "Beneficio " + key, points,
             Loresheet: new("Colecao " + key, lineage, "Descricao do beneficio.", LoresheetPayment.AdvantagePoints));
     private static CharacterDetails Creating(VampireAge age = VampireAge.Ancilla) =>

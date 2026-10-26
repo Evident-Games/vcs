@@ -709,8 +709,8 @@ public sealed class EditorTests : IAsyncLifetime
         await _autosave.FireAsync();
         Assert.False(editor.IsDirty);
         var saved = await _service.GetAsync(editor.Id);
-        Assert.Contains(saved.Traits, x => x.Key == "catalog-esofago-de-ferro" && x.Rating == 3);
-        Assert.Contains(saved.Traits, x => x.Key == "catalog-inimigo" && x.Rating == 5);
+        Assert.Contains(saved.Traits, x => x.Key == "advantage-iron-gullet" && x.Rating == 3);
+        Assert.Contains(saved.Traits, x => x.Key == "flaw-enemy" && x.Rating == 5);
         Assert.Equal(1, saved.Traits.Single(x => x.Key == "Charisma").Rating);
         iron.Rating = 1;
         Assert.Contains("fora da referencia", iron.AdvancementInfo);

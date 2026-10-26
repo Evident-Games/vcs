@@ -44,9 +44,9 @@ public static class PredatorRules
         details = original.Details;
         traits = original.Traits;
         var definition = PredatorCatalog.Find(choice.Id) ?? throw new InvalidOperationException("Predador nao encontrado.");
-        if (definition.Id is "bagger" or "farmer" && ClanCatalog.Find(details.Clan)?.Name == "Ventrue")
+        if (definition.Id is "predator-bagger" or "predator-farmer" && ClanCatalog.Find(details.Clan)?.Name == "Ventrue")
             throw new InvalidOperationException("Ventrue nao pode escolher este predador.");
-        if (definition.Id == "farmer" && details.BloodPotency >= 3)
+        if (definition.Id == "predator-farmer" && details.BloodPotency >= 3)
             throw new InvalidOperationException("Fazendeiro exige Potencia de Sangue menor que 3 na escolha.");
         // Discipline and specialization are optional so the sheet can apply each choice as soon as it is made.
         var hasDiscipline = !string.IsNullOrWhiteSpace(choice.Discipline);
