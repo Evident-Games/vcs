@@ -248,7 +248,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
             var predatorHelp = Find<Button>(window, "Informacoes do predador");
             Assert.Equal(13, predatorType.Items.Count);
             await AssertComboInteractionAsync(predatorType);
-            predatorType.SelectedItem = model.Editor.PredatorTypes.Single(x => x.Id == "alleycat");
+            predatorType.SelectedItem = model.Editor.PredatorTypes.Single(x => x.Id == "predator-alleycat");
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             predatorHelp.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
@@ -660,7 +660,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
             Assert.Equal(5, model.Display.DefaultThemes.Count());
             Assert.Equal(model.Display.Themes.Length - 5 - model.Display.SpecialThemes.Count(), model.Display.ClanThemes.Count());
             // The predator snapshots need a chosen predator, so the summary line and tags are visible.
-            model.Editor!.SelectedPredatorType ??= model.Editor.PredatorTypes.Single(x => x.Id == "alleycat");
+            model.Editor!.SelectedPredatorType ??= model.Editor.PredatorTypes.Single(x => x.Id == "predator-alleycat");
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             foreach (var option in model.Display.Themes)
             {
