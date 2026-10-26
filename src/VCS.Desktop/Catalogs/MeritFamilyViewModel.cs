@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Catalogs;
+using VCS.Content;
 using VCS.Content.Advantages;
 using VCS.Desktop.Sheet;
 using VCS.Sheet;
@@ -76,7 +76,7 @@ public partial class MeritFamilyViewModel : ObservableObject
     [RelayCommand] private void AddFlaw() => AddPersonal(TraitCategory.Flaw);
     private void AddPersonal(TraitCategory category)
     {
-        _sheet.Traits(category).AddEntry(new(category, Guid.NewGuid().ToString("N"),
+        _sheet.Traits(category).AddEntry(new(category, TraitKeys.Personal(category),
             category == TraitCategory.Flaw ? "Novo defeito" : "Nova vantagem", 0, Merit: new(Name, "")));
     }
     [RelayCommand]

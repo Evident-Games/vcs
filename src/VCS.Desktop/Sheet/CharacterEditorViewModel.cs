@@ -5,8 +5,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using VCS.Application.Catalogs;
 using VCS.Application.Characters;
+using VCS.Content;
 using VCS.Content.Advantages;
 using VCS.Content.Clans;
+using VCS.Content.Disciplines;
 using VCS.Content.Predators;
 using VCS.Content.Skills;
 using VCS.Desktop.Catalogs;
@@ -70,8 +72,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         Disciplines = new(TraitCategory.Discipline, character.Traits);
         foreach (var discipline in catalog.Powers.Where(x => !x.IsRitual).Select(x => x.Discipline).Distinct())
             if (!Disciplines.Items.Any(x => CatalogText.Normalize(x.Name) == CatalogText.Normalize(discipline) ||
-                x.Key == CatalogText.StableId("disc-", discipline)))
-                Disciplines.AddEntry(new(TraitCategory.Discipline, CatalogText.StableId("disc-", discipline), discipline, 0));
+                x.Key == DisciplineCatalog.KeyFor(discipline)))
+                Disciplines.AddEntry(new(TraitCategory.Discipline, DisciplineCatalog.KeyFor(discipline), discipline, 0));
         Advantages = new(TraitCategory.Advantage, character.Traits);
         Flaws = new(TraitCategory.Flaw, character.Traits);
         Loresheets = new(TraitCategory.Loresheet, character.Traits);

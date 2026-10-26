@@ -68,7 +68,7 @@ public static class PredatorRules
         if (text.Length > 500) throw new InvalidOperationException("Especializacoes excedem o limite de 500 caracteres.");
         var values = traits.Select(x => skill is not null && x == skill ? x with { Specialization = text }
             : discipline is not null && x == discipline ? x with { Rating = x.Rating + 1 } : x).ToList();
-        var disciplineKey = !hasDiscipline ? "" : discipline?.Key ?? "pred-disc-" + definition.Id;
+        var disciplineKey = !hasDiscipline ? "" : discipline?.Key ?? "discipline-from-" + definition.Id;
         if (hasDiscipline && discipline is null) values.Add(new(TraitCategory.Discipline, disciplineKey, choice.Discipline, 1));
         values.AddRange(grants);
         return new(details with
