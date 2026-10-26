@@ -4,11 +4,11 @@ using VCS.Desktop.Layout;
 using VCS.Desktop.Sheet;
 using VCS.Desktop.Shell;
 using VCS.Desktop.Themes;
-using VCS.Domain.Advancement;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Advancement;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 
@@ -106,9 +106,9 @@ public sealed class EditorTests : IAsyncLifetime
         Assert.StartsWith("Faltam: 1 × ●●●● · 3 × ●●●", editor.InitialSkillsRemaining);
         Assert.StartsWith("Faltam: 1 × ●●●● · 3 × ●●●", editor.InitialSkillsStatus);
         Assert.False(editor.IsInitialSkillsComplete);
-        editor.Attributes.Items.Single(x => x.Key == "Strength").Rating = 4;
+        editor.Attributes.Items.Single(x => x.Key == "attribute-strength").Rating = 4;
         Assert.DoesNotContain("●●●●", editor.InitialAttributesRemaining);
-        editor.Attributes.Items.Single(x => x.Key == "Strength").Rating = 5;
+        editor.Attributes.Items.Single(x => x.Key == "attribute-strength").Rating = 5;
         Assert.DoesNotContain("●●●●", editor.InitialAttributesRemaining);
         Assert.Contains("Faltam:", editor.AttributesSummary);
         editor.SkillGroups[0].Items[0].Rating = 4;
@@ -133,14 +133,14 @@ public sealed class EditorTests : IAsyncLifetime
         using var editor = await CreateEditorAsync();
         var bases = new Dictionary<string, int>
         {
-            ["Charisma"] = 4, ["Manipulation"] = 3, ["Composure"] = 3, ["Wits"] = 3,
-            ["Strength"] = 2, ["Dexterity"] = 2, ["Resolve"] = 2, ["Intelligence"] = 2, ["Stamina"] = 1
+            ["attribute-charisma"] = 4, ["attribute-manipulation"] = 3, ["attribute-composure"] = 3, ["attribute-wits"] = 3,
+            ["attribute-strength"] = 2, ["attribute-dexterity"] = 2, ["attribute-resolve"] = 2, ["attribute-intelligence"] = 2, ["attribute-stamina"] = 1
         };
         Assert.False(editor.IsAttributeBaseLocked);
         foreach (var (key, rating) in bases) editor.Attributes.Items.Single(x => x.Key == key).Rating = rating;
         Assert.True(editor.IsAttributeBaseLocked);
         Assert.StartsWith("Base registrada", editor.InitialAttributesDescription);
-        var stamina = editor.Attributes.Items.Single(x => x.Key == "Stamina");
+        var stamina = editor.Attributes.Items.Single(x => x.Key == "attribute-stamina");
         Assert.Equal("base 1\npróximo +10 XP", stamina.AdvancementInfo);
 
         stamina.Rating = 2;
@@ -148,16 +148,16 @@ public sealed class EditorTests : IAsyncLifetime
         stamina.Rating = 5;
         Assert.Equal("base 1 · 70 XP", stamina.AdvancementInfo);
         Assert.Equal("Total em atributos: 70 XP.", editor.AttributesSummary);
-        Assert.Equal("base 4\npróximo +25 XP", editor.Attributes.Items.Single(x => x.Key == "Charisma").AdvancementInfo);
+        Assert.Equal("base 4\npróximo +25 XP", editor.Attributes.Items.Single(x => x.Key == "attribute-charisma").AdvancementInfo);
 
         Assert.True(await editor.FlushAsync(), editor.ValidationSummary);
         var saved = (await _service.GetAsync(editor.Id)).Details.Advancement!;
-        Assert.Equal(1, saved.AttributeBase.Single(x => x.Key == "Stamina").Rating);
+        Assert.Equal(1, saved.AttributeBase.Single(x => x.Key == "attribute-stamina").Rating);
         var reloaded = await _service.GetAsync(editor.Id);
         Assert.Equal(70, AutomaticExperience.Calculate(reloaded.Details, reloaded.Traits).Costs
             .Where(x => x.Section == "Attributes").Sum(x => x.Cost));
 
-        var charisma = editor.Attributes.Items.Single(x => x.Key == "Charisma");
+        var charisma = editor.Attributes.Items.Single(x => x.Key == "attribute-charisma");
         charisma.Rating = 3;
         Assert.False(editor.IsAttributeBaseLocked);
         Assert.Equal("", stamina.AdvancementInfo);
@@ -174,7 +174,7 @@ public sealed class EditorTests : IAsyncLifetime
         Assert.False(editor.HasErrors, editor.ValidationSummary);
         Assert.False(editor.IsAttributeBaseLocked);
         Assert.True(await editor.FlushAsync(), editor.ValidationSummary);
-        Assert.Equal(0, (await _service.GetAsync(editor.Id)).Traits.Single(x => x.Key == "Stamina").Rating);
+        Assert.Equal(0, (await _service.GetAsync(editor.Id)).Traits.Single(x => x.Key == "attribute-stamina").Rating);
     }
     [Fact]
     public async Task Autosave_coalesces_edits_and_persists_latest_snapshot()
@@ -246,7 +246,7 @@ public sealed class EditorTests : IAsyncLifetime
     public async Task Attribute_and_editable_list_changes_are_saved_and_recalculate_tracks()
     {
         using var editor = await CreateEditorAsync();
-        editor.Attributes.Items.Single(x => x.Key == "Stamina").Rating = 4;
+        editor.Attributes.Items.Single(x => x.Key == "attribute-stamina").Rating = 4;
         Assert.Equal(7, editor.HealthCapacity);
         editor.Skills.AddCommand.Execute(null);
         Assert.True(editor.HasErrors);
@@ -427,18 +427,18 @@ public sealed class EditorTests : IAsyncLifetime
     public async Task Sheet_attribute_groups_share_the_same_items_as_the_detailed_editor()
     {
         using var editor = await CreateEditorAsync();
-        Assert.Equal(new[] { "Strength", "Dexterity", "Stamina" }, editor.PhysicalAttributes.Select(x => x.Key));
-        Assert.Equal(new[] { "Charisma", "Manipulation", "Composure" }, editor.SocialAttributes.Select(x => x.Key));
-        Assert.Equal(new[] { "Intelligence", "Wits", "Resolve" }, editor.MentalAttributes.Select(x => x.Key));
-        var vigor = editor.PhysicalAttributes.Single(x => x.Key == "Stamina");
-        Assert.Same(editor.Attributes.Items.Single(x => x.Key == "Stamina"), vigor);
+        Assert.Equal(new[] { "attribute-strength", "attribute-dexterity", "attribute-stamina" }, editor.PhysicalAttributes.Select(x => x.Key));
+        Assert.Equal(new[] { "attribute-charisma", "attribute-manipulation", "attribute-composure" }, editor.SocialAttributes.Select(x => x.Key));
+        Assert.Equal(new[] { "attribute-intelligence", "attribute-wits", "attribute-resolve" }, editor.MentalAttributes.Select(x => x.Key));
+        var vigor = editor.PhysicalAttributes.Single(x => x.Key == "attribute-stamina");
+        Assert.Same(editor.Attributes.Items.Single(x => x.Key == "attribute-stamina"), vigor);
         vigor.Rating = 4;
-        editor.SocialAttributes.Single(x => x.Key == "Composure").Rating = 3;
+        editor.SocialAttributes.Single(x => x.Key == "attribute-composure").Rating = 3;
         Assert.Equal(7, editor.HealthCapacity);
         Assert.Equal(4, editor.WillpowerCapacity);
         await _autosave.FireAsync();
         Assert.False(editor.IsDirty);
-        Assert.Equal(4, (await _service.GetAsync(editor.Id)).Traits.Single(x => x.Key == "Stamina").Rating);
+        Assert.Equal(4, (await _service.GetAsync(editor.Id)).Traits.Single(x => x.Key == "attribute-stamina").Rating);
     }
 
     [Fact]
@@ -709,9 +709,9 @@ public sealed class EditorTests : IAsyncLifetime
         await _autosave.FireAsync();
         Assert.False(editor.IsDirty);
         var saved = await _service.GetAsync(editor.Id);
-        Assert.Contains(saved.Traits, x => x.Key == "catalog-esofago-de-ferro" && x.Rating == 3);
-        Assert.Contains(saved.Traits, x => x.Key == "catalog-inimigo" && x.Rating == 5);
-        Assert.Equal(1, saved.Traits.Single(x => x.Key == "Charisma").Rating);
+        Assert.Contains(saved.Traits, x => x.Key == "advantage-iron-gullet" && x.Rating == 3);
+        Assert.Contains(saved.Traits, x => x.Key == "flaw-enemy" && x.Rating == 5);
+        Assert.Equal(1, saved.Traits.Single(x => x.Key == "attribute-charisma").Rating);
         iron.Rating = 1;
         Assert.Contains("fora da referencia", iron.AdvancementInfo);
         Assert.NotEmpty(ironOption.Warning);

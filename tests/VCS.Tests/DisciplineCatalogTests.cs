@@ -1,7 +1,7 @@
 using VCS.Desktop.Catalogs;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Catalogs;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 
@@ -101,6 +101,7 @@ public sealed class DisciplineCatalogTests
     public void Parser_preserves_supplied_text_and_rejects_missing_fields_and_duplicates()
     {
         const string text = """
+            Id: power-test
             Disciplina: Disciplina pessoal
             Nome da habilidade: Teste pessoal (Nível 2)
             Custo: Custo escolhido
@@ -108,6 +109,7 @@ public sealed class DisciplineCatalogTests
             Resumo: Texto do usuario, sem alteracoes.
             """;
         var power = Assert.Single(ProvidedDisciplineCatalog.Parse(text));
+        Assert.Equal("power-test", power.Id);
         Assert.Equal("Teste pessoal", power.Name);
         Assert.Equal(2, power.Level);
         Assert.Equal("Custo escolhido", power.Cost);
@@ -116,6 +118,8 @@ public sealed class DisciplineCatalogTests
         Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text.Replace("Custo:", "Ausente:")));
         Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text + "\n" + text));
         Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text.Replace("Nível 2", "Nível 6")));
+        Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text.Replace("Id: power-test", "")));
+        Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text.Replace("power-test", "ritual-test")));
     }
 
     [Fact]

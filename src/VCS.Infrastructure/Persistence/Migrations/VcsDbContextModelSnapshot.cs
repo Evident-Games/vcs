@@ -3,8 +3,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Sheet;
 
 #nullable disable
 
@@ -18,7 +18,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.13");
 
-            modelBuilder.Entity("VCS.Domain.Advantages.AdvantageDefinition", b =>
+            modelBuilder.Entity("VCS.Content.Advantages.AdvantageDefinition", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(80)
@@ -69,7 +69,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "catalog-visual-belo",
+                            Id = "advantage-looks-beautiful",
                             Category = 3,
                             Description = "Adiciona +1 dado em todos os testes Sociais do personagem.",
                             Group = "Visual",
@@ -82,7 +82,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-deslumbrante",
+                            Id = "advantage-looks-stunning",
                             Category = 3,
                             Description = "Adiciona +2 dados em todos os testes Sociais do personagem.",
                             Group = "Visual",
@@ -95,7 +95,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-feio",
+                            Id = "flaw-looks-ugly",
                             Category = 4,
                             Description = "Subtrai 1 dado em todos os testes Sociais.",
                             Group = "Visual",
@@ -108,7 +108,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-repulsivo",
+                            Id = "flaw-looks-repulsive",
                             Category = 4,
                             Description = "Subtrai 2 dados em todos os testes Sociais.",
                             Group = "Visual",
@@ -121,7 +121,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-refugio",
+                            Id = "advantage-haven",
                             Category = 3,
                             Description = "Fornece ao seu personagem um lugar seguro.",
                             Group = "Refúgio",
@@ -134,7 +134,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-arsenal-oculto",
+                            Id = "advantage-haven-hidden-armory",
                             Category = 3,
                             Description = "Adiciona armas de fogo extras ao seu refúgio.",
                             Group = "Refúgio",
@@ -147,7 +147,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-vigilancia",
+                            Id = "advantage-haven-watchmen",
                             Category = 3,
                             Description = "Fornece seguranças humanos para o refúgio.",
                             Group = "Refúgio",
@@ -160,7 +160,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-luxo",
+                            Id = "advantage-haven-luxury",
                             Category = 3,
                             Description = "Garante +2 dados em testes sociais que sejam realizados no interior do refúgio.",
                             Group = "Refúgio",
@@ -173,7 +173,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-nenhum-refugio",
+                            Id = "flaw-no-haven",
                             Category = 4,
                             Description = "O personagem não possui um local seguro fixo.",
                             Group = "Refúgio",
@@ -186,7 +186,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-assombrado",
+                            Id = "flaw-haven-haunted",
                             Category = 4,
                             Description = "O refúgio possui uma presença fantasmagórica.",
                             Group = "Refúgio",
@@ -199,7 +199,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-comprometido",
+                            Id = "flaw-haven-compromised",
                             Category = 4,
                             Description = "O refúgio está sob vigilância de outras pessoas.",
                             Group = "Refúgio",
@@ -212,7 +212,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-recursos",
+                            Id = "advantage-resources",
                             Category = 3,
                             Description = "Representa o seu fluxo de caixa e dinheiro disponível.",
                             Group = "Recursos",
@@ -225,7 +225,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-destituido",
+                            Id = "flaw-destitute",
                             Category = 4,
                             Description = "O personagem não tem dinheiro e nem emprego.",
                             Group = "Recursos",
@@ -238,7 +238,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-sabujo-de-sangue",
+                            Id = "advantage-bloodhound",
                             Category = 3,
                             Description = "O personagem é capaz de farejar a Ressonância do sangue humano.",
                             Group = "Alimentação",
@@ -251,7 +251,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-esofago-de-ferro",
+                            Id = "advantage-iron-gullet",
                             Category = 3,
                             Description = "O vampiro é capaz de consumir sangue rançoso ou fracionado sem problemas.",
                             Group = "Alimentação",
@@ -264,7 +264,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-exclusao-de-presa",
+                            Id = "flaw-prey-exclusion",
                             Category = 4,
                             Description = "Torna o personagem incapaz de se alimentar de um determinado grupo específico de pessoas.",
                             Group = "Alimentação",
@@ -277,7 +277,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-sede-do-matusalem",
+                            Id = "flaw-methuselahs-thirst",
                             Category = 4,
                             Description = "O personagem é incapaz de se saciar completamente apenas bebendo sangue humano.",
                             Group = "Alimentação",
@@ -290,7 +290,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-fazendeiro",
+                            Id = "flaw-farmer",
                             Category = 4,
                             Description = "Exige que você gaste 2 pontos de Força de Vontade toda vez que quiser beber sangue que não seja de animais.",
                             Group = "Alimentação",
@@ -303,7 +303,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-organivoro",
+                            Id = "flaw-organovore",
                             Category = 4,
                             Description = "O vampiro só consegue aplacar a Fome consumindo carne ou órgãos humanos.",
                             Group = "Alimentação",
@@ -316,7 +316,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-mawla",
+                            Id = "advantage-mawla",
                             Category = 3,
                             Description = "O personagem possui um mentor não-vivo que o auxilia.",
                             Group = "Membros",
@@ -329,7 +329,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-status",
+                            Id = "advantage-status",
                             Category = 3,
                             Description = "Reflete a sua reputação dentro da Seita.",
                             Group = "Membros",
@@ -342,7 +342,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-adversario",
+                            Id = "flaw-adversary",
                             Category = 4,
                             Description = "O personagem possui um inimigo não-vivo atuando contra ele.",
                             Group = "Membros",
@@ -355,7 +355,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-suspeito",
+                            Id = "flaw-suspect",
                             Category = 4,
                             Description = "O personagem tem má reputação na seita, sofrendo uma penalidade de -2 dados em testes Sociais com a facção ofendida.",
                             Group = "Membros",
@@ -368,7 +368,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-segregado",
+                            Id = "flaw-shunned",
                             Category = 4,
                             Description = "O personagem é totalmente desprezado por uma determinada seita.",
                             Group = "Membros",
@@ -381,7 +381,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-vivendo-no-passado",
+                            Id = "flaw-living-in-the-past",
                             Category = 4,
                             Description = "O personagem possui visões e opiniões ultrapassadas.",
                             Group = "Acompanhando o Tempo",
@@ -394,7 +394,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-arcaico",
+                            Id = "flaw-archaic",
                             Category = 4,
                             Description = "A habilidade tecnológica do personagem é fixada em zero.",
                             Group = "Acompanhando o Tempo",
@@ -407,7 +407,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-ingerir-comida",
+                            Id = "advantage-eat-food",
                             Category = 3,
                             Description = "Permite que o vampiro possa consumir comida humana normal.",
                             Group = "Mítico",
@@ -420,7 +420,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-perdicao-folclorica",
+                            Id = "flaw-folkloric-bane",
                             Category = 4,
                             Description = "O vampiro toma dano real quando toca um item específico de lendas (como prata, cruz sagrada ou alho).",
                             Group = "Mítico",
@@ -433,7 +433,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-tabu-folclorico",
+                            Id = "flaw-folkloric-block",
                             Category = 4,
                             Description = "Você deve gastar Força de Vontade para atravessar coisas específicas das lendas, como entrar numa casa sem convite ou cruzar água corrente.",
                             Group = "Mítico",
@@ -446,7 +446,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-estigma",
+                            Id = "flaw-stigmata",
                             Category = 4,
                             Description = "O vampiro sangra visivelmente pelas mãos, pés e testa sempre que atinge o nível 4 de Fome.",
                             Group = "Mítico",
@@ -459,7 +459,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-isca-de-estaca",
+                            Id = "flaw-stake-bait",
                             Category = 4,
                             Description = "O personagem encontra a Morte Final (morre de vez) caso seja estacado no coração, em vez de apenas entrar em torpor.",
                             Group = "Mítico",
@@ -472,7 +472,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-mascara",
+                            Id = "advantage-mask",
                             Category = 3,
                             Description = "Fornece uma identidade falsa confiável no mundo mortal.",
                             Group = "Máscara",
@@ -485,7 +485,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-cadaver-identificado",
+                            Id = "flaw-known-corpse",
                             Category = 4,
                             Description = "O personagem é sabidamente e publicamente dado como morto.",
                             Group = "Máscara",
@@ -498,7 +498,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-corpo-frio-identificado",
+                            Id = "flaw-known-blankbody",
                             Category = 4,
                             Description = "O personagem está registrado em Órgãos Governamentais como sendo uma criatura vampírica.",
                             Group = "Máscara",
@@ -511,7 +511,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-linguistica",
+                            Id = "advantage-linguistics",
                             Category = 3,
                             Description = "Cada ponto comprado representa um novo idioma no qual você é fluente, além do seu nativo.",
                             Group = "Linguística",
@@ -524,7 +524,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-analfabeto",
+                            Id = "flaw-illiterate",
                             Category = 4,
                             Description = "O personagem não sabe ler ou escrever em nenhum idioma.",
                             Group = "Linguística",
@@ -537,7 +537,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-lacaios",
+                            Id = "advantage-retainers",
                             Category = 3,
                             Description = "Concede leais servos mortais ao personagem.",
                             Group = "Mortais",
@@ -550,7 +550,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-aliados",
+                            Id = "advantage-allies",
                             Category = 3,
                             Description = "Representa um grupo de suporte mortal; os pontos indicam a Efetividade ou Confiabilidade deles.",
                             Group = "Mortais",
@@ -563,7 +563,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-contatos",
+                            Id = "advantage-contacts",
                             Category = 3,
                             Description = "Mortais que não lutam, mas fornecem informações, itens ou coisas de valor para você.",
                             Group = "Mortais",
@@ -576,7 +576,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-rebanho",
+                            Id = "advantage-herd",
                             Category = 3,
                             Description = "Um grupo de mortais de onde você pode se alimentar sem preocupações, mas eles são menos leais que Lacaios.",
                             Group = "Mortais",
@@ -589,7 +589,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-perseguidores",
+                            Id = "flaw-stalkers",
                             Category = 4,
                             Description = "O personagem tem seguidores mortais indesejados.",
                             Group = "Mortais",
@@ -602,7 +602,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-inimigo",
+                            Id = "flaw-enemy",
                             Category = 4,
                             Description = "O exato oposto dos Aliados; inimigos mortais com grande Efetividade contra você.",
                             Group = "Mortais",
@@ -615,7 +615,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "catalog-predador-manifesto",
+                            Id = "flaw-obvious-predator",
                             Category = 4,
                             Description = "O vampiro assusta e repele os mortais ao seu redor, sendo incapaz de manter um Rebanho.",
                             Group = "Mortais",
@@ -628,7 +628,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-bahari-1",
+                            Id = "loresheet-bahari-1",
                             Category = 6,
                             Description = "Uma vez por história, concede dois dados extras em testes de Intimidação contra adoradores de Caim que conheçam sua afiliação.",
                             Group = "Ficha de Conhecimento",
@@ -641,7 +641,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-bahari-2",
+                            Id = "loresheet-bahari-2",
                             Category = 6,
                             Description = "Uma vez por sessão, permite que você cause dano Agravado em si mesmo (escarificação) para recuperar um nível de dano (Superficial ou Agravado) na Força de Vontade.",
                             Group = "Ficha de Conhecimento",
@@ -654,7 +654,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-bahari-3",
+                            Id = "loresheet-bahari-3",
                             Category = 6,
                             Description = "Cometer Diablerie em sua própria Criança concede três dados extras na parada de Humanidade + Potência de Sangue para absorver Disciplinas.",
                             Group = "Ficha de Conhecimento",
@@ -667,7 +667,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-bahari-4",
+                            Id = "loresheet-bahari-4",
                             Category = 6,
                             Description = "Uma vez por história, beber sangue do útero concede dois pontos temporários em Vigor ou Determinação (aumentando Vitalidade/Força de Vontade) até o amanhecer.",
                             Group = "Ficha de Conhecimento",
@@ -680,7 +680,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-bahari-5",
+                            Id = "loresheet-bahari-5",
                             Category = 6,
                             Description = "Permite andar na primeira/última hora de sol e fazer sexo sem Inflamar o Sangue, mas você atrai o defeito Predador Manifesto, falha mais fácil em testes de difamação e causa enxaqueca em quem usar Auspícios em você.",
                             Group = "Ficha de Conhecimento",
@@ -693,7 +693,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-theo-bell-1",
+                            Id = "loresheet-theo-bell-1",
                             Category = 6,
                             Description = "Fornece um grupo mortal rebelde (equivalente a Aliado de 3 pontos) que fará uma missão perigosa sozinha para você antes de debandar até a próxima história.",
                             Group = "Ficha de Conhecimento",
@@ -706,7 +706,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-theo-bell-2",
+                            Id = "loresheet-theo-bell-2",
                             Category = 6,
                             Description = "Garante dois sucessos automáticos em qualquer teste investigativo envolvendo vampiros que desertaram da Camarilla para o Movimento Anarch.",
                             Group = "Ficha de Conhecimento",
@@ -719,7 +719,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-theo-bell-3",
+                            Id = "loresheet-theo-bell-3",
                             Category = 6,
                             Description = "Permite contatar Theo Bell para enviar uma mensagem; os efeitos e a resposta dependem do Narrador e da importância do recado.",
                             Group = "Ficha de Conhecimento",
@@ -732,7 +732,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-theo-bell-4",
+                            Id = "loresheet-theo-bell-4",
                             Category = 6,
                             Description = "Transforma Theo Bell em um Mawla de 5 pontos, trazendo conselhos valiosos, mas também complicações e perigos devido à associação com ele.",
                             Group = "Ficha de Conhecimento",
@@ -745,7 +745,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-theo-bell-5",
+                            Id = "loresheet-theo-bell-5",
                             Category = 6,
                             Description = "Concede seguidores Brujah leais e cinco pontos para distribuir livremente entre Contatos, Refúgio, Mawla e Lacaios até que eles decidam se rebelar.",
                             Group = "Ficha de Conhecimento",
@@ -758,7 +758,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-heresia-cainita-1",
+                            Id = "loresheet-cainite-heresy-1",
                             Category = 6,
                             Description = "Uma vez por história, o Narrador é obrigado a fornecer uma pista grátis para detectar ou entender os planos da Heresia.",
                             Group = "Ficha de Conhecimento",
@@ -771,7 +771,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-heresia-cainita-2",
+                            Id = "loresheet-cainite-heresy-2",
                             Category = 6,
                             Description = "Garante três pontos para distribuir entre Aliados, Rebanho, Mawla ou Lacaios no culto, mas aplica o defeito Segredo Sombrio (Heresia).",
                             Group = "Ficha de Conhecimento",
@@ -784,7 +784,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-heresia-cainita-3",
+                            Id = "loresheet-cainite-heresy-3",
                             Category = 6,
                             Description = "Permite usar Determinação + Heresia Cainita para detectar passivamente a Fé Verdadeira em mortais ou saber em quem confiar.",
                             Group = "Ficha de Conhecimento",
@@ -797,7 +797,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-heresia-cainita-4",
+                            Id = "loresheet-cainite-heresy-4",
                             Category = 6,
                             Description = "Uma vez por história, induz humanos a um frenesi extático (Pentecostes Vermelho) com ervas, custando uma Checagem de Sangue e podendo causar frenesi em Membros.",
                             Group = "Ficha de Conhecimento",
@@ -810,7 +810,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-heresia-cainita-5",
+                            Id = "loresheet-cainite-heresy-5",
                             Category = 6,
                             Description = "Uma vez por história, devido à sua importância nas profecias, você pode ditar o vencedor de um conflito Social fornecendo uma desculpa plausível.",
                             Group = "Ficha de Conhecimento",
@@ -823,7 +823,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-carna-1",
+                            Id = "loresheet-carna-1",
                             Category = 6,
                             Description = "O conforto entre colegas de subfacção lhe garante um dado adicional em todos os testes de Força de Vontade perto deles.",
                             Group = "Ficha de Conhecimento",
@@ -836,7 +836,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-carna-2",
+                            Id = "loresheet-carna-2",
                             Category = 6,
                             Description = "Permite rolar Força de Vontade (Dificuldade igual à Potência do Sangue ingerido) para ignorar completamente o risco de criar um Laço de Sangue.",
                             Group = "Ficha de Conhecimento",
@@ -849,7 +849,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-carna-3",
+                            Id = "loresheet-carna-3",
                             Category = 6,
                             Description = "Uma vez por história, realiza um ritual sem Checagem de Sangue, mas um Crítico Bestial causa um trauma/paranoia temporária até o fim da história.",
                             Group = "Ficha de Conhecimento",
@@ -862,7 +862,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-carna-4",
+                            Id = "loresheet-carna-4",
                             Category = 6,
                             Description = "Transar com um alvo contorna a perdição Tremere e cria um Laço de Sangue temporário (até o fim da história) entre você, o alvo e Carna.",
                             Group = "Ficha de Conhecimento",
@@ -875,7 +875,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         },
                         new
                         {
-                            Id = "lore-carna-5",
+                            Id = "loresheet-carna-5",
                             Category = 6,
                             Description = "Imuniza contra Laços de Sangue e dá sucesso automático em testes de Ocultismo sobre a Gehenna, mas a paranoia custa 1 dado em testes Sociais/Mentais.",
                             Group = "Ficha de Conhecimento",
@@ -888,78 +888,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("VCS.Domain.Characters.Character", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedUtc")
-                        .HasColumnType("TEXT");
-
-                    b.Property<long>("Revision")
-                        .IsConcurrencyToken()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("UpdatedUtc")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Characters", (string)null);
-                });
-
-            modelBuilder.Entity("VCS.Domain.Characters.CharacterTrait", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Category")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("CharacterId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Loresheet")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Merit")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Power")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Skill")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Specialization")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CharacterId", "Category", "Key")
-                        .IsUnique();
-
-                    b.ToTable("CharacterTraits", (string)null);
-                });
-
-            modelBuilder.Entity("VCS.Domain.Skills.SkillDefinition", b =>
+            modelBuilder.Entity("VCS.Content.Skills.SkillDefinition", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -1176,7 +1105,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("VCS.Infrastructure.Persistence.ClanCatalogRecord", b =>
                 {
-                    b.Property<string>("Name")
+                    b.Property<string>("Id")
                         .HasMaxLength(80)
                         .HasColumnType("TEXT");
 
@@ -1196,7 +1125,15 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("ClanCatalog", (string)null);
                 });
@@ -1264,87 +1201,158 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "alleycat",
-                            Definition = "{\"Id\":\"alleycat\",\"Name\":\"Vira-lata\",\"Description\":\"Um ca\\u00E7ador agressivo que ataca suas v\\u00EDtimas nas ruas, seja disfar\\u00E7ando a ca\\u00E7ada como um assalto ou dominando sua presa pela for\\u00E7a.\",\"Benefits\":\"\\u002B1 Celeridade ou Pot\\u00EAncia; \\u002B3 Contatos Criminosos; especializa\\u00E7\\u00E3o em Intimida\\u00E7\\u00E3o (Assalto \\u00E0 M\\u00E3o Armada) ou Briga (Agarramento).\",\"Cost\":\"Perde 1 ponto de Humanidade.\",\"Disciplines\":[\"Celeridade\",\"Pot\\u00EAncia\"],\"Specializations\":[{\"Skill\":\"Intimida\\u00E7\\u00E3o\",\"Text\":\"Assalto \\u00E0 M\\u00E3o Armada\",\"IsFreeText\":false,\"Label\":\"Intimida\\u00E7\\u00E3o (Assalto \\u00E0 M\\u00E3o Armada)\"},{\"Skill\":\"Briga\",\"Text\":\"Agarramento\",\"IsFreeText\":false,\"Label\":\"Briga (Agarramento)\"}],\"FixedGrants\":[{\"Name\":\"Contatos Criminosos\",\"Category\":3}],\"FixedPoints\":[3],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":-1,\"BloodDelta\":0}",
+                            Id = "predator-alleycat",
+                            Definition = "{\"Id\":\"predator-alleycat\",\"Name\":\"Vira-lata\",\"Description\":\"Um ca\\u00E7ador agressivo que ataca suas v\\u00EDtimas nas ruas, seja disfar\\u00E7ando a ca\\u00E7ada como um assalto ou dominando sua presa pela for\\u00E7a.\",\"Benefits\":\"\\u002B1 Celeridade ou Pot\\u00EAncia; \\u002B3 Contatos Criminosos; especializa\\u00E7\\u00E3o em Intimida\\u00E7\\u00E3o (Assalto \\u00E0 M\\u00E3o Armada) ou Briga (Agarramento).\",\"Cost\":\"Perde 1 ponto de Humanidade.\",\"Disciplines\":[\"Celeridade\",\"Pot\\u00EAncia\"],\"Specializations\":[{\"Skill\":\"Intimida\\u00E7\\u00E3o\",\"Text\":\"Assalto \\u00E0 M\\u00E3o Armada\",\"IsFreeText\":false,\"Label\":\"Intimida\\u00E7\\u00E3o (Assalto \\u00E0 M\\u00E3o Armada)\"},{\"Skill\":\"Briga\",\"Text\":\"Agarramento\",\"IsFreeText\":false,\"Label\":\"Briga (Agarramento)\"}],\"FixedGrants\":[{\"Name\":\"Contatos Criminosos\",\"Category\":3}],\"FixedPoints\":[3],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":-1,\"BloodDelta\":0}",
                             Name = "Vira-lata"
                         },
                         new
                         {
-                            Id = "extortionist",
-                            Definition = "{\"Id\":\"extortionist\",\"Name\":\"Chantagista\",\"Description\":\"Adquire sangue mediante amea\\u00E7as e extors\\u00E3o.\",\"Benefits\":\"\\u002B1 Domina\\u00E7\\u00E3o ou Pot\\u00EAncia; 3 pontos entre Contatos e Recursos; especializa\\u00E7\\u00E3o em Intimida\\u00E7\\u00E3o (Coer\\u00E7\\u00E3o) ou Ladroagem (Seguran\\u00E7a).\",\"Cost\":\"Inimigo 2 (a v\\u00EDtima extorquida ou a pol\\u00EDcia).\",\"Disciplines\":[\"Domina\\u00E7\\u00E3o\",\"Pot\\u00EAncia\"],\"Specializations\":[{\"Skill\":\"Intimida\\u00E7\\u00E3o\",\"Text\":\"Coer\\u00E7\\u00E3o\",\"IsFreeText\":false,\"Label\":\"Intimida\\u00E7\\u00E3o (Coer\\u00E7\\u00E3o)\"},{\"Skill\":\"Ladroagem\",\"Text\":\"Seguran\\u00E7a\",\"IsFreeText\":false,\"Label\":\"Ladroagem (Seguran\\u00E7a)\"}],\"FixedGrants\":[{\"Name\":\"Inimigo (extorsao)\",\"Category\":4}],\"FixedPoints\":[2],\"AllocationOptions\":[{\"Name\":\"Contatos\",\"Category\":3},{\"Name\":\"Recursos\",\"Category\":3}],\"AllocationPoints\":3,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Id = "predator-extortionist",
+                            Definition = "{\"Id\":\"predator-extortionist\",\"Name\":\"Chantagista\",\"Description\":\"Adquire sangue mediante amea\\u00E7as e extors\\u00E3o.\",\"Benefits\":\"\\u002B1 Domina\\u00E7\\u00E3o ou Pot\\u00EAncia; 3 pontos entre Contatos e Recursos; especializa\\u00E7\\u00E3o em Intimida\\u00E7\\u00E3o (Coer\\u00E7\\u00E3o) ou Ladroagem (Seguran\\u00E7a).\",\"Cost\":\"Inimigo 2 (a v\\u00EDtima extorquida ou a pol\\u00EDcia).\",\"Disciplines\":[\"Domina\\u00E7\\u00E3o\",\"Pot\\u00EAncia\"],\"Specializations\":[{\"Skill\":\"Intimida\\u00E7\\u00E3o\",\"Text\":\"Coer\\u00E7\\u00E3o\",\"IsFreeText\":false,\"Label\":\"Intimida\\u00E7\\u00E3o (Coer\\u00E7\\u00E3o)\"},{\"Skill\":\"Ladroagem\",\"Text\":\"Seguran\\u00E7a\",\"IsFreeText\":false,\"Label\":\"Ladroagem (Seguran\\u00E7a)\"}],\"FixedGrants\":[{\"Name\":\"Inimigo (extorsao)\",\"Category\":4}],\"FixedPoints\":[2],\"AllocationOptions\":[{\"Name\":\"Contatos\",\"Category\":3},{\"Name\":\"Recursos\",\"Category\":3}],\"AllocationPoints\":3,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
                             Name = "Chantagista"
                         },
                         new
                         {
-                            Id = "roadside",
-                            Definition = "{\"Id\":\"roadside\",\"Name\":\"Assassino na Estrada\",\"Description\":\"Um viajante focado em ca\\u00E7ar pessoas em movimento ou distantes da lei, como mochileiros e motoristas solit\\u00E1rios.\",\"Benefits\":\"\\u002B1 Fortitude ou Proteanismo; \\u002B2 Rebanho Itinerante; especializa\\u00E7\\u00E3o em Sobreviv\\u00EAncia (Estradas) ou Investiga\\u00E7\\u00E3o (Grafite Vamp\\u00EDrico).\",\"Cost\":\"Exclus\\u00E3o de Presas 1 (locais sedent\\u00E1rios).\",\"Disciplines\":[\"Fortitude\",\"Proteanismo\"],\"Specializations\":[{\"Skill\":\"Sobreviv\\u00EAncia\",\"Text\":\"Estradas\",\"IsFreeText\":false,\"Label\":\"Sobreviv\\u00EAncia (Estradas)\"},{\"Skill\":\"Investiga\\u00E7\\u00E3o\",\"Text\":\"Grafite Vamp\\u00EDrico\",\"IsFreeText\":false,\"Label\":\"Investiga\\u00E7\\u00E3o (Grafite Vamp\\u00EDrico)\"}],\"FixedGrants\":[{\"Name\":\"Rebanho Itinerante\",\"Category\":3},{\"Name\":\"Exclusao de Presas (locais sedentarios)\",\"Category\":4}],\"FixedPoints\":[2,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Id = "predator-roadside",
+                            Definition = "{\"Id\":\"predator-roadside\",\"Name\":\"Assassino na Estrada\",\"Description\":\"Um viajante focado em ca\\u00E7ar pessoas em movimento ou distantes da lei, como mochileiros e motoristas solit\\u00E1rios.\",\"Benefits\":\"\\u002B1 Fortitude ou Proteanismo; \\u002B2 Rebanho Itinerante; especializa\\u00E7\\u00E3o em Sobreviv\\u00EAncia (Estradas) ou Investiga\\u00E7\\u00E3o (Grafite Vamp\\u00EDrico).\",\"Cost\":\"Exclus\\u00E3o de Presas 1 (locais sedent\\u00E1rios).\",\"Disciplines\":[\"Fortitude\",\"Proteanismo\"],\"Specializations\":[{\"Skill\":\"Sobreviv\\u00EAncia\",\"Text\":\"Estradas\",\"IsFreeText\":false,\"Label\":\"Sobreviv\\u00EAncia (Estradas)\"},{\"Skill\":\"Investiga\\u00E7\\u00E3o\",\"Text\":\"Grafite Vamp\\u00EDrico\",\"IsFreeText\":false,\"Label\":\"Investiga\\u00E7\\u00E3o (Grafite Vamp\\u00EDrico)\"}],\"FixedGrants\":[{\"Name\":\"Rebanho Itinerante\",\"Category\":3},{\"Name\":\"Exclusao de Presas (locais sedentarios)\",\"Category\":4}],\"FixedPoints\":[2,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
                             Name = "Assassino na Estrada"
                         },
                         new
                         {
-                            Id = "cleaver",
-                            Definition = "{\"Id\":\"cleaver\",\"Name\":\"Trinchador\",\"Description\":\"Um parasita familiar; esconde a sua natureza bestial de seus amigos e familiares mundanos, enquanto se alimenta secretamente deles no conv\\u00EDvio di\\u00E1rio.\",\"Benefits\":\"\\u002B1 Domina\\u00E7\\u00E3o ou Animalismo; \\u002B2 Rebanho; especializa\\u00E7\\u00E3o em Persuas\\u00E3o (Gaslighting) ou Subterf\\u00FAgio (Encobrimento).\",\"Cost\":\"Segredo Sombrio 1: Trinchador.\",\"Disciplines\":[\"Domina\\u00E7\\u00E3o\",\"Animalismo\"],\"Specializations\":[{\"Skill\":\"Persuas\\u00E3o\",\"Text\":\"Gaslighting\",\"IsFreeText\":false,\"Label\":\"Persuas\\u00E3o (Gaslighting)\"},{\"Skill\":\"Subterf\\u00FAgio\",\"Text\":\"Encobrimento\",\"IsFreeText\":false,\"Label\":\"Subterf\\u00FAgio (Encobrimento)\"}],\"FixedGrants\":[{\"Name\":\"Rebanho\",\"Category\":3},{\"Name\":\"Segredo Sombrio (Trinchador)\",\"Category\":4}],\"FixedPoints\":[2,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Id = "predator-cleaver",
+                            Definition = "{\"Id\":\"predator-cleaver\",\"Name\":\"Trinchador\",\"Description\":\"Um parasita familiar; esconde a sua natureza bestial de seus amigos e familiares mundanos, enquanto se alimenta secretamente deles no conv\\u00EDvio di\\u00E1rio.\",\"Benefits\":\"\\u002B1 Domina\\u00E7\\u00E3o ou Animalismo; \\u002B2 Rebanho; especializa\\u00E7\\u00E3o em Persuas\\u00E3o (Gaslighting) ou Subterf\\u00FAgio (Encobrimento).\",\"Cost\":\"Segredo Sombrio 1: Trinchador.\",\"Disciplines\":[\"Domina\\u00E7\\u00E3o\",\"Animalismo\"],\"Specializations\":[{\"Skill\":\"Persuas\\u00E3o\",\"Text\":\"Gaslighting\",\"IsFreeText\":false,\"Label\":\"Persuas\\u00E3o (Gaslighting)\"},{\"Skill\":\"Subterf\\u00FAgio\",\"Text\":\"Encobrimento\",\"IsFreeText\":false,\"Label\":\"Subterf\\u00FAgio (Encobrimento)\"}],\"FixedGrants\":[{\"Name\":\"Rebanho\",\"Category\":3},{\"Name\":\"Segredo Sombrio (Trinchador)\",\"Category\":4}],\"FixedPoints\":[2,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
                             Name = "Trinchador"
                         },
                         new
                         {
-                            Id = "consensualist",
-                            Definition = "{\"Id\":\"consensualist\",\"Name\":\"Consensualista\",\"Description\":\"S\\u00F3 se alimenta do sangue de pessoas que aceitam e oferecem livremente; pode dizer a verdade ou se disfar\\u00E7ar de trabalhador de caridade/adepto de cena fetiche vamp\\u00EDrica.\",\"Benefits\":\"\\u002B1 Ausp\\u00EDcios ou Fortitude; \\u002B1 Humanidade; especializa\\u00E7\\u00E3o em Medicina (Flebotomia) ou Persuas\\u00E3o (Bolsas).\",\"Cost\":\"Segredo Sombrio 1: Quebrador da M\\u00E1scara; Exclus\\u00E3o de Presa 1 (sem consentimento).\",\"Disciplines\":[\"Ausp\\u00EDcios\",\"Fortitude\"],\"Specializations\":[{\"Skill\":\"Medicina\",\"Text\":\"Flebotomia\",\"IsFreeText\":false,\"Label\":\"Medicina (Flebotomia)\"},{\"Skill\":\"Persuas\\u00E3o\",\"Text\":\"Bolsas\",\"IsFreeText\":false,\"Label\":\"Persuas\\u00E3o (Bolsas)\"}],\"FixedGrants\":[{\"Name\":\"Segredo Sombrio (Quebrador da Mascara)\",\"Category\":4},{\"Name\":\"Exclusao de Presa (sem consentimento)\",\"Category\":4}],\"FixedPoints\":[1,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":1,\"BloodDelta\":0}",
+                            Id = "predator-consensualist",
+                            Definition = "{\"Id\":\"predator-consensualist\",\"Name\":\"Consensualista\",\"Description\":\"S\\u00F3 se alimenta do sangue de pessoas que aceitam e oferecem livremente; pode dizer a verdade ou se disfar\\u00E7ar de trabalhador de caridade/adepto de cena fetiche vamp\\u00EDrica.\",\"Benefits\":\"\\u002B1 Ausp\\u00EDcios ou Fortitude; \\u002B1 Humanidade; especializa\\u00E7\\u00E3o em Medicina (Flebotomia) ou Persuas\\u00E3o (Bolsas).\",\"Cost\":\"Segredo Sombrio 1: Quebrador da M\\u00E1scara; Exclus\\u00E3o de Presa 1 (sem consentimento).\",\"Disciplines\":[\"Ausp\\u00EDcios\",\"Fortitude\"],\"Specializations\":[{\"Skill\":\"Medicina\",\"Text\":\"Flebotomia\",\"IsFreeText\":false,\"Label\":\"Medicina (Flebotomia)\"},{\"Skill\":\"Persuas\\u00E3o\",\"Text\":\"Bolsas\",\"IsFreeText\":false,\"Label\":\"Persuas\\u00E3o (Bolsas)\"}],\"FixedGrants\":[{\"Name\":\"Segredo Sombrio (Quebrador da Mascara)\",\"Category\":4},{\"Name\":\"Exclusao de Presa (sem consentimento)\",\"Category\":4}],\"FixedPoints\":[1,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":1,\"BloodDelta\":0}",
                             Name = "Consensualista"
                         },
                         new
                         {
-                            Id = "osiris",
-                            Definition = "{\"Id\":\"osiris\",\"Name\":\"Os\\u00EDris\",\"Description\":\"Algu\\u00E9m com poder de multid\\u00E3o (l\\u00EDderes de culto, DJs, celebridades) que bebe o sangue de f\\u00E3s fan\\u00E1ticos e adoradores em transe.\",\"Benefits\":\"\\u002B1 Feiti\\u00E7aria de Sangue (s\\u00F3 Tremere) ou Presen\\u00E7a; 3 pontos em Fama/Rebanho; especializa\\u00E7\\u00E3o em Ocultismo (tradi\\u00E7\\u00E3o espec\\u00EDfica) ou Performance (cena espec\\u00EDfica).\",\"Cost\":\"2 pontos entre Defeitos Inimigos ou Defeitos M\\u00EDticos.\",\"Disciplines\":[\"Feiti\\u00E7aria de Sangue\",\"Presen\\u00E7a\"],\"Specializations\":[{\"Skill\":\"Ocultismo\",\"Text\":\"tradi\\u00E7\\u00E3o espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Ocultismo (tradi\\u00E7\\u00E3o espec\\u00EDfica)\"},{\"Skill\":\"Performance\",\"Text\":\"cena espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Performance (cena espec\\u00EDfica)\"}],\"FixedGrants\":[],\"FixedPoints\":[],\"AllocationOptions\":[{\"Name\":\"Fama\",\"Category\":3},{\"Name\":\"Rebanho\",\"Category\":3}],\"AllocationPoints\":3,\"FlawOptions\":[{\"Name\":\"Inimigo\",\"Category\":4},{\"Name\":\"Perdicao Folclorica\",\"Category\":4},{\"Name\":\"Tabu Folclorico\",\"Category\":4},{\"Name\":\"Estigma\",\"Category\":4},{\"Name\":\"Isca de Estaca\",\"Category\":4}],\"FlawPoints\":2,\"SplitFlaws\":true,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Id = "predator-osiris",
+                            Definition = "{\"Id\":\"predator-osiris\",\"Name\":\"Os\\u00EDris\",\"Description\":\"Algu\\u00E9m com poder de multid\\u00E3o (l\\u00EDderes de culto, DJs, celebridades) que bebe o sangue de f\\u00E3s fan\\u00E1ticos e adoradores em transe.\",\"Benefits\":\"\\u002B1 Feiti\\u00E7aria de Sangue (s\\u00F3 Tremere) ou Presen\\u00E7a; 3 pontos em Fama/Rebanho; especializa\\u00E7\\u00E3o em Ocultismo (tradi\\u00E7\\u00E3o espec\\u00EDfica) ou Performance (cena espec\\u00EDfica).\",\"Cost\":\"2 pontos entre Defeitos Inimigos ou Defeitos M\\u00EDticos.\",\"Disciplines\":[\"Feiti\\u00E7aria de Sangue\",\"Presen\\u00E7a\"],\"Specializations\":[{\"Skill\":\"Ocultismo\",\"Text\":\"tradi\\u00E7\\u00E3o espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Ocultismo (tradi\\u00E7\\u00E3o espec\\u00EDfica)\"},{\"Skill\":\"Performance\",\"Text\":\"cena espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Performance (cena espec\\u00EDfica)\"}],\"FixedGrants\":[],\"FixedPoints\":[],\"AllocationOptions\":[{\"Name\":\"Fama\",\"Category\":3},{\"Name\":\"Rebanho\",\"Category\":3}],\"AllocationPoints\":3,\"FlawOptions\":[{\"Name\":\"Inimigo\",\"Category\":4},{\"Name\":\"Perdicao Folclorica\",\"Category\":4},{\"Name\":\"Tabu Folclorico\",\"Category\":4},{\"Name\":\"Estigma\",\"Category\":4},{\"Name\":\"Isca de Estaca\",\"Category\":4}],\"FlawPoints\":2,\"SplitFlaws\":true,\"HumanityDelta\":0,\"BloodDelta\":0}",
                             Name = "Osíris"
                         },
                         new
                         {
-                            Id = "scene-queen",
-                            Definition = "{\"Id\":\"scene-queen\",\"Name\":\"Scene Queen\",\"Description\":\"Um socialite que usa seu prest\\u00EDgio dentro de uma subcultura espec\\u00EDfica para encantar as v\\u00EDtimas como um colega influente da mesma cena.\",\"Benefits\":\"\\u002B1 Domina\\u00E7\\u00E3o ou Pot\\u00EAncia; \\u002B1 Contatos; \\u002B1 Fama; especializa\\u00E7\\u00E3o em Etiqueta, Lideran\\u00E7a ou Manha (Cena Espec\\u00EDfica).\",\"Cost\":\"Rejeitado 1 OU Exclus\\u00E3o de Presa 1 (Subcultura diferente).\",\"Disciplines\":[\"Domina\\u00E7\\u00E3o\",\"Pot\\u00EAncia\"],\"Specializations\":[{\"Skill\":\"Etiqueta\",\"Text\":\"Cena Espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Etiqueta (Cena Espec\\u00EDfica)\"},{\"Skill\":\"Lideran\\u00E7a\",\"Text\":\"Cena Espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Lideran\\u00E7a (Cena Espec\\u00EDfica)\"},{\"Skill\":\"Manha\",\"Text\":\"Cena Espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Manha (Cena Espec\\u00EDfica)\"}],\"FixedGrants\":[{\"Name\":\"Contatos\",\"Category\":3},{\"Name\":\"Fama\",\"Category\":3}],\"FixedPoints\":[1,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[{\"Name\":\"Rejeitado\",\"Category\":4},{\"Name\":\"Exclusao de Presa (Subcultura diferente)\",\"Category\":4}],\"FlawPoints\":1,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Id = "predator-scene-queen",
+                            Definition = "{\"Id\":\"predator-scene-queen\",\"Name\":\"Scene Queen\",\"Description\":\"Um socialite que usa seu prest\\u00EDgio dentro de uma subcultura espec\\u00EDfica para encantar as v\\u00EDtimas como um colega influente da mesma cena.\",\"Benefits\":\"\\u002B1 Domina\\u00E7\\u00E3o ou Pot\\u00EAncia; \\u002B1 Contatos; \\u002B1 Fama; especializa\\u00E7\\u00E3o em Etiqueta, Lideran\\u00E7a ou Manha (Cena Espec\\u00EDfica).\",\"Cost\":\"Rejeitado 1 OU Exclus\\u00E3o de Presa 1 (Subcultura diferente).\",\"Disciplines\":[\"Domina\\u00E7\\u00E3o\",\"Pot\\u00EAncia\"],\"Specializations\":[{\"Skill\":\"Etiqueta\",\"Text\":\"Cena Espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Etiqueta (Cena Espec\\u00EDfica)\"},{\"Skill\":\"Lideran\\u00E7a\",\"Text\":\"Cena Espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Lideran\\u00E7a (Cena Espec\\u00EDfica)\"},{\"Skill\":\"Manha\",\"Text\":\"Cena Espec\\u00EDfica\",\"IsFreeText\":true,\"Label\":\"Manha (Cena Espec\\u00EDfica)\"}],\"FixedGrants\":[{\"Name\":\"Contatos\",\"Category\":3},{\"Name\":\"Fama\",\"Category\":3}],\"FixedPoints\":[1,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[{\"Name\":\"Rejeitado\",\"Category\":4},{\"Name\":\"Exclusao de Presa (Subcultura diferente)\",\"Category\":4}],\"FlawPoints\":1,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
                             Name = "Scene Queen"
                         },
                         new
                         {
-                            Id = "siren",
-                            Definition = "{\"Id\":\"siren\",\"Name\":\"Sereia\",\"Description\":\"O predador focado em lux\\u00FAria que ca\\u00E7a pessoas fingindo desejo sexual, alimentando-se enquanto a v\\u00EDtima est\\u00E1 seduzida.\",\"Benefits\":\"\\u002B1 Fortitude ou Presen\\u00E7a; Visual Belo 2; especializa\\u00E7\\u00E3o em Persuas\\u00E3o (Sedu\\u00E7\\u00E3o) ou Subterf\\u00FAgio (Sedu\\u00E7\\u00E3o).\",\"Cost\":\"Inimigo 1 (ex-amante abandonado ou parceiro ciumento).\",\"Disciplines\":[\"Fortitude\",\"Presen\\u00E7a\"],\"Specializations\":[{\"Skill\":\"Persuas\\u00E3o\",\"Text\":\"Sedu\\u00E7\\u00E3o\",\"IsFreeText\":false,\"Label\":\"Persuas\\u00E3o (Sedu\\u00E7\\u00E3o)\"},{\"Skill\":\"Subterf\\u00FAgio\",\"Text\":\"Sedu\\u00E7\\u00E3o\",\"IsFreeText\":false,\"Label\":\"Subterf\\u00FAgio (Sedu\\u00E7\\u00E3o)\"}],\"FixedGrants\":[{\"Name\":\"Visual Belo\",\"Category\":3},{\"Name\":\"Inimigo (ex-amante ou parceiro ciumento)\",\"Category\":4}],\"FixedPoints\":[2,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Id = "predator-siren",
+                            Definition = "{\"Id\":\"predator-siren\",\"Name\":\"Sereia\",\"Description\":\"O predador focado em lux\\u00FAria que ca\\u00E7a pessoas fingindo desejo sexual, alimentando-se enquanto a v\\u00EDtima est\\u00E1 seduzida.\",\"Benefits\":\"\\u002B1 Fortitude ou Presen\\u00E7a; Visual Belo 2; especializa\\u00E7\\u00E3o em Persuas\\u00E3o (Sedu\\u00E7\\u00E3o) ou Subterf\\u00FAgio (Sedu\\u00E7\\u00E3o).\",\"Cost\":\"Inimigo 1 (ex-amante abandonado ou parceiro ciumento).\",\"Disciplines\":[\"Fortitude\",\"Presen\\u00E7a\"],\"Specializations\":[{\"Skill\":\"Persuas\\u00E3o\",\"Text\":\"Sedu\\u00E7\\u00E3o\",\"IsFreeText\":false,\"Label\":\"Persuas\\u00E3o (Sedu\\u00E7\\u00E3o)\"},{\"Skill\":\"Subterf\\u00FAgio\",\"Text\":\"Sedu\\u00E7\\u00E3o\",\"IsFreeText\":false,\"Label\":\"Subterf\\u00FAgio (Sedu\\u00E7\\u00E3o)\"}],\"FixedGrants\":[{\"Name\":\"Visual Belo\",\"Category\":3},{\"Name\":\"Inimigo (ex-amante ou parceiro ciumento)\",\"Category\":4}],\"FixedPoints\":[2,1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
                             Name = "Sereia"
                         },
                         new
                         {
-                            Id = "sandman",
-                            Definition = "{\"Id\":\"sandman\",\"Name\":\"Sandman\",\"Description\":\"Extrema furtividade e discri\\u00E7\\u00E3o noturna; esgueira-se pelas casas e suga sangue de pessoas profundamente adormecidas sem deixar rastro.\",\"Benefits\":\"\\u002B1 Ausp\\u00EDcios ou Ofusca\\u00E7\\u00E3o; \\u002B1 Recursos; especializa\\u00E7\\u00E3o em Medicina (Anest\\u00E9sicos) ou Furtividade (Invas\\u00E3o).\",\"Cost\":\"N\\u00E3o h\\u00E1 custo negativo.\",\"Disciplines\":[\"Ausp\\u00EDcios\",\"Ofusca\\u00E7\\u00E3o\"],\"Specializations\":[{\"Skill\":\"Medicina\",\"Text\":\"Anest\\u00E9sicos\",\"IsFreeText\":false,\"Label\":\"Medicina (Anest\\u00E9sicos)\"},{\"Skill\":\"Furtividade\",\"Text\":\"Invas\\u00E3o\",\"IsFreeText\":false,\"Label\":\"Furtividade (Invas\\u00E3o)\"}],\"FixedGrants\":[{\"Name\":\"Recursos\",\"Category\":3}],\"FixedPoints\":[1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Id = "predator-sandman",
+                            Definition = "{\"Id\":\"predator-sandman\",\"Name\":\"Sandman\",\"Description\":\"Extrema furtividade e discri\\u00E7\\u00E3o noturna; esgueira-se pelas casas e suga sangue de pessoas profundamente adormecidas sem deixar rastro.\",\"Benefits\":\"\\u002B1 Ausp\\u00EDcios ou Ofusca\\u00E7\\u00E3o; \\u002B1 Recursos; especializa\\u00E7\\u00E3o em Medicina (Anest\\u00E9sicos) ou Furtividade (Invas\\u00E3o).\",\"Cost\":\"N\\u00E3o h\\u00E1 custo negativo.\",\"Disciplines\":[\"Ausp\\u00EDcios\",\"Ofusca\\u00E7\\u00E3o\"],\"Specializations\":[{\"Skill\":\"Medicina\",\"Text\":\"Anest\\u00E9sicos\",\"IsFreeText\":false,\"Label\":\"Medicina (Anest\\u00E9sicos)\"},{\"Skill\":\"Furtividade\",\"Text\":\"Invas\\u00E3o\",\"IsFreeText\":false,\"Label\":\"Furtividade (Invas\\u00E3o)\"}],\"FixedGrants\":[{\"Name\":\"Recursos\",\"Category\":3}],\"FixedPoints\":[1],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
                             Name = "Sandman"
                         },
                         new
                         {
-                            Id = "graverobber",
-                            Definition = "{\"Id\":\"graverobber\",\"Name\":\"Ladr\\u00E3o de Sepultura\",\"Description\":\"Restringe-se a ca\\u00E7ar presas nos cemit\\u00E9rios.\",\"Benefits\":\"\\u002B1 Fortitude ou Obl\\u00EDvio; Es\\u00F4fago de Ferro 3; Ref\\u00FAgio 1; especializa\\u00E7\\u00E3o em Ocultismo (Rituais Tumulares) ou Medicina (texto livre).\",\"Cost\":\"Predador Manifesto 2.\",\"Disciplines\":[\"Fortitude\",\"Obl\\u00EDvio\"],\"Specializations\":[{\"Skill\":\"Ocultismo\",\"Text\":\"Rituais Tumulares\",\"IsFreeText\":false,\"Label\":\"Ocultismo (Rituais Tumulares)\"},{\"Skill\":\"Medicina\",\"Text\":\"especializa\\u00E7\\u00E3o a informar\",\"IsFreeText\":true,\"Label\":\"Medicina (especializa\\u00E7\\u00E3o a informar)\"}],\"FixedGrants\":[{\"Name\":\"Esofago de Ferro\",\"Category\":3},{\"Name\":\"Refugio\",\"Category\":3},{\"Name\":\"Predador Manifesto\",\"Category\":4}],\"FixedPoints\":[3,1,2],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Id = "predator-graverobber",
+                            Definition = "{\"Id\":\"predator-graverobber\",\"Name\":\"Ladr\\u00E3o de Sepultura\",\"Description\":\"Restringe-se a ca\\u00E7ar presas nos cemit\\u00E9rios.\",\"Benefits\":\"\\u002B1 Fortitude ou Obl\\u00EDvio; Es\\u00F4fago de Ferro 3; Ref\\u00FAgio 1; especializa\\u00E7\\u00E3o em Ocultismo (Rituais Tumulares) ou Medicina (texto livre).\",\"Cost\":\"Predador Manifesto 2.\",\"Disciplines\":[\"Fortitude\",\"Obl\\u00EDvio\"],\"Specializations\":[{\"Skill\":\"Ocultismo\",\"Text\":\"Rituais Tumulares\",\"IsFreeText\":false,\"Label\":\"Ocultismo (Rituais Tumulares)\"},{\"Skill\":\"Medicina\",\"Text\":\"especializa\\u00E7\\u00E3o a informar\",\"IsFreeText\":true,\"Label\":\"Medicina (especializa\\u00E7\\u00E3o a informar)\"}],\"FixedGrants\":[{\"Name\":\"Esofago de Ferro\",\"Category\":3},{\"Name\":\"Refugio\",\"Category\":3},{\"Name\":\"Predador Manifesto\",\"Category\":4}],\"FixedPoints\":[3,1,2],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
                             Name = "Ladrão de Sepultura"
                         },
                         new
                         {
-                            Id = "bagger",
-                            Definition = "{\"Id\":\"bagger\",\"Name\":\"Sacoleiro\",\"Description\":\"Evita viol\\u00EAncia de ca\\u00E7a real, adquirindo sangue empacotado em hospitais ou contrabandeando do mercado negro. Ventrue n\\u00E3o pode escolher.\",\"Benefits\":\"\\u002B1 Ofusca\\u00E7\\u00E3o, Obl\\u00EDvio ou Feiti\\u00E7aria de Sangue (s\\u00F3 Tremere); Es\\u00F4fago de Ferro 3; especializa\\u00E7\\u00E3o em Ladroagem (Abrir Fechaduras) ou Manha (Mercado Negro).\",\"Cost\":\"Inimigo 2 (cobrando d\\u00EDvidas ou banindo-o das ruas).\",\"Disciplines\":[\"Ofusca\\u00E7\\u00E3o\",\"Obl\\u00EDvio\",\"Feiti\\u00E7aria de Sangue\"],\"Specializations\":[{\"Skill\":\"Ladroagem\",\"Text\":\"Abrir Fechaduras\",\"IsFreeText\":false,\"Label\":\"Ladroagem (Abrir Fechaduras)\"},{\"Skill\":\"Manha\",\"Text\":\"Mercado Negro\",\"IsFreeText\":false,\"Label\":\"Manha (Mercado Negro)\"}],\"FixedGrants\":[{\"Name\":\"Esofago de Ferro\",\"Category\":3},{\"Name\":\"Inimigo (dividas ou banimento)\",\"Category\":4}],\"FixedPoints\":[3,2],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
+                            Id = "predator-bagger",
+                            Definition = "{\"Id\":\"predator-bagger\",\"Name\":\"Sacoleiro\",\"Description\":\"Evita viol\\u00EAncia de ca\\u00E7a real, adquirindo sangue empacotado em hospitais ou contrabandeando do mercado negro. Ventrue n\\u00E3o pode escolher.\",\"Benefits\":\"\\u002B1 Ofusca\\u00E7\\u00E3o, Obl\\u00EDvio ou Feiti\\u00E7aria de Sangue (s\\u00F3 Tremere); Es\\u00F4fago de Ferro 3; especializa\\u00E7\\u00E3o em Ladroagem (Abrir Fechaduras) ou Manha (Mercado Negro).\",\"Cost\":\"Inimigo 2 (cobrando d\\u00EDvidas ou banindo-o das ruas).\",\"Disciplines\":[\"Ofusca\\u00E7\\u00E3o\",\"Obl\\u00EDvio\",\"Feiti\\u00E7aria de Sangue\"],\"Specializations\":[{\"Skill\":\"Ladroagem\",\"Text\":\"Abrir Fechaduras\",\"IsFreeText\":false,\"Label\":\"Ladroagem (Abrir Fechaduras)\"},{\"Skill\":\"Manha\",\"Text\":\"Mercado Negro\",\"IsFreeText\":false,\"Label\":\"Manha (Mercado Negro)\"}],\"FixedGrants\":[{\"Name\":\"Esofago de Ferro\",\"Category\":3},{\"Name\":\"Inimigo (dividas ou banimento)\",\"Category\":4}],\"FixedPoints\":[3,2],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":0,\"BloodDelta\":0}",
                             Name = "Sacoleiro"
                         },
                         new
                         {
-                            Id = "blood-leech",
-                            Definition = "{\"Id\":\"blood-leech\",\"Name\":\"Sanguessuga\",\"Description\":\"Um canibal de Membros e Diablerista ocasional; detesta se alimentar de humanos e busca sangue de outros vampiros.\",\"Benefits\":\"\\u002B1 Celeridade ou Proteanismo; \\u002B1 Pot\\u00EAncia de Sangue; especializa\\u00E7\\u00E3o em Briga (Membros) ou Furtividade (Contra Membros).\",\"Cost\":\"-1 Humanidade; Segredo Sombrio 2 (Diablerista) OU Segregado 2; Exclus\\u00E3o de Presa 2 (Mortais).\",\"Disciplines\":[\"Celeridade\",\"Proteanismo\"],\"Specializations\":[{\"Skill\":\"Briga\",\"Text\":\"Membros\",\"IsFreeText\":false,\"Label\":\"Briga (Membros)\"},{\"Skill\":\"Furtividade\",\"Text\":\"Contra Membros\",\"IsFreeText\":false,\"Label\":\"Furtividade (Contra Membros)\"}],\"FixedGrants\":[{\"Name\":\"Exclusao de Presa (Mortais)\",\"Category\":4}],\"FixedPoints\":[2],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[{\"Name\":\"Segredo Sombrio (Diablerista)\",\"Category\":4},{\"Name\":\"Segregado\",\"Category\":4}],\"FlawPoints\":2,\"SplitFlaws\":false,\"HumanityDelta\":-1,\"BloodDelta\":1}",
+                            Id = "predator-blood-leech",
+                            Definition = "{\"Id\":\"predator-blood-leech\",\"Name\":\"Sanguessuga\",\"Description\":\"Um canibal de Membros e Diablerista ocasional; detesta se alimentar de humanos e busca sangue de outros vampiros.\",\"Benefits\":\"\\u002B1 Celeridade ou Proteanismo; \\u002B1 Pot\\u00EAncia de Sangue; especializa\\u00E7\\u00E3o em Briga (Membros) ou Furtividade (Contra Membros).\",\"Cost\":\"-1 Humanidade; Segredo Sombrio 2 (Diablerista) OU Segregado 2; Exclus\\u00E3o de Presa 2 (Mortais).\",\"Disciplines\":[\"Celeridade\",\"Proteanismo\"],\"Specializations\":[{\"Skill\":\"Briga\",\"Text\":\"Membros\",\"IsFreeText\":false,\"Label\":\"Briga (Membros)\"},{\"Skill\":\"Furtividade\",\"Text\":\"Contra Membros\",\"IsFreeText\":false,\"Label\":\"Furtividade (Contra Membros)\"}],\"FixedGrants\":[{\"Name\":\"Exclusao de Presa (Mortais)\",\"Category\":4}],\"FixedPoints\":[2],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[{\"Name\":\"Segredo Sombrio (Diablerista)\",\"Category\":4},{\"Name\":\"Segregado\",\"Category\":4}],\"FlawPoints\":2,\"SplitFlaws\":false,\"HumanityDelta\":-1,\"BloodDelta\":1}",
                             Name = "Sanguessuga"
                         },
                         new
                         {
-                            Id = "farmer",
-                            Definition = "{\"Id\":\"farmer\",\"Name\":\"Fazendeiro\",\"Description\":\"N\\u00E3o ataca seres humanos e foca sua alimenta\\u00E7\\u00E3o em animais. Ventrue e Membros com Pot\\u00EAncia de Sangue 3\\u002B n\\u00E3o podem escolher.\",\"Benefits\":\"\\u002B1 Animalismo ou Proteanismo; \\u002B1 Humanidade; especializa\\u00E7\\u00E3o em Empatia com Animais (escolha um) ou Sobreviv\\u00EAncia (Ca\\u00E7a).\",\"Cost\":\"Defeito de Alimenta\\u00E7\\u00E3o 2: Fazendeiro.\",\"Disciplines\":[\"Animalismo\",\"Proteanismo\"],\"Specializations\":[{\"Skill\":\"Empatia com Animais\",\"Text\":\"animal a informar\",\"IsFreeText\":true,\"Label\":\"Empatia com Animais (animal a informar)\"},{\"Skill\":\"Sobreviv\\u00EAncia\",\"Text\":\"Ca\\u00E7a\",\"IsFreeText\":false,\"Label\":\"Sobreviv\\u00EAncia (Ca\\u00E7a)\"}],\"FixedGrants\":[{\"Name\":\"Fazendeiro\",\"Category\":4}],\"FixedPoints\":[2],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":1,\"BloodDelta\":0}",
+                            Id = "predator-farmer",
+                            Definition = "{\"Id\":\"predator-farmer\",\"Name\":\"Fazendeiro\",\"Description\":\"N\\u00E3o ataca seres humanos e foca sua alimenta\\u00E7\\u00E3o em animais. Ventrue e Membros com Pot\\u00EAncia de Sangue 3\\u002B n\\u00E3o podem escolher.\",\"Benefits\":\"\\u002B1 Animalismo ou Proteanismo; \\u002B1 Humanidade; especializa\\u00E7\\u00E3o em Empatia com Animais (escolha um) ou Sobreviv\\u00EAncia (Ca\\u00E7a).\",\"Cost\":\"Defeito de Alimenta\\u00E7\\u00E3o 2: Fazendeiro.\",\"Disciplines\":[\"Animalismo\",\"Proteanismo\"],\"Specializations\":[{\"Skill\":\"Empatia com Animais\",\"Text\":\"animal a informar\",\"IsFreeText\":true,\"Label\":\"Empatia com Animais (animal a informar)\"},{\"Skill\":\"Sobreviv\\u00EAncia\",\"Text\":\"Ca\\u00E7a\",\"IsFreeText\":false,\"Label\":\"Sobreviv\\u00EAncia (Ca\\u00E7a)\"}],\"FixedGrants\":[{\"Name\":\"Fazendeiro\",\"Category\":4}],\"FixedPoints\":[2],\"AllocationOptions\":[],\"AllocationPoints\":0,\"FlawOptions\":[],\"FlawPoints\":0,\"SplitFlaws\":false,\"HumanityDelta\":1,\"BloodDelta\":0}",
                             Name = "Fazendeiro"
                         });
                 });
 
-            modelBuilder.Entity("VCS.Domain.Characters.Character", b =>
+            modelBuilder.Entity("VCS.Sheet.Character", b =>
                 {
-                    b.OwnsOne("VCS.Domain.Characters.CharacterDetails", "Details", b1 =>
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("Revision")
+                        .IsConcurrencyToken()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("UpdatedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Characters", (string)null);
+                });
+
+            modelBuilder.Entity("VCS.Sheet.CharacterTrait", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("CharacterId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Loresheet")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Merit")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Power")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Skill")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Specialization")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId", "Category", "Key")
+                        .IsUnique();
+
+                    b.ToTable("CharacterTraits", (string)null);
+                });
+
+            modelBuilder.Entity("VCS.Sheet.Character", b =>
+                {
+                    b.OwnsOne("VCS.Sheet.CharacterDetails", "Details", b1 =>
                         {
                             b1.Property<Guid>("CharacterId")
                                 .HasColumnType("TEXT");
@@ -1404,6 +1412,14 @@ namespace VCS.Infrastructure.Persistence.Migrations
                             b1.Property<string>("ClanBane")
                                 .IsRequired()
                                 .HasColumnType("TEXT");
+
+                            b1.Property<string>("ClanKey")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasMaxLength(80)
+                                .HasColumnType("TEXT")
+                                .HasDefaultValue("")
+                                .HasColumnName("ClanKey");
 
                             b1.Property<string>("Concept")
                                 .IsRequired()
@@ -1560,16 +1576,16 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VCS.Domain.Characters.CharacterTrait", b =>
+            modelBuilder.Entity("VCS.Sheet.CharacterTrait", b =>
                 {
-                    b.HasOne("VCS.Domain.Characters.Character", null)
+                    b.HasOne("VCS.Sheet.Character", null)
                         .WithMany("Traits")
                         .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VCS.Domain.Characters.Character", b =>
+            modelBuilder.Entity("VCS.Sheet.Character", b =>
                 {
                     b.Navigation("Traits");
                 });

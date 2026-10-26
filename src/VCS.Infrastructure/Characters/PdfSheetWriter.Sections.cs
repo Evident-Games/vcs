@@ -1,13 +1,14 @@
 using System.Globalization;
 using PdfSharp.Drawing;
-using VCS.Application.Catalogs;
 using VCS.Application.Characters;
-using VCS.Domain.Advancement;
-using VCS.Domain.Advantages;
-using VCS.Domain.Blood;
-using VCS.Domain.Characters;
-using VCS.Domain.Predators;
-using VCS.Domain.Skills;
+using VCS.Content;
+using VCS.Content.Predators;
+using VCS.Content.Skills;
+using VCS.Rules.V5.Advancement;
+using VCS.Rules.V5.Advantages;
+using VCS.Rules.V5.Blood;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Infrastructure.Characters;
 

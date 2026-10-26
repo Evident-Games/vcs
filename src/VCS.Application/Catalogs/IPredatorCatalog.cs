@@ -1,4 +1,4 @@
-using VCS.Domain.Predators;
+using VCS.Content.Predators;
 
 namespace VCS.Application.Catalogs;
 

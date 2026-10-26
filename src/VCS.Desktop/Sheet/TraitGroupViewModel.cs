@@ -2,8 +2,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
+using VCS.Content.Advantages;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
 
@@ -32,7 +33,7 @@ public partial class TraitGroupViewModel : ObservableObject, IDisposable
     [RelayCommand]
     private void Add()
     {
-        AddEntry(new(_category, Guid.NewGuid().ToString("N"), "", 0));
+        AddEntry(new(_category, TraitKeys.Personal(_category), "", 0));
     }
 
     public void AddEntry(TraitValue value)

@@ -1,4 +1,5 @@
-using VCS.Domain.Characters;
+
+using VCS.Rules.V5.Validation;
 
 namespace VCS.Application.Characters;
 
@@ -23,14 +24,14 @@ public sealed class CharacterService(ICharacterRepository repository)
 
     public async Task<CharacterDto> CreateAsync(CancellationToken cancellationToken = default)
     {
-        var character = Character.Create(new() { BloodPotency = 0, Advancement = new() });
+        var character = CharacterRules.Create(new() { BloodPotency = 0, Advancement = new() });
         await repository.SaveAsync(character, null, cancellationToken);
         return CharacterDto.From(character);
     }
 
     public async Task<CharacterDto> CreateNpcAsync(CancellationToken cancellationToken = default)
     {
-        var character = Character.Create(new() { IsNpc = true, Name = "Novo NPC", BloodPotency = 0 });
+        var character = CharacterRules.Create(new() { IsNpc = true, Name = "Novo NPC", BloodPotency = 0 });
         await repository.SaveAsync(character, null, cancellationToken);
         return CharacterDto.From(character);
     }
@@ -41,7 +42,7 @@ public sealed class CharacterService(ICharacterRepository repository)
             ?? throw new CharacterConflictException();
         if (character.Revision != draft.Revision)
             throw new CharacterConflictException();
-        character.Update(draft.Details, draft.Traits);
+        CharacterRules.Update(character, draft.Details, draft.Traits);
         await repository.SaveAsync(character, draft.Revision, cancellationToken);
         return CharacterDto.From(character);
     }
@@ -60,7 +61,7 @@ public sealed class CharacterService(ICharacterRepository repository)
 
     public async Task<CharacterDto> ImportAsync(CharacterDto imported, CancellationToken cancellationToken = default)
     {
-        var character = Character.Create(imported.Details, imported.Traits);
+        var character = CharacterRules.Create(imported.Details, imported.Traits);
         await repository.SaveAsync(character, null, cancellationToken);
         return CharacterDto.From(character);
     }
