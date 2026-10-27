@@ -6,16 +6,16 @@
     "benefits": "+1 Celeridade ou Potência; +3 Contatos Criminosos; especialização em Intimidação (Assalto à Mão Armada) ou Briga (Agarramento).",
     "cost": "Perde 1 ponto de Humanidade.",
     "disciplines": [
-      "Celeridade",
-      "Potência"
+      "discipline-celerity",
+      "discipline-potence"
     ],
     "specializations": [
       {
-        "skill": "Intimidação",
+        "skillId": "skill-intimidation",
         "text": "Assalto à Mão Armada"
       },
       {
-        "skill": "Briga",
+        "skillId": "skill-brawl",
         "text": "Agarramento"
       }
     ],
@@ -39,16 +39,16 @@
     "benefits": "+1 Dominação ou Potência; 3 pontos entre Contatos e Recursos; especialização em Intimidação (Coerção) ou Ladroagem (Segurança).",
     "cost": "Inimigo 2 (a vítima extorquida ou a polícia).",
     "disciplines": [
-      "Dominação",
-      "Potência"
+      "discipline-dominate",
+      "discipline-potence"
     ],
     "specializations": [
       {
-        "skill": "Intimidação",
+        "skillId": "skill-intimidation",
         "text": "Coerção"
       },
       {
-        "skill": "Ladroagem",
+        "skillId": "skill-larceny",
         "text": "Segurança"
       }
     ],
@@ -64,11 +64,13 @@
     "allocationOptions": [
       {
         "name": "Contatos",
-        "category": "advantage"
+        "category": "advantage",
+        "advantageId": "advantage-contacts"
       },
       {
         "name": "Recursos",
-        "category": "advantage"
+        "category": "advantage",
+        "advantageId": "advantage-resources"
       }
     ],
     "allocationPoints": 3,
@@ -81,16 +83,16 @@
     "benefits": "+1 Fortitude ou Proteanismo; +2 Rebanho Itinerante; especialização em Sobrevivência (Estradas) ou Investigação (Grafite Vampírico).",
     "cost": "Exclusão de Presas 1 (locais sedentários).",
     "disciplines": [
-      "Fortitude",
-      "Proteanismo"
+      "discipline-fortitude",
+      "discipline-protean"
     ],
     "specializations": [
       {
-        "skill": "Sobrevivência",
+        "skillId": "skill-survival",
         "text": "Estradas"
       },
       {
-        "skill": "Investigação",
+        "skillId": "skill-investigation",
         "text": "Grafite Vampírico"
       }
     ],
@@ -118,23 +120,24 @@
     "benefits": "+1 Dominação ou Animalismo; +2 Rebanho; especialização em Persuasão (Gaslighting) ou Subterfúgio (Encobrimento).",
     "cost": "Segredo Sombrio 1: Trinchador.",
     "disciplines": [
-      "Dominação",
-      "Animalismo"
+      "discipline-dominate",
+      "discipline-animalism"
     ],
     "specializations": [
       {
-        "skill": "Persuasão",
+        "skillId": "skill-persuasion",
         "text": "Gaslighting"
       },
       {
-        "skill": "Subterfúgio",
+        "skillId": "skill-subterfuge",
         "text": "Encobrimento"
       }
     ],
     "fixedGrants": [
       {
         "name": "Rebanho",
-        "category": "advantage"
+        "category": "advantage",
+        "advantageId": "advantage-herd"
       },
       {
         "name": "Segredo Sombrio (Trinchador)",
@@ -155,16 +158,16 @@
     "benefits": "+1 Auspícios ou Fortitude; +1 Humanidade; especialização em Medicina (Flebotomia) ou Persuasão (Bolsas).",
     "cost": "Segredo Sombrio 1: Quebrador da Máscara; Exclusão de Presa 1 (sem consentimento).",
     "disciplines": [
-      "Auspícios",
-      "Fortitude"
+      "discipline-auspex",
+      "discipline-fortitude"
     ],
     "specializations": [
       {
-        "skill": "Medicina",
+        "skillId": "skill-medicine",
         "text": "Flebotomia"
       },
       {
-        "skill": "Persuasão",
+        "skillId": "skill-persuasion",
         "text": "Bolsas"
       }
     ],
@@ -193,17 +196,17 @@
     "benefits": "+1 Feitiçaria de Sangue (só Tremere) ou Presença; 3 pontos em Fama/Rebanho; especialização em Ocultismo (tradição específica) ou Performance (cena específica).",
     "cost": "2 pontos entre Defeitos Inimigos ou Defeitos Míticos.",
     "disciplines": [
-      "Feitiçaria de Sangue",
-      "Presença"
+      "discipline-blood-sorcery",
+      "discipline-presence"
     ],
     "specializations": [
       {
-        "skill": "Ocultismo",
+        "skillId": "skill-occult",
         "text": "tradição específica",
         "isFreeText": true
       },
       {
-        "skill": "Performance",
+        "skillId": "skill-performance",
         "text": "cena específica",
         "isFreeText": true
       }
@@ -217,30 +220,36 @@
       },
       {
         "name": "Rebanho",
-        "category": "advantage"
+        "category": "advantage",
+        "advantageId": "advantage-herd"
       }
     ],
     "allocationPoints": 3,
     "flawOptions": [
       {
         "name": "Inimigo",
-        "category": "flaw"
+        "category": "flaw",
+        "advantageId": "flaw-enemy"
       },
       {
         "name": "Perdicao Folclorica",
-        "category": "flaw"
+        "category": "flaw",
+        "advantageId": "flaw-folkloric-bane"
       },
       {
         "name": "Tabu Folclorico",
-        "category": "flaw"
+        "category": "flaw",
+        "advantageId": "flaw-folkloric-block"
       },
       {
         "name": "Estigma",
-        "category": "flaw"
+        "category": "flaw",
+        "advantageId": "flaw-stigmata"
       },
       {
         "name": "Isca de Estaca",
-        "category": "flaw"
+        "category": "flaw",
+        "advantageId": "flaw-stake-bait"
       }
     ],
     "flawPoints": 2,
@@ -253,22 +262,22 @@
     "benefits": "+1 Dominação ou Potência; +1 Contatos; +1 Fama; especialização em Etiqueta, Liderança ou Manha (Cena Específica).",
     "cost": "Rejeitado 1 OU Exclusão de Presa 1 (Subcultura diferente).",
     "disciplines": [
-      "Dominação",
-      "Potência"
+      "discipline-dominate",
+      "discipline-potence"
     ],
     "specializations": [
       {
-        "skill": "Etiqueta",
+        "skillId": "skill-etiquette",
         "text": "Cena Específica",
         "isFreeText": true
       },
       {
-        "skill": "Liderança",
+        "skillId": "skill-leadership",
         "text": "Cena Específica",
         "isFreeText": true
       },
       {
-        "skill": "Manha",
+        "skillId": "skill-streetwise",
         "text": "Cena Específica",
         "isFreeText": true
       }
@@ -276,7 +285,8 @@
     "fixedGrants": [
       {
         "name": "Contatos",
-        "category": "advantage"
+        "category": "advantage",
+        "advantageId": "advantage-contacts"
       },
       {
         "name": "Fama",
@@ -307,23 +317,24 @@
     "benefits": "+1 Fortitude ou Presença; Visual Belo 2; especialização em Persuasão (Sedução) ou Subterfúgio (Sedução).",
     "cost": "Inimigo 1 (ex-amante abandonado ou parceiro ciumento).",
     "disciplines": [
-      "Fortitude",
-      "Presença"
+      "discipline-fortitude",
+      "discipline-presence"
     ],
     "specializations": [
       {
-        "skill": "Persuasão",
+        "skillId": "skill-persuasion",
         "text": "Sedução"
       },
       {
-        "skill": "Subterfúgio",
+        "skillId": "skill-subterfuge",
         "text": "Sedução"
       }
     ],
     "fixedGrants": [
       {
         "name": "Visual Belo",
-        "category": "advantage"
+        "category": "advantage",
+        "advantageId": "advantage-looks-beautiful"
       },
       {
         "name": "Inimigo (ex-amante ou parceiro ciumento)",
@@ -344,23 +355,24 @@
     "benefits": "+1 Auspícios ou Ofuscação; +1 Recursos; especialização em Medicina (Anestésicos) ou Furtividade (Invasão).",
     "cost": "Não há custo negativo.",
     "disciplines": [
-      "Auspícios",
-      "Ofuscação"
+      "discipline-auspex",
+      "discipline-obfuscate"
     ],
     "specializations": [
       {
-        "skill": "Medicina",
+        "skillId": "skill-medicine",
         "text": "Anestésicos"
       },
       {
-        "skill": "Furtividade",
+        "skillId": "skill-stealth",
         "text": "Invasão"
       }
     ],
     "fixedGrants": [
       {
         "name": "Recursos",
-        "category": "advantage"
+        "category": "advantage",
+        "advantageId": "advantage-resources"
       }
     ],
     "fixedPoints": [
@@ -376,16 +388,16 @@
     "benefits": "+1 Fortitude ou Oblívio; Esôfago de Ferro 3; Refúgio 1; especialização em Ocultismo (Rituais Tumulares) ou Medicina (texto livre).",
     "cost": "Predador Manifesto 2.",
     "disciplines": [
-      "Fortitude",
-      "Oblívio"
+      "discipline-fortitude",
+      "discipline-oblivion"
     ],
     "specializations": [
       {
-        "skill": "Ocultismo",
+        "skillId": "skill-occult",
         "text": "Rituais Tumulares"
       },
       {
-        "skill": "Medicina",
+        "skillId": "skill-medicine",
         "text": "especialização a informar",
         "isFreeText": true
       }
@@ -393,15 +405,18 @@
     "fixedGrants": [
       {
         "name": "Esofago de Ferro",
-        "category": "advantage"
+        "category": "advantage",
+        "advantageId": "advantage-iron-gullet"
       },
       {
         "name": "Refugio",
-        "category": "advantage"
+        "category": "advantage",
+        "advantageId": "advantage-haven"
       },
       {
         "name": "Predador Manifesto",
-        "category": "flaw"
+        "category": "flaw",
+        "advantageId": "flaw-obvious-predator"
       }
     ],
     "fixedPoints": [
@@ -419,24 +434,25 @@
     "benefits": "+1 Ofuscação, Oblívio ou Feitiçaria de Sangue (só Tremere); Esôfago de Ferro 3; especialização em Ladroagem (Abrir Fechaduras) ou Manha (Mercado Negro).",
     "cost": "Inimigo 2 (cobrando dívidas ou banindo-o das ruas).",
     "disciplines": [
-      "Ofuscação",
-      "Oblívio",
-      "Feitiçaria de Sangue"
+      "discipline-obfuscate",
+      "discipline-oblivion",
+      "discipline-blood-sorcery"
     ],
     "specializations": [
       {
-        "skill": "Ladroagem",
+        "skillId": "skill-larceny",
         "text": "Abrir Fechaduras"
       },
       {
-        "skill": "Manha",
+        "skillId": "skill-streetwise",
         "text": "Mercado Negro"
       }
     ],
     "fixedGrants": [
       {
         "name": "Esofago de Ferro",
-        "category": "advantage"
+        "category": "advantage",
+        "advantageId": "advantage-iron-gullet"
       },
       {
         "name": "Inimigo (dividas ou banimento)",
@@ -457,16 +473,16 @@
     "benefits": "+1 Celeridade ou Proteanismo; +1 Potência de Sangue; especialização em Briga (Membros) ou Furtividade (Contra Membros).",
     "cost": "-1 Humanidade; Segredo Sombrio 2 (Diablerista) OU Segregado 2; Exclusão de Presa 2 (Mortais).",
     "disciplines": [
-      "Celeridade",
-      "Proteanismo"
+      "discipline-celerity",
+      "discipline-protean"
     ],
     "specializations": [
       {
-        "skill": "Briga",
+        "skillId": "skill-brawl",
         "text": "Membros"
       },
       {
-        "skill": "Furtividade",
+        "skillId": "skill-stealth",
         "text": "Contra Membros"
       }
     ],
@@ -487,7 +503,8 @@
       },
       {
         "name": "Segregado",
-        "category": "flaw"
+        "category": "flaw",
+        "advantageId": "flaw-shunned"
       }
     ],
     "flawPoints": 2,
@@ -501,24 +518,25 @@
     "benefits": "+1 Animalismo ou Proteanismo; +1 Humanidade; especialização em Empatia com Animais (escolha um) ou Sobrevivência (Caça).",
     "cost": "Defeito de Alimentação 2: Fazendeiro.",
     "disciplines": [
-      "Animalismo",
-      "Proteanismo"
+      "discipline-animalism",
+      "discipline-protean"
     ],
     "specializations": [
       {
-        "skill": "Empatia com Animais",
+        "skillId": "skill-animal-ken",
         "text": "animal a informar",
         "isFreeText": true
       },
       {
-        "skill": "Sobrevivência",
+        "skillId": "skill-survival",
         "text": "Caça"
       }
     ],
     "fixedGrants": [
       {
         "name": "Fazendeiro",
-        "category": "flaw"
+        "category": "flaw",
+        "advantageId": "flaw-farmer"
       }
     ],
     "fixedPoints": [

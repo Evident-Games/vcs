@@ -11,10 +11,6 @@ namespace VCS.Tests;
 /// <summary>The content JSON files that ship with the app: complete, with unique prefixed ids and references that exist.</summary>
 public sealed class ContentFilesTests
 {
-    private static readonly string[] DisciplineNames = [.. DisciplineCatalog.BuiltIn.Select(x => x.Name)];
-
-    private static bool IsDiscipline(string name) => DisciplineNames.Any(x => ClanCatalog.SameName(x, name));
-
     private static bool IsDisciplineId(string id) => DisciplineCatalog.BuiltIn.Any(x => x.Id == id);
 
     [Fact]
@@ -63,9 +59,10 @@ public sealed class ContentFilesTests
             if (x.AmalgamDisciplineId is { } amalgam) Assert.True(IsDisciplineId(amalgam), amalgam);
         });
         Assert.All(DisciplineCatalog.Powers.Where(x => x.IsRitual), x => Assert.Equal(DisciplineCatalog.BloodSorcery, x.DisciplineId));
-        Assert.All(PredatorCatalog.All.SelectMany(x => x.Disciplines), x => Assert.True(IsDiscipline(x), x));
-        Assert.All(PredatorCatalog.All.SelectMany(x => x.Specializations),
-            x => Assert.Contains(SkillCatalog.BuiltIn, skill => ClanCatalog.SameName(skill.Name, x.Skill)));
+        Assert.All(PredatorCatalog.All.SelectMany(x => x.Disciplines), x => Assert.True(IsDisciplineId(x), x));
+        Assert.All(PredatorCatalog.All.SelectMany(x => x.Specializations), x => Assert.Contains(SkillCatalog.BuiltIn, skill => skill.Id == x.SkillId));
+        Assert.All(PredatorCatalog.All.SelectMany(x => x.FixedGrants.Concat(x.AllocationOptions).Concat(x.FlawOptions)).Where(x => x.AdvantageId is not null),
+            x => Assert.Contains(AdvantageCatalog.BuiltIn, entry => entry.Id == x.AdvantageId && entry.Category == x.Category));
     }
 
     [Fact]
