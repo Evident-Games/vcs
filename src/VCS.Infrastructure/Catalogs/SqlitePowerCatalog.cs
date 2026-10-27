@@ -7,7 +7,7 @@ namespace VCS.Infrastructure.Catalogs;
 
 /// <summary>
 /// Power edits live in the database; built-in powers come from the embedded catalog and are overridden by id.
-// Its discipline is picked from <see cref="DisciplineCatalog"/>; new disciplines are created in their own tab.
+/// Its discipline is picked from <see cref="DisciplineCatalog"/>; new disciplines are created in their own tab.
 /// </summary>
 public sealed class SqlitePowerCatalog(DatabaseAccess database, ProvidedDisciplineCatalog catalog) : IEditableCatalog<PowerDefinition>
 {
