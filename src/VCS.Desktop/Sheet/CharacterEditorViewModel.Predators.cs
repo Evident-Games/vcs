@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Content.Clans;
+using VCS.Content.Disciplines;
 using VCS.Content.Predators;
 using VCS.Desktop.Catalogs;
 using VCS.Rules.V5.Advancement;
@@ -11,9 +12,12 @@ using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
 
-public partial class PredatorAllocationViewModel(string name, int maximum, TraitCategory category = TraitCategory.Advantage) : ObservableObject
+public partial class PredatorAllocationViewModel(string name, int maximum, TraitCategory category = TraitCategory.Advantage, int minimum = 1)
+    : ObservableObject
 {
     public string Name { get; } = name;
+    /// <summary>Smallest non-zero allocation: a catalog entry like Isca de Estaca only exists at its own points.</summary>
+    public int Minimum { get; } = minimum;
     public int Maximum { get; } = maximum;
     public TraitCategory Category { get; } = category;
     [ObservableProperty] private int points;
@@ -108,7 +112,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
                 {
                     foreach (var option in options)
                     {
-                        target.Add(new(option.Name, Math.Min(PredatorRules.MaximumFor(option.Name), budget), option.Category));
+                        target.Add(new(option.Name, Math.Min(option.Points.Maximum, budget), option.Category, option.Points.Minimum));
                     }
                 }
                 Add(PredatorAdvantages, type.AllocationOptions, type.AllocationPoints);
@@ -124,7 +128,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         var selected = SelectedPredatorDiscipline;
         PredatorDisciplines.Clear();
         if (SelectedPredatorType is { } type)
-            foreach (var item in PredatorRules.DisciplinesFor(type, Clan)) PredatorDisciplines.Add(item);
+            foreach (var id in PredatorRules.DisciplinesFor(type, Clan)) PredatorDisciplines.Add(DisciplineCatalog.NameOf(id));
         _syncingPredator = true;
         try { SelectedPredatorDiscipline = PredatorDisciplines.FirstOrDefault(x => x == selected); }
         finally { _syncingPredator = false; }
@@ -283,7 +287,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
     IReadOnlyList<PredatorAllocationViewModel> IMeritSheetHost.PendingPredatorOptions(TraitCategory category)
     {
         if (PredatorRemaining(category) == 0 || IsSingleFlawChoice(category) && PredatorOptions(category).Any(x => x.Points > 0)) return [];
-        return PredatorOptions(category).Where(x => x.Points == 0 && PredatorRoom(x) >= (x.Name == "Isca de Estaca" ? 2 : 1)).ToArray();
+        return PredatorOptions(category).Where(x => x.Points == 0 && PredatorRoom(x) >= x.Minimum).ToArray();
     }
 
     public int PredatorRoom(PredatorAllocationViewModel option)
@@ -298,8 +302,8 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
     {
         var room = PredatorRoom(option);
         points = Math.Clamp(points, 0, room);
-        // Isca de Estaca only exists at two points.
-        if (option.Name == "Isca de Estaca" && points == 1) points = option.Points == 2 || room < 2 ? 0 : 2;
+        // Below the minimum jumps to it when raising and to zero when lowering (Isca de Estaca only exists at two points).
+        if (points > 0 && points < option.Minimum) points = option.Points >= option.Minimum || room < option.Minimum ? 0 : option.Minimum;
         if (points == option.Points) return;
         _syncingPredator = true;
         try { option.Points = points; }
