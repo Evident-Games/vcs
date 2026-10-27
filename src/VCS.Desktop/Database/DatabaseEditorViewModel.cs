@@ -10,7 +10,7 @@ namespace VCS.Desktop.Database;
 /// <summary>Editar › Banco de dados: one tab per editable catalog.</summary>
 public sealed class DatabaseEditorViewModel(
     IEditableCatalog<SkillDefinition> skills, IEditableCatalog<AdvantageDefinition> advantages,
-    IEditableCatalog<PowerDefinition> powers, IEditableCatalog<ClanDefinition> clans)
+    IEditableCatalog<PowerDefinition> powers, IEditableCatalog<ClanDefinition> clans, IEditableCatalog<DisciplineDefinition> disciplines)
 {
     public IReadOnlyList<CatalogTabViewModel> Tabs { get; } =
     [
@@ -19,9 +19,12 @@ public sealed class DatabaseEditorViewModel(
         new CatalogTab<AdvantageDefinition, AdvantageDraft>("Vantagens e defeitos", advantages,
             x => (x.Name, $"{x.Group} · {CategoryLabel(x.Category)}"),
             x => new(x?.Value ?? new AdvantageDefinition { Category = TraitCategory.Advantage, Minimum = 1, Maximum = 1, Group = "Pessoais" })),
-        new CatalogTab<PowerDefinition, PowerDraft>("Disciplinas e poderes", powers, x => (x.Name, $"{x.Discipline} · nivel {x.Level}"),
-            x => new(x?.Value ?? new("", "", "", 1, "", "", ""))),
-        new CatalogTab<ClanDefinition, ClanDraft>("Clas", clans, x => (x.Name, string.Join(" · ", x.Disciplines)),
+        new CatalogTab<DisciplineDefinition, DisciplineDraft>("Disciplinas", disciplines, x => (x.Name, ""),
+            x => new(x?.Value ?? new("", ""), x?.IsBuiltIn == true)),
+        new CatalogTab<PowerDefinition, PowerDraft>("Poderes e rituais", powers,
+            x => (x.Name, $"{x.Discipline}{(x.IsRitual ? " · ritual" : "")} · nivel {x.Level}"),
+            x => new(x?.Value ?? new("", DisciplineCatalog.All[0].Id, "", 1, "", "", ""))),
+        new CatalogTab<ClanDefinition, ClanDraft>("Clas", clans, x => (x.Name, string.Join(" · ", x.Disciplines.Select(DisciplineCatalog.NameOf))),
             x => new(x?.Value ?? new("", "", "", [], []), x?.IsBuiltIn == true))
     ];
 

@@ -13,6 +13,7 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
     public DbSet<SkillDefinition> SkillCatalog => Set<SkillDefinition>();
     public DbSet<ClanCatalogRecord> ClanCatalog => Set<ClanCatalogRecord>();
     public DbSet<PowerCatalogRecord> PowerCatalog => Set<PowerCatalogRecord>();
+    public DbSet<DisciplineCatalogRecord> DisciplineCatalog => Set<DisciplineCatalogRecord>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,11 +23,17 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         clans.Property(x => x.Id).HasMaxLength(80);
         clans.Property(x => x.Name).HasMaxLength(80).IsRequired();
         clans.HasIndex(x => x.Name).IsUnique();
+        var disciplines = modelBuilder.Entity<DisciplineCatalogRecord>();
+        disciplines.ToTable("DisciplineCatalog");
+        disciplines.HasKey(x => x.Id);
+        disciplines.Property(x => x.Id).HasMaxLength(80);
+        disciplines.Property(x => x.Name).HasMaxLength(80).IsRequired();
+        disciplines.HasIndex(x => x.Name).IsUnique();
         var powers = modelBuilder.Entity<PowerCatalogRecord>();
         powers.ToTable("PowerCatalog");
         powers.HasKey(x => x.Id);
         powers.Property(x => x.Id).HasMaxLength(120);
-        powers.Property(x => x.Discipline).HasMaxLength(80).IsRequired();
+        powers.Property(x => x.DisciplineId).HasMaxLength(80).IsRequired();
         powers.Property(x => x.Name).HasMaxLength(80).IsRequired();
         var skills = modelBuilder.Entity<SkillDefinition>();
         skills.ToTable("SkillCatalog");
