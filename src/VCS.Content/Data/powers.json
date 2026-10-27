@@ -1,7 +1,7 @@
 [
   {
     "id": "power-animalism-bond-famulus",
-    "discipline": "Animalismo",
+    "disciplineId": "discipline-animalism",
     "name": "Laço com Familiar",
     "level": 1,
     "cost": "O sangue para criar um carniçal (1 checagem de sangue)",
@@ -10,7 +10,7 @@
   },
   {
     "id": "power-animalism-sense-the-beast",
-    "discipline": "Animalismo",
+    "disciplineId": "discipline-animalism",
     "name": "Sentir a Besta",
     "level": 1,
     "cost": "Nenhum",
@@ -19,7 +19,7 @@
   },
   {
     "id": "power-animalism-feral-whispers",
-    "discipline": "Animalismo",
+    "disciplineId": "discipline-animalism",
     "name": "Sussurros Selvagens",
     "level": 2,
     "cost": "1 checagem de sangue (por cena)",
@@ -28,7 +28,7 @@
   },
   {
     "id": "power-animalism-quell-the-beast",
-    "discipline": "Animalismo",
+    "disciplineId": "discipline-animalism",
     "name": "Acalmar a Besta",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -37,7 +37,7 @@
   },
   {
     "id": "power-animalism-animal-succulence",
-    "discipline": "Animalismo",
+    "disciplineId": "discipline-animalism",
     "name": "Suculência Animal",
     "level": 3,
     "cost": "Nenhum",
@@ -46,7 +46,7 @@
   },
   {
     "id": "power-animalism-subsume-the-spirit",
-    "discipline": "Animalismo",
+    "disciplineId": "discipline-animalism",
     "name": "Subjugar o Espírito",
     "level": 4,
     "cost": "1 checagem de sangue",
@@ -55,7 +55,7 @@
   },
   {
     "id": "power-animalism-animal-dominion",
-    "discipline": "Animalismo",
+    "disciplineId": "discipline-animalism",
     "name": "Domínio Animal",
     "level": 5,
     "cost": "1 ou 2 checagens de sangue",
@@ -64,7 +64,7 @@
   },
   {
     "id": "power-animalism-drawing-out-the-beast",
-    "discipline": "Animalismo",
+    "disciplineId": "discipline-animalism",
     "name": "Extrair a Besta",
     "level": 5,
     "cost": "1 checagem de sangue",
@@ -73,7 +73,7 @@
   },
   {
     "id": "power-auspex-heightened-senses",
-    "discipline": "Auspícios",
+    "disciplineId": "discipline-auspex",
     "name": "Sentidos Aguçados",
     "level": 1,
     "cost": "Nenhum",
@@ -82,7 +82,7 @@
   },
   {
     "id": "power-auspex-sense-the-unseen",
-    "discipline": "Auspícios",
+    "disciplineId": "discipline-auspex",
     "name": "Sentir o Invisível",
     "level": 1,
     "cost": "Nenhum",
@@ -91,7 +91,7 @@
   },
   {
     "id": "power-auspex-premonition",
-    "discipline": "Auspícios",
+    "disciplineId": "discipline-auspex",
     "name": "Premonição",
     "level": 2,
     "cost": "1 checagem de sangue (ou grátis em uso passivo)",
@@ -100,7 +100,7 @@
   },
   {
     "id": "power-auspex-share-the-senses",
-    "discipline": "Auspícios",
+    "disciplineId": "discipline-auspex",
     "name": "Compartilhar os Sentidos",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -109,7 +109,7 @@
   },
   {
     "id": "power-auspex-scry-the-soul",
-    "discipline": "Auspícios",
+    "disciplineId": "discipline-auspex",
     "name": "Sondar a Alma",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -118,7 +118,7 @@
   },
   {
     "id": "power-auspex-spirits-touch",
-    "discipline": "Auspícios",
+    "disciplineId": "discipline-auspex",
     "name": "O Toque do Espírito",
     "level": 4,
     "cost": "1 checagem de sangue",
@@ -127,7 +127,7 @@
   },
   {
     "id": "power-auspex-clairvoyance",
-    "discipline": "Auspícios",
+    "disciplineId": "discipline-auspex",
     "name": "Clarividência",
     "level": 5,
     "cost": "1 checagem de sangue",
@@ -136,7 +136,7 @@
   },
   {
     "id": "power-auspex-telepathy",
-    "discipline": "Auspícios",
+    "disciplineId": "discipline-auspex",
     "name": "Telepatia",
     "level": 5,
     "cost": "1 checagem de sangue",
@@ -145,7 +145,7 @@
   },
   {
     "id": "power-celerity-cats-grace",
-    "discipline": "Celeridade",
+    "disciplineId": "discipline-celerity",
     "name": "Graça Felina",
     "level": 1,
     "cost": "Nenhum",
@@ -154,7 +154,7 @@
   },
   {
     "id": "power-celerity-rapid-reflexes",
-    "discipline": "Celeridade",
+    "disciplineId": "discipline-celerity",
     "name": "Reflexos Rápidos",
     "level": 1,
     "cost": "Nenhum",
@@ -163,7 +163,7 @@
   },
   {
     "id": "power-celerity-fleetness",
-    "discipline": "Celeridade",
+    "disciplineId": "discipline-celerity",
     "name": "Rapidez",
     "level": 2,
     "cost": "1 checagem de sangue",
@@ -172,7 +172,7 @@
   },
   {
     "id": "power-celerity-blink-traversal",
-    "discipline": "Celeridade",
+    "disciplineId": "discipline-celerity",
     "name": "Piscar / Travessia",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -181,7 +181,7 @@
   },
   {
     "id": "power-celerity-unerring-aim",
-    "discipline": "Celeridade",
+    "disciplineId": "discipline-celerity",
     "name": "Mira Infalível",
     "level": 4,
     "cost": "1 checagem de sangue",
@@ -190,7 +190,7 @@
   },
   {
     "id": "power-celerity-split-second",
-    "discipline": "Celeridade",
+    "disciplineId": "discipline-celerity",
     "name": "Fração de Segundos",
     "level": 5,
     "cost": "1 checagem de sangue",
@@ -199,7 +199,7 @@
   },
   {
     "id": "power-dominate-compel",
-    "discipline": "Dominação",
+    "disciplineId": "discipline-dominate",
     "name": "Compelir",
     "level": 1,
     "cost": "Nenhum",
@@ -208,7 +208,7 @@
   },
   {
     "id": "power-dominate-cloud-memory",
-    "discipline": "Dominação",
+    "disciplineId": "discipline-dominate",
     "name": "Obscurecer Memória",
     "level": 1,
     "cost": "Nenhum",
@@ -217,7 +217,7 @@
   },
   {
     "id": "power-dominate-mesmerize",
-    "discipline": "Dominação",
+    "disciplineId": "discipline-dominate",
     "name": "Sugestão Hipnótica",
     "level": 2,
     "cost": "1 checagem de sangue",
@@ -226,7 +226,7 @@
   },
   {
     "id": "power-dominate-the-forgetful-mind",
-    "discipline": "Dominação",
+    "disciplineId": "discipline-dominate",
     "name": "O Esquece-me",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -235,7 +235,7 @@
   },
   {
     "id": "power-dominate-submerged-directive",
-    "discipline": "Dominação",
+    "disciplineId": "discipline-dominate",
     "name": "Submersão da Diretriz",
     "level": 3,
     "cost": "Nenhum",
@@ -244,7 +244,7 @@
   },
   {
     "id": "power-dominate-rationalize",
-    "discipline": "Dominação",
+    "disciplineId": "discipline-dominate",
     "name": "Racionalização",
     "level": 4,
     "cost": "Nenhum",
@@ -253,7 +253,7 @@
   },
   {
     "id": "power-dominate-mass-manipulation",
-    "discipline": "Dominação",
+    "disciplineId": "discipline-dominate",
     "name": "Comando em Massa",
     "level": 5,
     "cost": "1 checagem de sangue",
@@ -262,7 +262,7 @@
   },
   {
     "id": "power-dominate-terminal-decree",
-    "discipline": "Dominação",
+    "disciplineId": "discipline-dominate",
     "name": "Ditame Terminal",
     "level": 5,
     "cost": "1 checagem de sangue",
@@ -271,7 +271,7 @@
   },
   {
     "id": "power-fortitude-resilience",
-    "discipline": "Fortitude",
+    "disciplineId": "discipline-fortitude",
     "name": "Resiliência",
     "level": 1,
     "cost": "Nenhum",
@@ -280,7 +280,7 @@
   },
   {
     "id": "power-fortitude-unswayable-mind",
-    "discipline": "Fortitude",
+    "disciplineId": "discipline-fortitude",
     "name": "Mente Inabalável",
     "level": 1,
     "cost": "Nenhum",
@@ -289,7 +289,7 @@
   },
   {
     "id": "power-fortitude-enduring-beasts",
-    "discipline": "Fortitude",
+    "disciplineId": "discipline-fortitude",
     "name": "Resiliência das Bestas",
     "level": 2,
     "cost": "1 checagem de sangue",
@@ -298,7 +298,7 @@
   },
   {
     "id": "power-fortitude-defy-bane",
-    "discipline": "Fortitude",
+    "disciplineId": "discipline-fortitude",
     "name": "Ignorar Danos",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -307,7 +307,7 @@
   },
   {
     "id": "power-fortitude-fortify-the-inner-facade",
-    "discipline": "Fortitude",
+    "disciplineId": "discipline-fortitude",
     "name": "Fortificar Barreira Íntima",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -316,7 +316,7 @@
   },
   {
     "id": "power-fortitude-flesh-of-marble",
-    "discipline": "Fortitude",
+    "disciplineId": "discipline-fortitude",
     "name": "Proteção de Mármore",
     "level": 4,
     "cost": "2 checagens de sangue",
@@ -325,7 +325,7 @@
   },
   {
     "id": "power-fortitude-prowess-from-pain",
-    "discipline": "Fortitude",
+    "disciplineId": "discipline-fortitude",
     "name": "Agonia da Carne",
     "level": 5,
     "cost": "1 checagem de sangue",
@@ -334,7 +334,7 @@
   },
   {
     "id": "power-obfuscate-cloak-of-shadows",
-    "discipline": "Ofuscação",
+    "disciplineId": "discipline-obfuscate",
     "name": "Manto de Sombras",
     "level": 1,
     "cost": "Nenhum",
@@ -343,7 +343,7 @@
   },
   {
     "id": "power-obfuscate-silence-of-death",
-    "discipline": "Ofuscação",
+    "disciplineId": "discipline-obfuscate",
     "name": "Silêncio da Morte",
     "level": 1,
     "cost": "Nenhum",
@@ -352,7 +352,7 @@
   },
   {
     "id": "power-obfuscate-unseen-passage",
-    "discipline": "Ofuscação",
+    "disciplineId": "discipline-obfuscate",
     "name": "Passagem Invisível",
     "level": 2,
     "cost": "1 checagem de sangue",
@@ -361,7 +361,7 @@
   },
   {
     "id": "power-obfuscate-mask-of-a-thousand-faces",
-    "discipline": "Ofuscação",
+    "disciplineId": "discipline-obfuscate",
     "name": "Máscara das Mil Faces",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -370,7 +370,7 @@
   },
   {
     "id": "power-obfuscate-ghost-in-the-machine",
-    "discipline": "Ofuscação",
+    "disciplineId": "discipline-obfuscate",
     "name": "Fantasma Cibernético",
     "level": 3,
     "cost": "Nenhum",
@@ -379,7 +379,7 @@
   },
   {
     "id": "power-obfuscate-conceal",
-    "discipline": "Ofuscação",
+    "disciplineId": "discipline-obfuscate",
     "name": "Ocultar",
     "level": 4,
     "cost": "1 checagem de sangue",
@@ -388,7 +388,7 @@
   },
   {
     "id": "power-obfuscate-cloak-the-gathering",
-    "discipline": "Ofuscação",
+    "disciplineId": "discipline-obfuscate",
     "name": "Manto do Grupo",
     "level": 5,
     "cost": "1 checagem de sangue",
@@ -397,7 +397,7 @@
   },
   {
     "id": "power-potence-soaring-leap",
-    "discipline": "Potência",
+    "disciplineId": "discipline-potence",
     "name": "Salto Impressionante",
     "level": 1,
     "cost": "Nenhum",
@@ -406,7 +406,7 @@
   },
   {
     "id": "power-potence-lethal-body",
-    "discipline": "Potência",
+    "disciplineId": "discipline-potence",
     "name": "Corpo Letal",
     "level": 1,
     "cost": "Nenhum",
@@ -415,7 +415,7 @@
   },
   {
     "id": "power-potence-prowess",
-    "discipline": "Potência",
+    "disciplineId": "discipline-potence",
     "name": "Bravura",
     "level": 2,
     "cost": "1 checagem de sangue",
@@ -424,7 +424,7 @@
   },
   {
     "id": "power-potence-brutal-feed",
-    "discipline": "Potência",
+    "disciplineId": "discipline-potence",
     "name": "Alimentação Brutal",
     "level": 3,
     "cost": "Nenhum",
@@ -433,7 +433,7 @@
   },
   {
     "id": "power-potence-draught-of-might",
-    "discipline": "Potência",
+    "disciplineId": "discipline-potence",
     "name": "Poção de Força",
     "level": 4,
     "cost": "1 checagem de sangue",
@@ -442,7 +442,7 @@
   },
   {
     "id": "power-potence-earthshock",
-    "discipline": "Potência",
+    "disciplineId": "discipline-potence",
     "name": "Choque Terrestre",
     "level": 5,
     "cost": "2 checagens de sangue",
@@ -451,7 +451,7 @@
   },
   {
     "id": "power-presence-dread-gaze",
-    "discipline": "Presença",
+    "disciplineId": "discipline-presence",
     "name": "Olhar Aterrorizante",
     "level": 1,
     "cost": "Nenhum",
@@ -460,7 +460,7 @@
   },
   {
     "id": "power-presence-awe",
-    "discipline": "Presença",
+    "disciplineId": "discipline-presence",
     "name": "Fascínio",
     "level": 1,
     "cost": "Nenhum",
@@ -469,7 +469,7 @@
   },
   {
     "id": "power-presence-lingering-kiss",
-    "discipline": "Presença",
+    "disciplineId": "discipline-presence",
     "name": "Beijo Persistente",
     "level": 2,
     "cost": "Nenhum",
@@ -478,7 +478,7 @@
   },
   {
     "id": "power-presence-entrancement",
-    "discipline": "Presença",
+    "disciplineId": "discipline-presence",
     "name": "Transe",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -487,7 +487,7 @@
   },
   {
     "id": "power-presence-summon",
-    "discipline": "Presença",
+    "disciplineId": "discipline-presence",
     "name": "Convocação",
     "level": 4,
     "cost": "1 checagem de sangue",
@@ -496,7 +496,7 @@
   },
   {
     "id": "power-presence-majesty",
-    "discipline": "Presença",
+    "disciplineId": "discipline-presence",
     "name": "Majestade",
     "level": 5,
     "cost": "2 checagens de sangue",
@@ -505,7 +505,7 @@
   },
   {
     "id": "power-protean-weight-of-the-feather",
-    "discipline": "Proteanismo",
+    "disciplineId": "discipline-protean",
     "name": "Peso da Pena",
     "level": 1,
     "cost": "Nenhum",
@@ -514,7 +514,7 @@
   },
   {
     "id": "power-protean-eyes-of-the-beast",
-    "discipline": "Proteanismo",
+    "disciplineId": "discipline-protean",
     "name": "Olhos da Besta",
     "level": 1,
     "cost": "Nenhum",
@@ -523,7 +523,7 @@
   },
   {
     "id": "power-protean-feral-weapons",
-    "discipline": "Proteanismo",
+    "disciplineId": "discipline-protean",
     "name": "Armas da Fera",
     "level": 2,
     "cost": "1 checagem de sangue",
@@ -532,7 +532,7 @@
   },
   {
     "id": "power-protean-earth-meld",
-    "discipline": "Proteanismo",
+    "disciplineId": "discipline-protean",
     "name": "Fusão com a Terra",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -541,7 +541,7 @@
   },
   {
     "id": "power-protean-shapechange",
-    "discipline": "Proteanismo",
+    "disciplineId": "discipline-protean",
     "name": "Mudança de Forma",
     "level": 4,
     "cost": "1 checagem de sangue",
@@ -550,7 +550,7 @@
   },
   {
     "id": "power-protean-mist-form",
-    "discipline": "Proteanismo",
+    "disciplineId": "discipline-protean",
     "name": "Forma de Névoa",
     "level": 5,
     "cost": "1 a 3 checagens de sangue",
@@ -559,7 +559,7 @@
   },
   {
     "id": "power-blood-sorcery-a-taste-for-blood",
-    "discipline": "Feitiçaria de Sangue",
+    "disciplineId": "discipline-blood-sorcery",
     "name": "Gosto de Sangue",
     "level": 1,
     "cost": "Nenhum",
@@ -568,7 +568,7 @@
   },
   {
     "id": "power-blood-sorcery-corrosive-vitae",
-    "discipline": "Feitiçaria de Sangue",
+    "disciplineId": "discipline-blood-sorcery",
     "name": "Sangue Corrosivo",
     "level": 1,
     "cost": "1 checagem de sangue",
@@ -577,7 +577,7 @@
   },
   {
     "id": "power-blood-sorcery-extinguish-vitae",
-    "discipline": "Feitiçaria de Sangue",
+    "disciplineId": "discipline-blood-sorcery",
     "name": "Extinguir Vitae",
     "level": 2,
     "cost": "1 checagem de sangue",
@@ -586,7 +586,7 @@
   },
   {
     "id": "power-blood-sorcery-scorpions-touch",
-    "discipline": "Feitiçaria de Sangue",
+    "disciplineId": "discipline-blood-sorcery",
     "name": "Toque do Escorpião",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -595,7 +595,7 @@
   },
   {
     "id": "power-blood-sorcery-theft-of-vitae",
-    "discipline": "Feitiçaria de Sangue",
+    "disciplineId": "discipline-blood-sorcery",
     "name": "Roubo de Vitae",
     "level": 4,
     "cost": "1 checagem de sangue",
@@ -604,7 +604,7 @@
   },
   {
     "id": "power-blood-sorcery-cauldron-of-blood",
-    "discipline": "Feitiçaria de Sangue",
+    "disciplineId": "discipline-blood-sorcery",
     "name": "Caldeirão de Sangue",
     "level": 5,
     "cost": "1 checagem de sangue",
@@ -613,7 +613,8 @@
   },
   {
     "id": "ritual-wake-with-evenings-freshness",
-    "discipline": "Rituais",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
     "name": "Despertar com a Brisa do Entardecer",
     "level": 1,
     "cost": "1 checagem de sangue",
@@ -622,7 +623,8 @@
   },
   {
     "id": "ritual-illusion-of-peaceful-death",
-    "discipline": "Rituais",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
     "name": "Ilusão de Morte Pacífica",
     "level": 2,
     "cost": "1 checagem de sangue",
@@ -631,7 +633,8 @@
   },
   {
     "id": "ritual-ward-against-lupines",
-    "discipline": "Rituais",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
     "name": "Proteção contra Feras",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -640,7 +643,8 @@
   },
   {
     "id": "ritual-ward-against-cainites",
-    "discipline": "Rituais",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
     "name": "Proteção contra Cainitas",
     "level": 4,
     "cost": "1 checagem de sangue",
@@ -649,7 +653,8 @@
   },
   {
     "id": "ritual-escape-to-true-sanctuary",
-    "discipline": "Rituais",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
     "name": "Fuga para o Santuário Verdadeiro",
     "level": 5,
     "cost": "1 checagem de sangue",
@@ -658,7 +663,7 @@
   },
   {
     "id": "power-oblivion-oblivions-sight",
-    "discipline": "Oblívio",
+    "disciplineId": "discipline-oblivion",
     "name": "Visão do Oblívio",
     "level": 1,
     "cost": "1 checagem de sangue",
@@ -667,7 +672,7 @@
   },
   {
     "id": "power-oblivion-shadow-cloak",
-    "discipline": "Oblívio",
+    "disciplineId": "discipline-oblivion",
     "name": "Manto Sombrio",
     "level": 1,
     "cost": "Nenhum",
@@ -676,7 +681,7 @@
   },
   {
     "id": "power-oblivion-arms-of-ahriman",
-    "discipline": "Oblívio",
+    "disciplineId": "discipline-oblivion",
     "name": "Braços de Ahriman",
     "level": 2,
     "cost": "1 checagem de sangue",
@@ -685,7 +690,7 @@
   },
   {
     "id": "power-oblivion-touch-of-oblivion",
-    "discipline": "Oblívio",
+    "disciplineId": "discipline-oblivion",
     "name": "Toque do Oblívio",
     "level": 3,
     "cost": "1 checagem de sangue",
@@ -694,7 +699,7 @@
   },
   {
     "id": "power-oblivion-stygian-shroud",
-    "discipline": "Oblívio",
+    "disciplineId": "discipline-oblivion",
     "name": "Mortalha Estígia",
     "level": 4,
     "cost": "1 checagem de sangue",
@@ -703,7 +708,7 @@
   },
   {
     "id": "power-oblivion-shadow-step",
-    "discipline": "Oblívio",
+    "disciplineId": "discipline-oblivion",
     "name": "Passo Sombrio",
     "level": 5,
     "cost": "1 checagem de sangue",
@@ -712,7 +717,7 @@
   },
   {
     "id": "power-oblivion-tenebrous-avatar",
-    "discipline": "Oblívio",
+    "disciplineId": "discipline-oblivion",
     "name": "Avatar Tenebroso",
     "level": 5,
     "cost": "2 checagens de sangue",
@@ -721,46 +726,46 @@
   },
   {
     "id": "power-obfuscate-chimerstry",
-    "discipline": "Ofuscação",
+    "disciplineId": "discipline-obfuscate",
     "name": "Quimerismo",
     "level": 2,
     "cost": "Uma Checagem de Sangue",
     "dicePool": "Manipulação + Ofuscação vs. Autocontrole + Raciocínio",
     "summary": "O vampiro projeta uma alucinação rápida e vívida que afeta apenas um dos cinco sentidos. Serve para enganar ou assustar vítimas momentaneamente, distraindo-as a ponto de fazê-las perder dados de combate ou ações ativas na rodada.",
-    "amalgamDiscipline": "Presença",
+    "amalgamDisciplineId": "discipline-presence",
     "amalgamLevel": 1
   },
   {
     "id": "power-obfuscate-fata-morgana",
-    "discipline": "Ofuscação",
+    "disciplineId": "discipline-obfuscate",
     "name": "Fata Morgana",
     "level": 3,
     "cost": "Uma Checagem de Sangue",
     "dicePool": "Manipulação + Ofuscação",
     "summary": "Cria ilusões complexas e duradouras que não têm efeito físico, mas enganam múltiplos sentidos ao mesmo tempo (como ver e ouvir uma torrente de sangue jorrando). Afeta simultaneamente várias vítimas próximas que consigam ver ou ouvir a ilusão pela duração total de uma cena.",
-    "amalgamDiscipline": "Presença",
+    "amalgamDisciplineId": "discipline-presence",
     "amalgamLevel": 2
   },
   {
     "id": "power-auspex-obeah",
-    "discipline": "Auspícios",
+    "disciplineId": "discipline-auspex",
     "name": "Obeah",
     "level": 2,
     "cost": "Uma Checagem de Sangue (Força de Vontade adicional dependendo das circunstâncias)",
     "dicePool": "Autocontrole + Auspícios",
     "summary": "O vampiro usa a serenidade mística para acalmar alvos emocionalmente agitados ou desesperados. Ao ser usado, restaura níveis de danos Superficiais ou Agravados na trilha de Força de Vontade do alvo.",
-    "amalgamDiscipline": "Fortitude",
+    "amalgamDisciplineId": "discipline-fortitude",
     "amalgamLevel": 1
   },
   {
     "id": "power-auspex-unburdening-the-bestial-soul",
-    "discipline": "Auspícios",
+    "disciplineId": "discipline-auspex",
     "name": "Aliviando a Alma Bestial",
     "level": 5,
     "cost": "Duas Checagens de Sangue (o usuário ganha uma Mácula)",
     "dicePool": "Autocontrole + Auspícios vs. Humanidade",
     "summary": "O Salubri apazigua a Besta interior de outro Membro, compartilhando serenidade para perdoar os remorsos do alvo. Consegue remover e blindar as Máculas espirituais dele e, através de um acerto crítico, pode até devolver um ponto de Humanidade perdido permanentemente.",
-    "amalgamDiscipline": "Dominação",
+    "amalgamDisciplineId": "discipline-dominate",
     "amalgamLevel": 3
   }
 ]

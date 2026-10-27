@@ -912,7 +912,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             Assert.True(model.IsDatabaseEditorOpen);
             var tabs = Find<TabControl>(window, "Catalogos do banco");
-            Assert.Equal(["Habilidades", "Vantagens e defeitos", "Disciplinas e poderes", "Clas"],
+            Assert.Equal(["Habilidades", "Vantagens e defeitos", "Disciplinas", "Poderes e rituais", "Clas"],
                 model.Database!.Tabs.Select(x => x.Title));
             var skills = model.Database.Tabs[0];
             Assert.Equal(27, skills.Rows.Count);
@@ -927,9 +927,18 @@ public sealed class DesktopUiTests(WpfApp wpf)
             Assert.True(skills.CanDelete);
             AssertReadableControls(Find<Border>(window, "Banco de dados"));
             SaveSnapshot(window, "banco-de-dados");
+            tabs.SelectedIndex = 2;
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+            Assert.True(Find<TextBox>(window, "Nome da disciplina no banco").IsReadOnly);
             tabs.SelectedIndex = 3;
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+            Assert.NotNull(Find<ComboBox>(window, "Disciplina do poder no banco").SelectedValue);
+            AssertReadableControls(Find<Border>(window, "Banco de dados"));
+            tabs.SelectedIndex = 4;
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             Assert.True(Find<TextBox>(window, "Nome do cla no banco").IsReadOnly);
+            Assert.Equal(3, Descendants<CheckBox>(Find<ItemsControl>(window, "Disciplinas do cla no banco")).Count(x => x.IsChecked == true));
+            SaveSnapshot(window, "banco-de-dados-clas");
             await model.ToggleDatabaseEditorCommand.ExecuteAsync(null);
             Assert.False(model.IsDatabaseEditorOpen);
     });

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using VCS.Application.Characters;
 using VCS.Content;
+using VCS.Content.Disciplines;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
@@ -114,6 +115,37 @@ public sealed class ContentIdUpgradeTests : IAsyncLifetime
         Assert.Equal(saved.Traits.Select(x => renamed.GetValueOrDefault(x.Key, x.Key)).Order(), upgraded.Traits.Select(x => x.Key).Order());
         Assert.Equal("Editada pelo usuario.", (await catalog.ListAsync()).Single(x => x.Id == "advantage-looks-beautiful").Description);
         Assert.Equal("Poder editado.", (await powers.ListEntriesAsync()).Single(x => x.Id == "power-celerity-rapid-reflexes").Value.Summary);
+    }
+
+    [Fact]
+    public async Task Discipline_names_in_user_powers_and_clans_become_catalog_ids()
+    {
+        await using (var db = _database.CreateContext())
+        {
+            await db.GetService<IMigrator>().MigrateAsync("20261026220758_ContentFromFiles");
+            // What the database editor saved before disciplines were a catalog: names, and rituals as "Rituais".
+            await db.Database.ExecuteSqlRawAsync(
+                "INSERT INTO \"PowerCatalog\" (\"Id\", \"Discipline\", \"Name\", \"Level\", \"Cost\", \"DicePool\", \"Summary\", \"AmalgamDiscipline\", \"AmalgamLevel\") VALUES " +
+                "('power-custom-1', 'Quimerismo', 'Ilusao', 1, 'c', 'd', 's', 'Presenca', 1), " +
+                "('ritual-custom-2', 'Rituais', 'Ritual proprio', 1, 'c', 'd', 's', NULL, 0)");
+            await db.Database.ExecuteSqlRawAsync(
+                "INSERT INTO \"ClanCatalog\" (\"Id\", \"Name\", \"Description\", \"Disciplines\", \"Aliases\", \"Bane\") VALUES " +
+                "('clan-custom-1', 'Ahrimanes', '', '[\"Animalismo\",\"Quimerismo\"]', '[]', '')");
+        }
+
+        await _maintenance.InitializeAsync();
+
+        await using (var db = _database.CreateContext())
+        {
+            var custom = DisciplineCatalog.CustomKey("Quimerismo");
+            Assert.Equal("Quimerismo", (await db.DisciplineCatalog.SingleAsync()).Name);
+            Assert.Equal(custom, (await db.DisciplineCatalog.SingleAsync()).Id);
+            var illusion = await db.PowerCatalog.SingleAsync(x => x.Id == "power-custom-1");
+            Assert.Equal((custom, "discipline-presence", false), (illusion.DisciplineId, illusion.AmalgamDisciplineId, illusion.IsRitual));
+            var ritual = await db.PowerCatalog.SingleAsync(x => x.Id == "ritual-custom-2");
+            Assert.Equal((DisciplineCatalog.BloodSorcery, true), (ritual.DisciplineId, ritual.IsRitual));
+            Assert.Equal($"[\"discipline-animalism\",\"{custom}\"]", (await db.ClanCatalog.SingleAsync()).Disciplines);
+        }
     }
 
     [Fact]

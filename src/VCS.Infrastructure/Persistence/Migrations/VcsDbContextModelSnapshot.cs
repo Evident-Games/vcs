@@ -126,13 +126,32 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.ToTable("ClanCatalog", (string)null);
                 });
 
+            modelBuilder.Entity("VCS.Infrastructure.Persistence.DisciplineCatalogRecord", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("DisciplineCatalog", (string)null);
+                });
+
             modelBuilder.Entity("VCS.Infrastructure.Persistence.PowerCatalogRecord", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(120)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("AmalgamDiscipline")
+                    b.Property<string>("AmalgamDisciplineId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("AmalgamLevel")
@@ -146,10 +165,13 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Discipline")
+                    b.Property<string>("DisciplineId")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsRitual")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Level")
                         .HasColumnType("INTEGER");

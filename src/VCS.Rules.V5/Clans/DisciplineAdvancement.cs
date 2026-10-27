@@ -1,13 +1,16 @@
 using VCS.Content.Clans;
+using VCS.Content.Disciplines;
 
 namespace VCS.Rules.V5.Clans;
 
 public static class DisciplineAdvancement
 {
+    /// <param name="discipline">The discipline id, or its name as a sheet shows it.</param>
     public static bool? IsInClan(string clan, string discipline)
     {
         var definition = ClanCatalog.Find(clan);
-        return definition is null ? null : definition.Disciplines.Any(x => ClanCatalog.SameName(x, discipline));
+        return definition is null ? null : definition.Disciplines.Any(id =>
+            id == discipline || ClanCatalog.SameName(DisciplineCatalog.NameOf(id), discipline));
     }
 
     public static int? NextLevelCost(string clan, string discipline, int currentLevel)

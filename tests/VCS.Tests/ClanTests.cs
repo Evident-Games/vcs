@@ -1,3 +1,4 @@
+using VCS.Content.Disciplines;
 using VCS.Content.Clans;
 using VCS.Desktop.Catalogs;
 using VCS.Desktop.Sheet;
@@ -29,7 +30,7 @@ public sealed class ClanTests
         var clan = Assert.IsType<ClanDefinition>(ClanCatalog.Find(name));
         Assert.Equal(14, ClanCatalog.All.Count);
         Assert.Equal(3, clan.Disciplines.Distinct().Count());
-        Assert.Equal(disciplines.Split('|').Order(), clan.Disciplines.Order());
+        Assert.Equal(disciplines.Split('|').Order(), clan.Disciplines.Select(DisciplineCatalog.NameOf).Order());
         Assert.False(string.IsNullOrWhiteSpace(clan.Description));
         Assert.False(string.IsNullOrWhiteSpace(clan.Bane));
     }

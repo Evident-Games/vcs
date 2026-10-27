@@ -63,13 +63,32 @@
             </StackPanel>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type database:DisciplineDraft}">
+            <StackPanel>
+                <TextBlock Text="Nome" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" AutomationProperties.Name="Nome da disciplina no banco">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CanRename}" Value="False"><Setter Property="IsReadOnly" Value="True" /></DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <TextBlock Text="Disciplinas do aplicativo nao mudam; crie uma nova para usar em poderes e clas." Margin="0,8,0,0" TextWrapping="Wrap"
+                           Foreground="{DynamicResource VcsInputDescription}" />
+            </StackPanel>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type database:PowerDraft}">
             <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="12" /><ColumnDefinition Width="*" /><ColumnDefinition Width="12" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
                     <StackPanel>
-                        <TextBlock Text="Disciplina (nova ou existente)" Style="{StaticResource FormLabel}" />
-                        <TextBox Text="{Binding Discipline, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" AutomationProperties.Name="Disciplina do poder no banco" />
+                        <TextBlock Text="Disciplina" Style="{StaticResource FormLabel}" />
+                        <ComboBox ItemsSource="{Binding Disciplines}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding DisciplineId}"
+                                  AutomationProperties.Name="Disciplina do poder no banco" />
+                        <CheckBox Content="Ritual" IsChecked="{Binding IsRitual}" Margin="0,6,0,0" AutomationProperties.Name="Poder e ritual" />
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <TextBlock Text="Poder" Style="{StaticResource FormLabel}" />
@@ -93,7 +112,8 @@
                 </Grid>
                 <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
                     <TextBlock Text="Amalgama (opcional):" Style="{StaticResource FieldLabel}" VerticalAlignment="Center" Margin="0,0,8,0" />
-                    <TextBox Text="{Binding AmalgamDiscipline, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" Width="180" />
+                    <ComboBox ItemsSource="{Binding AmalgamOptions}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding AmalgamDisciplineId}"
+                              Width="180" AutomationProperties.Name="Disciplina do amalgama no banco" />
                     <TextBlock Text="nivel" Style="{StaticResource FieldLabel}" VerticalAlignment="Center" Margin="12,0,8,0" />
                     <controls:NumericField Value="{Binding AmalgamLevel, Mode=TwoWay}" Minimum="0" Maximum="5" Width="76" />
                 </StackPanel>
@@ -117,8 +137,15 @@
                         </Style>
                     </TextBox.Style>
                 </TextBox>
-                <TextBlock Text="Disciplinas do cla (separadas por virgula)" Style="{StaticResource FormLabel}" />
-                <TextBox Text="{Binding Disciplines, UpdateSourceTrigger=PropertyChanged}" MaxLength="500" AutomationProperties.Name="Disciplinas do cla no banco" />
+                <TextBlock Text="Disciplinas do cla (ate 6)" Style="{StaticResource FormLabel}" />
+                <ItemsControl ItemsSource="{Binding Disciplines}" Focusable="False" AutomationProperties.Name="Disciplinas do cla no banco">
+                    <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding Definition.Name}" IsChecked="{Binding IsSelected}" Margin="0,2,14,2" MinWidth="150" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
                 <TextBlock Text="Outros nomes (separados por virgula)" Style="{StaticResource FormLabel}" />
                 <TextBox Text="{Binding Aliases, UpdateSourceTrigger=PropertyChanged}" MaxLength="500" />
                 <TextBlock Text="Descricao" Style="{StaticResource FormLabel}" />
