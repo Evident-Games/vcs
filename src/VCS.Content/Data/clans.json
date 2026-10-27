@@ -4,9 +4,9 @@
     "name": "Banu Haqim",
     "description": "Juízes, estudiosos e assassinos com forte ligação ao controle de sangue.",
     "disciplines": [
-      "Feitiçaria de Sangue",
-      "Celeridade",
-      "Ofuscação"
+      "discipline-blood-sorcery",
+      "discipline-celerity",
+      "discipline-obfuscate"
     ],
     "aliases": [
       "Assamitas",
@@ -19,9 +19,9 @@
     "name": "Brujah",
     "description": "Filósofos, rebeldes e ativistas apaixonados, espinha dorsal do movimento Anarquista.",
     "disciplines": [
-      "Celeridade",
-      "Potência",
-      "Presença"
+      "discipline-celerity",
+      "discipline-potence",
+      "discipline-presence"
     ],
     "aliases": [],
     "bane": "Sangue Fervoroso — têm temperamento explosivo e podem cair mais facilmente em frenesi de fúria quando provocados ou sob estresse."
@@ -31,9 +31,9 @@
     "name": "Gangrel",
     "description": "Nômades selvagens e predadores que vivem em sintonia com a Besta e a natureza.",
     "disciplines": [
-      "Animalismo",
-      "Fortitude",
-      "Proteanismo"
+      "discipline-animalism",
+      "discipline-fortitude",
+      "discipline-protean"
     ],
     "aliases": [],
     "bane": "Características Bestiais — ao entrar em frenesi, ganham traços animais temporários ou permanentes, como orelhas, pelo, olhos ou garras."
@@ -43,9 +43,9 @@
     "name": "Malkavianos",
     "description": "Videntes e lunáticos marcados pela loucura e por percepções além da realidade.",
     "disciplines": [
-      "Auspícios",
-      "Dominação",
-      "Ofuscação"
+      "discipline-auspex",
+      "discipline-dominate",
+      "discipline-obfuscate"
     ],
     "aliases": [
       "Malkaviano",
@@ -58,9 +58,9 @@
     "name": "O Ministério",
     "description": "Manipuladores de fé, vícios e desejos proibidos.",
     "disciplines": [
-      "Ofuscação",
-      "Presença",
-      "Proteanismo"
+      "discipline-obfuscate",
+      "discipline-presence",
+      "discipline-protean"
     ],
     "aliases": [
       "Ministério",
@@ -74,9 +74,9 @@
     "name": "Nosferatu",
     "description": "Espiões e informantes amaldiçoados com uma aparência monstruosa que os força a viver nas sombras e esgotos.",
     "disciplines": [
-      "Animalismo",
-      "Ofuscação",
-      "Potência"
+      "discipline-animalism",
+      "discipline-obfuscate",
+      "discipline-potence"
     ],
     "aliases": [],
     "bane": "Aparência Repulsiva — o Abraço deforma o corpo e dificulta disfarçar-se ou passar por mortal."
@@ -86,9 +86,9 @@
     "name": "Ravnos",
     "description": "Ilusionistas e andarilhos de espírito livre.",
     "disciplines": [
-      "Animalismo",
-      "Ofuscação",
-      "Presença"
+      "discipline-animalism",
+      "discipline-obfuscate",
+      "discipline-presence"
     ],
     "aliases": [],
     "bane": "Incapacidade de Raiz — não conseguem permanecer muito tempo no mesmo lugar sem atrair azar e perseguição."
@@ -98,9 +98,9 @@
     "name": "Salubri",
     "description": "Curadores e guerreiros raros, historicamente perseguidos, com um terceiro olho místico.",
     "disciplines": [
-      "Auspícios",
-      "Dominação",
-      "Fortitude"
+      "discipline-auspex",
+      "discipline-dominate",
+      "discipline-fortitude"
     ],
     "aliases": [],
     "bane": "Terceiro Olho — carregam um olho vertical na testa que denuncia sua herança e atrai perseguição."
@@ -110,9 +110,9 @@
     "name": "Toreador",
     "description": "Artistas e sedutores obcecados pela beleza, estética e sensações humanas.",
     "disciplines": [
-      "Auspícios",
-      "Celeridade",
-      "Presença"
+      "discipline-auspex",
+      "discipline-celerity",
+      "discipline-presence"
     ],
     "aliases": [],
     "bane": "Fixação / Obsessão Estética — sofrem redutores em paradas de Disciplinas quando estão em ambientes que consideram feios ou monótonos."
@@ -122,9 +122,9 @@
     "name": "Tremere",
     "description": "Feiticeiros do sangue que operam com rituais arcanos e hierarquias rígidas.",
     "disciplines": [
-      "Auspícios",
-      "Dominação",
-      "Feitiçaria de Sangue"
+      "discipline-auspex",
+      "discipline-dominate",
+      "discipline-blood-sorcery"
     ],
     "aliases": [],
     "bane": "Sangue Imperfeito — têm dificuldade para criar laços de sangue e novos carniçais; a história do clã também é marcada por hierarquia e paranoia."
@@ -134,9 +134,9 @@
     "name": "Tzimisce",
     "description": "Moldadores de carne e osso (Vicissitude), historicamente associados ao Sabá e ao conde Drácula.",
     "disciplines": [
-      "Animalismo",
-      "Dominação",
-      "Proteanismo"
+      "discipline-animalism",
+      "discipline-dominate",
+      "discipline-protean"
     ],
     "aliases": [],
     "bane": "Enraizados (Posse) — precisam escolher uma posse, local ou grupo ao qual se ligam e sentem ansiedade ou fraqueza se dormirem longe dela."
@@ -146,9 +146,9 @@
     "name": "Ventrue",
     "description": "Os aristocratas, líderes e \"reis\" do mundo vampírico, focados em controle e poder.",
     "disciplines": [
-      "Dominação",
-      "Fortitude",
-      "Presença"
+      "discipline-dominate",
+      "discipline-fortitude",
+      "discipline-presence"
     ],
     "aliases": [],
     "bane": "Paladar Refinado — só conseguem alimentar-se de um tipo específico de mortal; outro sangue é rejeitado, salvo esforço de Força de Vontade."
@@ -158,9 +158,9 @@
     "name": "Hecata",
     "description": "Famílias de necromantes obcecadas pela morte e pelos espíritos.",
     "disciplines": [
-      "Auspícios",
-      "Fortitude",
-      "Oblívio"
+      "discipline-auspex",
+      "discipline-fortitude",
+      "discipline-oblivion"
     ],
     "aliases": [
       "Giovanni"
@@ -172,9 +172,9 @@
     "name": "Lasombra",
     "description": "Mestres das sombras e da manipulação, fundadores do Sabá que recentemente buscaram espaço na Camarilla.",
     "disciplines": [
-      "Dominação",
-      "Oblívio",
-      "Potência"
+      "discipline-dominate",
+      "discipline-oblivion",
+      "discipline-potence"
     ],
     "aliases": [],
     "bane": "Ausência de Reflexo — não aparecem em espelhos, superfícies polidas, câmeras digitais ou fotografias, dificultando manter a Máscara."
