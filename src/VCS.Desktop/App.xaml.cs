@@ -77,6 +77,7 @@ public partial class App : System.Windows.Application
             builder.Services.AddSingleton<ISkillCatalog>(p => p.GetRequiredService<SqliteSkillCatalog>());
             builder.Services.AddSingleton<IEditableCatalog<SkillDefinition>>(p => p.GetRequiredService<SqliteSkillCatalog>());
             builder.Services.AddSingleton<IEditableCatalog<PowerDefinition>, SqlitePowerCatalog>();
+            builder.Services.AddSingleton<IEditableCatalog<DisciplineDefinition>, SqliteDisciplineCatalog>();
             builder.Services.AddSingleton<IEditableCatalog<ClanDefinition>, SqliteClanCatalog>();
             builder.Services.AddSingleton<DatabaseEditorViewModel>();
             builder.Services.AddSingleton<ICharacterPdfExporter, CharacterPdfExporter>();
@@ -94,6 +95,8 @@ public partial class App : System.Windows.Application
             await _host.StartAsync();
             await _host.Services.GetRequiredService<IDatabaseMaintenance>().InitializeAsync();
             // Clan and power edits from the database editor replace the built-in ones in memory.
+            // Disciplines first: powers and clans show their names.
+            await _host.Services.GetRequiredService<IEditableCatalog<DisciplineDefinition>>().RefreshAsync();
             await _host.Services.GetRequiredService<IEditableCatalog<ClanDefinition>>().RefreshAsync();
             await _host.Services.GetRequiredService<IEditableCatalog<PowerDefinition>>().RefreshAsync();
             var viewModel = _host.Services.GetRequiredService<MainViewModel>();

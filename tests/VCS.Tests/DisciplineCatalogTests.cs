@@ -19,7 +19,7 @@ public sealed class DisciplineCatalogTests
         row.Name = definition.Name.ToUpperInvariant();
         Assert.True(row.IsCatalog);
         Assert.Equal(definition.Id, row.Key);
-        Assert.Equal(definition.RequiredDiscipline, row.Discipline);
+        Assert.Equal(definition.Discipline, row.Discipline);
         Assert.Equal(definition.Cost, row.Cost);
         Assert.True(browser.AllPowers.Single(x => x.Definition.Id == definition.Id).IsKnown);
         var catalogValue = Assert.Single(browser.SelectedValues());
@@ -66,7 +66,7 @@ public sealed class DisciplineCatalogTests
         row.Discipline = "dominacao";
         Assert.NotEmpty(row.NameSuggestions);
         Assert.All(row.NameSuggestions, x => Assert.Contains(_catalog.Powers,
-            p => p.Name == x.Value && p.RequiredDiscipline == "Dominação"));
+            p => p.Name == x.Value && p.Discipline == "Dominação"));
         Assert.Equal(5, browser.AddRow(true).NameSuggestions.Count);
     }
 

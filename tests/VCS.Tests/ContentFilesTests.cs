@@ -15,6 +15,8 @@ public sealed class ContentFilesTests
 
     private static bool IsDiscipline(string name) => DisciplineNames.Any(x => ClanCatalog.SameName(x, name));
 
+    private static bool IsDisciplineId(string id) => DisciplineCatalog.BuiltIn.Any(x => x.Id == id);
+
     [Fact]
     public void Ids_are_unique_and_start_with_their_kind()
     {
@@ -54,12 +56,13 @@ public sealed class ContentFilesTests
     [Fact]
     public void References_point_to_existing_content()
     {
-        Assert.All(ClanCatalog.BuiltIn.SelectMany(x => x.Disciplines), x => Assert.True(IsDiscipline(x), x));
+        Assert.All(ClanCatalog.BuiltIn.SelectMany(x => x.Disciplines), x => Assert.True(IsDisciplineId(x), x));
         Assert.All(DisciplineCatalog.Powers, x =>
         {
-            Assert.True(x.IsRitual || IsDiscipline(x.Discipline), x.Discipline);
-            if (x.AmalgamDiscipline is { } amalgam) Assert.True(IsDiscipline(amalgam), amalgam);
+            Assert.True(IsDisciplineId(x.DisciplineId), x.DisciplineId);
+            if (x.AmalgamDisciplineId is { } amalgam) Assert.True(IsDisciplineId(amalgam), amalgam);
         });
+        Assert.All(DisciplineCatalog.Powers.Where(x => x.IsRitual), x => Assert.Equal(DisciplineCatalog.BloodSorcery, x.DisciplineId));
         Assert.All(PredatorCatalog.All.SelectMany(x => x.Disciplines), x => Assert.True(IsDiscipline(x), x));
         Assert.All(PredatorCatalog.All.SelectMany(x => x.Specializations),
             x => Assert.Contains(SkillCatalog.BuiltIn, skill => ClanCatalog.SameName(skill.Name, x.Skill)));

@@ -262,18 +262,18 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     public string[] KnownClans { get; set; } = ClanCatalog.All.Select(x => x.Name).ToArray();
     public string ClanDescription => ClanCatalog.Find(Clan)?.Description ?? "Cla personalizado ou nao selecionado.";
     public string ClanDisciplines => ClanCatalog.Find(Clan) is { } definition
-        ? $"Disciplinas do cla: {string.Join(", ", definition.Disciplines)}."
+        ? $"Disciplinas do cla: {string.Join(", ", definition.Disciplines.Select(DisciplineCatalog.NameOf))}."
         : "Disciplinas e custos de XP nao definidos para este cla. Nenhum custo sera presumido.";
     public System.ComponentModel.ICollectionView DisciplineItems { get; }
     public PersonalDisciplinesViewModel PersonalDisciplines { get; }
     public string ClanDisciplinesShort => ClanCatalog.Find(Clan) is { } definition
-        ? string.Join(" · ", definition.Disciplines) : "clã sem disciplinas definidas";
+        ? string.Join(" · ", definition.Disciplines.Select(DisciplineCatalog.NameOf)) : "clã sem disciplinas definidas";
     private void RefreshClanDisciplines()
     {
         foreach (var item in Disciplines.Items) item.IsClanDiscipline = DisciplineAdvancement.IsInClan(Clan, item.Name) == true;
     }
     public string ClanHelp => ClanCatalog.Find(Clan) is { } definition
-        ? $"Ganha: {string.Join(", ", definition.Disciplines)}.{Environment.NewLine}Perdição: {definition.Bane}"
+        ? $"Ganha: {string.Join(", ", definition.Disciplines.Select(DisciplineCatalog.NameOf))}.{Environment.NewLine}Perdição: {definition.Bane}"
         : "Selecione um clã do catálogo para consultar suas disciplinas e perdição.";
     public string GenerationGuidance
     {
