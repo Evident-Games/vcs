@@ -1,5 +1,5 @@
-using VCS.Content.Disciplines;
 using VCS.Content.Clans;
+using VCS.Content.Disciplines;
 using VCS.Desktop.Catalogs;
 using VCS.Desktop.Sheet;
 using VCS.Infrastructure.Catalogs;

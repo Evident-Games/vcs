@@ -8,6 +8,9 @@ public sealed record ClanDefinition(
 
 public static class ClanCatalog
 {
+    public const string Tremere = "clan-tremere";
+    public const string Ventrue = "clan-ventrue";
+
     /// <summary>
     /// Clans in use: the built-in ones, with user edits (same id) replacing them and user clans added after.
     /// Set at startup and after each edit from the database editor.
