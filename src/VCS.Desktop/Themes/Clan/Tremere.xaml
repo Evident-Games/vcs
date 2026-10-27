@@ -18,7 +18,7 @@
     <SolidColorBrush x:Key="VcsAppAccentHotbar" Color="#937EA5" />
     <SolidColorBrush x:Key="VcsAppHover" Color="#9E7EA5" />
     <SolidColorBrush x:Key="VcsAppSelection" Color="#3A1642" />
-    <SolidColorBrush x:Key="VcsAppSelectionText" Color="#201D1D" />
+    <SolidColorBrush x:Key="VcsAppSelectionText" Color="#CCB2DC" />
     <SolidColorBrush x:Key="VcsAppScroll" Color="#941414" />
 
     <!-- Ficha: tudo dentro da ficha aberta. Pode vir de outro tema que o da aplicacao. -->
@@ -37,6 +37,6 @@
     <SolidColorBrush x:Key="VcsSheetAccentHotbar" Color="#937EA5" />
     <SolidColorBrush x:Key="VcsSheetHover" Color="#9E7EA5" />
     <SolidColorBrush x:Key="VcsSheetSelection" Color="#3A1642" />
-    <SolidColorBrush x:Key="VcsSheetSelectionText" Color="#201D1D" />
+    <SolidColorBrush x:Key="VcsSheetSelectionText" Color="#CCB2DC" />
     <SolidColorBrush x:Key="VcsSheetScroll" Color="#941414" />
 </ResourceDictionary>
