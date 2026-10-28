@@ -7,7 +7,7 @@ namespace VCS.Infrastructure.Catalogs;
 
 /// <summary>
 /// Power edits live in the database; built-in powers come from the embedded catalog and are overridden by id.
-/// A new discipline is created by adding a power with a new discipline name.
+/// Its discipline is picked from <see cref="DisciplineCatalog"/>; new disciplines are created in their own tab.
 /// </summary>
 public sealed class SqlitePowerCatalog(DatabaseAccess database, ProvidedDisciplineCatalog catalog) : IEditableCatalog<PowerDefinition>
 {
@@ -24,7 +24,10 @@ public sealed class SqlitePowerCatalog(DatabaseAccess database, ProvidedDiscipli
 
     public async Task SaveAsync(PowerDefinition value, string? replacingId = null, CancellationToken cancellationToken = default)
     {
-        CatalogValidation.Text("Disciplina", value.Discipline, 80);
+        if (!DisciplineCatalog.All.Any(x => x.Id == value.DisciplineId))
+            throw new InvalidOperationException("Escolha a disciplina do poder.");
+        if (value.AmalgamDisciplineId is { } amalgam && !DisciplineCatalog.All.Any(x => x.Id == amalgam))
+            throw new InvalidOperationException("Escolha a disciplina do amalgama.");
         CatalogValidation.Text("Nome", value.Name, 80);
         CatalogValidation.Range("Nivel", value.Level, 1, 5);
         CatalogValidation.Text("Custo", value.Cost, 200);
@@ -37,8 +40,9 @@ public sealed class SqlitePowerCatalog(DatabaseAccess database, ProvidedDiscipli
             await using var db = database.CreateContext();
             var record = new PowerCatalogRecord
             {
-                Id = power.Id, Discipline = power.Discipline.Trim(), Name = power.Name.Trim(), Level = power.Level, Cost = power.Cost,
-                DicePool = power.DicePool, Summary = power.Summary, AmalgamDiscipline = power.AmalgamDiscipline, AmalgamLevel = power.AmalgamLevel
+                Id = power.Id, DisciplineId = power.DisciplineId, Name = power.Name.Trim(), Level = power.Level, Cost = power.Cost,
+                DicePool = power.DicePool, Summary = power.Summary, AmalgamDisciplineId = power.AmalgamDisciplineId,
+                AmalgamLevel = power.AmalgamDisciplineId is null ? 0 : power.AmalgamLevel, IsRitual = power.IsRitual
             };
             var existing = await db.PowerCatalog.FindAsync([record.Id], cancellationToken);
             if (existing is null) db.PowerCatalog.Add(record);
@@ -80,8 +84,8 @@ public sealed class SqlitePowerCatalog(DatabaseAccess database, ProvidedDiscipli
         {
             await using var db = database.CreateContext();
             var records = await db.PowerCatalog.AsNoTracking().ToListAsync(cancellationToken);
-            return [.. records.Select(x => new PowerDefinition(x.Id, x.Discipline, x.Name, x.Level, x.Cost, x.DicePool, x.Summary,
-                x.AmalgamDiscipline, x.AmalgamLevel))];
+            return [.. records.Select(x => new PowerDefinition(x.Id, x.DisciplineId, x.Name, x.Level, x.Cost, x.DicePool, x.Summary,
+                x.AmalgamDisciplineId, x.AmalgamLevel, x.IsRitual))];
         }
         finally { database.Gate.Release(); }
     }

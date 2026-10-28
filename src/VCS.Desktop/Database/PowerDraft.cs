@@ -3,21 +3,27 @@ using VCS.Content.Disciplines;
 
 namespace VCS.Desktop.Database;
 
+/// <summary>Power form; the discipline and the amalgam are picked from the disciplines in use.</summary>
 public sealed partial class PowerDraft(PowerDefinition power) : ObservableObject, ICatalogDraft<PowerDefinition>
 {
-    [ObservableProperty] private string discipline = power.Discipline;
+    /// <summary>The disciplines to pick from; the amalgam list starts with "none".</summary>
+    public IReadOnlyList<DisciplineDefinition> Disciplines { get; } = DisciplineCatalog.All;
+    public IReadOnlyList<DisciplineDefinition> AmalgamOptions { get; } = [new("", "(nenhum)"), .. DisciplineCatalog.All];
+
+    [ObservableProperty] private string disciplineId = power.DisciplineId;
+    [ObservableProperty] private bool isRitual = power.IsRitual;
     [ObservableProperty] private string name = power.Name;
     [ObservableProperty] private int level = power.Level;
     [ObservableProperty] private string cost = power.Cost;
     [ObservableProperty] private string dicePool = power.DicePool;
     [ObservableProperty] private string summary = power.Summary;
-    [ObservableProperty] private string amalgamDiscipline = power.AmalgamDiscipline ?? "";
+    [ObservableProperty] private string amalgamDisciplineId = power.AmalgamDisciplineId ?? "";
     [ObservableProperty] private int amalgamLevel = power.AmalgamLevel;
 
     public PowerDefinition ToValue() => power with
     {
-        Discipline = Discipline.Trim(), Name = Name.Trim(), Level = Level, Cost = Cost.Trim(), DicePool = DicePool.Trim(),
-        Summary = Summary.Trim(), AmalgamDiscipline = string.IsNullOrWhiteSpace(AmalgamDiscipline) ? null : AmalgamDiscipline.Trim(),
-        AmalgamLevel = string.IsNullOrWhiteSpace(AmalgamDiscipline) ? 0 : AmalgamLevel
+        DisciplineId = DisciplineId, IsRitual = IsRitual, Name = Name.Trim(), Level = Level, Cost = Cost.Trim(), DicePool = DicePool.Trim(),
+        Summary = Summary.Trim(), AmalgamDisciplineId = AmalgamDisciplineId.Length == 0 ? null : AmalgamDisciplineId,
+        AmalgamLevel = AmalgamDisciplineId.Length == 0 ? 0 : AmalgamLevel
     };
 }

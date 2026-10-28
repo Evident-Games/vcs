@@ -1,0 +1,549 @@
+[
+  {
+    "id": "predator-alleycat",
+    "name": "Vira-lata",
+    "description": "Um caçador agressivo que ataca suas vítimas nas ruas, seja disfarçando a caçada como um assalto ou dominando sua presa pela força.",
+    "benefits": "+1 Celeridade ou Potência; +3 Contatos Criminosos; especialização em Intimidação (Assalto à Mão Armada) ou Briga (Agarramento).",
+    "cost": "Perde 1 ponto de Humanidade.",
+    "disciplines": [
+      "discipline-celerity",
+      "discipline-potence"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-intimidation",
+        "text": "Assalto à Mão Armada"
+      },
+      {
+        "skillId": "skill-brawl",
+        "text": "Agarramento"
+      }
+    ],
+    "fixedGrants": [
+      {
+        "name": "Contatos Criminosos",
+        "category": "advantage"
+      }
+    ],
+    "fixedPoints": [
+      3
+    ],
+    "allocationOptions": [],
+    "flawOptions": [],
+    "humanityDelta": -1
+  },
+  {
+    "id": "predator-extortionist",
+    "name": "Chantagista",
+    "description": "Adquire sangue mediante ameaças e extorsão.",
+    "benefits": "+1 Dominação ou Potência; 3 pontos entre Contatos e Recursos; especialização em Intimidação (Coerção) ou Ladroagem (Segurança).",
+    "cost": "Inimigo 2 (a vítima extorquida ou a polícia).",
+    "disciplines": [
+      "discipline-dominate",
+      "discipline-potence"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-intimidation",
+        "text": "Coerção"
+      },
+      {
+        "skillId": "skill-larceny",
+        "text": "Segurança"
+      }
+    ],
+    "fixedGrants": [
+      {
+        "name": "Inimigo (extorsao)",
+        "category": "flaw"
+      }
+    ],
+    "fixedPoints": [
+      2
+    ],
+    "allocationOptions": [
+      {
+        "name": "Contatos",
+        "category": "advantage",
+        "advantageId": "advantage-contacts"
+      },
+      {
+        "name": "Recursos",
+        "category": "advantage",
+        "advantageId": "advantage-resources"
+      }
+    ],
+    "allocationPoints": 3,
+    "flawOptions": []
+  },
+  {
+    "id": "predator-roadside",
+    "name": "Assassino na Estrada",
+    "description": "Um viajante focado em caçar pessoas em movimento ou distantes da lei, como mochileiros e motoristas solitários.",
+    "benefits": "+1 Fortitude ou Proteanismo; +2 Rebanho Itinerante; especialização em Sobrevivência (Estradas) ou Investigação (Grafite Vampírico).",
+    "cost": "Exclusão de Presas 1 (locais sedentários).",
+    "disciplines": [
+      "discipline-fortitude",
+      "discipline-protean"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-survival",
+        "text": "Estradas"
+      },
+      {
+        "skillId": "skill-investigation",
+        "text": "Grafite Vampírico"
+      }
+    ],
+    "fixedGrants": [
+      {
+        "name": "Rebanho Itinerante",
+        "category": "advantage"
+      },
+      {
+        "name": "Exclusao de Presas (locais sedentarios)",
+        "category": "flaw"
+      }
+    ],
+    "fixedPoints": [
+      2,
+      1
+    ],
+    "allocationOptions": [],
+    "flawOptions": []
+  },
+  {
+    "id": "predator-cleaver",
+    "name": "Trinchador",
+    "description": "Um parasita familiar; esconde a sua natureza bestial de seus amigos e familiares mundanos, enquanto se alimenta secretamente deles no convívio diário.",
+    "benefits": "+1 Dominação ou Animalismo; +2 Rebanho; especialização em Persuasão (Gaslighting) ou Subterfúgio (Encobrimento).",
+    "cost": "Segredo Sombrio 1: Trinchador.",
+    "disciplines": [
+      "discipline-dominate",
+      "discipline-animalism"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-persuasion",
+        "text": "Gaslighting"
+      },
+      {
+        "skillId": "skill-subterfuge",
+        "text": "Encobrimento"
+      }
+    ],
+    "fixedGrants": [
+      {
+        "name": "Rebanho",
+        "category": "advantage",
+        "advantageId": "advantage-herd"
+      },
+      {
+        "name": "Segredo Sombrio (Trinchador)",
+        "category": "flaw"
+      }
+    ],
+    "fixedPoints": [
+      2,
+      1
+    ],
+    "allocationOptions": [],
+    "flawOptions": []
+  },
+  {
+    "id": "predator-consensualist",
+    "name": "Consensualista",
+    "description": "Só se alimenta do sangue de pessoas que aceitam e oferecem livremente; pode dizer a verdade ou se disfarçar de trabalhador de caridade/adepto de cena fetiche vampírica.",
+    "benefits": "+1 Auspícios ou Fortitude; +1 Humanidade; especialização em Medicina (Flebotomia) ou Persuasão (Bolsas).",
+    "cost": "Segredo Sombrio 1: Quebrador da Máscara; Exclusão de Presa 1 (sem consentimento).",
+    "disciplines": [
+      "discipline-auspex",
+      "discipline-fortitude"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-medicine",
+        "text": "Flebotomia"
+      },
+      {
+        "skillId": "skill-persuasion",
+        "text": "Bolsas"
+      }
+    ],
+    "fixedGrants": [
+      {
+        "name": "Segredo Sombrio (Quebrador da Mascara)",
+        "category": "flaw"
+      },
+      {
+        "name": "Exclusao de Presa (sem consentimento)",
+        "category": "flaw"
+      }
+    ],
+    "fixedPoints": [
+      1,
+      1
+    ],
+    "allocationOptions": [],
+    "flawOptions": [],
+    "humanityDelta": 1
+  },
+  {
+    "id": "predator-osiris",
+    "name": "Osíris",
+    "description": "Alguém com poder de multidão (líderes de culto, DJs, celebridades) que bebe o sangue de fãs fanáticos e adoradores em transe.",
+    "benefits": "+1 Feitiçaria de Sangue (só Tremere) ou Presença; 3 pontos em Fama/Rebanho; especialização em Ocultismo (tradição específica) ou Performance (cena específica).",
+    "cost": "2 pontos entre Defeitos Inimigos ou Defeitos Míticos.",
+    "disciplines": [
+      "discipline-blood-sorcery",
+      "discipline-presence"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-occult",
+        "text": "tradição específica",
+        "isFreeText": true
+      },
+      {
+        "skillId": "skill-performance",
+        "text": "cena específica",
+        "isFreeText": true
+      }
+    ],
+    "fixedGrants": [],
+    "fixedPoints": [],
+    "allocationOptions": [
+      {
+        "name": "Fama",
+        "category": "advantage"
+      },
+      {
+        "name": "Rebanho",
+        "category": "advantage",
+        "advantageId": "advantage-herd"
+      }
+    ],
+    "allocationPoints": 3,
+    "flawOptions": [
+      {
+        "name": "Inimigo",
+        "category": "flaw",
+        "advantageId": "flaw-enemy"
+      },
+      {
+        "name": "Perdicao Folclorica",
+        "category": "flaw",
+        "advantageId": "flaw-folkloric-bane"
+      },
+      {
+        "name": "Tabu Folclorico",
+        "category": "flaw",
+        "advantageId": "flaw-folkloric-block"
+      },
+      {
+        "name": "Estigma",
+        "category": "flaw",
+        "advantageId": "flaw-stigmata"
+      },
+      {
+        "name": "Isca de Estaca",
+        "category": "flaw",
+        "advantageId": "flaw-stake-bait"
+      }
+    ],
+    "flawPoints": 2,
+    "splitFlaws": true
+  },
+  {
+    "id": "predator-scene-queen",
+    "name": "Scene Queen",
+    "description": "Um socialite que usa seu prestígio dentro de uma subcultura específica para encantar as vítimas como um colega influente da mesma cena.",
+    "benefits": "+1 Dominação ou Potência; +1 Contatos; +1 Fama; especialização em Etiqueta, Liderança ou Manha (Cena Específica).",
+    "cost": "Rejeitado 1 OU Exclusão de Presa 1 (Subcultura diferente).",
+    "disciplines": [
+      "discipline-dominate",
+      "discipline-potence"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-etiquette",
+        "text": "Cena Específica",
+        "isFreeText": true
+      },
+      {
+        "skillId": "skill-leadership",
+        "text": "Cena Específica",
+        "isFreeText": true
+      },
+      {
+        "skillId": "skill-streetwise",
+        "text": "Cena Específica",
+        "isFreeText": true
+      }
+    ],
+    "fixedGrants": [
+      {
+        "name": "Contatos",
+        "category": "advantage",
+        "advantageId": "advantage-contacts"
+      },
+      {
+        "name": "Fama",
+        "category": "advantage"
+      }
+    ],
+    "fixedPoints": [
+      1,
+      1
+    ],
+    "allocationOptions": [],
+    "flawOptions": [
+      {
+        "name": "Rejeitado",
+        "category": "flaw"
+      },
+      {
+        "name": "Exclusao de Presa (Subcultura diferente)",
+        "category": "flaw"
+      }
+    ],
+    "flawPoints": 1
+  },
+  {
+    "id": "predator-siren",
+    "name": "Sereia",
+    "description": "O predador focado em luxúria que caça pessoas fingindo desejo sexual, alimentando-se enquanto a vítima está seduzida.",
+    "benefits": "+1 Fortitude ou Presença; Visual Belo 2; especialização em Persuasão (Sedução) ou Subterfúgio (Sedução).",
+    "cost": "Inimigo 1 (ex-amante abandonado ou parceiro ciumento).",
+    "disciplines": [
+      "discipline-fortitude",
+      "discipline-presence"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-persuasion",
+        "text": "Sedução"
+      },
+      {
+        "skillId": "skill-subterfuge",
+        "text": "Sedução"
+      }
+    ],
+    "fixedGrants": [
+      {
+        "name": "Visual Belo",
+        "category": "advantage",
+        "advantageId": "advantage-looks-beautiful"
+      },
+      {
+        "name": "Inimigo (ex-amante ou parceiro ciumento)",
+        "category": "flaw"
+      }
+    ],
+    "fixedPoints": [
+      2,
+      1
+    ],
+    "allocationOptions": [],
+    "flawOptions": []
+  },
+  {
+    "id": "predator-sandman",
+    "name": "Sandman",
+    "description": "Extrema furtividade e discrição noturna; esgueira-se pelas casas e suga sangue de pessoas profundamente adormecidas sem deixar rastro.",
+    "benefits": "+1 Auspícios ou Ofuscação; +1 Recursos; especialização em Medicina (Anestésicos) ou Furtividade (Invasão).",
+    "cost": "Não há custo negativo.",
+    "disciplines": [
+      "discipline-auspex",
+      "discipline-obfuscate"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-medicine",
+        "text": "Anestésicos"
+      },
+      {
+        "skillId": "skill-stealth",
+        "text": "Invasão"
+      }
+    ],
+    "fixedGrants": [
+      {
+        "name": "Recursos",
+        "category": "advantage",
+        "advantageId": "advantage-resources"
+      }
+    ],
+    "fixedPoints": [
+      1
+    ],
+    "allocationOptions": [],
+    "flawOptions": []
+  },
+  {
+    "id": "predator-graverobber",
+    "name": "Ladrão de Sepultura",
+    "description": "Restringe-se a caçar presas nos cemitérios.",
+    "benefits": "+1 Fortitude ou Oblívio; Esôfago de Ferro 3; Refúgio 1; especialização em Ocultismo (Rituais Tumulares) ou Medicina (texto livre).",
+    "cost": "Predador Manifesto 2.",
+    "disciplines": [
+      "discipline-fortitude",
+      "discipline-oblivion"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-occult",
+        "text": "Rituais Tumulares"
+      },
+      {
+        "skillId": "skill-medicine",
+        "text": "especialização a informar",
+        "isFreeText": true
+      }
+    ],
+    "fixedGrants": [
+      {
+        "name": "Esofago de Ferro",
+        "category": "advantage",
+        "advantageId": "advantage-iron-gullet"
+      },
+      {
+        "name": "Refugio",
+        "category": "advantage",
+        "advantageId": "advantage-haven"
+      },
+      {
+        "name": "Predador Manifesto",
+        "category": "flaw",
+        "advantageId": "flaw-obvious-predator"
+      }
+    ],
+    "fixedPoints": [
+      3,
+      1,
+      2
+    ],
+    "allocationOptions": [],
+    "flawOptions": []
+  },
+  {
+    "id": "predator-bagger",
+    "name": "Sacoleiro",
+    "description": "Evita violência de caça real, adquirindo sangue empacotado em hospitais ou contrabandeando do mercado negro. Ventrue não pode escolher.",
+    "benefits": "+1 Ofuscação, Oblívio ou Feitiçaria de Sangue (só Tremere); Esôfago de Ferro 3; especialização em Ladroagem (Abrir Fechaduras) ou Manha (Mercado Negro).",
+    "cost": "Inimigo 2 (cobrando dívidas ou banindo-o das ruas).",
+    "disciplines": [
+      "discipline-obfuscate",
+      "discipline-oblivion",
+      "discipline-blood-sorcery"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-larceny",
+        "text": "Abrir Fechaduras"
+      },
+      {
+        "skillId": "skill-streetwise",
+        "text": "Mercado Negro"
+      }
+    ],
+    "fixedGrants": [
+      {
+        "name": "Esofago de Ferro",
+        "category": "advantage",
+        "advantageId": "advantage-iron-gullet"
+      },
+      {
+        "name": "Inimigo (dividas ou banimento)",
+        "category": "flaw"
+      }
+    ],
+    "fixedPoints": [
+      3,
+      2
+    ],
+    "allocationOptions": [],
+    "flawOptions": []
+  },
+  {
+    "id": "predator-blood-leech",
+    "name": "Sanguessuga",
+    "description": "Um canibal de Membros e Diablerista ocasional; detesta se alimentar de humanos e busca sangue de outros vampiros.",
+    "benefits": "+1 Celeridade ou Proteanismo; +1 Potência de Sangue; especialização em Briga (Membros) ou Furtividade (Contra Membros).",
+    "cost": "-1 Humanidade; Segredo Sombrio 2 (Diablerista) OU Segregado 2; Exclusão de Presa 2 (Mortais).",
+    "disciplines": [
+      "discipline-celerity",
+      "discipline-protean"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-brawl",
+        "text": "Membros"
+      },
+      {
+        "skillId": "skill-stealth",
+        "text": "Contra Membros"
+      }
+    ],
+    "fixedGrants": [
+      {
+        "name": "Exclusao de Presa (Mortais)",
+        "category": "flaw"
+      }
+    ],
+    "fixedPoints": [
+      2
+    ],
+    "allocationOptions": [],
+    "flawOptions": [
+      {
+        "name": "Segredo Sombrio (Diablerista)",
+        "category": "flaw"
+      },
+      {
+        "name": "Segregado",
+        "category": "flaw",
+        "advantageId": "flaw-shunned"
+      }
+    ],
+    "flawPoints": 2,
+    "humanityDelta": -1,
+    "bloodDelta": 1
+  },
+  {
+    "id": "predator-farmer",
+    "name": "Fazendeiro",
+    "description": "Não ataca seres humanos e foca sua alimentação em animais. Ventrue e Membros com Potência de Sangue 3+ não podem escolher.",
+    "benefits": "+1 Animalismo ou Proteanismo; +1 Humanidade; especialização em Empatia com Animais (escolha um) ou Sobrevivência (Caça).",
+    "cost": "Defeito de Alimentação 2: Fazendeiro.",
+    "disciplines": [
+      "discipline-animalism",
+      "discipline-protean"
+    ],
+    "specializations": [
+      {
+        "skillId": "skill-animal-ken",
+        "text": "animal a informar",
+        "isFreeText": true
+      },
+      {
+        "skillId": "skill-survival",
+        "text": "Caça"
+      }
+    ],
+    "fixedGrants": [
+      {
+        "name": "Fazendeiro",
+        "category": "flaw",
+        "advantageId": "flaw-farmer"
+      }
+    ],
+    "fixedPoints": [
+      2
+    ],
+    "allocationOptions": [],
+    "flawOptions": [],
+    "humanityDelta": 1
+  }
+]

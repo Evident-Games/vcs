@@ -19,7 +19,7 @@ public sealed class DisciplineCatalogTests
         row.Name = definition.Name.ToUpperInvariant();
         Assert.True(row.IsCatalog);
         Assert.Equal(definition.Id, row.Key);
-        Assert.Equal(definition.RequiredDiscipline, row.Discipline);
+        Assert.Equal(definition.Discipline, row.Discipline);
         Assert.Equal(definition.Cost, row.Cost);
         Assert.True(browser.AllPowers.Single(x => x.Definition.Id == definition.Id).IsKnown);
         var catalogValue = Assert.Single(browser.SelectedValues());
@@ -66,7 +66,7 @@ public sealed class DisciplineCatalogTests
         row.Discipline = "dominacao";
         Assert.NotEmpty(row.NameSuggestions);
         Assert.All(row.NameSuggestions, x => Assert.Contains(_catalog.Powers,
-            p => p.Name == x.Value && p.RequiredDiscipline == "Dominação"));
+            p => p.Name == x.Value && p.Discipline == "Dominação"));
         Assert.Equal(5, browser.AddRow(true).NameSuggestions.Count);
     }
 
@@ -95,31 +95,6 @@ public sealed class DisciplineCatalogTests
         });
         Assert.Equal(new[] { 1, 2, 3, 4, 5 },
             _catalog.Powers.Where(x => x.IsRitual).Select(x => x.Level).Order());
-    }
-
-    [Fact]
-    public void Parser_preserves_supplied_text_and_rejects_missing_fields_and_duplicates()
-    {
-        const string text = """
-            Id: power-test
-            Disciplina: Disciplina pessoal
-            Nome da habilidade: Teste pessoal (Nível 2)
-            Custo: Custo escolhido
-            Parada de dados: Dados escolhidos
-            Resumo: Texto do usuario, sem alteracoes.
-            """;
-        var power = Assert.Single(ProvidedDisciplineCatalog.Parse(text));
-        Assert.Equal("power-test", power.Id);
-        Assert.Equal("Teste pessoal", power.Name);
-        Assert.Equal(2, power.Level);
-        Assert.Equal("Custo escolhido", power.Cost);
-        Assert.Equal("Dados escolhidos", power.DicePool);
-        Assert.Equal("Texto do usuario, sem alteracoes.", power.Summary);
-        Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text.Replace("Custo:", "Ausente:")));
-        Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text + "\n" + text));
-        Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text.Replace("Nível 2", "Nível 6")));
-        Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text.Replace("Id: power-test", "")));
-        Assert.Throws<InvalidDataException>(() => ProvidedDisciplineCatalog.Parse(text.Replace("power-test", "ritual-test")));
     }
 
     [Fact]

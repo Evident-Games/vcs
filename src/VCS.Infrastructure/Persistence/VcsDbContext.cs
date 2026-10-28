@@ -2,7 +2,6 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using VCS.Content.Advantages;
 using VCS.Content.Skills;
-using VCS.Infrastructure.Catalogs.Seed;
 using VCS.Sheet;
 
 namespace VCS.Infrastructure.Persistence;
@@ -12,32 +11,29 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
     public DbSet<Character> Characters => Set<Character>();
     public DbSet<AdvantageDefinition> AdvantageCatalog => Set<AdvantageDefinition>();
     public DbSet<SkillDefinition> SkillCatalog => Set<SkillDefinition>();
-    public DbSet<PredatorCatalogRecord> PredatorCatalog => Set<PredatorCatalogRecord>();
     public DbSet<ClanCatalogRecord> ClanCatalog => Set<ClanCatalogRecord>();
     public DbSet<PowerCatalogRecord> PowerCatalog => Set<PowerCatalogRecord>();
+    public DbSet<DisciplineCatalogRecord> DisciplineCatalog => Set<DisciplineCatalogRecord>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var predators = modelBuilder.Entity<PredatorCatalogRecord>();
-        predators.ToTable("PredatorCatalog");
-        predators.HasKey(x => x.Id);
-        predators.Property(x => x.Name).HasMaxLength(80).IsRequired();
-        predators.Property(x => x.Definition).IsRequired();
-        predators.HasData(VCS.Content.Predators.PredatorCatalog.All.Select(x => new PredatorCatalogRecord
-        {
-            Id = x.Id, Name = x.Name, Definition = JsonSerializer.Serialize(x)
-        }));
         var clans = modelBuilder.Entity<ClanCatalogRecord>();
         clans.ToTable("ClanCatalog");
         clans.HasKey(x => x.Id);
         clans.Property(x => x.Id).HasMaxLength(80);
         clans.Property(x => x.Name).HasMaxLength(80).IsRequired();
         clans.HasIndex(x => x.Name).IsUnique();
+        var disciplines = modelBuilder.Entity<DisciplineCatalogRecord>();
+        disciplines.ToTable("DisciplineCatalog");
+        disciplines.HasKey(x => x.Id);
+        disciplines.Property(x => x.Id).HasMaxLength(80);
+        disciplines.Property(x => x.Name).HasMaxLength(80).IsRequired();
+        disciplines.HasIndex(x => x.Name).IsUnique();
         var powers = modelBuilder.Entity<PowerCatalogRecord>();
         powers.ToTable("PowerCatalog");
         powers.HasKey(x => x.Id);
         powers.Property(x => x.Id).HasMaxLength(120);
-        powers.Property(x => x.Discipline).HasMaxLength(80).IsRequired();
+        powers.Property(x => x.DisciplineId).HasMaxLength(80).IsRequired();
         powers.Property(x => x.Name).HasMaxLength(80).IsRequired();
         var skills = modelBuilder.Entity<SkillDefinition>();
         skills.ToTable("SkillCatalog");
@@ -45,7 +41,6 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         skills.Property(x => x.Name).HasMaxLength(80).IsRequired();
         skills.Property(x => x.Group).HasMaxLength(80).IsRequired();
         skills.Property(x => x.Description).IsRequired();
-        skills.HasData(ProvidedSkills.All);
         var catalog = modelBuilder.Entity<AdvantageDefinition>();
         catalog.ToTable("AdvantageCatalog", table => table.HasCheckConstraint("CK_AdvantageCatalog_Points",
             "\"Minimum\" >= 1 AND \"Maximum\" >= \"Minimum\" AND \"Maximum\" <= 5"));
@@ -56,8 +51,6 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         catalog.Property(x => x.Description).IsRequired();
         catalog.Property(x => x.LoresheetCollection).HasMaxLength(80).IsRequired();
         catalog.Property(x => x.PointsLabel).IsRequired();
-        catalog.HasData(ProvidedAdvantages.All);
-        catalog.HasData(ProvidedLoresheets.All);
         var character = modelBuilder.Entity<Character>();
         character.ToTable("Characters");
         character.HasKey(x => x.Id);
