@@ -5,11 +5,12 @@ using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
 using VCS.Application.Characters;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Blood;
-using VCS.Domain.Characters;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.V5.Blood;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 
@@ -323,7 +324,7 @@ public sealed class NpcAndPdfTests : IAsyncLifetime
     [InlineData(5, 5, 1)]
     public void Invalid_npc_capacities_and_non_cross_willpower_are_rejected(int health, int willpower, int superficial)
     {
-        Assert.Throws<CharacterValidationException>(() => Character.Create(new()
+        Assert.Throws<CharacterValidationException>(() => CharacterRules.Create(new()
         {
             IsNpc = true, NpcHealthCapacity = health, NpcWillpowerCapacity = willpower, WillpowerSuperficial = superficial
         }));
@@ -417,7 +418,7 @@ public sealed class NpcAndPdfTests : IAsyncLifetime
     public void Npc_attacks_are_limited(int count, int nameLength, int notesLength)
     {
         var attacks = Enumerable.Range(0, count).Select(_ => new NpcAttack(new string('a', nameLength), Notes: new string('n', notesLength))).ToArray();
-        Assert.Throws<CharacterValidationException>(() => Character.Create(new() { IsNpc = true, NpcAttacks = attacks }));
+        Assert.Throws<CharacterValidationException>(() => CharacterRules.Create(new() { IsNpc = true, NpcAttacks = attacks }));
     }
 
     [Theory]

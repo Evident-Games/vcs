@@ -1,5 +1,5 @@
 using System.Collections.ObjectModel;
-using VCS.Domain.Characters;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
 
@@ -20,14 +20,14 @@ public sealed class PersonalDisciplinesViewModel : IPersonalTraitOwner
 
     public ObservableCollection<PersonalTraitLineViewModel> Lines { get; } = [];
 
-    /// <summary>Catalog disciplines use "disc-" keys and predator ones "pred-disc-"; anything else was written by the player.</summary>
+    /// <summary>Lines the player wrote; catalog and predator disciplines have other keys.</summary>
     public static bool IsPersonal(TraitItemViewModel item) =>
-        !item.Key.StartsWith("disc-", StringComparison.Ordinal) && !item.Key.StartsWith("pred-disc-", StringComparison.Ordinal);
+        item.Key.StartsWith("discipline-personal-", StringComparison.Ordinal);
 
     public void Materialize(PersonalTraitLineViewModel draft)
     {
         if (draft.Trait is not null || string.IsNullOrWhiteSpace(draft.Name)) return;
-        _disciplines.AddEntry(new(TraitCategory.Discipline, Guid.NewGuid().ToString("N"), draft.Name.Trim(), draft.Rating));
+        _disciplines.AddEntry(new(TraitCategory.Discipline, TraitKeys.Personal(TraitCategory.Discipline), draft.Name.Trim(), draft.Rating));
         draft.Attach(_disciplines.Items.Last());
         Lines.Add(new(this));
     }

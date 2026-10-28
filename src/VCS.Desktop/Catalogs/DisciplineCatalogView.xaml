@@ -313,15 +313,15 @@
             </StackPanel>
         </Border>
 
-        <ItemsControl ItemsSource="{Binding DisciplineItems}" ItemTemplate="{StaticResource DisciplineCell}"
-                      Style="{StaticResource PcOnly}" AutomationProperties.Name="Disciplinas da ficha">
+        <!-- Catalog disciplines and personal lines share one grid, so a new personal line fills the next free cell.
+             Typing a name in the last (empty) line adds the discipline and a new empty line; clearing a name removes it.
+             ItemsSource is a CompositeCollection set in code-behind. -->
+        <ItemsControl x:Name="DisciplineGrid" Style="{StaticResource PcOnly}" AutomationProperties.Name="Disciplinas da ficha">
             <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="3" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
-        </ItemsControl>
-        <!-- Personal disciplines: write a name to add one; a new empty line appears below. Clear the name to remove it. -->
-        <ItemsControl ItemsSource="{Binding PersonalDisciplines.Lines}" Style="{StaticResource PcOnly}"
-                      AutomationProperties.Name="Disciplinas pessoais">
-            <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="3" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
+            <ItemsControl.Resources>
+                <DataTemplate DataType="{x:Type sheet:TraitItemViewModel}">
+                    <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource DisciplineCell}" />
+                </DataTemplate>
                 <DataTemplate DataType="{x:Type sheet:PersonalTraitLineViewModel}">
                     <DockPanel Margin="10,0,10,8">
                         <controls:DotTrack DockPanel.Dock="Right" Value="{Binding Rating, Mode=TwoWay}" Maximum="5"
@@ -331,7 +331,7 @@
                                  AutomationProperties.Name="Nome da disciplina pessoal" />
                     </DockPanel>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
+            </ItemsControl.Resources>
         </ItemsControl>
         <StackPanel Visibility="{Binding IsNpc, Converter={StaticResource BoolVisibility}}">
             <ItemsControl ItemsSource="{Binding NpcDisciplines}" ItemTemplate="{StaticResource NpcDisciplineSlot}"

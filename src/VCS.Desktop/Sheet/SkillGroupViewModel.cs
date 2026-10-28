@@ -1,5 +1,5 @@
 using System.Collections.ObjectModel;
-using VCS.Domain.Characters;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
 
@@ -28,7 +28,7 @@ public sealed partial class SkillGroupViewModel : IPersonalTraitOwner
     {
         if (draft.Trait is not null ||
             string.IsNullOrWhiteSpace(draft.Name) && string.IsNullOrWhiteSpace(draft.Specialization)) return;
-        _skills.AddEntry(new(TraitCategory.Skill, Guid.NewGuid().ToString("N"), draft.Name.Trim(),
+        _skills.AddEntry(new(TraitCategory.Skill, TraitKeys.Personal(TraitCategory.Skill), draft.Name.Trim(),
             draft.Rating, draft.Specialization, Skill: new(Name)));
         draft.Attach(_skills.Items.Last());
         PersonalItems.Add(new(this));
