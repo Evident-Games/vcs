@@ -2,10 +2,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Catalogs;
+using VCS.Content;
+using VCS.Content.Advantages;
 using VCS.Desktop.Sheet;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Catalogs;
 
@@ -42,9 +42,9 @@ public partial class MeritFamilyViewModel : ObservableObject
         var id = Options.FirstOrDefault(x => AdvantageCatalogViewModel.Matches(x.Definition, item))?.Definition.Id;
         return Name switch
         {
-            "Beleza" => "beleza",
-            "Recursos" when id is "catalog-recursos" or "catalog-destituido" => "recursos",
-            "Membros" when id is "catalog-status" or "catalog-suspeito" or "catalog-segregado" => "status",
+            "Beleza" => "looks",
+            "Recursos" when id is "advantage-resources" or "flaw-destitute" => "resources",
+            "Membros" when id is "advantage-status" or "flaw-suspect" or "flaw-shunned" => "status",
             _ => null
         };
     }
@@ -76,7 +76,7 @@ public partial class MeritFamilyViewModel : ObservableObject
     [RelayCommand] private void AddFlaw() => AddPersonal(TraitCategory.Flaw);
     private void AddPersonal(TraitCategory category)
     {
-        _sheet.Traits(category).AddEntry(new(category, Guid.NewGuid().ToString("N"),
+        _sheet.Traits(category).AddEntry(new(category, TraitKeys.Personal(category),
             category == TraitCategory.Flaw ? "Novo defeito" : "Nova vantagem", 0, Merit: new(Name, "")));
     }
     [RelayCommand]

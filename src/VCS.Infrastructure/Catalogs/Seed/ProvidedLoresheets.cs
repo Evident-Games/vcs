@@ -1,5 +1,6 @@
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
+
+using VCS.Content.Advantages;
+using VCS.Sheet;
 
 namespace VCS.Infrastructure.Catalogs.Seed;
 
@@ -27,15 +28,15 @@ public static class ProvidedLoresheets
             "Transforma Theo Bell em um Mawla de 5 pontos, trazendo conselhos valiosos, mas também complicações e perigos devido à associação com ele."),
         Benefit("theo-bell", "Theo Bell", 5, "Neutralidade de Seita",
             "Concede seguidores Brujah leais e cinco pontos para distribuir livremente entre Contatos, Refúgio, Mawla e Lacaios até que eles decidam se rebelar."),
-        Benefit("heresia-cainita", "Heresia Cainita", 1, "Que Ele tenha Compreensão",
+        Benefit("cainite-heresy", "Heresia Cainita", 1, "Que Ele tenha Compreensão",
             "Uma vez por história, o Narrador é obrigado a fornecer uma pista grátis para detectar ou entender os planos da Heresia."),
-        Benefit("heresia-cainita", "Heresia Cainita", 2, "Mão da Heresia",
+        Benefit("cainite-heresy", "Heresia Cainita", 2, "Mão da Heresia",
             "Garante três pontos para distribuir entre Aliados, Rebanho, Mawla ou Lacaios no culto, mas aplica o defeito Segredo Sombrio (Heresia)."),
-        Benefit("heresia-cainita", "Heresia Cainita", 3, "Contra-Inquisição",
+        Benefit("cainite-heresy", "Heresia Cainita", 3, "Contra-Inquisição",
             "Permite usar Determinação + Heresia Cainita para detectar passivamente a Fé Verdadeira em mortais ou saber em quem confiar."),
-        Benefit("heresia-cainita", "Heresia Cainita", 4, "Celebrante Vermelho",
+        Benefit("cainite-heresy", "Heresia Cainita", 4, "Celebrante Vermelho",
             "Uma vez por história, induz humanos a um frenesi extático (Pentecostes Vermelho) com ervas, custando uma Checagem de Sangue e podendo causar frenesi em Membros."),
-        Benefit("heresia-cainita", "Heresia Cainita", 5, "Nomeado na Profecia",
+        Benefit("cainite-heresy", "Heresia Cainita", 5, "Nomeado na Profecia",
             "Uma vez por história, devido à sua importância nas profecias, você pode ditar o vencedor de um conflito Social fornecendo uma desculpa plausível."),
         Benefit("carna", "Carna", 1, "Abraçar a Visão",
             "O conforto entre colegas de subfacção lhe garante um dado adicional em todos os testes de Força de Vontade perto deles."),
@@ -52,7 +53,7 @@ public static class ProvidedLoresheets
     private static AdvantageDefinition Benefit(string key, string collection, int points, string name, string description) =>
         new()
         {
-            Id = $"lore-{key}-{points}", Group = "Ficha de Conhecimento", LoresheetCollection = collection,
+            Id = $"loresheet-{key}-{points}", Group = "Ficha de Conhecimento", LoresheetCollection = collection,
             Name = name, Description = description, Category = TraitCategory.Loresheet,
             Minimum = points, Maximum = points, PointsLabel = points.ToString(System.Globalization.CultureInfo.InvariantCulture)
         };

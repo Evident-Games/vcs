@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
+using VCS.Content.Advantages;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Database;
 

@@ -1,8 +1,9 @@
 using VCS.Application.Catalogs;
-using VCS.Domain.Advantages;
-using VCS.Domain.Characters;
-using VCS.Domain.Clans;
-using VCS.Domain.Skills;
+using VCS.Content.Advantages;
+using VCS.Content.Clans;
+using VCS.Content.Disciplines;
+using VCS.Content.Skills;
+using VCS.Sheet;
 
 namespace VCS.Desktop.Database;
 
@@ -21,7 +22,7 @@ public sealed class DatabaseEditorViewModel(
         new CatalogTab<PowerDefinition, PowerDraft>("Disciplinas e poderes", powers, x => (x.Name, $"{x.Discipline} · nivel {x.Level}"),
             x => new(x?.Value ?? new("", "", "", 1, "", "", ""))),
         new CatalogTab<ClanDefinition, ClanDraft>("Clas", clans, x => (x.Name, string.Join(" · ", x.Disciplines)),
-            x => new(x?.Value ?? new("", "", [], []), x?.IsBuiltIn == true))
+            x => new(x?.Value ?? new("", "", "", [], []), x?.IsBuiltIn == true))
     ];
 
     public async Task LoadAsync()

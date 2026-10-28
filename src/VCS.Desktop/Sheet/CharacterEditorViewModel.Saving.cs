@@ -1,7 +1,8 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using VCS.Application.Characters;
-using VCS.Domain.Characters;
+using VCS.Content.Clans;
+using VCS.Rules.V5.Validation;
 
 namespace VCS.Desktop.Sheet;
 
@@ -28,7 +29,7 @@ public partial class CharacterEditorViewModel
             PredatorSelection = _predatorSelection, Stains = Stains,
             IsNpc = IsNpc, NpcPhysical = NpcPhysical, NpcSocial = NpcSocial, NpcMental = NpcMental,
             NpcHealthCapacity = NpcHealthCapacity, NpcWillpowerCapacity = NpcWillpowerCapacity,
-            Name = Name, MortalName = MortalName, Clan = Clan, Generation = Generation,
+            Name = Name, MortalName = MortalName, Clan = Clan, ClanKey = ClanCatalog.Find(Clan)?.Id ?? "", Generation = Generation,
             Sire = Sire, Predator = Predator, Concept = Concept, Chronicle = Chronicle,
             Description = Description, Notes = Notes, Hunger = Hunger, Humanity = Humanity,
             BloodPotency = BloodPotency, HealthSuperficial = HealthSuperficial, HealthAggravated = HealthAggravated,

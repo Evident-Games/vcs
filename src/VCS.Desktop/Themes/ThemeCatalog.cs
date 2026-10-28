@@ -13,11 +13,11 @@ public static class ThemeCatalog
     public const string DefaultId = "white-red";
     public static IReadOnlyList<ThemeDefinition> All { get; } = Array.AsReadOnly(new[]
     {
-        new ThemeDefinition("black-white", "Preto e branco", ThemeGroup.Default, "BlackWhite"),
+        new ThemeDefinition("yellow-red", "Amarelo e vermelho", ThemeGroup.Default, "YellowRed"),
         new ThemeDefinition("white-black", "Branco e preto", ThemeGroup.Default, "WhiteBlack"),
         new ThemeDefinition(DefaultId, "Branco e vermelho", ThemeGroup.Default, "Light"),
+        new ThemeDefinition("black-white", "Preto e branco", ThemeGroup.Default, "BlackWhite"),
         new ThemeDefinition("black-red", "Preto e vermelho", ThemeGroup.Default, "Dark"),
-        new ThemeDefinition("yellow-red", "Amarelo e vermelho", ThemeGroup.Default, "YellowRed"),
         new ThemeDefinition("banu-haqim", "Banu Haqim", ThemeGroup.Clan, "BanuHaqim"),
         new ThemeDefinition("brujah", "Brujah", ThemeGroup.Clan, "Brujah"),
         new ThemeDefinition("caitiff", "Caitiff", ThemeGroup.Clan, "Caitiff"),
@@ -35,7 +35,6 @@ public static class ThemeCatalog
         new ThemeDefinition("tzimisce", "Tzimisce", ThemeGroup.Clan, "Tzimisce"),
         new ThemeDefinition("ventrue", "Ventrue", ThemeGroup.Clan, "Ventrue"),
         new ThemeDefinition("coterie", "O Sínido de Alabastro", ThemeGroup.Special, "Coterie"),
-
     });
 
     public static ThemeDefinition Get(string id) => All.FirstOrDefault(x => x.Id == id)

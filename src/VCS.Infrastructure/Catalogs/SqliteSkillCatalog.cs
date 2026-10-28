@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VCS.Application.Catalogs;
-using VCS.Domain.Skills;
+using VCS.Content.Skills;
 using VCS.Infrastructure.Catalogs.Seed;
 using VCS.Infrastructure.Persistence;
 

@@ -1,5 +1,7 @@
-using VCS.Domain.Advancement;
-using VCS.Domain.Characters;
+
+using VCS.Rules.V5.Advancement;
+using VCS.Rules.V5.Validation;
+using VCS.Sheet;
 
 namespace VCS.Tests;
 
@@ -75,7 +77,7 @@ public sealed class AutomaticExperienceTests
     {
         var details = Details with
         {
-            PredatorSelection = new("alleycat", "potence", "Potência", "brawl", "Briga", "Agarramento", true, [], -1, 0),
+            PredatorSelection = new("predator-alleycat", "potence", "Potência", "brawl", "Briga", "Agarramento", true, [], -1, 0),
             Advancement = Details.Advancement! with { DisciplineBase = [new("potence", 2), new("celerity", 1)] }
         };
         var initial = AutomaticExperience.Calculate(details,
@@ -99,7 +101,7 @@ public sealed class AutomaticExperienceTests
         var details = Details with
         {
             Clan = "Gangrel",
-            PredatorSelection = new("alleycat", "fortitude", "Fortitude", "brawl", "Briga", "Agarramento", true, [], -1, 0)
+            PredatorSelection = new("predator-alleycat", "fortitude", "Fortitude", "brawl", "Briga", "Agarramento", true, [], -1, 0)
         };
         TraitValue[] chargenPicks = [new(TraitCategory.Discipline, "animalism", "Animalismo", 2),
             new(TraitCategory.Discipline, "protean", "Proteanismo", 1)];

@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Domain.Clans;
+using VCS.Content.Clans;
 
 namespace VCS.Desktop.Database;
 
@@ -13,7 +13,7 @@ public sealed partial class ClanDraft(ClanDefinition clan, bool isBuiltIn) : Obs
     [ObservableProperty] private string aliases = string.Join(", ", clan.Aliases);
     [ObservableProperty] private string bane = clan.Bane;
 
-    public ClanDefinition ToValue() => new(Name.Trim(), Description.Trim(), Split(Disciplines), Split(Aliases), Bane.Trim());
+    public ClanDefinition ToValue() => new(clan.Id, Name.Trim(), Description.Trim(), Split(Disciplines), Split(Aliases), Bane.Trim());
 
     private static string[] Split(string text) =>
         text.Split([',', ';', '\n'], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
