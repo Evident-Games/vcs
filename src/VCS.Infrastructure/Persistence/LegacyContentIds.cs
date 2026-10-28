@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using VCS.Content.Clans;
+using VCS.Content.Disciplines;
 using VCS.Infrastructure.Catalogs;
 using VCS.Sheet;
 
@@ -310,6 +311,38 @@ internal sealed partial class LegacyContentIds
                     cancellationToken);
         }
         await transaction.CommitAsync(cancellationToken);
+    }
+
+    /// <summary>Migration after which user powers and clans still name their disciplines instead of pointing to them.</summary>
+    internal const string DisciplineReferencesMigration = "20261027003333_DisciplineCatalog";
+
+    /// <summary>
+    /// Turns the discipline names in user powers and clans into ids. A name the catalog does not have becomes a user
+    /// discipline whose id is <see cref="DisciplineCatalog.CustomKey"/>, the key sheets already use for it.
+    /// The old "Rituais" pseudo-discipline becomes Blood Sorcery rituals. Ids already converted are kept.
+    /// </summary>
+    public static async Task UpgradeDisciplineReferencesAsync(VcsDbContext db, CancellationToken cancellationToken)
+    {
+        var known = DisciplineCatalog.Merge(await db.DisciplineCatalog.AsNoTracking()
+            .Select(x => new DisciplineDefinition(x.Id, x.Name)).ToListAsync(cancellationToken)).ToList();
+        string Id(string nameOrId)
+        {
+            if (known.Any(x => x.Id == nameOrId)) return nameOrId;
+            if (DisciplineCatalog.Find(known, nameOrId) is { } found) return found.Id;
+            var created = new DisciplineDefinition(DisciplineCatalog.CustomKey(nameOrId), nameOrId.Trim());
+            known.Add(created);
+            db.DisciplineCatalog.Add(new() { Id = created.Id, Name = created.Name });
+            return created.Id;
+        }
+        foreach (var power in await db.PowerCatalog.ToListAsync(cancellationToken))
+        {
+            if (power.DisciplineId == "Rituais") (power.DisciplineId, power.IsRitual) = (DisciplineCatalog.BloodSorcery, true);
+            else power.DisciplineId = Id(power.DisciplineId);
+            power.AmalgamDisciplineId = string.IsNullOrWhiteSpace(power.AmalgamDisciplineId) ? null : Id(power.AmalgamDisciplineId);
+        }
+        foreach (var clan in await db.ClanCatalog.ToListAsync(cancellationToken))
+            clan.Disciplines = JsonSerializer.Serialize((JsonSerializer.Deserialize<string[]>(clan.Disciplines) ?? []).Select(Id).ToArray());
+        await db.SaveChangesAsync(cancellationToken);
     }
 
     private static string? Json<T>(T? value) where T : class => value is null ? null : JsonSerializer.Serialize(value);

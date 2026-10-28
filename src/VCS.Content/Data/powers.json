@@ -1,0 +1,771 @@
+[
+  {
+    "id": "power-animalism-bond-famulus",
+    "disciplineId": "discipline-animalism",
+    "name": "Laço com Familiar",
+    "level": 1,
+    "cost": "O sangue para criar um carniçal (1 checagem de sangue)",
+    "dicePool": "Nenhuma",
+    "summary": "Cria um vínculo mental duradouro com um animal que se torna um carniçal do vampiro. Garante empatia mútua, permitindo que o animal atue como espião ou guarda-costas sem a necessidade contínua de rolar dados para comandos simples."
+  },
+  {
+    "id": "power-animalism-sense-the-beast",
+    "disciplineId": "discipline-animalism",
+    "name": "Sentir a Besta",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Determinação + Animalismo vs Autocontrole + Lábia",
+    "summary": "O vampiro foca seus sentidos sobrenaturais para detectar a Besta em outros, identificando instantaneamente se o alvo é um vampiro, lobisomem, carniçal ou qual a sua emoção mortal dominante no momento."
+  },
+  {
+    "id": "power-animalism-feral-whispers",
+    "disciplineId": "discipline-animalism",
+    "name": "Sussurros Selvagens",
+    "level": 2,
+    "cost": "1 checagem de sangue (por cena)",
+    "dicePool": "Manipulação + Animalismo vs Atributo + Determinação (caso o animal seja hostil)",
+    "summary": "O vampiro se comunica verbalmente com animais, podendo fazer perguntas, dar instruções e compreendê-los. As respostas e obediência variam de acordo com a inteligência nativa do bicho."
+  },
+  {
+    "id": "power-animalism-quell-the-beast",
+    "disciplineId": "discipline-animalism",
+    "name": "Acalmar a Besta",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Carisma + Animalismo vs Vigor + Determinação (mortais) ou Determinação + Autocontrole (vampiros)",
+    "summary": "Reduz o pânico, a letargia ou a fúria em um alvo. Em mortais, tira completamente a vontade de lutar. Em vampiros, pode reprimir o Frenesi ou impedir que o alvo use pontos de Força de Vontade por um turno."
+  },
+  {
+    "id": "power-animalism-animal-succulence",
+    "disciplineId": "discipline-animalism",
+    "name": "Suculência Animal",
+    "level": 3,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "O vampiro aprende a extrair sustento aprimorado de feras. Alimentar-se de animais passa a saciar mais Fome (podendo chegar a reduzir a Fome até o nível 1), facilitando a sobrevivência sem caçar humanos."
+  },
+  {
+    "id": "power-animalism-subsume-the-spirit",
+    "disciplineId": "discipline-animalism",
+    "name": "Subjugar o Espírito",
+    "level": 4,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Manipulação + Animalismo vs Determinação + Inteligência (caso seja familiar de outro vampiro)",
+    "summary": "O vampiro transfere sua consciência para o corpo de um animal, enxergando pelos olhos dele e controlando-o totalmente. Durante o efeito, o corpo do próprio vampiro fica inerte, como se estivesse em torpor."
+  },
+  {
+    "id": "power-animalism-animal-dominion",
+    "disciplineId": "discipline-animalism",
+    "name": "Domínio Animal",
+    "level": 5,
+    "cost": "1 ou 2 checagens de sangue",
+    "dicePool": "Carisma + Animalismo",
+    "summary": "Uma evolução dos Sussurros Selvagens, permitindo comandar telepaticamente enxames, bandos ou matilhas inteiras de uma só vez (como nuvens de insetos, matilhas de cães ou revoada de corvos) para destruir obstáculos ou atacar inimigos."
+  },
+  {
+    "id": "power-animalism-drawing-out-the-beast",
+    "disciplineId": "discipline-animalism",
+    "name": "Extrair a Besta",
+    "level": 5,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Raciocínio + Animalismo vs Autocontrole + Determinação",
+    "summary": "Durante um Frenesi, o vampiro pode projetar forçosamente a própria fúria para o corpo de outra pessoa próxima. O alvo assumirá o Frenesi no lugar do vampiro, perdendo o controle e atacando os outros brutalmente."
+  },
+  {
+    "id": "power-auspex-heightened-senses",
+    "disciplineId": "discipline-auspex",
+    "name": "Sentidos Aguçados",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Raciocínio + Prontidão (Apenas se houver distrações)",
+    "summary": "Amplia passivamente os sentidos. Permite enxergar no escuro, ouvir conversas através de paredes e farejar sangue antigo, mas torna o vampiro muito vulnerável a sons altos e luzes intensas."
+  },
+  {
+    "id": "power-auspex-sense-the-unseen",
+    "disciplineId": "discipline-auspex",
+    "name": "Sentir o Invisível",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Raciocínio + Auspícios vs Raciocínio + Ofuscação (se o alvo tentar se esconder)",
+    "summary": "Concede a chance de detectar presenças ocultas por magia, vampiros usando Ofuscação, fantasmas ou ilusões. É ativado frequentemente pelo Narrador de forma passiva quando o perigo oculto se aproxima."
+  },
+  {
+    "id": "power-auspex-premonition",
+    "disciplineId": "discipline-auspex",
+    "name": "Premonição",
+    "level": 2,
+    "cost": "1 checagem de sangue (ou grátis em uso passivo)",
+    "dicePool": "Determinação + Auspícios",
+    "summary": "O vampiro recebe \"flashes\" de intuição sobre o futuro imediato ou ameaças escondidas. Pode salvar a vida do personagem, alertando-o sobre emboscadas ou revelando quem é o verdadeiro traidor em uma sala."
+  },
+  {
+    "id": "power-auspex-share-the-senses",
+    "disciplineId": "discipline-auspex",
+    "name": "Compartilhar os Sentidos",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Determinação + Auspícios",
+    "summary": "O vampiro se conecta mentalmente a um alvo na sua linha de visão, passando a ver, ouvir e sentir exatamente tudo o que o alvo está experimentando em tempo real, independentemente da distância em que ele for depois."
+  },
+  {
+    "id": "power-auspex-scry-the-soul",
+    "disciplineId": "discipline-auspex",
+    "name": "Sondar a Alma",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Auspícios vs Autocontrole + Lábia",
+    "summary": "Permite \"ler\" a aura da pessoa. Revela o estado emocional atual, se a criatura é humana ou sobrenatural e identifica manchas escuras que provam que o vampiro cometeu diablerie (devorou a alma de outro)."
+  },
+  {
+    "id": "power-auspex-spirits-touch",
+    "disciplineId": "discipline-auspex",
+    "name": "O Toque do Espírito",
+    "level": 4,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Auspícios",
+    "summary": "Ao tocar um objeto inanimado ou o chão de um local, o vampiro lê os fortes ecos emocionais presos nele. Consegue ver o rosto de quem tocou por último e reproduzir cenas traumáticas ou intensas ocorridas na presença do item."
+  },
+  {
+    "id": "power-auspex-clairvoyance",
+    "disciplineId": "discipline-auspex",
+    "name": "Clarividência",
+    "level": 5,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Auspícios",
+    "summary": "A percepção se desliga do corpo físico e se projeta livremente pelo mundo, como uma câmera fantasma invisível. Permite espiar covis inimigos ou conversas distantes sem precisar estar perto do local."
+  },
+  {
+    "id": "power-auspex-telepathy",
+    "disciplineId": "discipline-auspex",
+    "name": "Telepatia",
+    "level": 5,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Determinação + Auspícios vs Raciocínio + Determinação",
+    "summary": "Além de ler superficialmente os pensamentos alheios e vasculhar a mente do alvo em busca de memórias específicas, o vampiro pode projetar seus próprios pensamentos diretamente na mente do alvo."
+  },
+  {
+    "id": "power-celerity-cats-grace",
+    "disciplineId": "discipline-celerity",
+    "name": "Graça Felina",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "O corpo adquire equilíbrio e leveza sobrenaturais. O vampiro nunca perde o balanço, pode andar sobre arames finos sem cair, e pode se levantar da posição deitado sem gastar nenhuma ação ou esforço."
+  },
+  {
+    "id": "power-celerity-rapid-reflexes",
+    "disciplineId": "discipline-celerity",
+    "name": "Reflexos Rápidos",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "Ignora completamente as penalidades por lutar sem cobertura contra atiradores e reage instintivamente, o que significa que o vampiro não sofre perda de dados em defesas contra ataques surpresa."
+  },
+  {
+    "id": "power-celerity-fleetness",
+    "disciplineId": "discipline-celerity",
+    "name": "Rapidez",
+    "level": 2,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Ao ativar, o vampiro soma seu nível total de Celeridade a qualquer rolagem de Destreza não relacionada a ataques de combate (como fugir, escalar, correr ou realizar furtos). O efeito dura uma cena inteira."
+  },
+  {
+    "id": "power-celerity-blink-traversal",
+    "disciplineId": "discipline-celerity",
+    "name": "Piscar / Travessia",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Destreza + Atletismo (para Travessia)",
+    "summary": "O vampiro pode cruzar curtas distâncias instantaneamente para golpear, ou usar a inércia da supervelocidade para correr literalmente nas paredes ou por cima da água por turnos limitados sem cair."
+  },
+  {
+    "id": "power-celerity-unerring-aim",
+    "disciplineId": "discipline-celerity",
+    "name": "Mira Infalível",
+    "level": 4,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "A percepção mental do vampiro acelera, fazendo os inimigos se moverem em câmera lenta. Ele reduz a zero qualquer penalidade de tiro por cobertura, clima ou movimentação do alvo."
+  },
+  {
+    "id": "power-celerity-split-second",
+    "disciplineId": "discipline-celerity",
+    "name": "Fração de Segundos",
+    "level": 5,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "O vampiro se move de forma tão impossível que consegue \"rebobinar\" eventos da narrativa que acabaram de acontecer na rodada. Se alguém caiu de um prédio, ele já estará lá embaixo segurando o alvo, reagindo mais rápido que as consequências normais da física."
+  },
+  {
+    "id": "power-dominate-compel",
+    "disciplineId": "discipline-dominate",
+    "name": "Compelir",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Carisma + Dominação vs Inteligência + Determinação",
+    "summary": "Exige contato visual ininterrupto. O vampiro comanda o alvo em uma frase curta (\"Pare!\", \"Largue a arma!\"). O comando deve ser imediato e se resolver no mesmo turno, não podendo ser obviamente letal ao alvo."
+  },
+  {
+    "id": "power-dominate-cloud-memory",
+    "disciplineId": "discipline-dominate",
+    "name": "Obscurecer Memória",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Carisma + Dominação vs Inteligência + Determinação",
+    "summary": "O vampiro foca seu olhar em alguém e apaga os últimos minutos da memória recente do alvo (a duração da cena atual). A vítima fica momentaneamente confusa, incapaz de lembrar o que acabou de fazer ou de ver."
+  },
+  {
+    "id": "power-dominate-mesmerize",
+    "disciplineId": "discipline-dominate",
+    "name": "Sugestão Hipnótica",
+    "level": 2,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Manipulação + Dominação vs Inteligência + Determinação",
+    "summary": "O vampiro implanta um comando complexo na mente do alvo, condicionado a um gatilho. Quando o evento determinado ocorrer (\"Quando o sino tocar...\"), a vítima executará o comando imposto."
+  },
+  {
+    "id": "power-dominate-the-forgetful-mind",
+    "disciplineId": "discipline-dominate",
+    "name": "O Esquece-me",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Dominação vs Inteligência + Determinação",
+    "summary": "Versão muito mais agressiva do Obscurecer Memória. Permite que o vampiro destrua e reescreva seletivamente as memórias antigas e complexas de uma vítima, podendo mudar lembranças inteiras sobre a vida dela."
+  },
+  {
+    "id": "power-dominate-submerged-directive",
+    "disciplineId": "discipline-dominate",
+    "name": "Submersão da Diretriz",
+    "level": 3,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "Torna os comandos inseridos via Sugestão Hipnótica perfeitos e indetectáveis. A vítima esquecerá conscientemente que recebeu a ordem, mas ainda a executará, acreditando que a ideia foi puramente genuína e originada dela mesma."
+  },
+  {
+    "id": "power-dominate-rationalize",
+    "disciplineId": "discipline-dominate",
+    "name": "Racionalização",
+    "level": 4,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "Modifica fundamentalmente como o cérebro da vítima processa a Dominação. Em vez de perceberem que foram controladas, as vítimas justificarão qualquer comando bizarro com uma desculpa lógica que criam em suas próprias mentes, nunca suspeitando do vampiro."
+  },
+  {
+    "id": "power-dominate-mass-manipulation",
+    "disciplineId": "discipline-dominate",
+    "name": "Comando em Massa",
+    "level": 5,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Carisma + Dominação",
+    "summary": "O limite do controle singular é quebrado. O vampiro pode aplicar poderes como Compelir ou Sugestão Hipnótica em todo um grupo de mortais de uma só vez, independentemente do contato visual direto, desde que consigam ouvir a voz do vampiro."
+  },
+  {
+    "id": "power-dominate-terminal-decree",
+    "disciplineId": "discipline-dominate",
+    "name": "Ditame Terminal",
+    "level": 5,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "A última barreira moral da Dominação cai. O vampiro ganha a capacidade assustadora de comandar suas vítimas a realizarem ações obviamente letais, permitindo ordens como atear fogo em si mesmas ou atirar na própria cabeça."
+  },
+  {
+    "id": "power-fortitude-resilience",
+    "disciplineId": "discipline-fortitude",
+    "name": "Resiliência",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "Endurecimento passivo da carne morta-viva. O vampiro ganha um número de níveis de Vitalidade adicionais equivalente ao seu nível de Fortitude, tornando-o fisicamente muito mais difícil de derrubar em combate."
+  },
+  {
+    "id": "power-fortitude-unswayable-mind",
+    "disciplineId": "discipline-fortitude",
+    "name": "Mente Inabalável",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "Fortalece o escudo psíquico. O vampiro passa a somar seus pontos de Fortitude ao tentar resistir a rolagens de testes sociais, intimidação mortal, ou tentativas de sedução e leitura mental, como a disciplina Auspícios."
+  },
+  {
+    "id": "power-fortitude-enduring-beasts",
+    "disciplineId": "discipline-fortitude",
+    "name": "Resiliência das Bestas",
+    "level": 2,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "O personagem consegue aguentar danos imensos. Durante uma cena, o dano superficial causado por ataques contundentes e cortes simples é cortado pela metade antes mesmo de sofrer as reduções padrão das regras de dano vampírico."
+  },
+  {
+    "id": "power-fortitude-defy-bane",
+    "disciplineId": "discipline-fortitude",
+    "name": "Ignorar Danos",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Vigor + Fortitude",
+    "summary": "A pele do vampiro rejeita ferimentos letais. Como uma ação defensiva, o jogador pode rolar os dados e converter o dano Agravado recebido de balas, fogo ou presas em dano Superficial suportável."
+  },
+  {
+    "id": "power-fortitude-fortify-the-inner-facade",
+    "disciplineId": "discipline-fortitude",
+    "name": "Fortificar Barreira Íntima",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Fornece imunidade quase total contra poderes sobrenaturais que tentam ler pensamentos, controlar emoções ou invadir a mente, servindo como a defesa perfeita contra a disciplina Dominação."
+  },
+  {
+    "id": "power-fortitude-flesh-of-marble",
+    "disciplineId": "discipline-fortitude",
+    "name": "Proteção de Mármore",
+    "level": 4,
+    "cost": "2 checagens de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "A resistência beira o nível divino. Uma vez por noite, o vampiro torna sua pele impenetrável por alguns turnos. Nenhum ataque físico mundano consegue causar dano, repelindo balas, lâminas pesadas e explosões."
+  },
+  {
+    "id": "power-fortitude-prowess-from-pain",
+    "disciplineId": "discipline-fortitude",
+    "name": "Agonia da Carne",
+    "level": 5,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Vigor + Fortitude",
+    "summary": "Quando atacado fisicamente em combate corporal, o vampiro se recusa a ceder. Quem o acertou também sofre parte do impacto refletido diretamente em seu próprio corpo, recebendo de volta uma porção do dano desferido na forma contundente."
+  },
+  {
+    "id": "power-obfuscate-cloak-of-shadows",
+    "disciplineId": "discipline-obfuscate",
+    "name": "Manto de Sombras",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "Exige que haja uma sombra real ou cobertura próxima. Desde que o personagem fique em silêncio absoluto e completamente imóvel contra essa cobertura, ele apaga sua presença do ambiente e fica invisível para quem o olhar."
+  },
+  {
+    "id": "power-obfuscate-silence-of-death",
+    "disciplineId": "discipline-obfuscate",
+    "name": "Silêncio da Morte",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "Abafa todo o som causado diretamente pelas ações físicas do vampiro. Passos, armas disparando, batidas e esmagamentos não farão o menor ruído, permitindo abates perfeitamente silenciosos ou furtividade absoluta."
+  },
+  {
+    "id": "power-obfuscate-unseen-passage",
+    "disciplineId": "discipline-obfuscate",
+    "name": "Passagem Invisível",
+    "level": 2,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Raciocínio + Furtividade",
+    "summary": "Extensão do Manto de Sombras. Permite que o vampiro mantenha a invisibilidade enquanto se desloca e caminha pelo ambiente. Ele não pode atacar ninguém durante o percurso e, se alguém colidir fisicamente contra ele, a ilusão quebra."
+  },
+  {
+    "id": "power-obfuscate-mask-of-a-thousand-faces",
+    "disciplineId": "discipline-obfuscate",
+    "name": "Máscara das Mil Faces",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Manipulação + Ofuscação",
+    "summary": "Em vez de se tornar invisível, o vampiro força as mentes ao redor a enxergarem uma aparência completamente diferente para ele. Pode criar a ilusão mental de vestir roupas que não possui, ou parecer com uma pessoa genérica para passar por seguranças."
+  },
+  {
+    "id": "power-obfuscate-ghost-in-the-machine",
+    "disciplineId": "discipline-obfuscate",
+    "name": "Fantasma Cibernético",
+    "level": 3,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "Estende os efeitos mágicos da Ofuscação (Passagem Invisível e Máscara das Mil Faces) para as lentes digitais. O vampiro se torna capaz de enganar equipamentos de segurança, desaparecendo de gravações, drones e sensores infravermelhos em tempo real."
+  },
+  {
+    "id": "power-obfuscate-conceal",
+    "disciplineId": "discipline-obfuscate",
+    "name": "Ocultar",
+    "level": 4,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Ofuscação",
+    "summary": "O personagem cria ilusões potentes em um objeto inanimado do tamanho máximo de uma casa, ou remove esse objeto das mentes locais. Pode esconder a porta de um cofre no meio da parede ou fazer um baú valioso sumir de vista."
+  },
+  {
+    "id": "power-obfuscate-cloak-the-gathering",
+    "disciplineId": "discipline-obfuscate",
+    "name": "Manto do Grupo",
+    "level": 5,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Carisma + Ofuscação",
+    "summary": "O ápice da invisibilidade. O vampiro pode envolver aliados próximos dentro do raio do poder. Tanto ele quanto o restante do grupo se tornam invisíveis ou mudam de aparência usando a Máscara das Mil Faces simultaneamente, protegendo todo o círculo."
+  },
+  {
+    "id": "power-potence-soaring-leap",
+    "disciplineId": "discipline-potence",
+    "name": "Salto Impressionante",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "O corpo ganha propulsão explosiva. O vampiro consegue dar saltos verticais e horizontais absurdos (cobrindo vários metros sem qualquer impulso), ignorando as limitações normais de gravidade para o corpo humano."
+  },
+  {
+    "id": "power-potence-lethal-body",
+    "disciplineId": "discipline-potence",
+    "name": "Corpo Letal",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "A força bruta permite rasgar carne e quebrar ossos. Seus ataques corporais desarmados passam a causar dano severo e fatal contra mortais (dano letal), além de ignorar facilmente armaduras rudimentares ou roupas de proteção."
+  },
+  {
+    "id": "power-potence-prowess",
+    "disciplineId": "discipline-potence",
+    "name": "Bravura",
+    "level": 2,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Durante toda a cena, o personagem soma o seu nível de Potência diretamente no dano de qualquer ataque físico bem-sucedido usando Briga ou armas de combate corpo-a-corpo (como estacas, tacos e espadas)."
+  },
+  {
+    "id": "power-potence-brutal-feed",
+    "disciplineId": "discipline-potence",
+    "name": "Alimentação Brutal",
+    "level": 3,
+    "cost": "Nenhum",
+    "dicePool": "Força + Briga",
+    "summary": "O vampiro morde e drena sangue de forma bestial no meio de um combate. Em apenas um ou dois turnos rápidos, ele consegue sugar quantidades letais de sangue de uma vítima, curando-se enquanto causa dano massivo simultaneamente."
+  },
+  {
+    "id": "power-potence-draught-of-might",
+    "disciplineId": "discipline-potence",
+    "name": "Poção de Força",
+    "level": 4,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "O personagem concentra sua superforça no próprio sangue. Se ele der esse sangue para que outros bebam na mesma cena (como Carniçais ou outros vampiros), quem bebeu também ganhará metade do nível de Potência do vampiro original por um tempo."
+  },
+  {
+    "id": "power-potence-earthshock",
+    "disciplineId": "discipline-potence",
+    "name": "Choque Terrestre",
+    "level": 5,
+    "cost": "2 checagens de sangue",
+    "dicePool": "Força + Potência vs Vigor + Atletismo",
+    "summary": "O vampiro esmurra o chão ou pisa com força titânica, criando uma onda de choque que quebra o piso e arremessa todos num raio de vários metros ao chão. As vítimas caem e recebem dano contundente pelo tremor brutal."
+  },
+  {
+    "id": "power-presence-dread-gaze",
+    "disciplineId": "discipline-presence",
+    "name": "Olhar Aterrorizante",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma (Atua passivamente em Intimidação)",
+    "summary": "Exala uma aura de perigo sutil, mas constante. Mortais se afastam, desviam o olhar e evitam confusão com o personagem. Adiciona bônus em todos os testes de Intimidação."
+  },
+  {
+    "id": "power-presence-awe",
+    "disciplineId": "discipline-presence",
+    "name": "Fascínio",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Carisma + Presença vs Autocontrole + Inteligência (caso resista)",
+    "summary": "Atrai toda a atenção do ambiente. Aqueles sob o efeito do fascínio vão concordar com as ideias do vampiro e considerá-lo extremamente interessante, garantindo bônus em testes de Lábia, Liderança ou Persuasão."
+  },
+  {
+    "id": "power-presence-lingering-kiss",
+    "disciplineId": "discipline-presence",
+    "name": "Beijo Persistente",
+    "level": 2,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "Transforma a mordida do vampiro em uma droga extremamente viciante. As vítimas mordidas sofrem de abstinência se ficarem longe dele, procurando o vampiro de forma obsessiva para serem mordidas novamente nas noites seguintes."
+  },
+  {
+    "id": "power-presence-entrancement",
+    "disciplineId": "discipline-presence",
+    "name": "Transe",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Carisma + Presença vs Autocontrole + Inteligência",
+    "summary": "Convence instantaneamente o alvo de que o vampiro é seu amigo mais fiel e verdadeiro. O alvo passará a proteger o vampiro, compartilhar segredos e defendê-lo de aliados, durando até ser fisicamente ferido por ele."
+  },
+  {
+    "id": "power-presence-summon",
+    "disciplineId": "discipline-presence",
+    "name": "Convocação",
+    "level": 4,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Manipulação + Presença vs Autocontrole + Inteligência",
+    "summary": "O vampiro foca em uma pessoa com quem ele já tenha interagido antes e a chama mentalmente. O alvo sentirá um desejo desesperado e incontrolável de ir até a localização do vampiro o mais rápido possível, não importando a distância."
+  },
+  {
+    "id": "power-presence-majesty",
+    "disciplineId": "discipline-presence",
+    "name": "Majestade",
+    "level": 5,
+    "cost": "2 checagens de sangue",
+    "dicePool": "Carisma + Presença vs Autocontrole + Determinação",
+    "summary": "A aura do vampiro se torna divina ou apavorante em nível absoluto. Ninguém ao redor consegue agir agressivamente, levantar a voz ou atacar o vampiro sem antes passar num teste dificílimo, rendendo-se à veneração ou ao terror submisso."
+  },
+  {
+    "id": "power-protean-weight-of-the-feather",
+    "disciplineId": "discipline-protean",
+    "name": "Peso da Pena",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "A gravidade tem menos efeito no corpo morto-vivo. O vampiro torna-se imune a qualquer tipo de dano por queda, caindo suavemente ou reduzindo o impacto no chão, não importando a altura de onde pulou."
+  },
+  {
+    "id": "power-protean-eyes-of-the-beast",
+    "disciplineId": "discipline-protean",
+    "name": "Olhos da Besta",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "Os olhos do vampiro brilham em um vermelho predatório (ou amarelo fenda). Permite enxergar perfeitamente na escuridão absoluta, removendo qualquer penalidade visual por falta de luz, e intimida mortalmente quem observar os olhos de perto."
+  },
+  {
+    "id": "power-protean-feral-weapons",
+    "disciplineId": "discipline-protean",
+    "name": "Armas da Fera",
+    "level": 2,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "O vampiro projeta garras afiadas nas mãos ou presas alongadas monstruosas. Esses ataques desarmados passam a causar dano Agravado profundo, rasgando carne de vampiros e armaduras corporais com extrema facilidade."
+  },
+  {
+    "id": "power-protean-earth-meld",
+    "disciplineId": "discipline-protean",
+    "name": "Fusão com a Terra",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Como uma poça de sangue afundando no solo, o vampiro derrete e entra dentro da terra natural (grama, barro, areia, mas não concreto ou asfalto) para descansar o dia inteiro no subsolo em segurança perfeita."
+  },
+  {
+    "id": "power-protean-shapechange",
+    "disciplineId": "discipline-protean",
+    "name": "Mudança de Forma",
+    "level": 4,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "O vampiro se transforma integralmente em um animal selvagem grande e combativo (usualmente um grande lobo). Ganha todos os sentidos, a velocidade e as capacidades letais da fera."
+  },
+  {
+    "id": "power-protean-mist-form",
+    "disciplineId": "discipline-protean",
+    "name": "Forma de Névoa",
+    "level": 5,
+    "cost": "1 a 3 checagens de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "O corpo, as roupas e pertences se desfazem em uma neblina fria. Nessa forma, o vampiro se torna totalmente imune a ataques físicos convencionais, pode voar ou flutuar pelos ares e passar por baixo de portas, tubulações ou frestas finas."
+  },
+  {
+    "id": "power-blood-sorcery-a-taste-for-blood",
+    "disciplineId": "discipline-blood-sorcery",
+    "name": "Gosto de Sangue",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "Bebendo uma única gota de sangue (fresco ou ressecado), o Feiticeiro descobre informações ocultas de quem sangrou. Revela o Clã do vampiro, sua Potência do Sangue e detecta se o alvo cometeu o crime de diablerie (devorou outro vampiro)."
+  },
+  {
+    "id": "power-blood-sorcery-corrosive-vitae",
+    "disciplineId": "discipline-blood-sorcery",
+    "name": "Sangue Corrosivo",
+    "level": 1,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "O personagem força propriedades ácidas e tóxicas no próprio suor ou sangue. Pode derreter algemas, destruir fechaduras de portas de metal, queimar evidências ou corroer cordas rapidamente usando apenas o próprio fluido."
+  },
+  {
+    "id": "power-blood-sorcery-extinguish-vitae",
+    "disciplineId": "discipline-blood-sorcery",
+    "name": "Extinguir Vitae",
+    "level": 2,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Feitiçaria de Sangue vs Vigor + Determinação",
+    "summary": "O feiticeiro evapora a magia no sangue de outro vampiro à distância, aumentando instantaneamente os níveis de Fome do alvo e possivelmente forçando o inimigo a um frenesi por sangue."
+  },
+  {
+    "id": "power-blood-sorcery-scorpions-touch",
+    "disciplineId": "discipline-blood-sorcery",
+    "name": "Toque do Escorpião",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Força + Feitiçaria de Sangue vs Vigor + Determinação",
+    "summary": "O usuário converte sua vitae num veneno místico paralisante e o aplica em uma lâmina ou tenta tocá-lo na pele do inimigo. Causa fortes espasmos e rouba as capacidades motoras e a vitalidade de mortais e vampiros."
+  },
+  {
+    "id": "power-blood-sorcery-theft-of-vitae",
+    "disciplineId": "discipline-blood-sorcery",
+    "name": "Roubo de Vitae",
+    "level": 4,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Feitiçaria de Sangue vs Raciocínio + Ocultismo",
+    "summary": "O feiticeiro drena violentamente o sangue do corpo de um alvo (mortal ou vampiro) à distância, forçando a energia vital a voar pelos ares ou entrar misticamente nas veias do próprio feiticeiro, curando-o e causando ferimentos graves na vítima."
+  },
+  {
+    "id": "power-blood-sorcery-cauldron-of-blood",
+    "disciplineId": "discipline-blood-sorcery",
+    "name": "Caldeirão de Sangue",
+    "level": 5,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Feitiçaria de Sangue vs Vigor + Determinação",
+    "summary": "Com um toque e uma palavra, o Feiticeiro faz o sangue ferver de dentro para fora no corpo da vítima. Os vasos sanguíneos da vítima estouram e o sangue vaporiza em uma nuvem vermelha escarlate, causando morte excruciante."
+  },
+  {
+    "id": "ritual-wake-with-evenings-freshness",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Despertar com a Brisa do Entardecer",
+    "level": 1,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 1)",
+    "summary": "Protege o sono diurno vulnerável do vampiro. Se qualquer ameaça tentar invadir seu esconderijo enquanto ele dorme de dia, o ritual desperta o vampiro instantaneamente e permite que ele aja durante aquele turno de luz do dia sem penalidades letárgicas."
+  },
+  {
+    "id": "ritual-illusion-of-peaceful-death",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Ilusão de Morte Pacífica",
+    "level": 2,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 2)",
+    "summary": "Lança pó e sangue falso em um cadáver recém-assassinado pelo vampiro. Em segundos, esconde marcas de presas, arranhões de garras ou perda severa de sangue. Quando o legista examinar, o corpo parecerá ter morrido de ataque cardíaco natural."
+  },
+  {
+    "id": "ritual-ward-against-lupines",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Proteção contra Feras",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 3)",
+    "summary": "Ao desenhar sigilos de sangue por 30 minutos em um ambiente ou num objeto (como um carro ou taco), o mago cria uma barreira mística dolorosa e flamejante contra Lobisomens. Qualquer lupino que tentar cruzar a porta ou tocar no objeto marcado receberá muito dano místico."
+  },
+  {
+    "id": "ritual-ward-against-cainites",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Proteção contra Cainitas",
+    "level": 4,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 4)",
+    "summary": "Funciona como a Proteção contra Feras, mas queima e repele outros Vampiros. Torna Refúgios impenetráveis ou cria armas e roupas místicas que eletrocutam ou queimam cainitas que toquem no alvo protegido."
+  },
+  {
+    "id": "ritual-escape-to-true-sanctuary",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Fuga para o Santuário Verdadeiro",
+    "level": 5,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 5)",
+    "summary": "Cria dois círculos de cinzas e sangue (um na base segura e outro que o mago usa durante emergências nas ruas). Ao entrar no círculo de emergência, o corpo do Feiticeiro desaparece instantaneamente e é teleportado ileso de volta para o seu santuário particular."
+  },
+  {
+    "id": "power-oblivion-oblivions-sight",
+    "disciplineId": "discipline-oblivion",
+    "name": "Visão do Oblívio",
+    "level": 1,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Os olhos do vampiro ficam completamente negros. Ele passa a enxergar através de qualquer escuridão (mesmo as sobrenaturais criadas por outros poderes) e consegue ver fantasmas ou espíritos inquietos no ambiente."
+  },
+  {
+    "id": "power-oblivion-shadow-cloak",
+    "disciplineId": "discipline-oblivion",
+    "name": "Manto Sombrio",
+    "level": 1,
+    "cost": "Nenhum",
+    "dicePool": "Nenhuma",
+    "summary": "As sombras do ambiente literalmente se curvam e se agarram ao corpo do Lasombra. Isso concede bônus em testes de Furtividade para se esconder nas trevas e bônus em Intimidação, tornando sua presença sinistra."
+  },
+  {
+    "id": "power-oblivion-arms-of-ahriman",
+    "disciplineId": "discipline-oblivion",
+    "name": "Braços de Ahriman",
+    "level": 2,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Raciocínio + Oblívio vs Força + Atletismo (para agarrar)",
+    "summary": "O vampiro invoca tentáculos de pura escuridão que brotam de cantos não iluminados da sala. Esses tentáculos podem açoitar, esmagar ou prender inimigos à distância, causando dano superficial e agarrando os alvos."
+  },
+  {
+    "id": "power-oblivion-touch-of-oblivion",
+    "disciplineId": "discipline-oblivion",
+    "name": "Toque do Oblívio",
+    "level": 3,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Força + Briga",
+    "summary": "O vampiro canaliza a força destrutiva do Abismo em suas mãos. Um soco ou agarrão bem-sucedido causa dano agravado (queimando a vítima com energia necrótica) e murcha o membro atingido, reduzindo a Força do alvo no combate."
+  },
+  {
+    "id": "power-oblivion-stygian-shroud",
+    "disciplineId": "discipline-oblivion",
+    "name": "Mortalha Estígia",
+    "level": 4,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Raciocínio + Oblívio",
+    "summary": "O vampiro preenche uma sala ou área ampla com uma fumaça de escuridão absoluta. Mortais sufocam e perdem vitalidade lá dentro, os sons são abafados, e todos (exceto o próprio Lasombra) ficam totalmente cegos."
+  },
+  {
+    "id": "power-oblivion-shadow-step",
+    "disciplineId": "discipline-oblivion",
+    "name": "Passo Sombrio",
+    "level": 5,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "O vampiro dá um passo para dentro de uma sombra projetada na parede ou no chão e desaparece. No mesmo turno, ele emerge instantaneamente de outra sombra que esteja no seu campo de visão ou em um local que ele conheça muito bem."
+  },
+  {
+    "id": "power-oblivion-tenebrous-avatar",
+    "disciplineId": "discipline-oblivion",
+    "name": "Avatar Tenebroso",
+    "level": 5,
+    "cost": "2 checagens de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "O corpo do vampiro se dissolve, tornando-se uma mancha bidimensional de sombra rastejante. Ele fica imune a qualquer ataque físico, pode deslizar por rachaduras e paredes, e é capaz de envolver e asfixiar vítimas pelo toque."
+  },
+  {
+    "id": "power-obfuscate-chimerstry",
+    "disciplineId": "discipline-obfuscate",
+    "name": "Quimerismo",
+    "level": 2,
+    "cost": "Uma Checagem de Sangue",
+    "dicePool": "Manipulação + Ofuscação vs. Autocontrole + Raciocínio",
+    "summary": "O vampiro projeta uma alucinação rápida e vívida que afeta apenas um dos cinco sentidos. Serve para enganar ou assustar vítimas momentaneamente, distraindo-as a ponto de fazê-las perder dados de combate ou ações ativas na rodada.",
+    "amalgamDisciplineId": "discipline-presence",
+    "amalgamLevel": 1
+  },
+  {
+    "id": "power-obfuscate-fata-morgana",
+    "disciplineId": "discipline-obfuscate",
+    "name": "Fata Morgana",
+    "level": 3,
+    "cost": "Uma Checagem de Sangue",
+    "dicePool": "Manipulação + Ofuscação",
+    "summary": "Cria ilusões complexas e duradouras que não têm efeito físico, mas enganam múltiplos sentidos ao mesmo tempo (como ver e ouvir uma torrente de sangue jorrando). Afeta simultaneamente várias vítimas próximas que consigam ver ou ouvir a ilusão pela duração total de uma cena.",
+    "amalgamDisciplineId": "discipline-presence",
+    "amalgamLevel": 2
+  },
+  {
+    "id": "power-auspex-obeah",
+    "disciplineId": "discipline-auspex",
+    "name": "Obeah",
+    "level": 2,
+    "cost": "Uma Checagem de Sangue (Força de Vontade adicional dependendo das circunstâncias)",
+    "dicePool": "Autocontrole + Auspícios",
+    "summary": "O vampiro usa a serenidade mística para acalmar alvos emocionalmente agitados ou desesperados. Ao ser usado, restaura níveis de danos Superficiais ou Agravados na trilha de Força de Vontade do alvo.",
+    "amalgamDisciplineId": "discipline-fortitude",
+    "amalgamLevel": 1
+  },
+  {
+    "id": "power-auspex-unburdening-the-bestial-soul",
+    "disciplineId": "discipline-auspex",
+    "name": "Aliviando a Alma Bestial",
+    "level": 5,
+    "cost": "Duas Checagens de Sangue (o usuário ganha uma Mácula)",
+    "dicePool": "Autocontrole + Auspícios vs. Humanidade",
+    "summary": "O Salubri apazigua a Besta interior de outro Membro, compartilhando serenidade para perdoar os remorsos do alvo. Consegue remover e blindar as Máculas espirituais dele e, através de um acerto crítico, pode até devolver um ponto de Humanidade perdido permanentemente.",
+    "amalgamDisciplineId": "discipline-dominate",
+    "amalgamLevel": 3
+  }
+]

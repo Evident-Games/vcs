@@ -26,14 +26,14 @@ public partial class PowerItemViewModel : ObservableObject
         (Definition.AmalgamDiscipline is { } discipline ? $" · Amalgama: {discipline} {Definition.AmalgamLevel}" : "");
     public string Warning => IsUnavailable
         ? "Entrada fora do catalogo atual. A selecao foi preservada; os detalhes originais nao estao disponiveis."
-        : IsKnown && Definition.Level > _rating(Definition.RequiredDiscipline)
-            ? $"Aviso: requer nivel {Definition.Level} de {Definition.RequiredDiscipline}; sua ficha tem {_rating(Definition.RequiredDiscipline)}. Selecao livre."
+        : IsKnown && Definition.Level > _rating(Definition.Discipline)
+            ? $"Aviso: requer nivel {Definition.Level} de {Definition.Discipline}; sua ficha tem {_rating(Definition.Discipline)}. Selecao livre."
             : IsKnown && Definition.AmalgamDiscipline is { } amalgam && _rating(amalgam) < Definition.AmalgamLevel
                 ? $"Aviso: amalgama requer {amalgam} {Definition.AmalgamLevel}; sua ficha tem {_rating(amalgam)}. Selecao livre."
                 : "";
     public string AdvancementInfo => IsUnavailable ? "Disciplina de origem nao identificada; custo nao calculado."
         : Definition.IsRitual ? "Ritual: os multiplicadores de disciplinas nao calculam o custo deste ritual."
-        : DisciplineXpText.Describe(_clan(), Definition.RequiredDiscipline, _rating(Definition.RequiredDiscipline));
+        : DisciplineXpText.Describe(_clan(), Definition.Discipline, _rating(Definition.Discipline));
     public void RefreshWarning()
     {
         OnPropertyChanged(nameof(Warning));
