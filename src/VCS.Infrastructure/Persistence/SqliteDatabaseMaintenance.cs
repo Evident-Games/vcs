@@ -94,6 +94,8 @@ public sealed class SqliteDatabaseMaintenance(DatabaseAccess database) : IDataba
         await db.Database.MigrateAsync(cancellationToken);
         if (pending.Intersect(LegacyContentIds.Migrations).Any())
             await LegacyContentIds.UpgradeAsync(db, cancellationToken);
+        if (pending.Contains(LegacyContentIds.DisciplineReferencesMigration))
+            await LegacyContentIds.UpgradeDisciplineReferencesAsync(db, cancellationToken);
     }
 
     private void BackupTo(string path)

@@ -23,7 +23,7 @@ public partial class PowerRowViewModel : ObservableObject
         _owner = owner;
         IsRitual = isRitual;
         Key = key;
-        if (isRitual) discipline = DisciplineCatalogViewModel.RitualDiscipline;
+        if (isRitual) discipline = DisciplineCatalog.NameOf(DisciplineCatalog.BloodSorcery);
     }
 
     public bool IsRitual { get; }
@@ -103,7 +103,7 @@ public partial class PowerRowViewModel : ObservableObject
     }
 
     public static PowerInfo Defaults(PowerDefinition definition) => new(
-        definition.RequiredDiscipline, definition.Cost, definition.DicePool, "",
+        definition.Discipline, definition.Cost, definition.DicePool, "",
         definition.IsRitual ? "" : definition.Summary, definition.IsRitual, "", "",
         definition.IsRitual ? definition.Summary : "",
         definition.AmalgamDiscipline is { } amalgam ? $"Amálgama: {amalgam} {definition.AmalgamLevel}" : "");

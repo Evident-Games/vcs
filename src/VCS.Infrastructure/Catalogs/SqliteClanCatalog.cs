@@ -2,6 +2,7 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using VCS.Application.Catalogs;
 using VCS.Content.Clans;
+using VCS.Content.Disciplines;
 using VCS.Infrastructure.Persistence;
 
 namespace VCS.Infrastructure.Catalogs;
@@ -24,8 +25,9 @@ public sealed class SqliteClanCatalog(DatabaseAccess database) : IEditableCatalo
         CatalogValidation.Text("Nome", value.Name, 80);
         CatalogValidation.Text("Descricao", value.Description, 2000, required: false);
         CatalogValidation.Text("Perdicao", value.Bane, 2000, required: false);
-        if (value.Disciplines.Count > 6 || value.Disciplines.Any(x => string.IsNullOrWhiteSpace(x) || x.Length > 80))
-            throw new InvalidOperationException("Disciplinas: ate 6 nomes, cada um com 1 a 80 caracteres.");
+        if (value.Disciplines.Count > 6 || value.Disciplines.Distinct().Count() != value.Disciplines.Count ||
+            value.Disciplines.Any(id => !DisciplineCatalog.All.Any(x => x.Id == id)))
+            throw new InvalidOperationException("Disciplinas: ate 6, escolhidas na lista de disciplinas.");
         if (value.Aliases.Any(x => string.IsNullOrWhiteSpace(x) || x.Length > 80))
             throw new InvalidOperationException("Outros nomes: cada um com 1 a 80 caracteres.");
         var id = value.Id.Length == 0 ? "clan-custom-" + Guid.NewGuid().ToString("N") : value.Id;

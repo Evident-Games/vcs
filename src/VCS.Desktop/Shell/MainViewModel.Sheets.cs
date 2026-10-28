@@ -37,7 +37,6 @@ public partial class MainViewModel
         var next = createEditor(character);
         next.ConfigureAdvantageCatalog(catalogEntries);
         if (skillCatalog is not null) next.ConfigureSkillCatalog(await skillCatalog.ListAsync());
-        if (predatorCatalog is not null) next.ConfigurePredatorCatalog(await predatorCatalog.ListAsync());
         next.ConfigureDisplay(Display);
         next.SheetThemeId = Display.SheetThemeFor(character.Id);
         next.KnownClans = ClanCatalog.All.Select(x => x.Name)

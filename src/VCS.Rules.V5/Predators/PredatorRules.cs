@@ -1,4 +1,5 @@
 using VCS.Content.Clans;
+using VCS.Content.Disciplines;
 using VCS.Content.Predators;
 using VCS.Rules.V5.Advancement;
 using VCS.Rules.V5.Validation;
@@ -11,9 +12,12 @@ public sealed record PredatorChoice(string Id, string Discipline, int Specializa
 
 public static class PredatorRules
 {
+    /// <summary>Ids of the disciplines this predator can raise for the clan; Blood Sorcery only for Tremere.</summary>
     public static string[] DisciplinesFor(PredatorDefinition definition, string clan) =>
-        definition.Disciplines.Where(x => !ClanCatalog.SameName(x, "Feitiçaria de Sangue") ||
-            ClanCatalog.Find(clan)?.Name == "Tremere").ToArray();
+        definition.Disciplines.Where(id => id != DisciplineCatalog.BloodSorcery || ClanCatalog.Find(clan)?.Id == ClanCatalog.Tremere).ToArray();
+
+    /// <param name="value">A discipline id, or its name as a sheet shows it.</param>
+    private static bool SameDiscipline(string id, string value) => id == value || ClanCatalog.SameName(DisciplineCatalog.NameOf(id), value);
 
     public static bool IsGrant(TraitValue value) => value.Key?.StartsWith("predator:", StringComparison.Ordinal) == true;
     public static int SpecializationCount(CharacterDetails details, TraitValue skill)
@@ -24,9 +28,6 @@ public static class PredatorRules
                 .Any(x => ClanCatalog.SameName(x, applied.Specialization))) count--;
         return Math.Max(0, count);
     }
-
-    public static int MaximumFor(string option) =>
-        option is "Perdicao Folclorica" or "Tabu Folclorico" or "Estigma" ? 1 : option == "Isca de Estaca" ? 2 : 5;
 
     /// <summary>Variable predator points (advantages, flaws) still waiting to be placed.</summary>
     public static (int Advantages, int Flaws) Unallocated(PredatorSelection receipt)
@@ -44,17 +45,19 @@ public static class PredatorRules
         details = original.Details;
         traits = original.Traits;
         var definition = PredatorCatalog.Find(choice.Id) ?? throw new InvalidOperationException("Predador nao encontrado.");
-        if (definition.Id is "predator-bagger" or "predator-farmer" && ClanCatalog.Find(details.Clan)?.Name == "Ventrue")
+        if (definition.Id is "predator-bagger" or "predator-farmer" && ClanCatalog.Find(details.Clan)?.Id == ClanCatalog.Ventrue)
             throw new InvalidOperationException("Ventrue nao pode escolher este predador.");
         if (definition.Id == "predator-farmer" && details.BloodPotency >= 3)
             throw new InvalidOperationException("Fazendeiro exige Potencia de Sangue menor que 3 na escolha.");
         // Discipline and specialization are optional so the sheet can apply each choice as soon as it is made.
         var hasDiscipline = !string.IsNullOrWhiteSpace(choice.Discipline);
-        if (hasDiscipline && !DisciplinesFor(definition, details.Clan).Any(x => ClanCatalog.SameName(x, choice.Discipline)))
-            throw new InvalidOperationException("Disciplina invalida para este predador/cla. Feiticaria de Sangue e exclusiva de Tremere.");
+        var disciplineId = !hasDiscipline ? "" : DisciplinesFor(definition, details.Clan).FirstOrDefault(id => SameDiscipline(id, choice.Discipline))
+            ?? throw new InvalidOperationException("Disciplina invalida para este predador/cla. Feiticaria de Sangue e exclusiva de Tremere.");
+        var disciplineName = hasDiscipline ? DisciplineCatalog.NameOf(disciplineId) : "";
         var (skill, specialization) = ChosenSpecialization(definition, traits, choice);
         var discipline = hasDiscipline
-            ? traits.SingleOrDefault(x => x.Category == TraitCategory.Discipline && ClanCatalog.SameName(x.Name, choice.Discipline)) : null;
+            ? traits.FirstOrDefault(x => x.Category == TraitCategory.Discipline && x.Key == disciplineId)
+              ?? traits.SingleOrDefault(x => x.Category == TraitCategory.Discipline && ClanCatalog.SameName(x.Name, disciplineName)) : null;
         if (discipline?.Rating >= 5) throw new InvalidOperationException("A disciplina ja esta no nivel maximo.");
         var grants = Grants(definition, choice);
         var humanity = details.Humanity + definition.HumanityDelta;
@@ -69,12 +72,12 @@ public static class PredatorRules
         var values = traits.Select(x => skill is not null && x == skill ? x with { Specialization = text }
             : discipline is not null && x == discipline ? x with { Rating = x.Rating + 1 } : x).ToList();
         var disciplineKey = !hasDiscipline ? "" : discipline?.Key ?? "discipline-from-" + definition.Id;
-        if (hasDiscipline && discipline is null) values.Add(new(TraitCategory.Discipline, disciplineKey, choice.Discipline, 1));
+        if (hasDiscipline && discipline is null) values.Add(new(TraitCategory.Discipline, disciplineKey, disciplineName, 1));
         values.AddRange(grants);
         return new(details with
         {
             Predator = definition.Name, Humanity = humanity, BloodPotency = potency,
-            PredatorSelection = new(definition.Id, disciplineKey, hasDiscipline ? choice.Discipline : "", skill?.Key ?? "", skill?.Name ?? "",
+            PredatorSelection = new(definition.Id, disciplineKey, disciplineName, skill?.Key ?? "", skill?.Name ?? "",
                 specialization, added, grants.ToArray(), definition.HumanityDelta, definition.BloodDelta)
         }, values);
     }
@@ -87,7 +90,8 @@ public static class PredatorRules
             throw new InvalidOperationException("Escolha uma especializacao do predador.");
         if (choice.SpecializationIndex < 0) return (null, "");
         var option = definition.Specializations[choice.SpecializationIndex];
-        var skill = traits.SingleOrDefault(x => x.Category == TraitCategory.Skill && ClanCatalog.SameName(x.Name, option.Skill))
+        var skill = traits.FirstOrDefault(x => x.Category == TraitCategory.Skill && x.Key == option.SkillId)
+            ?? traits.SingleOrDefault(x => x.Category == TraitCategory.Skill && ClanCatalog.SameName(x.Name, option.Skill))
             ?? throw new InvalidOperationException("A habilidade escolhida nao esta na ficha. Carregue o catalogo de habilidades.");
         if (skill.Rating < 1) throw new InvalidOperationException($"Coloque pelo menos um ponto em {skill.Name} para receber a especializacao do predador.");
         var specialization = option.IsFreeText ? (choice.SpecializationText ?? "").Trim() : option.Text;
@@ -114,9 +118,10 @@ public static class PredatorRules
                     (chooseOne ? ", em uma unica opcao." : "."));
             for (var i = 0; i < options.Length; i++)
             {
-                var max = MaximumFor(options[i].Name);
-                if (allocation[i] > max || options[i].Name == "Isca de Estaca" && allocation[i] == 1)
-                    throw new InvalidOperationException($"{options[i].Name}: use a pontuacao do catalogo (maximo {max}).");
+                var (min, max) = options[i].Points;
+                if (allocation[i] > 0 && (allocation[i] < min || allocation[i] > max))
+                    throw new InvalidOperationException(min == max ? $"{options[i].Name}: use {max} ponto(s), a pontuacao do catalogo."
+                        : $"{options[i].Name}: use de {min} a {max} pontos, a pontuacao do catalogo.");
                 Grant(options[i], allocation[i]);
             }
         }
@@ -170,7 +175,7 @@ public static class PredatorRules
             string.IsNullOrWhiteSpace(receipt.Skill) != string.IsNullOrWhiteSpace(receipt.Specialization) ||
             receipt.Specialization.Length > 120 ||
             string.IsNullOrWhiteSpace(details.Predator) ||
-            receipt.Discipline.Length > 0 && !definition.Disciplines.Any(x => ClanCatalog.SameName(x, receipt.Discipline)) ||
+            receipt.Discipline.Length > 0 && !definition.Disciplines.Any(id => SameDiscipline(id, receipt.Discipline)) ||
             receipt.Skill.Length > 0 && !definition.Specializations.Any(x => ClanCatalog.SameName(x.Skill, receipt.Skill) &&
                 (x.IsFreeText || ClanCatalog.SameName(x.Text, receipt.Specialization))) ||
             receipt.HumanityDelta != definition.HumanityDelta || receipt.BloodDelta != definition.BloodDelta ||

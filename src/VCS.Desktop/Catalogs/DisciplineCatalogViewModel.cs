@@ -13,7 +13,6 @@ namespace VCS.Desktop.Catalogs;
 public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
 {
     public const string AllDisciplines = "Todas as disciplinas";
-    public const string RitualDiscipline = "Feitiçaria de Sangue";
     private readonly TraitGroupViewModel _disciplines;
     private readonly PowerItemViewModel[] _all;
     private readonly string[] _catalogDisciplines;
@@ -107,7 +106,7 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
         var term = CatalogText.Normalize(row.Name);
         var candidates = _all.Where(x => !x.IsUnavailable && x.Definition.IsRitual == row.IsRitual &&
             CatalogText.Normalize(x.Definition.Name) == term).ToArray();
-        var match = candidates.FirstOrDefault(x => SameDiscipline(x.Definition.RequiredDiscipline, row.Discipline)) ??
+        var match = candidates.FirstOrDefault(x => SameDiscipline(x.Definition.Discipline, row.Discipline)) ??
             candidates.FirstOrDefault();
         if (ReferenceEquals(match, row.Entry) || term.Length == 0 && row.Entry is null) return;
         if (match is not null && PowerRows.Concat(RitualRows).Any(x => !ReferenceEquals(x, row) && ReferenceEquals(x.Entry, match)))
@@ -150,7 +149,7 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
         var filtered = string.IsNullOrWhiteSpace(row.Discipline) || row.IsRitual
             ? null : row.Discipline;
         return _all.Where(x => !x.IsUnavailable && x.Definition.IsRitual == row.IsRitual &&
-                (filtered is null || SameDiscipline(x.Definition.RequiredDiscipline, filtered)))
+                (filtered is null || SameDiscipline(x.Definition.Discipline, filtered)))
             .OrderBy(x => x.Definition.Level).ThenBy(x => x.Definition.Name, StringComparer.CurrentCultureIgnoreCase)
             .Select(x => new SuggestionItem(x.Definition.Name, filtered is null && !row.IsRitual
                 ? $"{x.Definition.Discipline} · {new string('●', x.Definition.Level)}"
@@ -161,7 +160,7 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
     internal IReadOnlyList<SuggestionItem> DisciplineSuggestions(bool isRitual)
     {
         IEnumerable<string> names = isRitual
-            ? [RitualDiscipline, "Oblívio"]
+            ? [DisciplineCatalog.NameOf(DisciplineCatalog.BloodSorcery), DisciplineCatalog.NameOf(DisciplineCatalog.Oblivion)]
             : _disciplines.Items.Where(x => x.Rating > 0).Select(x => x.Name).Concat(_catalogDisciplines)
                 .Concat(_disciplines.Items.Select(x => x.Name));
         return names.Where(x => !string.IsNullOrWhiteSpace(x)).DistinctBy(CatalogText.Normalize)
@@ -182,10 +181,10 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
 
     private void EnsureDiscipline(PowerItemViewModel entry)
     {
-        if (entry.IsUnavailable || _disciplines.Items.Any(x => x.Key == DisciplineCatalog.KeyFor(entry.Definition.RequiredDiscipline) ||
-                CatalogText.Normalize(x.Name) == CatalogText.Normalize(entry.Definition.RequiredDiscipline))) return;
-        _disciplines.AddEntry(new(TraitCategory.Discipline, DisciplineCatalog.KeyFor(entry.Definition.RequiredDiscipline),
-            entry.Definition.RequiredDiscipline, 0));
+        if (entry.IsUnavailable || _disciplines.Items.Any(x => x.Key == DisciplineCatalog.KeyFor(entry.Definition.Discipline) ||
+                CatalogText.Normalize(x.Name) == CatalogText.Normalize(entry.Definition.Discipline))) return;
+        _disciplines.AddEntry(new(TraitCategory.Discipline, DisciplineCatalog.KeyFor(entry.Definition.Discipline),
+            entry.Definition.Discipline, 0));
     }
 
     public IReadOnlyList<PowerItemViewModel> AllPowers => _all;
@@ -267,7 +266,7 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
         bool Matches(PowerItemViewModel item) =>
             (!KnownOnly || item.IsKnown) &&
             (SelectedDiscipline == AllDisciplines ||
-             CatalogText.Normalize(item.Definition.RequiredDiscipline) == CatalogText.Normalize(SelectedDiscipline)) &&
+             CatalogText.Normalize(item.Definition.Discipline) == CatalogText.Normalize(SelectedDiscipline)) &&
             CatalogText.Normalize($"{item.Definition.Name}\n{item.Definition.Discipline}\n{item.Definition.Cost}\n{item.Definition.DicePool}\n{item.Definition.Summary}\n{item.Definition.AmalgamDiscipline}")
                 .Contains(term, StringComparison.Ordinal);
 
