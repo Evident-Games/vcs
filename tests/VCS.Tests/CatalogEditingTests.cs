@@ -78,12 +78,23 @@ public sealed class CatalogEditingTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task New_powers_create_disciplines_and_built_in_edits_apply_to_the_running_catalog()
+    public async Task New_disciplines_hold_new_powers_and_built_in_edits_apply_to_the_running_catalog()
     {
+        var disciplines = new SqliteDisciplineCatalog(_database);
+        await disciplines.SaveAsync(new DisciplineDefinition("", "Quimerismo"));
+        var chimerstry = DisciplineCatalog.Find("quimerismo")!;
+        Assert.StartsWith("discipline-custom-", chimerstry.Id);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => disciplines.SaveAsync(new DisciplineDefinition("", "Celeridade")));
+        await Assert.ThrowsAsync<InvalidOperationException>(() => disciplines.SaveAsync(new DisciplineDefinition(DisciplineCatalog.BloodSorcery, "Taumaturgia")));
+
         var provided = new ProvidedDisciplineCatalog();
         var catalog = new SqlitePowerCatalog(_database, provided);
-        await catalog.SaveAsync(new PowerDefinition("", "Quimerismo", "Ilusao menor", 1, "Nenhum", "Carisma + Quimerismo", "Cria uma ilusao."));
-        Assert.Contains(provided.Powers, x => x.Discipline == "Quimerismo" && x.Name == "Ilusao menor");
+        await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            catalog.SaveAsync(new PowerDefinition("", "Quimerismo", "Sem disciplina", 1, "Nenhum", "Nenhuma", "Nome em vez de id.")));
+        await catalog.SaveAsync(new PowerDefinition("", chimerstry.Id, "Ilusao menor", 1, "Nenhum", "Carisma + Quimerismo", "Cria uma ilusao."));
+        var illusion = provided.Powers.Single(x => x.Name == "Ilusao menor");
+        Assert.Equal("Quimerismo", illusion.Discipline);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => disciplines.DeleteAsync(chimerstry.Id));
 
         var original = provided.BuiltIn[0];
         await catalog.SaveAsync(original with { Summary = "Resumo editado." });
@@ -96,28 +107,32 @@ public sealed class CatalogEditingTests : IAsyncLifetime
         var reloaded = new ProvidedDisciplineCatalog();
         await new SqlitePowerCatalog(_database, reloaded).RefreshAsync();
         Assert.Contains(reloaded.Powers, x => x.Name == "Ilusao menor");
+
+        await catalog.DeleteAsync(illusion.Id);
+        await disciplines.DeleteAsync(chimerstry.Id);
+        Assert.Null(DisciplineCatalog.Find("Quimerismo"));
     }
 
     [Fact]
     public async Task Clans_can_be_added_and_built_in_clans_edited_then_reset_for_the_rules()
     {
         var catalog = new SqliteClanCatalog(_database);
-        await catalog.SaveAsync(new ClanDefinition("", "Ahrimanes", "Linhagem de magos xamas.", ["Animalismo", "Presenca"], []));
+        await catalog.SaveAsync(new ClanDefinition("", "Ahrimanes", "Linhagem de magos xamas.", ["discipline-animalism", "discipline-presence"], []));
         var ahrimanes = ClanCatalog.Find("ahrimanes")!;
         Assert.StartsWith("clan-custom-", ahrimanes.Id);
         await Assert.ThrowsAsync<InvalidOperationException>(() => catalog.SaveAsync(new ClanDefinition("", "Brujah", "", [], [])));
-        Assert.Equal(["Animalismo", "Presenca"], ClanCatalog.Find("ahrimanes")!.Disciplines);
+        Assert.Equal(["discipline-animalism", "discipline-presence"], ClanCatalog.Find("ahrimanes")!.Disciplines);
         Assert.True(DisciplineAdvancement.IsInClan("Ahrimanes", "Animalismo"));
 
         var brujah = ClanCatalog.Find("Brujah")!;
-        await catalog.SaveAsync(brujah with { Disciplines = ["Celeridade", "Potência", "Ofuscação"] }, brujah.Id);
+        await catalog.SaveAsync(brujah with { Disciplines = ["discipline-celerity", "discipline-potence", "discipline-obfuscate"] }, brujah.Id);
         Assert.True(DisciplineAdvancement.IsInClan("Brujah", "Ofuscação"));
         await Assert.ThrowsAsync<InvalidOperationException>(() => catalog.SaveAsync(brujah with { Name = "Rebeldes" }, brujah.Id));
         await Assert.ThrowsAsync<InvalidOperationException>(() => catalog.DeleteAsync("clan-brujah"));
         await catalog.ResetAsync("clan-brujah");
         Assert.False(DisciplineAdvancement.IsInClan("Brujah", "Ofuscação"));
 
-        await catalog.SaveAsync(ahrimanes with { Name = "Ahrimanes Renascidos", Disciplines = ["Animalismo"] }, ahrimanes.Id);
+        await catalog.SaveAsync(ahrimanes with { Name = "Ahrimanes Renascidos", Disciplines = ["discipline-animalism"] }, ahrimanes.Id);
         Assert.Null(ClanCatalog.Find("Ahrimanes"));
         Assert.Equal(ahrimanes.Id, ClanCatalog.Find("Ahrimanes Renascidos")!.Id);
         await catalog.DeleteAsync(ahrimanes.Id);

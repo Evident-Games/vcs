@@ -8,6 +8,9 @@ public sealed record ClanDefinition(
 
 public static class ClanCatalog
 {
+    public const string Tremere = "clan-tremere";
+    public const string Ventrue = "clan-ventrue";
+
     /// <summary>
     /// Clans in use: the built-in ones, with user edits (same id) replacing them and user clans added after.
     /// Set at startup and after each edit from the database editor.
@@ -28,55 +31,7 @@ public static class ClanCatalog
 
     public static bool IsBuiltIn(string id) => BuiltIn.Any(x => x.Id == id);
 
-    public static IReadOnlyList<ClanDefinition> BuiltIn { get; } = Array.AsReadOnly(new[]
-    {
-        Clan("clan-banu-haqim", "Banu Haqim", "Juízes, estudiosos e assassinos com forte ligação ao controle de sangue.",
-            ["Feitiçaria de Sangue", "Celeridade", "Ofuscação"], ["Assamitas", "Assamita"],
-            bane: "Sede de Sangue Justo — sentem uma compulsão irresistível por beber sangue de outros vampiros, especialmente dos que cometeram transgressões."),
-        Clan("clan-brujah", "Brujah", "Filósofos, rebeldes e ativistas apaixonados, espinha dorsal do movimento Anarquista.",
-            ["Celeridade", "Potência", "Presença"],
-            bane: "Sangue Fervoroso — têm temperamento explosivo e podem cair mais facilmente em frenesi de fúria quando provocados ou sob estresse."),
-        Clan("clan-gangrel", "Gangrel", "Nômades selvagens e predadores que vivem em sintonia com a Besta e a natureza.",
-            ["Animalismo", "Fortitude", "Proteanismo"],
-            bane: "Características Bestiais — ao entrar em frenesi, ganham traços animais temporários ou permanentes, como orelhas, pelo, olhos ou garras."),
-        Clan("clan-malkavian", "Malkavianos", "Videntes e lunáticos marcados pela loucura e por percepções além da realidade.",
-            ["Auspícios", "Dominação", "Ofuscação"], ["Malkaviano", "Malkavian"],
-            bane: "Perspectiva Fraturada — carregam um transtorno mental permanente ou delírios profundos, ligados à percepção sobrenatural do clã."),
-        Clan("clan-ministry", "O Ministério", "Manipuladores de fé, vícios e desejos proibidos.",
-            ["Ofuscação", "Presença", "Proteanismo"], ["Ministério", "Setitas", "Setita"],
-            bane: "Aversão à Luz — são extremamente sensíveis à luz intensa e ao sol."),
-        Clan("clan-nosferatu", "Nosferatu", "Espiões e informantes amaldiçoados com uma aparência monstruosa que os força a viver nas sombras e esgotos.",
-            ["Animalismo", "Ofuscação", "Potência"],
-            bane: "Aparência Repulsiva — o Abraço deforma o corpo e dificulta disfarçar-se ou passar por mortal."),
-        Clan("clan-ravnos", "Ravnos", "Ilusionistas e andarilhos de espírito livre.",
-            ["Animalismo", "Ofuscação", "Presença"],
-            bane: "Incapacidade de Raiz — não conseguem permanecer muito tempo no mesmo lugar sem atrair azar e perseguição."),
-        Clan("clan-salubri", "Salubri", "Curadores e guerreiros raros, historicamente perseguidos, com um terceiro olho místico.",
-            ["Auspícios", "Dominação", "Fortitude"],
-            bane: "Terceiro Olho — carregam um olho vertical na testa que denuncia sua herança e atrai perseguição."),
-        Clan("clan-toreador", "Toreador", "Artistas e sedutores obcecados pela beleza, estética e sensações humanas.",
-            ["Auspícios", "Celeridade", "Presença"],
-            bane: "Fixação / Obsessão Estética — sofrem redutores em paradas de Disciplinas quando estão em ambientes que consideram feios ou monótonos."),
-        Clan("clan-tremere", "Tremere", "Feiticeiros do sangue que operam com rituais arcanos e hierarquias rígidas.",
-            ["Auspícios", "Dominação", "Feitiçaria de Sangue"],
-            bane: "Sangue Imperfeito — têm dificuldade para criar laços de sangue e novos carniçais; a história do clã também é marcada por hierarquia e paranoia."),
-        Clan("clan-tzimisce", "Tzimisce", "Moldadores de carne e osso (Vicissitude), historicamente associados ao Sabá e ao conde Drácula.",
-            ["Animalismo", "Dominação", "Proteanismo"],
-            bane: "Enraizados (Posse) — precisam escolher uma posse, local ou grupo ao qual se ligam e sentem ansiedade ou fraqueza se dormirem longe dela."),
-        Clan("clan-ventrue", "Ventrue", "Os aristocratas, líderes e \"reis\" do mundo vampírico, focados em controle e poder.",
-            ["Dominação", "Fortitude", "Presença"],
-            bane: "Paladar Refinado — só conseguem alimentar-se de um tipo específico de mortal; outro sangue é rejeitado, salvo esforço de Força de Vontade."),
-        Clan("clan-hecata", "Hecata", "Famílias de necromantes obcecadas pela morte e pelos espíritos.",
-            ["Auspícios", "Fortitude", "Oblívio"], ["Giovanni"],
-            bane: "Banquete Doloroso — a mordida de alimentação causa dor lancinante ao mortal, dificultando caçadas discretas."),
-        Clan("clan-lasombra", "Lasombra", "Mestres das sombras e da manipulação, fundadores do Sabá que recentemente buscaram espaço na Camarilla.",
-            ["Dominação", "Oblívio", "Potência"],
-            bane: "Ausência de Reflexo — não aparecem em espelhos, superfícies polidas, câmeras digitais ou fotografias, dificultando manter a Máscara.")
-    });
-
-    private static ClanDefinition Clan(string id, string name, string description, string[] disciplines,
-        string[]? aliases = null, string bane = "") =>
-        new(id, name, description, Array.AsReadOnly(disciplines), Array.AsReadOnly(aliases ?? []), bane);
+    public static IReadOnlyList<ClanDefinition> BuiltIn { get; } = BuiltInContent.Load<ClanDefinition>("clans.json");
 
     public static bool SameName(string first, string second) => CultureInfo.InvariantCulture.CompareInfo.Compare(
         first.Trim(), second.Trim(), CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) == 0;

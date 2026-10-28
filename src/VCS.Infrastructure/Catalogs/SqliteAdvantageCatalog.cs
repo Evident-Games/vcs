@@ -1,12 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using VCS.Application.Catalogs;
 using VCS.Content.Advantages;
-using VCS.Infrastructure.Catalogs.Seed;
 using VCS.Infrastructure.Persistence;
 using VCS.Sheet;
 
 namespace VCS.Infrastructure.Catalogs;
 
+/// <summary>
+/// Built-in advantages, flaws and loresheets come from <see cref="AdvantageCatalog"/>; the database holds only the user's
+/// edits of them (same id) and the entries the user created.
+/// </summary>
 public sealed class SqliteAdvantageCatalog(DatabaseAccess database) : IAdvantageCatalog, IEditableCatalog<AdvantageDefinition>
 {
     public async Task<IReadOnlyList<AdvantageDefinition>> ListAsync(CancellationToken cancellationToken = default)
@@ -15,7 +18,9 @@ public sealed class SqliteAdvantageCatalog(DatabaseAccess database) : IAdvantage
         try
         {
             await using var db = database.CreateContext();
-            return await db.AdvantageCatalog.AsNoTracking().OrderBy(x => x.Group).ThenBy(x => x.Name).ToListAsync(cancellationToken);
+            var rows = await db.AdvantageCatalog.AsNoTracking().ToDictionaryAsync(x => x.Id, cancellationToken);
+            var builtIn = BuiltIn.Select(x => rows.GetValueOrDefault(x.Id) ?? Copy(x)).ToArray();
+            return [.. builtIn.Concat(rows.Values.Where(x => Seed(x.Id) is null)).OrderBy(x => x.Group).ThenBy(x => x.Name)];
         }
         finally { database.Gate.Release(); }
     }
@@ -43,7 +48,9 @@ public sealed class SqliteAdvantageCatalog(DatabaseAccess database) : IAdvantage
         {
             await using var db = database.CreateContext();
             var existing = await db.AdvantageCatalog.FindAsync([entry.Id], cancellationToken);
-            if (existing is null) db.AdvantageCatalog.Add(entry);
+            // A built-in entry saved as shipped needs no row, so later app versions can still update it.
+            if (Seed(entry.Id) is { } seed && Same(seed, entry)) { if (existing is not null) db.AdvantageCatalog.Remove(existing); }
+            else if (existing is null) db.AdvantageCatalog.Add(entry);
             else db.Entry(existing).CurrentValues.SetValues(entry);
             await db.SaveChangesAsync(cancellationToken);
         }
@@ -63,7 +70,7 @@ public sealed class SqliteAdvantageCatalog(DatabaseAccess database) : IAdvantage
     }
 
     public Task ResetAsync(string id, CancellationToken cancellationToken = default) =>
-        SaveAsync(Seed(id) ?? throw new InvalidOperationException("Somente itens do aplicativo podem ser restaurados."),
+        SaveAsync(Copy(Seed(id) ?? throw new InvalidOperationException("Somente itens do aplicativo podem ser restaurados.")),
             null, cancellationToken);
 
     internal static string CustomIdPrefix(TraitCategory category) => category switch
@@ -73,8 +80,9 @@ public sealed class SqliteAdvantageCatalog(DatabaseAccess database) : IAdvantage
         _ => "advantage-custom-"
     };
 
-    private static AdvantageDefinition? Seed(string id) =>
-        ProvidedAdvantages.All.Concat(ProvidedLoresheets.All).FirstOrDefault(x => x.Id == id);
+    private static readonly AdvantageDefinition[] BuiltIn = [.. AdvantageCatalog.BuiltIn, .. AdvantageCatalog.Loresheets];
+
+    private static AdvantageDefinition? Seed(string id) => BuiltIn.FirstOrDefault(x => x.Id == id);
 
     private static AdvantageDefinition Copy(AdvantageDefinition x) => new()
     {
