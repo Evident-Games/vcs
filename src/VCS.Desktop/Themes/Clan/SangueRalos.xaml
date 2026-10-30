@@ -5,10 +5,10 @@
     <SolidColorBrush x:Key="VcsAppOuterText" Color="#FFE3D0" />
     <SolidColorBrush x:Key="VcsAppHeaderText" Color="#FFE3D0" />
     <SolidColorBrush x:Key="VcsAppFooterText" Color="#FFE3D0" />
-    <SolidColorBrush x:Key="VcsAppCard" Color="#000000" />
+    <SolidColorBrush x:Key="VcsAppCard" Color="#150200" />
     <SolidColorBrush x:Key="VcsAppCardText" Color="#FFE3D0" />
     <SolidColorBrush x:Key="VcsAppBorder" Color="#DD4132" />
-    <SolidColorBrush x:Key="VcsAppInput" Color="#000000" />
+    <SolidColorBrush x:Key="VcsAppInput" Color="#150200" />
     <SolidColorBrush x:Key="VcsAppInputText" Color="#FFE3D0" />
     <SolidColorBrush x:Key="VcsAppInputTitle" Color="#FFE3D0" />
     <SolidColorBrush x:Key="VcsAppInputDescription" Color="#FFE3D0" />
@@ -24,10 +24,10 @@
     <!-- Ficha: tudo dentro da ficha aberta. Pode vir de outro tema que o da aplicacao. -->
     <SolidColorBrush x:Key="VcsSheetBackground" Color="#380C00" />
     <SolidColorBrush x:Key="VcsSheetOuterText" Color="#FFE3D0" />
-    <SolidColorBrush x:Key="VcsSheetCard" Color="#000000" />
+    <SolidColorBrush x:Key="VcsSheetCard" Color="#150200" />
     <SolidColorBrush x:Key="VcsSheetCardText" Color="#FFE3D0" />
     <SolidColorBrush x:Key="VcsSheetBorder" Color="#DD4132" />
-    <SolidColorBrush x:Key="VcsSheetInput" Color="#000000" />
+    <SolidColorBrush x:Key="VcsSheetInput" Color="#150200" />
     <SolidColorBrush x:Key="VcsSheetInputText" Color="#FFE3D0" />
     <SolidColorBrush x:Key="VcsSheetInputTitle" Color="#FFE3D0" />
     <SolidColorBrush x:Key="VcsSheetInputDescription" Color="#FFE3D0" />
