@@ -1017,7 +1017,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
                 var border = Assert.IsType<Border>(row.Template.FindName("Row", row));
                 Assert.Equal(((SolidColorBrush)window.FindResource("VcsSelection")).Color,
                     ((SolidColorBrush)border.Background).Color);
-                Assert.Equal(((SolidColorBrush)window.FindResource("VcsAccent")).Color,
+                Assert.Equal(((SolidColorBrush)window.FindResource("VcsAccentBorder")).Color,
                     ((SolidColorBrush)border.BorderBrush).Color);
             }
             var originalId = model.Characters[0].Id;
