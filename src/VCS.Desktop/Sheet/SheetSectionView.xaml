@@ -90,59 +90,9 @@
                         <controls:DotTrack Value="{Binding Humanity, Mode=TwoWay}" Maximum="10" AutomationProperties.Name="Humanidade na ficha" />
                     </StackPanel>
                 </WrapPanel>
-                <Border BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}"
-                        BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
-                    <Grid>
-                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                        <StackPanel>
-                            <TextBlock Text="POTENCIA DE SANGUE" Style="{StaticResource FieldLabel}" />
-                            <controls:DotTrack Value="{Binding BloodPotency, Mode=TwoWay}" Maximum="10"
-                                               IsEnabled="{Binding CanEditBuild}"
-                                               AutomationProperties.Name="Potencia de sangue na ficha" />
-                            <TextBlock Text="{Binding StateExperience}" TextWrapping="Wrap" FontSize="11"
-                                       Foreground="{DynamicResource VcsInputDescription}" Margin="0,3,0,0" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center" MinWidth="110">
-                            <TextBlock Text="GERACAO" Style="{StaticResource FieldLabel}" />
-                            <controls:NumericField Value="{Binding Generation, Mode=TwoWay}" Minimum="1" Maximum="16"
-                                                   IsEnabled="{Binding CanEditBuild}" AutomationProperties.Name="Geracao do personagem" />
-                            <TextBlock Text="{Binding GenerationSummary}" FontSize="11" HorizontalAlignment="Center"
-                                       Foreground="{DynamicResource VcsInputDescription}" Margin="0,3,0,0" />
-                        </StackPanel>
-                    </Grid>
-                </Border>
-                <Border BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}"
-                        BorderThickness="1" CornerRadius="8" Padding="10" Margin="8,0,8,12">
-                    <StackPanel>
-                        <TextBlock Text="GERACAO" Style="{StaticResource FieldLabel}" />
-                        <ItemsControl ItemsSource="{Binding GenerationDots}" AutomationProperties.Name="Escala de geracao, da 16a a 3a">
-                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="14" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel HorizontalAlignment="Center" Margin="1">
-                                        <Border Width="15" Height="15" CornerRadius="8" BorderThickness="1"
-                                                BorderBrush="{DynamicResource VcsAccentBorder}">
-                                            <Border.Style>
-                                                <Style TargetType="Border">
-                                                    <Setter Property="Background" Value="{DynamicResource VcsInput}" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                                            <Setter Property="Background" Value="{DynamicResource VcsAccentText}" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
-                                        </Border>
-                                        <TextBlock Text="{Binding Number}" FontSize="9" HorizontalAlignment="Center"
-                                                   Foreground="{DynamicResource VcsInputDescription}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <TextBlock Text="O destaque acompanha o valor de Geracao acima." FontSize="10" Margin="0,4,0,0"
-                                   Foreground="{DynamicResource VcsInputDescription}" />
-                    </StackPanel>
-                </Border>
+                <sheet:BloodLineageDiagram BloodPotency="{Binding BloodPotency, Mode=TwoWay}"
+                                             Generation="{Binding Generation, Mode=TwoWay}"
+                                             Margin="8,0,8,12" />
                 <UniformGrid Columns="3" Margin="8,0,8,12">
                     <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1"
                             CornerRadius="6" Padding="10" Margin="0,0,6,0">
