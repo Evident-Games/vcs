@@ -151,6 +151,30 @@
                         <TextBlock Text="{Binding FrenzySummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
                     </StackPanel>
                 </Border>
+                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
+                    <StackPanel>
+                        <TextBlock Text="Alimentação" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <WrapPanel VerticalAlignment="Center">
+                            <StackPanel Margin="0,0,12,6" MinWidth="220">
+                                <TextBlock Text="Fonte de sangue" Style="{StaticResource FieldLabel}" />
+                                <ComboBox ItemsSource="{Binding BloodSourceOptions}" DisplayMemberPath="Label"
+                                          SelectedItem="{Binding SelectedBloodSourceOption, Mode=TwoWay}"
+                                          AutomationProperties.Name="Fonte de sangue" />
+                            </StackPanel>
+                            <CheckBox Content="Animal grande" IsChecked="{Binding FeedingAnimalIsLarge, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <CheckBox Content="Animal excepcional" IsChecked="{Binding FeedingAnimalIsExceptional, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <CheckBox Content="Humano drenado até a morte" IsChecked="{Binding FeedingHumanWasDrained, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <Button Content="Aplicar alimentação" Command="{Binding ApplyFeedingCommand}" Margin="0,0,0,6"
+                                    AutomationProperties.Name="Aplicar alimentação" />
+                        </WrapPanel>
+                        <TextBlock Text="{Binding FeedingPreview}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding FeedingSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
+                    </StackPanel>
+                </Border>
                 <UniformGrid Columns="3" Margin="8,0,8,12">
                     <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,6,6">
                         <StackPanel><TextBlock Text="Surto de Sangue" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
