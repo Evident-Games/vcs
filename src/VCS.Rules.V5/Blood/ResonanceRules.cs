@@ -64,6 +64,12 @@ public static class ResonanceRules
 
     public static bool CanProduceDyscrasia(bool isHumanBlood) => isHumanBlood;
 
+    public static bool ResonanceBonusExpires(int hunger, bool fedAgain)
+    {
+        if (hunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(hunger));
+        return fedAgain || hunger == 0;
+    }
+
     public static bool DyscrasiaExpires(int hunger, bool fedAgain)
     {
         if (hunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(hunger));
