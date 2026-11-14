@@ -779,7 +779,7 @@
     "amalgamDisciplineId": "discipline-dominate",
     "amalgamLevel": 2,
     "prerequisite": "Dominação 2",
-    "source": "Players Guide"
+    "source": "Vampire: The Masquerade 5th Edition Players Guide"
   },
   {
     "id": "power-protean-fleshcrafting",
@@ -792,7 +792,7 @@
     "amalgamDisciplineId": "discipline-dominate",
     "amalgamLevel": 2,
     "prerequisite": "Vicissitude; Dominação 2",
-    "source": "Players Guide"
+    "source": "Vampire: The Masquerade 5th Edition Players Guide"
   },
   {
     "id": "power-protean-horrid-form",
@@ -805,7 +805,7 @@
     "amalgamDisciplineId": "discipline-dominate",
     "amalgamLevel": 2,
     "prerequisite": "Vicissitude; Dominação 2",
-    "source": "Players Guide"
+    "source": "Vampire: The Masquerade 5th Edition Players Guide"
   },
   {
     "id": "power-protean-metamorphosis",
@@ -816,7 +816,7 @@
     "dicePool": "Nenhuma",
     "summary": "Amplia a transformação animal, permitindo assumir uma forma híbrida entre a forma humana e uma forma animal escolhida.",
     "prerequisite": "Mudança de Forma",
-    "source": "Players Guide"
+    "source": "Vampire: The Masquerade 5th Edition Players Guide"
   },
   {
     "id": "power-protean-one-with-the-land",
@@ -829,7 +829,7 @@
     "amalgamDisciplineId": "discipline-animalism",
     "amalgamLevel": 2,
     "prerequisite": "Fusão com a Terra; Animalismo 2",
-    "source": "Players Guide"
+    "source": "Vampire: The Masquerade 5th Edition Players Guide"
   },
   {
     "id": "power-protean-unfettered-heart",
@@ -839,7 +839,7 @@
     "cost": "Uma checagem de sangue",
     "dicePool": "Nenhuma",
     "summary": "Altera a relação do vampiro com o próprio coração, reduzindo sua vulnerabilidade a ataques que buscam perfurá-lo.",
-    "source": "Players Guide"
+    "source": "Vampire: The Masquerade 5th Edition Players Guide"
   },
   {
     "id": "power-protean-master-of-forms",
@@ -850,7 +850,7 @@
     "dicePool": "Nenhuma",
     "summary": "Permite transitar entre formas assumidas com maior controle e rapidez, sem perder as capacidades da transformação.",
     "prerequisite": "Mudança de Forma",
-    "source": "Gehenna War"
+    "source": "Vampire: The Masquerade 5th Edition Gehenna War"
   },
   {
     "id": "power-protean-blood-form",
@@ -862,6 +862,6 @@
     "summary": "Permite que o corpo se dissolva temporariamente em sangue e se mova como uma massa fluida, sujeito às limitações narrativas.",
     "amalgamDisciplineId": "discipline-blood-sorcery",
     "amalgamLevel": 2,
-    "source": "Gehenna War"
+    "source": "Vampire: The Masquerade 5th Edition Gehenna War"
   }
 ]
