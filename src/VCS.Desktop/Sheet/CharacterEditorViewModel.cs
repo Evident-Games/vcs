@@ -117,7 +117,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
             new("PowerBonus", "Bonus de poder", d.PowerBonus), new("RouseReroll", "Rerrolagem de Sangue", d.RouseReroll),
             new("FeedingPenalty", "Penalidade de alimentacao", d.FeedingPenalty), new("BaneSeverity", "Gravidade da Perdicao", d.BaneSeverity)
         ];
-        BloodAnnotationFields = BloodFields.Where(x => x.Key is not ("BloodSurge" or "DamageMend" or "PowerBonus")).ToArray();
+        BloodAnnotationFields = BloodFields.Where(x => x.Key is not ("BloodSurge" or "DamageMend" or "PowerBonus" or "RouseReroll" or "FeedingPenalty" or "BaneSeverity")).ToArray();
         _extraFields = ExtraFields.ToDictionary(x => x.Key);
         InitializeNpcSheet(d);
         foreach (var field in ExtraFields) field.PropertyChanged += OnExtraFieldChanged;
@@ -243,6 +243,9 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     public string BloodSurgeSummary => BloodPotencyEffects.BloodSurge(BloodPotency);
     public string BloodMendSummary => BloodPotencyEffects.DamageMend(BloodPotency);
     public string BloodPowerBonusSummary => BloodPotencyEffects.PowerBonus(BloodPotency);
+    public string BloodRouseRerollSummary => BloodPotencyEffects.RouseReroll(BloodPotency);
+    public string BloodFeedingPenaltySummary => BloodPotencyEffects.FeedingPenalty(BloodPotency);
+    public string BloodBaneSeveritySummary => BloodPotencyEffects.BaneSeverity(BloodPotency);
     public string BloodPotencyRuleWarning
     {
         get
@@ -378,6 +381,9 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         OnPropertyChanged(nameof(BloodSurgeSummary));
         OnPropertyChanged(nameof(BloodMendSummary));
         OnPropertyChanged(nameof(BloodPowerBonusSummary));
+        OnPropertyChanged(nameof(BloodRouseRerollSummary));
+        OnPropertyChanged(nameof(BloodFeedingPenaltySummary));
+        OnPropertyChanged(nameof(BloodBaneSeveritySummary));
         OnPropertyChanged(nameof(BloodPotencyRuleWarning));
         OnPropertyChanged(nameof(HasBloodPotencyRuleWarning));
     }
