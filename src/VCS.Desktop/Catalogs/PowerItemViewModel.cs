@@ -23,7 +23,8 @@ public partial class PowerItemViewModel : ObservableObject
     public bool IsUnavailable { get; }
     [ObservableProperty] private bool isKnown;
     public string Heading => $"{Definition.Name} · Nível {Definition.Level}" +
-        (Definition.AmalgamDiscipline is { } discipline ? $" · Amalgama: {discipline} {Definition.AmalgamLevel}" : "");
+        (Definition.AmalgamDiscipline is { } discipline ? $" · Amálgama: {discipline} {Definition.AmalgamLevel}" : "") +
+        (Definition.Source.Length > 0 ? $" · {Definition.Source}" : "");
     public string Warning => IsUnavailable
         ? "Entrada fora do catalogo atual. A selecao foi preservada; os detalhes originais nao estao disponiveis."
         : IsKnown && Definition.Level > _rating(Definition.Discipline)
