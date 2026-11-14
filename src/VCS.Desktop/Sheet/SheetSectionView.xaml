@@ -131,28 +131,59 @@
                                     AutomationProperties.Name="Rolar teste V5" />
                         </WrapPanel>
                         <TextBlock Text="{Binding RollSummary}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
-                        <StackPanel Margin="0,10,0,0">
-                            <StackPanel.Style>
-                                <Style TargetType="StackPanel">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding RolledDice.Count}" Value="0">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </StackPanel.Style>
-                            <Border Height="1" Background="{DynamicResource VcsBorder}" Margin="0,0,0,8" />
-                            <TextBlock Text="Dados 3D" FontSize="11" FontWeight="SemiBold"
-                                       Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,4" />
-                            <ItemsControl ItemsSource="{Binding RolledDice}" AutomationProperties.Name="Dados da última rolagem em 3D">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate><controls:Dice3DView /></DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
+                        <Border Margin="0,10,0,0" Padding="10,8" CornerRadius="8"
+                                Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1">
+                            <StackPanel>
+                                <DockPanel LastChildFill="False">
+                                    <CheckBox Content="Exibir dados em 3D" IsChecked="{Binding ShowDice3D, Mode=TwoWay}"
+                                              VerticalAlignment="Center" AutomationProperties.Name="Exibir dados da rolagem em 3D" />
+                                    <TextBlock DockPanel.Dock="Right" Text="D10" FontSize="10" Margin="12,0,0,0"
+                                               VerticalAlignment="Center" Foreground="{DynamicResource VcsInputDescription}" />
+                                </DockPanel>
+                                <Grid Margin="0,8,0,0">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ShowDice3D}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                    <TextBlock Text="Os dados da última rolagem aparecerão aqui."
+                                               Foreground="{DynamicResource VcsInputDescription}" TextWrapping="Wrap">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RolledDice.Count}" Value="0">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <ItemsControl ItemsSource="{Binding RolledDice}"
+                                                  AutomationProperties.Name="Dados da última rolagem em 3D">
+                                        <ItemsControl.Style>
+                                            <Style TargetType="ItemsControl">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RolledDice.Count}" Value="0">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ItemsControl.Style>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate><controls:Dice3DView /></DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
                     </StackPanel>
                 </Border>
                 <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"

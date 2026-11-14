@@ -21,6 +21,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private int rollDifficulty = 1;
     [ObservableProperty] private bool useHungerDice = true;
     [ObservableProperty] private bool useBloodSurge;
+    [ObservableProperty] private bool showDice3D = true;
     [ObservableProperty] private string rollSummary = "Configure a parada e a dificuldade para resolver um teste.";
 
     [ObservableProperty] private BloodSourceOption selectedBloodSourceOption = BloodSourceOption.All[0];
