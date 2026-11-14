@@ -13,6 +13,7 @@ using VCS.Content.Predators;
 using VCS.Content.Skills;
 using VCS.Desktop.Catalogs;
 using VCS.Rules.V5.Advancement;
+using VCS.Rules.V5.Blood;
 using VCS.Rules.V5.Clans;
 using VCS.Rules.V5.Validation;
 using VCS.Sheet;
@@ -111,8 +112,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         ];
         BloodFields =
         [
-            new("Resonance", "Ressonancia", d.Resonance), new("BloodSurge", "Surto de Sangue", d.BloodSurge),
-            new("DamageMend", "Quantidade recuperada", d.DamageMend), new("PowerBonus", "Bonus de poder", d.PowerBonus),
+            new("Resonance", "Ressonancia", d.Resonance),
             new("RouseReroll", "Rerrolagem de Sangue", d.RouseReroll), new("FeedingPenalty", "Penalidade de alimentacao", d.FeedingPenalty),
             new("BaneSeverity", "Gravidade da Perdicao", d.BaneSeverity)
         ];
@@ -237,6 +237,11 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     }
     public SheetFieldViewModel[] BackgroundFields { get; }
     public SheetFieldViewModel[] BloodFields { get; }
+    public string BloodSurgeSummary => BloodPotencyEffects.BloodSurge(BloodPotency);
+    public string BloodMendSummary => BloodPotencyEffects.DamageMend(BloodPotency);
+    public string BloodPowerBonusSummary => BloodPotencyEffects.PowerBonus(BloodPotency);
+    public string GenerationSummary => $"Geracao {Generation}";
+
     private IEnumerable<SheetFieldViewModel> ExtraFields => IdentityFields.Concat(BackgroundFields).Concat(BloodFields);
     private void OnExtraFieldChanged(object? sender, PropertyChangedEventArgs e)
     {
@@ -339,7 +344,17 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         OnPropertyChanged(nameof(PredatorHelp));
         OnPropertyChanged(nameof(PredatorDisciplineHint));
     }
-    partial void OnGenerationChanged(int value) => OnPropertyChanged(nameof(GenerationGuidance));
+    partial void OnGenerationChanged(int value)
+    {
+        OnPropertyChanged(nameof(GenerationGuidance));
+        OnPropertyChanged(nameof(GenerationSummary));
+    }
+    partial void OnBloodPotencyChanged(int value)
+    {
+        OnPropertyChanged(nameof(BloodSurgeSummary));
+        OnPropertyChanged(nameof(BloodMendSummary));
+        OnPropertyChanged(nameof(BloodPowerBonusSummary));
+    }
 
     private void RefreshAdvancement()
     {
