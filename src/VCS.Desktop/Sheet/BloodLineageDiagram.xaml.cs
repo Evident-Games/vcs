@@ -74,11 +74,11 @@ public partial class BloodLineageDiagram : UserControl
         {
             Content = "×",
             Style = (Style)FindResource("LineageCrossButton"),
-            Foreground = ResolveBrush("VcsAccentText"),
             Tag = 0,
             ToolTip = "Potencia do Sangue 0",
             IsEnabled = BloodPotencyEnabled
         };
+        cross.SetResourceReference(Control.ForegroundProperty, "VcsAccentText");
         AutomationProperties.SetName(cross, "Potencia do Sangue 0");
         cross.Click += OnBloodPotencyClick;
         Canvas.SetLeft(cross, Column(2) - 10);
@@ -247,6 +247,4 @@ public partial class BloodLineageDiagram : UserControl
         Diagram.Children.Add(line);
     }
 
-    private Brush ResolveBrush(string resourceKey) =>
-        TryFindResource(resourceKey) as Brush ?? SystemColors.ControlTextBrush;
 }
