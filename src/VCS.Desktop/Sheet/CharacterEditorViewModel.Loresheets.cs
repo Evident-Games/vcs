@@ -95,7 +95,7 @@ public partial class CharacterEditorViewModel
             var result = LoresheetRules.Select(snapshot.Details, snapshot.Traits,
                 new(TraitCategory.Loresheet, item.Id, item.Name, item.Minimum,
                     Loresheet: new(item.LoresheetCollection, item.IsLineage, item.Description, payment,
-                        item.Prerequisite, item.Source, prerequisiteConfirmed, limitOverrideApproved, approvalNote.Trim())), payment);
+                        item.Prerequisite, item.Source, prerequisiteConfirmed, limitOverrideApproved, (approvalNote ?? "").Trim())), payment);
             _ready = false;
             try
             {
