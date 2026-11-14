@@ -14,6 +14,53 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool useBloodSurge;
     [ObservableProperty] private string rollSummary = "Configure a parada e a dificuldade para resolver um teste.";
 
+    [ObservableProperty] private BloodSourceOption selectedBloodSourceOption = BloodSourceOption.All[0];
+    [ObservableProperty] private bool feedingAnimalIsLarge;
+    [ObservableProperty] private bool feedingAnimalIsExceptional;
+    [ObservableProperty] private bool feedingHumanWasDrained;
+    [ObservableProperty] private string feedingSummary = "Selecione a fonte de sangue para conferir o quanto ela sacia.";
+    public IReadOnlyList<BloodSourceOption> BloodSourceOptions => BloodSourceOption.All;
+    public string FeedingPreview
+    {
+        get
+        {
+            var result = FeedingRules.Resolve(SelectedBloodSourceOption.Source, BloodPotency, Hunger, Hunger,
+                feedingHumanWasDrained, feedingAnimalIsLarge, feedingAnimalIsExceptional);
+            var resonance = result.CanProduceResonance ? "pode conceder Ressonância" : "não concede Ressonância";
+            var dyscrasia = result.CanProduceDyscrasia ? "pode produzir Discrasia" : "não produz Discrasia";
+            return $"{result.RuleNote} Esta alimentação sacia {result.HungerSlaked:0.##} de Fome " +
+                $"(Fome {result.HungerBefore:0.##} → {result.HungerAfter:0.##}); {resonance} e {dyscrasia}.";
+        }
+    }
+
+    partial void OnSelectedBloodSourceOptionChanged(BloodSourceOption value) => OnFeedingInputsChanged();
+    partial void OnFeedingAnimalIsLargeChanged(bool value) => OnFeedingInputsChanged();
+    partial void OnFeedingAnimalIsExceptionalChanged(bool value) => OnFeedingInputsChanged();
+    partial void OnFeedingHumanWasDrainedChanged(bool value) => OnFeedingInputsChanged();
+
+    private void OnFeedingInputsChanged() => OnPropertyChanged(nameof(FeedingPreview));
+
+    [RelayCommand]
+    private void ApplyFeeding()
+    {
+        var result = FeedingRules.Resolve(SelectedBloodSourceOption.Source, BloodPotency, Hunger, Hunger,
+            feedingHumanWasDrained, feedingAnimalIsLarge, feedingAnimalIsExceptional);
+        if (result.HungerSlaked <= 0)
+        {
+            FeedingSummary = "Essa alimentação não reduz a Fome atual.";
+            return;
+        }
+
+        if (decimal.Truncate(result.HungerSlaked) != result.HungerSlaked)
+        {
+            FeedingSummary = $"A regra resulta em meia Fome ({result.HungerSlaked:0.##}); a trilha atual usa pontos inteiros. A Fome não foi arredondada nem alterada.";
+            return;
+        }
+
+        Hunger = (int)result.HungerAfter;
+        FeedingSummary = $"Alimentação aplicada. Fome agora em {Hunger}. Registre a Ressonância/Discrasia da vítima conforme a cena.";
+    }
+
     [ObservableProperty] private bool frenzyTriggerIsPillarOrLover;
     [ObservableProperty] private FrenzyTriggerOption selectedFrenzyTriggerOption = FrenzyTriggerOption.All[0];
     [ObservableProperty] private string frenzySummary = "Selecione um gatilho para conferir a dificuldade e testar resistência.";
