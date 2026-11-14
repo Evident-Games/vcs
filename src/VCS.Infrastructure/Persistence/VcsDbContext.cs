@@ -35,6 +35,8 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         powers.Property(x => x.Id).HasMaxLength(120);
         powers.Property(x => x.DisciplineId).HasMaxLength(80).IsRequired();
         powers.Property(x => x.Name).HasMaxLength(80).IsRequired();
+        powers.Property(x => x.Prerequisite).HasMaxLength(500).IsRequired();
+        powers.Property(x => x.Source).HasMaxLength(120).IsRequired();
         var skills = modelBuilder.Entity<SkillDefinition>();
         skills.ToTable("SkillCatalog");
         skills.HasKey(x => x.Id);
