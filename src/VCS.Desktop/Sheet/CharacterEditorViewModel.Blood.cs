@@ -23,9 +23,9 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private string rollSummary = "Configure a parada e a dificuldade para resolver um teste.";
 
     [ObservableProperty] private BloodSourceOption selectedBloodSourceOption = BloodSourceOption.All[0];
-    [ObservableProperty] private bool FeedingAnimalIsLarge;
-    [ObservableProperty] private bool FeedingAnimalIsExceptional;
-    [ObservableProperty] private bool FeedingHumanWasDrained;
+    [ObservableProperty] private bool feedingAnimalIsLarge;
+    [ObservableProperty] private bool feedingAnimalIsExceptional;
+    [ObservableProperty] private bool feedingHumanWasDrained;
     [ObservableProperty] private string feedingSummary = "Selecione a fonte de sangue para conferir o quanto ela sacia.";
     public IReadOnlyList<BloodSourceOption> BloodSourceOptions => BloodSourceOption.All;
     public string FeedingPreview
