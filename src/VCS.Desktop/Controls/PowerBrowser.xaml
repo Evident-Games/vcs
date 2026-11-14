@@ -37,7 +37,13 @@
                             <DataTemplate>
                                 <StackPanel>
                                     <TextBlock Text="{Binding Heading}" FontSize="22" FontFamily="Georgia" TextWrapping="Wrap" Margin="0,0,0,12" />
-                                    <TextBlock Text="{Binding Definition.Discipline}" Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,12" />
+                                    <TextBlock Text="{Binding Definition.Discipline}" Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,4" />
+                                    <TextBlock Text="{Binding Definition.Source}" Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,8">
+                                        <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding Definition.Source}" Value=""><Setter Property="Visibility" Value="Collapsed" /></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding Definition.Prerequisite, StringFormat=Pré-requisito: {0}}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,12">
+                                        <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding Definition.Prerequisite}" Value=""><Setter Property="Visibility" Value="Collapsed" /></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+                                    </TextBlock>
                                     <CheckBox Content="Conhecido pelo personagem" IsChecked="{Binding IsKnown, Mode=TwoWay}"
                                               Margin="0,0,0,16" />
                                     <TextBlock Text="{Binding Warning}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" Margin="0,0,0,12" />
