@@ -14,6 +14,58 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool useBloodSurge;
     [ObservableProperty] private string rollSummary = "Configure a parada e a dificuldade para resolver um teste.";
 
+    [ObservableProperty] private int willpowerPool;
+    [ObservableProperty] private bool frenzyTriggerIsPillarOrLover;
+    [ObservableProperty] private FrenzyTriggerOption selectedFrenzyTriggerOption = FrenzyTriggerOption.All[0];
+    [ObservableProperty] private string frenzySummary = "Selecione um gatilho para conferir a dificuldade e testar resistência.";
+    public IReadOnlyList<FrenzyTriggerOption> FrenzyTriggerOptions => FrenzyTriggerOption.All;
+    public string FrenzyTriggerGuidance
+    {
+        get
+        {
+            var trigger = FrenzyTriggerRules.Evaluate(SelectedFrenzyTriggerOption.Trigger, Hunger,
+                isPresent: true, isPillarOrLover: FrenzyTriggerIsPillarOrLover);
+            return trigger.Applies
+                ? $"{trigger.Description} Dificuldade {trigger.Difficulty}; Vontade {WillpowerPool} + Humanidade/3."
+                : $"{trigger.Description} Este gatilho não se aplica com a Fome/condição atual.";
+        }
+    }
+
+    partial void OnSelectedFrenzyTriggerOptionChanged(FrenzyTriggerOption value) => OnFrenzyInputsChanged();
+    partial void OnFrenzyTriggerIsPillarOrLoverChanged(bool value) => OnFrenzyInputsChanged();
+    partial void OnHungerChanged(int value)
+    {
+        OnPropertyChanged(nameof(FrenzyTriggerGuidance));
+    }
+
+    private void OnFrenzyInputsChanged() => OnPropertyChanged(nameof(FrenzyTriggerGuidance));
+
+    [RelayCommand]
+    private void ResistFrenzy()
+    {
+        var trigger = FrenzyTriggerRules.Evaluate(SelectedFrenzyTriggerOption.Trigger, Hunger,
+            isPresent: true, isPillarOrLover: FrenzyTriggerIsPillarOrLover);
+        if (!trigger.Applies)
+        {
+            FrenzySummary = "O gatilho escolhido não se aplica ao estado atual; ajuste a Fome ou a condição e confira com o Narrador.";
+            return;
+        }
+
+        if (WillpowerPool is < 0 or > 50)
+        {
+            FrenzySummary = "A parada de Força de Vontade deve ficar entre 0 e 50.";
+            return;
+        }
+
+        var pool = WillpowerPool + Humanity / 3;
+        var roll = DicePoolRules.Roll(pool, 0, trigger.Difficulty);
+        FrenzySummary = roll.IsSuccess
+            ? $"Resistência bem-sucedida: {roll.Successes} sucesso(s) contra dificuldade {trigger.Difficulty}. O vampiro evitou o Frenesi."
+            : $"Resistência falhou: {roll.Successes} sucesso(s) contra dificuldade {trigger.Difficulty}. O vampiro entra em Frenesi. Dados: [{string.Join(", ", roll.NormalDice)}].";
+    }
+
+
+
     [RelayCommand]
     private void RollTest()
     {
