@@ -111,9 +111,9 @@ public static class LoresheetRules
             if (trait.Rating is < 1 or > 5 || trait.Loresheet is not { } lore ||
                 string.IsNullOrWhiteSpace(lore.Collection) || lore.Collection.Length > 80 ||
                 lore.Description is null || lore.Description.Length > 20000 || !Enum.IsDefined(lore.Payment) ||
-                lore.Prerequisite is null || lore.Prerequisite.Length > 500 ||
-                lore.Source is null || lore.Source.Length > 120 ||
-                lore.ApprovalNote is null || lore.ApprovalNote.Length > 1000 ||
+                (lore.Prerequisite?.Length ?? 0) > 500 ||
+                (lore.Source?.Length ?? 0) > 120 ||
+                (lore.ApprovalNote?.Length ?? 0) > 1000 ||
                 lore.Prerequisite.Length > 0 && !lore.PrerequisiteConfirmed ||
                 (lore.PrerequisiteConfirmed || lore.LimitOverrideApproved) && string.IsNullOrWhiteSpace(lore.ApprovalNote))
                 issues.Add(new("Loresheets", "Dados do beneficio invalidos ou aprovacao do Narrador sem justificativa."));
