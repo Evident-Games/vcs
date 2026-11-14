@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using VCS.Rules.V5.Blood;
 using VCS.Rules.V5.Dice;
 
 namespace VCS.Desktop.Sheet;
