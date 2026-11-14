@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using VCS.Content;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Application.Catalogs;
-using VCS.Content;
 using VCS.Content.Disciplines;
 using VCS.Desktop.Sheet;
 using VCS.Sheet;

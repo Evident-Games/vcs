@@ -376,7 +376,6 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         Error = "";
         RefreshAdvancement(); RefreshPredatorInfo(); MarkChanged();
     }
-    partial void OnHumanityChanged(int value) => RefreshPredatorInfo();
     [RelayCommand]
     private void ApplyStainDamage()
     {
