@@ -31,6 +31,7 @@ public sealed record CharacterDetails
     public string Ambition { get; init; } = "";
     public string Desire { get; init; } = "";
     public string Resonance { get; init; } = "";
+    public string Dyscrasia { get; init; } = "";
     public string ChronicleTenets { get; init; } = "";
     public string Touchstones { get; init; } = "";
     public string Convictions { get; init; } = "";
