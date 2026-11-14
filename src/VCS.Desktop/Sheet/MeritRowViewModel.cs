@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using VCS.Content;
 using VCS.Content.Advantages;
 using VCS.Desktop.Catalogs;
 using VCS.Sheet;
