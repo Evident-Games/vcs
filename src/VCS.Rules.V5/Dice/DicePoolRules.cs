@@ -89,7 +89,7 @@ public static class DicePoolRules
     }
 }
 
-public sealed record RouseCheckResult(int Die, bool Succeeded, int HungerBefore, int HungerAfter)
+public sealed record RouseCheckResult(int Die, bool Succeeded, int HungerBefore, int HungerAfter, int? RerolledDie = null)
 {
     public bool IncreasedHunger => HungerAfter > HungerBefore;
 }
@@ -102,6 +102,19 @@ public static class RouseCheckRules
         if (die is < 1 or > 10) throw new ArgumentOutOfRangeException(nameof(die));
         var succeeded = die >= 6;
         return new(die, succeeded, hunger, succeeded ? hunger : Math.Min(5, hunger + 1));
+    }
+
+    public static bool CanRerollForDisciplinePower(int bloodPotency, int powerLevel) =>
+        powerLevel > 0 && powerLevel <= BloodPotencyEffects.At(bloodPotency).RouseRerollLevel;
+
+    public static RouseCheckResult ResolveForDisciplinePower(
+        int hunger, int bloodPotency, int powerLevel, int die, int? rerolledDie = null)
+    {
+        var first = Resolve(hunger, die);
+        if (!CanRerollForDisciplinePower(bloodPotency, powerLevel) || first.Succeeded || rerolledDie is null)
+            return first;
+        var second = Resolve(hunger, rerolledDie.Value);
+        return second with { RerolledDie = rerolledDie.Value };
     }
 
     public static RouseCheckResult Roll(int hunger, Random? random = null)
