@@ -8,13 +8,13 @@ namespace VCS.Desktop.Sheet;
 
 public partial class CharacterEditorViewModel
 {
-    public string BloodPotencyRuleSource => SourceAttribution.ForRule(typeof(BloodPotencyEffects));
-    public string GenerationRuleSource => SourceAttribution.ForRule(typeof(BloodPotencyGenerationRules));
-    public string DiceRuleSource => SourceAttribution.ForRule(typeof(DicePoolRules));
-    public string RouseRuleSource => SourceAttribution.ForRule(typeof(RouseCheckRules));
-    public string FeedingRuleSource => SourceAttribution.ForRule(typeof(FeedingRules));
-    public string FrenzyRuleSource => SourceAttribution.ForRule(typeof(FrenzyRules));
-    public string HumanityRuleSource => SourceAttribution.ForRule(typeof(HumanityRules));
+    public string BloodPotencyRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyEffects));
+    public string GenerationRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyGenerationRules));
+    public string DiceRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(DicePoolRules));
+    public string RouseRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(RouseCheckRules));
+    public string FeedingRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(FeedingRules));
+    public string FrenzyRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(FrenzyRules));
+    public string HumanityRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(HumanityRules));
     [ObservableProperty] private string rouseCheckSummary = "Use a checagem ao ativar um poder ou efeito que a exija.";
     [ObservableProperty] private int rollDicePool = 5;
     [ObservableProperty] private int rollDifficulty = 1;
