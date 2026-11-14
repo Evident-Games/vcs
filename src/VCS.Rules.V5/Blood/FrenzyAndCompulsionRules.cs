@@ -23,17 +23,24 @@ public static class FrenzyRules
 {
     /// <summary>Frenzy resistance uses a Willpower pool and never adds Hunger dice.</summary>
     public static FrenzyResistanceResult ResolveResistance(
-        FrenzyType type, string trigger, int willpowerPool, int difficulty, IReadOnlyList<int> faces)
+        FrenzyType type, string trigger, int willpowerPool, int difficulty, IReadOnlyList<int> faces, int humanity = 0)
     {
         if (string.IsNullOrWhiteSpace(trigger)) throw new ArgumentException("Informe o gatilho do Frenesi.", nameof(trigger));
         if (willpowerPool < 0) throw new ArgumentOutOfRangeException(nameof(willpowerPool));
         if (difficulty is < 1 or > 10) throw new ArgumentOutOfRangeException(nameof(difficulty));
-        var roll = DicePoolRules.Resolve(willpowerPool, 0, difficulty, faces);
+        if (humanity is < 0 or > 10) throw new ArgumentOutOfRangeException(nameof(humanity));
+        var resistancePool = willpowerPool + humanity / 3;
+        var roll = DicePoolRules.Resolve(resistancePool, 0, difficulty, faces);
         return new(type, trigger.Trim(), difficulty, roll, roll.IsSuccess);
     }
 
     public static int FuryFrenzyTerminationDifficulty(bool otherEnemiesStillStand) =>
         otherEnemiesStillStand ? 5 : 3;
+
+    public static FrenzyResistanceResult ResolveFuryTermination(
+        string trigger, int willpowerPool, int humanity, bool otherEnemiesStillStand, IReadOnlyList<int> faces) =>
+        ResolveResistance(FrenzyType.Fury, trigger, willpowerPool,
+            FuryFrenzyTerminationDifficulty(otherEnemiesStillStand), faces, humanity);
 
     public static bool HungerFrenzyEndsAt(int hunger) => hunger is >= 0 and <= 1;
 
