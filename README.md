@@ -12,7 +12,7 @@ Acesse [Releases](https://github.com/Evident-Games/vcs/releases) e baixe a vers�
 
 - Criar, editar, duplicar e organizar fichas de personagens e NPCs.
 - Registrar atributos, habilidades, disciplinas, vantagens, defeitos e informações da história.
-- Escolher entre diferentes modos de exibição e temas, incluindo temas personalizados.
+- Escolher entre diferentes modos de exibição e temas, incluindo opções inspiradas nos clãs.
 - Importar e exportar fichas em JSON e gerar fichas em PDF.
 - Usar catálogos editáveis e adicionar opções personalizadas à ficha.
 
