@@ -3,10 +3,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Width="80" Height="108" Loaded="OnDieLoaded"
     AutomationProperties.Name="{Binding Value, StringFormat='Dado V5: {0}'}">
-    <Border x:Name="DieTile" Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}"
-            BorderThickness="1" CornerRadius="10" Padding="4" TextElement.Foreground="{DynamicResource VcsCardText}">
+    <Border x:Name="DieTile" BorderThickness="1" CornerRadius="10" Padding="4"
+            TextElement.Foreground="{DynamicResource VcsCardText}">
         <Border.Style>
             <Style TargetType="Border">
+                <Setter Property="Background" Value="{DynamicResource VcsCard}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding IsHunger}" Value="True">
                         <Setter Property="Background" Value="{DynamicResource VcsSelection}" />
@@ -21,8 +23,7 @@
                 <RowDefinition Height="64" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock x:Name="DieKindLabel" HorizontalAlignment="Center" FontSize="8" FontWeight="Bold"
-                       Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,2">
+            <TextBlock x:Name="DieKindLabel" HorizontalAlignment="Center" FontSize="8" FontWeight="Bold" Margin="0,0,0,2">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Setter Property="Text" Value="COMUM" />
