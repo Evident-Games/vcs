@@ -33,6 +33,8 @@ public sealed class SqlitePowerCatalog(DatabaseAccess database, ProvidedDiscipli
         CatalogValidation.Text("Custo", value.Cost, 200);
         CatalogValidation.Text("Parada de dados", value.DicePool, 200);
         CatalogValidation.Text("Resumo", value.Summary, 20000);
+        CatalogValidation.Text("Pre-requisito", value.Prerequisite, 500, required: false);
+        CatalogValidation.Text("Fonte", value.Source, 120, required: false);
         var power = value.Id.Length == 0 ? value with { Id = (value.IsRitual ? "ritual-custom-" : "power-custom-") + Guid.NewGuid().ToString("N") } : value;
         await database.Gate.WaitAsync(cancellationToken);
         try
@@ -42,7 +44,8 @@ public sealed class SqlitePowerCatalog(DatabaseAccess database, ProvidedDiscipli
             {
                 Id = power.Id, DisciplineId = power.DisciplineId, Name = power.Name.Trim(), Level = power.Level, Cost = power.Cost,
                 DicePool = power.DicePool, Summary = power.Summary, AmalgamDisciplineId = power.AmalgamDisciplineId,
-                AmalgamLevel = power.AmalgamDisciplineId is null ? 0 : power.AmalgamLevel, IsRitual = power.IsRitual
+                AmalgamLevel = power.AmalgamDisciplineId is null ? 0 : power.AmalgamLevel, IsRitual = power.IsRitual,
+                Prerequisite = power.Prerequisite, Source = power.Source
             };
             var existing = await db.PowerCatalog.FindAsync([record.Id], cancellationToken);
             if (existing is null) db.PowerCatalog.Add(record);
@@ -85,7 +88,7 @@ public sealed class SqlitePowerCatalog(DatabaseAccess database, ProvidedDiscipli
             await using var db = database.CreateContext();
             var records = await db.PowerCatalog.AsNoTracking().ToListAsync(cancellationToken);
             return [.. records.Select(x => new PowerDefinition(x.Id, x.DisciplineId, x.Name, x.Level, x.Cost, x.DicePool, x.Summary,
-                x.AmalgamDisciplineId, x.AmalgamLevel, x.IsRitual))];
+                x.AmalgamDisciplineId, x.AmalgamLevel, x.IsRitual, x.Prerequisite, x.Source))];
         }
         finally { database.Gate.Release(); }
     }
