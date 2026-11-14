@@ -49,7 +49,9 @@ public static class LoresheetRules
         {
             if (payment == LoresheetPayment.CampaignXp)
                 throw new InvalidOperationException("Na criacao, escolha pontos de vantagens ou XP inicial.");
-            if (traits.Any(x => x.Category == TraitCategory.Loresheet && x.Loresheet?.IsLineage == benefit.Loresheet.IsLineage))
+            if (!benefit.Loresheet.LimitOverrideApproved &&
+                traits.Any(x => x.Category == TraitCategory.Loresheet && x.Loresheet is { } existing &&
+                    existing.IsLineage == benefit.Loresheet.IsLineage && !existing.LimitOverrideApproved))
                 throw new InvalidOperationException(benefit.Loresheet.IsLineage
                     ? "A criacao permite somente um beneficio de linhagem/descendencia."
                     : "A criacao permite somente um beneficio geral, mesmo de outra colecao.");
@@ -103,14 +105,20 @@ public static class LoresheetRules
             }
             if (trait.Rating is < 1 or > 5 || trait.Loresheet is not { } lore ||
                 string.IsNullOrWhiteSpace(lore.Collection) || lore.Collection.Length > 80 ||
-                lore.Description is null || lore.Description.Length > 20000 || !Enum.IsDefined(lore.Payment))
-                issues.Add(new("Loresheets", "Colecao, descricao, pontuacao ou pagamento do beneficio invalidos."));
+                lore.Description is null || lore.Description.Length > 20000 || !Enum.IsDefined(lore.Payment) ||
+                lore.Prerequisite is null || lore.Prerequisite.Length > 500 ||
+                lore.Source is null || lore.Source.Length > 120 ||
+                lore.ApprovalNote is null || lore.ApprovalNote.Length > 1000 ||
+                lore.Prerequisite.Length > 0 && !lore.PrerequisiteConfirmed ||
+                (lore.PrerequisiteConfirmed || lore.LimitOverrideApproved) && string.IsNullOrWhiteSpace(lore.ApprovalNote))
+                issues.Add(new("Loresheets", "Dados do beneficio invalidos ou aprovacao do Narrador sem justificativa."));
         }
         if (details.Advancement is { IsCreating: true, AutomaticExperience: false })
         {
             var selections = traits.Where(x => x.Category == TraitCategory.Loresheet && x.Loresheet is not null).ToArray();
-            if (selections.GroupBy(x => x.Loresheet!.IsLineage).Any(x => x.Count() > 1))
-                issues.Add(new("Loresheets", "Criacao: somente um beneficio geral e um de linhagem/descendencia."));
+            if (selections.Where(x => !x.Loresheet!.LimitOverrideApproved)
+                .GroupBy(x => x.Loresheet!.IsLineage).Any(x => x.Count() > 1))
+                issues.Add(new("Loresheets", "Criacao: somente um beneficio geral e um de linhagem/descendencia sem aprovacao do Narrador."));
             if (selections.Any(x => x.Loresheet!.Payment == LoresheetPayment.CampaignXp))
                 issues.Add(new("Loresheets", "Compras da criacao usam pontos de vantagens ou XP inicial, nao campanha."));
             if (Enum.IsDefined(details.Advancement.Age) && InitialXpCost(selections) > CharacterAdvancement.StartingXp(details.Advancement.Age))
