@@ -51,16 +51,14 @@ public static class FeedingRules
             _ => throw new ArgumentOutOfRangeException(nameof(source))
         };
 
-        var deathRequiredForThreshold = source == BloodSource.Human &&
-            ((bloodPotency is >= 5 and <= 8 && currentHunger - requestedHungerSlake < 2m) ||
-             (bloodPotency >= 9 && currentHunger - requestedHungerSlake < 3m));
-
         var slaked = Math.Min(Math.Min(maximum, requestedHungerSlake), currentHunger);
+        var threshold = bloodPotency >= 9 ? 3m : 2m;
+        var deathRequiredForThreshold = source == BloodSource.Human && bloodPotency >= 5 &&
+            currentHunger - slaked < threshold;
         if (deathRequiredForThreshold && !humanWasDrainedToDeath)
         {
             // Keep the character above the generation-independent killing threshold.
-            var floor = bloodPotency >= 9 ? 3m : 2m;
-            slaked = Math.Min(slaked, Math.Max(0m, currentHunger - floor));
+            slaked = Math.Min(slaked, Math.Max(0m, currentHunger - threshold));
         }
 
         var resonance = source == BloodSource.Human || source == BloodSource.Animal && bloodPotency < 3;
