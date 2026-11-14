@@ -306,22 +306,33 @@
                 </Style.Triggers>
             </Style>
         </Border.Style>
-        <StackPanel>
-            <TextBlock Text="{Binding Option.DisplayTitle}" FontFamily="Georgia" FontSize="22" HorizontalAlignment="Center"
-                       Foreground="{DynamicResource VcsAccentText}" Margin="0,0,0,16">
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsCompact, RelativeSource={RelativeSource AncestorType=sheet:SheetSectionView}}" Value="True">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                            <!-- The NPC header shows its own heading. -->
-                            <DataTrigger Binding="{Binding Key}" Value="NpcHeader"><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
+        <Expander IsExpanded="True" BorderThickness="0" Background="Transparent" Padding="0"
+                  AutomationProperties.Name="{Binding Option.DisplayTitle}" AutomationProperties.HelpText="Expandir ou recolher esta seção">
+            <Expander.Header>
+                <Grid Margin="0,0,0,12">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsCompact, RelativeSource={RelativeSource AncestorType=sheet:SheetSectionView}}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <!-- The NPC header shows its own heading. -->
+                                <DataTrigger Binding="{Binding Key}" Value="NpcHeader">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="4" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Background="{DynamicResource VcsAccent}" CornerRadius="2" Margin="0,2,12,2" />
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Option.DisplayTitle}" FontSize="14" FontWeight="Bold"
+                                   Foreground="{DynamicResource VcsAccentText}" TextTrimming="CharacterEllipsis" />
+                        <Border Height="1" Background="{DynamicResource VcsBorder}" Margin="0,8,0,0" />
+                    </StackPanel>
+                </Grid>
+            </Expander.Header>
             <ContentControl x:Name="Body" Focusable="False" />
-        </StackPanel>
+        </Expander>
     </Border>
 </UserControl>

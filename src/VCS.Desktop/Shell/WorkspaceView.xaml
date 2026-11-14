@@ -22,7 +22,7 @@
                                 <TextBlock Text="NPC" FontSize="10" FontWeight="Bold" Margin="0,0,6,0" VerticalAlignment="Center"
                                            Foreground="{DynamicResource VcsAccentText}"
                                            Visibility="{Binding IsNpc, Converter={StaticResource BoolVisibility}}" />
-                                <TextBlock Text="{Binding TabTitle}" TextTrimming="CharacterEllipsis" FontFamily="Georgia"
+                                <TextBlock x:Name="TabTitleText" Text="{Binding TabTitle}" TextTrimming="CharacterEllipsis" FontFamily="Georgia"
                                            Foreground="{DynamicResource VcsCardText}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
@@ -37,6 +37,7 @@
                         <Setter TargetName="Tab" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
                         <Setter TargetName="Tab" Property="BorderThickness" Value="1,1,1,2" />
                         <Setter TargetName="Tab" Property="Background" Value="{DynamicResource VcsSelection}" />
+                        <Setter TargetName="TabTitleText" Property="FontWeight" Value="SemiBold" />
                     </DataTrigger>
                 </DataTemplate.Triggers>
             </DataTemplate>
