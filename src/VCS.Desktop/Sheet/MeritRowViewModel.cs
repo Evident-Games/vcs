@@ -189,6 +189,9 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
             }
             if (definition.Category == TraitCategory.Loresheet)
             {
+                _category = family.Name;
+                OnPropertyChanged(nameof(Category));
+                OnPropertyChanged(nameof(IsLoresheetCategory));
                 if (_sheet.Host is null) return;
                 Release();
                 if (_sheet.Host.AddLoresheet(definition, PrerequisiteConfirmed, LimitOverrideApproved, ApprovalNote) is { } refusal) _error = refusal;
