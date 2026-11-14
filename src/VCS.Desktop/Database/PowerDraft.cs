@@ -19,11 +19,14 @@ public sealed partial class PowerDraft(PowerDefinition power) : ObservableObject
     [ObservableProperty] private string summary = power.Summary;
     [ObservableProperty] private string amalgamDisciplineId = power.AmalgamDisciplineId ?? "";
     [ObservableProperty] private int amalgamLevel = power.AmalgamLevel;
+    [ObservableProperty] private string prerequisite = power.Prerequisite;
+    [ObservableProperty] private string source = power.Source;
 
     public PowerDefinition ToValue() => power with
     {
         DisciplineId = DisciplineId, IsRitual = IsRitual, Name = Name.Trim(), Level = Level, Cost = Cost.Trim(), DicePool = DicePool.Trim(),
         Summary = Summary.Trim(), AmalgamDisciplineId = AmalgamDisciplineId.Length == 0 ? null : AmalgamDisciplineId,
-        AmalgamLevel = AmalgamDisciplineId.Length == 0 ? 0 : AmalgamLevel
+        AmalgamLevel = AmalgamDisciplineId.Length == 0 ? 0 : AmalgamLevel,
+        Prerequisite = Prerequisite.Trim(), Source = Source.Trim()
     };
 }
