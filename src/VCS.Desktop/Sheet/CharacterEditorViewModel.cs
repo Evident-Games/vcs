@@ -241,6 +241,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     public string BloodMendSummary => BloodPotencyEffects.DamageMend(BloodPotency);
     public string BloodPowerBonusSummary => BloodPotencyEffects.PowerBonus(BloodPotency);
     public string GenerationSummary => $"Geracao {Generation}";
+    public IReadOnlyList<BloodGenerationDot> GenerationDots => Enumerable.Range(3, 14).Reverse()
+        .Select(value => new BloodGenerationDot(value, value == Generation)).ToArray();
 
     private IEnumerable<SheetFieldViewModel> ExtraFields => IdentityFields.Concat(BackgroundFields).Concat(BloodFields);
     private void OnExtraFieldChanged(object? sender, PropertyChangedEventArgs e)
@@ -348,6 +350,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     {
         OnPropertyChanged(nameof(GenerationGuidance));
         OnPropertyChanged(nameof(GenerationSummary));
+        OnPropertyChanged(nameof(GenerationDots));
     }
     partial void OnBloodPotencyChanged(int value)
     {
@@ -383,3 +386,5 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         }
     }
 }
+
+public sealed record BloodGenerationDot(int Number, bool IsSelected);
