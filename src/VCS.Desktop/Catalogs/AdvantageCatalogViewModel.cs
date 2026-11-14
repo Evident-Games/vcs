@@ -180,7 +180,9 @@ public sealed class AdvantageCatalogViewModel : IDisposable
             .OrderBy(x => x.Definition.Name, StringComparer.CurrentCulture)
             .Select(x => new SuggestionItem(x.Definition.Name,
                 family is null ? $"{x.Family.Name} · {x.Definition.PointsLabel}" : x.Definition.PointsLabel,
-                x.Definition.LoresheetCollection))
+                string.Join(" · ", new[] { x.Definition.LoresheetCollection, x.Definition.Source,
+                    string.IsNullOrWhiteSpace(x.Definition.Prerequisite) ? "" : $"Pré-requisito: {x.Definition.Prerequisite}" }
+                    .Where(value => !string.IsNullOrWhiteSpace(value)))))
             .ToArray();
     }
 
