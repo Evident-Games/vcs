@@ -372,6 +372,12 @@ namespace VCS.Infrastructure.Persistence.Migrations
                                 .IsRequired()
                                 .HasColumnType("TEXT");
 
+                            b1.Property<string>("Exceptions")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("TEXT")
+                                .HasDefaultValue("[]");
+
                             b1.Property<string>("Desire")
                                 .IsRequired()
                                 .HasColumnType("TEXT");

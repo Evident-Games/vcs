@@ -17,7 +17,8 @@ public sealed class DisplaySettingsStore(string path)
         [SheetSection.Identity] = "Identidade e atributos", [SheetSection.Attributes] = "Identidade e atributos",
         [SheetSection.Skills] = "Habilidades", [SheetSection.Disciplines] = "Disciplinas",
         [SheetSection.Advantages] = "Vantagens e desvantagens", [SheetSection.State] = "Estado e sangue",
-        [SheetSection.Background] = "Historia e conviccoes", [SheetSection.Notes] = "Anotacoes"
+        [SheetSection.Background] = "Historia e conviccoes", [SheetSection.Notes] = "Anotacoes",
+        [SheetSection.Exceptions] = "Excecoes da cronica"
     };
 
     public void Load(DisplaySettingsViewModel settings)

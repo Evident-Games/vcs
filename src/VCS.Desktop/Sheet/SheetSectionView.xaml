@@ -280,6 +280,30 @@
                 </TextBlock>
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="Exceptions">
+            <StackPanel>
+                <TextBlock Text="Registre permissões e decisões da crônica que flexibilizam requisitos da ficha. Este quadro é salvo junto ao personagem e fica visível para consulta." TextWrapping="Wrap" Margin="8,0,8,10" Foreground="{DynamicResource VcsInputDescription}" />
+                <DockPanel Margin="8,0,8,8">
+                    <Button DockPanel.Dock="Right" Content="+ Registrar exceção" Command="{Binding ExceptionRegister.AddCommand}" AutomationProperties.Name="Registrar exceção da ficha" />
+                    <TextBlock Text="{Binding ExceptionRegister.Count, StringFormat={}{0} exceção(ões) registradas}" VerticalAlignment="Center" Foreground="{DynamicResource VcsInputDescription}" />
+                </DockPanel>
+                <DataGrid ItemsSource="{Binding ExceptionRegister.Entries}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserReorderColumns="False" MinHeight="100" MaxHeight="520" HeadersVisibility="Column" IsReadOnly="False" AutomationProperties.Name="Exceções autorizadas pelo narrador">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Área" Binding="{Binding Area, UpdateSourceTrigger=PropertyChanged}" Width="130" />
+                        <DataGridTextColumn Header="Item / escolha" Binding="{Binding Subject, UpdateSourceTrigger=PropertyChanged}" Width="160" />
+                        <DataGridTextColumn Header="Regra ou pré-requisito" Binding="{Binding RuleOrPrerequisite, UpdateSourceTrigger=PropertyChanged}" Width="2*" />
+                        <DataGridTextColumn Header="Decisão / motivo" Binding="{Binding Ruling, UpdateSourceTrigger=PropertyChanged}" Width="2*" />
+                        <DataGridTextColumn Header="Autorizado por" Binding="{Binding AuthorizedBy, UpdateSourceTrigger=PropertyChanged}" Width="130" />
+                        <DataGridTextColumn Header="Data" Binding="{Binding ApprovedDate}" IsReadOnly="True" Width="100" />
+                        <DataGridTemplateColumn Header="" Width="42">
+                            <DataGridTemplateColumn.CellTemplate><DataTemplate>
+                                <Button Content="×" ToolTip="Excluir registro" Command="{Binding DataContext.ExceptionRegister.RemoveCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" AutomationProperties.Name="Excluir exceção" />
+                            </DataTemplate></DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </DataTemplate>
     </UserControl.Resources>
     <Border>
         <Border.Style>

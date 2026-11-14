@@ -70,6 +70,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         }
         Notebook = new(noteEntries);
         Notebook.Changed += OnNotebookChanged;
+        ExceptionRegister = new(d.Exceptions);
+        ExceptionRegister.Changed += OnExceptionsChanged;
         hunger = d.Hunger; humanity = d.Humanity; bloodPotency = d.BloodPotency;
         healthSuperficial = d.HealthSuperficial; healthAggravated = d.HealthAggravated;
         willpowerSuperficial = d.WillpowerSuperficial; willpowerAggravated = d.WillpowerAggravated;
@@ -157,6 +159,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     [ObservableProperty] private string description;
     [ObservableProperty] private string notes;
     public NotesViewModel Notebook { get; }
+    public ExceptionRegisterViewModel ExceptionRegister { get; }
+    private void OnExceptionsChanged(object? sender, EventArgs e) => MarkChanged();
     private void OnNotebookChanged(object? sender, EventArgs e) => MarkChanged();
     [ObservableProperty] private int hunger;
     [ObservableProperty] private int humanity;
