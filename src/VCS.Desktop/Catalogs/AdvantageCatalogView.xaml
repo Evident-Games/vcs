@@ -147,7 +147,8 @@
                                  AcceptsReturn="True" TextWrapping="Wrap" MinHeight="44" MaxLength="20000" FontSize="12.5"
                                  IsReadOnly="{Binding IsLocked}"
                                  AutomationProperties.Name="Anotacoes da caracteristica" />
-                        <StackPanel Margin="0,8,0,0" Visibility="{Binding IsLoresheetCategory, Converter={StaticResource BoolVisibility}}">
+                        <StackPanel Margin="0,8,0,0" Visibility="{Binding IsLoresheetCategory, Converter={StaticResource BoolVisibility}}"
+                                     IsEnabled="{Binding CanApproveLoresheet}">
                             <TextBlock Text="Exceções de ficha de conhecimento" Style="{StaticResource FieldLabel}" />
                             <TextBlock Text="Marque apenas com autorização do Narrador. A justificativa fica registrada na ficha."
                                        FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,4" />
