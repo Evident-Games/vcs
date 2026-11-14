@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using VCS.Content;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Application.Catalogs;
+using VCS.Application.Characters;
 using VCS.Content.Disciplines;
 using VCS.Desktop.Sheet;
 using VCS.Sheet;
@@ -16,13 +17,17 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
     private readonly TraitGroupViewModel _disciplines;
     private readonly PowerItemViewModel[] _all;
     private readonly string[] _catalogDisciplines;
+    private readonly CharacterSheetActions _characterActions;
     private bool _syncing;
-    public DisciplineCatalogViewModel(IDisciplineCatalog catalog, TraitGroupViewModel disciplines, IEnumerable<TraitValue> traits)
+    public DisciplineCatalogViewModel(IDisciplineCatalog catalog, TraitGroupViewModel disciplines, IEnumerable<TraitValue> traits,
+        CharacterSheetActions? characterActions = null)
     {
         _disciplines = disciplines;
+        _characterActions = characterActions ?? new();
         var powers = traits.Where(x => x.Category == TraitCategory.DisciplinePower).ToArray();
         var known = powers.ToDictionary(x => x.Key);
-        var entries = catalog.Powers.Select(p => new PowerItemViewModel(p, known.ContainsKey(p.Id), Rating, clan: () => Clan)).ToList();
+        var entries = catalog.Powers.Select(p => new PowerItemViewModel(p, known.ContainsKey(p.Id), Rating, clan: () => Clan,
+            advancement: (clan, discipline, rating) => _characterActions.DescribeDisciplineAdvancement(clan, discipline, rating))).ToList();
         var ids = catalog.Powers.Select(x => x.Id).ToHashSet(StringComparer.Ordinal);
         foreach (var missing in powers.Where(x => !ids.Contains(x.Key) && x.Power is null))
             entries.Add(new(new(missing.Key, "Fora do catalogo", missing.Name, missing.Rating, "", "", ""),

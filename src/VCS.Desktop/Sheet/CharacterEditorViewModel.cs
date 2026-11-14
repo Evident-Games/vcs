@@ -100,7 +100,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         Advantages = new(TraitCategory.Advantage, character.Traits);
         Flaws = new(TraitCategory.Flaw, character.Traits);
         Loresheets = new(TraitCategory.Loresheet, character.Traits);
-        Powers = new(catalog, Disciplines, character.Traits);
+        Powers = new(catalog, Disciplines, character.Traits, _characterActions);
         Powers.Clan = clan;
         Powers.Changed += OnPowersChanged;
         PersonalDisciplines = new(Disciplines);
@@ -420,7 +420,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     private void RefreshAdvancement()
     {
         foreach (var discipline in Disciplines.Items)
-            discipline.AdvancementInfo = DisciplineXpText.Describe(Clan, discipline.Name, discipline.Rating);
+            discipline.AdvancementInfo = DisciplineXpText.Describe(
+                _characterActions.DescribeDisciplineAdvancement(Clan, discipline.Name, discipline.Rating));
     }
 
     private void OnPowersChanged(object? sender, EventArgs e) => MarkChanged();

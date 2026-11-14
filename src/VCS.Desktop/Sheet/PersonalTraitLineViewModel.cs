@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Rules.V5.Advancement;
+using VCS.Application.Characters;
 
 namespace VCS.Desktop.Sheet;
 
@@ -27,7 +27,7 @@ public partial class PersonalTraitLineViewModel : ObservableObject
 
     internal TraitItemViewModel? Trait => _trait;
     public bool IsDraft => _trait is null;
-    public int SpecializationCount => CharacterAdvancement.SpecializationCount(Specialization);
+    public int SpecializationCount => CharacterSheetActions.SpecializationCount(Specialization);
     public string Name
     {
         get => _trait?.Name ?? name;

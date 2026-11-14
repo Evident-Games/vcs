@@ -21,11 +21,11 @@ Texto de apresentação, `ObservableCollection`, `ICommand`, `Dispatcher`, `Coll
 
 ## Primeiro recorte
 
-`VCS.Application.Blood.BloodActions` coordena alimentação, gatilhos e resistência a Frenesi, Surto de Sangue, testes e Checagens de Sangue. `VCS.Application.Humanity.HumanityActions` coordena Remorso e dano por Máculas. `CharacterSheetActions` coordena validação, capacidades, cálculo de XP, bases de criação e verificações de Potência/Geração; `PredatorActions` e `LoresheetActions` coordenam as seleções e alterações de estado. `DiceActions` monta paradas de Atributo + Habilidade, aplica o dado de especialização quando marcado e encaminha a rolagem. A interface mantém a formatação e a apresentação.
+`VCS.Application.Blood.BloodActions` coordena alimentação, gatilhos e resistência a Frenesi, Surto de Sangue, testes e Checagens de Sangue. `VCS.Application.Humanity.HumanityActions` coordena Remorso, dano por Máculas e consulta aos níveis de Humanidade. `CharacterSheetActions` coordena validação, capacidades, cálculo de XP, bases de criação, dados de apresentação da ficha e verificações de Potência/Geração; `PredatorActions` e `LoresheetActions` coordenam as seleções e alterações de estado. `DiceActions` monta paradas de Atributo + Habilidade, aplica o dado de especialização quando marcado e encaminha a rolagem. A interface mantém a formatação e a apresentação.
 
 ## Próximas etapas
 
-1. Concluído parcialmente: validação, capacidade de trilhas, cálculo de XP, sincronização das bases e verificações de Potência/Geração foram encaminhados a `CharacterSheetActions`; Predador, ficha de conhecimento e montagem de paradas têm serviços próprios. Falta mover os fluxos de compra de XP e todas as operações de vantagens/disciplina.
+1. Concluído parcialmente: validação, capacidade de trilhas, cálculo de XP, sincronização das bases, consultas de Humanidade, predador, ficha de conhecimento, custo de disciplina, dados auxiliares da ficha e montagem de parada foram encaminhados a `VCS.Application`. Falta mover o fluxo de compras de XP e completar operações comuns de vantagens/disciplina.
 2. Extrair seleção/aplicação de Vantagens e Disciplinas para fluxos de aplicação; deixar regras puras em `VCS.Rules.V5`.
 3. Remover dependências de WPF de ViewModels e helpers que ainda usam `ListCollectionView`, `Dispatcher`, controles ou tipos WPF. Hoje `NotesViewModel` e o filtro de disciplinas ainda usam `ListCollectionView`.
 4. Mover formatação/localização de mensagens para apresentadores da camada Desktop, mantendo resultados de regra tipados.

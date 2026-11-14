@@ -85,7 +85,7 @@ public partial class CharacterEditorViewModel
         set
         {
             if (int.TryParse(value, out var boxes))
-                NpcHealthCapacity = Math.Clamp(boxes, Math.Max(1, HealthSuperficial + HealthAggravated), CharacterRules.NpcMaximumBoxes);
+                NpcHealthCapacity = Math.Clamp(boxes, Math.Max(1, HealthSuperficial + HealthAggravated), CharacterSheetActions.NpcMaximumBoxes);
             OnPropertyChanged();
         }
     }
@@ -96,7 +96,7 @@ public partial class CharacterEditorViewModel
         set
         {
             if (int.TryParse(value, out var boxes))
-                NpcWillpowerCapacity = Math.Clamp(boxes, Math.Max(1, WillpowerSuperficial + WillpowerAggravated), CharacterRules.NpcMaximumBoxes);
+                NpcWillpowerCapacity = Math.Clamp(boxes, Math.Max(1, WillpowerSuperficial + WillpowerAggravated), CharacterSheetActions.NpcMaximumBoxes);
             OnPropertyChanged();
         }
     }

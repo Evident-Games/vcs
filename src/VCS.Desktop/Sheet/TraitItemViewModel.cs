@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using VCS.Application.Characters;
 using VCS.Content.Predators;
-using VCS.Rules.V5.Advancement;
-using VCS.Rules.V5.Predators;
 using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
@@ -25,8 +24,8 @@ public partial class TraitItemViewModel : ObservableObject
     public LoresheetInfo? Loresheet { get; }
     public string? MeritGroup { get; internal set; }
     public string? SkillGroup { get; internal set; }
-    public int SpecializationCount => CharacterAdvancement.SpecializationCount(Specialization);
-    public bool IsPredatorGrant => PredatorRules.IsGrant(ToValue());
+    public int SpecializationCount => CharacterSheetActions.SpecializationCount(Specialization);
+    public bool IsPredatorGrant => CharacterSheetActions.IsPredatorGrant(ToValue());
     public bool CanEditRating => !IsPredatorGrant;
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CanEditName))]

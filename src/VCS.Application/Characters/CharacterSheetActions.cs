@@ -2,15 +2,22 @@ using VCS.Rules.V5.Advancement;
 using VCS.Rules.V5.Blood;
 using VCS.Rules.V5.Validation;
 using VCS.Rules.V5.Clans;
+using VCS.Rules.V5.Predators;
 using VCS.Sheet;
 
 namespace VCS.Application.Characters;
 
 public sealed record BloodPotencyWarning(int Generation, int BloodPotency, int Minimum, int Maximum, bool HasDefinedRange, bool IsThinBlood);
+public sealed record DisciplineAdvancementGuidance(bool? IsInClan, int CurrentRating, int? NextLevelCost);
 
 /// <summary>Coordinates common character-sheet calculations and V5 validation for any presentation client.</summary>
 public sealed class CharacterSheetActions
 {
+    public static int NpcMaximumBoxes => CharacterRules.NpcMaximumBoxes;
+    public static IReadOnlyList<TraitValue> DefaultAttributes => CharacterRules.DefaultAttributes;
+    public static int SpecializationCount(string text) => CharacterAdvancement.SpecializationCount(text);
+    public static bool IsPredatorGrant(TraitValue value) => PredatorRules.IsGrant(value);
+
     public IReadOnlyList<int> AttributeDistribution => CharacterAdvancement.AttributeDistribution;
     public IReadOnlyList<int> DisciplineDistribution => CharacterAdvancement.DisciplineDistribution;
 
@@ -35,6 +42,12 @@ public sealed class CharacterSheetActions
     public int FreeSpecializationsRemaining(CharacterDetails details, IEnumerable<TraitValue> traits) =>
         CharacterAdvancement.FreeSpecializationsRemaining(details, traits);
     public bool? IsDisciplineInClan(string clan, string discipline) => DisciplineAdvancement.IsInClan(clan, discipline);
+
+    public DisciplineAdvancementGuidance DescribeDisciplineAdvancement(string clan, string discipline, int rating)
+    {
+        var inClan = DisciplineAdvancement.IsInClan(clan, discipline);
+        return new(inClan, rating, inClan is null ? null : DisciplineAdvancement.NextLevelCost(clan, discipline, rating));
+    }
 
     public AdvancementState SyncAttributeBase(AdvancementState state, IEnumerable<TraitValue> attributes) =>
         CharacterAdvancement.SyncAttributeBase(state, attributes);
