@@ -22,6 +22,10 @@ public partial class BloodLineageDiagram : UserControl
         nameof(Generation), typeof(int), typeof(BloodLineageDiagram),
         new FrameworkPropertyMetadata(13, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnValueChanged));
 
+    public static readonly DependencyProperty BloodPotencyEnabledProperty = DependencyProperty.Register(
+        nameof(BloodPotencyEnabled), typeof(bool), typeof(BloodLineageDiagram),
+        new FrameworkPropertyMetadata(true, OnValueChanged));
+
     public int BloodPotency
     {
         get => (int)GetValue(BloodPotencyProperty);
@@ -32,6 +36,12 @@ public partial class BloodLineageDiagram : UserControl
     {
         get => (int)GetValue(GenerationProperty);
         set => SetValue(GenerationProperty, value);
+    }
+
+    public bool BloodPotencyEnabled
+    {
+        get => (bool)GetValue(BloodPotencyEnabledProperty);
+        set => SetValue(BloodPotencyEnabledProperty, value);
     }
 
     public BloodLineageDiagram()
@@ -61,7 +71,8 @@ public partial class BloodLineageDiagram : UserControl
             Style = (Style)FindResource("LineageCrossButton"),
             Foreground = ResolveBrush("VcsAccentText"),
             Tag = 0,
-            ToolTip = "Potencia do Sangue 0"
+            ToolTip = "Potencia do Sangue 0",
+            IsEnabled = BloodPotencyEnabled
         };
         AutomationProperties.SetName(cross, "Potencia do Sangue 0");
         cross.Click += OnBloodPotencyClick;
@@ -72,6 +83,7 @@ public partial class BloodLineageDiagram : UserControl
         for (var potency = 1; potency <= 10; potency++)
         {
             var bloodDot = CreateDot(potency <= BloodPotency, $"Potencia do Sangue {potency}");
+            bloodDot.IsEnabled = BloodPotencyEnabled;
             bloodDot.Tag = potency;
             bloodDot.Click += OnBloodPotencyClick;
             Canvas.SetLeft(bloodDot, Column(potency + 1) - DotSize / 2);
