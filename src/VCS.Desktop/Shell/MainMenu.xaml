@@ -26,6 +26,9 @@
             </MenuItem>
             <MenuItem Header="E_xibir">
                 <MenuItem Header="Layout da ficha..." Command="{Binding ToggleLayoutSettingsCommand}" />
+                <MenuItem Header="Dados de rolagem em 3D" IsCheckable="True"
+                          IsChecked="{Binding Display.Show3DDice, Mode=TwoWay}"
+                          ToolTip="Animar todas as rolagens da ficha em uma mesa de dados" />
                 <MenuItem Header="Lista lateral de personagens" IsCheckable="True" IsChecked="{Binding Display.ShowSidebar, Mode=TwoWay}" />
                 <Separator />
                 <MenuItem Header="Temas">

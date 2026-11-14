@@ -9,6 +9,22 @@ namespace VCS.Desktop.Sheet;
 public partial class CharacterEditorViewModel
 {
     public ObservableCollection<RolledDieDisplay> RolledDice { get; } = [];
+    public bool HasRolledDice => RolledDice.Count > 0;
+
+    private void ShowDiceRoll(string label, IEnumerable<RolledDieDisplay> dice)
+    {
+        RolledDice.Clear();
+        foreach (var die in dice) RolledDice.Add(die);
+        LastRollLabel = label;
+        OnPropertyChanged(nameof(HasRolledDice));
+    }
+
+    [RelayCommand]
+    private void ClearRolledDice()
+    {
+        RolledDice.Clear();
+        OnPropertyChanged(nameof(HasRolledDice));
+    }
     public string BloodPotencyRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyEffects));
     public string GenerationRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyGenerationRules));
     public string DiceRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(DicePoolRules));
@@ -21,7 +37,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private int rollDifficulty = 1;
     [ObservableProperty] private bool useHungerDice = true;
     [ObservableProperty] private bool useBloodSurge;
-    [ObservableProperty] private bool showDice3D = true;
+    [ObservableProperty] private string lastRollLabel = "";
     [ObservableProperty] private string rollSummary = "Configure a parada e a dificuldade para resolver um teste.";
 
     [ObservableProperty] private BloodSourceOption selectedBloodSourceOption = BloodSourceOption.All[0];
@@ -112,6 +128,7 @@ public partial class CharacterEditorViewModel
         var result = FrenzyRules.RollResistance(trigger.Type, trigger.Description,
             WillpowerCapacity, trigger.Difficulty, Humanity);
         var roll = result.Roll;
+        ShowDiceRoll("Resistência ao Frenesi", roll.NormalDice.Select(face => new RolledDieDisplay(face, "FRENESI")));
         FrenzySummary = result.Resisted
             ? $"Resistência bem-sucedida: {roll.Successes} sucesso(s) contra dificuldade {trigger.Difficulty}. O vampiro evitou o Frenesi."
             : $"Resistência falhou: {roll.Successes} sucesso(s) contra dificuldade {trigger.Difficulty}. O vampiro entra em Frenesi. Dados: [{string.Join(", ", roll.NormalDice)}].";
@@ -130,10 +147,12 @@ public partial class CharacterEditorViewModel
 
         var surgeDice = UseBloodSurge ? BloodPotencyEffects.At(BloodPotency).BloodSurgeDice : 0;
         var rouseSummary = "";
+        var displayedDice = new List<RolledDieDisplay>();
         if (UseBloodSurge)
         {
             var rouse = RouseCheckRules.Roll(Hunger);
             Hunger = rouse.HungerAfter;
+            displayedDice.Add(new(rouse.Die, "SURTO"));
             rouseSummary = rouse.Succeeded ? $"Surto de Sangue: checagem {rouse.Die}, sucesso. " :
                 $"Surto de Sangue: checagem {rouse.Die}, falha; Fome {Hunger}. ";
         }
@@ -141,9 +160,9 @@ public partial class CharacterEditorViewModel
         var pool = RollDicePool + surgeDice;
         var hungerDice = UseHungerDice ? Hunger : 0;
         var result = DicePoolRules.Roll(pool, hungerDice, RollDifficulty);
-        RolledDice.Clear();
-        foreach (var face in result.NormalDice) RolledDice.Add(new(face, IsHunger: false));
-        foreach (var face in result.HungerDice) RolledDice.Add(new(face, IsHunger: true));
+        displayedDice.AddRange(result.NormalDice.Select(face => new RolledDieDisplay(face, "COMUM")));
+        displayedDice.AddRange(result.HungerDice.Select(face => new RolledDieDisplay(face, "FOME")));
+        ShowDiceRoll("Teste V5", displayedDice);
         var outcome = result.Outcome switch
         {
             TestOutcome.Failure => "falha",
@@ -173,7 +192,11 @@ public partial class CharacterEditorViewModel
             : result.HungerAfter == result.HungerBefore
                 ? $"Checagem de Sangue: falha ({result.Die}). Fome já estava em 5."
                 : $"Checagem de Sangue: falha ({result.Die}). Fome aumenta para {Hunger}.";
+        ShowDiceRoll("Checagem de Sangue", [new RolledDieDisplay(result.Die, "SANGUE")]);
     }
 }
 
-public sealed record RolledDieDisplay(int Value, bool IsHunger);
+public sealed record RolledDieDisplay(int Value, string Kind)
+{
+    public bool IsHunger => Kind == "FOME";
+}

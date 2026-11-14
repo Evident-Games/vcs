@@ -41,6 +41,7 @@ public sealed class DisplaySettingsStore(string path)
         settings.UseTabs = saved.UseTabs;
         settings.UseBento = saved.UseBento && !saved.UseTabs;
         settings.ShowSidebar = saved.ShowSidebar;
+        settings.Show3DDice = saved.Show3DDice ?? true;
         settings.ThemeId = themeId;
         foreach (var (sheet, sheetTheme) in saved.SheetThemes ?? []) settings.SheetThemeIds[sheet] = sheetTheme;
         Apply(settings.Pc, saved.HiddenSections, legacyDefaultTabs ? null : saved.TabNames, saved.Layout);
@@ -104,7 +105,7 @@ public sealed class DisplaySettingsStore(string path)
                 ShowSidebar: settings.ShowSidebar,
                 Layout: Sections(settings.Pc),
                 UseBento: settings.UseBento, SheetThemes: settings.SheetThemeIds,
-                Npc: new LayoutPreferences(Hidden(settings.Npc), Sections(settings.Npc))), WriteOptions));
+                Npc: new LayoutPreferences(Hidden(settings.Npc), Sections(settings.Npc)), Show3DDice: settings.Show3DDice), WriteOptions));
             File.Move(temporary, path, true);
         }
         finally { if (File.Exists(temporary)) File.Delete(temporary); }
@@ -117,7 +118,8 @@ public sealed class DisplaySettingsStore(string path)
 
     private sealed record Preferences(bool UseTabs, string[] HiddenSections, string? ThemeId = null, bool? DarkTheme = null,
         Dictionary<string, string>? TabNames = null, bool ShowSidebar = true, Dictionary<string, SectionLayout>? Layout = null,
-        bool UseBento = false, Dictionary<Guid, string>? SheetThemes = null, LayoutPreferences? Npc = null);
+        bool UseBento = false, Dictionary<Guid, string>? SheetThemes = null, LayoutPreferences? Npc = null,
+        bool? Show3DDice = null);
     private sealed record LayoutPreferences(string[]? HiddenSections, Dictionary<string, SectionLayout>? Layout);
     /// <summary>Span and Height are 0 in files saved before bento sizes existed, meaning "keep the default".</summary>
     private sealed record SectionLayout(string Caption, int SectionOrder, int TabOrder, string? TabName = null,

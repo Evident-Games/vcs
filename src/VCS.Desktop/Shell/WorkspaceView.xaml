@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sheet="clr-namespace:VCS.Desktop.Sheet"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls"
     xmlns:shell="clr-namespace:VCS.Desktop.Shell"
     xmlns:themes="clr-namespace:VCS.Desktop.Themes">
     <!-- Open sheet tabs, the home view and every open sheet (alone or side by side). -->
@@ -116,6 +117,54 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </Grid>
+        <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,12,12"
+                Width="456" MaxHeight="286" Padding="12" CornerRadius="12"
+                Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}"
+                BorderThickness="1" Panel.ZIndex="20" AutomationProperties.Name="Mesa de rolagem 3D">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Display.Show3DDice}" Value="True" />
+                                <Condition Binding="{Binding Editor.HasRolledDice}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8" LastChildFill="False">
+                    <StackPanel>
+                        <TextBlock Text="MESA DE DADOS" FontSize="10" FontWeight="Bold"
+                                   Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding Editor.LastRollLabel}" FontFamily="Georgia" FontSize="16"
+                                   Foreground="{DynamicResource VcsCardText}" />
+                    </StackPanel>
+                    <Button DockPanel.Dock="Right" Content="×" Width="26" Height="26" Padding="0"
+                            Background="Transparent" BorderThickness="0" Foreground="{DynamicResource VcsInputDescription}"
+                            ToolTip="Fechar visualização dos dados" Command="{Binding Editor.ClearRolledDiceCommand}"
+                            AutomationProperties.Name="Fechar mesa de dados" />
+                </DockPanel>
+                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="8" Padding="8">
+                    <ScrollViewer MaxHeight="208" VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding Editor.RolledDice}"
+                                      AutomationProperties.Name="Resultados dos dados tridimensionais">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate><controls:Dice3DView /></DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+            </DockPanel>
+        </Border>
     </Grid>
     </DockPanel>
 </UserControl>

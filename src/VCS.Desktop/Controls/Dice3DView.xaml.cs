@@ -34,8 +34,19 @@ public partial class Dice3DView : UserControl
             Random.Shared.NextDouble() + 0.2);
         axis.Normalize();
         _rotation.Axis = axis;
-        var animation = new DoubleAnimation(0, Random.Shared.Next(720, 1261),
-            new Duration(TimeSpan.FromMilliseconds(Random.Shared.Next(900, 1401))))
+        var rollDuration = TimeSpan.FromMilliseconds(Random.Shared.Next(900, 1401));
+        var drop = new DoubleAnimation(-88, 0, new Duration(TimeSpan.FromMilliseconds(820)))
+        {
+            EasingFunction = new BounceEase { Bounces = 2, Bounciness = 2.2, EasingMode = EasingMode.EaseOut }
+        };
+        DropTransform.BeginAnimation(TranslateTransform.YProperty, drop);
+        var reveal = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(220)))
+        {
+            BeginTime = TimeSpan.FromMilliseconds(rollDuration.TotalMilliseconds * 0.8),
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+        };
+        DieValue.BeginAnimation(UIElement.OpacityProperty, reveal);
+        var animation = new DoubleAnimation(0, Random.Shared.Next(720, 1261), new Duration(rollDuration))
         {
             EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
         };

@@ -392,6 +392,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         try
         {
             var result = HumanityRules.RollRemorse(Snapshot().Details);
+            ShowDiceRoll("Teste de Remorso", result.Dice.Select(die => new RolledDieDisplay(die, "REMORSO")));
             _ready = false;
             try { Stains = result.Details.Stains; Humanity = result.Details.Humanity; }
             finally { _ready = true; }
