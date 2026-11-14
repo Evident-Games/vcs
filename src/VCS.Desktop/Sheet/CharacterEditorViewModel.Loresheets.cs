@@ -73,13 +73,14 @@ public partial class CharacterEditorViewModel
         else AddLoresheetEntry(item);
     }
     TraitGroupViewModel IMeritSheetHost.Loresheets => Loresheets;
-    string? IMeritSheetHost.AddLoresheet(AdvantageDefinition benefit) => AddLoresheetEntry(benefit) ? null : Error;
+    string? IMeritSheetHost.AddLoresheet(AdvantageDefinition benefit, bool prerequisiteConfirmed, bool limitOverrideApproved, string approvalNote) =>
+        AddLoresheetEntry(benefit, prerequisiteConfirmed, limitOverrideApproved, approvalNote) ? null : Error;
     void IMeritSheetHost.RemoveLoresheet(TraitItemViewModel item)
     {
         if (IsCreating) RemoveInitialLoresheet(item);
         else Loresheets.RemoveCommand.Execute(item);
     }
-    private bool AddLoresheetEntry(AdvantageDefinition item)
+    private bool AddLoresheetEntry(AdvantageDefinition item, bool prerequisiteConfirmed = false, bool limitOverrideApproved = false, string approvalNote = "")
     {
         try
         {
@@ -89,7 +90,8 @@ public partial class CharacterEditorViewModel
             var payment = IsCreating ? PayLoresheetWithInitialXp ? LoresheetPayment.InitialXp : LoresheetPayment.AdvantagePoints : LoresheetPayment.CampaignXp;
             var result = LoresheetRules.Select(snapshot.Details, snapshot.Traits,
                 new(TraitCategory.Loresheet, item.Id, item.Name, item.Minimum,
-                    Loresheet: new(item.LoresheetCollection, item.IsLineage, item.Description, payment)), payment);
+                    Loresheet: new(item.LoresheetCollection, item.IsLineage, item.Description, payment,
+                        item.Prerequisite, item.Source, prerequisiteConfirmed, limitOverrideApproved, approvalNote.Trim())), payment);
             _ready = false;
             try
             {
