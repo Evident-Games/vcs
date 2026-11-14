@@ -351,6 +351,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         RefreshAdvancement();
         OnPropertyChanged(nameof(HealthCapacity));
         OnPropertyChanged(nameof(WillpowerCapacity));
+        OnPropertyChanged(nameof(FrenzyTriggerGuidance));
         MarkChanged();
     }
 
@@ -384,6 +385,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         OnPropertyChanged(nameof(BloodRouseRerollSummary));
         OnPropertyChanged(nameof(BloodFeedingPenaltySummary));
         OnPropertyChanged(nameof(BloodBaneSeveritySummary));
+        OnPropertyChanged(nameof(FeedingPreview));
         OnPropertyChanged(nameof(BloodPotencyRuleWarning));
         OnPropertyChanged(nameof(HasBloodPotencyRuleWarning));
     }
