@@ -2,7 +2,9 @@ namespace VCS.Sheet;
 
 public enum LoresheetPayment { AdvantagePoints, InitialXp, CampaignXp }
 
-public sealed record LoresheetInfo(string Collection, bool IsLineage, string Description, LoresheetPayment Payment);
+public sealed record LoresheetInfo(string Collection, bool IsLineage, string Description, LoresheetPayment Payment,
+    string Prerequisite = "", string Source = "", bool PrerequisiteConfirmed = false,
+    bool LimitOverrideApproved = false, string ApprovalNote = "");
 
 public sealed record MeritInfo(string Group, string Description);
 
