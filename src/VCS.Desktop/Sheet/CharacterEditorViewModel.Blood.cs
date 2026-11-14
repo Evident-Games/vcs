@@ -7,7 +7,7 @@ namespace VCS.Desktop.Sheet;
 
 public partial class CharacterEditorViewModel
 {
-    [ObservableProperty] private string rouseCheckSummary = "Use a checagem quando ativar um poder ou efeito que a exigir.";
+    [ObservableProperty] private string rouseCheckSummary = "Use a checagem ao ativar um poder ou efeito que a exija.";
     [ObservableProperty] private int rollDicePool = 5;
     [ObservableProperty] private int rollDifficulty = 1;
     [ObservableProperty] private bool useHungerDice = true;
