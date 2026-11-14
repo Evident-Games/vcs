@@ -121,7 +121,7 @@
                                 <DataTemplate>
                                     <StackPanel HorizontalAlignment="Center" Margin="1">
                                         <Border Width="15" Height="15" CornerRadius="8" BorderThickness="1"
-                                                BorderBrush="{DynamicResource VcsAccentBorder}" Background="{DynamicResource VcsInput}">
+                                                BorderBrush="{DynamicResource VcsAccentBorder}">
                                             <Border.Style>
                                                 <Style TargetType="Border">
                                                     <Setter Property="Background" Value="{DynamicResource VcsInput}" />
