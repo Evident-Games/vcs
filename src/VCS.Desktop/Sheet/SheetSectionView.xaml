@@ -89,17 +89,48 @@
                         <TextBlock Text="Humanidade" Style="{StaticResource FieldLabel}" />
                         <controls:DotTrack Value="{Binding Humanity, Mode=TwoWay}" Maximum="10" AutomationProperties.Name="Humanidade na ficha" />
                     </StackPanel>
-                    <StackPanel Margin="8,0,0,16">
-                        <TextBlock Text="Potencia de Sangue" Style="{StaticResource FieldLabel}" />
-                        <TextBlock Text="{Binding StateExperience}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccentText}" />
-                        <controls:DotTrack Value="{Binding BloodPotency, Mode=TwoWay}" Maximum="10"
-                                           IsEnabled="{Binding CanEditBuild}"
-                                           AutomationProperties.Name="Potencia de sangue na ficha" />
-                    </StackPanel>
                 </WrapPanel>
+                <Border BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}"
+                        BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="POTENCIA DE SANGUE" Style="{StaticResource FieldLabel}" />
+                            <controls:DotTrack Value="{Binding BloodPotency, Mode=TwoWay}" Maximum="10"
+                                               IsEnabled="{Binding CanEditBuild}"
+                                               AutomationProperties.Name="Potencia de sangue na ficha" />
+                            <TextBlock Text="{Binding StateExperience}" TextWrapping="Wrap" FontSize="11"
+                                       Foreground="{DynamicResource VcsInputDescription}" Margin="0,3,0,0" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center" MinWidth="110">
+                            <TextBlock Text="GERACAO" Style="{StaticResource FieldLabel}" />
+                            <controls:NumericField Value="{Binding Generation, Mode=TwoWay}" Minimum="1" Maximum="16"
+                                                   IsEnabled="{Binding CanEditBuild}" AutomationProperties.Name="Geracao do personagem" />
+                            <TextBlock Text="{Binding GenerationSummary}" FontSize="11" HorizontalAlignment="Center"
+                                       Foreground="{DynamicResource VcsInputDescription}" Margin="0,3,0,0" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <UniformGrid Columns="3" Margin="8,0,8,12">
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1"
+                            CornerRadius="6" Padding="10" Margin="0,0,6,0">
+                        <StackPanel><TextBlock Text="Surto de Sangue" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" />
+                            <TextBlock Text="{Binding BloodSurgeSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" /></StackPanel>
+                    </Border>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1"
+                            CornerRadius="6" Padding="10" Margin="3,0">
+                        <StackPanel><TextBlock Text="Recuperacao" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" />
+                            <TextBlock Text="{Binding BloodMendSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" /></StackPanel>
+                    </Border>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1"
+                            CornerRadius="6" Padding="10" Margin="6,0,0,0">
+                        <StackPanel><TextBlock Text="Bonus de poder" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" />
+                            <TextBlock Text="{Binding BloodPowerBonusSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" /></StackPanel>
+                    </Border>
+                </UniformGrid>
                 <sheet:HumanityView />
-                <TextBlock Text="Sangue: valores de referencia preenchidos pela mesa; sem calculo automatico." TextWrapping="Wrap"
-                           Foreground="{DynamicResource VcsInputDescription}" Margin="8" />
+                <TextBlock Text="Ressonancia, rerrolagem, penalidade de alimentacao e gravidade da Perdicao podem ser anotadas ou ajustadas pela mesa."
+                           TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="8,0,8,4" />
                 <ItemsControl ItemsSource="{Binding BloodFields}" ItemTemplate="{StaticResource SheetExtraField}">
                     <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                 </ItemsControl>
