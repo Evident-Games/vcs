@@ -24,7 +24,9 @@ Escopo desta auditoria: o código presente no repositório nesta branch, focado 
 7. **Diablerie e Sangues-Ralos:** a ficha pode alertar sobre geração/Potência, mas não encontrei um fluxo de Diablerie com as rolagens, consequências e mudanças persistentes relacionadas. A criação e aplicação dos efeitos/limitações de Sangue-Ralo também precisam de uma revisão específica.
 8. **Vínculos e Torpor:** há cálculos de regras, mas falta uma experiência de ficha para registrar histórico, participantes/datas, condições de despertar e alterações decorrentes.
 9. **Montagem de paradas:** o rolador aceita parada e dificuldade manuais; ainda não monta a parada a partir de Atributos, Habilidades, especializações, equipamento, modificadores e contexto.
-10. **Coterie, domínio e sistemas de crônica:** o escopo atual é principalmente ficha individual. Se o aplicativo também for cobrir a mesa/campanha, faltam os registros e fluxos desses sistemas do livro-base.
+10. **Ressonância e Discrasia na ficha:** há funções para intensidade, dados extras e expiração, mas os efeitos não entram automaticamente nas rolagens nem têm um fluxo completo para registrar consumo/expiração.
+11. **Perdição do clã e dano/cura:** os dados e a gravidade da Perdição podem ser exibidos, e as trilhas de dano podem ser editadas; faltam fluxos gerais para aplicar efeitos da Perdição, dano superficial/agravado, cura e Mending conforme Potência do Sangue.
+12. **Coterie, domínio e sistemas de crônica:** o escopo atual é principalmente ficha individual. Se o aplicativo também for cobrir a mesa/campanha, faltam os registros e fluxos desses sistemas do livro-base.
 
 ## Ordem sugerida
 
