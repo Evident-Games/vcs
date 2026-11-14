@@ -161,7 +161,7 @@
                     </Border>
                 </UniformGrid>
                 <sheet:HumanityView />
-                <TextBlock Text="Ressonancia, rerrolagem, penalidade de alimentacao e gravidade da Perdicao podem ser anotadas ou ajustadas pela mesa."
+                <TextBlock Text="Discrasia e ressonancia podem ser registradas aqui; rerrolagem, penalidade de alimentacao e gravidade da Perdicao podem ser ajustadas pela mesa."
                            TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="8,0,8,4" />
                 <ItemsControl ItemsSource="{Binding BloodFields}" ItemTemplate="{StaticResource SheetExtraField}">
                     <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
