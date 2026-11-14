@@ -42,10 +42,16 @@
                                         <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding Definition.Source}" Value=""><Setter Property="Visibility" Value="Collapsed" /></DataTrigger></Style.Triggers></Style></TextBlock.Style>
                                     </TextBlock>
                                     <StackPanel Margin="0,0,0,12">
+                                        <StackPanel.Style>
+                                            <Style TargetType="StackPanel">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Definition.Prerequisite}" Value=""><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
                                         <TextBlock Text="Pré-requisito" Style="{StaticResource FieldLabel}" />
                                         <TextBlock Text="{Binding Definition.Prerequisite}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
-                                        <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding Definition.Prerequisite}" Value=""><Setter Property="Visibility" Value="Collapsed" /></DataTrigger></Style.Triggers></Style></TextBlock.Style>
-                                    </TextBlock>
+                                    </StackPanel>
                                     <CheckBox Content="Conhecido pelo personagem" IsChecked="{Binding IsKnown, Mode=TwoWay}"
                                               Margin="0,0,0,16" />
                                     <TextBlock Text="{Binding Warning}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccent}" Margin="0,0,0,12" />
