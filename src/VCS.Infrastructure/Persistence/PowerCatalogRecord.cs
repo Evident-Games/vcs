@@ -13,4 +13,6 @@ public sealed class PowerCatalogRecord
     public string? AmalgamDisciplineId { get; set; }
     public int AmalgamLevel { get; set; }
     public bool IsRitual { get; set; }
+    public string Prerequisite { get; set; } = "";
+    public string Source { get; set; } = "";
 }
