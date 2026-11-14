@@ -70,7 +70,7 @@ public static class DicePoolRules
         ArgumentNullException.ThrowIfNull(initialFaces);
         ArgumentNullException.ThrowIfNull(rerolledRegularDieIndices);
         ArgumentNullException.ThrowIfNull(replacementFaces);
-        var initial = Resolve(pool, hunger, difficulty, initialFaces);
+        Resolve(pool, hunger, difficulty, initialFaces);
         if (rerolledRegularDieIndices.Count != replacementFaces.Count)
             throw new ArgumentException("Cada dado rerrolado precisa de um resultado substituto.");
         if (rerolledRegularDieIndices.Count > 3)
