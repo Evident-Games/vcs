@@ -243,6 +243,22 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     public string BloodSurgeSummary => BloodPotencyEffects.BloodSurge(BloodPotency);
     public string BloodMendSummary => BloodPotencyEffects.DamageMend(BloodPotency);
     public string BloodPowerBonusSummary => BloodPotencyEffects.PowerBonus(BloodPotency);
+    public string BloodPotencyRuleWarning
+    {
+        get
+        {
+            var range = BloodPotencyGenerationRules.ForGeneration(Generation);
+            if (range is null)
+                return $"O livro-base nao define uma faixa de Potencia do Sangue para a {Generation}a Geracao (p. 214); confirme o valor com o Narrador.";
+            if (BloodPotency >= range.Minimum && BloodPotency <= range.Maximum) return "";
+
+            var warning = $"Potencia do Sangue {BloodPotency} fora da faixa da {Generation}a Geracao ({range.Minimum}-{range.Maximum}; livro-base, p. 214).";
+            if (BloodPotencyGenerationRules.IsThinBloodGeneration(Generation) && BloodPotency > 0)
+                warning += " Sangues-Ralos nao aumentam Potencia, salvo se avancarem por Diablerie ate a 13a Geracao ou uma mais antiga (p. 215).";
+            return warning;
+        }
+    }
+    public bool HasBloodPotencyRuleWarning => !string.IsNullOrWhiteSpace(BloodPotencyRuleWarning);
     public string GenerationSummary => $"Geracao {Generation}";
     public IReadOnlyList<BloodGenerationDot> GenerationDots => Enumerable.Range(3, 14).Reverse()
         .Select(value => new BloodGenerationDot(value, value == Generation)).ToArray();
@@ -352,6 +368,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     partial void OnGenerationChanged(int value)
     {
         OnPropertyChanged(nameof(GenerationGuidance));
+        OnPropertyChanged(nameof(BloodPotencyRuleWarning));
+        OnPropertyChanged(nameof(HasBloodPotencyRuleWarning));
         OnPropertyChanged(nameof(GenerationSummary));
         OnPropertyChanged(nameof(GenerationDots));
     }
@@ -360,6 +378,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         OnPropertyChanged(nameof(BloodSurgeSummary));
         OnPropertyChanged(nameof(BloodMendSummary));
         OnPropertyChanged(nameof(BloodPowerBonusSummary));
+        OnPropertyChanged(nameof(BloodPotencyRuleWarning));
+        OnPropertyChanged(nameof(HasBloodPotencyRuleWarning));
     }
 
     private void RefreshAdvancement()
