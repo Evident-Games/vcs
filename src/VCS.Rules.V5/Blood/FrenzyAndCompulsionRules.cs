@@ -36,6 +36,8 @@ public static class FrenzyRules
         otherEnemiesStillStand ? 5 : 3;
 
     public static bool HungerFrenzyEndsAt(int hunger) => hunger is >= 0 and <= 1;
+
+    public static bool TerrorFrenzyEndsWhenOutOfSight(bool escapedTheTrigger) => escapedTheTrigger;
 }
 
 public enum CompulsionType
