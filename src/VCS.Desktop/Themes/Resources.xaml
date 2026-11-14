@@ -30,15 +30,15 @@
         <Setter Property="Foreground" Value="{DynamicResource VcsInputTitle}" />
         <Setter Property="FontSize" Value="21" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Margin" Value="0,0,0,16" />
+        <Setter Property="Margin" Value="0,0,0,14" />
     </Style>
     <Style x:Key="Card" TargetType="Border">
         <Setter Property="Background" Value="{DynamicResource VcsCard}" />
         <Setter Property="TextElement.Foreground" Value="{DynamicResource VcsCardText}" />
         <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius" Value="10" />
-        <Setter Property="Padding" Value="24" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="20" />
     </Style>
     <!-- Discreet underlined "predador" mark beside a discipline or skill; bold accent once it holds the free bonus. -->
     <Style x:Key="PredatorTag" TargetType="Button">
