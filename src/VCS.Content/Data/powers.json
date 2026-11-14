@@ -510,7 +510,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "A gravidade tem menos efeito no corpo morto-vivo. O vampiro torna-se imune a qualquer tipo de dano por queda, caindo suavemente ou reduzindo o impacto no chão, não importando a altura de onde pulou."
+    "summary": "Reduz a massa e a densidade do vampiro, permitindo cair sem sofrer dano de queda e passar por superfícies frágeis. Não reduz a força muscular nem permite saltos maiores.",
+    "source": "Vampire: The Masquerade 5th Edition Core Rulebook"
   },
   {
     "id": "power-protean-eyes-of-the-beast",
@@ -519,7 +520,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "Os olhos do vampiro brilham em um vermelho predatório (ou amarelo fenda). Permite enxergar perfeitamente na escuridão absoluta, removendo qualquer penalidade visual por falta de luz, e intimida mortalmente quem observar os olhos de perto."
+    "summary": "Os olhos assumem uma aparência predatória e permitem enxergar no escuro sobrenatural sem penalidades de visão. Não concede automaticamente intimidação nem visão através de obstáculos.",
+    "source": "Vampire: The Masquerade 5th Edition Core Rulebook"
   },
   {
     "id": "power-protean-feral-weapons",
@@ -528,7 +530,8 @@
     "level": 2,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "O vampiro projeta garras afiadas nas mãos ou presas alongadas monstruosas. Esses ataques desarmados passam a causar dano Agravado profundo, rasgando carne de vampiros e armaduras corporais com extrema facilidade."
+    "summary": "Faz crescer garras ou alonga presas, escolhidas ao adquirir o poder. As armas naturais recebem modificador +2 de dano; o dano superficial delas não é reduzido pela metade contra vampiros enquanto o poder estiver ativo.",
+    "source": "Vampire: The Masquerade 5th Edition Core Rulebook"
   },
   {
     "id": "power-protean-earth-meld",
@@ -537,16 +540,18 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "Como uma poça de sangue afundando no solo, o vampiro derrete e entra dentro da terra natural (grama, barro, areia, mas não concreto ou asfalto) para descansar o dia inteiro no subsolo em segurança perfeita."
+    "summary": "O vampiro afunda em uma superfície natural, como terra, barro ou grama, para repousar. Não funciona em superfícies artificiais como concreto; leva um turno e, salvo se estiver em Torpor, emerge na noite seguinte.",
+    "source": "Vampire: The Masquerade 5th Edition Core Rulebook"
   },
   {
     "id": "power-protean-shapechange",
     "disciplineId": "discipline-protean",
     "name": "Mudança de Forma",
-    "level": 4,
+    "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "O vampiro se transforma integralmente em um animal selvagem grande e combativo (usualmente um grande lobo). Ganha todos os sentidos, a velocidade e as capacidades letais da fera."
+    "summary": "Transforma o vampiro em um animal aproximadamente do mesmo porte. A mudança leva um turno; ele recebe atributos físicos, sentidos e habilidades naturais do animal, mas não pode usar objetos nem capacidades sobrenaturais próprias da forma.",
+    "source": "Vampire: The Masquerade 5th Edition Core Rulebook"
   },
   {
     "id": "power-protean-mist-form",
@@ -555,7 +560,8 @@
     "level": 5,
     "cost": "1 a 3 checagens de sangue",
     "dicePool": "Nenhuma",
-    "summary": "O corpo, as roupas e pertences se desfazem em uma neblina fria. Nessa forma, o vampiro se torna totalmente imune a ataques físicos convencionais, pode voar ou flutuar pelos ares e passar por baixo de portas, tubulações ou frestas finas."
+    "summary": "O vampiro leva três turnos para se transformar em névoa, podendo acelerar o processo com Checagens de Sangue adicionais. Move-se à velocidade de caminhada e percebe o entorno por meios místicos; não fala nem interage fisicamente e ainda pode ser ferido por fogo, luz solar ou ataques sobrenaturais.",
+    "source": "Vampire: The Masquerade 5th Edition Core Rulebook"
   },
   {
     "id": "power-blood-sorcery-a-taste-for-blood",
