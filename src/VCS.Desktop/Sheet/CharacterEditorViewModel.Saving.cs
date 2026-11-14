@@ -34,7 +34,7 @@ public partial class CharacterEditorViewModel
             Description = Description, Notes = Notes, Hunger = Hunger, Humanity = Humanity,
             BloodPotency = BloodPotency, HealthSuperficial = HealthSuperficial, HealthAggravated = HealthAggravated,
             WillpowerSuperficial = WillpowerSuperficial, WillpowerAggravated = WillpowerAggravated,
-            Ambition = Extra("Ambition"), Desire = Extra("Desire"), Resonance = Extra("Resonance"),
+            Ambition = Extra("Ambition"), Desire = Extra("Desire"), Resonance = Extra("Resonance"), Dyscrasia = Extra("Dyscrasia"),
             ChronicleTenets = Extra("ChronicleTenets"), Touchstones = Extra("Touchstones"), Convictions = Extra("Convictions"),
             ClanBane = Extra("ClanBane"), TrueAge = Extra("TrueAge"), ApparentAge = Extra("ApparentAge"),
             BirthDate = Extra("BirthDate"), DeathDate = Extra("DeathDate"), Appearance = Extra("Appearance"),
