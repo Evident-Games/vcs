@@ -767,5 +767,101 @@
     "summary": "O Salubri apazigua a Besta interior de outro Membro, compartilhando serenidade para perdoar os remorsos do alvo. Consegue remover e blindar as Máculas espirituais dele e, através de um acerto crítico, pode até devolver um ponto de Humanidade perdido permanentemente.",
     "amalgamDisciplineId": "discipline-dominate",
     "amalgamLevel": 3
+  },
+  {
+    "id": "power-protean-vicissitude",
+    "disciplineId": "discipline-protean",
+    "name": "Vicissitude",
+    "level": 2,
+    "cost": "Uma checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Permite remodelar tecido vivo e a própria aparência por meio do toque, com efeitos e limites definidos pelo Narrador.",
+    "amalgamDisciplineId": "discipline-dominate",
+    "amalgamLevel": 2,
+    "prerequisite": "Dominação 2",
+    "source": "Players Guide"
+  },
+  {
+    "id": "power-protean-fleshcrafting",
+    "disciplineId": "discipline-protean",
+    "name": "Fleshcrafting",
+    "level": 3,
+    "cost": "Uma checagem de sangue",
+    "dicePool": "Vigor + Proteanismo",
+    "summary": "Permite alterar profundamente carne viva, moldando corpos e tecidos; mudanças complexas exigem tempo e autorização narrativa.",
+    "amalgamDisciplineId": "discipline-dominate",
+    "amalgamLevel": 2,
+    "prerequisite": "Vicissitude; Dominação 2",
+    "source": "Players Guide"
+  },
+  {
+    "id": "power-protean-horrid-form",
+    "disciplineId": "discipline-protean",
+    "name": "Horrid Form",
+    "level": 4,
+    "cost": "Uma checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Transforma o vampiro numa forma monstruosa de combate, com adaptações físicas determinadas pela descrição do poder.",
+    "amalgamDisciplineId": "discipline-dominate",
+    "amalgamLevel": 2,
+    "prerequisite": "Vicissitude; Dominação 2",
+    "source": "Players Guide"
+  },
+  {
+    "id": "power-protean-metamorphosis",
+    "disciplineId": "discipline-protean",
+    "name": "Metamorphosis",
+    "level": 4,
+    "cost": "Uma checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Amplia a transformação animal, permitindo assumir uma forma híbrida entre a forma humana e uma forma animal escolhida.",
+    "prerequisite": "Mudança de Forma",
+    "source": "Players Guide"
+  },
+  {
+    "id": "power-protean-one-with-the-land",
+    "disciplineId": "discipline-protean",
+    "name": "One with the Land",
+    "level": 5,
+    "cost": "Uma checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Permite fundir-se à terra e ao ambiente natural, percebendo intrusos e influenciando a área durante o repouso.",
+    "amalgamDisciplineId": "discipline-animalism",
+    "amalgamLevel": 2,
+    "prerequisite": "Fusão com a Terra; Animalismo 2",
+    "source": "Players Guide"
+  },
+  {
+    "id": "power-protean-unfettered-heart",
+    "disciplineId": "discipline-protean",
+    "name": "The Unfettered Heart",
+    "level": 5,
+    "cost": "Uma checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Altera a relação do vampiro com o próprio coração, reduzindo sua vulnerabilidade a ataques que buscam perfurá-lo.",
+    "source": "Players Guide"
+  },
+  {
+    "id": "power-protean-master-of-forms",
+    "disciplineId": "discipline-protean",
+    "name": "Master of Forms",
+    "level": 5,
+    "cost": "Uma checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Permite transitar entre formas assumidas com maior controle e rapidez, sem perder as capacidades da transformação.",
+    "prerequisite": "Mudança de Forma",
+    "source": "Gehenna War"
+  },
+  {
+    "id": "power-protean-blood-form",
+    "disciplineId": "discipline-protean",
+    "name": "Blood Form",
+    "level": 5,
+    "cost": "Uma checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Permite que o corpo se dissolva temporariamente em sangue e se mova como uma massa fluida, sujeito às limitações narrativas.",
+    "amalgamDisciplineId": "discipline-blood-sorcery",
+    "amalgamLevel": 2,
+    "source": "Gehenna War"
   }
 ]
