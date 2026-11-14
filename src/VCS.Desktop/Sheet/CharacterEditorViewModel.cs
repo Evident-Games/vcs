@@ -112,7 +112,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         ];
         BloodFields =
         [
-            new("Resonance", "Ressonancia", d.Resonance),
+            new("Resonance", "Ressonancia", d.Resonance), new("Dyscrasia", "Discrasia", d.Dyscrasia, true),
             new("RouseReroll", "Rerrolagem de Sangue", d.RouseReroll), new("FeedingPenalty", "Penalidade de alimentacao", d.FeedingPenalty),
             new("BaneSeverity", "Gravidade da Perdicao", d.BaneSeverity)
         ];
