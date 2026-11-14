@@ -111,6 +111,38 @@
                         </StackPanel>
                     </Grid>
                 </Border>
+                <Border BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}"
+                        BorderThickness="1" CornerRadius="8" Padding="10" Margin="8,0,8,12">
+                    <StackPanel>
+                        <TextBlock Text="GERACAO" Style="{StaticResource FieldLabel}" />
+                        <ItemsControl ItemsSource="{Binding GenerationDots}" AutomationProperties.Name="Escala de geracao, da 16a a 3a">
+                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="14" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center" Margin="1">
+                                        <Border Width="15" Height="15" CornerRadius="8" BorderThickness="1"
+                                                BorderBrush="{DynamicResource VcsAccentBorder}" Background="{DynamicResource VcsInput}">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="{DynamicResource VcsInput}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                            <Setter Property="Background" Value="{DynamicResource VcsAccentText}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                        <TextBlock Text="{Binding Number}" FontSize="9" HorizontalAlignment="Center"
+                                                   Foreground="{DynamicResource VcsInputDescription}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="O destaque acompanha o valor de Geracao acima." FontSize="10" Margin="0,4,0,0"
+                                   Foreground="{DynamicResource VcsInputDescription}" />
+                    </StackPanel>
+                </Border>
                 <UniformGrid Columns="3" Margin="8,0,8,12">
                     <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1"
                             CornerRadius="6" Padding="10" Margin="0,0,6,0">
