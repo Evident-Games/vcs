@@ -3,6 +3,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Border Background="Transparent">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasCreatedCharacters}" Value="False">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="520" Margin="36">
                 <Border Width="44" Height="3" Background="{DynamicResource VcsAccent}" HorizontalAlignment="Center"
                         CornerRadius="2" Margin="0,0,0,20" />

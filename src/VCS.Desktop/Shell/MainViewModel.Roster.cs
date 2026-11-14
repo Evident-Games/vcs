@@ -39,6 +39,7 @@ public partial class MainViewModel
             Characters.Add(character);
         SelectedCharacter = Characters.FirstOrDefault(x => x.Id == selectedId) ?? Characters.FirstOrDefault();
         OnPropertyChanged(nameof(HasCharacters));
+        OnPropertyChanged(nameof(HasCreatedCharacters));
         OnPropertyChanged(nameof(IsEmpty));
         OnPropertyChanged(nameof(CountLabel));
     }

@@ -65,6 +65,8 @@ public partial class MainViewModel(
 
     public bool HasCharacters => Characters.Count != 0;
 
+    public bool HasCreatedCharacters => _all.Count != 0;
+
     public bool IsEmpty => !HasCharacters;
 
     public bool HasSelection => SelectedCharacter is not null;
