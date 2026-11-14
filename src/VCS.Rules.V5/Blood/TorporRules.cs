@@ -50,11 +50,11 @@ public static class TorporRules
     }
 
     /// <summary>A vampire can be roused from Torpor by vitae of greater Blood Potency that slakes at least one Hunger.</summary>
-    public static bool CanWakeWithVitae(int vampireBloodPotency, int vitaeBloodPotency, int hungerSlaked)
+    public static bool CanWakeWithVitae(int vampireBloodPotency, int vitaeBloodPotency, int hungerSlaked, bool staked = false)
     {
         if (vampireBloodPotency is < 0 or > 10) throw new ArgumentOutOfRangeException(nameof(vampireBloodPotency));
         if (vitaeBloodPotency is < 0 or > 10) throw new ArgumentOutOfRangeException(nameof(vitaeBloodPotency));
         if (hungerSlaked < 0) throw new ArgumentOutOfRangeException(nameof(hungerSlaked));
-        return vitaeBloodPotency > vampireBloodPotency && hungerSlaked >= 1;
+        return !staked && vitaeBloodPotency > vampireBloodPotency && hungerSlaked >= 1;
     }
 }
