@@ -1,3 +1,5 @@
+using VCS.Rules.V5.Dice;
+
 namespace VCS.Rules.V5.Conflicts;
 
 public enum ConflictKind
@@ -14,6 +16,8 @@ public enum ConflictDamageType
 }
 
 public sealed record ConflictDamage(int ToFirst, int ToSecond, ConflictDamageType Type);
+public sealed record ConflictRoll(DicePoolResult Dice, int DamageModifier = 0);
+public sealed record ConflictOutcome(ConflictExchange Exchange, TestOutcome FirstOutcome, TestOutcome SecondOutcome);
 
 public sealed record ConflictExchange(
     ConflictKind Kind,
@@ -63,6 +67,36 @@ public static class ConflictRules
         if (damage < 0) throw new ArgumentOutOfRangeException(nameof(damage));
         if (!targetIsVampire || damageType != ConflictDamageType.Superficial) return damage;
         return (damage + 1) / 2;
+    }
+
+    public static ConflictOutcome ResolveOpposed(
+        ConflictKind kind, ConflictRoll first, ConflictRoll second, ConflictDamageType damageType,
+        bool firstTargetIsVampire = false, bool secondTargetIsVampire = false)
+    {
+        ArgumentNullException.ThrowIfNull(first);
+        ArgumentNullException.ThrowIfNull(second);
+        var exchange = ResolveOpposed(kind, first.Dice.Successes, second.Dice.Successes,
+            first.DamageModifier, second.DamageModifier, damageType);
+        var tied = exchange.IsTie;
+        var firstOutcome = ResolveConflictRoll(first.Dice, tied || first.Dice.Successes > second.Dice.Successes);
+        var secondOutcome = ResolveConflictRoll(second.Dice, tied || second.Dice.Successes > first.Dice.Successes);
+        var firstDamage = exchange.Damage.ToFirst;
+        var secondDamage = exchange.Damage.ToSecond;
+        if (kind == ConflictKind.Physical)
+        {
+            firstDamage = DamageAfterVampireSuperficialReduction(firstDamage, damageType, firstTargetIsVampire);
+            secondDamage = DamageAfterVampireSuperficialReduction(secondDamage, damageType, secondTargetIsVampire);
+        }
+        exchange = exchange with { Damage = exchange.Damage with { ToFirst = firstDamage, ToSecond = secondDamage } };
+        return new(exchange, firstOutcome, secondOutcome);
+    }
+
+    private static TestOutcome ResolveConflictRoll(DicePoolResult roll, bool won)
+    {
+        if (!won) return roll.HungerDice.Contains(1) ? TestOutcome.BestialFailure : TestOutcome.Failure;
+        var critical = roll.Tens >= 2;
+        if (critical && roll.HungerDice.Contains(10)) return TestOutcome.MessyCritical;
+        return critical ? TestOutcome.CriticalSuccess : TestOutcome.Success;
     }
 
     public static int WeaponDamage(int conflictMargin, int weaponModifier)
