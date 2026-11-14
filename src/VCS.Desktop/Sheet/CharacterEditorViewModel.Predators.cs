@@ -395,7 +395,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
             _ready = false;
             try { Stains = result.Details.Stains; Humanity = result.Details.Humanity; }
             finally { _ready = true; }
-            RemorseSummary = $"Remorso: {result.Dice.Length} dados [{string.Join(", ", result.Dice)}], {result.Successes} sucesso(s). " +
+            RemorseSummary = $"Remorso: {result.Dice.Count} dados [{string.Join(", ", result.Dice)}], {result.Successes} sucesso(s). " +
                 (result.MaintainedHumanity ? "Humanidade mantida; Máculas removidas." : "Humanidade -1; Máculas removidas.");
             MarkChanged();
         }

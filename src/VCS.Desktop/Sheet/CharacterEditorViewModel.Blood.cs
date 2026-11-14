@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Content;
 using VCS.Rules.V5.Advancement;
 using VCS.Rules.V5.Blood;
 using VCS.Rules.V5.Dice;
@@ -24,9 +23,9 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private string rollSummary = "Configure a parada e a dificuldade para resolver um teste.";
 
     [ObservableProperty] private BloodSourceOption selectedBloodSourceOption = BloodSourceOption.All[0];
-    [ObservableProperty] private bool feedingAnimalIsLarge;
-    [ObservableProperty] private bool feedingAnimalIsExceptional;
-    [ObservableProperty] private bool feedingHumanWasDrained;
+    [ObservableProperty] private bool FeedingAnimalIsLarge;
+    [ObservableProperty] private bool FeedingAnimalIsExceptional;
+    [ObservableProperty] private bool FeedingHumanWasDrained;
     [ObservableProperty] private string feedingSummary = "Selecione a fonte de sangue para conferir o quanto ela sacia.";
     public IReadOnlyList<BloodSourceOption> BloodSourceOptions => BloodSourceOption.All;
     public string FeedingPreview
@@ -34,7 +33,7 @@ public partial class CharacterEditorViewModel
         get
         {
             var result = FeedingRules.Resolve(SelectedBloodSourceOption.Source, BloodPotency, Hunger, Hunger,
-                feedingHumanWasDrained, feedingAnimalIsLarge, feedingAnimalIsExceptional);
+                FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional);
             var resonance = result.CanProduceResonance ? "pode conceder Ressonância" : "não concede Ressonância";
             var dyscrasia = result.CanProduceDyscrasia ? "pode produzir Discrasia" : "não produz Discrasia";
             return $"{result.RuleNote} Esta alimentação sacia {result.HungerSlaked:0.##} de Fome " +
@@ -53,7 +52,7 @@ public partial class CharacterEditorViewModel
     private void ApplyFeeding()
     {
         var result = FeedingRules.Resolve(SelectedBloodSourceOption.Source, BloodPotency, Hunger, Hunger,
-            feedingHumanWasDrained, feedingAnimalIsLarge, feedingAnimalIsExceptional);
+            FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional);
         if (result.HungerSlaked <= 0)
         {
             FeedingSummary = "Essa alimentação não reduz a Fome atual.";
