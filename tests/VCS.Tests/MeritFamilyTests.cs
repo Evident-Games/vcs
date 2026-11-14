@@ -34,10 +34,11 @@ public sealed class MeritFamilyTests : IAsyncLifetime
         public int PredatorRemaining(TraitCategory category) => 0;
         public int PredatorRoom(PredatorAllocationViewModel option) => 0;
         public void AllocatePredator(PredatorAllocationViewModel option, int points) { }
-        public string? AddLoresheet(AdvantageDefinition benefit)
+        public string? AddLoresheet(AdvantageDefinition benefit, bool prerequisiteConfirmed, bool limitOverrideApproved, string approvalNote)
         {
             Loresheets.AddEntry(new(TraitCategory.Loresheet, benefit.Id, benefit.Name, benefit.Minimum,
-                Loresheet: new(benefit.LoresheetCollection, benefit.IsLineage, benefit.Description, LoresheetPayment.AdvantagePoints)));
+                Loresheet: new(benefit.LoresheetCollection, benefit.IsLineage, benefit.Description, LoresheetPayment.AdvantagePoints,
+                    benefit.Prerequisite, benefit.Source, prerequisiteConfirmed, limitOverrideApproved, approvalNote)));
             return null;
         }
         public void RemoveLoresheet(TraitItemViewModel item)
