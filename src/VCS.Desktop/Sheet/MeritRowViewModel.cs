@@ -97,7 +97,7 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
     private void RetryLoresheet()
     {
         if (!_suppressApprovalRetry && IsLoresheetCategory && _item is null && !string.IsNullOrWhiteSpace(Name))
-            _sheet.Edit(() => Resolve(Name.Trim()));
+            _sheet.Edit(() => { Resolve(Name.Trim()); Refresh(); });
     }
 
     public string Category
