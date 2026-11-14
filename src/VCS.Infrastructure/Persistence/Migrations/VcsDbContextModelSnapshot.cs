@@ -380,6 +380,10 @@ namespace VCS.Infrastructure.Persistence.Migrations
                                 .IsRequired()
                                 .HasColumnType("TEXT");
 
+                            b1.Property<string>("Dyscrasia")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
                             b1.Property<int>("ExperienceSpent")
                                 .HasColumnType("INTEGER");
 
