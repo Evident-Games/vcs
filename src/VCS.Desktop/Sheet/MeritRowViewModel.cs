@@ -116,8 +116,8 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
                 });
             OnPropertyChanged();
             OnPropertyChanged(nameof(NameSuggestions));
-        OnPropertyChanged(nameof(IsLoresheetCategory));
-        OnPropertyChanged(nameof(CanApproveLoresheet));
+            OnPropertyChanged(nameof(IsLoresheetCategory));
+            OnPropertyChanged(nameof(CanApproveLoresheet));
         }
     }
 
