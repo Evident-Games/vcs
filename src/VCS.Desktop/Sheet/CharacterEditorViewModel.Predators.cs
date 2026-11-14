@@ -37,6 +37,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
     [ObservableProperty] private PredatorSpecialization? selectedPredatorSpecialization;
     [ObservableProperty] private string predatorSpecializationText = "";
     [ObservableProperty] private int stains;
+    [ObservableProperty] private string remorseSummary = "A rolagem de Remorso é feita ao fim da sessão quando há Máculas.";
     public bool HasAppliedPredator => _predatorSelection is not null;
     public bool CanEditPredatorText => !HasAppliedPredator;
     public bool IsPredatorSpecializationFreeText => SelectedPredatorSpecialization?.IsFreeText == true;
@@ -385,6 +386,22 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         }
         catch (InvalidOperationException exception) { ReportAdvancementError(exception); }
     }
+    [RelayCommand]
+    private void RollRemorse()
+    {
+        try
+        {
+            var result = HumanityRules.RollRemorse(Snapshot().Details);
+            _ready = false;
+            try { Stains = result.Details.Stains; Humanity = result.Details.Humanity; }
+            finally { _ready = true; }
+            RemorseSummary = $"Remorso: {result.Dice.Length} dados [{string.Join(", ", result.Dice)}], {result.Successes} sucesso(s). " +
+                (result.MaintainedHumanity ? "Humanidade mantida; Máculas removidas." : "Humanidade -1; Máculas removidas.");
+            MarkChanged();
+        }
+        catch (InvalidOperationException exception) { ReportAdvancementError(exception); }
+    }
+
     [RelayCommand]
     private void FailRemorse()
     {
