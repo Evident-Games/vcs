@@ -249,12 +249,12 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         {
             var range = BloodPotencyGenerationRules.ForGeneration(Generation);
             if (range is null)
-                return $"O livro-base nao define uma faixa de Potencia do Sangue para a {Generation}a Geracao (p. 214); confirme o valor com o Narrador.";
+                return $"O livro-base não define uma faixa de Potência do Sangue para a {Generation}ª Geração (p. 214); confirme com o Narrador.";
             if (BloodPotency >= range.Minimum && BloodPotency <= range.Maximum) return "";
 
-            var warning = $"Potencia do Sangue {BloodPotency} fora da faixa da {Generation}a Geracao ({range.Minimum}-{range.Maximum}; livro-base, p. 214).";
+            var warning = $"Potência do Sangue {BloodPotency} está fora da faixa da {Generation}ª Geração ({range.Minimum}–{range.Maximum}; livro-base, p. 214).";
             if (BloodPotencyGenerationRules.IsThinBloodGeneration(Generation) && BloodPotency > 0)
-                warning += " Sangues-Ralos nao aumentam Potencia, salvo se avancarem por Diablerie ate a 13a Geracao ou uma mais antiga (p. 215).";
+                warning += " Sangues-Ralos (14ª–16ª) têm Potência 0; só podem aumentá-la se avançarem por Diablerie até a 13ª Geração ou uma geração mais antiga (p. 215).";
             return warning;
         }
     }
