@@ -45,8 +45,14 @@ public partial class CharacterEditorViewModel
             TestOutcome.BestialFailure => "falha bestial",
             _ => "resultado"
         };
+        var compulsion = result.Outcome switch
+        {
+            TestOutcome.MessyCritical => " Compulsão de clã desencadeada.",
+            TestOutcome.BestialFailure => " Compulsão desencadeada; determine o tipo conforme a mesa.",
+            _ => ""
+        };
         RollSummary = $"{rouseSummary}{result.Successes} sucesso(s), dificuldade {result.Difficulty}: {outcome}. " +
-            $"Dados comuns [{string.Join(", ", result.NormalDice)}]; dados de Fome [{string.Join(", ", result.HungerDice)}].";
+            $"Dados comuns [{string.Join(", ", result.NormalDice)}]; dados de Fome [{string.Join(", ", result.HungerDice)}].{compulsion}";
     }
 
     [RelayCommand]
