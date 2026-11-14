@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using VCS.Content;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Content.Disciplines;
 using VCS.Sheet;
@@ -31,7 +32,7 @@ public partial class PowerRowViewModel : ObservableObject
     public PowerItemViewModel? Entry { get; internal set; }
     public bool IsCatalog => Entry is { IsUnavailable: false };
     public bool CanEditLevel => !IsCatalog;
-    public string SourceLabel => IsCatalog ? "Do catálogo — os campos podem ser ajustados." : "Poder próprio — preencha livremente.";
+    public string SourceLabel => IsCatalog ? $"Fonte: {SourceAttribution.Format(Entry!.Definition.Source)} — os campos podem ser ajustados." : "Poder próprio — fonte definida pela mesa.";
 
     [ObservableProperty] private string discipline = "";
     [ObservableProperty] private string name = "";

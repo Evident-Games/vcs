@@ -1,4 +1,5 @@
 using VCS.Rules.V5.Dice;
+using VCS.Content;
 
 namespace VCS.Rules.V5.Blood;
 
@@ -19,6 +20,7 @@ public sealed record FrenzyResistanceResult(
     public bool EnteredFrenzy => !Resisted;
 }
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class FrenzyRules
 {
     /// <summary>Frenzy resistance uses a Willpower pool and never adds Hunger dice.</summary>
@@ -70,6 +72,7 @@ public enum CompulsionType
 
 public sealed record CompulsionResult(CompulsionType Type, int? TableRoll, bool MustRerollForCaitiffOrThinBlood);
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class CompulsionRules
 {
     /// <summary>Messy criticals trigger the character's clan compulsion; a bestial failure may use this d10 table.</summary>

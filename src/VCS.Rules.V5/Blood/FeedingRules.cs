@@ -1,4 +1,5 @@
 namespace VCS.Rules.V5.Blood;
+using VCS.Content;
 
 public enum BloodSource
 {
@@ -19,6 +20,7 @@ public sealed record FeedingResult(
     string RuleNote);
 
 /// <summary>Resolves the core-book feeding limits by Blood Potency.</summary>
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class FeedingRules
 {
     public static FeedingResult Resolve(

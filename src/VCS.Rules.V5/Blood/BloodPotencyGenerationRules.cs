@@ -1,6 +1,8 @@
 namespace VCS.Rules.V5.Blood;
+using VCS.Content;
 
 /// <summary>Blood Potency limits by Generation from the V5 core book, page 214.</summary>
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class BloodPotencyGenerationRules
 {
     public static BloodPotencyRange? ForGeneration(int generation) => generation switch

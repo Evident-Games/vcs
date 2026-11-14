@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using VCS.Content;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Content;
 using VCS.Content.Advantages;
@@ -73,7 +74,7 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
         : IsLoresheet ? $"{Subtitle} · {Definition?.PointsLabel ?? _item!.Rating.ToString()} ponto(s). {Definition?.Description ?? _item!.Loresheet?.Description}" +
           (_item?.Loresheet is { } lore ? $" {(!string.IsNullOrWhiteSpace(lore.Source) ? $"Fonte: {lore.Source}. " : "")}{(!string.IsNullOrWhiteSpace(lore.Prerequisite) ? $"Pré-requisito: {lore.Prerequisite}. " : "")}" +
             (lore.PrerequisiteConfirmed || lore.LimitOverrideApproved ? $"Aprovado pelo Narrador: {lore.ApprovalNote}" : "") : "")
-        : Definition is { } definition ? $"{definition.PointsLabel} ponto(s). {definition.Description}"
+        : Definition is { } definition ? $"{definition.PointsLabel} ponto(s). {definition.Description} Fonte: {SourceAttribution.Format(definition.Source)}"
         : Kind == TraitCategory.Flaw ? "Defeito próprio — descreva livremente." : "Vantagem própria — descreva livremente.";
     public IReadOnlyList<SuggestionItem> CategorySuggestions => _sheet.CategorySuggestions(Kind);
     public IReadOnlyList<SuggestionItem> NameSuggestions => _sheet.NameSuggestions(this);

@@ -1,4 +1,5 @@
 using VCS.Rules.V5.Validation;
+using VCS.Content;
 using VCS.Sheet;
 
 namespace VCS.Rules.V5.Blood;
@@ -7,6 +8,7 @@ public sealed record HumanityLevel(int Level, string Description, int SocialPena
 
 public sealed record RemorseResult(CharacterDetails Details, IReadOnlyList<int> Dice, int Successes, bool MaintainedHumanity);
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class HumanityRules
 {
     /// <summary>Remorse pool equals current Humanity; one success clears all Stains, no successes loses one Humanity.</summary>

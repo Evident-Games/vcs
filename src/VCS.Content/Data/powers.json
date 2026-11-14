@@ -6,7 +6,8 @@
     "level": 1,
     "cost": "O sangue para criar um carniçal (1 checagem de sangue)",
     "dicePool": "Nenhuma",
-    "summary": "Cria um vínculo mental duradouro com um animal que se torna um carniçal do vampiro. Garante empatia mútua, permitindo que o animal atue como espião ou guarda-costas sem a necessidade contínua de rolar dados para comandos simples."
+    "summary": "Cria um vínculo mental duradouro com um animal que se torna um carniçal do vampiro. Garante empatia mútua, permitindo que o animal atue como espião ou guarda-costas sem a necessidade contínua de rolar dados para comandos simples.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-animalism-sense-the-beast",
@@ -15,7 +16,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Determinação + Animalismo vs Autocontrole + Lábia",
-    "summary": "O vampiro foca seus sentidos sobrenaturais para detectar a Besta em outros, identificando instantaneamente se o alvo é um vampiro, lobisomem, carniçal ou qual a sua emoção mortal dominante no momento."
+    "summary": "O vampiro foca seus sentidos sobrenaturais para detectar a Besta em outros, identificando instantaneamente se o alvo é um vampiro, lobisomem, carniçal ou qual a sua emoção mortal dominante no momento.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-animalism-feral-whispers",
@@ -24,7 +26,8 @@
     "level": 2,
     "cost": "1 checagem de sangue (por cena)",
     "dicePool": "Manipulação + Animalismo vs Atributo + Determinação (caso o animal seja hostil)",
-    "summary": "O vampiro se comunica verbalmente com animais, podendo fazer perguntas, dar instruções e compreendê-los. As respostas e obediência variam de acordo com a inteligência nativa do bicho."
+    "summary": "O vampiro se comunica verbalmente com animais, podendo fazer perguntas, dar instruções e compreendê-los. As respostas e obediência variam de acordo com a inteligência nativa do bicho.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-animalism-quell-the-beast",
@@ -33,7 +36,8 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Carisma + Animalismo vs Vigor + Determinação (mortais) ou Determinação + Autocontrole (vampiros)",
-    "summary": "Reduz o pânico, a letargia ou a fúria em um alvo. Em mortais, tira completamente a vontade de lutar. Em vampiros, pode reprimir o Frenesi ou impedir que o alvo use pontos de Força de Vontade por um turno."
+    "summary": "Reduz o pânico, a letargia ou a fúria em um alvo. Em mortais, tira completamente a vontade de lutar. Em vampiros, pode reprimir o Frenesi ou impedir que o alvo use pontos de Força de Vontade por um turno.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-animalism-animal-succulence",
@@ -42,7 +46,8 @@
     "level": 3,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "O vampiro aprende a extrair sustento aprimorado de feras. Alimentar-se de animais passa a saciar mais Fome (podendo chegar a reduzir a Fome até o nível 1), facilitando a sobrevivência sem caçar humanos."
+    "summary": "O vampiro aprende a extrair sustento aprimorado de feras. Alimentar-se de animais passa a saciar mais Fome (podendo chegar a reduzir a Fome até o nível 1), facilitando a sobrevivência sem caçar humanos.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-animalism-subsume-the-spirit",
@@ -51,7 +56,8 @@
     "level": 4,
     "cost": "1 checagem de sangue",
     "dicePool": "Manipulação + Animalismo vs Determinação + Inteligência (caso seja familiar de outro vampiro)",
-    "summary": "O vampiro transfere sua consciência para o corpo de um animal, enxergando pelos olhos dele e controlando-o totalmente. Durante o efeito, o corpo do próprio vampiro fica inerte, como se estivesse em torpor."
+    "summary": "O vampiro transfere sua consciência para o corpo de um animal, enxergando pelos olhos dele e controlando-o totalmente. Durante o efeito, o corpo do próprio vampiro fica inerte, como se estivesse em torpor.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-animalism-animal-dominion",
@@ -60,7 +66,8 @@
     "level": 5,
     "cost": "1 ou 2 checagens de sangue",
     "dicePool": "Carisma + Animalismo",
-    "summary": "Uma evolução dos Sussurros Selvagens, permitindo comandar telepaticamente enxames, bandos ou matilhas inteiras de uma só vez (como nuvens de insetos, matilhas de cães ou revoada de corvos) para destruir obstáculos ou atacar inimigos."
+    "summary": "Uma evolução dos Sussurros Selvagens, permitindo comandar telepaticamente enxames, bandos ou matilhas inteiras de uma só vez (como nuvens de insetos, matilhas de cães ou revoada de corvos) para destruir obstáculos ou atacar inimigos.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-animalism-drawing-out-the-beast",
@@ -69,7 +76,8 @@
     "level": 5,
     "cost": "1 checagem de sangue",
     "dicePool": "Raciocínio + Animalismo vs Autocontrole + Determinação",
-    "summary": "Durante um Frenesi, o vampiro pode projetar forçosamente a própria fúria para o corpo de outra pessoa próxima. O alvo assumirá o Frenesi no lugar do vampiro, perdendo o controle e atacando os outros brutalmente."
+    "summary": "Durante um Frenesi, o vampiro pode projetar forçosamente a própria fúria para o corpo de outra pessoa próxima. O alvo assumirá o Frenesi no lugar do vampiro, perdendo o controle e atacando os outros brutalmente.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-auspex-heightened-senses",
@@ -78,7 +86,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Raciocínio + Prontidão (Apenas se houver distrações)",
-    "summary": "Amplia passivamente os sentidos. Permite enxergar no escuro, ouvir conversas através de paredes e farejar sangue antigo, mas torna o vampiro muito vulnerável a sons altos e luzes intensas."
+    "summary": "Amplia passivamente os sentidos. Permite enxergar no escuro, ouvir conversas através de paredes e farejar sangue antigo, mas torna o vampiro muito vulnerável a sons altos e luzes intensas.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-auspex-sense-the-unseen",
@@ -87,7 +96,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Raciocínio + Auspícios vs Raciocínio + Ofuscação (se o alvo tentar se esconder)",
-    "summary": "Concede a chance de detectar presenças ocultas por magia, vampiros usando Ofuscação, fantasmas ou ilusões. É ativado frequentemente pelo Narrador de forma passiva quando o perigo oculto se aproxima."
+    "summary": "Concede a chance de detectar presenças ocultas por magia, vampiros usando Ofuscação, fantasmas ou ilusões. É ativado frequentemente pelo Narrador de forma passiva quando o perigo oculto se aproxima.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-auspex-premonition",
@@ -96,7 +106,8 @@
     "level": 2,
     "cost": "1 checagem de sangue (ou grátis em uso passivo)",
     "dicePool": "Determinação + Auspícios",
-    "summary": "O vampiro recebe \"flashes\" de intuição sobre o futuro imediato ou ameaças escondidas. Pode salvar a vida do personagem, alertando-o sobre emboscadas ou revelando quem é o verdadeiro traidor em uma sala."
+    "summary": "O vampiro recebe \"flashes\" de intuição sobre o futuro imediato ou ameaças escondidas. Pode salvar a vida do personagem, alertando-o sobre emboscadas ou revelando quem é o verdadeiro traidor em uma sala.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-auspex-share-the-senses",
@@ -105,7 +116,8 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Determinação + Auspícios",
-    "summary": "O vampiro se conecta mentalmente a um alvo na sua linha de visão, passando a ver, ouvir e sentir exatamente tudo o que o alvo está experimentando em tempo real, independentemente da distância em que ele for depois."
+    "summary": "O vampiro se conecta mentalmente a um alvo na sua linha de visão, passando a ver, ouvir e sentir exatamente tudo o que o alvo está experimentando em tempo real, independentemente da distância em que ele for depois.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-auspex-scry-the-soul",
@@ -114,7 +126,8 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Auspícios vs Autocontrole + Lábia",
-    "summary": "Permite \"ler\" a aura da pessoa. Revela o estado emocional atual, se a criatura é humana ou sobrenatural e identifica manchas escuras que provam que o vampiro cometeu diablerie (devorou a alma de outro)."
+    "summary": "Permite \"ler\" a aura da pessoa. Revela o estado emocional atual, se a criatura é humana ou sobrenatural e identifica manchas escuras que provam que o vampiro cometeu diablerie (devorou a alma de outro).",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-auspex-spirits-touch",
@@ -123,7 +136,8 @@
     "level": 4,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Auspícios",
-    "summary": "Ao tocar um objeto inanimado ou o chão de um local, o vampiro lê os fortes ecos emocionais presos nele. Consegue ver o rosto de quem tocou por último e reproduzir cenas traumáticas ou intensas ocorridas na presença do item."
+    "summary": "Ao tocar um objeto inanimado ou o chão de um local, o vampiro lê os fortes ecos emocionais presos nele. Consegue ver o rosto de quem tocou por último e reproduzir cenas traumáticas ou intensas ocorridas na presença do item.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-auspex-clairvoyance",
@@ -132,7 +146,8 @@
     "level": 5,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Auspícios",
-    "summary": "A percepção se desliga do corpo físico e se projeta livremente pelo mundo, como uma câmera fantasma invisível. Permite espiar covis inimigos ou conversas distantes sem precisar estar perto do local."
+    "summary": "A percepção se desliga do corpo físico e se projeta livremente pelo mundo, como uma câmera fantasma invisível. Permite espiar covis inimigos ou conversas distantes sem precisar estar perto do local.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-auspex-telepathy",
@@ -141,7 +156,8 @@
     "level": 5,
     "cost": "1 checagem de sangue",
     "dicePool": "Determinação + Auspícios vs Raciocínio + Determinação",
-    "summary": "Além de ler superficialmente os pensamentos alheios e vasculhar a mente do alvo em busca de memórias específicas, o vampiro pode projetar seus próprios pensamentos diretamente na mente do alvo."
+    "summary": "Além de ler superficialmente os pensamentos alheios e vasculhar a mente do alvo em busca de memórias específicas, o vampiro pode projetar seus próprios pensamentos diretamente na mente do alvo.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-celerity-cats-grace",
@@ -150,7 +166,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "O corpo adquire equilíbrio e leveza sobrenaturais. O vampiro nunca perde o balanço, pode andar sobre arames finos sem cair, e pode se levantar da posição deitado sem gastar nenhuma ação ou esforço."
+    "summary": "O corpo adquire equilíbrio e leveza sobrenaturais. O vampiro nunca perde o balanço, pode andar sobre arames finos sem cair, e pode se levantar da posição deitado sem gastar nenhuma ação ou esforço.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-celerity-rapid-reflexes",
@@ -159,7 +176,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "Ignora completamente as penalidades por lutar sem cobertura contra atiradores e reage instintivamente, o que significa que o vampiro não sofre perda de dados em defesas contra ataques surpresa."
+    "summary": "Ignora completamente as penalidades por lutar sem cobertura contra atiradores e reage instintivamente, o que significa que o vampiro não sofre perda de dados em defesas contra ataques surpresa.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-celerity-fleetness",
@@ -168,7 +186,8 @@
     "level": 2,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "Ao ativar, o vampiro soma seu nível total de Celeridade a qualquer rolagem de Destreza não relacionada a ataques de combate (como fugir, escalar, correr ou realizar furtos). O efeito dura uma cena inteira."
+    "summary": "Ao ativar, o vampiro soma seu nível total de Celeridade a qualquer rolagem de Destreza não relacionada a ataques de combate (como fugir, escalar, correr ou realizar furtos). O efeito dura uma cena inteira.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-celerity-blink-traversal",
@@ -177,7 +196,8 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Destreza + Atletismo (para Travessia)",
-    "summary": "O vampiro pode cruzar curtas distâncias instantaneamente para golpear, ou usar a inércia da supervelocidade para correr literalmente nas paredes ou por cima da água por turnos limitados sem cair."
+    "summary": "O vampiro pode cruzar curtas distâncias instantaneamente para golpear, ou usar a inércia da supervelocidade para correr literalmente nas paredes ou por cima da água por turnos limitados sem cair.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-celerity-unerring-aim",
@@ -186,7 +206,8 @@
     "level": 4,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "A percepção mental do vampiro acelera, fazendo os inimigos se moverem em câmera lenta. Ele reduz a zero qualquer penalidade de tiro por cobertura, clima ou movimentação do alvo."
+    "summary": "A percepção mental do vampiro acelera, fazendo os inimigos se moverem em câmera lenta. Ele reduz a zero qualquer penalidade de tiro por cobertura, clima ou movimentação do alvo.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-celerity-split-second",
@@ -195,7 +216,8 @@
     "level": 5,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "O vampiro se move de forma tão impossível que consegue \"rebobinar\" eventos da narrativa que acabaram de acontecer na rodada. Se alguém caiu de um prédio, ele já estará lá embaixo segurando o alvo, reagindo mais rápido que as consequências normais da física."
+    "summary": "O vampiro se move de forma tão impossível que consegue \"rebobinar\" eventos da narrativa que acabaram de acontecer na rodada. Se alguém caiu de um prédio, ele já estará lá embaixo segurando o alvo, reagindo mais rápido que as consequências normais da física.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-dominate-compel",
@@ -204,7 +226,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Carisma + Dominação vs Inteligência + Determinação",
-    "summary": "Exige contato visual ininterrupto. O vampiro comanda o alvo em uma frase curta (\"Pare!\", \"Largue a arma!\"). O comando deve ser imediato e se resolver no mesmo turno, não podendo ser obviamente letal ao alvo."
+    "summary": "Exige contato visual ininterrupto. O vampiro comanda o alvo em uma frase curta (\"Pare!\", \"Largue a arma!\"). O comando deve ser imediato e se resolver no mesmo turno, não podendo ser obviamente letal ao alvo.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-dominate-cloud-memory",
@@ -213,7 +236,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Carisma + Dominação vs Inteligência + Determinação",
-    "summary": "O vampiro foca seu olhar em alguém e apaga os últimos minutos da memória recente do alvo (a duração da cena atual). A vítima fica momentaneamente confusa, incapaz de lembrar o que acabou de fazer ou de ver."
+    "summary": "O vampiro foca seu olhar em alguém e apaga os últimos minutos da memória recente do alvo (a duração da cena atual). A vítima fica momentaneamente confusa, incapaz de lembrar o que acabou de fazer ou de ver.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-dominate-mesmerize",
@@ -222,7 +246,8 @@
     "level": 2,
     "cost": "1 checagem de sangue",
     "dicePool": "Manipulação + Dominação vs Inteligência + Determinação",
-    "summary": "O vampiro implanta um comando complexo na mente do alvo, condicionado a um gatilho. Quando o evento determinado ocorrer (\"Quando o sino tocar...\"), a vítima executará o comando imposto."
+    "summary": "O vampiro implanta um comando complexo na mente do alvo, condicionado a um gatilho. Quando o evento determinado ocorrer (\"Quando o sino tocar...\"), a vítima executará o comando imposto.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-dominate-the-forgetful-mind",
@@ -231,7 +256,8 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Dominação vs Inteligência + Determinação",
-    "summary": "Versão muito mais agressiva do Obscurecer Memória. Permite que o vampiro destrua e reescreva seletivamente as memórias antigas e complexas de uma vítima, podendo mudar lembranças inteiras sobre a vida dela."
+    "summary": "Versão muito mais agressiva do Obscurecer Memória. Permite que o vampiro destrua e reescreva seletivamente as memórias antigas e complexas de uma vítima, podendo mudar lembranças inteiras sobre a vida dela.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-dominate-submerged-directive",
@@ -240,7 +266,8 @@
     "level": 3,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "Torna os comandos inseridos via Sugestão Hipnótica perfeitos e indetectáveis. A vítima esquecerá conscientemente que recebeu a ordem, mas ainda a executará, acreditando que a ideia foi puramente genuína e originada dela mesma."
+    "summary": "Torna os comandos inseridos via Sugestão Hipnótica perfeitos e indetectáveis. A vítima esquecerá conscientemente que recebeu a ordem, mas ainda a executará, acreditando que a ideia foi puramente genuína e originada dela mesma.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-dominate-rationalize",
@@ -249,7 +276,8 @@
     "level": 4,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "Modifica fundamentalmente como o cérebro da vítima processa a Dominação. Em vez de perceberem que foram controladas, as vítimas justificarão qualquer comando bizarro com uma desculpa lógica que criam em suas próprias mentes, nunca suspeitando do vampiro."
+    "summary": "Modifica fundamentalmente como o cérebro da vítima processa a Dominação. Em vez de perceberem que foram controladas, as vítimas justificarão qualquer comando bizarro com uma desculpa lógica que criam em suas próprias mentes, nunca suspeitando do vampiro.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-dominate-mass-manipulation",
@@ -258,7 +286,8 @@
     "level": 5,
     "cost": "1 checagem de sangue",
     "dicePool": "Carisma + Dominação",
-    "summary": "O limite do controle singular é quebrado. O vampiro pode aplicar poderes como Compelir ou Sugestão Hipnótica em todo um grupo de mortais de uma só vez, independentemente do contato visual direto, desde que consigam ouvir a voz do vampiro."
+    "summary": "O limite do controle singular é quebrado. O vampiro pode aplicar poderes como Compelir ou Sugestão Hipnótica em todo um grupo de mortais de uma só vez, independentemente do contato visual direto, desde que consigam ouvir a voz do vampiro.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-dominate-terminal-decree",
@@ -267,7 +296,8 @@
     "level": 5,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "A última barreira moral da Dominação cai. O vampiro ganha a capacidade assustadora de comandar suas vítimas a realizarem ações obviamente letais, permitindo ordens como atear fogo em si mesmas ou atirar na própria cabeça."
+    "summary": "A última barreira moral da Dominação cai. O vampiro ganha a capacidade assustadora de comandar suas vítimas a realizarem ações obviamente letais, permitindo ordens como atear fogo em si mesmas ou atirar na própria cabeça.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-fortitude-resilience",
@@ -276,7 +306,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "Endurecimento passivo da carne morta-viva. O vampiro ganha um número de níveis de Vitalidade adicionais equivalente ao seu nível de Fortitude, tornando-o fisicamente muito mais difícil de derrubar em combate."
+    "summary": "Endurecimento passivo da carne morta-viva. O vampiro ganha um número de níveis de Vitalidade adicionais equivalente ao seu nível de Fortitude, tornando-o fisicamente muito mais difícil de derrubar em combate.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-fortitude-unswayable-mind",
@@ -285,7 +316,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "Fortalece o escudo psíquico. O vampiro passa a somar seus pontos de Fortitude ao tentar resistir a rolagens de testes sociais, intimidação mortal, ou tentativas de sedução e leitura mental, como a disciplina Auspícios."
+    "summary": "Fortalece o escudo psíquico. O vampiro passa a somar seus pontos de Fortitude ao tentar resistir a rolagens de testes sociais, intimidação mortal, ou tentativas de sedução e leitura mental, como a disciplina Auspícios.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-fortitude-enduring-beasts",
@@ -294,7 +326,8 @@
     "level": 2,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "O personagem consegue aguentar danos imensos. Durante uma cena, o dano superficial causado por ataques contundentes e cortes simples é cortado pela metade antes mesmo de sofrer as reduções padrão das regras de dano vampírico."
+    "summary": "O personagem consegue aguentar danos imensos. Durante uma cena, o dano superficial causado por ataques contundentes e cortes simples é cortado pela metade antes mesmo de sofrer as reduções padrão das regras de dano vampírico.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-fortitude-defy-bane",
@@ -303,7 +336,8 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Vigor + Fortitude",
-    "summary": "A pele do vampiro rejeita ferimentos letais. Como uma ação defensiva, o jogador pode rolar os dados e converter o dano Agravado recebido de balas, fogo ou presas em dano Superficial suportável."
+    "summary": "A pele do vampiro rejeita ferimentos letais. Como uma ação defensiva, o jogador pode rolar os dados e converter o dano Agravado recebido de balas, fogo ou presas em dano Superficial suportável.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-fortitude-fortify-the-inner-facade",
@@ -312,7 +346,8 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "Fornece imunidade quase total contra poderes sobrenaturais que tentam ler pensamentos, controlar emoções ou invadir a mente, servindo como a defesa perfeita contra a disciplina Dominação."
+    "summary": "Fornece imunidade quase total contra poderes sobrenaturais que tentam ler pensamentos, controlar emoções ou invadir a mente, servindo como a defesa perfeita contra a disciplina Dominação.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-fortitude-flesh-of-marble",
@@ -321,7 +356,8 @@
     "level": 4,
     "cost": "2 checagens de sangue",
     "dicePool": "Nenhuma",
-    "summary": "A resistência beira o nível divino. Uma vez por noite, o vampiro torna sua pele impenetrável por alguns turnos. Nenhum ataque físico mundano consegue causar dano, repelindo balas, lâminas pesadas e explosões."
+    "summary": "A resistência beira o nível divino. Uma vez por noite, o vampiro torna sua pele impenetrável por alguns turnos. Nenhum ataque físico mundano consegue causar dano, repelindo balas, lâminas pesadas e explosões.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-fortitude-prowess-from-pain",
@@ -330,7 +366,8 @@
     "level": 5,
     "cost": "1 checagem de sangue",
     "dicePool": "Vigor + Fortitude",
-    "summary": "Quando atacado fisicamente em combate corporal, o vampiro se recusa a ceder. Quem o acertou também sofre parte do impacto refletido diretamente em seu próprio corpo, recebendo de volta uma porção do dano desferido na forma contundente."
+    "summary": "Quando atacado fisicamente em combate corporal, o vampiro se recusa a ceder. Quem o acertou também sofre parte do impacto refletido diretamente em seu próprio corpo, recebendo de volta uma porção do dano desferido na forma contundente.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-obfuscate-cloak-of-shadows",
@@ -339,7 +376,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "Exige que haja uma sombra real ou cobertura próxima. Desde que o personagem fique em silêncio absoluto e completamente imóvel contra essa cobertura, ele apaga sua presença do ambiente e fica invisível para quem o olhar."
+    "summary": "Exige que haja uma sombra real ou cobertura próxima. Desde que o personagem fique em silêncio absoluto e completamente imóvel contra essa cobertura, ele apaga sua presença do ambiente e fica invisível para quem o olhar.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-obfuscate-silence-of-death",
@@ -348,7 +386,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "Abafa todo o som causado diretamente pelas ações físicas do vampiro. Passos, armas disparando, batidas e esmagamentos não farão o menor ruído, permitindo abates perfeitamente silenciosos ou furtividade absoluta."
+    "summary": "Abafa todo o som causado diretamente pelas ações físicas do vampiro. Passos, armas disparando, batidas e esmagamentos não farão o menor ruído, permitindo abates perfeitamente silenciosos ou furtividade absoluta.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-obfuscate-unseen-passage",
@@ -357,7 +396,8 @@
     "level": 2,
     "cost": "1 checagem de sangue",
     "dicePool": "Raciocínio + Furtividade",
-    "summary": "Extensão do Manto de Sombras. Permite que o vampiro mantenha a invisibilidade enquanto se desloca e caminha pelo ambiente. Ele não pode atacar ninguém durante o percurso e, se alguém colidir fisicamente contra ele, a ilusão quebra."
+    "summary": "Extensão do Manto de Sombras. Permite que o vampiro mantenha a invisibilidade enquanto se desloca e caminha pelo ambiente. Ele não pode atacar ninguém durante o percurso e, se alguém colidir fisicamente contra ele, a ilusão quebra.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-obfuscate-mask-of-a-thousand-faces",
@@ -366,7 +406,8 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Manipulação + Ofuscação",
-    "summary": "Em vez de se tornar invisível, o vampiro força as mentes ao redor a enxergarem uma aparência completamente diferente para ele. Pode criar a ilusão mental de vestir roupas que não possui, ou parecer com uma pessoa genérica para passar por seguranças."
+    "summary": "Em vez de se tornar invisível, o vampiro força as mentes ao redor a enxergarem uma aparência completamente diferente para ele. Pode criar a ilusão mental de vestir roupas que não possui, ou parecer com uma pessoa genérica para passar por seguranças.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-obfuscate-ghost-in-the-machine",
@@ -375,7 +416,8 @@
     "level": 3,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "Estende os efeitos mágicos da Ofuscação (Passagem Invisível e Máscara das Mil Faces) para as lentes digitais. O vampiro se torna capaz de enganar equipamentos de segurança, desaparecendo de gravações, drones e sensores infravermelhos em tempo real."
+    "summary": "Estende os efeitos mágicos da Ofuscação (Passagem Invisível e Máscara das Mil Faces) para as lentes digitais. O vampiro se torna capaz de enganar equipamentos de segurança, desaparecendo de gravações, drones e sensores infravermelhos em tempo real.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-obfuscate-conceal",
@@ -384,7 +426,8 @@
     "level": 4,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Ofuscação",
-    "summary": "O personagem cria ilusões potentes em um objeto inanimado do tamanho máximo de uma casa, ou remove esse objeto das mentes locais. Pode esconder a porta de um cofre no meio da parede ou fazer um baú valioso sumir de vista."
+    "summary": "O personagem cria ilusões potentes em um objeto inanimado do tamanho máximo de uma casa, ou remove esse objeto das mentes locais. Pode esconder a porta de um cofre no meio da parede ou fazer um baú valioso sumir de vista.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-obfuscate-cloak-the-gathering",
@@ -393,7 +436,8 @@
     "level": 5,
     "cost": "1 checagem de sangue",
     "dicePool": "Carisma + Ofuscação",
-    "summary": "O ápice da invisibilidade. O vampiro pode envolver aliados próximos dentro do raio do poder. Tanto ele quanto o restante do grupo se tornam invisíveis ou mudam de aparência usando a Máscara das Mil Faces simultaneamente, protegendo todo o círculo."
+    "summary": "O ápice da invisibilidade. O vampiro pode envolver aliados próximos dentro do raio do poder. Tanto ele quanto o restante do grupo se tornam invisíveis ou mudam de aparência usando a Máscara das Mil Faces simultaneamente, protegendo todo o círculo.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-potence-soaring-leap",
@@ -402,7 +446,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "O corpo ganha propulsão explosiva. O vampiro consegue dar saltos verticais e horizontais absurdos (cobrindo vários metros sem qualquer impulso), ignorando as limitações normais de gravidade para o corpo humano."
+    "summary": "O corpo ganha propulsão explosiva. O vampiro consegue dar saltos verticais e horizontais absurdos (cobrindo vários metros sem qualquer impulso), ignorando as limitações normais de gravidade para o corpo humano.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-potence-lethal-body",
@@ -411,7 +456,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "A força bruta permite rasgar carne e quebrar ossos. Seus ataques corporais desarmados passam a causar dano severo e fatal contra mortais (dano letal), além de ignorar facilmente armaduras rudimentares ou roupas de proteção."
+    "summary": "A força bruta permite rasgar carne e quebrar ossos. Seus ataques corporais desarmados passam a causar dano severo e fatal contra mortais (dano letal), além de ignorar facilmente armaduras rudimentares ou roupas de proteção.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-potence-prowess",
@@ -420,7 +466,8 @@
     "level": 2,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "Durante toda a cena, o personagem soma o seu nível de Potência diretamente no dano de qualquer ataque físico bem-sucedido usando Briga ou armas de combate corpo-a-corpo (como estacas, tacos e espadas)."
+    "summary": "Durante toda a cena, o personagem soma o seu nível de Potência diretamente no dano de qualquer ataque físico bem-sucedido usando Briga ou armas de combate corpo-a-corpo (como estacas, tacos e espadas).",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-potence-brutal-feed",
@@ -429,7 +476,8 @@
     "level": 3,
     "cost": "Nenhum",
     "dicePool": "Força + Briga",
-    "summary": "O vampiro morde e drena sangue de forma bestial no meio de um combate. Em apenas um ou dois turnos rápidos, ele consegue sugar quantidades letais de sangue de uma vítima, curando-se enquanto causa dano massivo simultaneamente."
+    "summary": "O vampiro morde e drena sangue de forma bestial no meio de um combate. Em apenas um ou dois turnos rápidos, ele consegue sugar quantidades letais de sangue de uma vítima, curando-se enquanto causa dano massivo simultaneamente.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-potence-draught-of-might",
@@ -438,7 +486,8 @@
     "level": 4,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "O personagem concentra sua superforça no próprio sangue. Se ele der esse sangue para que outros bebam na mesma cena (como Carniçais ou outros vampiros), quem bebeu também ganhará metade do nível de Potência do vampiro original por um tempo."
+    "summary": "O personagem concentra sua superforça no próprio sangue. Se ele der esse sangue para que outros bebam na mesma cena (como Carniçais ou outros vampiros), quem bebeu também ganhará metade do nível de Potência do vampiro original por um tempo.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-potence-earthshock",
@@ -447,7 +496,8 @@
     "level": 5,
     "cost": "2 checagens de sangue",
     "dicePool": "Força + Potência vs Vigor + Atletismo",
-    "summary": "O vampiro esmurra o chão ou pisa com força titânica, criando uma onda de choque que quebra o piso e arremessa todos num raio de vários metros ao chão. As vítimas caem e recebem dano contundente pelo tremor brutal."
+    "summary": "O vampiro esmurra o chão ou pisa com força titânica, criando uma onda de choque que quebra o piso e arremessa todos num raio de vários metros ao chão. As vítimas caem e recebem dano contundente pelo tremor brutal.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-presence-dread-gaze",
@@ -456,7 +506,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma (Atua passivamente em Intimidação)",
-    "summary": "Exala uma aura de perigo sutil, mas constante. Mortais se afastam, desviam o olhar e evitam confusão com o personagem. Adiciona bônus em todos os testes de Intimidação."
+    "summary": "Exala uma aura de perigo sutil, mas constante. Mortais se afastam, desviam o olhar e evitam confusão com o personagem. Adiciona bônus em todos os testes de Intimidação.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-presence-awe",
@@ -465,7 +516,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Carisma + Presença vs Autocontrole + Inteligência (caso resista)",
-    "summary": "Atrai toda a atenção do ambiente. Aqueles sob o efeito do fascínio vão concordar com as ideias do vampiro e considerá-lo extremamente interessante, garantindo bônus em testes de Lábia, Liderança ou Persuasão."
+    "summary": "Atrai toda a atenção do ambiente. Aqueles sob o efeito do fascínio vão concordar com as ideias do vampiro e considerá-lo extremamente interessante, garantindo bônus em testes de Lábia, Liderança ou Persuasão.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-presence-lingering-kiss",
@@ -474,7 +526,8 @@
     "level": 2,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "Transforma a mordida do vampiro em uma droga extremamente viciante. As vítimas mordidas sofrem de abstinência se ficarem longe dele, procurando o vampiro de forma obsessiva para serem mordidas novamente nas noites seguintes."
+    "summary": "Transforma a mordida do vampiro em uma droga extremamente viciante. As vítimas mordidas sofrem de abstinência se ficarem longe dele, procurando o vampiro de forma obsessiva para serem mordidas novamente nas noites seguintes.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-presence-entrancement",
@@ -483,7 +536,8 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Carisma + Presença vs Autocontrole + Inteligência",
-    "summary": "Convence instantaneamente o alvo de que o vampiro é seu amigo mais fiel e verdadeiro. O alvo passará a proteger o vampiro, compartilhar segredos e defendê-lo de aliados, durando até ser fisicamente ferido por ele."
+    "summary": "Convence instantaneamente o alvo de que o vampiro é seu amigo mais fiel e verdadeiro. O alvo passará a proteger o vampiro, compartilhar segredos e defendê-lo de aliados, durando até ser fisicamente ferido por ele.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-presence-summon",
@@ -492,7 +546,8 @@
     "level": 4,
     "cost": "1 checagem de sangue",
     "dicePool": "Manipulação + Presença vs Autocontrole + Inteligência",
-    "summary": "O vampiro foca em uma pessoa com quem ele já tenha interagido antes e a chama mentalmente. O alvo sentirá um desejo desesperado e incontrolável de ir até a localização do vampiro o mais rápido possível, não importando a distância."
+    "summary": "O vampiro foca em uma pessoa com quem ele já tenha interagido antes e a chama mentalmente. O alvo sentirá um desejo desesperado e incontrolável de ir até a localização do vampiro o mais rápido possível, não importando a distância.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-presence-majesty",
@@ -501,7 +556,8 @@
     "level": 5,
     "cost": "2 checagens de sangue",
     "dicePool": "Carisma + Presença vs Autocontrole + Determinação",
-    "summary": "A aura do vampiro se torna divina ou apavorante em nível absoluto. Ninguém ao redor consegue agir agressivamente, levantar a voz ou atacar o vampiro sem antes passar num teste dificílimo, rendendo-se à veneração ou ao terror submisso."
+    "summary": "A aura do vampiro se torna divina ou apavorante em nível absoluto. Ninguém ao redor consegue agir agressivamente, levantar a voz ou atacar o vampiro sem antes passar num teste dificílimo, rendendo-se à veneração ou ao terror submisso.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-protean-weight-of-the-feather",
@@ -570,7 +626,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "Bebendo uma única gota de sangue (fresco ou ressecado), o Feiticeiro descobre informações ocultas de quem sangrou. Revela o Clã do vampiro, sua Potência do Sangue e detecta se o alvo cometeu o crime de diablerie (devorou outro vampiro)."
+    "summary": "Bebendo uma única gota de sangue (fresco ou ressecado), o Feiticeiro descobre informações ocultas de quem sangrou. Revela o Clã do vampiro, sua Potência do Sangue e detecta se o alvo cometeu o crime de diablerie (devorou outro vampiro).",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-blood-sorcery-corrosive-vitae",
@@ -579,7 +636,8 @@
     "level": 1,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "O personagem força propriedades ácidas e tóxicas no próprio suor ou sangue. Pode derreter algemas, destruir fechaduras de portas de metal, queimar evidências ou corroer cordas rapidamente usando apenas o próprio fluido."
+    "summary": "O personagem força propriedades ácidas e tóxicas no próprio suor ou sangue. Pode derreter algemas, destruir fechaduras de portas de metal, queimar evidências ou corroer cordas rapidamente usando apenas o próprio fluido.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-blood-sorcery-extinguish-vitae",
@@ -588,7 +646,8 @@
     "level": 2,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Feitiçaria de Sangue vs Vigor + Determinação",
-    "summary": "O feiticeiro evapora a magia no sangue de outro vampiro à distância, aumentando instantaneamente os níveis de Fome do alvo e possivelmente forçando o inimigo a um frenesi por sangue."
+    "summary": "O feiticeiro evapora a magia no sangue de outro vampiro à distância, aumentando instantaneamente os níveis de Fome do alvo e possivelmente forçando o inimigo a um frenesi por sangue.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-blood-sorcery-scorpions-touch",
@@ -597,7 +656,8 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Força + Feitiçaria de Sangue vs Vigor + Determinação",
-    "summary": "O usuário converte sua vitae num veneno místico paralisante e o aplica em uma lâmina ou tenta tocá-lo na pele do inimigo. Causa fortes espasmos e rouba as capacidades motoras e a vitalidade de mortais e vampiros."
+    "summary": "O usuário converte sua vitae num veneno místico paralisante e o aplica em uma lâmina ou tenta tocá-lo na pele do inimigo. Causa fortes espasmos e rouba as capacidades motoras e a vitalidade de mortais e vampiros.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-blood-sorcery-theft-of-vitae",
@@ -606,7 +666,8 @@
     "level": 4,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Feitiçaria de Sangue vs Raciocínio + Ocultismo",
-    "summary": "O feiticeiro drena violentamente o sangue do corpo de um alvo (mortal ou vampiro) à distância, forçando a energia vital a voar pelos ares ou entrar misticamente nas veias do próprio feiticeiro, curando-o e causando ferimentos graves na vítima."
+    "summary": "O feiticeiro drena violentamente o sangue do corpo de um alvo (mortal ou vampiro) à distância, forçando a energia vital a voar pelos ares ou entrar misticamente nas veias do próprio feiticeiro, curando-o e causando ferimentos graves na vítima.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-blood-sorcery-cauldron-of-blood",
@@ -615,7 +676,8 @@
     "level": 5,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Feitiçaria de Sangue vs Vigor + Determinação",
-    "summary": "Com um toque e uma palavra, o Feiticeiro faz o sangue ferver de dentro para fora no corpo da vítima. Os vasos sanguíneos da vítima estouram e o sangue vaporiza em uma nuvem vermelha escarlate, causando morte excruciante."
+    "summary": "Com um toque e uma palavra, o Feiticeiro faz o sangue ferver de dentro para fora no corpo da vítima. Os vasos sanguíneos da vítima estouram e o sangue vaporiza em uma nuvem vermelha escarlate, causando morte excruciante.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "ritual-wake-with-evenings-freshness",
@@ -625,7 +687,8 @@
     "level": 1,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 1)",
-    "summary": "Protege o sono diurno vulnerável do vampiro. Se qualquer ameaça tentar invadir seu esconderijo enquanto ele dorme de dia, o ritual desperta o vampiro instantaneamente e permite que ele aja durante aquele turno de luz do dia sem penalidades letárgicas."
+    "summary": "Protege o sono diurno vulnerável do vampiro. Se qualquer ameaça tentar invadir seu esconderijo enquanto ele dorme de dia, o ritual desperta o vampiro instantaneamente e permite que ele aja durante aquele turno de luz do dia sem penalidades letárgicas.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "ritual-illusion-of-peaceful-death",
@@ -635,7 +698,8 @@
     "level": 2,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 2)",
-    "summary": "Lança pó e sangue falso em um cadáver recém-assassinado pelo vampiro. Em segundos, esconde marcas de presas, arranhões de garras ou perda severa de sangue. Quando o legista examinar, o corpo parecerá ter morrido de ataque cardíaco natural."
+    "summary": "Lança pó e sangue falso em um cadáver recém-assassinado pelo vampiro. Em segundos, esconde marcas de presas, arranhões de garras ou perda severa de sangue. Quando o legista examinar, o corpo parecerá ter morrido de ataque cardíaco natural.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "ritual-ward-against-lupines",
@@ -645,7 +709,8 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 3)",
-    "summary": "Ao desenhar sigilos de sangue por 30 minutos em um ambiente ou num objeto (como um carro ou taco), o mago cria uma barreira mística dolorosa e flamejante contra Lobisomens. Qualquer lupino que tentar cruzar a porta ou tocar no objeto marcado receberá muito dano místico."
+    "summary": "Ao desenhar sigilos de sangue por 30 minutos em um ambiente ou num objeto (como um carro ou taco), o mago cria uma barreira mística dolorosa e flamejante contra Lobisomens. Qualquer lupino que tentar cruzar a porta ou tocar no objeto marcado receberá muito dano místico.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "ritual-ward-against-cainites",
@@ -655,7 +720,8 @@
     "level": 4,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 4)",
-    "summary": "Funciona como a Proteção contra Feras, mas queima e repele outros Vampiros. Torna Refúgios impenetráveis ou cria armas e roupas místicas que eletrocutam ou queimam cainitas que toquem no alvo protegido."
+    "summary": "Funciona como a Proteção contra Feras, mas queima e repele outros Vampiros. Torna Refúgios impenetráveis ou cria armas e roupas místicas que eletrocutam ou queimam cainitas que toquem no alvo protegido.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "ritual-escape-to-true-sanctuary",
@@ -665,7 +731,8 @@
     "level": 5,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 5)",
-    "summary": "Cria dois círculos de cinzas e sangue (um na base segura e outro que o mago usa durante emergências nas ruas). Ao entrar no círculo de emergência, o corpo do Feiticeiro desaparece instantaneamente e é teleportado ileso de volta para o seu santuário particular."
+    "summary": "Cria dois círculos de cinzas e sangue (um na base segura e outro que o mago usa durante emergências nas ruas). Ao entrar no círculo de emergência, o corpo do Feiticeiro desaparece instantaneamente e é teleportado ileso de volta para o seu santuário particular.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-oblivion-oblivions-sight",
@@ -674,7 +741,8 @@
     "level": 1,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "Os olhos do vampiro ficam completamente negros. Ele passa a enxergar através de qualquer escuridão (mesmo as sobrenaturais criadas por outros poderes) e consegue ver fantasmas ou espíritos inquietos no ambiente."
+    "summary": "Os olhos do vampiro ficam completamente negros. Ele passa a enxergar através de qualquer escuridão (mesmo as sobrenaturais criadas por outros poderes) e consegue ver fantasmas ou espíritos inquietos no ambiente.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-oblivion-shadow-cloak",
@@ -683,7 +751,8 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "As sombras do ambiente literalmente se curvam e se agarram ao corpo do Lasombra. Isso concede bônus em testes de Furtividade para se esconder nas trevas e bônus em Intimidação, tornando sua presença sinistra."
+    "summary": "As sombras do ambiente literalmente se curvam e se agarram ao corpo do Lasombra. Isso concede bônus em testes de Furtividade para se esconder nas trevas e bônus em Intimidação, tornando sua presença sinistra.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-oblivion-arms-of-ahriman",
@@ -692,7 +761,8 @@
     "level": 2,
     "cost": "1 checagem de sangue",
     "dicePool": "Raciocínio + Oblívio vs Força + Atletismo (para agarrar)",
-    "summary": "O vampiro invoca tentáculos de pura escuridão que brotam de cantos não iluminados da sala. Esses tentáculos podem açoitar, esmagar ou prender inimigos à distância, causando dano superficial e agarrando os alvos."
+    "summary": "O vampiro invoca tentáculos de pura escuridão que brotam de cantos não iluminados da sala. Esses tentáculos podem açoitar, esmagar ou prender inimigos à distância, causando dano superficial e agarrando os alvos.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-oblivion-touch-of-oblivion",
@@ -701,7 +771,8 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Força + Briga",
-    "summary": "O vampiro canaliza a força destrutiva do Abismo em suas mãos. Um soco ou agarrão bem-sucedido causa dano agravado (queimando a vítima com energia necrótica) e murcha o membro atingido, reduzindo a Força do alvo no combate."
+    "summary": "O vampiro canaliza a força destrutiva do Abismo em suas mãos. Um soco ou agarrão bem-sucedido causa dano agravado (queimando a vítima com energia necrótica) e murcha o membro atingido, reduzindo a Força do alvo no combate.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-oblivion-stygian-shroud",
@@ -710,7 +781,8 @@
     "level": 4,
     "cost": "1 checagem de sangue",
     "dicePool": "Raciocínio + Oblívio",
-    "summary": "O vampiro preenche uma sala ou área ampla com uma fumaça de escuridão absoluta. Mortais sufocam e perdem vitalidade lá dentro, os sons são abafados, e todos (exceto o próprio Lasombra) ficam totalmente cegos."
+    "summary": "O vampiro preenche uma sala ou área ampla com uma fumaça de escuridão absoluta. Mortais sufocam e perdem vitalidade lá dentro, os sons são abafados, e todos (exceto o próprio Lasombra) ficam totalmente cegos.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-oblivion-shadow-step",
@@ -719,7 +791,8 @@
     "level": 5,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "O vampiro dá um passo para dentro de uma sombra projetada na parede ou no chão e desaparece. No mesmo turno, ele emerge instantaneamente de outra sombra que esteja no seu campo de visão ou em um local que ele conheça muito bem."
+    "summary": "O vampiro dá um passo para dentro de uma sombra projetada na parede ou no chão e desaparece. No mesmo turno, ele emerge instantaneamente de outra sombra que esteja no seu campo de visão ou em um local que ele conheça muito bem.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-oblivion-tenebrous-avatar",
@@ -728,7 +801,8 @@
     "level": 5,
     "cost": "2 checagens de sangue",
     "dicePool": "Nenhuma",
-    "summary": "O corpo do vampiro se dissolve, tornando-se uma mancha bidimensional de sombra rastejante. Ele fica imune a qualquer ataque físico, pode deslizar por rachaduras e paredes, e é capaz de envolver e asfixiar vítimas pelo toque."
+    "summary": "O corpo do vampiro se dissolve, tornando-se uma mancha bidimensional de sombra rastejante. Ele fica imune a qualquer ataque físico, pode deslizar por rachaduras e paredes, e é capaz de envolver e asfixiar vítimas pelo toque.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-obfuscate-chimerstry",
@@ -739,7 +813,8 @@
     "dicePool": "Manipulação + Ofuscação vs. Autocontrole + Raciocínio",
     "summary": "O vampiro projeta uma alucinação rápida e vívida que afeta apenas um dos cinco sentidos. Serve para enganar ou assustar vítimas momentaneamente, distraindo-as a ponto de fazê-las perder dados de combate ou ações ativas na rodada.",
     "amalgamDisciplineId": "discipline-presence",
-    "amalgamLevel": 1
+    "amalgamLevel": 1,
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-obfuscate-fata-morgana",
@@ -750,7 +825,8 @@
     "dicePool": "Manipulação + Ofuscação",
     "summary": "Cria ilusões complexas e duradouras que não têm efeito físico, mas enganam múltiplos sentidos ao mesmo tempo (como ver e ouvir uma torrente de sangue jorrando). Afeta simultaneamente várias vítimas próximas que consigam ver ou ouvir a ilusão pela duração total de uma cena.",
     "amalgamDisciplineId": "discipline-presence",
-    "amalgamLevel": 2
+    "amalgamLevel": 2,
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-auspex-obeah",
@@ -761,7 +837,8 @@
     "dicePool": "Autocontrole + Auspícios",
     "summary": "O vampiro usa a serenidade mística para acalmar alvos emocionalmente agitados ou desesperados. Ao ser usado, restaura níveis de danos Superficiais ou Agravados na trilha de Força de Vontade do alvo.",
     "amalgamDisciplineId": "discipline-fortitude",
-    "amalgamLevel": 1
+    "amalgamLevel": 1,
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "power-auspex-unburdening-the-bestial-soul",
@@ -772,6 +849,7 @@
     "dicePool": "Autocontrole + Auspícios vs. Humanidade",
     "summary": "O Salubri apazigua a Besta interior de outro Membro, compartilhando serenidade para perdoar os remorsos do alvo. Consegue remover e blindar as Máculas espirituais dele e, através de um acerto crítico, pode até devolver um ponto de Humanidade perdido permanentemente.",
     "amalgamDisciplineId": "discipline-dominate",
-    "amalgamLevel": 3
+    "amalgamLevel": 3,
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   }
 ]

@@ -24,7 +24,8 @@ public sealed record PredatorAllocation(string Name, TraitCategory Category, str
 public sealed record PredatorDefinition(string Id, string Name, string Description, string Benefits, string Cost,
     string[] Disciplines, PredatorSpecialization[] Specializations, PredatorAllocation[] FixedGrants,
     int[] FixedPoints, PredatorAllocation[] AllocationOptions, int AllocationPoints,
-    PredatorAllocation[] FlawOptions, int FlawPoints, bool SplitFlaws = false, int HumanityDelta = 0, int BloodDelta = 0);
+    PredatorAllocation[] FlawOptions, int FlawPoints, bool SplitFlaws = false, int HumanityDelta = 0, int BloodDelta = 0,
+    string Source = "");
 
 public static class PredatorCatalog
 {

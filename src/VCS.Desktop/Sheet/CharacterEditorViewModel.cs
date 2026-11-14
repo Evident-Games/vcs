@@ -302,7 +302,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         foreach (var item in Disciplines.Items) item.IsClanDiscipline = DisciplineAdvancement.IsInClan(Clan, item.Name) == true;
     }
     public string ClanHelp => ClanCatalog.Find(Clan) is { } definition
-        ? $"Ganha: {string.Join(", ", definition.Disciplines.Select(DisciplineCatalog.NameOf))}.{Environment.NewLine}Perdição: {definition.Bane}"
+        ? $"Ganha: {string.Join(", ", definition.Disciplines.Select(DisciplineCatalog.NameOf))}.{Environment.NewLine}Perdição: {definition.Bane}{Environment.NewLine}Fonte: {SourceAttribution.Format(definition.Source)}"
         : "Selecione um clã do catálogo para consultar suas disciplinas e perdição.";
     public string GenerationGuidance
     {

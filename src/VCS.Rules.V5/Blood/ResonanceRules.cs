@@ -1,4 +1,5 @@
 namespace VCS.Rules.V5.Blood;
+using VCS.Content;
 
 public enum BloodResonance
 {
@@ -25,6 +26,7 @@ public sealed record ResonanceResult(
     int BonusDice,
     bool CanProduceDyscrasia);
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class ResonanceRules
 {
     private static readonly IReadOnlyDictionary<BloodResonance, string[]> DisciplineMap =

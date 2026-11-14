@@ -86,6 +86,7 @@
                         <controls:DotTrack Value="{Binding Hunger, Mode=TwoWay}" Maximum="5" AutomationProperties.Name="Fome na ficha" />
                         <Button Content="Fazer checagem de Sangue" Command="{Binding MakeRouseCheckCommand}" Margin="0,6,0,0"
                                 AutomationProperties.Name="Fazer checagem de Sangue" />
+                        <TextBlock Text="{Binding RouseRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
                         <TextBlock Text="{Binding RouseCheckSummary}" TextWrapping="Wrap" FontSize="11"
                                    Foreground="{DynamicResource VcsInputDescription}" Margin="0,4,0,0" />
                     </StackPanel>
@@ -103,6 +104,7 @@
                                    Foreground="{DynamicResource VcsCardText}" />
                     </StackPanel>
                 </Border>
+                <TextBlock Text="{Binding GenerationRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Margin="8,0,8,4" Foreground="{DynamicResource VcsInputDescription}" />
                 <sheet:BloodLineageDiagram BloodPotency="{Binding BloodPotency, Mode=TwoWay}"
                                              Generation="{Binding Generation, Mode=TwoWay}"
                                              BloodPotencyEnabled="{Binding CanEditBuild}" Margin="8,0,8,12" />
@@ -171,6 +173,7 @@
                             <Button Content="Aplicar alimentação" Command="{Binding ApplyFeedingCommand}" Margin="0,0,0,6"
                                     AutomationProperties.Name="Aplicar alimentação" />
                         </WrapPanel>
+                        <TextBlock Text="{Binding FeedingRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
                         <TextBlock Text="{Binding FeedingPreview}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
                         <TextBlock Text="{Binding FeedingSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
                     </StackPanel>

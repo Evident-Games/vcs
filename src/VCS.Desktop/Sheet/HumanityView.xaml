@@ -7,6 +7,7 @@
         <StackPanel>
             <TextBlock Text="Humanidade / Maculas e Remorso" FontWeight="SemiBold" Margin="0,0,0,8" />
             <TextBlock Text="{Binding HumanityDescription}" TextWrapping="Wrap" AutomationProperties.Name="Referencia da Humanidade atual" />
+            <TextBlock Text="{Binding HumanityRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
             <TextBlock Text="{Binding HumanitySocialReference}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="0,6" />
             <TextBlock Text="WASSAIL: controle da Besta / Narrador. A ficha e mantida e pode continuar sendo editada."
                        TextWrapping="Wrap" FontWeight="Bold" Foreground="{DynamicResource VcsAccentText}" Margin="0,6"

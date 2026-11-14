@@ -1,4 +1,5 @@
 using VCS.Rules.V5.Dice;
+using VCS.Content;
 
 namespace VCS.Rules.V5.Conflicts;
 
@@ -28,6 +29,7 @@ public sealed record ConflictExchange(
     string? Winner,
     ConflictDamage Damage);
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class ConflictRules
 {
     /// <summary>

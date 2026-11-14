@@ -1,4 +1,5 @@
 namespace VCS.Rules.V5.Blood;
+using VCS.Content;
 
 public enum TorporDurationUnit
 {
@@ -10,6 +11,7 @@ public enum TorporDurationUnit
 
 public sealed record TorporDuration(int Humanity, int Amount, TorporDurationUnit Unit);
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class TorporRules
 {
     public static IReadOnlyList<TorporDuration> Durations { get; } =

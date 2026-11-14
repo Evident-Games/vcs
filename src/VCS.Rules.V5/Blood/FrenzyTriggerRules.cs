@@ -1,4 +1,5 @@
 namespace VCS.Rules.V5.Blood;
+using VCS.Content;
 
 public enum FrenzyTrigger
 {
@@ -26,6 +27,7 @@ public sealed record FrenzyTriggerResult(
     string Description);
 
 /// <summary>Core V5 trigger examples; the Storyteller can set another difficulty for the scene.</summary>
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class FrenzyTriggerRules
 {
     public static FrenzyTriggerResult Evaluate(

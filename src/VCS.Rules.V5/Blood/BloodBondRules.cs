@@ -1,4 +1,5 @@
 namespace VCS.Rules.V5.Blood;
+using VCS.Content;
 
 public sealed record BloodBondState(string RegnantId, string ThrallId, int Level, DateOnly? LastVitaeDate)
 {
@@ -7,6 +8,7 @@ public sealed record BloodBondState(string RegnantId, string ThrallId, int Level
 
 public sealed record BloodBondDrinkResult(BloodBondState State, bool CountedAsNewDrink, bool BondCompleted);
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class BloodBondRules
 {
     /// <summary>Record no more than one bond-strengthening drink per night; three counted nights complete the bond.</summary>

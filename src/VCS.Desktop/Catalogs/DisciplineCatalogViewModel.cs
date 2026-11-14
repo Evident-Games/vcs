@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using VCS.Content;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Application.Catalogs;
 using VCS.Content;
@@ -154,7 +155,7 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
             .Select(x => new SuggestionItem(x.Definition.Name, filtered is null && !row.IsRitual
                 ? $"{x.Definition.Discipline} · {new string('●', x.Definition.Level)}"
                 : new string('●', x.Definition.Level),
-                string.Join(" · ", new[] { x.Definition.Source,
+                string.Join(" · ", new[] { SourceAttribution.Format(x.Definition.Source),
                     string.IsNullOrWhiteSpace(x.Definition.Prerequisite) ? "" : $"Pré-requisito: {x.Definition.Prerequisite}" }
                     .Where(value => !string.IsNullOrWhiteSpace(value)))))
             .ToArray();
@@ -167,7 +168,8 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
             : _disciplines.Items.Where(x => x.Rating > 0).Select(x => x.Name).Concat(_catalogDisciplines)
                 .Concat(_disciplines.Items.Select(x => x.Name));
         return names.Where(x => !string.IsNullOrWhiteSpace(x)).DistinctBy(CatalogText.Normalize)
-            .Select(x => new SuggestionItem(x, Rating(x) is var r and > 0 ? new string('●', r) : "")).ToArray();
+            .Select(x => new SuggestionItem(x, Rating(x) is var r and > 0 ? new string('●', r) : "",
+                SourceAttribution.Format(DisciplineCatalog.Find(x)?.Source, isCustom: true))).ToArray();
     }
 
     internal string WarningFor(PowerRowViewModel row)

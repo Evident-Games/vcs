@@ -1,4 +1,5 @@
 using VCS.Rules.V5.Advancement;
+using VCS.Content;
 using VCS.Rules.V5.Advantages;
 using VCS.Rules.V5.Predators;
 using VCS.Sheet;
@@ -13,6 +14,7 @@ public sealed class CharacterValidationException(IReadOnlyList<ValidationIssue> 
     public IReadOnlyList<ValidationIssue> Issues { get; } = issues;
 }
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class CharacterRules
 {
     public static IReadOnlyList<TraitValue> DefaultAttributes { get; } = Array.AsReadOnly(new[]

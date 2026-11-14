@@ -1,4 +1,5 @@
 using VCS.Rules.V5.Blood;
+using VCS.Content;
 
 namespace VCS.Rules.V5.Dice;
 
@@ -25,6 +26,7 @@ public sealed record DicePoolResult(
 }
 
 /// <summary>V5 dice pool resolution. Supplying faces makes the rules deterministic and easy to test.</summary>
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class DicePoolRules
 {
     public static DicePoolResult Resolve(int pool, int hunger, int difficulty, IReadOnlyList<int> faces)
@@ -96,6 +98,7 @@ public sealed record RouseCheckResult(int Die, bool Succeeded, int HungerBefore,
     public bool IncreasedHunger => HungerAfter > HungerBefore;
 }
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class RouseCheckRules
 {
     public static RouseCheckResult Resolve(int hunger, int die)

@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using VCS.Content;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Content.Clans;
 using VCS.Content.Disciplines;
@@ -45,7 +46,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
     public bool HasPredatorFlawAllocation => PredatorFlaws.Count > 1;
     public string PredatorHelp => SelectedPredatorType is not { } type
         ? "Selecione um predador para ver os benefícios e defeitos."
-        : $"Benefícios: {type.Benefits}{Environment.NewLine}Defeitos: {type.Cost}";
+        : $"Benefícios: {type.Benefits}{Environment.NewLine}Defeitos: {type.Cost}{Environment.NewLine}Fonte: {SourceAttribution.Format(type.Source)}";
     public string PredatorDisciplineHint => _predatorSelection is { Discipline.Length: > 0 } applied &&
         SelectedPredatorType?.Id == applied.Id
         ? $"Bonus do predador aplicado: +1 em {applied.Discipline}."
@@ -61,7 +62,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
     public string PredatorSkillLegend => !IsCreating || IsNpc || SelectedPredatorType is not { } type ? ""
         : _predatorSelection is { Skill.Length: > 0 } applied ? $"{applied.Skill} ({applied.Specialization})"
         : string.Join(" ou ", type.Specializations.Select(x => x.Label));
-    public string AppliedPredatorSummary => _predatorSelection is not null ? $"Predador: {Predator}" : "";
+    public string AppliedPredatorSummary => _predatorSelection is not null ? $"Predador: {Predator} · Fonte: {SourceAttribution.Format(SelectedPredatorType?.Source)}" : "";
     public string HumanityDescription => Humanity is >= 0 and <= 10 ? HumanityRules.At(Humanity).Description : "Humanidade deve estar entre 0 e 10.";
     public string HumanitySocialReference => Humanity is >= 0 and <= 10 && HumanityRules.At(Humanity) is { } level
         ? $"Referencia social: {level.SocialPenalty} dado(s)" +

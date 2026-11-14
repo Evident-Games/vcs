@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using VCS.Content;
 using VCS.Content.Disciplines;
 using VCS.Desktop.Sheet;
 using VCS.Sheet;
@@ -24,7 +25,7 @@ public partial class PowerItemViewModel : ObservableObject
     [ObservableProperty] private bool isKnown;
     public string Heading => $"{Definition.Name} · Nível {Definition.Level}" +
         (Definition.AmalgamDiscipline is { } discipline ? $" · Amálgama: {discipline} {Definition.AmalgamLevel}" : "") +
-        (Definition.Source.Length > 0 ? $" · {Definition.Source}" : "");
+        ($" · {SourceAttribution.Format(Definition.Source)}");
     public string Warning => IsUnavailable
         ? "Entrada fora do catalogo atual. A selecao foi preservada; os detalhes originais nao estao disponiveis."
         : IsKnown && Definition.Level > _rating(Definition.Discipline)

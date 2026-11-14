@@ -1,4 +1,5 @@
 namespace VCS.Rules.V5.Dice;
+using VCS.Content;
 
 public enum ExtendedTestStatus
 {
@@ -22,6 +23,7 @@ public sealed record ExtendedTestStep(
     bool ExhaustedIntervals);
 
 /// <summary>Tracks accumulated successes and interval limits for V5 extended tests.</summary>
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class ExtendedTestRules
 {
     public static ExtendedTestState Start(int requiredSuccesses, int maximumRolls)

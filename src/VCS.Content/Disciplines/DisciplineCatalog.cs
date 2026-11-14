@@ -1,6 +1,6 @@
 namespace VCS.Content.Disciplines;
 
-public sealed record DisciplineDefinition(string Id, string Name);
+public sealed record DisciplineDefinition(string Id, string Name, string Source = "");
 
 public static class DisciplineCatalog
 {
@@ -23,7 +23,7 @@ public static class DisciplineCatalog
     public static IReadOnlyList<DisciplineDefinition> Merge(IEnumerable<DisciplineDefinition> custom)
     {
         var edits = custom.ToArray();
-        return Array.AsReadOnly([.. BuiltIn.Select(x => edits.FirstOrDefault(edit => edit.Id == x.Id) ?? x),
+        return Array.AsReadOnly([.. BuiltIn.Select(x => edits.FirstOrDefault(edit => edit.Id == x.Id) is { } edit ? edit with { Source = string.IsNullOrWhiteSpace(edit.Source) ? x.Source : edit.Source } : x),
             .. edits.Where(edit => !IsBuiltIn(edit.Id))]);
     }
 

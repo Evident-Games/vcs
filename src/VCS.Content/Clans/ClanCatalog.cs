@@ -4,7 +4,7 @@ namespace VCS.Content.Clans;
 
 public sealed record ClanDefinition(
     string Id, string Name, string Description, IReadOnlyList<string> Disciplines, IReadOnlyList<string> Aliases,
-    string Bane = "");
+    string Bane = "", string Source = "");
 
 public static class ClanCatalog
 {
@@ -25,7 +25,7 @@ public static class ClanCatalog
     public static IReadOnlyList<ClanDefinition> Merge(IEnumerable<ClanDefinition> custom)
     {
         var edits = custom.ToArray();
-        return Array.AsReadOnly([.. BuiltIn.Select(x => edits.FirstOrDefault(edit => edit.Id == x.Id) ?? x),
+        return Array.AsReadOnly([.. BuiltIn.Select(x => edits.FirstOrDefault(edit => edit.Id == x.Id) is { } edit ? edit with { Source = string.IsNullOrWhiteSpace(edit.Source) ? x.Source : edit.Source } : x),
             .. edits.Where(edit => !IsBuiltIn(edit.Id))]);
     }
 

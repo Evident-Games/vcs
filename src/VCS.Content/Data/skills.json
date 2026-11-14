@@ -3,162 +3,189 @@
     "id": "skill-melee",
     "name": "Armas Brancas",
     "group": "Físicas",
-    "description": "Permite o manejo ágil e letal de armas portáteis focadas no combate corpo a corpo, englobando desde facas e espadas até correntes, machados e estacas de caçadores."
+    "description": "Permite o manejo ágil e letal de armas portáteis focadas no combate corpo a corpo, englobando desde facas e espadas até correntes, machados e estacas de caçadores.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-firearms",
     "name": "Armas de Fogo",
     "group": "Físicas",
-    "description": "Engloba a manutenção (limpeza e destravamento), a recarga ágil e o disparo de precisão de armamentos que usam gatilho, passando por pistolas, fuzis e lançadores de granada ou bestas."
+    "description": "Engloba a manutenção (limpeza e destravamento), a recarga ágil e o disparo de precisão de armamentos que usam gatilho, passando por pistolas, fuzis e lançadores de granada ou bestas.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-athletics",
     "name": "Atletismo",
     "group": "Físicas",
-    "description": "Define a capacidade de correr, saltar, nadar e fazer acrobacias ou manobras de parkour. Também pode ser usada de forma defensiva como esquiva em substituição às habilidades de ataque durante combates."
+    "description": "Define a capacidade de correr, saltar, nadar e fazer acrobacias ou manobras de parkour. Também pode ser usada de forma defensiva como esquiva em substituição às habilidades de ataque durante combates.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-brawl",
     "name": "Briga",
     "group": "Físicas",
-    "description": "A arte pura do combate desarmado para lutar e nocautear. Abrange desde as táticas sujas de brigas de rua até estilos formais e marciais usando punhos, chutes ou golpes de garras."
+    "description": "A arte pura do combate desarmado para lutar e nocautear. Abrange desde as táticas sujas de brigas de rua até estilos formais e marciais usando punhos, chutes ou golpes de garras.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-drive",
     "name": "Condução",
     "group": "Físicas",
-    "description": "A capacidade de pilotar e controlar os mais diversos veículos com destreza e segurança em velocidades extremas. É uma habilidade vital para fugas, perseguições urbanas e manobras sob intenso estresse."
+    "description": "A capacidade de pilotar e controlar os mais diversos veículos com destreza e segurança em velocidades extremas. É uma habilidade vital para fugas, perseguições urbanas e manobras sob intenso estresse.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-stealth",
     "name": "Furtividade",
     "group": "Físicas",
-    "description": "O talento imperceptível do caçador para se esgueirar pelas sombras, evitar rondas de segurança, esconder-se do olhar humano e rastrear ou perseguir presas de forma sorrateira."
+    "description": "O talento imperceptível do caçador para se esgueirar pelas sombras, evitar rondas de segurança, esconder-se do olhar humano e rastrear ou perseguir presas de forma sorrateira.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-larceny",
     "name": "Ladroagem",
     "group": "Físicas",
-    "description": "Intimidade prática com invasões. Permite bater carteiras na rua, abrir cofres antigos ou eletrônicos, forçar cadeados e fechaduras, fazer ligações diretas em carros e burlar alarmes de invasão domiciliar."
+    "description": "Intimidade prática com invasões. Permite bater carteiras na rua, abrir cofres antigos ou eletrônicos, forçar cadeados e fechaduras, fazer ligações diretas em carros e burlar alarmes de invasão domiciliar.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-craft",
     "name": "Ofícios",
     "group": "Físicas",
-    "description": "Representa a criatividade e a execução de trabalhos artesanais do personagem, seja esculpindo, costurando e forjando armas, ou até mesmo estruturando armadilhas e erguendo o próprio refúgio."
+    "description": "Representa a criatividade e a execução de trabalhos artesanais do personagem, seja esculpindo, costurando e forjando armas, ou até mesmo estruturando armadilhas e erguendo o próprio refúgio.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-survival",
     "name": "Sobrevivência",
     "group": "Físicas",
-    "description": "Define a adaptabilidade em áreas selvagens rurais ou nas entranhas selva urbana. Facilita caçar fora das metrópoles, montar abrigos naturais de emergência e rastrear perigos como lobisomens."
+    "description": "Define a adaptabilidade em áreas selvagens rurais ou nas entranhas selva urbana. Facilita caçar fora das metrópoles, montar abrigos naturais de emergência e rastrear perigos como lobisomens.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-animal-ken",
     "name": "Empatia com Animais",
     "group": "Sociais",
-    "description": "Concede a aptidão para pacificar, se aproximar, treinar e prever os humores dos animais de forma que eles não fujam ou ataquem instintivamente o personagem devido à sua condição morta-viva."
+    "description": "Concede a aptidão para pacificar, se aproximar, treinar e prever os humores dos animais de forma que eles não fujam ou ataquem instintivamente o personagem devido à sua condição morta-viva.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-etiquette",
     "name": "Etiqueta",
     "group": "Sociais",
-    "description": "Compreensão das normas, regras de deferência e dos costumes adequados a cada contexto da sociedade. Evita gafes mortais nas cortes dos Príncipes ou entre as elites de alto poder aquisitivo no mundo humano."
+    "description": "Compreensão das normas, regras de deferência e dos costumes adequados a cada contexto da sociedade. Evita gafes mortais nas cortes dos Príncipes ou entre as elites de alto poder aquisitivo no mundo humano.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-intimidation",
     "name": "Intimidação",
     "group": "Sociais",
-    "description": "O instinto de subjugar outras mentes de forma brutal através do poder da opressão, olhares fixos, xingamentos ríspidos ou da promessa de coerção e extrema violência física."
+    "description": "O instinto de subjugar outras mentes de forma brutal através do poder da opressão, olhares fixos, xingamentos ríspidos ou da promessa de coerção e extrema violência física.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-leadership",
     "name": "Liderança",
     "group": "Sociais",
-    "description": "A capacidade política de guiar grupos de mortais e vampiros de forma cativante. É voltada a organizar manifestações, elevar moralmente os aliados e liderar bandos em campos de guerra violentos."
+    "description": "A capacidade política de guiar grupos de mortais e vampiros de forma cativante. É voltada a organizar manifestações, elevar moralmente os aliados e liderar bandos em campos de guerra violentos.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-streetwise",
     "name": "Manha",
     "group": "Sociais",
-    "description": "O domínio nativo sobre as complexas regras e códigos do submundo local. Facilita a comunicação nas ruas por pichações de gangue, indica onde adquirir suprimentos vitais no mercado negro ou recrutar criminosos."
+    "description": "O domínio nativo sobre as complexas regras e códigos do submundo local. Facilita a comunicação nas ruas por pichações de gangue, indica onde adquirir suprimentos vitais no mercado negro ou recrutar criminosos.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-performance",
     "name": "Performance",
     "group": "Sociais",
-    "description": "A expressão magnética e o virtuosismo das belas artes, englobando a apresentação cênica, dança, oratória, poesia e comédia para entreter, emocionar ou impressionar espectadores."
+    "description": "A expressão magnética e o virtuosismo das belas artes, englobando a apresentação cênica, dança, oratória, poesia e comédia para entreter, emocionar ou impressionar espectadores.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-persuasion",
     "name": "Persuasão",
     "group": "Sociais",
-    "description": "O dom prático de argumentar com eloquência em negociações e barganhas, convencendo o outro ouvidor de que a intenção do vampiro — de uma assinatura de acordo a um gole de sangue — não representa perigo e faz sentido."
+    "description": "O dom prático de argumentar com eloquência em negociações e barganhas, convencendo o outro ouvidor de que a intenção do vampiro — de uma assinatura de acordo a um gole de sangue — não representa perigo e faz sentido.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-insight",
     "name": "Sagacidade",
     "group": "Sociais",
-    "description": "Atua como um dom investigativo empático na percepção humana, decifrando intenções escondidas, fobias ocultas, mentiras escancaradas ou nuances da linguagem não-verbal nos inimigos."
+    "description": "Atua como um dom investigativo empático na percepção humana, decifrando intenções escondidas, fobias ocultas, mentiras escancaradas ou nuances da linguagem não-verbal nos inimigos.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-subterfuge",
     "name": "Subterfúgio",
     "group": "Sociais",
-    "description": "O talento indispensável para forjar redes de enganos duradouras e proteger o disfarce pessoal, seduzindo, contando falsidades de maneira fria e escondendo crimes atrás de uma máscara de completa inocência."
+    "description": "O talento indispensável para forjar redes de enganos duradouras e proteger o disfarce pessoal, seduzindo, contando falsidades de maneira fria e escondendo crimes atrás de uma máscara de completa inocência.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-science",
     "name": "Ciência",
     "group": "Mentais",
-    "description": "Estudo focado das leis lógicas e das engrenagens universais. Envolve conhecimento laboratorial prático ou acadêmico em química, genoma genético molecular, matemática, física e engenharia pesada."
+    "description": "Estudo focado das leis lógicas e das engrenagens universais. Envolve conhecimento laboratorial prático ou acadêmico em química, genoma genético molecular, matemática, física e engenharia pesada.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-academics",
     "name": "Erudição",
     "group": "Mentais",
-    "description": "Representa uma instrução superior adquirida via dedicação acadêmica ou em mentorias ao longo das eras. Rege as áreas de humanas, focando em interpretação de história de arte, jornalismo, literatura e teologia profunda."
+    "description": "Representa uma instrução superior adquirida via dedicação acadêmica ou em mentorias ao longo das eras. Rege as áreas de humanas, focando em interpretação de história de arte, jornalismo, literatura e teologia profunda.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-finance",
     "name": "Finanças",
     "group": "Mentais",
-    "description": "Habilidade imperativa aos Ventrue modernos voltada a avaliar obras de arte, administrar grandes portfólios corporativos, manipular transações ilegais invisíveis e criar empresas para lavar montanhas de dinheiro."
+    "description": "Habilidade imperativa aos Ventrue modernos voltada a avaliar obras de arte, administrar grandes portfólios corporativos, manipular transações ilegais invisíveis e criar empresas para lavar montanhas de dinheiro.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-investigation",
     "name": "Investigação",
     "group": "Mentais",
-    "description": "A proficiência forense focada em notar coisas fora do padrão mundano. É vital para caçar indivíduos desaparecidos, ler cenas de assassinatos com olhar criminal e interrogar pistas sem levantar suspeitas do alvo real."
+    "description": "A proficiência forense focada em notar coisas fora do padrão mundano. É vital para caçar indivíduos desaparecidos, ler cenas de assassinatos com olhar criminal e interrogar pistas sem levantar suspeitas do alvo real.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-medicine",
     "name": "Medicina",
     "group": "Mentais",
-    "description": "Conhecimento vital ou traumatológico usado clinicamente para diagnosticar mortes e prever anomalias de sangue e veias. Na prática, é aplicada em cirurgias severas e curativos de urgência que estabilizam danos agravados na saúde de mortais."
+    "description": "Conhecimento vital ou traumatológico usado clinicamente para diagnosticar mortes e prever anomalias de sangue e veias. Na prática, é aplicada em cirurgias severas e curativos de urgência que estabilizam danos agravados na saúde de mortais.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-occult",
     "name": "Ocultismo",
     "group": "Mentais",
-    "description": "A sabedoria essencial sobre todos os aspectos do Mundo das Trevas, englobando táticas contra fantasmas, lobisomens, parapsicologia esotérica e até conhecimentos obscuros e proibidos como Magia de Sangue e textos nodistas."
+    "description": "A sabedoria essencial sobre todos os aspectos do Mundo das Trevas, englobando táticas contra fantasmas, lobisomens, parapsicologia esotérica e até conhecimentos obscuros e proibidos como Magia de Sangue e textos nodistas.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-awareness",
     "name": "Percepção",
     "group": "Mentais",
-    "description": "O uso atento, focado ou automático de instintos corporais para vigiar os arredores. Detecta desde pistas visuais em cantos escuros até aproximações sorrateiras, odores estranhos persistentes ou emboscadas invisíveis."
+    "description": "O uso atento, focado ou automático de instintos corporais para vigiar os arredores. Detecta desde pistas visuais em cantos escuros até aproximações sorrateiras, odores estranhos persistentes ou emboscadas invisíveis.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-politics",
     "name": "Política",
     "group": "Mentais",
-    "description": "Compreensão técnica da diplomacia e da mecânica dos governos de gabinete e sindicatos na prefeitura. Envolve rastrear esquemas de poder da Mídia, dominar cargos burocráticos e jogar a guerra dos tronos nas diferentes Seitas cainitas e mortais."
+    "description": "Compreensão técnica da diplomacia e da mecânica dos governos de gabinete e sindicatos na prefeitura. Envolve rastrear esquemas de poder da Mídia, dominar cargos burocráticos e jogar a guerra dos tronos nas diferentes Seitas cainitas e mortais.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "skill-technology",
     "name": "Tecnologia",
     "group": "Mentais",
-    "description": "A capacidade pragmática ou engenhosa no mundo contemporâneo para lidar com inovações. Envolve operações furtivas como hackear servidores corporativos em rede local, sumir na vigilância cibernética de metrópoles, montar computadores blindados e decodificar dados restritos."
+    "description": "A capacidade pragmática ou engenhosa no mundo contemporâneo para lidar com inovações. Envolve operações furtivas como hackear servidores corporativos em rede local, sumir na vigilância cibernética de metrópoles, montar computadores blindados e decodificar dados restritos.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   }
 ]
