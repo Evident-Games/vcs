@@ -50,6 +50,8 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         catalog.Property(x => x.Group).HasMaxLength(80).IsRequired();
         catalog.Property(x => x.Description).IsRequired();
         catalog.Property(x => x.LoresheetCollection).HasMaxLength(80).IsRequired();
+        catalog.Property(x => x.Prerequisite).HasMaxLength(500).IsRequired();
+        catalog.Property(x => x.Source).HasMaxLength(120).IsRequired();
         catalog.Property(x => x.PointsLabel).IsRequired();
         var character = modelBuilder.Entity<Character>();
         character.ToTable("Characters");
