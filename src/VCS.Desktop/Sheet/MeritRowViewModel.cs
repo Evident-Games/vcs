@@ -17,6 +17,7 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
     private string _notes = "";
     private string _error = "";
     private int _rating;
+    private bool _suppressApprovalRetry;
 
     internal MeritRowViewModel(AdvantageCatalogViewModel sheet, TraitCategory kind, TraitItemViewModel? item = null)
     {
@@ -95,7 +96,7 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
 
     private void RetryLoresheet()
     {
-        if (IsLoresheetCategory && _item is null && !string.IsNullOrWhiteSpace(Name))
+        if (!_suppressApprovalRetry && IsLoresheetCategory && _item is null && !string.IsNullOrWhiteSpace(Name))
             _sheet.Edit(() => Resolve(Name.Trim()));
     }
 
@@ -249,17 +250,14 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
     private void Attach(TraitItemViewModel? item)
     {
         if (_item is not null) _item.PropertyChanged -= OnItemChanged;
+        _suppressApprovalRetry = true;
         _item = item;
-        if (item is not null)
-        {
-            item.PropertyChanged += OnItemChanged;
-            if (item.Loresheet is { } lore)
-            {
-                PrerequisiteConfirmed = lore.PrerequisiteConfirmed;
-                LimitOverrideApproved = lore.LimitOverrideApproved;
-                ApprovalNote = lore.ApprovalNote;
-            }
-        }
+        if (item is not null) item.PropertyChanged += OnItemChanged;
+        var lore = item?.Loresheet;
+        PrerequisiteConfirmed = lore?.PrerequisiteConfirmed ?? false;
+        LimitOverrideApproved = lore?.LimitOverrideApproved ?? false;
+        ApprovalNote = lore?.ApprovalNote ?? "";
+        _suppressApprovalRetry = false;
         OnPropertyChanged(nameof(IsLoresheetCategory));
         OnPropertyChanged(nameof(CanApproveLoresheet));
     }
