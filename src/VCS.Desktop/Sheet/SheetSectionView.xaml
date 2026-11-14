@@ -103,24 +103,33 @@
                                              Generation="{Binding Generation, Mode=TwoWay}"
                                              BloodPotencyEnabled="{Binding CanEditBuild}" Margin="8,0,8,12" />
                 <UniformGrid Columns="3" Margin="8,0,8,12">
-                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1"
-                            CornerRadius="6" Padding="10" Margin="0,0,6,0">
-                        <StackPanel><TextBlock Text="Surto de Sangue" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" />
-                            <TextBlock Text="{Binding BloodSurgeSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" /></StackPanel>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,6,6">
+                        <StackPanel><TextBlock Text="Surto de Sangue" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodSurgeSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
                     </Border>
-                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1"
-                            CornerRadius="6" Padding="10" Margin="3,0">
-                        <StackPanel><TextBlock Text="Recuperacao" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" />
-                            <TextBlock Text="{Binding BloodMendSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" /></StackPanel>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="3,0,3,6">
+                        <StackPanel><TextBlock Text="Recuperação superficial" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodMendSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
                     </Border>
-                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1"
-                            CornerRadius="6" Padding="10" Margin="6,0,0,0">
-                        <StackPanel><TextBlock Text="Bonus de poder" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" />
-                            <TextBlock Text="{Binding BloodPowerBonusSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" /></StackPanel>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="6,0,0,6">
+                        <StackPanel><TextBlock Text="Bônus em poderes" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodPowerBonusSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    </Border>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,6,0">
+                        <StackPanel><TextBlock Text="Rerrolagem de despertar" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodRouseRerollSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    </Border>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="3,0,3,0">
+                        <StackPanel><TextBlock Text="Gravidade da Perdição" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodBaneSeveritySummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    </Border>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="6,0,0,0">
+                        <StackPanel><TextBlock Text="Alimentação" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodFeedingPenaltySummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
                     </Border>
                 </UniformGrid>
                 <sheet:HumanityView />
-                <TextBlock Text="Discrasia e ressonancia podem ser registradas aqui; rerrolagem, penalidade de alimentacao e gravidade da Perdicao podem ser ajustadas pela mesa."
+                <TextBlock Text="Ressonância e Discrasia são registradas pela mesa. Os demais efeitos são calculados pela Potência do Sangue; confirme exceções com o Narrador."
                            TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="8,0,8,4" />
                 <ItemsControl ItemsSource="{Binding BloodAnnotationFields}" ItemTemplate="{StaticResource SheetExtraField}">
                     <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
