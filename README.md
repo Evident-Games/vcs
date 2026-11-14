@@ -1,3 +1,5 @@
+	• "Este programa é um software livre: você pode redistribuí-lo e/ou modificá-lo sob os termos da Licença Pública Geral GNU conforme publicada pela Free Software Foundation, versão 3."
+
 # VCS — Fichas de personagem para Vampiro: A Máscara
 
 O VCS é um aplicativo desktop para criar, editar e organizar fichas de personagem de **Vampiro: A Máscara, 5ª edição**. As fichas ficam no próprio computador; não é necessário criar uma conta.
@@ -7,6 +9,17 @@ O VCS é um aplicativo desktop para criar, editar e organizar fichas de personag
 Acesse [Releases](https://github.com/Evident-Games/vcs/releases) e baixe a versão mais recente para Windows. Abra o aplicativo, crie um personagem e preencha a ficha. O programa salva as alterações automaticamente.
 
 > O projeto está em desenvolvimento. Algumas regras, opções e conteúdos ainda estão incompletos e podem mudar entre versões.
+
+### Executar a partir do código-fonte
+
+Na raiz do repositório:
+
+```powershell
+dotnet restore VCS.slnx
+dotnet build VCS.slnx
+dotnet run --project src\VCS.Desktop
+dotnet publish .\src\VCS.Desktop\VCS.Desktop.csproj -c Release -p:PublishProfile=WindowsX64 -o .\artifacts\portable
+```
 
 ## O que você pode fazer
 
