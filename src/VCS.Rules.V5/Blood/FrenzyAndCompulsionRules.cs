@@ -34,6 +34,18 @@ public static class FrenzyRules
         return new(type, trigger.Trim(), difficulty, roll, roll.IsSuccess);
     }
 
+    public static FrenzyResistanceResult RollResistance(
+        FrenzyType type, string trigger, int willpowerPool, int difficulty, int humanity, Random? random = null)
+    {
+        if (willpowerPool < 0) throw new ArgumentOutOfRangeException(nameof(willpowerPool));
+        if (humanity is < 0 or > 10) throw new ArgumentOutOfRangeException(nameof(humanity));
+        if (difficulty is < 1 or > 10) throw new ArgumentOutOfRangeException(nameof(difficulty));
+        if (string.IsNullOrWhiteSpace(trigger)) throw new ArgumentException("Informe o gatilho do Frenesi.", nameof(trigger));
+        var resistancePool = willpowerPool + humanity / 3;
+        var roll = DicePoolRules.Roll(resistancePool, 0, difficulty, random);
+        return new(type, trigger.Trim(), difficulty, roll, roll.IsSuccess);
+    }
+
     public static int FuryFrenzyTerminationDifficulty(bool otherEnemiesStillStand) =>
         otherEnemiesStillStand ? 5 : 3;
 
