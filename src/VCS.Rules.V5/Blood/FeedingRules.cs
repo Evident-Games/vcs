@@ -61,7 +61,7 @@ public static class FeedingRules
             slaked = Math.Min(slaked, Math.Max(0m, currentHunger - threshold));
         }
 
-        var resonance = source == BloodSource.Human || source == BloodSource.Animal && bloodPotency < 3;
+        var resonance = source == BloodSource.Human || source == BloodSource.Animal && (bloodPotency < 3 || animalIsExceptional);
         var dyscrasia = source == BloodSource.Human || source == BloodSource.Animal && animalIsExceptional;
         var note = source switch
         {
