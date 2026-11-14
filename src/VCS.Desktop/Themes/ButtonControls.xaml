@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- Buttons, check boxes and tooltips. -->
     <Style TargetType="Button">
-        <Setter Property="Padding" Value="10,6" />
+        <Setter Property="Padding" Value="12,7" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Foreground" Value="{DynamicResource VcsInputText}" />
@@ -12,17 +14,17 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" CornerRadius="6"
+                    <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" CornerRadius="8"
                             BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True"
                                           TextElement.Foreground="{TemplateBinding Foreground}" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource VcsHover}" /></Trigger>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource VcsHover}" /><Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /></Trigger>
                         <Trigger Property="IsPressed" Value="True"><Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource VcsSelection}" /><Setter Property="Foreground" Value="{DynamicResource VcsSelectionText}" /></Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /></Trigger>
-                        <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" /></Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /><Setter TargetName="ButtonBorder" Property="BorderThickness" Value="2" /></Trigger>
+                        <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" /><Setter TargetName="ButtonBorder" Property="Opacity" Value="0.58" /></Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -39,7 +41,7 @@
                         <Grid.ColumnDefinitions><ColumnDefinition Width="24" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
                         <Border x:Name="CheckBorder" Width="17" Height="17" CornerRadius="3" VerticalAlignment="Center"
                                 Background="{DynamicResource VcsInput}" BorderBrush="{DynamicResource VcsAccentBorder}" BorderThickness="1">
-                            <TextBlock x:Name="CheckMark" Text="X" FontSize="12" Foreground="{DynamicResource VcsInputText}"
+                            <TextBlock x:Name="CheckMark" Text="✓" FontSize="12" Foreground="{DynamicResource VcsInputText}"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" />
                         </Border>
                         <ContentPresenter Grid.Column="1" RecognizesAccessKey="True" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
