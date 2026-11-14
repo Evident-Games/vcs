@@ -18,7 +18,10 @@
             </DockPanel>
             <TextBlock Text="Atos monstruosos geram Maculas. Nao ha dano ou rolagem automatica: a mesa determina quando aplicar a consequencia e o resultado do Remorso."
                        TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="0,6" />
+            <TextBlock Text="{Binding RemorseSummary}" TextWrapping="Wrap" Margin="0,4,0,8" AutomationProperties.Name="Resultado da rolagem de Remorso" />
             <WrapPanel>
+                <Button Content="Rolar Remorso" Command="{Binding RollRemorseCommand}" Margin="0,4,8,4"
+                        AutomationProperties.Name="Rolar Remorso" />
                 <Button Content="Aplicar 1 Agravado na Vontade" Command="{Binding ApplyStainDamageCommand}" Margin="0,4,8,4"
                         AutomationProperties.Name="Aplicar dano de Maculas" />
                 <Button Content="Falha no Remorso: limpar Maculas e -1 Humanidade" Command="{Binding FailRemorseCommand}" Margin="0,4"
