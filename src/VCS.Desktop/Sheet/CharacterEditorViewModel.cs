@@ -113,9 +113,11 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         BloodFields =
         [
             new("Resonance", "Ressonancia", d.Resonance), new("Dyscrasia", "Discrasia", d.Dyscrasia, true),
-            new("RouseReroll", "Rerrolagem de Sangue", d.RouseReroll), new("FeedingPenalty", "Penalidade de alimentacao", d.FeedingPenalty),
-            new("BaneSeverity", "Gravidade da Perdicao", d.BaneSeverity)
+            new("BloodSurge", "Surto de Sangue", d.BloodSurge), new("DamageMend", "Quantidade recuperada", d.DamageMend),
+            new("PowerBonus", "Bonus de poder", d.PowerBonus), new("RouseReroll", "Rerrolagem de Sangue", d.RouseReroll),
+            new("FeedingPenalty", "Penalidade de alimentacao", d.FeedingPenalty), new("BaneSeverity", "Gravidade da Perdicao", d.BaneSeverity)
         ];
+        BloodAnnotationFields = BloodFields.Where(x => x.Key is not ("BloodSurge" or "DamageMend" or "PowerBonus")).ToArray();
         _extraFields = ExtraFields.ToDictionary(x => x.Key);
         InitializeNpcSheet(d);
         foreach (var field in ExtraFields) field.PropertyChanged += OnExtraFieldChanged;
@@ -237,6 +239,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     }
     public SheetFieldViewModel[] BackgroundFields { get; }
     public SheetFieldViewModel[] BloodFields { get; }
+    public SheetFieldViewModel[] BloodAnnotationFields { get; }
     public string BloodSurgeSummary => BloodPotencyEffects.BloodSurge(BloodPotency);
     public string BloodMendSummary => BloodPotencyEffects.DamageMend(BloodPotency);
     public string BloodPowerBonusSummary => BloodPotencyEffects.PowerBonus(BloodPotency);
