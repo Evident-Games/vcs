@@ -82,9 +82,11 @@ public partial class CharacterEditorViewModel
     partial void OnHungerChanged(int value)
     {
         OnPropertyChanged(nameof(FrenzyTriggerGuidance));
+        OnPropertyChanged(nameof(FeedingPreview));
     }
 
     private void OnFrenzyInputsChanged() => OnPropertyChanged(nameof(FrenzyTriggerGuidance));
+    partial void OnHumanityChanged(int value) => OnPropertyChanged(nameof(FrenzyTriggerGuidance));
 
     [RelayCommand]
     private void ResistFrenzy()
