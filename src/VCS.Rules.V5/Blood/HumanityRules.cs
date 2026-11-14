@@ -12,7 +12,9 @@ public static class HumanityRules
     /// <summary>Remorse pool equals current Humanity; one success clears all Stains, no successes loses one Humanity.</summary>
     public static RemorseResult ResolveRemorse(CharacterDetails details, IReadOnlyList<int> dice)
     {
+        ArgumentNullException.ThrowIfNull(details);
         ArgumentNullException.ThrowIfNull(dice);
+        if (details.Humanity is < 1 or > 10) throw new InvalidOperationException("Humanidade deve estar entre 1 e 10 para rolar Remorso.");
         if (details.Stains <= 0) throw new InvalidOperationException("Nao ha Maculas para resolver.");
         if (details.Humanity <= 0) throw new InvalidOperationException("Humanidade ja esta em zero (Wassail).");
         if (dice.Count != details.Humanity)
@@ -30,6 +32,8 @@ public static class HumanityRules
 
     public static RemorseResult RollRemorse(CharacterDetails details, Random? random = null)
     {
+        ArgumentNullException.ThrowIfNull(details);
+        if (details.Humanity is < 1 or > 10) throw new InvalidOperationException("Humanidade deve estar entre 1 e 10 para rolar Remorso.");
         random ??= Random.Shared;
         var dice = Enumerable.Range(0, details.Humanity).Select(_ => random.Next(1, 11)).ToArray();
         return ResolveRemorse(details, dice);
