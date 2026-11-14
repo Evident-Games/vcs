@@ -315,7 +315,7 @@ public sealed class PersistenceTests : IAsyncLifetime
         Assert.Equal(25, entries.Count(x => x.Category == VCS.Sheet.TraitCategory.Flaw));
         Assert.Equal(63, entries.Select(x => x.Id).Distinct().Count());
         Assert.Equal(11, entries.Select(x => x.Group).Distinct().Count());
-        Assert.Equal(20, entries.Count(x => x.Category == VCS.Sheet.TraitCategory.Loresheet));
+        Assert.Equal(125, entries.Count(x => x.Category == VCS.Sheet.TraitCategory.Loresheet));
         Assert.All(entries, x =>
         {
             Assert.InRange(x.Minimum, 1, 5);
