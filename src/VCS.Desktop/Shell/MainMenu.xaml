@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:themes="clr-namespace:VCS.Desktop.Themes">
     <!-- Main menu bar. -->
-    <Border BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1" Padding="4,0">
+    <Border BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1" Padding="10,4">
         <Menu IsEnabled="{Binding IsIdle}" Background="Transparent" Foreground="{DynamicResource VcsHeaderText}"
               AutomationProperties.Name="Menu principal">
             <MenuItem Header="_Arquivo">

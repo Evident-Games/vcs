@@ -6,7 +6,7 @@
     xmlns:layout="clr-namespace:VCS.Desktop.Layout"
     xmlns:shell="clr-namespace:VCS.Desktop.Shell"
     xmlns:themes="clr-namespace:VCS.Desktop.Themes"
-    Title="VCS - Vampire Character Sheet" Width="1240" Height="850" MinWidth="1000" MinHeight="680"
+    Title="VCS - Vampire Character Sheet" Width="1320" Height="900" MinWidth="1000" MinHeight="680"
     WindowStartupLocation="CenterScreen" ExtendsContentIntoTitleBar="True"
     Background="{DynamicResource VcsBackground}" Foreground="{DynamicResource VcsOuterText}"
     FontFamily="Segoe UI" FontSize="14">
@@ -26,7 +26,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ui:TitleBar Title="VCS  /  Vampire Character Sheet" Height="30" Padding="12,0" FontSize="11"
+        <ui:TitleBar Title="VCS  /  Vampire Character Sheet" Height="34" Padding="16,0" FontSize="11"
                      Foreground="{DynamicResource VcsHeaderText}" ButtonsForeground="{DynamicResource VcsHeaderText}" />
         <shell:MainMenu Grid.Row="1" />
         <Grid Grid.Row="2" IsEnabled="{Binding IsIdle}">
