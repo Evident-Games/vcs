@@ -47,6 +47,8 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
     public bool IsCatalog => Definition is not null;
     public bool IsPredator => _item?.IsPredatorGrant == true || IsPending;
     public bool IsLoresheet => _item?.Category == TraitCategory.Loresheet;
+    public bool IsLoresheetCategory => Kind == TraitCategory.Advantage &&
+        (IsLoresheet || CatalogText.Normalize(_category) == CatalogText.Normalize("Ficha de Conhecimento"));
     /// <summary>Predator and loresheet lines keep their name; they show it as text with a subtitle.</summary>
     public bool IsFixed => IsPredator || IsLoresheet;
     public bool CanEdit => !IsPredator;
@@ -80,6 +82,19 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
     }.Where(x => x.Length > 0));
     public bool HasWarning => Warning.Length > 0;
     [ObservableProperty] private bool isExpanded;
+    [ObservableProperty] private bool prerequisiteConfirmed;
+    [ObservableProperty] private bool limitOverrideApproved;
+    [ObservableProperty] private string approvalNote = "";
+
+    partial void OnPrerequisiteConfirmedChanged(bool value) => RetryLoresheet();
+    partial void OnLimitOverrideApprovedChanged(bool value) => RetryLoresheet();
+    partial void OnApprovalNoteChanged(string value) => RetryLoresheet();
+
+    private void RetryLoresheet()
+    {
+        if (IsLoresheetCategory && _item is null && !string.IsNullOrWhiteSpace(Name))
+            _sheet.Edit(() => Resolve(Name.Trim()));
+    }
 
     public string Category
     {
@@ -97,6 +112,7 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
                 });
             OnPropertyChanged();
             OnPropertyChanged(nameof(NameSuggestions));
+        OnPropertyChanged(nameof(IsLoresheetCategory));
         }
     }
 
@@ -175,7 +191,7 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
             {
                 if (_sheet.Host is null) return;
                 Release();
-                if (_sheet.Host.AddLoresheet(definition) is { } refusal) _error = refusal;
+                if (_sheet.Host.AddLoresheet(definition, PrerequisiteConfirmed, LimitOverrideApproved, ApprovalNote) is { } refusal) _error = refusal;
                 else if (family.Find(definition) is { } benefit)
                 {
                     Attach(benefit);
