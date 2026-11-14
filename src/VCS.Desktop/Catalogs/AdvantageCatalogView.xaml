@@ -159,6 +159,9 @@
                             <TextBox Style="{StaticResource PaperLineTextBox}" Text="{Binding ApprovalNote, UpdateSourceTrigger=PropertyChanged}"
                                      Tag="justificativa da aprovação" MaxLength="1000" FontSize="12"
                                      AutomationProperties.Name="Justificativa da aprovação do Narrador" />
+                            <Button Content="Confirmar seleção autorizada" Command="{Binding ConfirmLoresheetCommand}"
+                                    HorizontalAlignment="Left" Margin="0,6,0,0"
+                                    AutomationProperties.Name="Confirmar ficha de conhecimento com aprovação do Narrador" />
                         </StackPanel>
                         <TextBlock Text="{Binding Warning}" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccentText}"
                                    Visibility="{Binding HasWarning, Converter={StaticResource BoolVisibility}}" />
