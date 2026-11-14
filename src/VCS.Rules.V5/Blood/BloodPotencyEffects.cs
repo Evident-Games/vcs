@@ -11,9 +11,9 @@ public static class BloodPotencyEffects
         new(3, 3, 2, 1, 2, 3, "Sangue animal ou ensacado nao sacia Fome."),
         new(4, 3, 3, 2, 2, 3, "Sangue animal ou ensacado nao sacia Fome. Cada humano sacia 1 ponto de Fome a menos."),
         new(5, 4, 3, 2, 3, 4, "Sangue animal ou ensacado nao sacia Fome. Cada humano sacia 1 ponto a menos; para reduzir a Fome abaixo de 2, e preciso drenar e matar um humano."),
-        new(6, 4, 3, 3, 3, 4, "Sangue animal ou ensacado nao sacia Fome."),
+        new(6, 4, 3, 3, 3, 4, "Sangue animal ou ensacado nao sacia Fome. Cada humano sacia 1 ponto a menos; para reduzir a Fome abaixo de 2, e preciso drenar e matar um humano."),
         new(7, 5, 3, 3, 4, 5, "Sangue animal ou ensacado nao sacia Fome. Cada humano sacia 2 pontos a menos; para reduzir a Fome abaixo de 2, e preciso drenar e matar um humano."),
-        new(8, 5, 4, 4, 4, 5, "Sangue animal ou ensacado nao sacia Fome."),
+        new(8, 5, 4, 4, 4, 5, "Sangue animal ou ensacado nao sacia Fome. Cada humano sacia 2 pontos a menos; para reduzir a Fome abaixo de 2, e preciso drenar e matar um humano."),
         new(9, 6, 4, 4, 5, 6, "Sangue animal ou ensacado nao sacia Fome. Cada humano sacia 2 pontos a menos; para reduzir a Fome abaixo de 3, e preciso drenar e matar um humano."),
         new(10, 6, 5, 5, 5, 6, "Sangue animal ou ensacado nao sacia Fome. Cada humano sacia 3 pontos a menos; para reduzir a Fome abaixo de 3, e preciso drenar e matar um humano.")
     ];
