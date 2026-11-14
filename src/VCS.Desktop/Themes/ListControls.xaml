@@ -48,7 +48,7 @@
                 <ControlTemplate TargetType="ListBoxItem">
                     <Border x:Name="Row" Background="{TemplateBinding Background}" CornerRadius="5"
                             BorderBrush="Transparent" BorderThickness="2" Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        <ContentPresenter x:Name="RowContent" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           TextElement.Foreground="{DynamicResource VcsCardText}" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -59,6 +59,7 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Row" Property="Background" Value="{DynamicResource VcsSelection}" />
                             <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="RowContent" Property="TextElement.Foreground" Value="{DynamicResource VcsSelectionText}" />
                             <Setter Property="Foreground" Value="{DynamicResource VcsSelectionText}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
