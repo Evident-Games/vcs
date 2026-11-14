@@ -1,3 +1,5 @@
+using VCS.Rules.V5.Blood;
+
 namespace VCS.Rules.V5.Dice;
 
 public enum TestOutcome
