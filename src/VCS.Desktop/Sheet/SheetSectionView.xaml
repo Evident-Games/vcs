@@ -84,6 +84,10 @@
                     <StackPanel Margin="8,0,24,16">
                         <TextBlock Text="Fome" Style="{StaticResource FieldLabel}" />
                         <controls:DotTrack Value="{Binding Hunger, Mode=TwoWay}" Maximum="5" AutomationProperties.Name="Fome na ficha" />
+                        <Button Content="Fazer checagem de Sangue" Command="{Binding MakeRouseCheckCommand}" Margin="0,6,0,0"
+                                AutomationProperties.Name="Fazer checagem de Sangue" />
+                        <TextBlock Text="{Binding RouseCheckSummary}" TextWrapping="Wrap" FontSize="11"
+                                   Foreground="{DynamicResource VcsInputDescription}" Margin="0,4,0,0" />
                     </StackPanel>
                     <StackPanel Margin="8,0,24,16">
                         <TextBlock Text="Humanidade" Style="{StaticResource FieldLabel}" />
