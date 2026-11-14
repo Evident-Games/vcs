@@ -9,7 +9,6 @@ using VCS.Content.Predators;
 using VCS.Desktop.Catalogs;
 using VCS.Rules.V5.Advancement;
 using VCS.Rules.V5.Blood;
-using VCS.Rules.V5.Predators;
 using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
@@ -64,13 +63,13 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         : _predatorSelection is { Skill.Length: > 0 } applied ? $"{applied.Skill} ({applied.Specialization})"
         : string.Join(" ou ", type.Specializations.Select(x => x.Label));
     public string AppliedPredatorSummary => _predatorSelection is not null ? $"Predador: {Predator} · Fonte: {SourceAttribution.Format(SelectedPredatorType?.Source)}" : "";
-    public string HumanityDescription => Humanity is >= 0 and <= 10 ? HumanityRules.At(Humanity).Description : "Humanidade deve estar entre 0 e 10.";
-    public string HumanitySocialReference => Humanity is >= 0 and <= 10 && HumanityRules.At(Humanity) is { } level
+    public string HumanityDescription => _humanityActions.At(Humanity)?.Description ?? "Humanidade deve estar entre 0 e 10.";
+    public string HumanitySocialReference => _humanityActions.At(Humanity) is { } level
         ? $"Referencia social: {level.SocialPenalty} dado(s)" +
           (level.BlushSocialPenalty is { } blush ? $"; com Rubor: {blush}." : ".") + " Sem rolagens ou modificadores automaticos."
         : "";
     public bool IsWassail => Humanity == 0;
-    public IReadOnlyList<HumanityLevel> HumanityLevels => HumanityRules.Levels;
+    public IReadOnlyList<HumanityLevel> HumanityLevels => _humanityActions.Levels;
 
     public void ConfigurePredatorCatalog(IReadOnlyList<PredatorDefinition> definitions)
     {
@@ -131,7 +130,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         var selected = SelectedPredatorDiscipline;
         PredatorDisciplines.Clear();
         if (SelectedPredatorType is { } type)
-            foreach (var id in PredatorRules.DisciplinesFor(type, Clan)) PredatorDisciplines.Add(DisciplineCatalog.NameOf(id));
+            foreach (var id in _predatorActions.DisciplinesFor(type, Clan)) PredatorDisciplines.Add(DisciplineCatalog.NameOf(id));
         _syncingPredator = true;
         try { SelectedPredatorDiscipline = PredatorDisciplines.FirstOrDefault(x => x == selected); }
         finally { _syncingPredator = false; }
@@ -228,7 +227,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         try
         {
             var snapshot = Snapshot();
-            ApplyPredatorResult(PredatorRules.Apply(snapshot.Details, snapshot.Traits,
+            ApplyPredatorResult(_predatorActions.Apply(snapshot.Details, snapshot.Traits,
                 new(type.Id, SelectedPredatorDiscipline ?? "", specialization, PredatorSpecializationText,
                     PredatorAdvantages.Select(x => x.Points).ToArray(), PredatorFlaws.Select(x => x.Points).ToArray())));
         }
@@ -321,7 +320,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
             if (SelectedPredatorType is not { } type) throw new InvalidOperationException("Selecione um predador.");
             var specialization = SelectedPredatorSpecialization is { } choice ? Array.IndexOf(type.Specializations, choice) : -1;
             var snapshot = Snapshot();
-            ApplyPredatorResult(PredatorRules.Apply(snapshot.Details, snapshot.Traits,
+            ApplyPredatorResult(_predatorActions.Apply(snapshot.Details, snapshot.Traits,
                 new(type.Id, SelectedPredatorDiscipline ?? "", specialization, PredatorSpecializationText,
                     PredatorAdvantages.Select(x => x.Points).ToArray(), PredatorFlaws.Select(x => x.Points).ToArray())));
         }
@@ -334,7 +333,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         try
         {
             var snapshot = Snapshot();
-            ApplyPredatorResult(PredatorRules.Remove(snapshot.Details, snapshot.Traits));
+            ApplyPredatorResult(_predatorActions.Remove(snapshot.Details, snapshot.Traits));
             _syncingPredator = true;
             try { SelectedPredatorType = null; }
             finally { _syncingPredator = false; }

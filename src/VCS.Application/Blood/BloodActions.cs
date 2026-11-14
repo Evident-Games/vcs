@@ -31,6 +31,13 @@ public sealed record FrenzyActionResult(
 /// </summary>
 public sealed class BloodActions
 {
+    public string BloodSurge(int bloodPotency) => BloodPotencyEffects.BloodSurge(bloodPotency);
+    public string DamageMend(int bloodPotency) => BloodPotencyEffects.DamageMend(bloodPotency);
+    public string PowerBonus(int bloodPotency) => BloodPotencyEffects.PowerBonus(bloodPotency);
+    public string RouseReroll(int bloodPotency) => BloodPotencyEffects.RouseReroll(bloodPotency);
+    public string FeedingPenalty(int bloodPotency) => BloodPotencyEffects.FeedingPenalty(bloodPotency);
+    public string BaneSeverity(int bloodPotency) => BloodPotencyEffects.BaneSeverity(bloodPotency);
+
     public FeedingResult PreviewFeeding(
         BloodSource source,
         int bloodPotency,

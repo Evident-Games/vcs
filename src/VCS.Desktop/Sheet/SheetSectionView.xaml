@@ -110,8 +110,41 @@
                         BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
                     <StackPanel>
                         <TextBlock Text="Rolagem de dados V5" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <TextBlock Text="{Binding DiceRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Margin="0,0,0,8"
+                                   Foreground="{DynamicResource VcsInputDescription}" />
+                        <UniformGrid Columns="3" Margin="0,0,0,8">
+                            <StackPanel Margin="0,0,8,0">
+                                <TextBlock Text="Atributo" Style="{StaticResource FieldLabel}" />
+                                <ComboBox ItemsSource="{Binding RollAttributes}" DisplayMemberPath="Name"
+                                          SelectedItem="{Binding SelectedRollAttribute, Mode=TwoWay}" AutomationProperties.Name="Atributo para montar a parada" />
+                            </StackPanel>
+                            <StackPanel Margin="0,0,8,0">
+                                <TextBlock Text="Habilidade" Style="{StaticResource FieldLabel}" />
+                                <ComboBox ItemsSource="{Binding RollSkills}" DisplayMemberPath="Name"
+                                          SelectedItem="{Binding SelectedRollSkill, Mode=TwoWay}" AutomationProperties.Name="Habilidade para montar a parada" />
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Ajuste da mesa" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding RollSituationalModifier, Mode=TwoWay}" Minimum="-50" Maximum="50"
+                                                       AutomationProperties.Name="Ajuste situacional da parada" />
+                            </StackPanel>
+                        </UniformGrid>
+                        <CheckBox Content="Especialização se aplica (+1 dado)" IsChecked="{Binding UseRollSpecialization, Mode=TwoWay}"
+                                  IsEnabled="{Binding CanApplyRollSpecialization}" Margin="0,0,0,8"
+                                  AutomationProperties.Name="Adicionar dado por especialização aplicável" />
+                        <TextBlock Text="{Binding RollPoolSummary}" TextWrapping="Wrap" Margin="0,0,0,8"
+                                   Foreground="{DynamicResource VcsInputDescription}" />
                         <WrapPanel VerticalAlignment="Center">
                             <StackPanel Margin="0,0,12,6">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding UseSheetDicePool}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
                                 <TextBlock Text="Dados na parada" Style="{StaticResource FieldLabel}" />
                                 <controls:NumericField Value="{Binding RollDicePool, Mode=TwoWay}" Minimum="0" Maximum="50"
                                                        AutomationProperties.Name="Dados na parada" />
@@ -125,6 +158,8 @@
                                       VerticalAlignment="Center" Margin="0,0,12,6" />
                             <CheckBox Content="Usar Surto de Sangue" IsChecked="{Binding UseBloodSurge, Mode=TwoWay}"
                                       VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <CheckBox Content="Montar parada com a ficha" IsChecked="{Binding UseSheetDicePool, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" AutomationProperties.Name="Montar parada usando Atributo e Habilidade" />
                             <Button Content="Rolar teste" Command="{Binding RollTestCommand}" Margin="0,0,0,6"
                                     AutomationProperties.Name="Rolar teste V5" />
                         </WrapPanel>

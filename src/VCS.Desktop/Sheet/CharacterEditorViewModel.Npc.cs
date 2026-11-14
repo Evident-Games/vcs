@@ -2,7 +2,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Content;
-using VCS.Rules.V5.Blood;
 using VCS.Rules.V5.Validation;
 using VCS.Sheet;
 
@@ -38,9 +37,9 @@ public partial class CharacterEditorViewModel
     // Keeps values typed by the user; only empty fields or the previous automatic value follow Blood Potency.
     private void FillBloodEffects(int bloodPotency, bool onlyEmpty)
     {
-        Update(NpcBloodSurge, BloodPotencyEffects.BloodSurge(_autoBloodPotency), BloodPotencyEffects.BloodSurge(bloodPotency));
-        Update(NpcDamageMend, BloodPotencyEffects.DamageMend(_autoBloodPotency), BloodPotencyEffects.DamageMend(bloodPotency));
-        Update(NpcPowerBonus, BloodPotencyEffects.PowerBonus(_autoBloodPotency), BloodPotencyEffects.PowerBonus(bloodPotency));
+        Update(NpcBloodSurge, _bloodActions.BloodSurge(_autoBloodPotency), _bloodActions.BloodSurge(bloodPotency));
+        Update(NpcDamageMend, _bloodActions.DamageMend(_autoBloodPotency), _bloodActions.DamageMend(bloodPotency));
+        Update(NpcPowerBonus, _bloodActions.PowerBonus(_autoBloodPotency), _bloodActions.PowerBonus(bloodPotency));
 
         void Update(SheetFieldViewModel field, string previous, string next)
         {

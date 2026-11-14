@@ -96,6 +96,19 @@ public static class CharacterRules
             issues.Text("NoteEntries.Title", note.Title, 120);
             issues.Text("NoteEntries.Text", note.Text, 100000);
         }
+        if (details.Exceptions is null || details.Exceptions.Count > 200)
+            issues.Add(new(nameof(details.Exceptions), "Uma ficha pode ter no maximo 200 excecoes registradas."));
+        foreach (var exception in details.Exceptions ?? [])
+        {
+            if (exception is null) { issues.Add(new(nameof(details.Exceptions), "Registro de excecao invalido.")); continue; }
+            issues.Text("Exceptions.Area", exception.Area, 80, true);
+            issues.Text("Exceptions.Subject", exception.Subject, 200, true);
+            issues.Text("Exceptions.RuleOrPrerequisite", exception.RuleOrPrerequisite, 1000);
+            issues.Text("Exceptions.Ruling", exception.Ruling, 2000, true);
+            issues.Text("Exceptions.AuthorizedBy", exception.AuthorizedBy, 120, true);
+            if (exception.Id == Guid.Empty || exception.ApprovedUtc == default)
+                issues.Add(new(nameof(details.Exceptions), "A excecao precisa de identificador e data de aprovacao."));
+        }
         foreach (var (field, value) in new (string, string)[]
         {
             (nameof(details.Ambition), details.Ambition), (nameof(details.Desire), details.Desire),

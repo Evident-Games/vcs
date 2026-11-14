@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Application.Blood;
+using VCS.Application.Dice;
 using VCS.Rules.V5.Blood;
 using VCS.Rules.V5.Dice;
 
@@ -42,11 +43,47 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private string rouseCheckSummary = "Use a checagem ao ativar um poder ou efeito que a exija.";
     [ObservableProperty] private int rollDicePool = 5;
     [ObservableProperty] private int rollDifficulty = 1;
+    [ObservableProperty] private int rollSituationalModifier;
+    [ObservableProperty] private TraitItemViewModel? selectedRollAttribute;
+    [ObservableProperty] private TraitItemViewModel? selectedRollSkill;
+    [ObservableProperty] private bool useRollSpecialization;
+    [ObservableProperty] private bool useSheetDicePool;
     [ObservableProperty] private bool useHungerDice = true;
     [ObservableProperty] private bool useBloodSurge;
     [ObservableProperty] private string lastRollLabel = "";
     [ObservableProperty] private string lastRollSummary = "";
     [ObservableProperty] private string rollSummary = "Configure a parada e a dificuldade para resolver um teste.";
+
+    public IReadOnlyList<TraitItemViewModel> RollAttributes => Attributes.Items;
+    public IReadOnlyList<TraitItemViewModel> RollSkills => Skills.Items;
+    public bool CanApplyRollSpecialization => SelectedRollSkill?.SpecializationCount > 0;
+    public DicePoolComposition RollPoolComposition => _diceActions.BuildPool(
+        SelectedRollAttribute?.Rating ?? 0, SelectedRollSkill?.Rating ?? 0, RollSituationalModifier,
+        UseRollSpecialization && CanApplyRollSpecialization);
+    public int CurrentRollDicePool => UseSheetDicePool ? RollPoolComposition.DicePool : RollDicePool;
+    public string RollPoolSummary => UseSheetDicePool
+        ? $"Parada montada: {RollPoolComposition.Formula}."
+        : "Parada manual. Ative 'Montar parada com a ficha' para somar Atributo, Habilidade e ajuste.";
+
+    partial void OnSelectedRollAttributeChanged(TraitItemViewModel? value) => RefreshRollPool();
+    partial void OnSelectedRollSkillChanged(TraitItemViewModel? value)
+    {
+        if (value?.SpecializationCount is not > 0) UseRollSpecialization = false;
+        OnPropertyChanged(nameof(CanApplyRollSpecialization));
+        RefreshRollPool();
+    }
+    partial void OnRollSituationalModifierChanged(int value) => RefreshRollPool();
+    partial void OnUseRollSpecializationChanged(bool value) => RefreshRollPool();
+    partial void OnUseSheetDicePoolChanged(bool value) => RefreshRollPool();
+    partial void OnRollDicePoolChanged(int value) => OnPropertyChanged(nameof(CurrentRollDicePool));
+
+    private void RefreshRollPool()
+    {
+        OnPropertyChanged(nameof(RollPoolComposition));
+        OnPropertyChanged(nameof(CurrentRollDicePool));
+        OnPropertyChanged(nameof(RollPoolSummary));
+        OnPropertyChanged(nameof(CanApplyRollSpecialization));
+    }
 
     [ObservableProperty] private BloodSourceOption selectedBloodSourceOption = BloodSourceOption.All[0];
     [ObservableProperty] private bool feedingAnimalIsLarge;
@@ -146,7 +183,7 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void RollTest()
     {
-        if (RollDicePool is < 0 or > 50 || RollDifficulty is < 0 or > 50)
+        if (CurrentRollDicePool is < 0 or > 50 || RollDifficulty is < 0 or > 50)
         {
             RollSummary = "A parada e a dificuldade devem ficar entre 0 e 50.";
             ShowDiceRoll("Teste V5", RollSummary, []);
@@ -155,7 +192,7 @@ public partial class CharacterEditorViewModel
 
         var rouseSummary = "";
         var displayedDice = new List<RolledDieDisplay>();
-        var action = _bloodActions.RollTest(RollDicePool, RollDifficulty, Hunger, BloodPotency,
+        var action = _bloodActions.RollTest(CurrentRollDicePool, RollDifficulty, Hunger, BloodPotency,
             UseHungerDice, UseBloodSurge);
         if (action.BloodSurgeCheck is { } rouse)
         {

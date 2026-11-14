@@ -4,8 +4,6 @@ using CommunityToolkit.Mvvm.Input;
 using VCS.Content;
 using VCS.Content.Advantages;
 using VCS.Desktop.Catalogs;
-using VCS.Rules.V5.Advantages;
-using VCS.Rules.V5.Validation;
 using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
@@ -89,10 +87,10 @@ public partial class CharacterEditorViewModel
         try
         {
             var snapshot = Snapshot();
-            var fundingIssues = CharacterRules.Validate(snapshot.Details, snapshot.Traits);
+            var fundingIssues = _characterActions.Validate(snapshot.Details, snapshot.Traits);
             if (fundingIssues.Count != 0) throw new InvalidOperationException(string.Join(Environment.NewLine, fundingIssues.Select(x => x.Message)));
             var payment = IsCreating ? PayLoresheetWithInitialXp ? LoresheetPayment.InitialXp : LoresheetPayment.AdvantagePoints : LoresheetPayment.CampaignXp;
-            var result = LoresheetRules.Select(snapshot.Details, snapshot.Traits,
+            var result = _loresheetActions.Select(snapshot.Details, snapshot.Traits,
                 new(TraitCategory.Loresheet, item.Id, item.Name, item.Minimum,
                     Loresheet: new(item.LoresheetCollection, item.IsLineage, item.Description, payment,
                         item.Prerequisite, item.Source, prerequisiteConfirmed, limitOverrideApproved, (approvalNote ?? "").Trim())), payment);
@@ -121,7 +119,7 @@ public partial class CharacterEditorViewModel
         {
             if (item is null) throw new InvalidOperationException("Selecione um beneficio da ficha.");
             var snapshot = Snapshot();
-            var result = LoresheetRules.RemoveInitial(snapshot.Details, snapshot.Traits, item.Key);
+            var result = _loresheetActions.RemoveInitial(snapshot.Details, snapshot.Traits, item.Key);
             _ready = false;
             try { Loresheets.RemoveCommand.Execute(item); ExperienceSpent = result.Details.ExperienceSpent; }
             finally { _ready = true; }

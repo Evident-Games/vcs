@@ -54,7 +54,7 @@ public partial class CharacterEditorViewModel
     {
         var snapshot = Snapshot();
         var previousFields = _issues.Select(x => x.Field).ToArray();
-        _issues = CharacterRules.Validate(snapshot.Details, snapshot.Traits);
+        _issues = _characterActions.Validate(snapshot.Details, snapshot.Traits);
         foreach (var field in previousFields.Concat(_issues.Select(x => x.Field)).Distinct())
             ErrorsChanged?.Invoke(this, new(field));
         OnPropertyChanged(nameof(HasErrors));
