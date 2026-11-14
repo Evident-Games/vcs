@@ -15,7 +15,7 @@
                                 ToolTip="Criar ficha de PC ou NPC" AutomationProperties.Name="Adicionar ficha">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border x:Name="Circle" CornerRadius="14" Background="{DynamicResource VcsInput}
+                                    <Border x:Name="Circle" CornerRadius="14" Background="{DynamicResource VcsInput}"
                                             BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
                                                           TextElement.Foreground="{DynamicResource VcsAccentText}" />
