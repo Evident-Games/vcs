@@ -33,8 +33,8 @@ public static class BloodBondRules
         if (state.Level is < 0 or > 3) throw new ArgumentOutOfRangeException(nameof(state));
         if (state.LastVitaeDate is not { } last) return state.Level;
         if (date < last) throw new ArgumentOutOfRangeException(nameof(date));
-        var months = (date.Year - last.Year) * 12 + date.Month - last.Month;
-        if (date.Day < last.Day) months--;
+        var months = Math.Max(0, (date.Year - last.Year) * 12 + date.Month - last.Month);
+        if (last.AddMonths(months) > date) months--;
         return Math.Max(0, state.Level - Math.Max(0, months));
     }
 }
