@@ -7,8 +7,8 @@
             <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" /><RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Margin="0,0,0,24">
-            <TextBlock Text="Personagens" FontFamily="Georgia" FontSize="36" />
+        <StackPanel Margin="0,0,0,20">
+            <TextBlock Text="Personagens" FontFamily="Georgia" FontSize="34" />
             <TextBlock Text="Identidades, escolhas e historias sob o mesmo teto." Margin="0,8,0,0"
                        Foreground="{DynamicResource VcsInputDescription}" />
         </StackPanel>
@@ -18,10 +18,10 @@
             <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
             <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" MaxWidth="540" HorizontalAlignment="Stretch"
                      AutomationProperties.Name="Buscar por nome, cla ou cronica" ToolTip="Buscar por nome, cla ou cronica" />
-            <TextBlock Grid.Column="1" Text="{Binding CountLabel}" VerticalAlignment="Center" Margin="24,0,0,0"
+            <TextBlock Grid.Column="1" Text="{Binding CountLabel}" VerticalAlignment="Center" Margin="16,0,0,0"
                        Foreground="{DynamicResource VcsInputDescription}" />
         </Grid>
-        <Border Grid.Row="3" Style="{StaticResource Card}" Padding="12">
+        <Border Grid.Row="3" Style="{StaticResource Card}" Padding="16">
             <Grid>
                 <ListBox ItemsSource="{Binding Characters}" SelectedItem="{Binding SelectedCharacter}"
                          HorizontalContentAlignment="Stretch" BorderThickness="0" Background="Transparent"
@@ -33,7 +33,7 @@
                     </ListBox.InputBindings>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid Margin="8,5" MinHeight="38"
+                            <Grid Margin="8,6" MinHeight="46"
                                   Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}">
                                 <Grid.ContextMenu>
                                     <ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
