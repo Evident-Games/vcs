@@ -4,7 +4,9 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using VCS.Application.Catalogs;
+using VCS.Application.Blood;
 using VCS.Application.Characters;
+using VCS.Application.Humanity;
 using VCS.Content;
 using VCS.Content.Advantages;
 using VCS.Content.Clans;
@@ -25,6 +27,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     private readonly CharacterService _service;
     private readonly ILogger<CharacterEditorViewModel> _logger;
     private readonly IAutosaveScheduler _autosave;
+    private readonly BloodActions _bloodActions;
+    private readonly HumanityActions _humanityActions;
     private readonly SemaphoreSlim _saveGate = new(1, 1);
     private CharacterDto _current;
     private long _changeVersion;
@@ -41,12 +45,15 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     ];
 
     public CharacterEditorViewModel(CharacterDto character, CharacterService service,
-        ILogger<CharacterEditorViewModel> logger, IAutosaveScheduler autosave, IDisciplineCatalog catalog)
+        ILogger<CharacterEditorViewModel> logger, IAutosaveScheduler autosave, IDisciplineCatalog catalog,
+        BloodActions? bloodActions = null, HumanityActions? humanityActions = null)
     {
         _current = character;
         _service = service;
         _logger = logger;
         _autosave = autosave;
+        _bloodActions = bloodActions ?? new();
+        _humanityActions = humanityActions ?? new();
         var d = character.Details;
         _advancement = (d.Advancement ?? new()) with { AutomaticExperience = true, IsCreating = true, HasCreationProfile = true };
         _predatorSelection = d.PredatorSelection;

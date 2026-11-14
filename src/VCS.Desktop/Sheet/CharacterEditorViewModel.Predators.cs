@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using VCS.Content;
+using VCS.Application.Humanity;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Content.Clans;
 using VCS.Content.Disciplines;
@@ -382,7 +383,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         try
         {
             var snapshot = Snapshot();
-            WillpowerAggravated = HumanityRules.ApplyStainDamage(snapshot.Details, snapshot.Traits).WillpowerAggravated;
+            WillpowerAggravated = _humanityActions.ApplyStainDamage(snapshot.Details, snapshot.Traits).WillpowerAggravated;
         }
         catch (InvalidOperationException exception) { ReportAdvancementError(exception); }
     }
@@ -391,7 +392,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
     {
         try
         {
-            var result = HumanityRules.RollRemorse(Snapshot().Details);
+            var result = _humanityActions.RollRemorse(Snapshot().Details);
             _ready = false;
             try { Stains = result.Details.Stains; Humanity = result.Details.Humanity; }
             finally { _ready = true; }
@@ -408,7 +409,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
     {
         try
         {
-            var result = HumanityRules.FailRemorse(Snapshot().Details);
+            var result = _humanityActions.FailRemorse(Snapshot().Details);
             _ready = false;
             try { Stains = result.Stains; Humanity = result.Humanity; }
             finally { _ready = true; }

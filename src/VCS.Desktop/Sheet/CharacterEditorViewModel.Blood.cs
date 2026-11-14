@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using VCS.Application.Blood;
 using VCS.Rules.V5.Blood;
 using VCS.Rules.V5.Dice;
 
@@ -57,7 +58,7 @@ public partial class CharacterEditorViewModel
     {
         get
         {
-            var result = FeedingRules.Resolve(SelectedBloodSourceOption.Source, BloodPotency, Hunger, Hunger,
+            var result = _bloodActions.PreviewFeeding(SelectedBloodSourceOption.Source, BloodPotency, Hunger,
                 FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional);
             var resonance = result.CanProduceResonance ? "pode conceder Ressonância" : "não concede Ressonância";
             var dyscrasia = result.CanProduceDyscrasia ? "pode produzir Discrasia" : "não produz Discrasia";
@@ -76,21 +77,21 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void ApplyFeeding()
     {
-        var result = FeedingRules.Resolve(SelectedBloodSourceOption.Source, BloodPotency, Hunger, Hunger,
+        var result = _bloodActions.ApplyFeeding(SelectedBloodSourceOption.Source, BloodPotency, Hunger,
             FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional);
-        if (result.HungerSlaked <= 0)
+        if (result.Status == FeedingApplicationStatus.NoHungerSlaked)
         {
             FeedingSummary = "Essa alimentação não reduz a Fome atual.";
             return;
         }
 
-        if (decimal.Truncate(result.HungerSlaked) != result.HungerSlaked)
+        if (result.Status == FeedingApplicationStatus.FractionalHunger)
         {
-            FeedingSummary = $"A regra resulta em meia Fome ({result.HungerSlaked:0.##}); a trilha atual usa pontos inteiros. A Fome não foi arredondada nem alterada.";
+            FeedingSummary = $"A regra resulta em meia Fome ({result.Resolution.HungerSlaked:0.##}); a trilha atual usa pontos inteiros. A Fome não foi arredondada nem alterada.";
             return;
         }
 
-        Hunger = (int)result.HungerAfter;
+        Hunger = result.HungerAfter;
         FeedingSummary = $"Alimentação aplicada. Fome agora em {Hunger}. Registre a Ressonância/Discrasia da vítima conforme a cena.";
     }
 
@@ -102,7 +103,7 @@ public partial class CharacterEditorViewModel
     {
         get
         {
-            var trigger = FrenzyTriggerRules.Evaluate(SelectedFrenzyTriggerOption.Trigger, Hunger,
+            var trigger = _bloodActions.EvaluateFrenzyTrigger(SelectedFrenzyTriggerOption.Trigger, Hunger,
                 isPresent: true, isPillarOrLover: FrenzyTriggerIsPillarOrLover);
             return trigger.Applies
                 ? $"{trigger.Description} Dificuldade {trigger.Difficulty}; Vontade {WillpowerCapacity} + Humanidade/3."
@@ -124,21 +125,19 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void ResistFrenzy()
     {
-        var trigger = FrenzyTriggerRules.Evaluate(SelectedFrenzyTriggerOption.Trigger, Hunger,
-            isPresent: true, isPillarOrLover: FrenzyTriggerIsPillarOrLover);
-        if (!trigger.Applies)
+        var result = _bloodActions.ResistFrenzy(SelectedFrenzyTriggerOption.Trigger, Hunger,
+            WillpowerCapacity, Humanity, isPresent: true, isPillarOrLover: FrenzyTriggerIsPillarOrLover);
+        if (result.Resistance is not { } resistance)
         {
             FrenzySummary = "O gatilho escolhido não se aplica ao estado atual; ajuste a Fome ou a condição e confira com o Narrador.";
             ShowDiceRoll("Resistência ao Frenesi", FrenzySummary, []);
             return;
         }
 
-        var result = FrenzyRules.RollResistance(trigger.Type, trigger.Description,
-            WillpowerCapacity, trigger.Difficulty, Humanity);
-        var roll = result.Roll;
-        FrenzySummary = result.Resisted
-            ? $"Resistência bem-sucedida: {roll.Successes} sucesso(s) contra dificuldade {trigger.Difficulty}. O vampiro evitou o Frenesi."
-            : $"Resistência falhou: {roll.Successes} sucesso(s) contra dificuldade {trigger.Difficulty}. O vampiro entra em Frenesi. Dados: [{string.Join(", ", roll.NormalDice)}].";
+        var roll = resistance.Roll;
+        FrenzySummary = resistance.Resisted
+            ? $"Resistência bem-sucedida: {roll.Successes} sucesso(s) contra dificuldade {resistance.Difficulty}. O vampiro evitou o Frenesi."
+            : $"Resistência falhou: {roll.Successes} sucesso(s) contra dificuldade {resistance.Difficulty}. O vampiro entra em Frenesi. Dados: [{string.Join(", ", roll.NormalDice)}].";
         ShowDiceRoll("Resistência ao Frenesi", FrenzySummary, roll.NormalDice.Select(face => new RolledDieDisplay(face, "FRENESI")));
     }
 
@@ -154,21 +153,19 @@ public partial class CharacterEditorViewModel
             return;
         }
 
-        var surgeDice = UseBloodSurge ? BloodPotencyEffects.At(BloodPotency).BloodSurgeDice : 0;
         var rouseSummary = "";
         var displayedDice = new List<RolledDieDisplay>();
-        if (UseBloodSurge)
+        var action = _bloodActions.RollTest(RollDicePool, RollDifficulty, Hunger, BloodPotency,
+            UseHungerDice, UseBloodSurge);
+        if (action.BloodSurgeCheck is { } rouse)
         {
-            var rouse = RouseCheckRules.Roll(Hunger);
-            Hunger = rouse.HungerAfter;
+            Hunger = action.HungerAfter;
             displayedDice.Add(new(rouse.Die, "SURTO"));
             rouseSummary = rouse.Succeeded ? $"Surto de Sangue: checagem {rouse.Die}, sucesso. " :
                 $"Surto de Sangue: checagem {rouse.Die}, falha; Fome {Hunger}. ";
         }
 
-        var pool = RollDicePool + surgeDice;
-        var hungerDice = UseHungerDice ? Hunger : 0;
-        var result = DicePoolRules.Roll(pool, hungerDice, RollDifficulty);
+        var result = action.Roll;
         displayedDice.AddRange(result.NormalDice.Select(face => new RolledDieDisplay(face, "COMUM")));
         displayedDice.AddRange(result.HungerDice.Select(face => new RolledDieDisplay(face, "FOME")));
         var outcome = result.Outcome switch
@@ -194,7 +191,7 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void MakeRouseCheck()
     {
-        var result = RouseCheckRules.Roll(Hunger);
+        var result = _bloodActions.MakeRouseCheck(Hunger);
         Hunger = result.HungerAfter;
         RouseCheckSummary = result.Succeeded
             ? $"Checagem de Sangue: sucesso ({result.Die}). Fome permanece em {Hunger}."

@@ -7,7 +7,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using VCS.Application.Catalogs;
+using VCS.Application.Blood;
 using VCS.Application.Characters;
+using VCS.Application.Humanity;
 using VCS.Application.Maintenance;
 using VCS.Content.Advantages;
 using VCS.Content.Clans;
@@ -68,6 +70,8 @@ public partial class App : System.Windows.Application
             builder.Services.AddSingleton<IDatabaseMaintenance, SqliteDatabaseMaintenance>();
             builder.Services.AddSingleton<ICharacterFiles, JsonCharacterFiles>();
             builder.Services.AddSingleton<CharacterService>();
+            builder.Services.AddSingleton<BloodActions>();
+            builder.Services.AddSingleton<HumanityActions>();
             builder.Services.AddSingleton<ProvidedDisciplineCatalog>();
             builder.Services.AddSingleton<IDisciplineCatalog>(p => p.GetRequiredService<ProvidedDisciplineCatalog>());
             builder.Services.AddSingleton<SqliteAdvantageCatalog>();
@@ -87,7 +91,9 @@ public partial class App : System.Windows.Application
             builder.Services.AddSingleton<Func<CharacterDto, CharacterEditorViewModel>>(provider => dto =>
                 new(dto, provider.GetRequiredService<CharacterService>(),
                     provider.GetRequiredService<ILogger<CharacterEditorViewModel>>(), new DispatcherAutosaveScheduler(),
-                    provider.GetRequiredService<IDisciplineCatalog>()));
+                    provider.GetRequiredService<IDisciplineCatalog>(),
+                    provider.GetRequiredService<BloodActions>(),
+                    provider.GetRequiredService<HumanityActions>()));
             builder.Services.AddSingleton<UpdateService>();
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<MainWindow>();
