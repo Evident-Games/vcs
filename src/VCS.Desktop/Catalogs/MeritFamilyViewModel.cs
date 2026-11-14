@@ -81,7 +81,7 @@ public partial class MeritFamilyViewModel : ObservableObject
     private void OnPersonalChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (_changingSelection || e.PropertyName is not (nameof(TraitItemViewModel.Rating) or nameof(TraitItemViewModel.Name)) ||
-            sender is not TraitItemViewModel { Rating: > 0, IsPredatorGrant: false } item) return;
+            sender is not TraitItemViewModel { Rating: > 0, IsPredatorGrant: false }) return;
         _changingSelection = true;
         try { Message = ""; }
         finally { _changingSelection = false; }
