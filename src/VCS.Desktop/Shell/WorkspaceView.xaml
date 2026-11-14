@@ -12,7 +12,7 @@
         <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Border x:Name="Tab" Margin="0,0,6,4" CornerRadius="6" BorderThickness="1" Padding="10,2,2,2"
+                <Border x:Name="Tab" Margin="0,0,6,4" CornerRadius="8" BorderThickness="1" Padding="10,3,3,3"
                         BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}">
                     <StackPanel Orientation="Horizontal">
                         <Button Background="Transparent" BorderThickness="0" Padding="0,2" MaxWidth="180"
@@ -35,6 +35,7 @@
                 <DataTemplate.Triggers>
                     <DataTrigger Binding="{Binding IsActive}" Value="True">
                         <Setter TargetName="Tab" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                        <Setter TargetName="Tab" Property="BorderThickness" Value="1,1,1,2"
                         <Setter TargetName="Tab" Property="Background" Value="{DynamicResource VcsSelection}" />
                     </DataTrigger>
                 </DataTemplate.Triggers>
