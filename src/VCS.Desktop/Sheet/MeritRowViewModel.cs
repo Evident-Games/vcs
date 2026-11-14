@@ -90,13 +90,10 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
     [ObservableProperty] private bool limitOverrideApproved;
     [ObservableProperty] private string approvalNote = "";
 
-    partial void OnPrerequisiteConfirmedChanged(bool value) => RetryLoresheet();
-    partial void OnLimitOverrideApprovedChanged(bool value) => RetryLoresheet();
-    partial void OnApprovalNoteChanged(string value) => RetryLoresheet();
-
-    private void RetryLoresheet()
+    [RelayCommand]
+    private void ConfirmLoresheet()
     {
-        if (!_suppressApprovalRetry && IsLoresheetCategory && _item is null && !string.IsNullOrWhiteSpace(Name))
+        if (IsLoresheetCategory && _item is null && !string.IsNullOrWhiteSpace(Name))
             _sheet.Edit(() => { Resolve(Name.Trim()); Refresh(); });
     }
 
