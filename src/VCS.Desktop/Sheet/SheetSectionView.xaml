@@ -106,6 +106,31 @@
                 <sheet:BloodLineageDiagram BloodPotency="{Binding BloodPotency, Mode=TwoWay}"
                                              Generation="{Binding Generation, Mode=TwoWay}"
                                              BloodPotencyEnabled="{Binding CanEditBuild}" Margin="8,0,8,12" />
+                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
+                    <StackPanel>
+                        <TextBlock Text="Rolagem de dados V5" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <WrapPanel VerticalAlignment="Center">
+                            <StackPanel Margin="0,0,12,6">
+                                <TextBlock Text="Dados na parada" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding RollDicePool, Mode=TwoWay}" Minimum="0" Maximum="50"
+                                                       AutomationProperties.Name="Dados na parada" />
+                            </StackPanel>
+                            <StackPanel Margin="0,0,12,6">
+                                <TextBlock Text="Dificuldade" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding RollDifficulty, Mode=TwoWay}" Minimum="0" Maximum="50"
+                                                       AutomationProperties.Name="Dificuldade do teste" />
+                            </StackPanel>
+                            <CheckBox Content="Usar dados de Fome" IsChecked="{Binding UseHungerDice, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <CheckBox Content="Usar Surto de Sangue" IsChecked="{Binding UseBloodSurge, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <Button Content="Rolar teste" Command="{Binding RollTestCommand}" Margin="0,0,0,6"
+                                    AutomationProperties.Name="Rolar teste V5" />
+                        </WrapPanel>
+                        <TextBlock Text="{Binding RollSummary}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
+                    </StackPanel>
+                </Border>
                 <UniformGrid Columns="3" Margin="8,0,8,12">
                     <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,6,6">
                         <StackPanel><TextBlock Text="Surto de Sangue" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
