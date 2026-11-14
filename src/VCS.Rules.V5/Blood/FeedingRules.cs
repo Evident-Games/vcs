@@ -64,13 +64,14 @@ public static class FeedingRules
         }
 
         var resonance = source == BloodSource.Human || source == BloodSource.Animal && bloodPotency < 3;
-        var dyscrasia = source == BloodSource.Human;
+        var dyscrasia = source == BloodSource.Human || source == BloodSource.Animal && animalIsExceptional;
         var note = source switch
         {
             BloodSource.Human when bloodPotency >= 9 => "Até 3 de Fome por humano; para ficar abaixo de 3, é preciso drenar e matar.",
             BloodSource.Human when bloodPotency >= 7 => "Até 2 de Fome por humano; para ficar abaixo de 2, é preciso drenar e matar.",
             BloodSource.Human when bloodPotency >= 5 => "Até 1 de Fome por humano; para ficar abaixo de 2, é preciso drenar e matar.",
             BloodSource.Animal when bloodPotency >= 3 && !animalIsExceptional => "A Potência do Sangue impede saciar Fome com sangue animal.",
+            BloodSource.Animal when animalIsExceptional => "Animal excepcional: o Narrador decide os efeitos especiais; pode produzir Discrasia.",
             BloodSource.Animal when bloodPotency == 2 => "Sangue animal sacia meia Fome; animais excepcionais podem ser exceção.",
             BloodSource.Bagged when bloodPotency >= 3 => "Sangue ensacado não sacia Fome nesta Potência do Sangue.",
             BloodSource.Bagged when bloodPotency == 2 => "Sangue ensacado sacia meia Fome.",
