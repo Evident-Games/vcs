@@ -193,7 +193,7 @@ public sealed class LoresheetTests
             using var editor = new CharacterEditorViewModel(dto, service, NullLogger<CharacterEditorViewModel>.Instance,
                 new ManualAutosave(), new ProvidedDisciplineCatalog());
             editor.ConfigureAdvantageCatalog(catalog);
-            Assert.Equal(63, editor.AdvantageCatalog!.Families.Sum(x => x.Options.Count));
+            Assert.Equal(168, editor.AdvantageCatalog!.Families.Sum(x => x.Options.Count));
             Assert.Equal(125, editor.AdvantageCatalog.Families.Single(x => x.Name == AdvantageCatalogViewModel.LoresheetFamily).Options.Count);
             Assert.Equal(125, editor.LoresheetBenefits.Count);
             editor.AgeIndex = 2;
