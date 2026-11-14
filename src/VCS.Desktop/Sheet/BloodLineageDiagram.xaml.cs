@@ -197,13 +197,13 @@ public partial class BloodLineageDiagram : UserControl
     private void OnBloodPotencyClick(object sender, RoutedEventArgs e)
     {
         if (sender is not Button { Tag: int value }) return;
-        BloodPotency = value == BloodPotency ? Math.Max(0, value - 1) : value;
+        SetCurrentValue(BloodPotencyProperty, value == BloodPotency ? Math.Max(0, value - 1) : value);
     }
 
     private void OnGenerationClick(object sender, RoutedEventArgs e)
     {
         if (sender is Button { Tag: int value })
-            Generation = value;
+            SetCurrentValue(GenerationProperty, value);
     }
 
     private void DrawRowLabel(string text, double x, double y, double width) =>
