@@ -90,6 +90,15 @@
                         <controls:DotTrack Value="{Binding Humanity, Mode=TwoWay}" Maximum="10" AutomationProperties.Name="Humanidade na ficha" />
                     </StackPanel>
                 </WrapPanel>
+                <Border Visibility="{Binding HasBloodPotencyRuleWarning, Converter={StaticResource BoolVisibility}}"
+                        BorderBrush="{DynamicResource VcsAccentBorder}" Background="{DynamicResource VcsInput}"
+                        BorderThickness="1" CornerRadius="7" Padding="10" Margin="8,0,8,10">
+                    <StackPanel>
+                        <TextBlock Text="Aviso de regra" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" />
+                        <TextBlock Text="{Binding BloodPotencyRuleWarning}" TextWrapping="Wrap" Margin="0,3,0,0"
+                                   Foreground="{DynamicResource VcsCardText}" />
+                    </StackPanel>
+                </Border>
                 <sheet:BloodLineageDiagram BloodPotency="{Binding BloodPotency, Mode=TwoWay}"
                                              Generation="{Binding Generation, Mode=TwoWay}"
                                              BloodPotencyEnabled="{Binding CanEditBuild}" Margin="8,0,8,12" />
