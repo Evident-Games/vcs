@@ -131,6 +131,26 @@
                         <TextBlock Text="{Binding RollSummary}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
                     </StackPanel>
                 </Border>
+                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
+                    <StackPanel>
+                        <TextBlock Text="Resistência ao Frenesi" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <WrapPanel VerticalAlignment="Center">
+                            <StackPanel Margin="0,0,12,6" MinWidth="260">
+                                <TextBlock Text="Gatilho" Style="{StaticResource FieldLabel}" />
+                                <ComboBox ItemsSource="{Binding FrenzyTriggerOptions}" DisplayMemberPath="Label"
+                                          SelectedItem="{Binding SelectedFrenzyTriggerOption, Mode=TwoWay}"
+                                          AutomationProperties.Name="Gatilho de Frenesi" />
+                            </StackPanel>
+                            <CheckBox Content="Pilar ou amante" IsChecked="{Binding FrenzyTriggerIsPillarOrLover, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <Button Content="Testar resistência" Command="{Binding ResistFrenzyCommand}" Margin="0,0,0,6"
+                                    AutomationProperties.Name="Testar resistência ao Frenesi" />
+                        </WrapPanel>
+                        <TextBlock Text="{Binding FrenzyTriggerGuidance}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding FrenzySummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
+                    </StackPanel>
+                </Border>
                 <UniformGrid Columns="3" Margin="8,0,8,12">
                     <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,6,6">
                         <StackPanel><TextBlock Text="Surto de Sangue" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
