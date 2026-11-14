@@ -91,7 +91,7 @@ public partial class BloodLineageDiagram : UserControl
             bloodDot.IsEnabled = BloodPotencyEnabled;
             bloodDot.Tag = potency;
             bloodDot.Click += OnBloodPotencyClick;
-            Canvas.SetLeft(bloodDot, Column(potency + 1) - DotSize / 2);
+            Canvas.SetLeft(bloodDot, Column(potency + 2) - DotSize / 2);
             Canvas.SetTop(bloodDot, BloodPotencyY);
             Diagram.Children.Add(bloodDot);
         }
