@@ -267,7 +267,7 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
             (!KnownOnly || item.IsKnown) &&
             (SelectedDiscipline == AllDisciplines ||
              CatalogText.Normalize(item.Definition.Discipline) == CatalogText.Normalize(SelectedDiscipline)) &&
-            CatalogText.Normalize($"{item.Definition.Name}\n{item.Definition.Discipline}\n{item.Definition.Cost}\n{item.Definition.DicePool}\n{item.Definition.Summary}\n{item.Definition.AmalgamDiscipline}")
+            CatalogText.Normalize($"{item.Definition.Name}\n{item.Definition.Discipline}\n{item.Definition.Cost}\n{item.Definition.DicePool}\n{item.Definition.Summary}\n{item.Definition.AmalgamDiscipline}\n{item.Definition.Prerequisite}\n{item.Definition.Source}")
                 .Contains(term, StringComparison.Ordinal);
 
         var previousPower = SelectedPower;
