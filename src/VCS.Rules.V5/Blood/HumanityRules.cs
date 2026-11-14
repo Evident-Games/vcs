@@ -5,8 +5,36 @@ namespace VCS.Rules.V5.Blood;
 
 public sealed record HumanityLevel(int Level, string Description, int SocialPenalty = 0, int? BlushSocialPenalty = null);
 
+public sealed record RemorseResult(CharacterDetails Details, IReadOnlyList<int> Dice, int Successes, bool MaintainedHumanity);
+
 public static class HumanityRules
 {
+    /// <summary>Remorse pool equals current Humanity; one success clears all Stains, no successes loses one Humanity.</summary>
+    public static RemorseResult ResolveRemorse(CharacterDetails details, IReadOnlyList<int> dice)
+    {
+        ArgumentNullException.ThrowIfNull(dice);
+        if (details.Stains <= 0) throw new InvalidOperationException("Nao ha Maculas para resolver.");
+        if (details.Humanity <= 0) throw new InvalidOperationException("Humanidade ja esta em zero (Wassail).");
+        if (dice.Count != details.Humanity)
+            throw new ArgumentException("A rolagem de Remorso usa uma quantidade de dados igual a Humanidade atual.", nameof(dice));
+        if (dice.Any(face => face is < 1 or > 10))
+            throw new ArgumentException("Cada dado deve resultar entre 1 e 10.", nameof(dice));
+
+        var successes = dice.Count(face => face >= 6);
+        var maintained = successes > 0;
+        var updated = maintained
+            ? details with { Stains = 0 }
+            : details with { Stains = 0, Humanity = Math.Max(0, details.Humanity - 1) };
+        return new(updated, dice.ToArray(), successes, maintained);
+    }
+
+    public static RemorseResult RollRemorse(CharacterDetails details, Random? random = null)
+    {
+        random ??= Random.Shared;
+        var dice = Enumerable.Range(0, details.Humanity).Select(_ => random.Next(1, 11)).ToArray();
+        return ResolveRemorse(details, dice);
+    }
+
     public static IReadOnlyList<HumanityLevel> Levels { get; } =
     [
         new(10, "Aparência humana saudável sem Rubor da Vida; digere comida normalmente, permanece acordado de dia e sofre metade do dano do sol."),
