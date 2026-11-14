@@ -153,7 +153,10 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
             .OrderBy(x => x.Definition.Level).ThenBy(x => x.Definition.Name, StringComparer.CurrentCultureIgnoreCase)
             .Select(x => new SuggestionItem(x.Definition.Name, filtered is null && !row.IsRitual
                 ? $"{x.Definition.Discipline} · {new string('●', x.Definition.Level)}"
-                : new string('●', x.Definition.Level)))
+                : new string('●', x.Definition.Level),
+                string.Join(" · ", new[] { x.Definition.Source,
+                    string.IsNullOrWhiteSpace(x.Definition.Prerequisite) ? "" : $"Pré-requisito: {x.Definition.Prerequisite}" }
+                    .Where(value => !string.IsNullOrWhiteSpace(value)))))
             .ToArray();
     }
 
