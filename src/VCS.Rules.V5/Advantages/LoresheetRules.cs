@@ -26,6 +26,11 @@ public static class LoresheetRules
         if (benefit.Category != TraitCategory.Loresheet || benefit.Loresheet is null ||
             benefit.Rating is < 1 or > 5 || !Enum.IsDefined(payment))
             throw new InvalidOperationException("Beneficio de loresheet invalido.");
+        if (!string.IsNullOrWhiteSpace(benefit.Loresheet.Prerequisite) && !benefit.Loresheet.PrerequisiteConfirmed)
+            throw new InvalidOperationException("Este beneficio tem pre-requisitos; confirme a aprovacao do Narrador e registre a justificativa.");
+        if ((benefit.Loresheet.PrerequisiteConfirmed || benefit.Loresheet.LimitOverrideApproved) &&
+            string.IsNullOrWhiteSpace(benefit.Loresheet.ApprovalNote))
+            throw new InvalidOperationException("Registre a justificativa da aprovacao do Narrador.");
         if (traits.Any(x => x.Category == TraitCategory.Loresheet && x.Key == benefit.Key))
             throw new InvalidOperationException("Este beneficio ja esta na ficha.");
         var state = details.Advancement ?? throw new InvalidOperationException("Inicie a criacao ou registre a base atual para comprar loresheets.");
