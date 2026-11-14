@@ -147,6 +147,18 @@
                                  AcceptsReturn="True" TextWrapping="Wrap" MinHeight="44" MaxLength="20000" FontSize="12.5"
                                  IsReadOnly="{Binding IsLocked}"
                                  AutomationProperties.Name="Anotacoes da caracteristica" />
+                        <StackPanel Margin="0,8,0,0" Visibility="{Binding IsLoresheetCategory, Converter={StaticResource BoolVisibility}}">
+                            <TextBlock Text="Exceções de ficha de conhecimento" Style="{StaticResource FieldLabel}" />
+                            <TextBlock Text="Marque apenas com autorização do Narrador. A justificativa fica registrada na ficha."
+                                       FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,4" />
+                            <CheckBox Content="Narrador confirmou os pré-requisitos ou autorizou esta escolha"
+                                      IsChecked="{Binding PrerequisiteConfirmed, UpdateSourceTrigger=PropertyChanged}" />
+                            <CheckBox Content="Narrador autorizou ultrapassar o limite de escolhas na criação"
+                                      IsChecked="{Binding LimitOverrideApproved, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Style="{StaticResource PaperLineTextBox}" Text="{Binding ApprovalNote, UpdateSourceTrigger=PropertyChanged}"
+                                     Tag="justificativa da aprovação" MaxLength="1000" FontSize="12"
+                                     AutomationProperties.Name="Justificativa da aprovação do Narrador" />
+                        </StackPanel>
                         <TextBlock Text="{Binding Warning}" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccentText}"
                                    Visibility="{Binding HasWarning, Converter={StaticResource BoolVisibility}}" />
                     </StackPanel>
