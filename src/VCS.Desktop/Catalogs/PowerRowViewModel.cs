@@ -106,5 +106,5 @@ public partial class PowerRowViewModel : ObservableObject
         definition.Discipline, definition.Cost, definition.DicePool, "",
         definition.IsRitual ? "" : definition.Summary, definition.IsRitual, "", "",
         definition.IsRitual ? definition.Summary : "",
-        definition.AmalgamDiscipline is { } amalgam ? $"Amálgama: {amalgam} {definition.AmalgamLevel}" : "");
+        string.Join(" · ", new[] { definition.Prerequisite, definition.AmalgamDiscipline is { } amalgam ? $"Amálgama: {amalgam} {definition.AmalgamLevel}" : "" }.Where(x => x.Length > 0)));
 }
