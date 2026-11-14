@@ -114,7 +114,7 @@ public static class LoresheetRules
                 (lore.Prerequisite?.Length ?? 0) > 500 ||
                 (lore.Source?.Length ?? 0) > 120 ||
                 (lore.ApprovalNote?.Length ?? 0) > 1000 ||
-                lore.Prerequisite.Length > 0 && !lore.PrerequisiteConfirmed ||
+                !string.IsNullOrWhiteSpace(lore.Prerequisite) && !lore.PrerequisiteConfirmed ||
                 (lore.PrerequisiteConfirmed || lore.LimitOverrideApproved) && string.IsNullOrWhiteSpace(lore.ApprovalNote))
                 issues.Add(new("Loresheets", "Dados do beneficio invalidos ou aprovacao do Narrador sem justificativa."));
         }
