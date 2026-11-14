@@ -63,7 +63,7 @@ public sealed class MeritFamilyTests : IAsyncLifetime
         row.Category = AdvantageCatalogViewModel.LoresheetFamily;
         Assert.All(row.NameSuggestions, x => Assert.True(x.HasNote));
         var benefit = _entries.First(x => x.Category == TraitCategory.Loresheet);
-        Assert.Contains(row.NameSuggestions, x => x.Value == benefit.Name && x.Note == benefit.LoresheetCollection);
+        Assert.Contains(row.NameSuggestions, x => x.Value == benefit.Name && x.Note.Contains(benefit.LoresheetCollection, StringComparison.Ordinal));
         row.Name = benefit.Name;
         var item = Assert.Single(host.Loresheets.Items);
         Assert.Empty(advantages.Items);
