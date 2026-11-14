@@ -35,7 +35,7 @@
                 <DataTemplate.Triggers>
                     <DataTrigger Binding="{Binding IsActive}" Value="True">
                         <Setter TargetName="Tab" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
-                        <Setter TargetName="Tab" Property="BorderThickness" Value="1,1,1,2"
+                        <Setter TargetName="Tab" Property="BorderThickness" Value="1,1,1,2" />
                         <Setter TargetName="Tab" Property="Background" Value="{DynamicResource VcsSelection}" />
                     </DataTrigger>
                 </DataTemplate.Triggers>
