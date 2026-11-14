@@ -131,6 +131,28 @@
                                     AutomationProperties.Name="Rolar teste V5" />
                         </WrapPanel>
                         <TextBlock Text="{Binding RollSummary}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
+                        <StackPanel Margin="0,10,0,0">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RolledDice.Count}" Value="0">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <Border Height="1" Background="{DynamicResource VcsBorder}" Margin="0,0,0,8" />
+                            <TextBlock Text="Dados 3D" FontSize="11" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,4" />
+                            <ItemsControl ItemsSource="{Binding RolledDice}" AutomationProperties.Name="Dados da última rolagem em 3D">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate><controls:Dice3DView /></DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
                 <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"

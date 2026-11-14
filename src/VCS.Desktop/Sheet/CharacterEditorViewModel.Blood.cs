@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Rules.V5.Blood;
@@ -7,6 +8,7 @@ namespace VCS.Desktop.Sheet;
 
 public partial class CharacterEditorViewModel
 {
+    public ObservableCollection<RolledDieDisplay> RolledDice { get; } = [];
     public string BloodPotencyRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyEffects));
     public string GenerationRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyGenerationRules));
     public string DiceRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(DicePoolRules));
@@ -138,6 +140,9 @@ public partial class CharacterEditorViewModel
         var pool = RollDicePool + surgeDice;
         var hungerDice = UseHungerDice ? Hunger : 0;
         var result = DicePoolRules.Roll(pool, hungerDice, RollDifficulty);
+        RolledDice.Clear();
+        foreach (var face in result.NormalDice) RolledDice.Add(new(face, IsHunger: false));
+        foreach (var face in result.HungerDice) RolledDice.Add(new(face, IsHunger: true));
         var outcome = result.Outcome switch
         {
             TestOutcome.Failure => "falha",
@@ -169,3 +174,5 @@ public partial class CharacterEditorViewModel
                 : $"Checagem de Sangue: falha ({result.Die}). Fome aumenta para {Hunger}.";
     }
 }
+
+public sealed record RolledDieDisplay(int Value, bool IsHunger);
