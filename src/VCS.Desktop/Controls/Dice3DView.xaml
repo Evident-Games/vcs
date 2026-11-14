@@ -23,7 +23,7 @@
             </Viewport3D>
             <TextBlock x:Name="DieValue" Text="{Binding Value}" HorizontalAlignment="Center"
                        VerticalAlignment="Center" Margin="0,0,0,2" FontFamily="Georgia"
-                       FontSize="21" FontWeight="Bold" Foreground="{DynamicResource VcsCardText}"
+                       FontSize="21" FontWeight="Bold" Foreground="{DynamicResource VcsDieNumber}"
                        Opacity="0" />
         </Grid>
         <TextBlock Grid.Row="1" Text="{Binding Kind}" HorizontalAlignment="Center" FontSize="9"

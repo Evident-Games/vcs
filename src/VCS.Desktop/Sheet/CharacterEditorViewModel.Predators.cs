@@ -392,12 +392,12 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         try
         {
             var result = HumanityRules.RollRemorse(Snapshot().Details);
-            ShowDiceRoll("Teste de Remorso", result.Dice.Select(die => new RolledDieDisplay(die, "REMORSO")));
             _ready = false;
             try { Stains = result.Details.Stains; Humanity = result.Details.Humanity; }
             finally { _ready = true; }
             RemorseSummary = $"Remorso: {result.Dice.Count} dados [{string.Join(", ", result.Dice)}], {result.Successes} sucesso(s). " +
                 (result.MaintainedHumanity ? "Humanidade mantida; Máculas removidas." : "Humanidade -1; Máculas removidas.");
+            ShowDiceRoll("Teste de Remorso", RemorseSummary, result.Dice.Select(die => new RolledDieDisplay(die, "REMORSO")));
             MarkChanged();
         }
         catch (InvalidOperationException exception) { ReportAdvancementError(exception); }

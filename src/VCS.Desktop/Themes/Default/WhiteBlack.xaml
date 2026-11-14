@@ -13,6 +13,7 @@
     <SolidColorBrush x:Key="VcsAppInputTitle" Color="#111111" />
     <SolidColorBrush x:Key="VcsAppInputDescription" Color="#505050" />
     <SolidColorBrush x:Key="VcsAppAccent" Color="#141414" />
+    <SolidColorBrush x:Key="VcsAppDieNumber" Color="#FEF4E3" />
     <SolidColorBrush x:Key="VcsAppAccentText" Color="#141414" />
     <SolidColorBrush x:Key="VcsAppAccentBorder" Color="#141414" />
     <SolidColorBrush x:Key="VcsAppAccentHotbar" Color="#141414" />
@@ -32,6 +33,7 @@
     <SolidColorBrush x:Key="VcsSheetInputTitle" Color="#111111" />
     <SolidColorBrush x:Key="VcsSheetInputDescription" Color="#505050" />
     <SolidColorBrush x:Key="VcsSheetAccent" Color="#141414" />
+    <SolidColorBrush x:Key="VcsSheetDieNumber" Color="#FEF4E3" />
     <SolidColorBrush x:Key="VcsSheetAccentText" Color="#141414" />
     <SolidColorBrush x:Key="VcsSheetAccentBorder" Color="#141414" />
     <SolidColorBrush x:Key="VcsSheetAccentHotbar" Color="#141414" />

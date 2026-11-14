@@ -10,20 +10,26 @@ public partial class CharacterEditorViewModel
 {
     public ObservableCollection<RolledDieDisplay> RolledDice { get; } = [];
     public bool HasRolledDice => RolledDice.Count > 0;
+    public bool HasRollDisplay => HasRolledDice || !string.IsNullOrWhiteSpace(LastRollSummary);
 
-    private void ShowDiceRoll(string label, IEnumerable<RolledDieDisplay> dice)
+    private void ShowDiceRoll(string label, string summary, IEnumerable<RolledDieDisplay> dice)
     {
         RolledDice.Clear();
         foreach (var die in dice) RolledDice.Add(die);
         LastRollLabel = label;
+        LastRollSummary = summary;
         OnPropertyChanged(nameof(HasRolledDice));
+        OnPropertyChanged(nameof(HasRollDisplay));
     }
 
     [RelayCommand]
     private void ClearRolledDice()
     {
         RolledDice.Clear();
+        LastRollLabel = "";
+        LastRollSummary = "";
         OnPropertyChanged(nameof(HasRolledDice));
+        OnPropertyChanged(nameof(HasRollDisplay));
     }
     public string BloodPotencyRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyEffects));
     public string GenerationRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyGenerationRules));
@@ -38,6 +44,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool useHungerDice = true;
     [ObservableProperty] private bool useBloodSurge;
     [ObservableProperty] private string lastRollLabel = "";
+    [ObservableProperty] private string lastRollSummary = "";
     [ObservableProperty] private string rollSummary = "Configure a parada e a dificuldade para resolver um teste.";
 
     [ObservableProperty] private BloodSourceOption selectedBloodSourceOption = BloodSourceOption.All[0];
@@ -122,16 +129,17 @@ public partial class CharacterEditorViewModel
         if (!trigger.Applies)
         {
             FrenzySummary = "O gatilho escolhido não se aplica ao estado atual; ajuste a Fome ou a condição e confira com o Narrador.";
+            ShowDiceRoll("Resistência ao Frenesi", FrenzySummary, []);
             return;
         }
 
         var result = FrenzyRules.RollResistance(trigger.Type, trigger.Description,
             WillpowerCapacity, trigger.Difficulty, Humanity);
         var roll = result.Roll;
-        ShowDiceRoll("Resistência ao Frenesi", roll.NormalDice.Select(face => new RolledDieDisplay(face, "FRENESI")));
         FrenzySummary = result.Resisted
             ? $"Resistência bem-sucedida: {roll.Successes} sucesso(s) contra dificuldade {trigger.Difficulty}. O vampiro evitou o Frenesi."
             : $"Resistência falhou: {roll.Successes} sucesso(s) contra dificuldade {trigger.Difficulty}. O vampiro entra em Frenesi. Dados: [{string.Join(", ", roll.NormalDice)}].";
+        ShowDiceRoll("Resistência ao Frenesi", FrenzySummary, roll.NormalDice.Select(face => new RolledDieDisplay(face, "FRENESI")));
     }
 
 
@@ -142,6 +150,7 @@ public partial class CharacterEditorViewModel
         if (RollDicePool is < 0 or > 50 || RollDifficulty is < 0 or > 50)
         {
             RollSummary = "A parada e a dificuldade devem ficar entre 0 e 50.";
+            ShowDiceRoll("Teste V5", RollSummary, []);
             return;
         }
 
@@ -162,7 +171,6 @@ public partial class CharacterEditorViewModel
         var result = DicePoolRules.Roll(pool, hungerDice, RollDifficulty);
         displayedDice.AddRange(result.NormalDice.Select(face => new RolledDieDisplay(face, "COMUM")));
         displayedDice.AddRange(result.HungerDice.Select(face => new RolledDieDisplay(face, "FOME")));
-        ShowDiceRoll("Teste V5", displayedDice);
         var outcome = result.Outcome switch
         {
             TestOutcome.Failure => "falha",
@@ -180,6 +188,7 @@ public partial class CharacterEditorViewModel
         };
         RollSummary = $"{rouseSummary}{result.Successes} sucesso(s), dificuldade {result.Difficulty}: {outcome}. " +
             $"Dados comuns [{string.Join(", ", result.NormalDice)}]; dados de Fome [{string.Join(", ", result.HungerDice)}].{compulsion}";
+        ShowDiceRoll("Teste V5", RollSummary, displayedDice);
     }
 
     [RelayCommand]
@@ -192,7 +201,7 @@ public partial class CharacterEditorViewModel
             : result.HungerAfter == result.HungerBefore
                 ? $"Checagem de Sangue: falha ({result.Die}). Fome já estava em 5."
                 : $"Checagem de Sangue: falha ({result.Die}). Fome aumenta para {Hunger}.";
-        ShowDiceRoll("Checagem de Sangue", [new RolledDieDisplay(result.Die, "SANGUE")]);
+        ShowDiceRoll("Checagem de Sangue", RouseCheckSummary, [new RolledDieDisplay(result.Die, "SANGUE")]);
     }
 }
 

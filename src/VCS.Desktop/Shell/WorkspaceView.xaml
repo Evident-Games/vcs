@@ -118,39 +118,68 @@
         </ItemsControl>
     </Grid>
         <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,12,12"
-                Width="456" MaxHeight="286" Padding="12" CornerRadius="12"
+                Width="456" MaxHeight="360" Padding="12" CornerRadius="12"
                 Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}"
-                BorderThickness="1" Panel.ZIndex="20" AutomationProperties.Name="Mesa de rolagem 3D">
+                BorderThickness="1" Panel.ZIndex="20" AutomationProperties.Name="Mesa de rolagem 3D"
+                themes:SheetTheme.Id="{Binding Editor.EffectiveSheetThemeId}">
             <Border.Style>
                 <Style TargetType="Border">
                     <Setter Property="Visibility" Value="Collapsed" />
                     <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Display.Show3DDice}" Value="True" />
-                                <Condition Binding="{Binding Editor.HasRolledDice}" Value="True" />
-                            </MultiDataTrigger.Conditions>
+                        <DataTrigger Binding="{Binding Editor.HasRollDisplay}" Value="True">
                             <Setter Property="Visibility" Value="Visible" />
-                        </MultiDataTrigger>
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </Border.Style>
-            <DockPanel>
-                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8" LastChildFill="False">
+            <StackPanel>
+                <Grid Margin="0,0,0,8">
                     <StackPanel>
                         <TextBlock Text="MESA DE DADOS" FontSize="10" FontWeight="Bold"
-                                   Foreground="{DynamicResource VcsInputDescription}" />
+                                   Foreground="{DynamicResource VcsInputDescription}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Display.Show3DDice}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Text="RESULTADO DA ROLAGEM" FontSize="10" FontWeight="Bold"
+                                   Foreground="{DynamicResource VcsInputDescription}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Display.Show3DDice}" Value="False">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                         <TextBlock Text="{Binding Editor.LastRollLabel}" FontFamily="Georgia" FontSize="16"
                                    Foreground="{DynamicResource VcsCardText}" />
                     </StackPanel>
-                    <Button DockPanel.Dock="Right" Content="×" Width="26" Height="26" Padding="0"
+                    <Button Content="×" Width="26" Height="26" Padding="0" HorizontalAlignment="Right"
                             Background="Transparent" BorderThickness="0" Foreground="{DynamicResource VcsInputDescription}"
                             ToolTip="Fechar visualização dos dados" Command="{Binding Editor.ClearRolledDiceCommand}"
                             AutomationProperties.Name="Fechar mesa de dados" />
-                </DockPanel>
+                </Grid>
                 <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
                         BorderThickness="1" CornerRadius="8" Padding="8">
-                    <ScrollViewer MaxHeight="208" VerticalScrollBarVisibility="Auto"
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Display.Show3DDice}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <ScrollViewer MaxHeight="192" VerticalScrollBarVisibility="Auto"
                                   HorizontalScrollBarVisibility="Disabled">
                         <ItemsControl ItemsSource="{Binding Editor.RolledDice}"
                                       AutomationProperties.Name="Resultados dos dados tridimensionais">
@@ -163,7 +192,10 @@
                         </ItemsControl>
                     </ScrollViewer>
                 </Border>
-            </DockPanel>
+                <TextBlock Text="{Binding Editor.LastRollSummary}" Margin="4,8,4,2"
+                           TextWrapping="Wrap" Foreground="{DynamicResource VcsCardText}"
+                           AutomationProperties.Name="Resultado da rolagem" />
+            </StackPanel>
         </Border>
     </Grid>
     </DockPanel>
