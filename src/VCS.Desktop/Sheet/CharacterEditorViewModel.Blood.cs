@@ -50,9 +50,10 @@ public partial class CharacterEditorViewModel
             return;
         }
 
-        var pool = WillpowerCapacity + Humanity / 3;
-        var roll = DicePoolRules.Roll(pool, 0, trigger.Difficulty);
-        FrenzySummary = roll.IsSuccess
+        var result = FrenzyRules.RollResistance(trigger.Type, trigger.Description,
+            WillpowerCapacity, trigger.Difficulty, Humanity);
+        var roll = result.Roll;
+        FrenzySummary = result.Resisted
             ? $"Resistência bem-sucedida: {roll.Successes} sucesso(s) contra dificuldade {trigger.Difficulty}. O vampiro evitou o Frenesi."
             : $"Resistência falhou: {roll.Successes} sucesso(s) contra dificuldade {trigger.Difficulty}. O vampiro entra em Frenesi. Dados: [{string.Join(", ", roll.NormalDice)}].";
     }
