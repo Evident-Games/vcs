@@ -27,6 +27,8 @@ public partial class CharacterEditorViewModel
         RitualPreparationSummary = "Confira novamente os ingredientes, o alvo e as condições deste ritual.";
     }
 
+    partial void OnSelectedPowerEffectChanged(PowerEffectEntry? value) => WardContactConfirmed = false;
+
     [RelayCommand]
     private void PrepareRitual()
     {
@@ -104,9 +106,12 @@ public partial class CharacterEditorViewModel
             if (ward.PoolBonus == 0)
             { RitualPreparationSummary = "Registro antigo sem resultado estruturado; consulte o histórico e resolva este contato com o Narrador."; return; }
             var damage = ward.PoolBonus - 1;
+            if (damage is not (0 or 1 or 3))
+            { RitualPreparationSummary = "Resultado de proteção inválido; confira o histórico com o Narrador."; return; }
+            var contact = WardRules.ResolveLaterContact(damage);
             var retry = WardRules.RetryRequirements(damage == 3);
-            RitualPreparationSummary = $"{ward.Name} em {ward.Target}: resultado inicial mantido; dano agravado proposto {damage}. " +
-                (damage > 0 ? $"Para um intruso já afetado voltar a tocar, gaste {retry.WillpowerCost} Vontade e vença Vigor + Determinação, dificuldade {retry.Difficulty}. " : "A primeira rolagem falhou. ") +
+            RitualPreparationSummary = $"{ward.Name} em {ward.Target}: resultado inicial mantido; dano agravado proposto {contact.AggravatedHealthDamage}. " +
+                (contact.RequiresWillpowerToTouchAgain ? $"Para um intruso já afetado voltar a tocar, gaste {retry.WillpowerCost} Vontade e vença Vigor + Determinação, dificuldade {retry.Difficulty}. " : "A primeira rolagem falhou. ") +
                 "Confirme cada intruso e aplique consequências manualmente. Nenhuma outra ficha foi alterada.";
             Notebook.AppendLog("Rituais", RitualPreparationSummary);
             WardContactConfirmed = false;

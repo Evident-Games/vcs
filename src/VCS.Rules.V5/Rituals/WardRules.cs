@@ -19,6 +19,13 @@ public static class WardRules
     /// <summary>After an intruder was affected, determine the test and cost for another touch.</summary>
     public static WardRetryRequirements RetryRequirements(bool firstContactWasCritical) =>
         new(1, firstContactWasCritical ? 7 : 4);
+
+    /// <summary>Translate a stored first-contact result into the effect of a later eligible contact.</summary>
+    public static WardContactResult ResolveLaterContact(int initialDamage)
+    {
+        if (initialDamage is not (0 or 1 or 3)) throw new ArgumentOutOfRangeException(nameof(initialDamage));
+        return new(false, initialDamage, initialDamage > 0);
+    }
 }
 
 /// <summary>The caller must obtain confirmation before applying damage to another character.</summary>

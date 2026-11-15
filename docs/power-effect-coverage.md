@@ -149,3 +149,5 @@ No resultado do despertar, sucesso informa a duração de uma cena e sucesso cr�
 O preparo das proteções de objeto registra o objeto na ficha. No primeiro contato, selecione a proteção na lista de efeitos e confirme o toque; o resultado é registrado e a proposta de dano não altera a ficha do intruso. A resistência para tocar novamente permanece manual. As cinco integrações de ritual continuam incompletas.
 
 Para proteções acionadas após esta atualização, contatos posteriores usam o resultado inicial persistido, sem rolar novamente. O app informa o custo e a dificuldade para um intruso já afetado tentar tocar novamente; a mesa ainda controla esse pagamento, teste e aplicação de dano. Registros anteriores não possuem resultado numérico estruturado e continuam manuais. As cinco integrações de ritual continuam incompletas.
+
+O cálculo de contatos posteriores está em `WardRules.ResolveLaterContact` no módulo V5; a interface rejeita valores inválidos e exige nova confirmação ao mudar a proteção selecionada. O teste e o pagamento de Vontade do intruso ainda não são aplicados pelo programa.

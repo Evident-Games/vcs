@@ -70,7 +70,7 @@
                 <CheckBox Content="Confirmei ingredientes, tempo, alvo e regra padrão com o Narrador" IsChecked="{Binding RitualConditionsConfirmed}"/>
                 <Button Content="Preparar ritual" Command="{Binding PrepareRitualCommand}" HorizontalAlignment="Left"/>
                 <CheckBox Content="Narrador confirmou toque voluntário do intruso correspondente" IsChecked="{Binding WardContactConfirmed}"/>
-                <Button Content="Resolver primeiro contato da proteção selecionada" Command="{Binding ResolveWardContactCommand}" HorizontalAlignment="Left"/>
+                <Button Content="Resolver contato da proteção selecionada" Command="{Binding ResolveWardContactCommand}" HorizontalAlignment="Left"/>
                 <CheckBox Content="Narrador confirmou perigo durante o sono" IsChecked="{Binding AwakeningDangerConfirmed}"/>
                 <Button Content="Resolver perigo: ritual de despertar" Command="{Binding ResolveAwakeningDangerCommand}" HorizontalAlignment="Left"/>
                 <Button Content="Encerrar sono diurno" Command="{Binding EndAwakeningSleepCommand}" HorizontalAlignment="Left"/>
