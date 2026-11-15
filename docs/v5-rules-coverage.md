@@ -10,7 +10,7 @@ Escopo desta auditoria: o código presente no repositório nesta branch, focado 
 | Sangue | Potência/Geração, efeitos da Potência, Checagens de Sangue, Surto de Sangue, alimentação, rolagem guiada de Ressonância, bônus opcional de +1 em teste compatível e expiração ao zerar Fome ou alimentar-se novamente. Discrasia permanece registrada pela mesa e expira ao chegar a Fome 5 ou alimentar-se novamente. |
 | Humanidade | Níveis e descrições, Máculas existentes, teste de Remorso, perda de Humanidade e dano de Força de Vontade por Máculas. |
 | Frenesi | Alguns gatilhos de exemplo, dificuldades, resistência, encerramento em alguns casos e Compulsão de Falha Bestial resolvida na mesa de dados. Caitiff/Sangue-Ralo rerrolam o resultado 10; Compulsão de Clã continua uma decisão do Narrador. |
-| Outros sistemas | Vínculo de Sangue, Torpor e conflitos têm regras e casos de uso em `ChronicleActions`; falta interface e registro persistente dedicados. Também existem custo de avanço, criação, Predadores e fichas de conhecimento. |
+| Outros sistemas | Vínculo de Sangue, Torpor e uma troca oposta de conflito têm controles na ficha e registram histórico no caderno. As regras são chamadas por `ChronicleActions`. Também existem custo de avanço, criação, Predadores e fichas de conhecimento. |
 | Conteúdo | Catálogos de clãs, disciplinas, poderes/rituais, vantagens, habilidades, predadores e fichas de conhecimento com dados de fonte. |
 
 ## Lacunas ou integrações incompletas
@@ -20,9 +20,9 @@ Escopo desta auditoria: o código presente no repositório nesta branch, focado 
 3. **Caça:** fluxo completo de cena de caça fica fora do escopo por decisão do usuário.
 4. **Máculas e moralidade:** a ficha registra Máculas e resolve Remorso, mas não calcula de forma guiada a quantidade de Máculas a partir de Tenets/Convicções nem cobre o julgamento moral da cena. A decisão narrativa continua com o Narrador.
 5. **Compulsões:** Falha Bestial determina a tabela no rolador; ainda falta registro persistente e aplicação narrativa. A escolha da Compulsão de Clã permanece com o Narrador.
-6. **Conflitos:** existe resolução matemática de uma troca oposta e redução de dano superficial; falta uma ferramenta integrada para conduzir conflito físico/social/mental por turnos, incluindo paradas, manobras, armas/armaduras, estados da trilha e encerramento.
+6. **Conflitos:** a ficha resolve uma troca oposta com sucessos informados, aplica modificadores e redução de dano superficial a vampiros, e pode aplicar o dano ao personagem. Falta condução por turnos, rolagens integradas, manobras, armas/armaduras, estados da trilha e encerramento.
 7. **Diablerie e Sangues-Ralos:** a ficha pode alertar sobre geração/Potência, mas não encontrei um fluxo de Diablerie com as rolagens, consequências e mudanças persistentes relacionadas. A criação e aplicação dos efeitos/limitações de Sangue-Ralo também precisam de uma revisão específica.
-8. **Vínculos e Torpor:** regras estão acessíveis por casos de uso, mas falta uma experiência de ficha para registrar histórico, participantes/datas, condições de despertar e alterações decorrentes.
+8. **Vínculos e Torpor:** a ficha calcula nível do vínculo e despertar natural, registra participantes/datas e mantém histórico em notas. Falta um registro estruturado de múltiplos vínculos, Vitae que desperta Torpor e efeitos de saída do Torpor.
 9. **Montagem de paradas:** combina Atributo + Habilidade, especialização aplicável, ajuste situacional, origem em texto livre e bônus opcional de Ressonância/Discrasia. Ainda faltam múltiplos modificadores tipados por fonte, seletores/guias por contexto de ação e equipamento do inventário.
 10. **Ressonância e Discrasia na ficha:** a rolagem, o bônus manual e as condições básicas de expiração estão integrados. Falta seleção da disciplina beneficiada, controlar uma Discrasia estruturada e validar seu consumo/efeitos específicos.
 11. **Perdição do clã e dano/cura:** os dados e a gravidade da Perdição podem ser exibidos, e as trilhas de dano podem ser editadas; faltam fluxos gerais para aplicar efeitos da Perdição, dano superficial/agravado, cura e Mending conforme Potência do Sangue.
@@ -38,9 +38,9 @@ Escopo desta auditoria: o código presente no repositório nesta branch, focado 
 
 ## Próximo recorte recomendado
 
-1. Ligar `ChronicleActions` a fluxos de ficha para conflito, Torpor e Vínculo de Sangue, com histórico persistente.
+1. Completar conflitos por turnos com paradas, manobras, armas/armaduras e encerramento.
 2. Criar resolvedores e fluxos específicos para os poderes restantes de Disciplinas, começando por Proteanismo e sem incluir conteúdo de suplementos.
-3. Estruturar múltiplos modificadores de parada, dano/cura, Diablerie/Sangues-Ralos e aplicação de Perdição.
+3. Estruturar Diablerie/Sangues-Ralos, múltiplos modificadores de parada, dano/cura e aplicação de Perdição.
 
 O montador atual resolve a soma básica e o bônus de especialização; o usuário informa a origem do ajuste em texto livre. Ele ainda não automatiza contexto ou equipamento.
 

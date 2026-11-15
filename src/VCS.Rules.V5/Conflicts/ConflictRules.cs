@@ -42,7 +42,9 @@ public static class ConflictRules
         int secondSuccesses,
         int firstDamageModifier = 0,
         int secondDamageModifier = 0,
-        ConflictDamageType damageType = ConflictDamageType.Superficial)
+        ConflictDamageType damageType = ConflictDamageType.Superficial,
+        bool firstTargetIsVampire = false,
+        bool secondTargetIsVampire = false)
     {
         if (firstSuccesses < 0) throw new ArgumentOutOfRangeException(nameof(firstSuccesses));
         if (secondSuccesses < 0) throw new ArgumentOutOfRangeException(nameof(secondSuccesses));
@@ -51,15 +53,26 @@ public static class ConflictRules
         {
             var firstDamage = Math.Max(0, 1 + firstDamageModifier);
             var secondDamage = Math.Max(0, 1 + secondDamageModifier);
-            return new(kind, firstSuccesses, secondSuccesses, 1, true, null,
-                new(firstDamage, secondDamage, damageType));
+            if (kind == ConflictKind.Physical)
+            {
+                firstDamage = DamageAfterVampireSuperficialReduction(firstDamage, damageType, firstTargetIsVampire);
+                secondDamage = DamageAfterVampireSuperficialReduction(secondDamage, damageType, secondTargetIsVampire);
+            }
+            return new(kind, firstSuccesses, secondSuccesses, 1, true, null, new(firstDamage, secondDamage, damageType));
         }
 
         var firstWins = firstSuccesses > secondSuccesses;
         var margin = Math.Abs(firstSuccesses - secondSuccesses);
         var winnerDamage = Math.Max(0, margin + (firstWins ? firstDamageModifier : secondDamageModifier));
+        var firstDamageResult = firstWins ? 0 : winnerDamage;
+        var secondDamageResult = firstWins ? winnerDamage : 0;
+        if (kind == ConflictKind.Physical)
+        {
+            firstDamageResult = DamageAfterVampireSuperficialReduction(firstDamageResult, damageType, firstTargetIsVampire);
+            secondDamageResult = DamageAfterVampireSuperficialReduction(secondDamageResult, damageType, secondTargetIsVampire);
+        }
         return new(kind, firstSuccesses, secondSuccesses, margin, false, firstWins ? "first" : "second",
-            new(firstWins ? 0 : winnerDamage, firstWins ? winnerDamage : 0, damageType));
+            new(firstDamageResult, secondDamageResult, damageType));
     }
 
     /// <summary>Vampires halve superficial damage to Health, rounding up; aggravated damage is unchanged.</summary>
@@ -78,18 +91,10 @@ public static class ConflictRules
         ArgumentNullException.ThrowIfNull(first);
         ArgumentNullException.ThrowIfNull(second);
         var exchange = ResolveOpposed(kind, first.Dice.Successes, second.Dice.Successes,
-            first.DamageModifier, second.DamageModifier, damageType);
+            first.DamageModifier, second.DamageModifier, damageType, firstTargetIsVampire, secondTargetIsVampire);
         var tied = exchange.IsTie;
         var firstOutcome = ResolveConflictRoll(first.Dice, tied || first.Dice.Successes > second.Dice.Successes);
         var secondOutcome = ResolveConflictRoll(second.Dice, tied || second.Dice.Successes > first.Dice.Successes);
-        var firstDamage = exchange.Damage.ToFirst;
-        var secondDamage = exchange.Damage.ToSecond;
-        if (kind == ConflictKind.Physical)
-        {
-            firstDamage = DamageAfterVampireSuperficialReduction(firstDamage, damageType, firstTargetIsVampire);
-            secondDamage = DamageAfterVampireSuperficialReduction(secondDamage, damageType, secondTargetIsVampire);
-        }
-        exchange = exchange with { Damage = exchange.Damage with { ToFirst = firstDamage, ToSecond = secondDamage } };
         return new(exchange, firstOutcome, secondOutcome);
     }
 

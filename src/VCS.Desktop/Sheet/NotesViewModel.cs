@@ -29,6 +29,24 @@ public sealed partial class NotesViewModel : ObservableObject
 
     public IReadOnlyList<CharacterNote> ToValues() => [.. Notes.Select(x => x.ToValue())];
 
+    public void AppendLog(string title, string entry)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(title);
+        ArgumentException.ThrowIfNullOrWhiteSpace(entry);
+        var note = Notes.FirstOrDefault(x => string.Equals(x.Title, title, StringComparison.OrdinalIgnoreCase));
+        if (note is null)
+        {
+            note = new NoteViewModel(new(Guid.NewGuid(), title, entry, DateTime.UtcNow));
+            Attach(note);
+            SelectedNote = note;
+            RaiseChanged();
+        }
+        else
+        {
+            note.Text = string.IsNullOrWhiteSpace(note.Text) ? entry : $"{note.Text}{Environment.NewLine}{Environment.NewLine}{entry}";
+        }
+    }
+
     partial void OnSearchTextChanged(string value) => VisibleNotes.Refresh();
 
     [RelayCommand]

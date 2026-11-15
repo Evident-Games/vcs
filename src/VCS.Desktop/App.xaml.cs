@@ -105,7 +105,8 @@ public partial class App : System.Windows.Application
                     provider.GetRequiredService<DiceActions>(),
                     provider.GetRequiredService<CharacterSheetActions>(),
                     provider.GetRequiredService<PredatorActions>(),
-                    provider.GetRequiredService<LoresheetActions>()));
+                    provider.GetRequiredService<LoresheetActions>(),
+                    provider.GetRequiredService<ChronicleActions>()));
             builder.Services.AddSingleton<UpdateService>();
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<MainWindow>();

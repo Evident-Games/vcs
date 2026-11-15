@@ -23,8 +23,16 @@ public partial class CharacterEditorViewModel
     private int _lastRollDifficulty;
     private bool _rerollUsed;
 
-    partial void OnWillpowerSuperficialChanged(int value) => OnPropertyChanged(nameof(CanReroll));
-    partial void OnWillpowerAggravatedChanged(int value) => OnPropertyChanged(nameof(CanReroll));
+    partial void OnWillpowerSuperficialChanged(int value)
+    {
+        OnPropertyChanged(nameof(CanReroll));
+        OnPropertyChanged(nameof(CanApplyConflictDamage));
+    }
+    partial void OnWillpowerAggravatedChanged(int value)
+    {
+        OnPropertyChanged(nameof(CanReroll));
+        OnPropertyChanged(nameof(CanApplyConflictDamage));
+    }
 
     private void ShowDiceRoll(string label, string summary, IEnumerable<RolledDieDisplay> dice, bool preserveReroll = false)
     {
@@ -138,6 +146,10 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool feedingHumanWasDrained;
     [ObservableProperty] private string feedingSummary = "Selecione a fonte de sangue para conferir o quanto ela sacia.";
     [ObservableProperty] private string resonanceSummary = "Ressonância é determinada pela fonte e intensidade do sangue; a decisão sobre Discrasia cabe à mesa.";
+    [ObservableProperty] private bool feedingResonanceAvailable;
+    private BloodSource _pendingResonanceSource;
+    private bool _pendingResonanceIsExceptionalAnimal;
+    public bool CanRollResonance => FeedingResonanceAvailable && Hunger > 0;
     public IReadOnlyList<BloodSourceOption> BloodSourceOptions => BloodSourceOption.All;
     public string FeedingPreview
     {
@@ -162,6 +174,7 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void ApplyFeeding()
     {
+        FeedingResonanceAvailable = false;
         // A próxima alimentação encerra os benefícios de Ressonância/Discrasia anteriores.
         _extraFields["Resonance"].Value = "";
         _extraFields["Dyscrasia"].Value = "";
@@ -180,24 +193,30 @@ public partial class CharacterEditorViewModel
         }
 
         Hunger = result.HungerAfter;
+        FeedingResonanceAvailable = result.Resolution.CanProduceResonance && Hunger > 0;
+        if (FeedingResonanceAvailable)
+        {
+            _pendingResonanceSource = result.Resolution.Source;
+            _pendingResonanceIsExceptionalAnimal = FeedingAnimalIsExceptional;
+        }
         FeedingSummary = $"Alimentação aplicada. Fome agora em {Hunger}. Registre a Ressonância/Discrasia da vítima conforme a cena.";
     }
 
-    [RelayCommand]
+    partial void OnFeedingResonanceAvailableChanged(bool value)
+    {
+        OnPropertyChanged(nameof(CanRollResonance));
+        RollResonanceCommand.NotifyCanExecuteChanged();
+    }
+
+    [RelayCommand(CanExecute = nameof(CanRollResonance))]
     private void RollResonance()
     {
-        var feeding = _bloodActions.PreviewFeeding(SelectedBloodSourceOption.Source, BloodPotency, Hunger,
-            FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional);
-        if (!feeding.CanProduceResonance)
-        {
-            ResonanceSummary = "Esta fonte não concede Ressonância com a Potência do Sangue atual.";
-            ShowDiceRoll("Ressonância", ResonanceSummary, []);
-            return;
-        }
+        if (!CanRollResonance) return;
+        FeedingResonanceAvailable = false;
 
-        var isHumanBlood = SelectedBloodSourceOption.Source == BloodSource.Human;
-        var result = _bloodActions.RollResonance(SelectedBloodSourceOption.Source, isHumanBlood,
-            SelectedBloodSourceOption.Source == BloodSource.Animal && FeedingAnimalIsExceptional);
+        var isHumanBlood = _pendingResonanceSource == BloodSource.Human;
+        var result = _bloodActions.RollResonance(_pendingResonanceSource, isHumanBlood,
+            _pendingResonanceSource == BloodSource.Animal && _pendingResonanceIsExceptionalAnimal);
         var resonance = result.Resolution.Resonance switch
         {
             BloodResonance.Choleric => "Colérica",
@@ -249,7 +268,13 @@ public partial class CharacterEditorViewModel
     {
         OnPropertyChanged(nameof(FrenzyTriggerGuidance));
         OnPropertyChanged(nameof(FeedingPreview));
-        if (value == 0) _extraFields["Resonance"].Value = "";
+        OnPropertyChanged(nameof(CanRollResonance));
+        RollResonanceCommand.NotifyCanExecuteChanged();
+        if (value == 0)
+        {
+            FeedingResonanceAvailable = false;
+            _extraFields["Resonance"].Value = "";
+        }
         if (value == 5) _extraFields["Dyscrasia"].Value = "";
     }
 
