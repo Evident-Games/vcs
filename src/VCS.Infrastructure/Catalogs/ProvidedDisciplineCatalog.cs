@@ -12,7 +12,7 @@ public sealed class ProvidedDisciplineCatalog : IDisciplineCatalog
 
     public void Apply(IEnumerable<PowerDefinition> edits)
     {
-        var byId = edits.ToDictionary(x => x.Id);
+        var byId = edits.Where(x => !DisciplineCatalog.SupplementPowerIds.Contains(x.Id)).ToDictionary(x => x.Id);
         var builtInIds = BuiltIn.Select(x => x.Id).ToHashSet();
         Powers = Array.AsReadOnly([.. BuiltIn.Select(x => byId.GetValueOrDefault(x.Id, x)), .. byId.Values.Where(x => !builtInIds.Contains(x.Id))]);
     }

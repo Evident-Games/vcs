@@ -87,7 +87,7 @@ public sealed class SqlitePowerCatalog(DatabaseAccess database, ProvidedDiscipli
         {
             await using var db = database.CreateContext();
             var records = await db.PowerCatalog.AsNoTracking().ToListAsync(cancellationToken);
-            return [.. records.Select(x => new PowerDefinition(x.Id, x.DisciplineId, x.Name, x.Level, x.Cost, x.DicePool, x.Summary,
+            return [.. records.Where(x => !DisciplineCatalog.SupplementPowerIds.Contains(x.Id)).Select(x => new PowerDefinition(x.Id, x.DisciplineId, x.Name, x.Level, x.Cost, x.DicePool, x.Summary,
                 x.AmalgamDisciplineId, x.AmalgamLevel, x.IsRitual, x.Prerequisite, x.Source))];
         }
         finally { database.Gate.Release(); }

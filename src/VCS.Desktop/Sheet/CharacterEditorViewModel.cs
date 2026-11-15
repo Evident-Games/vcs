@@ -355,7 +355,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
                 : $"{reference} Fora dela continua permitido.";
         }
     }
-    public int HealthCapacity => IsNpc ? NpcHealthCapacity : _characterActions.HealthCapacity(Attributes.Items.Select(x => x.ToValue()));
+    public int HealthCapacity => IsNpc ? NpcHealthCapacity : _characterActions.HealthCapacity(Attributes.Items.Concat(Disciplines.Items).Select(x => x.ToValue()).Concat(Powers.SelectedValues()));
     public int WillpowerCapacity => IsNpc ? NpcWillpowerCapacity : _characterActions.WillpowerCapacity(Attributes.Items.Select(x => x.ToValue()));
     partial void OnNpcHealthCapacityChanged(int value) { OnPropertyChanged(nameof(HealthCapacity)); OnPropertyChanged(nameof(NpcHealthText)); }
     partial void OnNpcWillpowerCapacityChanged(int value) { OnPropertyChanged(nameof(WillpowerCapacity)); OnPropertyChanged(nameof(NpcWillpowerText)); }
@@ -433,7 +433,11 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
                 _characterActions.DescribeDisciplineAdvancement(Clan, discipline.Name, discipline.Rating));
     }
 
-    private void OnPowersChanged(object? sender, EventArgs e) => MarkChanged();
+    private void OnPowersChanged(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(HealthCapacity));
+        MarkChanged();
+    }
 
     public void Dispose()
     {

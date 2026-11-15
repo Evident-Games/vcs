@@ -4,6 +4,21 @@ public sealed record DisciplineDefinition(string Id, string Name, string Source 
 
 public static class DisciplineCatalog
 {
+    public static IReadOnlySet<string> SupplementPowerIds { get; } = new HashSet<string>(StringComparer.Ordinal)
+    {
+        "power-oblivion-oblivions-sight",
+        "power-oblivion-shadow-cloak",
+        "power-oblivion-arms-of-ahriman",
+        "power-oblivion-touch-of-oblivion",
+        "power-oblivion-stygian-shroud",
+        "power-oblivion-shadow-step",
+        "power-oblivion-tenebrous-avatar",
+        "power-obfuscate-chimerstry",
+        "power-obfuscate-fata-morgana",
+        "power-auspex-obeah",
+        "power-auspex-unburdening-the-bestial-soul",
+    };
+
     public const string BloodSorcery = "discipline-blood-sorcery";
     public const string Oblivion = "discipline-oblivion";
 

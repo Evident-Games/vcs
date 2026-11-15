@@ -185,7 +185,10 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
         return row.Entry is { IsUnavailable: false } entry && entry.Definition.AmalgamDiscipline is { } amalgam &&
             Rating(amalgam) < entry.Definition.AmalgamLevel
             ? $"Amálgama requer {amalgam} {entry.Definition.AmalgamLevel}; a ficha tem {Rating(amalgam)}. Seleção livre."
-            : "";
+            : !string.IsNullOrWhiteSpace(row.Prerequisite) && !PowerRows.Concat(RitualRows).Any(x =>
+                CatalogText.Normalize(x.Name) == CatalogText.Normalize(row.Prerequisite))
+                ? $"Pré-requisito a conferir: {row.Prerequisite}. Seleção livre com autorização do Narrador."
+                : "";
     }
 
     private void EnsureDiscipline(PowerItemViewModel entry)

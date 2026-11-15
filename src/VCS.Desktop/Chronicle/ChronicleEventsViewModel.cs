@@ -140,15 +140,57 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
     }
 
     private ChronicleEventState CaptureState() => new(Counterparty, BondLevel, LastDrink, Effect, Discipline,
-        Expiration, Active, Round, FirstPool, SecondPool, FirstHunger, SecondHunger, FirstWeapon, SecondWeapon);
+        Expiration, Active, Round, FirstPool, SecondPool, FirstHunger, SecondHunger, FirstWeapon, SecondWeapon,
+        Formula, Ingredients, Resonance, Alchemy, FormulaLevel, AlchemyAttribute, IngredientModifier, Method, Improvised);
 
     private void RestoreState(ChronicleEventState state)
     {
+        Formula = state.Formula; Ingredients = state.Ingredients; Resonance = state.Resonance;
+        Alchemy = state.Alchemy; FormulaLevel = state.FormulaLevel; AlchemyAttribute = state.AlchemyAttribute;
+        IngredientModifier = state.IngredientModifier; Method = state.Method; Improvised = state.Improvised;
+        FormulaExceptionApproved = false;
         Counterparty = state.Counterparty; BondLevel = state.BondLevel; LastDrink = state.LastDrink;
         Effect = state.Effect; Discipline = state.Discipline; Expiration = state.Expiration; Active = state.Active;
         Round = state.Round; FirstPool = state.FirstPool; SecondPool = state.SecondPool;
         FirstHunger = state.FirstHunger; SecondHunger = state.SecondHunger;
         FirstWeapon = state.FirstWeapon; SecondWeapon = state.SecondWeapon;
+    }
+
+    public string[] AlchemyMethods { get; } = ["AthanorCorporis", "Calcinatio", "Fixatio"];
+    [ObservableProperty] private string formula = "";
+    [ObservableProperty] private string ingredients = "";
+    [ObservableProperty] private string resonance = "";
+    [ObservableProperty] private int alchemy = 1;
+    [ObservableProperty] private int formulaLevel = 1;
+    [ObservableProperty] private int alchemyAttribute = 1;
+    [ObservableProperty] private int ingredientModifier;
+    [ObservableProperty] private string method = "AthanorCorporis";
+    [ObservableProperty] private bool improvised;
+    [ObservableProperty] private bool formulaExceptionApproved;
+
+    [RelayCommand]
+    private void DistillFormula()
+    {
+        if (FormulaLevel > Alchemy && !FormulaExceptionApproved)
+        { Status = "Fórmula acima do nível de Alquimia: requer autorização do Narrador."; return; }
+        if (string.IsNullOrWhiteSpace(Formula) || string.IsNullOrWhiteSpace(Ingredients) || string.IsNullOrWhiteSpace(Resonance))
+        { Status = "Informe fórmula, ingredientes e Ressonância necessária."; return; }
+        try
+        {
+            var pool = VCS.Rules.V5.Alchemy.ThinBloodAlchemyRules.Pool(AlchemyAttribute, Alchemy, IngredientModifier,
+                Method == "Fixatio" && Improvised);
+            var roll = new VCS.Application.Dice.DiceActions().Roll(pool, 0, 1);
+            var resolution = VCS.Rules.V5.Alchemy.ThinBloodAlchemyRules.Resolve(AlchemyAttribute, Alchemy,
+                FormulaLevel, IngredientModifier, Method == "Fixatio" && Improvised, roll.Successes);
+            Kind = "Sangue-Ralo";
+            if (string.IsNullOrWhiteSpace(Title)) Title = Formula;
+            Outcome += $"{Environment.NewLine}{Formula} ({Method}), {pool} dados [{string.Join(", ", roll.NormalDice)}]: " +
+                $"{roll.Successes} sucessos. {resolution.Effect} Custo de aprendizado: {resolution.FormulaCost} XP; não debitado automaticamente. " +
+                "Destilação requer uma Checagem de Sangue; a ativação paga o custo do poder imitado. Registre os pagamentos na ficha.";
+            Source = "Vampiro: A Máscara V5 (Livro base), pp. 282–284";
+            Status = "Destilação registrada no rascunho. Salve o evento para preservar fórmula e ingredientes.";
+        }
+        catch (ArgumentException exception) { Status = exception.Message; }
     }
 
     public Func<ChronicleEvent, Task<bool>>? ApplyToCharacter { get; set; }

@@ -75,3 +75,13 @@ Build e testes não executados por instrução do usuário nesta rodada.
 - Custos exigem confirmação explícita antes da ativação. A autorização de exceção continua separada.
 
 Os efeitos específicos dos demais poderes e os procedimentos completos de Sangues-Ralos continuam exigindo integração adicional. Não há certificação de cobertura integral do livro-base.
+
+
+## Alquimia e revisão do catálogo
+
+- Sangue-Ralo: destilação por Athanor Corporis (Vigor), Calcinatio (Manipulação) ou Fixatio (Inteligência), ingredientes, Ressonância, modificadores, equipamento improvisado, nível e custo de aprendizado. Os resultados por sucessos são registrados e os dados da fórmula persistem no evento. Pagamento de Sangue e ativação continuam explícitos na ficha.
+- Poderes de suplementos que estavam indevidamente rotulados como livro-base foram retirados do catálogo oferecido. Edições antigas desses identificadores não retornam como poderes próprios; seleções já existentes nas fichas continuam preservadas fora do catálogo.
+- Resiliência aumenta a capacidade de Saúde pela pontuação em Fortitude, tanto na regra de validação quanto na ficha.
+- O resultado da rerrolagem de Sangue preserva as duas faces para apresentação correta na mesa de dados.
+
+Não foram executados build nem testes por instrução do usuário. A cobertura ainda não equivale a resolvedores mecânicos individuais para todos os poderes: alguns efeitos dependem de alvos, estados da cena e decisões da mesa registrados nos controles existentes.

@@ -32,7 +32,13 @@ public static class CharacterRules
 
     public const int NpcMaximumBoxes = 100;
 
-    public static int HealthCapacity(IEnumerable<TraitValue> traits) => Attribute(traits, "attribute-stamina") + 3;
+    public static int HealthCapacity(IEnumerable<TraitValue> traits)
+    {
+        var values = traits.ToArray();
+        var resilience = values.Any(x => x.Category == TraitCategory.DisciplinePower && x.Key == "power-fortitude-resilience");
+        var fortitude = values.FirstOrDefault(x => x.Category == TraitCategory.Discipline && x.Key == "discipline-fortitude")?.Rating ?? 0;
+        return Attribute(values, "attribute-stamina") + 3 + (resilience ? fortitude : 0);
+    }
     public static int WillpowerCapacity(IEnumerable<TraitValue> traits) =>
         Attribute(traits, "attribute-composure") + Attribute(traits, "attribute-resolve");
 

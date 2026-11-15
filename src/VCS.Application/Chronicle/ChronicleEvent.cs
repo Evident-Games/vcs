@@ -15,4 +15,6 @@ public sealed record ChronicleEventState(
     string Counterparty = "", int BondLevel = 0, DateTime? LastDrink = null,
     string Effect = "", string Discipline = "", string Expiration = "", bool Active = true,
     int Round = 1, int FirstPool = 5, int SecondPool = 5, int FirstHunger = 0, int SecondHunger = 0,
-    int FirstWeapon = 0, int SecondWeapon = 0);
+    int FirstWeapon = 0, int SecondWeapon = 0, string Formula = "", string Ingredients = "",
+    string Resonance = "", int Alchemy = 1, int FormulaLevel = 1, int AlchemyAttribute = 1,
+    int IngredientModifier = 0, string Method = "AthanorCorporis", bool Improvised = false);

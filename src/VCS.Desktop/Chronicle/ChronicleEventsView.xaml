@@ -93,6 +93,20 @@
  <TextBlock Text="Modificador de dano lado 2"/><TextBox Text="{Binding SecondWeapon, ValidatesOnExceptions=True}"/>
  <Button Content="Rolar turno e registrar dano bruto" Command="{Binding ResolveRoundCommand}" Margin="0,8,0,0"/>
  </StackPanel></Expander>
+ <Expander Header="Sangue-Ralo · fórmulas e destilação" Margin="0,0,0,12"><StackPanel Margin="0,10,0,0">
+ <TextBlock Text="Método"/><ComboBox ItemsSource="{Binding AlchemyMethods}" SelectedItem="{Binding Method}"/>
+ <TextBlock Text="Athanor: Vigor · Calcinatio: Manipulação · Fixatio: Inteligência" TextWrapping="Wrap"/>
+ <TextBlock Text="Valor do atributo do método"/><TextBox Text="{Binding AlchemyAttribute, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Alquimia"/><TextBox Text="{Binding Alchemy, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Fórmula"/><TextBox Text="{Binding Formula}"/>
+ <TextBlock Text="Nível da fórmula"/><TextBox Text="{Binding FormulaLevel, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Ingredientes"/><TextBox Text="{Binding Ingredients}" TextWrapping="Wrap" AcceptsReturn="True"/>
+ <TextBlock Text="Ressonância exigida"/><TextBox Text="{Binding Resonance}"/>
+ <TextBlock Text="Modificador por ingredientes aprovado"/><TextBox Text="{Binding IngredientModifier, ValidatesOnExceptions=True}"/>
+ <CheckBox Content="Equipamento improvisado de Fixatio (−2 dados)" IsChecked="{Binding Improvised}"/>
+ <CheckBox Content="Exceção de nível autorizada pelo Narrador" IsChecked="{Binding FormulaExceptionApproved}"/>
+ <Button Content="Rolar destilação e registrar" Command="{Binding DistillFormulaCommand}" Margin="0,8,0,0"/>
+ </StackPanel></Expander>
  <TextBlock Text="Resultado e consequências"/><TextBox Text="{Binding Outcome, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="80" Margin="0,4,0,10" />
  <TextBlock Text="Fonte (livro, página ou regra da mesa)"/><TextBox Text="{Binding Source, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,12" />
  <WrapPanel><Button Content="Salvar evento" Command="{Binding SaveCommand}" Margin="0,0,8,4"/><Button Content="Excluir selecionado" Command="{Binding DeleteCommand}" /></WrapPanel>

@@ -119,7 +119,7 @@ public static class RouseCheckRules
         if (!CanRerollForDisciplinePower(bloodPotency, powerLevel) || first.Succeeded || rerolledDie is null)
             return first;
         var second = Resolve(hunger, rerolledDie.Value);
-        return second with { RerolledDie = rerolledDie.Value };
+        return second with { Die = die, RerolledDie = rerolledDie.Value };
     }
 
     public static RouseCheckResult Roll(int hunger, Random? random = null)
