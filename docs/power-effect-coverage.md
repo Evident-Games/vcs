@@ -161,3 +161,5 @@ O contato e a tentativa de resistência registram uma identificação informada 
 Alterar a identificação do intruso desmarca as confirmações de contato e pagamento de Vontade, para que uma decisão sobre outro alvo não seja reutilizada por engano.
 
 `RitualActions.ResolveAwakening` reúne a rolagem adiada e a interpretação V5 do despertar fora da interface, sem repetir o custo de Sangue. O perigo continua sendo confirmado pelo Narrador e o calendário não é automático.
+
+As condições dos sucessos automáticos de Graça Felina e Pegada Sobrenatural foram extraídas para `MovementPowerRules` no módulo V5. Os contextos, suporte da superfície e ativação continuam explícitos na ficha; isso é uma separação de lógica, sem alterar a contagem de cobertura.

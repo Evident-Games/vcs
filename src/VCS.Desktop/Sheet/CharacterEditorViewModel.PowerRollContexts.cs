@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using VCS.Rules.V5.Disciplines;
 
 namespace VCS.Desktop.Sheet;
 
@@ -63,9 +64,10 @@ public partial class CharacterEditorViewModel
     private bool ResolveAutomaticPowerTest()
     {
         if (!UseSheetDicePool || RollIsCombat) return false;
-        var balance = PowerBalanceContext && PowerTerrainSupportsWeight && KnowsPower("power-celerity-cats-grace") &&
-            (SelectedRollAttribute?.Key == "attribute-dexterity" || SelectedRollSkill?.Key == "skill-athletics");
-        var climb = PowerClimbingContext && PowerNonMetalSurface && SelectedRollSkill?.Key == "skill-athletics" && HasActivePower("power-potence-uncanny-grip");
+        var balance = MovementPowerRules.CatGraceSucceeds(KnowsPower("power-celerity-cats-grace"), PowerBalanceContext,
+            PowerTerrainSupportsWeight, SelectedRollAttribute?.Key == "attribute-dexterity" || SelectedRollSkill?.Key == "skill-athletics", RollIsCombat);
+        var climb = MovementPowerRules.UncannyGripSucceeds(HasActivePower("power-potence-uncanny-grip"), PowerClimbingContext,
+            PowerNonMetalSurface, SelectedRollSkill?.Key == "skill-athletics", RollIsCombat);
         if (!balance && !climb) return false;
         RollSummary = balance ? "Graça Felina: equilíbrio bem-sucedido automaticamente; suporte confirmado para o peso."
             : "Pegada Sobrenatural: escalada bem-sucedida na superfície não metálica confirmada. Rastros permanecem.";
