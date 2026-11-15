@@ -63,9 +63,9 @@ public partial class CharacterEditorViewModel
 
     private bool ResolveAutomaticPowerTest()
     {
-        if (!UseSheetDicePool || RollIsCombat) return false;
+        if (!UseSheetDicePool) return false;
         var balance = MovementPowerRules.CatGraceSucceeds(KnowsPower("power-celerity-cats-grace"), PowerBalanceContext,
-            PowerTerrainSupportsWeight, SelectedRollAttribute?.Key == "attribute-dexterity" || SelectedRollSkill?.Key == "skill-athletics", RollIsCombat);
+            PowerTerrainSupportsWeight, SelectedRollAttribute?.Key == "attribute-dexterity" || SelectedRollSkill?.Key == "skill-athletics");
         var climb = MovementPowerRules.UncannyGripSucceeds(HasActivePower("power-potence-uncanny-grip"), PowerClimbingContext,
             PowerNonMetalSurface, SelectedRollSkill?.Key == "skill-athletics", RollIsCombat);
         if (!balance && !climb) return false;

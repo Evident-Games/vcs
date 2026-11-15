@@ -7,8 +7,8 @@ namespace VCS.Rules.V5.Disciplines;
 public static class MovementPowerRules
 {
     public static bool CatGraceSucceeds(bool knowsPower, bool balanceTest, bool surfaceSupportsWeight,
-        bool dexterityOrAthletics, bool inCombat) =>
-        knowsPower && balanceTest && surfaceSupportsWeight && dexterityOrAthletics && !inCombat;
+        bool dexterityOrAthletics) =>
+        knowsPower && balanceTest && surfaceSupportsWeight && dexterityOrAthletics;
 
     public static bool UncannyGripSucceeds(bool active, bool climbingTest, bool suitableNonMetalSurface,
         bool athletics, bool inCombat) =>
