@@ -295,7 +295,13 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     private IEnumerable<SheetFieldViewModel> ExtraFields => IdentityFields.Concat(BackgroundFields).Concat(BloodFields);
     private void OnExtraFieldChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(SheetFieldViewModel.Value)) MarkChanged();
+        if (e.PropertyName != nameof(SheetFieldViewModel.Value)) return;
+        MarkChanged();
+        if (sender is SheetFieldViewModel { Key: "Resonance" or "Dyscrasia" })
+        {
+            if (!HasActiveResonanceBonus) UseResonanceBonus = false;
+            RefreshRollPool();
+        }
     }
     partial void OnExperienceTotalChanged(int value) => OnPropertyChanged(nameof(ExperienceAvailable));
     partial void OnExperienceSpentChanged(int value) => OnPropertyChanged(nameof(ExperienceAvailable));

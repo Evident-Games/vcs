@@ -10,6 +10,7 @@ using VCS.Application.Catalogs;
 using VCS.Application.Blood;
 using VCS.Application.Advantages;
 using VCS.Application.Characters;
+using VCS.Application.Chronicle;
 using VCS.Application.Humanity;
 using VCS.Application.Predators;
 using VCS.Application.Maintenance;
@@ -78,6 +79,7 @@ public partial class App : System.Windows.Application
             builder.Services.AddSingleton<CharacterSheetActions>();
             builder.Services.AddSingleton<PredatorActions>();
             builder.Services.AddSingleton<LoresheetActions>();
+            builder.Services.AddSingleton<ChronicleActions>();
             builder.Services.AddSingleton<ProvidedDisciplineCatalog>();
             builder.Services.AddSingleton<IDisciplineCatalog>(p => p.GetRequiredService<ProvidedDisciplineCatalog>());
             builder.Services.AddSingleton<SqliteAdvantageCatalog>();

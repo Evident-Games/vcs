@@ -135,6 +135,9 @@
                         <CheckBox Content="Especialização se aplica (+1 dado)" IsChecked="{Binding UseRollSpecialization, Mode=TwoWay}"
                                   IsEnabled="{Binding CanApplyRollSpecialization}" Margin="0,0,0,8"
                                   AutomationProperties.Name="Adicionar dado por especialização aplicável" />
+                        <CheckBox Content="Aplicar +1 dado de Ressonância/Discrasia neste teste" IsChecked="{Binding UseResonanceBonus, Mode=TwoWay}"
+                                  IsEnabled="{Binding CanUseResonanceBonus}" Margin="0,0,0,8"
+                                  AutomationProperties.Name="Aplicar bônus de Ressonância ou Discrasia neste teste" />
                         <TextBlock Text="{Binding RollPoolSummary}" TextWrapping="Wrap" Margin="0,0,0,8"
                                    Foreground="{DynamicResource VcsInputDescription}" />
                         <WrapPanel VerticalAlignment="Center">
@@ -207,10 +210,14 @@
                                       VerticalAlignment="Center" Margin="0,0,12,6" />
                             <Button Content="Aplicar alimentação" Command="{Binding ApplyFeedingCommand}" Margin="0,0,0,6"
                                     AutomationProperties.Name="Aplicar alimentação" />
+                            <Button Content="Rolar Ressonância" Command="{Binding RollResonanceCommand}" Margin="0,0,0,6"
+                                    AutomationProperties.Name="Rolar Ressonância da fonte de sangue" />
                         </WrapPanel>
                         <TextBlock Text="{Binding FeedingRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
                         <TextBlock Text="{Binding FeedingPreview}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
                         <TextBlock Text="{Binding FeedingSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
+                        <TextBlock Text="{Binding ResonanceRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" Margin="0,6,0,0" />
+                        <TextBlock Text="{Binding ResonanceSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
                     </StackPanel>
                 </Border>
                 <UniformGrid Columns="3" Margin="8,0,8,12">
@@ -240,7 +247,7 @@
                     </Border>
                 </UniformGrid>
                 <sheet:HumanityView />
-                <TextBlock Text="Ressonância e Discrasia são registradas pela mesa. Os demais efeitos são calculados pela Potência do Sangue; confirme exceções com o Narrador."
+                        <TextBlock Text="Ressonância e Discrasia são registradas pela mesa. O bônus ativo pode ser aplicado manualmente a um teste compatível no rolador; confirme a disciplina e exceções com o Narrador. Os demais efeitos são calculados pela Potência do Sangue."
                            TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="8,0,8,4" />
                 <ItemsControl ItemsSource="{Binding BloodAnnotationFields}" ItemTemplate="{StaticResource SheetExtraField}">
                     <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>

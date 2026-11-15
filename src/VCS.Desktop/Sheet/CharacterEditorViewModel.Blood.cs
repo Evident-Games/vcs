@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Application.Blood;
 using VCS.Application.Dice;
+using VCS.Content;
 using VCS.Rules.V5.Blood;
 using VCS.Rules.V5.Dice;
 
@@ -59,6 +60,7 @@ public partial class CharacterEditorViewModel
     public string GenerationRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyGenerationRules));
     public string DiceRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(DicePoolRules));
     public string RouseRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(RouseCheckRules));
+    public string ResonanceRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(ResonanceRules));
     public string FeedingRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(FeedingRules));
     public string FrenzyRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(FrenzyRules));
     public string HumanityRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(HumanityRules));
@@ -70,6 +72,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private TraitItemViewModel? selectedRollAttribute;
     [ObservableProperty] private TraitItemViewModel? selectedRollSkill;
     [ObservableProperty] private bool useRollSpecialization;
+    [ObservableProperty] private bool useResonanceBonus;
     [ObservableProperty] private bool useSheetDicePool;
     [ObservableProperty] private bool useHungerDice = true;
     [ObservableProperty] private bool useBloodSurge;
@@ -80,13 +83,23 @@ public partial class CharacterEditorViewModel
     public IReadOnlyList<TraitItemViewModel> RollAttributes => Attributes.Items;
     public IReadOnlyList<TraitItemViewModel> RollSkills => Skills.Items;
     public bool CanApplyRollSpecialization => SelectedRollSkill?.SpecializationCount > 0;
+    public bool CanUseResonanceBonus => HasActiveResonanceBonus &&
+        (UseSheetDicePool ? RollSituationalModifier < 50 : RollDicePool < 50);
     public DicePoolComposition RollPoolComposition => _diceActions.BuildPool(
-        SelectedRollAttribute?.Rating ?? 0, SelectedRollSkill?.Rating ?? 0, RollSituationalModifier,
+        SelectedRollAttribute?.Rating ?? 0, SelectedRollSkill?.Rating ?? 0, EffectiveSituationalModifier,
         UseRollSpecialization && CanApplyRollSpecialization);
-    public int CurrentRollDicePool => UseSheetDicePool ? RollPoolComposition.DicePool : RollDicePool;
+    private int EffectiveSituationalModifier => RollSituationalModifier + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0);
+    public int CurrentRollDicePool => UseSheetDicePool ? RollPoolComposition.DicePool : Math.Max(0, RollDicePool + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0));
     public string RollPoolSummary => UseSheetDicePool
-        ? $"Parada montada: {RollPoolComposition.Formula}. Origem do ajuste: {RollModifierSource}."
-        : $"Parada manual. Ajustes e exceções registrados: {RollModifierSource}.";
+        ? $"Parada montada: {RollPoolComposition.Formula}. Origem do ajuste: {RollModifierSource}{ResonanceBonusSummary}."
+        : $"Parada manual. Ajustes e exceções registrados: {RollModifierSource}{ResonanceBonusSummary}.";
+    private string ResonanceBonusSummary => UseResonanceBonus && CanUseResonanceBonus
+        ? " · +1 dado de Ressonância/Discrasia marcado para este teste"
+        : "";
+    private bool HasActiveResonanceBonus =>
+        Extra("Resonance").Contains("Intensa", StringComparison.OrdinalIgnoreCase) ||
+        Extra("Resonance").Contains("Aguda", StringComparison.OrdinalIgnoreCase) ||
+        !string.IsNullOrWhiteSpace(Extra("Dyscrasia"));
 
     partial void OnSelectedRollAttributeChanged(TraitItemViewModel? value) => RefreshRollPool();
     partial void OnSelectedRollSkillChanged(TraitItemViewModel? value)
@@ -95,11 +108,20 @@ public partial class CharacterEditorViewModel
         OnPropertyChanged(nameof(CanApplyRollSpecialization));
         RefreshRollPool();
     }
-    partial void OnRollSituationalModifierChanged(int value) => RefreshRollPool();
+    partial void OnRollSituationalModifierChanged(int value)
+    {
+        if (value >= 50) UseResonanceBonus = false;
+        RefreshRollPool();
+    }
     partial void OnRollModifierSourceChanged(string value) => OnPropertyChanged(nameof(RollPoolSummary));
     partial void OnUseRollSpecializationChanged(bool value) => RefreshRollPool();
+    partial void OnUseResonanceBonusChanged(bool value) => RefreshRollPool();
     partial void OnUseSheetDicePoolChanged(bool value) => RefreshRollPool();
-    partial void OnRollDicePoolChanged(int value) => OnPropertyChanged(nameof(CurrentRollDicePool));
+    partial void OnRollDicePoolChanged(int value)
+    {
+        if (value >= 50) UseResonanceBonus = false;
+        OnPropertyChanged(nameof(CurrentRollDicePool));
+    }
 
     private void RefreshRollPool()
     {
@@ -107,6 +129,7 @@ public partial class CharacterEditorViewModel
         OnPropertyChanged(nameof(CurrentRollDicePool));
         OnPropertyChanged(nameof(RollPoolSummary));
         OnPropertyChanged(nameof(CanApplyRollSpecialization));
+        OnPropertyChanged(nameof(CanUseResonanceBonus));
     }
 
     [ObservableProperty] private BloodSourceOption selectedBloodSourceOption = BloodSourceOption.All[0];
@@ -114,6 +137,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool feedingAnimalIsExceptional;
     [ObservableProperty] private bool feedingHumanWasDrained;
     [ObservableProperty] private string feedingSummary = "Selecione a fonte de sangue para conferir o quanto ela sacia.";
+    [ObservableProperty] private string resonanceSummary = "Ressonância é determinada pela fonte e intensidade do sangue; a decisão sobre Discrasia cabe à mesa.";
     public IReadOnlyList<BloodSourceOption> BloodSourceOptions => BloodSourceOption.All;
     public string FeedingPreview
     {
@@ -138,6 +162,9 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void ApplyFeeding()
     {
+        // A próxima alimentação encerra os benefícios de Ressonância/Discrasia anteriores.
+        _extraFields["Resonance"].Value = "";
+        _extraFields["Dyscrasia"].Value = "";
         var result = _bloodActions.ApplyFeeding(SelectedBloodSourceOption.Source, BloodPotency, Hunger,
             FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional);
         if (result.Status == FeedingApplicationStatus.NoHungerSlaked)
@@ -154,6 +181,50 @@ public partial class CharacterEditorViewModel
 
         Hunger = result.HungerAfter;
         FeedingSummary = $"Alimentação aplicada. Fome agora em {Hunger}. Registre a Ressonância/Discrasia da vítima conforme a cena.";
+    }
+
+    [RelayCommand]
+    private void RollResonance()
+    {
+        var feeding = _bloodActions.PreviewFeeding(SelectedBloodSourceOption.Source, BloodPotency, Hunger,
+            FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional);
+        if (!feeding.CanProduceResonance)
+        {
+            ResonanceSummary = "Esta fonte não concede Ressonância com a Potência do Sangue atual.";
+            ShowDiceRoll("Ressonância", ResonanceSummary, []);
+            return;
+        }
+
+        var isHumanBlood = SelectedBloodSourceOption.Source == BloodSource.Human;
+        var result = _bloodActions.RollResonance(SelectedBloodSourceOption.Source, isHumanBlood,
+            SelectedBloodSourceOption.Source == BloodSource.Animal && FeedingAnimalIsExceptional);
+        var resonance = result.Resolution.Resonance switch
+        {
+            BloodResonance.Choleric => "Colérica",
+            BloodResonance.Melancholic => "Melancólica",
+            BloodResonance.Phlegmatic => "Fleumática",
+            BloodResonance.Sanguine => "Sanguínea",
+            BloodResonance.Animal => "Animal",
+            _ => result.Resolution.Resonance.ToString()
+        };
+        var intensity = result.Resolution.Intensity switch
+        {
+            ResonanceIntensity.Balanced => "equilibrada",
+            ResonanceIntensity.Fleeting => "passageira",
+            ResonanceIntensity.Intense => "intensa",
+            ResonanceIntensity.Acute => "aguda",
+            ResonanceIntensity.Dyscrasia => "discrasia",
+            _ => result.Resolution.Intensity.ToString()
+        };
+        var disciplines = string.Join(" e ", result.Resolution.Disciplines);
+        var bonus = result.Resolution.BonusDice > 0 ? $" concede +{result.Resolution.BonusDice} dado em {disciplines}" : " não concede dado extra";
+        var dyscrasia = result.Resolution.CanProduceDyscrasia
+            ? " A mesa pode registrar uma Discrasia conforme a cena."
+            : " Esta fonte não pode produzir Discrasia.";
+        ResonanceSummary = $"{resonance}, intensidade {intensity}:{bonus}.{dyscrasia} Dados: [{string.Join(", ", result.Dice)}].";
+        _extraFields["Resonance"].Value = $"{resonance}; {intensity}; {disciplines}; expira ao chegar a Fome 0 ou ao alimentar-se novamente.";
+        ShowDiceRoll("Ressonância", ResonanceSummary,
+            result.Dice.Select(face => new RolledDieDisplay(face, "RESSONÂNCIA")));
     }
 
     [ObservableProperty] private bool frenzyTriggerIsPillarOrLover;
@@ -178,6 +249,8 @@ public partial class CharacterEditorViewModel
     {
         OnPropertyChanged(nameof(FrenzyTriggerGuidance));
         OnPropertyChanged(nameof(FeedingPreview));
+        if (value == 0) _extraFields["Resonance"].Value = "";
+        if (value == 5) _extraFields["Dyscrasia"].Value = "";
     }
 
     private void OnFrenzyInputsChanged() => OnPropertyChanged(nameof(FrenzyTriggerGuidance));
@@ -250,12 +323,27 @@ public partial class CharacterEditorViewModel
             TestOutcome.BestialFailure => "falha bestial",
             _ => "resultado"
         };
-        var compulsion = result.Outcome switch
+        var compulsion = "";
+        if (CompulsionRules.IsTriggered(result.Outcome))
         {
-            TestOutcome.MessyCritical => " Compulsão de clã desencadeada.",
-            TestOutcome.BestialFailure => " Compulsão desencadeada; determine o tipo conforme a mesa.",
-            _ => ""
-        };
+            var isCaitiffOrThinBlood = Generation >= 14 ||
+                CatalogText.Normalize(Clan).Contains("caitiff", StringComparison.Ordinal) ||
+                CatalogText.Normalize(Clan).Contains("sangue ralo", StringComparison.Ordinal);
+            var resolution = _bloodActions.ResolveCompulsion(result.Outcome, isCaitiffOrThinBlood);
+            displayedDice.AddRange(resolution.TableRolls.Select(face => new RolledDieDisplay(face, "COMPULSÃO")));
+            var type = resolution.Compulsion.Type switch
+            {
+                CompulsionType.Hunger => "Fome",
+                CompulsionType.Dominance => "Dominância",
+                CompulsionType.Harm => "Dano",
+                CompulsionType.Paranoia => "Paranoia",
+                CompulsionType.Clan => "de Clã",
+                _ => ""
+            };
+            compulsion = resolution.Compulsion.Type == CompulsionType.Clan
+                ? $" Compulsão de Clã: registre a escolha do Narrador para {Clan}."
+                : $" Compulsão: {type} (dado(s) {string.Join(", ", resolution.TableRolls)}).";
+        }
         RollSummary = $"{rouseSummary}{result.Successes} sucesso(s), dificuldade {result.Difficulty}: {outcome}. " +
             $"Dados comuns [{string.Join(", ", result.NormalDice)}]; dados de Fome [{string.Join(", ", result.HungerDice)}].{compulsion}";
         ShowDiceRoll("Teste V5", RollSummary, displayedDice, preserveReroll: true);

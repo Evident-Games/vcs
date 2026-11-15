@@ -25,12 +25,67 @@ public sealed record FrenzyActionResult(
     FrenzyTriggerResult Trigger,
     FrenzyResistanceResult? Resistance);
 
+public sealed record CompulsionActionResult(
+    CompulsionResult Compulsion,
+    IReadOnlyList<int> TableRolls);
+
+public sealed record ResonanceActionResult(ResonanceResult Resolution, IReadOnlyList<int> Dice);
+
 /// <summary>
 /// Coordinates blood-related V5 use cases without depending on a desktop UI.
 /// The WPF layer is responsible only for collecting inputs and presenting results.
 /// </summary>
 public sealed class BloodActions
 {
+    public ResonanceResult DescribeResonance(BloodResonance resonance, ResonanceIntensity intensity, bool isHumanBlood) =>
+        ResonanceRules.Describe(resonance, intensity, isHumanBlood);
+
+    public bool ResonanceExpires(int hunger, bool fedAgain) => ResonanceRules.ResonanceBonusExpires(hunger, fedAgain);
+    public bool DyscrasiaExpires(int hunger, bool fedAgain) => ResonanceRules.DyscrasiaExpires(hunger, fedAgain);
+
+    public ResonanceActionResult RollResonance(BloodSource source, bool isHumanBlood,
+        bool isExceptionalAnimalBlood = false, Random? random = null)
+    {
+        if (source == BloodSource.Bagged) throw new InvalidOperationException("Sangue ensacado não concede Ressonância.");
+        if (source == BloodSource.Animal && !isHumanBlood)
+        {
+            random ??= Random.Shared;
+            var first = random.Next(1, 11);
+            var second = first >= 9 ? random.Next(1, 11) : (int?)null;
+            var intensity = ResonanceRules.FromTemperamentDice(first, second);
+            int[] animalDice = second is { } secondDie ? [first, secondDie] : [first];
+            return new(ResonanceRules.Describe(BloodResonance.Animal, intensity, false, isExceptionalAnimalBlood), animalDice);
+        }
+
+        random ??= Random.Shared;
+        var resonanceDie = random.Next(1, 11);
+        var temperamentDie = random.Next(1, 11);
+        var acuteDie = temperamentDie >= 9 ? random.Next(1, 11) : (int?)null;
+        var resultingIntensity = ResonanceRules.FromTemperamentDice(temperamentDie, acuteDie);
+        int[] rolls = acuteDie is { } acute ? [resonanceDie, temperamentDie, acute] : [resonanceDie, temperamentDie];
+        return new(ResonanceRules.Describe(ResonanceRules.FromRandomResonanceDie(resonanceDie), resultingIntensity,
+            isHumanBlood, isExceptionalAnimalBlood), rolls);
+    }
+
+    public CompulsionActionResult ResolveCompulsion(TestOutcome outcome, bool isCaitiffOrThinBlood, Random? random = null)
+    {
+        if (!CompulsionRules.IsTriggered(outcome))
+            throw new ArgumentException("O resultado não desencadeia uma Compulsão.", nameof(outcome));
+        if (outcome == TestOutcome.MessyCritical)
+            return new(CompulsionRules.FromMessyCritical(), []);
+
+        random ??= Random.Shared;
+        var rolls = new List<int>();
+        CompulsionResult result;
+        do
+        {
+            var roll = random.Next(1, 11);
+            rolls.Add(roll);
+            result = CompulsionRules.FromBestialFailureRoll(roll, isCaitiffOrThinBlood);
+        } while (result.MustRerollForCaitiffOrThinBlood);
+        return new(result, rolls);
+    }
+
     public string BloodSurge(int bloodPotency) => BloodPotencyEffects.BloodSurge(bloodPotency);
     public string DamageMend(int bloodPotency) => BloodPotencyEffects.DamageMend(bloodPotency);
     public string PowerBonus(int bloodPotency) => BloodPotencyEffects.PowerBonus(bloodPotency);

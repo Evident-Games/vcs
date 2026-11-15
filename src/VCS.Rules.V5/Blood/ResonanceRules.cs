@@ -64,7 +64,8 @@ public static class ResonanceRules
     public static int BonusDice(ResonanceIntensity intensity) =>
         intensity is ResonanceIntensity.Intense or ResonanceIntensity.Acute or ResonanceIntensity.Dyscrasia ? 1 : 0;
 
-    public static bool CanProduceDyscrasia(bool isHumanBlood) => isHumanBlood;
+    public static bool CanProduceDyscrasia(bool isHumanBlood, bool isExceptionalAnimalBlood = false) =>
+        isHumanBlood || isExceptionalAnimalBlood;
 
     public static bool ResonanceBonusExpires(int hunger, bool fedAgain)
     {
@@ -78,6 +79,8 @@ public static class ResonanceRules
         return fedAgain || hunger == 5;
     }
 
-    public static ResonanceResult Describe(BloodResonance resonance, ResonanceIntensity intensity, bool isHumanBlood) =>
-        new(resonance, intensity, DisciplinesFor(resonance), BonusDice(intensity), CanProduceDyscrasia(isHumanBlood));
+    public static ResonanceResult Describe(BloodResonance resonance, ResonanceIntensity intensity, bool isHumanBlood,
+        bool isExceptionalAnimalBlood = false) =>
+        new(resonance, intensity, DisciplinesFor(resonance), BonusDice(intensity),
+            CanProduceDyscrasia(isHumanBlood, isExceptionalAnimalBlood));
 }
