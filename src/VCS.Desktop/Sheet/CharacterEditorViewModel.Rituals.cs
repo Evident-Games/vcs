@@ -10,12 +10,16 @@ public partial class CharacterEditorViewModel
 {
     [ObservableProperty] private PowerRowViewModel? selectedPreparedRitual;
     [ObservableProperty] private bool ritualConditionsConfirmed;
+    [ObservableProperty] private bool ritualExceptionApproved;
+    [ObservableProperty] private string ritualExceptionReason = "";
     [ObservableProperty] private bool awakeningDangerConfirmed;
     [ObservableProperty] private string ritualPreparationSummary = "Selecione um ritual conhecido e confira suas condições.";
 
     partial void OnSelectedPreparedRitualChanged(PowerRowViewModel? value)
     {
         RitualConditionsConfirmed = false;
+        RitualExceptionApproved = false;
+        RitualExceptionReason = "";
         RitualPreparationSummary = "Confira novamente os ingredientes, o alvo e as condições deste ritual.";
     }
 
@@ -24,7 +28,10 @@ public partial class CharacterEditorViewModel
     {
         if (SelectedPreparedRitual is not { } ritual) { RitualPreparationSummary = "Selecione um ritual."; return; }
         if (!RitualConditionsConfirmed) { RitualPreparationSummary = "Confirme ingredientes, alvo e condições com o Narrador."; return; }
-        if (ritual.HasWarning) { RitualPreparationSummary = ritual.Warning + " Registre a exceção na ficha antes de usar o fluxo manual."; return; }
+        if (ritual.HasWarning && !RitualExceptionApproved)
+        { RitualPreparationSummary = ritual.Warning + " Autorize e justifique a exceção para continuar."; return; }
+        if (RitualExceptionApproved && string.IsNullOrWhiteSpace(RitualExceptionReason))
+        { RitualPreparationSummary = "Informe a decisão do Narrador para registrar a exceção."; return; }
         if (ritual.Entry?.Definition is not { IsRitual: true } definition)
         { RitualPreparationSummary = "Ritual próprio: resolva custos e teste manualmente com o Narrador."; return; }
         var deferred = definition.Id is "ritual-ward-against-lupines" or "ritual-ward-against-cainites" or "ritual-wake-with-evenings-freshness";
@@ -33,6 +40,8 @@ public partial class CharacterEditorViewModel
             var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
             var result = new RitualActions().Prepare(definition.Level, Hunger, pool, deferred);
             Hunger = result.Check.HungerAfter;
+            if (RitualExceptionApproved)
+                ExceptionRegister.Record(ritual.Name, ritual.HasWarning ? ritual.Warning : "Exceção ao ritual", RitualExceptionReason.Trim());
             if (definition.Id == "ritual-wake-with-evenings-freshness")
             {
                 foreach (var previous in PowerEffects.Where(x => x.Active && x.IsSelf && x.PowerId == definition.Id).ToArray())
@@ -58,6 +67,8 @@ public partial class CharacterEditorViewModel
             }
             ShowDiceRoll(ritual.Name, RitualPreparationSummary, dice);
             RitualConditionsConfirmed = false;
+            RitualExceptionApproved = false;
+            RitualExceptionReason = "";
         }
         catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
         { RitualPreparationSummary = exception.Message; }

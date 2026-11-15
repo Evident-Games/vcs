@@ -61,6 +61,9 @@
             <Expander Header="Preparar ritual conhecido" Margin="8,12"><StackPanel Margin="8">
                 <ComboBox ItemsSource="{Binding Powers.RitualRows}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedPreparedRitual}"/>
                 <TextBlock Text="{Binding SelectedPreparedRitual.Warning}" TextWrapping="Wrap"/>
+                <CheckBox Content="Exceção autorizada pelo Narrador" IsChecked="{Binding RitualExceptionApproved}"/>
+                <TextBlock Text="Justificativa da exceção"/>
+                <TextBox Text="{Binding RitualExceptionReason, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
                 <TextBlock Text="Confira se a regra padrão se aplica; proteções e o ritual de despertar têm testes adiados até seus gatilhos." TextWrapping="Wrap"/>
                 <CheckBox Content="Confirmei ingredientes, tempo, alvo e regra padrão com o Narrador" IsChecked="{Binding RitualConditionsConfirmed}"/>
                 <Button Content="Preparar ritual" Command="{Binding PrepareRitualCommand}" HorizontalAlignment="Left"/>
