@@ -16,6 +16,15 @@ public sealed class RitualActions
         var roll = deferred ? null : DicePoolRules.Roll(pool, check.HungerAfter, requirements.Difficulty, random);
         return new(requirements, check, roll);
     }
+
+    /// <summary>Roll a previously paid ritual at its confirmed trigger without another Rouse check.</summary>
+    public DicePoolResult ResolveDeferred(int level, int hunger, int pool, Random? random = null)
+    {
+        var requirements = RitualRules.DefaultRequirements(level);
+        if (hunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(hunger));
+        if (pool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(pool));
+        return DicePoolRules.Roll(pool, hunger, requirements.Difficulty, random);
+    }
 }
 
 public sealed record RitualPreparation(RitualRequirements Requirements, RouseCheckResult Check, DicePoolResult? Roll);
