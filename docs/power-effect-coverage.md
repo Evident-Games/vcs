@@ -123,3 +123,5 @@ O resultado para outro alvo não altera outra ficha. Dano/Fome à própria ficha
 ## Revisão inicial dos rituais
 
 O catálogo mostra a dificuldade geral de ritual como nível + 1 (livro base, p. 274), sujeita às exceções de cada ritual. Proteção contra Lupinos foi corrigida conforme as pp. 275 e 279: protege um objeto e a rolagem ocorre no primeiro toque; círculos são rituais separados. Outros campos antigos dos rituais ainda exigem revisão contra o livro antes de automação. Essas correções são de conteúdo, não resolvedores; os cinco rituais continuam pendentes. Fichas antigas podem preservar os campos editados; restaure o catálogo para atualizar.
+
+A regra pura `WardRules.ResolveFirstContact` calcula o primeiro contato voluntário com uma proteção de objeto, incluindo dano e requisito para nova tentativa. Ainda falta integrá-la à execução do ritual, persistência do objeto protegido e confirmação de dano no alvo; portanto a contagem de rituais pendentes permanece cinco.
