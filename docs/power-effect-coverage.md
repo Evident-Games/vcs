@@ -153,3 +153,5 @@ Para proteções acionadas após esta atualização, contatos posteriores usam o
 O cálculo de contatos posteriores está em `WardRules.ResolveLaterContact` no módulo V5; a interface rejeita valores inválidos e exige nova confirmação ao mudar a proteção selecionada. O pagamento de Vontade do intruso não é aplicado automaticamente.
 
 A resistência para uma nova tentativa pode ser rolada na mesa de dados após confirmação do Narrador sobre o intruso e o gasto de Vontade. O jogador informa a parada e a Fome; a ficha de outro personagem não é alterada. A identidade e o pagamento continuam sob responsabilidade da mesa; as cinco integrações de ritual permanecem incompletas.
+
+A rolagem de resistência é executada por `WardActions.RollRetry`, fora da interface, usando a dificuldade fornecida pelas regras V5. O serviço rejeita tentativas contra um resultado que não afetou o intruso; o custo continua sendo confirmado pela mesa.
