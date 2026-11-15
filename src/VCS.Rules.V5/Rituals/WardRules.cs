@@ -15,7 +15,14 @@ public static class WardRules
             return new(true, 0, false);
         return new(true, critical ? 3 : 1, true);
     }
+
+    /// <summary>After an intruder was affected, determine the test and cost for another touch.</summary>
+    public static WardRetryRequirements RetryRequirements(bool firstContactWasCritical) =>
+        new(1, firstContactWasCritical ? 7 : 4);
 }
 
 /// <summary>The caller must obtain confirmation before applying damage to another character.</summary>
 public sealed record WardContactResult(bool ConsumesFirstContact, int AggravatedHealthDamage, bool RequiresWillpowerToTouchAgain);
+
+/// <summary>Willpower cost and Stamina plus Resolve difficulty for a further attempt.</summary>
+public sealed record WardRetryRequirements(int WillpowerCost, int Difficulty);
