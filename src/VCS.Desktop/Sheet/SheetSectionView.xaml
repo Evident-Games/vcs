@@ -56,7 +56,23 @@
             <sheet:SkillsView />
         </DataTemplate>
         <DataTemplate x:Key="Disciplines">
+            <StackPanel>
             <catalogs:DisciplineCatalogView />
+            <Expander Header="Ativar poder conhecido" Margin="8,12"><StackPanel Margin="8">
+                <ComboBox ItemsSource="{Binding Powers.PowerRows}" DisplayMemberPath="Name" SelectedItem="{Binding ActivationPower}"/>
+                <TextBlock Text="{Binding ActivationPower.Cost}" TextWrapping="Wrap" Margin="0,8,0,0"/>
+                <TextBlock Text="{Binding ActivationPower.DicePool}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding ActivationPower.Warning}" TextWrapping="Wrap"/>
+                <TextBlock Text="Checagens de Sangue exigidas nesta ativação"/>
+                <controls:NumericField Value="{Binding ActivationRouseChecks}" Minimum="0" Maximum="10"/>
+                <TextBlock Text="Custo em Vontade"/><controls:NumericField Value="{Binding ActivationWillpowerCost}" Minimum="0" Maximum="10"/>
+                <TextBlock Text="Alvo"/><TextBox Text="{Binding ActivationTarget}"/>
+                <TextBlock Text="Efeito e duração confirmados pela mesa"/><TextBox Text="{Binding ActivationEffect}" TextWrapping="Wrap" AcceptsReturn="True"/>
+                <CheckBox Content="Exceção autorizada pelo Narrador" IsChecked="{Binding ActivationExceptionApproved}"/>
+                <Button Content="Pagar custos e registrar ativação" Command="{Binding ActivatePowerCommand}" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding ActivationSummary}" TextWrapping="Wrap" Margin="0,8,0,0"/>
+            </StackPanel></Expander>
+            </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="Advantages">
             <StackPanel>

@@ -45,3 +45,14 @@ Escopo desta auditoria: o código presente no repositório nesta branch, focado 
 O montador atual resolve a soma básica e o bônus de especialização; o usuário informa a origem do ajuste em texto livre. Ele ainda não automatiza contexto ou equipamento.
 
 Esta lista é uma auditoria inicial do código, não uma certificação de equivalência completa ao livro. Regras e conteúdo novos devem trazer a fonte (livro-base ou errata identificada) e ser conferidos contra a edição adotada pelo projeto antes da implementação.
+
+
+## Integrações adicionais
+
+- Narrador → Eventos da crônica: tabela persistente com personagem opcional, decisões, resultados e fonte.
+- Caça: abordagem e parada sugerida, dificuldade por território e ajustes aprovados; resultado da cena registrado no evento. A quantidade de sangue depende da fonte e da cena.
+- Diablerie: consequências calculadas após consumo da alma e disputa informada; Humanidade, geração, XP restritos e duração da marca na aura ficam no evento. Não transfere XP restritos ao saldo geral.
+- Disciplinas: ativação de poderes conhecidos com custos explícitos, rerrolagem de Sangue por Potência, autorização de exceção, alvo, efeito e duração registrados no caderno; efeitos individuais ainda precisam de resolvedores específicos.
+- Dano: excesso superficial converte marcas em agravadas; excesso além da trilha é indicado para adjudicação.
+
+Ainda não constitui implementação integral de V5: faltam resolvedores individuais dos poderes, fluxos estruturados de Sangues-Ralos, aplicação de Perdição, múltiplos vínculos estruturados, consumo específico de Discrasias, conflitos completos e modificadores tipados por fonte. Os registros do Narrador permitem documentar essas decisões, mas não substituem esses resolvedores.

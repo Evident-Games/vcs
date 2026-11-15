@@ -34,6 +34,55 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
         Status = "Rolagem registrada no rascunho. Salve o evento para manter o resultado.";
     }
 
+    public IReadOnlyList<VCS.Rules.V5.Chronicle.HuntingApproach> HuntingApproaches => VCS.Rules.V5.Chronicle.HuntingRules.Approaches;
+    [ObservableProperty] private VCS.Rules.V5.Chronicle.HuntingApproach selectedApproach = VCS.Rules.V5.Chronicle.HuntingRules.Approaches[0];
+    [ObservableProperty] private int territoryDifficulty = 3;
+    [ObservableProperty] private int securityModifier;
+    [ObservableProperty] private int crowdModifier;
+    [ObservableProperty] private int otherHuntModifier;
+    [ObservableProperty] private int diableristHumanity = 7;
+    [ObservableProperty] private int diableristGeneration = 13;
+    [ObservableProperty] private int victimGeneration = 12;
+    [ObservableProperty] private int diableristSuccesses;
+    [ObservableProperty] private int victimSuccesses;
+    [ObservableProperty] private bool soulConsumed;
+
+    [RelayCommand]
+    private void PrepareHunt()
+    {
+        try
+        {
+            Difficulty = VCS.Rules.V5.Chronicle.HuntingRules.Difficulty(TerritoryDifficulty, SecurityModifier, CrowdModifier, OtherHuntModifier);
+            Kind = "Caça";
+            if (string.IsNullOrWhiteSpace(Title)) Title = "Caçada";
+            Notes += $"{Environment.NewLine}Abordagem: {SelectedApproach.Name}; parada sugerida: {SelectedApproach.Pool}. " +
+                $"Dificuldade {Difficulty} (território {TerritoryDifficulty}, segurança {SecurityModifier}, aglomeração {CrowdModifier}, outros {OtherHuntModifier}).";
+            Source = "Vampiro: A Máscara V5 (Livro base), pp. 306–308";
+            Status = "Informe a parada e Fome da cena e role o teste. Em caso de sucesso, confirme a quantidade e a fonte do sangue na alimentação.";
+        }
+        catch (ArgumentException exception) { Status = exception.Message; }
+    }
+
+    [RelayCommand]
+    private void ResolveDiablerie()
+    {
+        if (!SoulConsumed) { Status = "Confirme que a alma foi consumida antes de resolver as consequências."; return; }
+        try
+        {
+            var result = VCS.Rules.V5.Blood.DiablerieRules.Resolve(DiableristHumanity, DiableristGeneration,
+                VictimGeneration, DiableristSuccesses, VictimSuccesses);
+            Kind = "Diablerie";
+            if (string.IsNullOrWhiteSpace(Title)) Title = "Diablerie";
+            Outcome += $"{Environment.NewLine}Humanidade resultante {result.Humanity}; geração {result.Generation}; " +
+                $"{result.RestrictedExperience} XP restritos para Potência do Sangue (até o limite da vítima) ou Disciplinas conhecidas pela vítima; " +
+                $"veias na aura por {result.AuraYears} ano(s).";
+            if (result.Possessed) Outcome += " Humanidade zero: a personalidade da vítima toma o corpo; personagem torna-se NPC.";
+            Source = "Vampiro: A Máscara V5 (Livro base), pp. 234–235";
+            Status = "Consequências calculadas no evento. Confira as alterações com a mesa antes de editar a ficha.";
+        }
+        catch (ArgumentException exception) { Status = exception.Message; }
+    }
+
     private bool _loaded;
     private bool _clearParticipant;
     public ObservableCollection<ChronicleEvent> Events { get; } = [];

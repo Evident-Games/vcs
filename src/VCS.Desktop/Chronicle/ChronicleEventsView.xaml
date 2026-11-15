@@ -54,6 +54,25 @@
  <TextBlock Text="Dificuldade"/><TextBox Text="{Binding Difficulty, ValidatesOnExceptions=True}"/>
  <Button Content="Rolar e registrar resultado" Command="{Binding RollSceneCommand}" Margin="0,8,0,0"/>
  </StackPanel></Border>
+ <Expander Header="Caça · preparar cena" Margin="0,0,0,12"><StackPanel Margin="0,10,0,0">
+ <ComboBox ItemsSource="{Binding HuntingApproaches}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedApproach}"/>
+ <TextBlock Text="{Binding SelectedApproach.Pool}" TextWrapping="Wrap" Margin="0,6,0,8"/>
+ <TextBlock Text="Dificuldade do território"/><TextBox Text="{Binding TerritoryDifficulty, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Segurança (0 a +2)"/><TextBox Text="{Binding SecurityModifier, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Aglomeração (−2 a 0)"/><TextBox Text="{Binding CrowdModifier, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Outros ajustes aprovados"/><TextBox Text="{Binding OtherHuntModifier, ValidatesOnExceptions=True}"/>
+ <Button Content="Preparar caçada" Command="{Binding PrepareHuntCommand}" Margin="0,8,0,0"/>
+ </StackPanel></Expander>
+ <Expander Header="Diablerie · consequências" Margin="0,0,0,12"><StackPanel Margin="0,10,0,0">
+ <TextBlock Text="Após drenar a vítima, vença testes de Força + Determinação, dificuldade 1, em quantidade igual à Potência do Sangue da vítima. Uma falha encerra a tentativa. Após consumir a alma, perca 1 Humanidade e resolva Humanidade + Potência do Sangue contra Determinação + Potência do Sangue da vítima." TextWrapping="Wrap"/>
+ <CheckBox Content="Alma consumida" IsChecked="{Binding SoulConsumed}"/>
+ <TextBlock Text="Humanidade antes da Diablerie"/><TextBox Text="{Binding DiableristHumanity, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Geração do diablerista"/><TextBox Text="{Binding DiableristGeneration, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Geração da vítima"/><TextBox Text="{Binding VictimGeneration, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Sucessos do diablerista na disputa"/><TextBox Text="{Binding DiableristSuccesses, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Sucessos da vítima na disputa"/><TextBox Text="{Binding VictimSuccesses, ValidatesOnExceptions=True}"/>
+ <Button Content="Calcular consequências" Command="{Binding ResolveDiablerieCommand}" Margin="0,8,0,0"/>
+ </StackPanel></Expander>
  <TextBlock Text="Resultado e consequências"/><TextBox Text="{Binding Outcome, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="80" Margin="0,4,0,10" />
  <TextBlock Text="Fonte (livro, página ou regra da mesa)"/><TextBox Text="{Binding Source, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,12" />
  <WrapPanel><Button Content="Salvar evento" Command="{Binding SaveCommand}" Margin="0,0,8,4"/><Button Content="Excluir selecionado" Command="{Binding DeleteCommand}" /></WrapPanel>
