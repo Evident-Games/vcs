@@ -8,6 +8,20 @@ public partial class CharacterEditorViewModel
 {
     [ObservableProperty] private bool activationCostsConfirmed;
     [ObservableProperty] private bool feralWeaponsActive;
+    [ObservableProperty] private bool fleetnessActive;
+    [ObservableProperty] private bool rollIsCombat;
+    [ObservableProperty] private bool rollIsDodge;
+    [ObservableProperty] private bool fleetnessDodgeUsed;
+    private int FleetnessPoolBonus => FleetnessActive
+        ? VCS.Rules.V5.Clans.CelerityRules.FleetnessBonus(DisciplineRating("discipline-celerity"),
+            SelectedRollAttribute?.Key == "attribute-dexterity", RollIsCombat,
+            RollIsDodge && SelectedRollSkill?.Key == "skill-athletics", FleetnessDodgeUsed) : 0;
+    partial void OnFleetnessActiveChanged(bool value) => RefreshRollPool();
+    partial void OnRollIsCombatChanged(bool value) => RefreshRollPool();
+    partial void OnRollIsDodgeChanged(bool value) => RefreshRollPool();
+    partial void OnFleetnessDodgeUsedChanged(bool value) => RefreshRollPool();
+    [RelayCommand]
+    private void BeginPowerTurn() => FleetnessDodgeUsed = false;
     [ObservableProperty] private bool toughnessActive;
     [ObservableProperty] private bool prowessActive;
     [ObservableProperty] private bool usingMeleeWeapon;
@@ -44,6 +58,8 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void EndPowerScene()
     {
+        FleetnessActive = false;
+        FleetnessDodgeUsed = false;
         FeralWeaponsActive = false;
         ToughnessActive = false;
         ProwessActive = false;
@@ -68,6 +84,7 @@ public partial class CharacterEditorViewModel
             var result = new VCS.Application.Blood.PowerActivationActions().Activate(Hunger, BloodPotency, power.Level,
                 ActivationRouseChecks, ActivationWillpowerCost, WillpowerSuperficial, WillpowerAggravated, WillpowerCapacity);
             if (power.Entry?.Definition.Id == "power-protean-feral-weapons") FeralWeaponsActive = true;
+            if (power.Entry?.Definition.Id == "power-celerity-fleetness") FleetnessActive = true;
             if (power.Entry?.Definition.Id == "power-fortitude-toughness") ToughnessActive = true;
             if (power.Entry?.Definition.Id == "power-potence-prowess") ProwessActive = true;
             Hunger = result.Hunger;

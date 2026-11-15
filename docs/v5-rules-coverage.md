@@ -92,3 +92,10 @@ Não foram executados build nem testes por instrução do usuário. A cobertura 
 Tenacidade foi incluída no catálogo e integrada à ordem de redução: subtrai Fortitude, mantém mínimo 1 para fontes positivas e só então divide o dano superficial contra vampiros. Poderio soma Potência ao dano desarmado ou metade arredondada para cima com Armas Brancas. Mente Inescrutável pode adicionar Fortitude a um teste aplicável montado pela ficha. O encerramento da cena desativa esses estados e os modificadores temporários.
 
 Descrições corrigidas contra pp. 258–265: Resistência das Bestas, Fachada Interior, Pele de Mármore, Poder Vindo da Dor, Desafio à Perdição, Poderio, Corpo Letal e Salto Vertiginoso. Corrigir a descrição de um poder não significa que seu efeito individual esteja inteiramente automatizado.
+
+
+## Celeridade e alimentação animal
+
+Rapidez adiciona Celeridade aos testes de Destreza fora de combate e uma vez por turno à esquiva com Destreza + Atletismo. A ativação, o consumo da esquiva e o início do próximo turno têm controles explícitos. Suculência Animal passa a reduzir em dois a Potência efetiva para a penalidade animal e a acrescentar um ponto saciado quando a fonte pode alimentar. Alimentação comum mantém Fome mínima 1; zerar com sangue humano exige registrar a morte da vítima.
+
+Descrições de Reflexos Rápidos, Rapidez, Mira Infalível e Suculência Animal corrigidas contra o livro-base. Build e testes não executados.

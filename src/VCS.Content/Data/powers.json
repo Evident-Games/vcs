@@ -46,7 +46,7 @@
     "level": 3,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "O vampiro aprende a extrair sustento aprimorado de feras. Alimentar-se de animais passa a saciar mais Fome (podendo chegar a reduzir a Fome até o nível 1), facilitando a sobrevivência sem caçar humanos.",
+    "summary": "Alimentar-se de animais sacia 1 ponto adicional de Fome e trata a Potência do Sangue como 2 níveis menor para a penalidade de alimentação animal. Consumir o familiar tem efeitos especiais definidos no sistema do poder.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
@@ -176,7 +176,7 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "Ignora completamente as penalidades por lutar sem cobertura contra atiradores e reage instintivamente, o que significa que o vampiro não sofre perda de dados em defesas contra ataques surpresa.",
+    "summary": "Não sofre penalidades nas paradas de defesa por falta de cobertura contra Armas de Fogo. Pode realizar gratuitamente uma ação menor que retire até dois dados por turno, como sacar uma arma ou recarregar.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
@@ -186,7 +186,7 @@
     "level": 2,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "Ao ativar, o vampiro soma seu nível total de Celeridade a qualquer rolagem de Destreza não relacionada a ataques de combate (como fugir, escalar, correr ou realizar furtos). O efeito dura uma cena inteira.",
+    "summary": "Soma Celeridade aos testes de Destreza fora de combate durante uma cena. Uma vez por turno, também permite esse bônus ao se defender com Destreza + Atletismo.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
@@ -206,7 +206,7 @@
     "level": 4,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "A percepção mental do vampiro acelera, fazendo os inimigos se moverem em câmera lenta. Ele reduz a zero qualquer penalidade de tiro por cobertura, clima ou movimentação do alvo.",
+    "summary": "Antes de um ataque à distância, impede a esquiva ou defesa do alvo: ataque com dificuldade 1. Um oponente com Celeridade 5 pode pagar sua própria Checagem de Sangue para se defender normalmente. Requer Auspícios 2.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {

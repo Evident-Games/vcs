@@ -100,9 +100,10 @@ public sealed class BloodActions
         int hunger,
         bool humanWasDrainedToDeath = false,
         bool animalIsLarge = false,
-        bool animalIsExceptional = false) =>
+        bool animalIsExceptional = false,
+        bool animalSucculence = false) =>
         FeedingRules.Resolve(source, bloodPotency, hunger, hunger,
-            humanWasDrainedToDeath, animalIsLarge, animalIsExceptional);
+            humanWasDrainedToDeath, animalIsLarge, animalIsExceptional, animalSucculence);
 
     public FeedingActionResult ApplyFeeding(
         BloodSource source,
@@ -110,10 +111,11 @@ public sealed class BloodActions
         int hunger,
         bool humanWasDrainedToDeath = false,
         bool animalIsLarge = false,
-        bool animalIsExceptional = false)
+        bool animalIsExceptional = false,
+        bool animalSucculence = false)
     {
         var resolution = PreviewFeeding(source, bloodPotency, hunger,
-            humanWasDrainedToDeath, animalIsLarge, animalIsExceptional);
+            humanWasDrainedToDeath, animalIsLarge, animalIsExceptional, animalSucculence);
         if (resolution.HungerSlaked <= 0)
             return new(resolution, hunger, FeedingApplicationStatus.NoHungerSlaked);
         if (decimal.Truncate(resolution.HungerSlaked) != resolution.HungerSlaked)

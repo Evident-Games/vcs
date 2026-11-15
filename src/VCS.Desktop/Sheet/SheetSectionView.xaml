@@ -71,6 +71,10 @@
                 <CheckBox Content="Exceção autorizada pelo Narrador" IsChecked="{Binding ActivationExceptionApproved}"/>
                 <CheckBox Content="Conferi os custos desta ativação com a regra do poder" IsChecked="{Binding ActivationCostsConfirmed}"/>
                 <Button Content="Pagar custos e registrar ativação" Command="{Binding ActivatePowerCommand}" HorizontalAlignment="Left"/>
+                <CheckBox Content="Rapidez ativa" IsChecked="{Binding FleetnessActive}"/>
+                <CheckBox Content="Teste de combate" IsChecked="{Binding RollIsCombat}"/>
+                <CheckBox Content="Esquiva com Destreza + Atletismo" IsChecked="{Binding RollIsDodge}"/>
+                <Button Content="Iniciar novo turno (libera esquiva de Rapidez)" Command="{Binding BeginPowerTurnCommand}" HorizontalAlignment="Left"/>
                 <CheckBox Content="Tenacidade ativa (redução superficial por Fortitude)" IsChecked="{Binding ToughnessActive}"/>
                 <CheckBox Content="Poderio ativo (bônus de dano por Potência)" IsChecked="{Binding ProwessActive}"/>
                 <CheckBox Content="Usando Armas Brancas (metade da Potência, para cima)" IsChecked="{Binding UsingMeleeWeapon}"/>

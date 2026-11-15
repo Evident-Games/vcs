@@ -117,7 +117,7 @@ public partial class CharacterEditorViewModel
     public DicePoolComposition RollPoolComposition => _diceActions.BuildPool(
         SelectedRollAttribute?.Rating ?? 0, SelectedRollSkill?.Rating ?? 0, EffectiveSituationalModifier,
         UseRollSpecialization && CanApplyRollSpecialization);
-    private int EffectiveSituationalModifier => Math.Clamp(RollSituationalModifier + (UnswayableMindApplies && KnowsPower("power-fortitude-unswayable-mind") ? DisciplineRating("discipline-fortitude") : 0) + PoolModifiers.Where(x => x.IsApplied).Sum(x => Math.Clamp(x.Dice, -50, 50)), -49, 49) + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0);
+    private int EffectiveSituationalModifier => Math.Clamp(RollSituationalModifier + FleetnessPoolBonus + (UnswayableMindApplies && KnowsPower("power-fortitude-unswayable-mind") ? DisciplineRating("discipline-fortitude") : 0) + PoolModifiers.Where(x => x.IsApplied).Sum(x => Math.Clamp(x.Dice, -50, 50)), -49, 49) + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0);
     public int CurrentRollDicePool => UseSheetDicePool ? RollPoolComposition.DicePool : Math.Max(0, RollDicePool + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0));
     public string RollPoolSummary => UseSheetDicePool
         ? $"Parada montada: {RollPoolComposition.Formula}. Origem do ajuste: {RollModifierSource}{ResonanceBonusSummary}. " +
@@ -178,7 +178,8 @@ public partial class CharacterEditorViewModel
         get
         {
             var result = _bloodActions.PreviewFeeding(SelectedBloodSourceOption.Source, BloodPotency, Hunger,
-                FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional);
+                FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional,
+                KnowsPower("power-animalism-animal-succulence"));
             var resonance = result.CanProduceResonance ? "pode conceder Ressonância" : "não concede Ressonância";
             var dyscrasia = result.CanProduceDyscrasia ? "pode produzir Discrasia" : "não produz Discrasia";
             return $"{result.RuleNote} Esta alimentação sacia {result.HungerSlaked:0.##} de Fome " +
@@ -201,7 +202,8 @@ public partial class CharacterEditorViewModel
         _extraFields["Resonance"].Value = "";
         _extraFields["Dyscrasia"].Value = "";
         var result = _bloodActions.ApplyFeeding(SelectedBloodSourceOption.Source, BloodPotency, Hunger,
-            FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional);
+            FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional,
+                KnowsPower("power-animalism-animal-succulence"));
         if (result.Status == FeedingApplicationStatus.NoHungerSlaked)
         {
             FeedingSummary = "Essa alimentação não reduz a Fome atual.";
@@ -346,11 +348,13 @@ public partial class CharacterEditorViewModel
                 $"Surto de Sangue: checagem {rouse.Die}, falha; Fome {Hunger}. ";
         }
 
+        var fleetnessDodgeApplied = UseSheetDicePool && FleetnessPoolBonus > 0 && RollIsCombat && RollIsDodge;
         var result = action.Roll;
         _lastRollForReroll = result;
         _lastRollPool = CurrentRollDicePool + action.BloodSurgeDice;
         _lastRollHunger = UseHungerDice ? action.HungerAfter : 0;
         _lastRollDifficulty = RollDifficulty;
+        if (fleetnessDodgeApplied) FleetnessDodgeUsed = true;
         _rerollUsed = false;
         RerollableDice.Clear();
         for (var index = 0; index < result.NormalDice.Count; index++)
