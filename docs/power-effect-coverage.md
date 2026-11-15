@@ -155,3 +155,5 @@ O cálculo de contatos posteriores está em `WardRules.ResolveLaterContact` no m
 A resistência para uma nova tentativa pode ser rolada na mesa de dados após confirmação do Narrador sobre o intruso e o gasto de Vontade. O jogador informa a parada e a Fome; a ficha de outro personagem não é alterada. A identidade e o pagamento continuam sob responsabilidade da mesa; as cinco integrações de ritual permanecem incompletas.
 
 A rolagem de resistência é executada por `WardActions.RollRetry`, fora da interface, usando a dificuldade fornecida pelas regras V5. O serviço rejeita tentativas contra um resultado que não afetou o intruso; o custo continua sendo confirmado pela mesa.
+
+O contato e a tentativa de resistência registram uma identificação informada para o intruso no diário. A identificação é texto livre e não comprova automaticamente que o intruso foi afetado ou que pagou Vontade; essas confirmações continuam sendo decisões da mesa.

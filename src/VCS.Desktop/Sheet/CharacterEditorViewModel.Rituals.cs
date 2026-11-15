@@ -16,6 +16,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool awakeningDangerConfirmed;
     [ObservableProperty] private string wardObject = "";
     [ObservableProperty] private bool wardContactConfirmed;
+    [ObservableProperty] private string wardIntruder = "";
     [ObservableProperty] private int wardRetryPool = 2;
     [ObservableProperty] private int wardRetryHunger;
     [ObservableProperty] private bool wardRetryCostConfirmed;
@@ -34,6 +35,7 @@ public partial class CharacterEditorViewModel
     {
         WardContactConfirmed = false;
         WardRetryCostConfirmed = false;
+        WardIntruder = "";
     }
 
     [RelayCommand]
@@ -108,6 +110,9 @@ public partial class CharacterEditorViewModel
         { RitualPreparationSummary = "Selecione nos efeitos uma proteção de objeto ativa."; return; }
         if (!WardContactConfirmed)
         { RitualPreparationSummary = "Confirme com o Narrador o toque voluntário do intruso correspondente."; return; }
+        if (string.IsNullOrWhiteSpace(WardIntruder))
+        { RitualPreparationSummary = "Identifique o intruso para registrar este contato."; return; }
+        var intruder = WardIntruder.Trim();
         if (ward.TurnChargeUsed)
         {
             if (ward.PoolBonus == 0)
@@ -117,7 +122,7 @@ public partial class CharacterEditorViewModel
             { RitualPreparationSummary = "Resultado de proteção inválido; confira o histórico com o Narrador."; return; }
             var contact = WardRules.ResolveLaterContact(damage);
             var retry = WardRules.RetryRequirements(damage == 3);
-            RitualPreparationSummary = $"{ward.Name} em {ward.Target}: resultado inicial mantido; dano agravado proposto {contact.AggravatedHealthDamage}. " +
+            RitualPreparationSummary = $"{ward.Name} em {ward.Target}; intruso {intruder}: resultado inicial mantido; dano agravado proposto {contact.AggravatedHealthDamage}. " +
                 (contact.RequiresWillpowerToTouchAgain ? $"Para um intruso já afetado voltar a tocar, gaste {retry.WillpowerCost} Vontade e vença Vigor + Determinação, dificuldade {retry.Difficulty}. " : "A primeira rolagem falhou. ") +
                 "Confirme cada intruso e aplique consequências manualmente. Nenhuma outra ficha foi alterada.";
             Notebook.AppendLog("Rituais", RitualPreparationSummary);
@@ -127,7 +132,7 @@ public partial class CharacterEditorViewModel
         var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
         var attempt = new WardActions().ResolveFirstContact(ward.RemainingPoints, Hunger, pool, true, true);
         if (attempt.Roll is not { } roll) return;
-        RitualPreparationSummary = $"{ward.Name} em {ward.Target}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}. " +
+        RitualPreparationSummary = $"{ward.Name} em {ward.Target}; intruso {intruder}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}. " +
             $"Dano agravado proposto ao intruso: {attempt.Result.AggravatedHealthDamage}. Nenhuma outra ficha foi alterada. Fonte: {ward.Source}.";
         ReplacePowerEffect(ward, ward with { TurnChargeUsed = true, PoolBonus = attempt.Result.AggravatedHealthDamage + 1, Effect = RitualPreparationSummary });
         Notebook.AppendLog("Rituais", RitualPreparationSummary);
@@ -146,10 +151,12 @@ public partial class CharacterEditorViewModel
         { RitualPreparationSummary = "Selecione uma proteção com resultado estruturado bem-sucedido."; return; }
         if (!WardRetryCostConfirmed)
         { RitualPreparationSummary = "Confirme que o intruso já foi afetado e gastou um ponto de Vontade."; return; }
+        if (string.IsNullOrWhiteSpace(WardIntruder))
+        { RitualPreparationSummary = "Identifique o intruso para registrar esta tentativa."; return; }
         if (WardRetryPool is < 0 or > 50 || WardRetryHunger is < 0 or > 5)
         { RitualPreparationSummary = "Parada deve estar entre 0 e 50; Fome entre 0 e 5."; return; }
         var roll = new WardActions().RollRetry(ward.PoolBonus - 1, WardRetryPool, WardRetryHunger);
-        RitualPreparationSummary = $"Nova tentativa contra {ward.Name}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}, {roll.Outcome}. " +
+        RitualPreparationSummary = $"Nova tentativa de {WardIntruder.Trim()} contra {ward.Name} em {ward.Target}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}, {roll.Outcome}. " +
             (roll.IsSuccess ? "O intruso pode tentar tocar novamente." : "O intruso não pode tentar tocar nesta ocasião.") +
             " Custo registrado pela mesa; nenhuma outra ficha foi alterada. Fonte: Livro base, p. 275.";
         Notebook.AppendLog("Rituais", RitualPreparationSummary);
