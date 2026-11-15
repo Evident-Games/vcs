@@ -144,4 +144,6 @@ No resultado do despertar, sucesso informa a duração de uma cena e sucesso cr�
 
 `AwakeningRitualRules` concentra a interpretação desse resultado no módulo V5; o catálogo agora também apresenta as duas durações e a página da fonte. Edições futuras devem fornecer regras próprias.
 
-`WardActions.ResolveFirstContact` liga a dificuldade padrão do ritual à regra de contato da proteção de objeto: contato involuntário ou intruso de outro tipo não rola nem consome o gatilho; o contato elegível rola e devolve uma proposta de dano. Não aplica dano a outra ficha. Ainda faltam interface, persistência do objeto e reaproveitamento do resultado em contatos posteriores; a contagem de cinco rituais pendentes permanece inalterada.
+`WardActions.ResolveFirstContact` liga a dificuldade padrão do ritual à regra de contato da proteção de objeto: contato involuntário ou intruso de outro tipo não rola nem consome o gatilho; o contato elegível rola e devolve uma proposta de dano. Não aplica dano a outra ficha. O reaproveitamento do resultado em contatos posteriores permanece pendente; a contagem de cinco rituais pendentes permanece inalterada.
+
+O preparo das proteções de objeto registra o objeto na ficha. No primeiro contato, selecione a proteção na lista de efeitos e confirme o toque; o resultado é registrado e a proposta de dano não altera a ficha do intruso. O reaproveitamento do resultado em contatos posteriores e a resistência para tocar novamente permanecem manuais. As cinco integrações de ritual continuam incompletas.

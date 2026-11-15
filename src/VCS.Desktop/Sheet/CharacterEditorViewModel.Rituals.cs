@@ -14,6 +14,8 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool ritualExceptionApproved;
     [ObservableProperty] private string ritualExceptionReason = "";
     [ObservableProperty] private bool awakeningDangerConfirmed;
+    [ObservableProperty] private string wardObject = "";
+    [ObservableProperty] private bool wardContactConfirmed;
     [ObservableProperty] private string ritualPreparationSummary = "Selecione um ritual conhecido e confira suas condições.";
 
     partial void OnSelectedPreparedRitualChanged(PowerRowViewModel? value)
@@ -37,6 +39,9 @@ public partial class CharacterEditorViewModel
         if (ritual.Entry?.Definition is not { IsRitual: true } definition)
         { RitualPreparationSummary = "Ritual próprio: resolva custos e teste manualmente com o Narrador."; return; }
         var deferred = definition.Id is "ritual-ward-against-lupines" or "ritual-ward-against-cainites" or "ritual-wake-with-evenings-freshness";
+        var isWard = definition.Id is "ritual-ward-against-lupines" or "ritual-ward-against-cainites";
+        if (isWard && string.IsNullOrWhiteSpace(WardObject))
+        { RitualPreparationSummary = "Informe o objeto protegido antes de pagar o custo."; return; }
         try
         {
             var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
@@ -52,6 +57,16 @@ public partial class CharacterEditorViewModel
                     DateTime.UtcNow, "Preparado; aguardando perigo durante o sono.", "Até o fim do sono diurno", definition.Source, "", true);
                 PowerEffects.Add(pending);
                 SelectedPowerEffect = pending;
+                MarkChanged();
+            }
+            if (isWard)
+            {
+                var ward = new PowerEffectEntry(Guid.NewGuid(), definition.Id, ritual.Name, WardObject.Trim(), false,
+                    DateTime.UtcNow, "Proteção preparada; aguardando primeiro contato elegível.",
+                    "Até o objeto ser destruído ou quebrado", definition.Source, RitualExceptionReason, true,
+                    RemainingPoints: definition.Level);
+                PowerEffects.Add(ward);
+                SelectedPowerEffect = ward;
                 MarkChanged();
             }
             RitualPreparationSummary = $"{ritual.Name}: {result.Requirements.PreparationMinutes} min; dificuldade padrão {result.Requirements.Difficulty}; Fome {Hunger}. " +
@@ -74,6 +89,27 @@ public partial class CharacterEditorViewModel
         }
         catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
         { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
+    private void ResolveWardContact()
+    {
+        if (SelectedPowerEffect is not { Active: true, TurnChargeUsed: false } ward ||
+            ward.PowerId is not ("ritual-ward-against-lupines" or "ritual-ward-against-cainites"))
+        { RitualPreparationSummary = "Selecione nos efeitos uma proteção preparada que ainda não foi acionada."; return; }
+        if (!WardContactConfirmed)
+        { RitualPreparationSummary = "Confirme com o Narrador o toque voluntário do intruso correspondente."; return; }
+        var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
+        var attempt = new WardActions().ResolveFirstContact(ward.RemainingPoints, Hunger, pool, true, true);
+        if (attempt.Roll is not { } roll) return;
+        RitualPreparationSummary = $"{ward.Name} em {ward.Target}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}. " +
+            $"Dano agravado proposto ao intruso: {attempt.Result.AggravatedHealthDamage}. Nenhuma outra ficha foi alterada. Fonte: {ward.Source}.";
+        ReplacePowerEffect(ward, ward with { TurnChargeUsed = true, Effect = RitualPreparationSummary });
+        Notebook.AppendLog("Rituais", RitualPreparationSummary);
+        ShowDiceRoll(ward.Name, RitualPreparationSummary,
+            roll.NormalDice.Select(x => new RolledDieDisplay(x, "COMUM")).Concat(roll.HungerDice.Select(x => new RolledDieDisplay(x, "FOME"))));
+        WardContactConfirmed = false;
+        MarkChanged();
     }
 
     [RelayCommand]
