@@ -143,3 +143,5 @@ O botão de encerramento do sono diurno permite desativar explicitamente o ritua
 No resultado do despertar, sucesso informa a duração de uma cena e sucesso crítico informa até o próximo amanhecer, conforme livro base p. 276. O app informa o efeito; não controla automaticamente penalidades de atividade diurna ou o calendário da crônica.
 
 `AwakeningRitualRules` concentra a interpretação desse resultado no módulo V5; o catálogo agora também apresenta as duas durações e a página da fonte. Edições futuras devem fornecer regras próprias.
+
+`WardActions.ResolveFirstContact` liga a dificuldade padrão do ritual à regra de contato da proteção de objeto: contato involuntário ou intruso de outro tipo não rola nem consome o gatilho; o contato elegível rola e devolve uma proposta de dano. Não aplica dano a outra ficha. Ainda faltam interface, persistência do objeto e reaproveitamento do resultado em contatos posteriores; a contagem de cinco rituais pendentes permanece inalterada.
