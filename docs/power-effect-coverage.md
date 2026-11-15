@@ -127,3 +127,7 @@ O catálogo mostra a dificuldade geral de ritual como nível + 1 (livro base, p.
 A regra pura `WardRules.ResolveFirstContact` calcula o primeiro contato voluntário com uma proteção de objeto, incluindo dano e requisito para nova tentativa. Ainda falta integrá-la à execução do ritual, persistência do objeto protegido e confirmação de dano no alvo; portanto a contagem de rituais pendentes permanece cinco.
 
 `RitualRules.DefaultRequirements` calcula a dificuldade padrão, cinco minutos por nível e uma Checagem de Sangue; rituais individuais podem substituir esses valores. `WardRules.RetryRequirements` calcula o custo de Vontade e a dificuldade para tocar novamente uma proteção que afetou o intruso. Ambas são regras puras V5 e ainda não acionam a interface, dados ou ficha do alvo. Fonte: livro base, pp. 274–275.
+
+## Preparação de rituais
+
+A ficha oferece preparação padrão de rituais conhecidos: confirma condições, paga uma Checagem de Sangue sem rerrolagem de poder de Disciplina, calcula Inteligência + Feitiçaria de Sangue e envia os dados à mesa. Proteções adiam o teste até o primeiro contato. O efeito, requisitos específicos, exceções e contato das proteções ainda exigem resolução manual; o fluxo não permite aplicar custos alternativos e não automatiza o alvo. Os cinco resolvedores individuais permanecem pendentes.
