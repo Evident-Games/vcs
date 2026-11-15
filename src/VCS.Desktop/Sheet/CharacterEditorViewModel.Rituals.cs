@@ -4,6 +4,7 @@ using VCS.Application.Blood;
 using VCS.Desktop.Catalogs;
 using VCS.Sheet;
 using VCS.Rules.V5.Rituals;
+using VCS.Rules.V5.Dice;
 
 namespace VCS.Desktop.Sheet;
 
@@ -16,6 +17,9 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool awakeningDangerConfirmed;
     [ObservableProperty] private string wardObject = "";
     [ObservableProperty] private bool wardContactConfirmed;
+    [ObservableProperty] private int wardRetryPool = 2;
+    [ObservableProperty] private int wardRetryHunger;
+    [ObservableProperty] private bool wardRetryCostConfirmed;
     [ObservableProperty] private string ritualPreparationSummary = "Selecione um ritual conhecido e confira suas condições.";
 
     partial void OnSelectedPreparedRitualChanged(PowerRowViewModel? value)
@@ -27,7 +31,11 @@ public partial class CharacterEditorViewModel
         RitualPreparationSummary = "Confira novamente os ingredientes, o alvo e as condições deste ritual.";
     }
 
-    partial void OnSelectedPowerEffectChanged(PowerEffectEntry? value) => WardContactConfirmed = false;
+    partial void OnSelectedPowerEffectChanged(PowerEffectEntry? value)
+    {
+        WardContactConfirmed = false;
+        WardRetryCostConfirmed = false;
+    }
 
     [RelayCommand]
     private void PrepareRitual()
@@ -128,6 +136,28 @@ public partial class CharacterEditorViewModel
             roll.NormalDice.Select(x => new RolledDieDisplay(x, "COMUM")).Concat(roll.HungerDice.Select(x => new RolledDieDisplay(x, "FOME"))));
         WardContactConfirmed = false;
         MarkChanged();
+    }
+
+    [RelayCommand]
+    private void RollWardRetry()
+    {
+        if (SelectedPowerEffect is not { Active: true, TurnChargeUsed: true } ward ||
+            ward.PowerId is not ("ritual-ward-against-lupines" or "ritual-ward-against-cainites") ||
+            ward.PoolBonus is not (2 or 4))
+        { RitualPreparationSummary = "Selecione uma proteção com resultado estruturado bem-sucedido."; return; }
+        if (!WardRetryCostConfirmed)
+        { RitualPreparationSummary = "Confirme que o intruso já foi afetado e gastou um ponto de Vontade."; return; }
+        if (WardRetryPool is < 0 or > 50 || WardRetryHunger is < 0 or > 5)
+        { RitualPreparationSummary = "Parada deve estar entre 0 e 50; Fome entre 0 e 5."; return; }
+        var difficulty = WardRules.RetryRequirements(ward.PoolBonus == 4).Difficulty;
+        var roll = DicePoolRules.Roll(WardRetryPool, WardRetryHunger, difficulty);
+        RitualPreparationSummary = $"Nova tentativa contra {ward.Name}: {roll.Successes} sucesso(s), dificuldade {difficulty}, {roll.Outcome}. " +
+            (roll.IsSuccess ? "O intruso pode tentar tocar novamente." : "O intruso não pode tentar tocar nesta ocasião.") +
+            " Custo registrado pela mesa; nenhuma outra ficha foi alterada. Fonte: Livro base, p. 275.";
+        Notebook.AppendLog("Rituais", RitualPreparationSummary);
+        ShowDiceRoll("Resistência à proteção", RitualPreparationSummary,
+            roll.NormalDice.Select(x => new RolledDieDisplay(x, "COMUM")).Concat(roll.HungerDice.Select(x => new RolledDieDisplay(x, "FOME"))));
+        WardRetryCostConfirmed = false;
     }
 
     [RelayCommand]

@@ -150,4 +150,6 @@ O preparo das proteções de objeto registra o objeto na ficha. No primeiro cont
 
 Para proteções acionadas após esta atualização, contatos posteriores usam o resultado inicial persistido, sem rolar novamente. O app informa o custo e a dificuldade para um intruso já afetado tentar tocar novamente; a mesa ainda controla esse pagamento, teste e aplicação de dano. Registros anteriores não possuem resultado numérico estruturado e continuam manuais. As cinco integrações de ritual continuam incompletas.
 
-O cálculo de contatos posteriores está em `WardRules.ResolveLaterContact` no módulo V5; a interface rejeita valores inválidos e exige nova confirmação ao mudar a proteção selecionada. O teste e o pagamento de Vontade do intruso ainda não são aplicados pelo programa.
+O cálculo de contatos posteriores está em `WardRules.ResolveLaterContact` no módulo V5; a interface rejeita valores inválidos e exige nova confirmação ao mudar a proteção selecionada. O pagamento de Vontade do intruso não é aplicado automaticamente.
+
+A resistência para uma nova tentativa pode ser rolada na mesa de dados após confirmação do Narrador sobre o intruso e o gasto de Vontade. O jogador informa a parada e a Fome; a ficha de outro personagem não é alterada. A identidade e o pagamento continuam sob responsabilidade da mesa; as cinco integrações de ritual permanecem incompletas.

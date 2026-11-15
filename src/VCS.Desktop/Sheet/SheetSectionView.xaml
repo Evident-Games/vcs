@@ -71,6 +71,10 @@
                 <Button Content="Preparar ritual" Command="{Binding PrepareRitualCommand}" HorizontalAlignment="Left"/>
                 <CheckBox Content="Narrador confirmou toque voluntário do intruso correspondente" IsChecked="{Binding WardContactConfirmed}"/>
                 <Button Content="Resolver contato da proteção selecionada" Command="{Binding ResolveWardContactCommand}" HorizontalAlignment="Left"/>
+                <TextBlock Text="Intruso já afetado: parada Vigor + Determinação e Fome (0 para mortal)" TextWrapping="Wrap"/>
+                <WrapPanel><controls:NumericField Value="{Binding WardRetryPool}" Minimum="0" Maximum="50"/><controls:NumericField Value="{Binding WardRetryHunger}" Minimum="0" Maximum="5"/></WrapPanel>
+                <CheckBox Content="Narrador confirmou intruso já afetado e gasto de 1 Vontade" IsChecked="{Binding WardRetryCostConfirmed}"/>
+                <Button Content="Rolar resistência à proteção" Command="{Binding RollWardRetryCommand}" HorizontalAlignment="Left"/>
                 <CheckBox Content="Narrador confirmou perigo durante o sono" IsChecked="{Binding AwakeningDangerConfirmed}"/>
                 <Button Content="Resolver perigo: ritual de despertar" Command="{Binding ResolveAwakeningDangerCommand}" HorizontalAlignment="Left"/>
                 <Button Content="Encerrar sono diurno" Command="{Binding EndAwakeningSleepCommand}" HorizontalAlignment="Left"/>
