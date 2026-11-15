@@ -148,8 +148,8 @@ public partial class CharacterEditorViewModel
         {
             var exchange = _chronicleActions.ResolveConflict(SelectedConflictKind.Kind,
                 FirstConflictSuccesses, FirstConflictDamageModifier, SecondConflictSuccesses,
-                SecondConflictDamageModifier, SelectedConflictDamageType.Type,
-                FirstConflictTargetIsVampire, SecondConflictTargetIsVampire);
+                SecondConflictDamageModifier + (FeralWeaponsActive ? 2 : 0), SelectedConflictDamageType.Type,
+                FirstConflictTargetIsVampire && !FeralWeaponsActive, SecondConflictTargetIsVampire);
             _lastConflictExchange = exchange;
             var result = exchange.IsTie
                 ? $"Empate: ambos causam dano."

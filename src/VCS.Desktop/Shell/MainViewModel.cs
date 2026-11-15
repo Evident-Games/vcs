@@ -29,6 +29,13 @@ public partial class MainViewModel(
     private Task ToggleNarratorAsync() => RunAsync(async () =>
     {
         if (narrator is null) return;
+        narrator.ApplyToCharacter = async entry =>
+        {
+            var target = OpenEditors.FirstOrDefault(x => x.Id == entry.CharacterId);
+            if (target is null) return false;
+            target.ApplyNarratorEvent(entry);
+            return await target.FlushAsync();
+        };
         if (!IsNarratorOpen) await narrator.LoadAsync(_all);
         IsLayoutSettingsOpen = false;
         IsHelpOpen = false;

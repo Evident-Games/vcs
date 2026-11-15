@@ -69,7 +69,9 @@
                 <TextBlock Text="Alvo"/><TextBox Text="{Binding ActivationTarget}"/>
                 <TextBlock Text="Efeito e duração confirmados pela mesa"/><TextBox Text="{Binding ActivationEffect}" TextWrapping="Wrap" AcceptsReturn="True"/>
                 <CheckBox Content="Exceção autorizada pelo Narrador" IsChecked="{Binding ActivationExceptionApproved}"/>
+                <CheckBox Content="Conferi os custos desta ativação com a regra do poder" IsChecked="{Binding ActivationCostsConfirmed}"/>
                 <Button Content="Pagar custos e registrar ativação" Command="{Binding ActivatePowerCommand}" HorizontalAlignment="Left"/>
+                <CheckBox Content="Armas da Fera ativas (+2 dano; ignora redução superficial no alvo)" IsChecked="{Binding FeralWeaponsActive}"/>
                 <TextBlock Text="{Binding ActivationSummary}" TextWrapping="Wrap" Margin="0,8,0,0"/>
             </StackPanel></Expander>
             </StackPanel>

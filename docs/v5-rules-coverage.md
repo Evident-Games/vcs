@@ -65,3 +65,13 @@ Eventos agora persistem o estado de vínculos (outra parte, nível e último gol
 O rolador da ficha aceita vários modificadores com motivo, fonte, valor e ativação individual. Estes são ajustes da cena atual, não bônus permanentes salvos na ficha.
 
 Build e testes não executados por instrução do usuário nesta rodada.
+
+
+## Aplicação de eventos e Proteanismo
+
+- Eventos salvos podem ser aplicados explicitamente à ficha aberta do personagem associado. O registro usa o identificador do evento para atualizar a mesma nota, sem repetir custos numéricos. Discrasias e Perdições também atualizam seus campos na ficha.
+- Metamorfose e Coração Vagante adicionados ao catálogo do livro-base. Orientações de forma e duração acompanham a seleção do poder.
+- Armas da Fera: ativação habilita um estado da cena que aplica +2 ao dano do personagem no controle de conflito e ignora a redução superficial do alvo. O jogador pode encerrar o estado desmarcando-o.
+- Custos exigem confirmação explícita antes da ativação. A autorização de exceção continua separada.
+
+Os efeitos específicos dos demais poderes e os procedimentos completos de Sangues-Ralos continuam exigindo integração adicional. Não há certificação de cobertura integral do livro-base.

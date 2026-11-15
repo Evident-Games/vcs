@@ -96,6 +96,7 @@
  <TextBlock Text="Resultado e consequências"/><TextBox Text="{Binding Outcome, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="80" Margin="0,4,0,10" />
  <TextBlock Text="Fonte (livro, página ou regra da mesa)"/><TextBox Text="{Binding Source, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,12" />
  <WrapPanel><Button Content="Salvar evento" Command="{Binding SaveCommand}" Margin="0,0,8,4"/><Button Content="Excluir selecionado" Command="{Binding DeleteCommand}" /></WrapPanel>
+ <Button Content="Aplicar evento salvo à ficha aberta" Command="{Binding ApplyToSheetCommand}" HorizontalAlignment="Left" Margin="0,10,0,0"/>
  <TextBlock Text="{Binding Status}" TextWrapping="Wrap" Margin="0,12,0,0" />
  </StackPanel></ScrollViewer>
  </Grid></DockPanel></Border>

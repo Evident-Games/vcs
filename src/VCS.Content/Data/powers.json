@@ -851,5 +851,26 @@
     "amalgamDisciplineId": "discipline-dominate",
     "amalgamLevel": 3,
     "source": "Vampiro: A Máscara V5 (Livro base)"
+  },
+  {
+    "id": "power-protean-metamorphosis",
+    "disciplineId": "discipline-protean",
+    "name": "Metamorfose",
+    "level": 4,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Concede uma forma animal adicional, inclusive de tamanho diferente. Usa o sistema de Mudança de Forma; dura uma cena ou até ser encerrado voluntariamente.",
+    "prerequisite": "Mudança de Forma",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 271"
+  },
+  {
+    "id": "power-protean-unfettered-heart",
+    "disciplineId": "discipline-protean",
+    "name": "Coração Vagante",
+    "level": 5,
+    "cost": "Gratuito",
+    "dicePool": "Nenhuma",
+    "summary": "Aumenta em 3 a dificuldade de estaquear fora de combate. Em combate, apenas um crítico no ataque de estaquear atinge o coração. Mesmo estaqueado, permite tentar expulsar a estaca com uma Checagem de Sangue e teste de Força + Determinação, dificuldade 5, uma vez por hora.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 271"
   }
 ]

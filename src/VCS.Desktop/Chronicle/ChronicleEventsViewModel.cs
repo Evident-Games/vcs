@@ -151,11 +151,29 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
         FirstWeapon = state.FirstWeapon; SecondWeapon = state.SecondWeapon;
     }
 
+    public Func<ChronicleEvent, Task<bool>>? ApplyToCharacter { get; set; }
+
+    [RelayCommand]
+    private async Task ApplyToSheetAsync()
+    {
+        if (IsBusy || SelectedEvent is not { CharacterId: not null } entry || ApplyToCharacter is null)
+        { Status = "Salve e selecione um evento associado a um personagem com a ficha aberta."; return; }
+        IsBusy = true;
+        try
+        {
+            Status = await ApplyToCharacter(entry)
+                ? "Evento aplicado e salvo na ficha selecionada."
+                : "Abra a ficha do personagem associado e confira eventuais erros de salvamento.";
+        }
+        catch (Exception exception) { Status = $"Não foi possível aplicar: {exception.Message}"; }
+        finally { IsBusy = false; }
+    }
+
     private bool _loaded;
     private bool _clearParticipant;
     public ObservableCollection<ChronicleEvent> Events { get; } = [];
     public ObservableCollection<CharacterSummary> Participants { get; } = [];
-    public string[] Kinds { get; } = ["Caça", "Conflito", "Compulsão", "Máculas e Remorso", "Diablerie", "Vínculo de Sangue", "Torpor", "Discrasia", "Perdição", "Domínio e Coterie", "Exceção do Narrador", "Outro"];
+    public string[] Kinds { get; } = ["Caça", "Conflito", "Compulsão", "Máculas e Remorso", "Diablerie", "Vínculo de Sangue", "Torpor", "Discrasia", "Perdição", "Domínio e Coterie", "Sangue-Ralo", "Exceção do Narrador", "Outro"];
     [ObservableProperty] private ChronicleEvent? selectedEvent;
     [ObservableProperty] private CharacterSummary? participant;
     [ObservableProperty] private DateTime? date = DateTime.Today;

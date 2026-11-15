@@ -51,8 +51,8 @@ public static class ConflictRules
 
         if (firstSuccesses == secondSuccesses)
         {
-            var firstDamage = Math.Max(0, 1 + firstDamageModifier);
-            var secondDamage = Math.Max(0, 1 + secondDamageModifier);
+            var firstDamage = Math.Max(0, 1 + secondDamageModifier);
+            var secondDamage = Math.Max(0, 1 + firstDamageModifier);
             if (kind == ConflictKind.Physical)
             {
                 firstDamage = DamageAfterVampireSuperficialReduction(firstDamage, damageType, firstTargetIsVampire);
