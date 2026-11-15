@@ -131,3 +131,5 @@ A regra pura `WardRules.ResolveFirstContact` calcula o primeiro contato voluntá
 ## Preparação de rituais
 
 A ficha oferece preparação padrão de rituais conhecidos: confirma condições, paga uma Checagem de Sangue sem rerrolagem de poder de Disciplina, calcula Inteligência + Feitiçaria de Sangue e envia os dados à mesa. Proteções adiam o teste até o primeiro contato. O efeito, requisitos específicos, exceções e contato das proteções ainda exigem resolução manual; o fluxo não permite aplicar custos alternativos e não automatiza o alvo. Os cinco resolvedores individuais permanecem pendentes.
+
+Despertar com o Frescor do Anoitecer também adia a rolagem: ela só ocorre caso haja perigo durante o sono (livro base, p. 276). A confirmação de condições é desmarcada ao trocar o ritual selecionado. O gatilho e o resultado continuam sendo resolvidos manualmente pela mesa.

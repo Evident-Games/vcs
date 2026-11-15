@@ -3,7 +3,7 @@ using VCS.Rules.V5.Rituals;
 
 namespace VCS.Application.Blood;
 
-/// <summary>V5 ritual preparation. Wards defer their ritual roll until contact.</summary>
+/// <summary>V5 ritual preparation. Some rituals defer their roll until a trigger occurs.</summary>
 public sealed class RitualActions
 {
     public RitualPreparation Prepare(int level, int hunger, int pool, bool deferred, Random? random = null)
