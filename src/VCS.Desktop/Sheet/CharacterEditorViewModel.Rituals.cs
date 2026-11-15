@@ -94,17 +94,30 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void ResolveWardContact()
     {
-        if (SelectedPowerEffect is not { Active: true, TurnChargeUsed: false } ward ||
+        if (SelectedPowerEffect is not { Active: true } ward ||
             ward.PowerId is not ("ritual-ward-against-lupines" or "ritual-ward-against-cainites"))
-        { RitualPreparationSummary = "Selecione nos efeitos uma proteção preparada que ainda não foi acionada."; return; }
+        { RitualPreparationSummary = "Selecione nos efeitos uma proteção de objeto ativa."; return; }
         if (!WardContactConfirmed)
         { RitualPreparationSummary = "Confirme com o Narrador o toque voluntário do intruso correspondente."; return; }
+        if (ward.TurnChargeUsed)
+        {
+            if (ward.PoolBonus == 0)
+            { RitualPreparationSummary = "Registro antigo sem resultado estruturado; consulte o histórico e resolva este contato com o Narrador."; return; }
+            var damage = ward.PoolBonus - 1;
+            var retry = WardRules.RetryRequirements(damage == 3);
+            RitualPreparationSummary = $"{ward.Name} em {ward.Target}: resultado inicial mantido; dano agravado proposto {damage}. " +
+                (damage > 0 ? $"Para um intruso já afetado voltar a tocar, gaste {retry.WillpowerCost} Vontade e vença Vigor + Determinação, dificuldade {retry.Difficulty}. " : "A primeira rolagem falhou. ") +
+                "Confirme cada intruso e aplique consequências manualmente. Nenhuma outra ficha foi alterada.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            WardContactConfirmed = false;
+            return;
+        }
         var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
         var attempt = new WardActions().ResolveFirstContact(ward.RemainingPoints, Hunger, pool, true, true);
         if (attempt.Roll is not { } roll) return;
         RitualPreparationSummary = $"{ward.Name} em {ward.Target}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}. " +
             $"Dano agravado proposto ao intruso: {attempt.Result.AggravatedHealthDamage}. Nenhuma outra ficha foi alterada. Fonte: {ward.Source}.";
-        ReplacePowerEffect(ward, ward with { TurnChargeUsed = true, Effect = RitualPreparationSummary });
+        ReplacePowerEffect(ward, ward with { TurnChargeUsed = true, PoolBonus = attempt.Result.AggravatedHealthDamage + 1, Effect = RitualPreparationSummary });
         Notebook.AppendLog("Rituais", RitualPreparationSummary);
         ShowDiceRoll(ward.Name, RitualPreparationSummary,
             roll.NormalDice.Select(x => new RolledDieDisplay(x, "COMUM")).Concat(roll.HungerDice.Select(x => new RolledDieDisplay(x, "FOME"))));
