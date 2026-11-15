@@ -36,6 +36,9 @@
                     <themes:SheetThemeMenu />
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="_Narrador">
+                <MenuItem Header="Eventos da crônica" Command="{Binding ToggleNarratorCommand}" IsEnabled="{Binding CanOpenNarrator}" />
+            </MenuItem>
             <MenuItem Header="_Ferramentas">
                 <MenuItem Header="Criar dump do banco..." Command="{Binding BackupCommand}" ToolTip="Salvar copia SQLite do banco completo" />
                 <MenuItem Header="Restaurar dump..." Command="{Binding RestoreCommand}" ToolTip="Substitui o banco completo, com confirmacao" />

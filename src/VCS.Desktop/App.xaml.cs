@@ -81,6 +81,8 @@ public partial class App : System.Windows.Application
             builder.Services.AddSingleton<PredatorActions>();
             builder.Services.AddSingleton<LoresheetActions>();
             builder.Services.AddSingleton<ChronicleActions>();
+            builder.Services.AddSingleton<IChronicleEventStore, VCS.Infrastructure.Chronicle.JsonChronicleEventStore>();
+            builder.Services.AddSingleton<VCS.Desktop.Chronicle.ChronicleEventsViewModel>();
             builder.Services.AddSingleton<ProvidedDisciplineCatalog>();
             builder.Services.AddSingleton<IDisciplineCatalog>(p => p.GetRequiredService<ProvidedDisciplineCatalog>());
             builder.Services.AddSingleton<SqliteAdvantageCatalog>();
