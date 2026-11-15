@@ -157,3 +157,5 @@ A resistência para uma nova tentativa pode ser rolada na mesa de dados após co
 A rolagem de resistência é executada por `WardActions.RollRetry`, fora da interface, usando a dificuldade fornecida pelas regras V5. O serviço rejeita tentativas contra um resultado que não afetou o intruso; o custo continua sendo confirmado pela mesa.
 
 O contato e a tentativa de resistência registram uma identificação informada para o intruso no diário. A identificação é texto livre e não comprova automaticamente que o intruso foi afetado ou que pagou Vontade; essas confirmações continuam sendo decisões da mesa.
+
+Alterar a identificação do intruso desmarca as confirmações de contato e pagamento de Vontade, para que uma decisão sobre outro alvo não seja reutilizada por engano.

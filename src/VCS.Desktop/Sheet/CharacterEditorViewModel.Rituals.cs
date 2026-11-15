@@ -38,6 +38,12 @@ public partial class CharacterEditorViewModel
         WardIntruder = "";
     }
 
+    partial void OnWardIntruderChanged(string value)
+    {
+        WardContactConfirmed = false;
+        WardRetryCostConfirmed = false;
+    }
+
     [RelayCommand]
     private void PrepareRitual()
     {
