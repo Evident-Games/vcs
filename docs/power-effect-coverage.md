@@ -137,3 +137,5 @@ Despertar com o Frescor do Anoitecer também adia a rolagem: ela só ocorre caso
 O ritual de despertar preparado agora fica registrado nos efeitos da ficha; após confirmação de perigo, o botão correspondente rola sem nova Checagem de Sangue, encerra o registro pendente e apresenta o resultado na mesa. O Narrador confirma o perigo e acompanha o fim do sono; o encerramento após o sono permanece manual. Esta integração parcial não altera a contagem de cinco rituais sem resolvedor completo.
 
 O preparo permite uma exceção de pré-requisito quando o Narrador a autoriza e fornece justificativa; a decisão é registrada na tabela de exceções da ficha. Isso não substitui a resolução manual dos requisitos específicos ainda não modelados.
+
+O botão de encerramento do sono diurno permite desativar explicitamente o ritual de despertar pendente sem rolagem ou custo adicional. O término não é inferido pela data real; continua dependendo da confirmação da mesa.

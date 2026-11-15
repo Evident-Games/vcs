@@ -20,6 +20,7 @@ public partial class CharacterEditorViewModel
         RitualConditionsConfirmed = false;
         RitualExceptionApproved = false;
         RitualExceptionReason = "";
+        AwakeningDangerConfirmed = false;
         RitualPreparationSummary = "Confira novamente os ingredientes, o alvo e as condições deste ritual.";
     }
 
@@ -90,6 +91,18 @@ public partial class CharacterEditorViewModel
         ShowDiceRoll("Ritual de despertar", RitualPreparationSummary,
             roll.NormalDice.Select(x => new RolledDieDisplay(x, "COMUM")).Concat(roll.HungerDice.Select(x => new RolledDieDisplay(x, "FOME"))));
         AwakeningDangerConfirmed = false;
+        MarkChanged();
+    }
+
+    [RelayCommand]
+    private void EndAwakeningSleep()
+    {
+        var pending = PowerEffects.LastOrDefault(x => x.Active && x.IsSelf && x.PowerId == "ritual-wake-with-evenings-freshness");
+        if (pending is null) { RitualPreparationSummary = "Nenhum ritual de despertar pendente nesta ficha."; return; }
+        RitualPreparationSummary = "Sono diurno encerrado; ritual de despertar pendente encerrado sem rolagem.";
+        ReplacePowerEffect(pending, pending with { Active = false, Effect = RitualPreparationSummary });
+        AwakeningDangerConfirmed = false;
+        Notebook.AppendLog("Rituais", RitualPreparationSummary);
         MarkChanged();
     }
 }

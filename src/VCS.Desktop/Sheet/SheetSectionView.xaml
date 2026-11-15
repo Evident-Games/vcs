@@ -69,6 +69,7 @@
                 <Button Content="Preparar ritual" Command="{Binding PrepareRitualCommand}" HorizontalAlignment="Left"/>
                 <CheckBox Content="Narrador confirmou perigo durante o sono" IsChecked="{Binding AwakeningDangerConfirmed}"/>
                 <Button Content="Resolver perigo: ritual de despertar" Command="{Binding ResolveAwakeningDangerCommand}" HorizontalAlignment="Left"/>
+                <Button Content="Encerrar sono diurno" Command="{Binding EndAwakeningSleepCommand}" HorizontalAlignment="Left"/>
                 <TextBlock Text="{Binding RitualPreparationSummary}" TextWrapping="Wrap"/>
             </StackPanel></Expander>
             <Expander Header="Ativar poder conhecido" Margin="8,12"><StackPanel Margin="8">
