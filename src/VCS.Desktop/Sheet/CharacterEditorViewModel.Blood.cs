@@ -42,6 +42,7 @@ public partial class CharacterEditorViewModel
     private int _lastRollHunger;
     private int _lastRollDifficulty;
     private bool _rerollUsed;
+    private bool _lastRollBeastQuelled;
 
     partial void OnWillpowerSuperficialChanged(int value)
     {
@@ -117,7 +118,7 @@ public partial class CharacterEditorViewModel
     public DicePoolComposition RollPoolComposition => _diceActions.BuildPool(
         SelectedRollAttribute?.Rating ?? 0, SelectedRollSkill?.Rating ?? 0, EffectiveSituationalModifier,
         UseRollSpecialization && CanApplyRollSpecialization);
-    private int EffectiveSituationalModifier => Math.Clamp(RollSituationalModifier + PainPoolBonus + ContextPowerBonus + SensoryPenalty + PoolModifiers.Where(x => x.IsApplied).Sum(x => Math.Clamp(x.Dice, -50, 50)), -49, 49) + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0);
+    private int EffectiveSituationalModifier => Math.Clamp(RollSituationalModifier + ContextPenalties + FormAttributeAdjustment + PainPoolBonus + ContextPowerBonus + SensoryPenalty + PoolModifiers.Where(x => x.IsApplied).Sum(x => Math.Clamp(x.Dice, -50, 50)), -49, 49) + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0);
     public int CurrentRollDicePool => UseSheetDicePool ? RollPoolComposition.DicePool : Math.Max(0, RollDicePool + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0));
     public string RollPoolSummary => UseSheetDicePool
         ? $"Parada montada: {RollPoolComposition.Formula}. {ContextPowerSummary} Origem do ajuste: {RollModifierSource}{ResonanceBonusSummary}. " +
@@ -179,7 +180,7 @@ public partial class CharacterEditorViewModel
     {
         get
         {
-            var result = _bloodActions.PreviewFeeding(SelectedBloodSourceOption.Source, BloodPotency, Hunger,
+            var result = _bloodActions.PreviewFeeding(SelectedBloodSourceOption.Source, EffectiveBloodPotency, Hunger,
                 FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional,
                 KnowsPower("power-animalism-animal-succulence"));
             var resonance = result.CanProduceResonance ? "pode conceder Ressonância" : "não concede Ressonância";
@@ -203,7 +204,7 @@ public partial class CharacterEditorViewModel
         // A próxima alimentação encerra os benefícios de Ressonância/Discrasia anteriores.
         _extraFields["Resonance"].Value = "";
         _extraFields["Dyscrasia"].Value = "";
-        var result = _bloodActions.ApplyFeeding(SelectedBloodSourceOption.Source, BloodPotency, Hunger,
+        var result = _bloodActions.ApplyFeeding(SelectedBloodSourceOption.Source, EffectiveBloodPotency, Hunger,
             FeedingHumanWasDrained, FeedingAnimalIsLarge, FeedingAnimalIsExceptional,
                 KnowsPower("power-animalism-animal-succulence"));
         if (result.Status == FeedingApplicationStatus.NoHungerSlaked)
@@ -338,10 +339,14 @@ public partial class CharacterEditorViewModel
             return;
         }
 
+        if (ResolveAutomaticPowerTest()) return;
+        var attackPower = PendingAttackPower;
+        var rollDifficulty = EffectiveRollDifficulty;
+        var beastQuelled = HasActivePower("power-animalism-quell-the-beast");
         var rouseSummary = "";
         var displayedDice = new List<RolledDieDisplay>();
-        var action = _bloodActions.RollTest(CurrentRollDicePool, RollDifficulty, Hunger, BloodPotency,
-            UseHungerDice, UseBloodSurge);
+        var action = _bloodActions.RollTest(CurrentRollDicePool, rollDifficulty, Hunger, EffectiveBloodPotency,
+            UseHungerDice, UseBloodSurge && !beastQuelled);
         if (action.BloodSurgeCheck is { } rouse)
         {
             Hunger = action.HungerAfter;
@@ -351,12 +356,16 @@ public partial class CharacterEditorViewModel
         }
 
         var fleetnessDodgeApplied = UseSheetDicePool && FleetnessPoolBonus > 0 && RollIsCombat && RollIsDodge;
-        var result = action.Roll;
+        var result = beastQuelled && action.Roll.Outcome == TestOutcome.MessyCritical
+            ? action.Roll with { Outcome = TestOutcome.CriticalSuccess } : action.Roll;
         _lastRollForReroll = result;
         _lastRollPool = CurrentRollDicePool + action.BloodSurgeDice;
         _lastRollHunger = UseHungerDice ? action.HungerAfter : 0;
-        _lastRollDifficulty = RollDifficulty;
+        _lastRollDifficulty = rollDifficulty;
+        _lastRollBeastQuelled = beastQuelled;
         if (fleetnessDodgeApplied) FleetnessDodgeUsed = true;
+        ConsumeAttackPower(attackPower);
+        if (UseSheetDicePool && MinorActionPenalty > 0 && KnowsPower("power-celerity-rapid-reflexes")) ReflexesMinorActionUsed = true;
         _rerollUsed = false;
         RerollableDice.Clear();
         for (var index = 0; index < result.NormalDice.Count; index++)
@@ -425,6 +434,8 @@ public partial class CharacterEditorViewModel
         var indices = selected.Select(die => hungerCount + die.Index).ToArray();
         var result = _diceActions.RerollFailures(_lastRollPool, _lastRollHunger, _lastRollDifficulty,
             initialFaces, indices);
+        if (_lastRollBeastQuelled && result.Outcome == TestOutcome.MessyCritical)
+            result = result with { Outcome = TestOutcome.CriticalSuccess };
         WillpowerSuperficial = Math.Min(WillpowerCapacity - WillpowerAggravated, WillpowerSuperficial + 1);
         _rerollUsed = true;
         _lastRollForReroll = null;
@@ -468,9 +479,14 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void MendSuperficialHealth()
     {
+        if (HealthSuperficial <= UnhealableSuperficial)
+        {
+            ShowDiceRoll("Mending", "Não há dano superficial curável nesta cena. Desafio à Perdição impede curar o dano convertido até encerrar a cena.", []);
+            return;
+        }
         try
         {
-            var result = _bloodActions.MendSuperficialHealth(HealthSuperficial, Hunger, BloodPotency);
+            var result = _bloodActions.MendSuperficialHealth(Math.Max(0, HealthSuperficial - UnhealableSuperficial), Hunger, EffectiveBloodPotency);
             Hunger = result.HungerAfter;
             HealthSuperficial = Math.Max(0, HealthSuperficial - result.SuperficialHealed);
             RouseCheckSummary = result.RouseCheck.Succeeded

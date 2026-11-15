@@ -43,7 +43,7 @@ public partial class CharacterEditorViewModel
             ExperienceTotal = ExperienceTotal, ExperienceSpent = ExperienceSpent,
             CampaignExperienceTotal = CampaignExperienceTotal, CampaignExperienceSpent = CampaignExperienceSpent,
             NpcAttacks = [.. NpcAttacks.Select(x => x.ToValue())],
-            NoteEntries = Notebook.ToValues(), Exceptions = ExceptionRegister.ToValues()
+            PowerEffects = SnapshotPowerEffects(), NoteEntries = Notebook.ToValues(), Exceptions = ExceptionRegister.ToValues()
         },
         Traits = [.. Groups.SelectMany(x => x.Items).Select(x => x.ToValue()), .. Powers.SelectedValues()]
     };

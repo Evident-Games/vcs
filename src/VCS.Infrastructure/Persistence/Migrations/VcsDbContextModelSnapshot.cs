@@ -378,6 +378,12 @@ namespace VCS.Infrastructure.Persistence.Migrations
                                 .HasColumnType("TEXT")
                                 .HasDefaultValue("[]");
 
+                            b1.Property<string>("PowerEffects")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("TEXT")
+                                .HasDefaultValue("[]");
+
                             b1.Property<string>("Desire")
                                 .IsRequired()
                                 .HasColumnType("TEXT");

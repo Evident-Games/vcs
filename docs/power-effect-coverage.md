@@ -1,88 +1,121 @@
-# Integração mecânica dos poderes
+# Cobertura dos poderes do livro base
 
-Critério: o efeito principal participa de cálculo ou aplicação de estado na ficha. Descrição, catálogo, custo de ativação e anotação livre, isoladamente, não contam como integração mecânica.
+Inventário desta rodada: **88 poderes de Disciplinas**, todos com perfil de uso (custos, parada, oposição, condições e fonte). Foram acrescentadas 17 entradas ao catálogo anterior de 71. Os 5 rituais já cadastrados são contados separadamente; esta lista não abrange as fórmulas de Alquimia de Sangue-Ralo.
 
-Catálogo atual: 71 poderes; 12 com cálculo principal integrado; 59 pendentes. Há ainda 5 rituais sem resolvedor específico.
+| Critério | Quantidade |
+| --- | ---: |
+| Efeito principal com cálculo/aplicação direta na ficha | 37 |
+| Proposta numérica calculada; aplicação no alvo pelo Narrador | 11 |
+| Resolução assistida de efeito narrativo/condicional | 40 |
+| Poder sem perfil de uso | 0 |
+| Rituais existentes sem resolvedor específico | 5 |
 
-As integrações dependem dos contextos marcados na tela. Isto não certifica cobertura completa de todos os detalhes narrativos ou efeitos secundários do poder. Nenhum build ou teste foi executado nesta rodada.
+**Perfil de uso não significa automação integral.** Custos, dados e texto por si só não contam como integração direta. Portanto ainda há 51 poderes sem aplicação direta de seu efeito principal na ficha; a divisão abaixo permite acompanhar esse trabalho sem confundir cadastro com implementação. Mesmo os 37 diretos podem ter procedimentos secundários conduzidos pelo Narrador.
 
-| Poder | Estado |
-| --- | --- |
-| Laço com Familiar | Pendente de efeito específico |
-| Sentir a Besta | Pendente de efeito específico |
-| Sussurros Selvagens | Pendente de efeito específico |
-| Acalmar a Besta | Pendente de efeito específico |
-| Suculência Animal | Cálculo principal integrado |
-| Subjugar o Espírito | Pendente de efeito específico |
-| Domínio Animal | Pendente de efeito específico |
-| Extrair a Besta | Pendente de efeito específico |
-| Sentidos Aguçados | Cálculo principal integrado |
-| Sentir o Invisível | Pendente de efeito específico |
-| Premonição | Pendente de efeito específico |
-| Compartilhar os Sentidos | Pendente de efeito específico |
-| Sondar a Alma | Pendente de efeito específico |
-| O Toque do Espírito | Pendente de efeito específico |
-| Clarividência | Pendente de efeito específico |
-| Telepatia | Pendente de efeito específico |
-| Graça Felina | Pendente de efeito específico |
-| Reflexos Rápidos | Pendente de efeito específico |
-| Rapidez | Cálculo principal integrado |
-| Piscar / Travessia | Pendente de efeito específico |
-| Mira Infalível | Pendente de efeito específico |
-| Fração de Segundos | Pendente de efeito específico |
-| Compelir | Pendente de efeito específico |
-| Obscurecer Memória | Pendente de efeito específico |
-| Sugestão Hipnótica | Pendente de efeito específico |
-| O Esquece-me | Pendente de efeito específico |
-| Submersão da Diretriz | Pendente de efeito específico |
-| Racionalização | Pendente de efeito específico |
-| Comando em Massa | Pendente de efeito específico |
-| Ditame Terminal | Pendente de efeito específico |
-| Resiliência | Cálculo principal integrado |
-| Mente Inabalável | Cálculo principal integrado |
-| Resiliência das Bestas | Pendente de efeito específico |
-| Ignorar Danos | Pendente de efeito específico |
-| Fortificar Barreira Íntima | Cálculo principal integrado |
-| Proteção de Mármore | Cálculo principal integrado |
-| Agonia da Carne | Cálculo principal integrado |
-| Manto de Sombras | Pendente de efeito específico |
-| Silêncio da Morte | Pendente de efeito específico |
-| Passagem Invisível | Pendente de efeito específico |
-| Máscara das Mil Faces | Pendente de efeito específico |
-| Fantasma Cibernético | Pendente de efeito específico |
-| Ocultar | Pendente de efeito específico |
-| Manto do Grupo | Pendente de efeito específico |
-| Salto Impressionante | Pendente de efeito específico |
-| Corpo Letal | Pendente de efeito específico |
-| Bravura | Cálculo principal integrado |
-| Alimentação Brutal | Pendente de efeito específico |
-| Poção de Força | Pendente de efeito específico |
-| Choque Terrestre | Pendente de efeito específico |
-| Olhar Aterrorizante | Pendente de efeito específico |
-| Fascínio | Cálculo principal integrado |
-| Beijo Persistente | Pendente de efeito específico |
-| Transe | Pendente de efeito específico |
-| Convocação | Pendente de efeito específico |
-| Majestade | Pendente de efeito específico |
-| Peso da Pena | Pendente de efeito específico |
-| Olhos da Besta | Pendente de efeito específico |
-| Armas da Fera | Cálculo principal integrado |
-| Fusão com a Terra | Pendente de efeito específico |
-| Mudança de Forma | Pendente de efeito específico |
-| Forma de Névoa | Pendente de efeito específico |
-| Gosto de Sangue | Pendente de efeito específico |
-| Sangue Corrosivo | Pendente de efeito específico |
-| Extinguir Vitae | Pendente de efeito específico |
-| Toque do Escorpião | Pendente de efeito específico |
-| Roubo de Vitae | Pendente de efeito específico |
-| Caldeirão de Sangue | Pendente de efeito específico |
-| Despertar com a Brisa do Entardecer | Ritual: pendente |
-| Ilusão de Morte Pacífica | Ritual: pendente |
-| Proteção contra Feras | Ritual: pendente |
-| Proteção contra Cainitas | Ritual: pendente |
-| Fuga para o Santuário Verdadeiro | Ritual: pendente |
-| Metamorfose | Pendente de efeito específico |
-| Coração Vagante | Pendente de efeito específico |
-| Tenacidade | Cálculo principal integrado |
+## Como usar
 
-Sentidos Aguçados: bônus em percepção e penalidade de sobrecarga marcada após resistência resolvida pela mesa. Fascínio: bônus restrito às habilidades elegíveis ou Carisma autorizado; alvo resistente excluído manualmente. Fachada Interior: bônus na resistência ou aumento da dificuldade do oponente, mutuamente exclusivos. Bônus diretos de Disciplinas usam o maior valor, sem soma. Estados são temporários e encerrados pelo comando de fim de cena. A contagem refere-se ao catálogo atual, ainda não a uma auditoria exaustiva de todos os poderes impressos.
+Na seção Disciplinas, selecione um poder conhecido, identifique o alvo e confira custo, condições e oposição. Testes secretos ou dispensados pela regra podem ser desmarcados com justificativa. A resolução paga os custos uma vez e envia as faces à mesa de dados, respeitando a preferência global de 3D. Efeitos, fontes, data na crônica e decisões ficam salvos junto à ficha.
+
+O resultado para outro alvo não altera outra ficha. Dano/Fome à própria ficha tem botão explícito e proteção contra aplicação duplicada. Uma decisão excepcional é copiada para a tabela de exceções. Transformações usam o perfil físico confirmado pelo Narrador e só entram em vigor após completar os turnos. Potência temporária não altera a Potência permanente. Início de turno e encerramento de cena controlam os estados correspondentes; horas, noites e gatilhos narrativos exigem encerramento pela mesa.
+
+## Inventário
+
+| Poder | Fonte | Cobertura do efeito principal |
+| --- | --- | --- |
+| Laço com Familiar | Vampiro: A Máscara V5 (Livro base), p. 245 | Integração direta |
+| Sentir a Besta | Vampiro: A Máscara V5 (Livro base), p. 245 | Resolução assistida |
+| Sussurros Selvagens | Vampiro: A Máscara V5 (Livro base), p. 246 | Resolução assistida |
+| Enxame Não Vivo | Vampiro: A Máscara V5 (Livro base), p. 246 | Proposta numérica |
+| Subjugar a Besta | Vampiro: A Máscara V5 (Livro base), p. 246 | Integração direta |
+| Suculência Animal | Vampiro: A Máscara V5 (Livro base), p. 247 | Integração direta |
+| Comunhão de Espíritos | Vampiro: A Máscara V5 (Livro base), p. 247 | Resolução assistida |
+| Controle Animal | Vampiro: A Máscara V5 (Livro base), p. 247 | Resolução assistida |
+| Expulsar a Besta | Vampiro: A Máscara V5 (Livro base), p. 248 | Resolução assistida |
+| Sentidos Aguçados | Vampiro: A Máscara V5 (Livro base), p. 249 | Integração direta |
+| Sentir o Invisível | Vampiro: A Máscara V5 (Livro base), p. 249 | Resolução assistida |
+| Premonição | Vampiro: A Máscara V5 (Livro base), p. 249 | Resolução assistida |
+| Compartilhar os Sentidos | Vampiro: A Máscara V5 (Livro base), p. 250 | Resolução assistida |
+| Perscrutar a Alma | Vampiro: A Máscara V5 (Livro base), p. 250 | Resolução assistida |
+| Toque do Espírito | Vampiro: A Máscara V5 (Livro base), p. 250 | Resolução assistida |
+| Clarividência | Vampiro: A Máscara V5 (Livro base), p. 251 | Resolução assistida |
+| Possessão | Vampiro: A Máscara V5 (Livro base), p. 251 | Resolução assistida |
+| Telepatia | Vampiro: A Máscara V5 (Livro base), p. 252 | Resolução assistida |
+| Graça Felina | Vampiro: A Máscara V5 (Livro base), p. 252 | Integração direta |
+| Reflexos Rápidos | Vampiro: A Máscara V5 (Livro base), p. 253 | Integração direta |
+| Rapidez | Vampiro: A Máscara V5 (Livro base), p. 253 | Integração direta |
+| Piscadela | Vampiro: A Máscara V5 (Livro base), p. 253 | Resolução assistida |
+| Travessia | Vampiro: A Máscara V5 (Livro base), p. 254 | Resolução assistida |
+| Elegância Direto da Fonte | Vampiro: A Máscara V5 (Livro base), p. 254 | Proposta numérica |
+| Mira Infalível | Vampiro: A Máscara V5 (Livro base), p. 254 | Integração direta |
+| Fração de Segundos | Vampiro: A Máscara V5 (Livro base), p. 254 | Resolução assistida |
+| Golpe Relâmpago | Vampiro: A Máscara V5 (Livro base), p. 254 | Integração direta |
+| Compelir | Vampiro: A Máscara V5 (Livro base), p. 256 | Resolução assistida |
+| Nublar Memória | Vampiro: A Máscara V5 (Livro base), p. 256 | Resolução assistida |
+| Demência | Vampiro: A Máscara V5 (Livro base), p. 256 | Integração direta |
+| Mesmerismo | Vampiro: A Máscara V5 (Livro base), p. 256 | Resolução assistida |
+| A Mente Esquecida | Vampiro: A Máscara V5 (Livro base), p. 257 | Proposta numérica |
+| Diretriz Submersa | Vampiro: A Máscara V5 (Livro base), p. 257 | Resolução assistida |
+| Racionalizar | Vampiro: A Máscara V5 (Livro base), p. 257 | Resolução assistida |
+| Manipulação em Massa | Vampiro: A Máscara V5 (Livro base), p. 257 | Resolução assistida |
+| Decreto Terminal | Vampiro: A Máscara V5 (Livro base), p. 257 | Resolução assistida |
+| Resiliência | Vampiro: A Máscara V5 (Livro base), p. 258 | Integração direta |
+| Mente Inescrutável | Vampiro: A Máscara V5 (Livro base), p. 258 | Integração direta |
+| Feras Tenazes | Vampiro: A Máscara V5 (Livro base), p. 258 | Proposta numérica |
+| Tenacidade | Vampiro: A Máscara V5 (Livro base), p. 259 | Integração direta |
+| Desafio à Perdição | Vampiro: A Máscara V5 (Livro base), p. 259 | Integração direta |
+| Fortificar a Fachada Interior | Vampiro: A Máscara V5 (Livro base), p. 259 | Integração direta |
+| Resistência Direto da Fonte | Vampiro: A Máscara V5 (Livro base), p. 259 | Proposta numérica |
+| Pele de Mármore | Vampiro: A Máscara V5 (Livro base), p. 259 | Integração direta |
+| Poder Vindo da Dor | Vampiro: A Máscara V5 (Livro base), p. 260 | Integração direta |
+| Manto de Sombras | Vampiro: A Máscara V5 (Livro base), p. 261 | Resolução assistida |
+| Silêncio da Morte | Vampiro: A Máscara V5 (Livro base), p. 261 | Resolução assistida |
+| Passagem Invisível | Vampiro: A Máscara V5 (Livro base), p. 261 | Resolução assistida |
+| Máscara de Mil Faces | Vampiro: A Máscara V5 (Livro base), p. 262 | Resolução assistida |
+| Fantasma na Máquina | Vampiro: A Máscara V5 (Livro base), p. 261 | Integração direta |
+| Desaparecer | Vampiro: A Máscara V5 (Livro base), p. 262 | Resolução assistida |
+| Ocultar | Vampiro: A Máscara V5 (Livro base), p. 262 | Proposta numérica |
+| Disfarce do Impostor | Vampiro: A Máscara V5 (Livro base), p. 263 | Resolução assistida |
+| Ocultar o Grupo | Vampiro: A Máscara V5 (Livro base), p. 263 | Proposta numérica |
+| Salto Vertiginoso | Vampiro: A Máscara V5 (Livro base), p. 264 | Proposta numérica |
+| Corpo Letal | Vampiro: A Máscara V5 (Livro base), p. 264 | Integração direta |
+| Poderio | Vampiro: A Máscara V5 (Livro base), p. 264 | Integração direta |
+| Alimentação Brutal | Vampiro: A Máscara V5 (Livro base), p. 264 | Proposta numérica |
+| Centelha de Fúria | Vampiro: A Máscara V5 (Livro base), p. 264 | Resolução assistida |
+| Pegada Sobrenatural | Vampiro: A Máscara V5 (Livro base), p. 265 | Integração direta |
+| Força Direto da Fonte | Vampiro: A Máscara V5 (Livro base), p. 265 | Proposta numérica |
+| Punho de Caim | Vampiro: A Máscara V5 (Livro base), p. 265 | Integração direta |
+| Terremoto | Vampiro: A Máscara V5 (Livro base), p. 265 | Resolução assistida |
+| Amedrontar | Vampiro: A Máscara V5 (Livro base), p. 266 | Integração direta |
+| Fascínio | Vampiro: A Máscara V5 (Livro base), p. 267 | Integração direta |
+| Beijo Indelével | Vampiro: A Máscara V5 (Livro base), p. 267 | Proposta numérica |
+| Olhar Aterrorizante | Vampiro: A Máscara V5 (Livro base), p. 267 | Resolução assistida |
+| Transe | Vampiro: A Máscara V5 (Livro base), p. 267 | Integração direta |
+| Convocar | Vampiro: A Máscara V5 (Livro base), p. 268 | Resolução assistida |
+| Voz Irresistível | Vampiro: A Máscara V5 (Livro base), p. 268 | Resolução assistida |
+| Majestade | Vampiro: A Máscara V5 (Livro base), p. 268 | Resolução assistida |
+| Magnetismo de Estrela | Vampiro: A Máscara V5 (Livro base), p. 268 | Resolução assistida |
+| Peso Pena | Vampiro: A Máscara V5 (Livro base), p. 269 | Integração direta |
+| Olhos da Besta | Vampiro: A Máscara V5 (Livro base), p. 269 | Integração direta |
+| Armas Ferais | Vampiro: A Máscara V5 (Livro base), p. 270 | Integração direta |
+| Fusão com a Terra | Vampiro: A Máscara V5 (Livro base), p. 270 | Resolução assistida |
+| Mudança de Forma | Vampiro: A Máscara V5 (Livro base), p. 270 | Integração direta |
+| Metamorfose | Vampiro: A Máscara V5 (Livro base), p. 271 | Integração direta |
+| Coração Vagante | Vampiro: A Máscara V5 (Livro base), p. 271 | Integração direta |
+| Forma de Névoa | Vampiro: A Máscara V5 (Livro base), p. 271 | Integração direta |
+| Um Gosto por Sangue | Vampiro: A Máscara V5 (Livro base), p. 272 | Resolução assistida |
+| Vitae Corrosivo | Vampiro: A Máscara V5 (Livro base), p. 272 | Resolução assistida |
+| Extinguir Vitae | Vampiro: A Máscara V5 (Livro base), p. 273 | Integração direta |
+| Picada de Escorpião | Vampiro: A Máscara V5 (Livro base), p. 273 | Integração direta |
+| Sangue Potente | Vampiro: A Máscara V5 (Livro base), p. 273 | Integração direta |
+| Roubo de Vitae | Vampiro: A Máscara V5 (Livro base), p. 274 | Resolução assistida |
+| Carícia de Baal | Vampiro: A Máscara V5 (Livro base), p. 274 | Integração direta |
+| Caldeirão de Sangue | Vampiro: A Máscara V5 (Livro base), p. 274 | Integração direta |
+
+## Limites e compatibilidade
+
+- Decisões sobre informações reveladas, consentimento, comandos, ilusões, detecção, alcance e efeitos em outros personagens continuam com o Narrador. O programa não fabrica essas respostas.
+- Alimentação por poderes, poderes cedidos por poções, Laços de Sangue, perfis animais e testes secundários (frenesi, Torpor após Carícia de Baal, resistência a Possessão etc.) exigem aplicação/decisão explícita nas ferramentas correspondentes. O resultado orienta o procedimento, mas não o executa silenciosamente.
+- Bloqueios por história/noite, intervalos de uma hora e condições de término não são um relógio automático. O registro permite conferi-los; os bloqueios automáticos presentes limitam-se aos casos explicitamente tratados pelo fluxo.
+- Entradas antigas preservam os campos personalizados. O identificador histórico `power-celerity-blink-traversal` passa a representar apenas Piscadela; Travessia tem entrada própria. Olhar Aterrorizante é nível 3, Amedrontar tem entrada própria de nível 1, e Pele de Mármore é nível 5. Nível antigo divergente exige justificativa; usar “Restaurar catálogo” atualiza os campos da entrada.
+- A migração `20261115023000_CharacterPowerEffects` acrescenta o histórico JSON com padrão vazio e acompanha o snapshot EF. Não apaga personagens nem efeitos anteriores.
+- Revisão de código e conteúdo realizada sem executar build ou testes, conforme solicitado. Compilação, migração real, bindings e apresentação WPF ainda precisam de validação em Windows.

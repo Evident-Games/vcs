@@ -31,6 +31,8 @@ public sealed record CharacterDetails
     private readonly IReadOnlyList<SheetException> _exceptions = ValueList<SheetException>.Empty;
     /// <summary>Storyteller-approved deviations and table rulings recorded for this character.</summary>
     public IReadOnlyList<SheetException> Exceptions { get => _exceptions; init => _exceptions = value is null ? null! : new ValueList<SheetException>(value); }
+    private readonly ValueList<PowerEffectEntry> _powerEffects = ValueList<PowerEffectEntry>.Empty;
+    public IReadOnlyList<PowerEffectEntry> PowerEffects { get => _powerEffects; init => _powerEffects = new ValueList<PowerEffectEntry>(value ?? []); }
     public string Ambition { get; init; } = "";
     public string Desire { get; init; } = "";
     public string Resonance { get; init; } = "";

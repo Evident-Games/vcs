@@ -82,6 +82,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
             noteEntries = [new(character.Id, "Anotações", d.Notes, character.UpdatedUtc)];
             notes = "";
         }
+        foreach (var effect in d.PowerEffects) PowerEffects.Add(effect);
         Notebook = new(noteEntries);
         Notebook.Changed += OnNotebookChanged;
         ExceptionRegister = new(d.Exceptions);
@@ -154,6 +155,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         foreach (var group in Groups) group.Changed += OnTraitsChanged;
         SyncAttributeBase();
         SyncDisciplineBase();
+        RestorePowerEffects();
         _ready = true;
         ConfigureDisplay(Display);
         RefreshAdvancement();
@@ -269,12 +271,12 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     public SheetFieldViewModel[] BackgroundFields { get; }
     public SheetFieldViewModel[] BloodFields { get; }
     public SheetFieldViewModel[] BloodAnnotationFields { get; }
-    public string BloodSurgeSummary => _bloodActions.BloodSurge(BloodPotency);
-    public string BloodMendSummary => _bloodActions.DamageMend(BloodPotency);
-    public string BloodPowerBonusSummary => _bloodActions.PowerBonus(BloodPotency);
-    public string BloodRouseRerollSummary => _bloodActions.RouseReroll(BloodPotency);
-    public string BloodFeedingPenaltySummary => _bloodActions.FeedingPenalty(BloodPotency);
-    public string BloodBaneSeveritySummary => _bloodActions.BaneSeverity(BloodPotency);
+    public string BloodSurgeSummary => _bloodActions.BloodSurge(EffectiveBloodPotency);
+    public string BloodMendSummary => _bloodActions.DamageMend(EffectiveBloodPotency);
+    public string BloodPowerBonusSummary => _bloodActions.PowerBonus(EffectiveBloodPotency);
+    public string BloodRouseRerollSummary => _bloodActions.RouseReroll(EffectiveBloodPotency);
+    public string BloodFeedingPenaltySummary => _bloodActions.FeedingPenalty(EffectiveBloodPotency);
+    public string BloodBaneSeveritySummary => _bloodActions.BaneSeverity(EffectiveBloodPotency);
     public string BloodPotencyRuleWarning
     {
         get
@@ -385,6 +387,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         else if (ReferenceEquals(sender, Disciplines)) SyncDisciplineBase();
         RefreshAdvancement();
         RefreshRollPool();
+        RefreshPowerUse();
         OnPropertyChanged(nameof(PhysicalPowerGuidance));
         OnPropertyChanged(nameof(HealthCapacity));
         OnPropertyChanged(nameof(WillpowerCapacity));
@@ -416,6 +419,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     }
     partial void OnBloodPotencyChanged(int value)
     {
+        OnPropertyChanged(nameof(EffectiveBloodPotency));
+        RefreshPowerUse();
         OnPropertyChanged(nameof(BloodSurgeSummary));
         OnPropertyChanged(nameof(BloodMendSummary));
         OnPropertyChanged(nameof(BloodPowerBonusSummary));

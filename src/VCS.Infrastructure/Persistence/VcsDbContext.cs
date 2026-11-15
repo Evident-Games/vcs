@@ -95,6 +95,14 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
                     x => x.Aggregate(0, (hash, exception) => HashCode.Combine(hash, exception)),
                     x => new ValueList<SheetException>(x)))
                 .HasDefaultValue(ValueList<SheetException>.Empty).IsRequired();
+            details.Property(x => x.PowerEffects).HasConversion(
+                x => JsonSerializer.Serialize(x, (JsonSerializerOptions?)null),
+                x => new ValueList<PowerEffectEntry>(JsonSerializer.Deserialize<PowerEffectEntry[]>(x, (JsonSerializerOptions?)null) ?? Array.Empty<PowerEffectEntry>()),
+                new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<IReadOnlyList<PowerEffectEntry>>(
+                    (a, b) => a == null ? b == null : b != null && a.SequenceEqual(b),
+                    x => x.Aggregate(0, (hash, exception) => HashCode.Combine(hash, exception)),
+                    x => new ValueList<PowerEffectEntry>(x)))
+                .HasDefaultValue(ValueList<PowerEffectEntry>.Empty).IsRequired();
             details.Property(x => x.Name).HasColumnName("Name").HasMaxLength(120).IsRequired();
             details.Property(x => x.Clan).HasColumnName("Clan").HasMaxLength(80).IsRequired();
             details.Property(x => x.ClanKey).HasColumnName("ClanKey").HasMaxLength(80).IsRequired().HasDefaultValue("");

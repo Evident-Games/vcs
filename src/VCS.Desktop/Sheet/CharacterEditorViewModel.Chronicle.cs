@@ -146,19 +146,27 @@ public partial class CharacterEditorViewModel
     {
         try
         {
+            var physical = SelectedConflictKind.Kind == ConflictKind.Physical;
+            var unarmed = physical && !UsingMeleeWeapon;
+            var outgoingAggravated = unarmed && (IsBiteAttack || FistOfCaineActive || LethalBodyApplies && !FirstConflictTargetIsVampire);
+            var powerDamage = physical && !IsBiteAttack
+                ? (FeralWeaponsActive && unarmed ? 2 : 0) + (ProwessActive ? DisciplineCombatRules.ProwessDamage(DisciplineRating("discipline-potence"), UsingMeleeWeapon) : 0)
+                : 0;
             var exchange = _chronicleActions.ResolveConflict(SelectedConflictKind.Kind,
                 FirstConflictSuccesses, FirstConflictDamageModifier, SecondConflictSuccesses,
-                SecondConflictDamageModifier + (FeralWeaponsActive ? 2 : 0) + (ProwessActive ? VCS.Rules.V5.Conflicts.DisciplineCombatRules.ProwessDamage(DisciplineRating("discipline-potence"), UsingMeleeWeapon) : 0), SelectedConflictDamageType.Type,
-                FirstConflictTargetIsVampire && !FeralWeaponsActive, false);
-            if (exchange.Kind == ConflictKind.Physical && exchange.Damage.Type == ConflictDamageType.Superficial)
+                SecondConflictDamageModifier + powerDamage, SelectedConflictDamageType.Type,
+                FirstConflictTargetIsVampire && !(unarmed && FeralWeaponsActive) && !outgoingAggravated, false);
+            if (unarmed && IsBiteAttack && exchange.Damage.ToFirst > 0)
+                exchange = exchange with { Damage = exchange.Damage with { ToFirst = 2 } };
+            if (physical && exchange.Damage.Type == ConflictDamageType.Superficial)
                 exchange = exchange with { Damage = exchange.Damage with { ToSecond =
-                    VCS.Rules.V5.Conflicts.DisciplineCombatRules.SuperficialDamage(exchange.Damage.ToSecond,
+                    DisciplineCombatRules.SuperficialDamage(exchange.Damage.ToSecond,
                         DisciplineRating("discipline-fortitude"), ToughnessActive, SecondConflictTargetIsVampire) } };
             _lastConflictExchange = exchange;
             var result = exchange.IsTie
                 ? $"Empate: ambos causam dano."
                 : $"Venceu: {exchange.Winner}; margem {exchange.Margin}.";
-            ConflictSummary = $"{result} Dano: lado 1 {exchange.Damage.ToFirst}, lado 2 {exchange.Damage.ToSecond} ({SelectedConflictDamageType.Label}).";
+            ConflictSummary = $"{result} Dano: lado 1 {exchange.Damage.ToFirst}, lado 2 {exchange.Damage.ToSecond} (lado 1: {(outgoingAggravated ? "Agravado" : SelectedConflictDamageType.Label)}; lado 2: {SelectedConflictDamageType.Label}).";
             OnPropertyChanged(nameof(CanApplyConflictDamage));
             Notebook.AppendLog("Conflitos", $"{DateTime.Now:dd/MM/yyyy HH:mm}: {SelectedConflictKind.Label}. {ConflictSummary}");
         }
@@ -173,6 +181,15 @@ public partial class CharacterEditorViewModel
     {
         if (_lastConflictExchange is not { } exchange || !CanApplyConflictDamage) return;
         var physical = exchange.Kind == ConflictKind.Physical;
+        if (physical && (FeatherActive && IncomingDamageIsFall ||
+            MistFormActive && !IncomingSourceIsSunlight && !IncomingDamageIsFireOrSupernatural))
+        {
+            ConflictSummary += " Fonte ignorada pelo poder de Proteanismo ativo e pelo contexto confirmado.";
+            _lastConflictExchange = null;
+            OnPropertyChanged(nameof(CanApplyConflictDamage));
+            Notebook.AppendLog("Conflitos", ConflictSummary);
+            return;
+        }
         if (physical && FleshOfMarbleActive && MarbleFirstSourceAvailable)
         {
             MarbleFirstSourceAvailable = false;
@@ -186,9 +203,22 @@ public partial class CharacterEditorViewModel
                 return;
             }
         }
-        var result = _chronicleActions.ApplyDamage(physical ? HealthCapacity : WillpowerCapacity,
+        var converted = physical && DefyBaneActive && exchange.Damage.Type == ConflictDamageType.Aggravated
+            ? Math.Min(exchange.Damage.ToSecond, Math.Max(0, DefyBaneRemaining)) : 0;
+        var convertedDamage = DisciplineCombatRules.SuperficialDamage(converted,
+            DisciplineRating("discipline-fortitude"), ToughnessActive, SecondConflictTargetIsVampire);
+        var initial = _chronicleActions.ApplyDamage(physical ? HealthCapacity : WillpowerCapacity,
             physical ? HealthSuperficial : WillpowerSuperficial, physical ? HealthAggravated : WillpowerAggravated,
-            exchange.Damage.ToSecond, exchange.Damage.Type);
+            exchange.Damage.ToSecond - converted, exchange.Damage.Type);
+        var result = converted > 0 ? _chronicleActions.ApplyDamage(HealthCapacity, initial.Superficial,
+            initial.Aggravated, convertedDamage, ConflictDamageType.Superficial) : initial;
+        if (converted > 0)
+        {
+            result = result with { UnmarkedDamage = result.UnmarkedDamage + initial.UnmarkedDamage };
+            DefyBaneRemaining -= converted;
+            UnhealableSuperficial = Math.Min(result.Superficial, UnhealableSuperficial + convertedDamage);
+            ConflictSummary += $" Desafio à Perdição converteu {converted} agravado(s); reserva restante {DefyBaneRemaining}.";
+        }
         if (physical) { HealthSuperficial = result.Superficial; HealthAggravated = result.Aggravated; }
         else { WillpowerSuperficial = result.Superficial; WillpowerAggravated = result.Aggravated; }
         ConflictSummary += " Dano aplicado; excesso superficial convertido em agravado quando a trilha ficou cheia.";

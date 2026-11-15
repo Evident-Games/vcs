@@ -25,6 +25,15 @@ public sealed partial class ExceptionRegisterViewModel : ObservableObject
 
     public IReadOnlyList<SheetException> ToValues() => [.. Entries.Select(x => x.ToValue())];
 
+    public void Record(string subject, string rule, string ruling)
+    {
+        var entry = new SheetExceptionViewModel(new(Guid.NewGuid(), "Disciplina", subject, rule, ruling, "Narrador", DateTime.UtcNow));
+        Attach(entry);
+        Entries.Insert(0, entry);
+        OnPropertyChanged(nameof(Count));
+        Changed?.Invoke(this, EventArgs.Empty);
+    }
+
     [RelayCommand]
     private void Add()
     {

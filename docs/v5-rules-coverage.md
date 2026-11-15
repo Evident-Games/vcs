@@ -103,6 +103,10 @@ Descrições de Reflexos Rápidos, Rapidez, Mira Infalível e Suculência Animal
 
 ## Contagem de efeitos individuais
 
-A lista por item está em `power-effect-coverage.md`: 71 poderes, 9 com cálculo principal integrado e 62 pendentes; há 5 rituais adicionais. A contagem não considera descrições, pagamento de custo ou orientações como resolvedores mecânicos.
+A referência atual é `power-effect-coverage.md`: 88 poderes com perfil de uso, 37 com integração direta, 11 com proposta numérica e 40 com resolução assistida. Os 5 rituais são separados e ainda não têm resolvedor específico. Isso substitui as contagens incrementais anteriores; não significa cobertura integral de todas as regras secundárias.
 
-Poder Vindo da Dor altera a parada com Atributo Físico conforme o dano marcado, respeitando o teto Surto de Sangue + 6, sem aumentar características derivadas. Pele de Mármore pode bloquear a primeira fonte de dano físico aplicada no turno, com exceções explícitas para luz solar e ataque crítico; iniciar o turno renova a disponibilidade. Ambos são encerrados pelo controle de fim de cena.
+O fluxo novo separa conteúdo (`PowerUseCatalog`), resolução pura (`PowerResolutionRules`), pagamento/rolagem (`PowerUseActions`) e apresentação. Os efeitos são persistidos com fonte, alvo, duração e decisão do Narrador. As faces seguem a mesa de dados existente e os controles usam os recursos dos temas personalizados.
+
+As integrações incluem turnos das formas, perfil físico temporário, Potência temporária, consumo de poderes de próximo ataque, conversão de agravado de Desafio à Perdição, penalidades contextuais, Transe por alvo e aplicação única de consequências à própria ficha. Alvos externos, gatilhos narrativos e durações por tempo da crônica permanecem sob controle explícito da mesa.
+
+Build e testes não executados por instrução do usuário. Não há confirmação de compilação ou execução nesta rodada.

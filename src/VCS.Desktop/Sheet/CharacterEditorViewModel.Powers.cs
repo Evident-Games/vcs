@@ -16,9 +16,14 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool mentalProbeResistance;
     private int ContextPowerBonus => VCS.Rules.V5.Conflicts.DisciplinePoolRules.StrongestBonus(
         FleetnessPoolBonus,
+        EntrancementPoolBonus,
+        ProwessActive && StrengthFeatContext && SelectedRollAttribute?.Key == "attribute-strength" ? DisciplineRating("discipline-potence") : 0,
+        DauntActive && !RollIsCombat && SelectedRollSkill?.Key == "skill-intimidation" ? DisciplineRating("discipline-presence") : 0,
+        EyesOfTheBeastActive && IntimidationTargetIsMortal && SelectedRollSkill?.Key == "skill-intimidation" ? 2 : 0,
+        GhostInTheMachineApplies && KnowsPower("power-obfuscate-ghost-in-the-machine") ? 3 : 0,
         HeightenedSensesActive && PerceptionRoll ? DisciplineRating("discipline-auspex") : 0,
         VCS.Rules.V5.Conflicts.DisciplinePoolRules.AweBonus(DisciplineRating("discipline-presence"),
-            AweActive, AweTargetResisted, SelectedRollSkill?.Key,
+            AweActive && !RollIsCombat, AweTargetResisted, SelectedRollSkill?.Key,
             AweOtherCharismaApproved && SelectedRollAttribute?.Key == "attribute-charisma"),
         InnerFacadeActive && MentalProbeResistance ? DisciplineRating("discipline-fortitude") : 0,
         UnswayableMindApplies && KnowsPower("power-fortitude-unswayable-mind") ? DisciplineRating("discipline-fortitude") : 0);
@@ -34,7 +39,7 @@ public partial class CharacterEditorViewModel
     partial void OnHeightenedSensesActiveChanged(bool value) => RefreshContextPowers();
     partial void OnPerceptionRollChanged(bool value) => RefreshContextPowers();
     partial void OnSensoryOverloadChanged(bool value) => RefreshContextPowers();
-    partial void OnAweActiveChanged(bool value) => RefreshContextPowers();
+    partial void OnAweActiveChanged(bool value) { if (value) DauntActive = false; RefreshContextPowers(); }
     partial void OnAweOtherCharismaApprovedChanged(bool value) => RefreshContextPowers();
     partial void OnAweTargetResistedChanged(bool value) => RefreshContextPowers();
     partial void OnInnerFacadeActiveChanged(bool value) => RefreshContextPowers();
@@ -56,6 +61,8 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void BeginPowerTurn()
     {
+        AdvancePowerTurn();
+        ReflexesMinorActionUsed = false;
         FleetnessDodgeUsed = false;
         MarbleFirstSourceAvailable = FleshOfMarbleActive;
     }
@@ -67,7 +74,7 @@ public partial class CharacterEditorViewModel
     private int PainPoolBonus => ProwessFromPainActive && SelectedRollAttribute?.Key is
         "attribute-strength" or "attribute-dexterity" or "attribute-stamina"
         ? VCS.Rules.V5.Conflicts.DisciplineCombatRules.ProwessFromPainBonus(SelectedRollAttribute?.Rating ?? 0,
-            HealthSuperficial + HealthAggravated, VCS.Rules.V5.Blood.BloodPotencyEffects.At(BloodPotency).BloodSurgeDice) : 0;
+            HealthSuperficial + HealthAggravated, VCS.Rules.V5.Blood.BloodPotencyEffects.At(EffectiveBloodPotency).BloodSurgeDice) : 0;
     partial void OnProwessFromPainActiveChanged(bool value) => RefreshRollPool();
     [ObservableProperty] private bool toughnessActive;
     [ObservableProperty] private bool prowessActive;
@@ -92,13 +99,14 @@ public partial class CharacterEditorViewModel
         ActivationCostsConfirmed = false;
         ActivationRouseChecks = 0;
         ActivationWillpowerCost = 0;
-        if (value is null) return;
+        if (value is null) { RefreshPowerUse(); return; }
         ActivationEffect = value.Description;
         if (value.Entry?.Definition is { } definition)
         {
             var guidance = new VCS.Application.Blood.PowerEffectActions().Describe(definition);
             ActivationEffect = $"{guidance.Description} Duração: {guidance.Duration}.";
         }
+        PreparePowerUse();
         ActivationSummary = $"Custo informado pelo poder: {value.Cost}. Confira as checagens e Vontade antes de ativar.";
     }
 
@@ -122,6 +130,7 @@ public partial class CharacterEditorViewModel
         ToughnessActive = false;
         ProwessActive = false;
         UnswayableMindApplies = false;
+        EndScenePowerEntries();
         foreach (var modifier in PoolModifiers) modifier.IsApplied = false;
         ActivationSummary = "Cena encerrada: efeitos temporários de combate e modificadores desativados.";
         Notebook.AppendLog("Ativações de Disciplinas", ActivationSummary);
@@ -130,6 +139,7 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void ActivatePower()
     {
+        if (SelectedPowerUse is not null) { ResolvePowerUse(); return; }
         if (ActivationPower is not { } power) { ActivationSummary = "Selecione um poder."; return; }
         if (!ActivationCostsConfirmed) { ActivationSummary = "Confira e confirme os custos desta ativação."; return; }
         if (power.HasWarning && !ActivationExceptionApproved)
