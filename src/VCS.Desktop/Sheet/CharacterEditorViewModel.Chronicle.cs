@@ -27,8 +27,8 @@ public sealed record ConflictDamageTypeOption(ConflictDamageType Type, string La
 
 public partial class CharacterEditorViewModel
 {
-    partial void OnHealthSuperficialChanged(int value) => OnPropertyChanged(nameof(CanApplyConflictDamage));
-    partial void OnHealthAggravatedChanged(int value) => OnPropertyChanged(nameof(CanApplyConflictDamage));
+    partial void OnHealthSuperficialChanged(int value) { OnPropertyChanged(nameof(CanApplyConflictDamage)); RefreshRollPool(); }
+    partial void OnHealthAggravatedChanged(int value) { OnPropertyChanged(nameof(CanApplyConflictDamage)); RefreshRollPool(); }
 
     public string ChronicleRuleSource => SourceAttribution.ForRule(typeof(BloodBondRules));
     public string ConflictRuleSource => SourceAttribution.ForRule(typeof(ConflictRules));
@@ -173,6 +173,19 @@ public partial class CharacterEditorViewModel
     {
         if (_lastConflictExchange is not { } exchange || !CanApplyConflictDamage) return;
         var physical = exchange.Kind == ConflictKind.Physical;
+        if (physical && FleshOfMarbleActive && MarbleFirstSourceAvailable)
+        {
+            MarbleFirstSourceAvailable = false;
+            if (VCS.Rules.V5.Conflicts.DisciplineCombatRules.MarbleStopsSource(true, true,
+                IncomingSourceIsSunlight, IncomingAttackIsCritical))
+            {
+                ConflictSummary += " Pele de Mármore ignorou a primeira fonte de dano deste turno.";
+                _lastConflictExchange = null;
+                OnPropertyChanged(nameof(CanApplyConflictDamage));
+                Notebook.AppendLog("Conflitos", ConflictSummary);
+                return;
+            }
+        }
         var result = _chronicleActions.ApplyDamage(physical ? HealthCapacity : WillpowerCapacity,
             physical ? HealthSuperficial : WillpowerSuperficial, physical ? HealthAggravated : WillpowerAggravated,
             exchange.Damage.ToSecond, exchange.Damage.Type);

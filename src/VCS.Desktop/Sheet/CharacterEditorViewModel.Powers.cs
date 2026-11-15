@@ -21,7 +21,21 @@ public partial class CharacterEditorViewModel
     partial void OnRollIsDodgeChanged(bool value) => RefreshRollPool();
     partial void OnFleetnessDodgeUsedChanged(bool value) => RefreshRollPool();
     [RelayCommand]
-    private void BeginPowerTurn() => FleetnessDodgeUsed = false;
+    private void BeginPowerTurn()
+    {
+        FleetnessDodgeUsed = false;
+        MarbleFirstSourceAvailable = FleshOfMarbleActive;
+    }
+    [ObservableProperty] private bool prowessFromPainActive;
+    [ObservableProperty] private bool fleshOfMarbleActive;
+    [ObservableProperty] private bool marbleFirstSourceAvailable;
+    [ObservableProperty] private bool incomingSourceIsSunlight;
+    [ObservableProperty] private bool incomingAttackIsCritical;
+    private int PainPoolBonus => ProwessFromPainActive && SelectedRollAttribute?.Key is
+        "attribute-strength" or "attribute-dexterity" or "attribute-stamina"
+        ? VCS.Rules.V5.Conflicts.DisciplineCombatRules.ProwessFromPainBonus(SelectedRollAttribute?.Rating ?? 0,
+            HealthSuperficial + HealthAggravated, VCS.Rules.V5.Blood.BloodPotencyEffects.At(BloodPotency).BloodSurgeDice) : 0;
+    partial void OnProwessFromPainActiveChanged(bool value) => RefreshRollPool();
     [ObservableProperty] private bool toughnessActive;
     [ObservableProperty] private bool prowessActive;
     [ObservableProperty] private bool usingMeleeWeapon;
@@ -58,6 +72,9 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void EndPowerScene()
     {
+        ProwessFromPainActive = false;
+        FleshOfMarbleActive = false;
+        MarbleFirstSourceAvailable = false;
         FleetnessActive = false;
         FleetnessDodgeUsed = false;
         FeralWeaponsActive = false;
@@ -84,6 +101,9 @@ public partial class CharacterEditorViewModel
             var result = new VCS.Application.Blood.PowerActivationActions().Activate(Hunger, BloodPotency, power.Level,
                 ActivationRouseChecks, ActivationWillpowerCost, WillpowerSuperficial, WillpowerAggravated, WillpowerCapacity);
             if (power.Entry?.Definition.Id == "power-protean-feral-weapons") FeralWeaponsActive = true;
+            if (power.Entry?.Definition.Id == "power-fortitude-prowess-from-pain") ProwessFromPainActive = true;
+            if (power.Entry?.Definition.Id == "power-fortitude-flesh-of-marble")
+            { FleshOfMarbleActive = true; MarbleFirstSourceAvailable = true; }
             if (power.Entry?.Definition.Id == "power-celerity-fleetness") FleetnessActive = true;
             if (power.Entry?.Definition.Id == "power-fortitude-toughness") ToughnessActive = true;
             if (power.Entry?.Definition.Id == "power-potence-prowess") ProwessActive = true;

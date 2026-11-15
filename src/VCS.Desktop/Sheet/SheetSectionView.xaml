@@ -71,6 +71,11 @@
                 <CheckBox Content="Exceção autorizada pelo Narrador" IsChecked="{Binding ActivationExceptionApproved}"/>
                 <CheckBox Content="Conferi os custos desta ativação com a regra do poder" IsChecked="{Binding ActivationCostsConfirmed}"/>
                 <Button Content="Pagar custos e registrar ativação" Command="{Binding ActivatePowerCommand}" HorizontalAlignment="Left"/>
+                <CheckBox Content="Poder Vindo da Dor ativo (Atributos Físicos conforme dano marcado)" IsChecked="{Binding ProwessFromPainActive}"/>
+                <CheckBox Content="Pele de Mármore ativa" IsChecked="{Binding FleshOfMarbleActive}"/>
+                <CheckBox Content="Primeira fonte do turno disponível para Pele de Mármore" IsChecked="{Binding MarbleFirstSourceAvailable}"/>
+                <CheckBox Content="Fonte de dano recebida é luz solar" IsChecked="{Binding IncomingSourceIsSunlight}"/>
+                <CheckBox Content="Ataque recebido teve vitória crítica" IsChecked="{Binding IncomingAttackIsCritical}"/>
                 <CheckBox Content="Rapidez ativa" IsChecked="{Binding FleetnessActive}"/>
                 <CheckBox Content="Teste de combate" IsChecked="{Binding RollIsCombat}"/>
                 <CheckBox Content="Esquiva com Destreza + Atletismo" IsChecked="{Binding RollIsDodge}"/>

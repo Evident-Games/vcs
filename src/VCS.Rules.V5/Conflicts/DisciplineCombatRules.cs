@@ -19,6 +19,16 @@ public static class DisciplineCombatRules
         return vampire ? (reduced + 1) / 2 : reduced;
     }
 
+    public static int ProwessFromPainBonus(int attribute, int markedHealthDamage, int bloodSurgeDice)
+    {
+        if (attribute is < 0 or > 5 || markedHealthDamage < 0 || bloodSurgeDice is < 0 or > 6)
+            throw new ArgumentOutOfRangeException(nameof(attribute));
+        return Math.Max(0, Math.Min(markedHealthDamage, bloodSurgeDice + 6 - attribute));
+    }
+
+    public static bool MarbleStopsSource(bool active, bool firstSourceAvailable, bool sunlight, bool criticalAttack) =>
+        active && firstSourceAvailable && !sunlight && !criticalAttack;
+
     public static int InnerFacadeDifficulty(int fortitude)
     {
         if (fortitude is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(fortitude));

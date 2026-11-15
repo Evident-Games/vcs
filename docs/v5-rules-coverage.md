@@ -99,3 +99,10 @@ Descrições corrigidas contra pp. 258–265: Resistência das Bestas, Fachada I
 Rapidez adiciona Celeridade aos testes de Destreza fora de combate e uma vez por turno à esquiva com Destreza + Atletismo. A ativação, o consumo da esquiva e o início do próximo turno têm controles explícitos. Suculência Animal passa a reduzir em dois a Potência efetiva para a penalidade animal e a acrescentar um ponto saciado quando a fonte pode alimentar. Alimentação comum mantém Fome mínima 1; zerar com sangue humano exige registrar a morte da vítima.
 
 Descrições de Reflexos Rápidos, Rapidez, Mira Infalível e Suculência Animal corrigidas contra o livro-base. Build e testes não executados.
+
+
+## Contagem de efeitos individuais
+
+A lista por item está em `power-effect-coverage.md`: 71 poderes, 9 com cálculo principal integrado e 62 pendentes; há 5 rituais adicionais. A contagem não considera descrições, pagamento de custo ou orientações como resolvedores mecânicos.
+
+Poder Vindo da Dor altera a parada com Atributo Físico conforme o dano marcado, respeitando o teto Surto de Sangue + 6, sem aumentar características derivadas. Pele de Mármore pode bloquear a primeira fonte de dano físico aplicada no turno, com exceções explícitas para luz solar e ataque crítico; iniciar o turno renova a disponibilidade. Ambos são encerrados pelo controle de fim de cena.
