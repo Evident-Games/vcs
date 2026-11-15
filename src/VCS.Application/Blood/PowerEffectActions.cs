@@ -12,6 +12,9 @@ public sealed class PowerEffectActions
     {
         "power-animalism-animal-succulence",
         "power-celerity-fleetness",
+        "power-auspex-heightened-senses",
+        "power-presence-awe",
+        "power-fortitude-fortify-the-inner-facade",
         "power-fortitude-resilience",
         "power-fortitude-unswayable-mind",
         "power-fortitude-toughness",

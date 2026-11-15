@@ -515,8 +515,8 @@
     "name": "Fascínio",
     "level": 1,
     "cost": "Nenhum",
-    "dicePool": "Carisma + Presença vs Autocontrole + Inteligência (caso resista)",
-    "summary": "Atrai toda a atenção do ambiente. Aqueles sob o efeito do fascínio vão concordar com as ideias do vampiro e considerá-lo extremamente interessante, garantindo bônus em testes de Lábia, Liderança ou Persuasão.",
+    "dicePool": "Manipulação + Presença vs Autocontrole + Inteligência (caso resista)",
+    "summary": "Atrai toda a atenção do ambiente. Aqueles sob o efeito do fascínio vão concordar com as ideias do vampiro e considerá-lo extremamente interessante, somando Presença a Persuasão e Performance, ou a outros testes de Carisma permitidos pelo Narrador.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {

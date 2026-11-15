@@ -6,6 +6,39 @@ namespace VCS.Desktop.Sheet;
 
 public partial class CharacterEditorViewModel
 {
+    [ObservableProperty] private bool heightenedSensesActive;
+    [ObservableProperty] private bool perceptionRoll;
+    [ObservableProperty] private bool sensoryOverload;
+    [ObservableProperty] private bool aweActive;
+    [ObservableProperty] private bool aweOtherCharismaApproved;
+    [ObservableProperty] private bool aweTargetResisted;
+    [ObservableProperty] private bool innerFacadeActive;
+    [ObservableProperty] private bool mentalProbeResistance;
+    private int ContextPowerBonus => VCS.Rules.V5.Conflicts.DisciplinePoolRules.StrongestBonus(
+        FleetnessPoolBonus,
+        HeightenedSensesActive && PerceptionRoll ? DisciplineRating("discipline-auspex") : 0,
+        VCS.Rules.V5.Conflicts.DisciplinePoolRules.AweBonus(DisciplineRating("discipline-presence"),
+            AweActive, AweTargetResisted, SelectedRollSkill?.Key,
+            AweOtherCharismaApproved && SelectedRollAttribute?.Key == "attribute-charisma"),
+        InnerFacadeActive && MentalProbeResistance ? DisciplineRating("discipline-fortitude") : 0,
+        UnswayableMindApplies && KnowsPower("power-fortitude-unswayable-mind") ? DisciplineRating("discipline-fortitude") : 0);
+    private int SensoryPenalty => PerceptionRoll && SensoryOverload ? -3 : 0;
+    public int MentalProbeDifficultyIncrease => InnerFacadeActive && !MentalProbeResistance
+        ? VCS.Rules.V5.Conflicts.DisciplineCombatRules.InnerFacadeDifficulty(DisciplineRating("discipline-fortitude")) : 0;
+    public string ContextPowerSummary => $"Disciplinas: +{ContextPowerBonus} dados (maior bônus aplicável); sobrecarga sensorial: {SensoryPenalty}. " +
+        $"Sondagem sem resistência: +{MentalProbeDifficultyIncrease} à dificuldade do oponente. Fonte: Livro base, pp. 244, 249, 259, 267.";
+    private void RefreshContextPowers()
+    {
+        RefreshRollPool();
+    }
+    partial void OnHeightenedSensesActiveChanged(bool value) => RefreshContextPowers();
+    partial void OnPerceptionRollChanged(bool value) => RefreshContextPowers();
+    partial void OnSensoryOverloadChanged(bool value) => RefreshContextPowers();
+    partial void OnAweActiveChanged(bool value) => RefreshContextPowers();
+    partial void OnAweOtherCharismaApprovedChanged(bool value) => RefreshContextPowers();
+    partial void OnAweTargetResistedChanged(bool value) => RefreshContextPowers();
+    partial void OnInnerFacadeActiveChanged(bool value) => RefreshContextPowers();
+    partial void OnMentalProbeResistanceChanged(bool value) => RefreshContextPowers();
     [ObservableProperty] private bool activationCostsConfirmed;
     [ObservableProperty] private bool feralWeaponsActive;
     [ObservableProperty] private bool fleetnessActive;
@@ -72,6 +105,14 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void EndPowerScene()
     {
+        HeightenedSensesActive = false;
+        PerceptionRoll = false;
+        SensoryOverload = false;
+        AweActive = false;
+        AweTargetResisted = false;
+        AweOtherCharismaApproved = false;
+        InnerFacadeActive = false;
+        MentalProbeResistance = false;
         ProwessFromPainActive = false;
         FleshOfMarbleActive = false;
         MarbleFirstSourceAvailable = false;
@@ -107,6 +148,9 @@ public partial class CharacterEditorViewModel
             if (power.Entry?.Definition.Id == "power-celerity-fleetness") FleetnessActive = true;
             if (power.Entry?.Definition.Id == "power-fortitude-toughness") ToughnessActive = true;
             if (power.Entry?.Definition.Id == "power-potence-prowess") ProwessActive = true;
+            if (power.Entry?.Definition.Id == "power-auspex-heightened-senses") HeightenedSensesActive = true;
+            if (power.Entry?.Definition.Id == "power-presence-awe") AweActive = true;
+            if (power.Entry?.Definition.Id == "power-fortitude-fortify-the-inner-facade") InnerFacadeActive = true;
             Hunger = result.Hunger;
             WillpowerSuperficial = result.WillpowerSuperficial;
             ActivationSummary = $"{power.Name}: custos pagos; Fome {Hunger}. Alvo: {ActivationTarget}. Efeito/duração: {ActivationEffect}. " +

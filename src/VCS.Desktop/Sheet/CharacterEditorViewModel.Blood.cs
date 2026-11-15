@@ -117,10 +117,10 @@ public partial class CharacterEditorViewModel
     public DicePoolComposition RollPoolComposition => _diceActions.BuildPool(
         SelectedRollAttribute?.Rating ?? 0, SelectedRollSkill?.Rating ?? 0, EffectiveSituationalModifier,
         UseRollSpecialization && CanApplyRollSpecialization);
-    private int EffectiveSituationalModifier => Math.Clamp(RollSituationalModifier + PainPoolBonus + FleetnessPoolBonus + (UnswayableMindApplies && KnowsPower("power-fortitude-unswayable-mind") ? DisciplineRating("discipline-fortitude") : 0) + PoolModifiers.Where(x => x.IsApplied).Sum(x => Math.Clamp(x.Dice, -50, 50)), -49, 49) + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0);
+    private int EffectiveSituationalModifier => Math.Clamp(RollSituationalModifier + PainPoolBonus + ContextPowerBonus + SensoryPenalty + PoolModifiers.Where(x => x.IsApplied).Sum(x => Math.Clamp(x.Dice, -50, 50)), -49, 49) + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0);
     public int CurrentRollDicePool => UseSheetDicePool ? RollPoolComposition.DicePool : Math.Max(0, RollDicePool + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0));
     public string RollPoolSummary => UseSheetDicePool
-        ? $"Parada montada: {RollPoolComposition.Formula}. Origem do ajuste: {RollModifierSource}{ResonanceBonusSummary}. " +
+        ? $"Parada montada: {RollPoolComposition.Formula}. {ContextPowerSummary} Origem do ajuste: {RollModifierSource}{ResonanceBonusSummary}. " +
             string.Join("; ", PoolModifiers.Where(x => x.IsApplied).Select(x => $"{x.Dice:+0;-0;0} {x.Reason} ({x.Source})"))
         : $"Parada manual. Ajustes e exceções registrados: {RollModifierSource}{ResonanceBonusSummary}.";
     private string ResonanceBonusSummary => UseResonanceBonus && CanUseResonanceBonus
@@ -155,6 +155,8 @@ public partial class CharacterEditorViewModel
 
     private void RefreshRollPool()
     {
+        OnPropertyChanged(nameof(ContextPowerSummary));
+        OnPropertyChanged(nameof(MentalProbeDifficultyIncrease));
         OnPropertyChanged(nameof(RollPoolComposition));
         OnPropertyChanged(nameof(CurrentRollDicePool));
         OnPropertyChanged(nameof(RollPoolSummary));

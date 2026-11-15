@@ -71,6 +71,22 @@
                 <CheckBox Content="Exceção autorizada pelo Narrador" IsChecked="{Binding ActivationExceptionApproved}"/>
                 <CheckBox Content="Conferi os custos desta ativação com a regra do poder" IsChecked="{Binding ActivationCostsConfirmed}"/>
                 <Button Content="Pagar custos e registrar ativação" Command="{Binding ActivatePowerCommand}" HorizontalAlignment="Left"/>
+                <Expander Header="Percepção, influência e proteção mental" Margin="0,8">
+                    <StackPanel Margin="8">
+                        <TextBlock Text="Ative o poder conhecido acima. Ajustes manuais também permitem decisões do Narrador; registre a autorização no efeito." TextWrapping="Wrap"/>
+                        <CheckBox Content="Sentidos Aguçados ativos" IsChecked="{Binding HeightenedSensesActive}"/>
+                        <CheckBox Content="Este teste é de percepção" IsChecked="{Binding PerceptionRoll}"/>
+                        <CheckBox Content="Sobrecarga sensorial após falha na resistência (−3 até o fim da cena)" IsChecked="{Binding SensoryOverload}"/>
+                        <TextBlock Text="Estímulo extremo: Raciocínio + Determinação, dificuldade 3 ou maior, definida pelo Narrador." TextWrapping="Wrap"/>
+                        <CheckBox Content="Fascínio ativo (Persuasão ou Performance)" IsChecked="{Binding AweActive}"/>
+                        <CheckBox Content="Narrador permite Fascínio neste outro teste de Carisma" IsChecked="{Binding AweOtherCharismaApproved}"/>
+                        <CheckBox Content="Este alvo resistiu a Fascínio; não aplicar bônus" IsChecked="{Binding AweTargetResisted}"/>
+                        <TextBlock Text="Resistência: Autocontrole + Inteligência contra Manipulação + Presença. Vitória protege por uma cena; crítico, uma noite. Confira ao trocar de alvo." TextWrapping="Wrap"/>
+                        <CheckBox Content="Fortificar a Fachada Interior ativo" IsChecked="{Binding InnerFacadeActive}"/>
+                        <CheckBox Content="Este teste resiste a sondagem mental (substitui aumento da dificuldade)" IsChecked="{Binding MentalProbeResistance}"/>
+                        <TextBlock Text="{Binding ContextPowerSummary}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Expander>
                 <CheckBox Content="Poder Vindo da Dor ativo (Atributos Físicos conforme dano marcado)" IsChecked="{Binding ProwessFromPainActive}"/>
                 <CheckBox Content="Pele de Mármore ativa" IsChecked="{Binding FleshOfMarbleActive}"/>
                 <CheckBox Content="Primeira fonte do turno disponível para Pele de Mármore" IsChecked="{Binding MarbleFirstSourceAvailable}"/>
