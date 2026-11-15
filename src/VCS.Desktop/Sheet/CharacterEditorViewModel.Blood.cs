@@ -11,27 +11,49 @@ namespace VCS.Desktop.Sheet;
 public partial class CharacterEditorViewModel
 {
     public ObservableCollection<RolledDieDisplay> RolledDice { get; } = [];
+    public ObservableCollection<RerollDieOption> RerollableDice { get; } = [];
     public bool HasRolledDice => RolledDice.Count > 0;
     public bool HasRollDisplay => HasRolledDice || !string.IsNullOrWhiteSpace(LastRollSummary);
+    public bool CanReroll => _lastRollForReroll is not null && !_rerollUsed &&
+        WillpowerSuperficial + WillpowerAggravated < WillpowerCapacity && RerollableDice.Any(die => die.IsSelected);
+    private DicePoolResult? _lastRollForReroll;
+    private int _lastRollPool;
+    private int _lastRollHunger;
+    private int _lastRollDifficulty;
+    private bool _rerollUsed;
 
-    private void ShowDiceRoll(string label, string summary, IEnumerable<RolledDieDisplay> dice)
+    partial void OnWillpowerSuperficialChanged(int value) => OnPropertyChanged(nameof(CanReroll));
+    partial void OnWillpowerAggravatedChanged(int value) => OnPropertyChanged(nameof(CanReroll));
+
+    private void ShowDiceRoll(string label, string summary, IEnumerable<RolledDieDisplay> dice, bool preserveReroll = false)
     {
         RolledDice.Clear();
+        if (!preserveReroll)
+        {
+            RerollableDice.Clear();
+            _lastRollForReroll = null;
+            _rerollUsed = false;
+        }
         foreach (var die in dice) RolledDice.Add(die);
         LastRollLabel = label;
         LastRollSummary = summary;
         OnPropertyChanged(nameof(HasRolledDice));
         OnPropertyChanged(nameof(HasRollDisplay));
+        OnPropertyChanged(nameof(CanReroll));
     }
 
     [RelayCommand]
     private void ClearRolledDice()
     {
         RolledDice.Clear();
+        RerollableDice.Clear();
+        _lastRollForReroll = null;
+        _rerollUsed = false;
         LastRollLabel = "";
         LastRollSummary = "";
         OnPropertyChanged(nameof(HasRolledDice));
         OnPropertyChanged(nameof(HasRollDisplay));
+        OnPropertyChanged(nameof(CanReroll));
     }
     public string BloodPotencyRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyEffects));
     public string GenerationRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyGenerationRules));
@@ -44,6 +66,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private int rollDicePool = 5;
     [ObservableProperty] private int rollDifficulty = 1;
     [ObservableProperty] private int rollSituationalModifier;
+    [ObservableProperty] private string rollModifierSource = "Circunstância da cena / decisão do Narrador";
     [ObservableProperty] private TraitItemViewModel? selectedRollAttribute;
     [ObservableProperty] private TraitItemViewModel? selectedRollSkill;
     [ObservableProperty] private bool useRollSpecialization;
@@ -62,8 +85,8 @@ public partial class CharacterEditorViewModel
         UseRollSpecialization && CanApplyRollSpecialization);
     public int CurrentRollDicePool => UseSheetDicePool ? RollPoolComposition.DicePool : RollDicePool;
     public string RollPoolSummary => UseSheetDicePool
-        ? $"Parada montada: {RollPoolComposition.Formula}."
-        : "Parada manual. Ative 'Montar parada com a ficha' para somar Atributo, Habilidade e ajuste.";
+        ? $"Parada montada: {RollPoolComposition.Formula}. Origem do ajuste: {RollModifierSource}."
+        : $"Parada manual. Ajustes e exceções registrados: {RollModifierSource}.";
 
     partial void OnSelectedRollAttributeChanged(TraitItemViewModel? value) => RefreshRollPool();
     partial void OnSelectedRollSkillChanged(TraitItemViewModel? value)
@@ -73,6 +96,7 @@ public partial class CharacterEditorViewModel
         RefreshRollPool();
     }
     partial void OnRollSituationalModifierChanged(int value) => RefreshRollPool();
+    partial void OnRollModifierSourceChanged(string value) => OnPropertyChanged(nameof(RollPoolSummary));
     partial void OnUseRollSpecializationChanged(bool value) => RefreshRollPool();
     partial void OnUseSheetDicePoolChanged(bool value) => RefreshRollPool();
     partial void OnRollDicePoolChanged(int value) => OnPropertyChanged(nameof(CurrentRollDicePool));
@@ -203,6 +227,18 @@ public partial class CharacterEditorViewModel
         }
 
         var result = action.Roll;
+        _lastRollForReroll = result;
+        _lastRollPool = CurrentRollDicePool + action.BloodSurgeDice;
+        _lastRollHunger = UseHungerDice ? action.HungerAfter : 0;
+        _lastRollDifficulty = RollDifficulty;
+        _rerollUsed = false;
+        RerollableDice.Clear();
+        for (var index = 0; index < result.NormalDice.Count; index++)
+        {
+            var face = result.NormalDice[index];
+            if (face < 6) AddRerollOption(index, face);
+        }
+        OnPropertyChanged(nameof(CanReroll));
         displayedDice.AddRange(result.NormalDice.Select(face => new RolledDieDisplay(face, "COMUM")));
         displayedDice.AddRange(result.HungerDice.Select(face => new RolledDieDisplay(face, "FOME")));
         var outcome = result.Outcome switch
@@ -222,7 +258,57 @@ public partial class CharacterEditorViewModel
         };
         RollSummary = $"{rouseSummary}{result.Successes} sucesso(s), dificuldade {result.Difficulty}: {outcome}. " +
             $"Dados comuns [{string.Join(", ", result.NormalDice)}]; dados de Fome [{string.Join(", ", result.HungerDice)}].{compulsion}";
-        ShowDiceRoll("Teste V5", RollSummary, displayedDice);
+        ShowDiceRoll("Teste V5", RollSummary, displayedDice, preserveReroll: true);
+    }
+
+    [RelayCommand]
+    private void RerollFailures()
+    {
+        var previous = _lastRollForReroll;
+        if (previous is null || _rerollUsed) return;
+        var selected = RerollableDice.Where(die => die.IsSelected).Take(4).ToArray();
+        if (selected.Length is < 1 or > 3)
+        {
+            RollSummary = "Selecione de um a três dados comuns que falharam.";
+            OnPropertyChanged(nameof(CanReroll));
+            return;
+        }
+        if (WillpowerSuperficial + WillpowerAggravated >= WillpowerCapacity)
+        {
+            RollSummary = "A trilha de Vontade está cheia; não há espaço para marcar o custo da rerrolagem.";
+            return;
+        }
+
+        var initialFaces = previous.HungerDice.Concat(previous.NormalDice).ToArray();
+        var hungerCount = previous.HungerDice.Count;
+        var indices = selected.Select(die => hungerCount + die.Index).ToArray();
+        var result = _diceActions.RerollFailures(_lastRollPool, _lastRollHunger, _lastRollDifficulty,
+            initialFaces, indices);
+        WillpowerSuperficial = Math.Min(WillpowerCapacity - WillpowerAggravated, WillpowerSuperficial + 1);
+        _rerollUsed = true;
+        _lastRollForReroll = null;
+        RerollableDice.Clear();
+        var outcome = result.Outcome switch
+        {
+            TestOutcome.Failure => "falha",
+            TestOutcome.Success => "sucesso",
+            TestOutcome.CriticalSuccess => "sucesso crítico",
+            TestOutcome.MessyCritical => "crítico bestial",
+            TestOutcome.BestialFailure => "falha bestial",
+            _ => "resultado"
+        };
+        RollSummary = $"Rerrolagem de Vontade: {result.Successes} sucesso(s), dificuldade {result.Difficulty}: {outcome}. " +
+            $"Dados comuns [{string.Join(", ", result.NormalDice)}]; dados de Fome [{string.Join(", ", result.HungerDice)}]. 1 dano superficial de Vontade aplicado.";
+        ShowDiceRoll("Rerrolagem de Vontade", RollSummary,
+            result.NormalDice.Select(face => new RolledDieDisplay(face, "COMUM"))
+                .Concat(result.HungerDice.Select(face => new RolledDieDisplay(face, "FOME"))));
+    }
+
+    private void AddRerollOption(int index, int face)
+    {
+        var option = new RerollDieOption(index, face);
+        option.SelectionChanged += () => OnPropertyChanged(nameof(CanReroll));
+        RerollableDice.Add(option);
     }
 
     [RelayCommand]
@@ -236,6 +322,28 @@ public partial class CharacterEditorViewModel
                 ? $"Checagem de Sangue: falha ({result.Die}). Fome já estava em 5."
                 : $"Checagem de Sangue: falha ({result.Die}). Fome aumenta para {Hunger}.";
         ShowDiceRoll("Checagem de Sangue", RouseCheckSummary, [new RolledDieDisplay(result.Die, "SANGUE")]);
+    }
+}
+
+public partial class RerollDieOption : ObservableObject
+{
+    public int Index { get; }
+    public int Face { get; }
+
+    public RerollDieOption(int index, int face)
+    {
+        Index = index;
+        Face = face;
+    }
+
+    [ObservableProperty]
+    private bool isSelected;
+
+    public event Action? SelectionChanged;
+
+    partial void OnIsSelectedChanged(bool value)
+    {
+        SelectionChanged?.Invoke();
     }
 }
 

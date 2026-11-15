@@ -195,6 +195,25 @@
                 <TextBlock Text="{Binding Editor.LastRollSummary}" Margin="4,8,4,2"
                            TextWrapping="Wrap" Foreground="{DynamicResource VcsCardText}"
                            AutomationProperties.Name="Resultado da rolagem" />
+                <StackPanel Margin="4,6,4,0">
+                    <ItemsControl ItemsSource="{Binding Editor.RerollableDice}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Margin="0,0,10,4"
+                                          AutomationProperties.Name="Selecionar dado comum falho para rerrolagem">
+                                    <TextBlock Text="{Binding Face, StringFormat='Dado comum falho: {0}'}" />
+                                </CheckBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Content="Rerrolar até 3 dados comuns (1 dano de Vontade)"
+                            Command="{Binding Editor.RerollFailuresCommand}"
+                            IsEnabled="{Binding Editor.CanReroll}" HorizontalAlignment="Left" Margin="0,2,0,0"
+                            AutomationProperties.Name="Rerrolar falhas comuns usando Vontade" />
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>

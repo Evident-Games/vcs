@@ -11,4 +11,13 @@ public sealed class DiceActions
 
     public DicePoolResult Roll(int pool, int hunger, int difficulty, Random? random = null) =>
         DicePoolRules.Roll(pool, hunger, difficulty, random);
+
+    public DicePoolResult RerollFailures(int pool, int hunger, int difficulty,
+        IReadOnlyList<int> initialFaces, IReadOnlyList<int> regularDieIndices, Random? random = null)
+    {
+        random ??= Random.Shared;
+        var replacements = regularDieIndices.Select(_ => random.Next(1, 11)).ToArray();
+        return DicePoolRules.RerollRegularFailures(pool, hunger, difficulty, initialFaces,
+            regularDieIndices, replacements);
+    }
 }

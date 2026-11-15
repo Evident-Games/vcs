@@ -129,6 +129,9 @@
                                                        AutomationProperties.Name="Ajuste situacional da parada" />
                             </StackPanel>
                         </UniformGrid>
+                        <TextBox Text="{Binding RollModifierSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="Registre a origem do ajuste: circunstância, vantagem/desvantagem ou exceção aprovada pelo Narrador."
+                                 AutomationProperties.Name="Origem do ajuste da parada" Margin="0,0,0,8" />
                         <CheckBox Content="Especialização se aplica (+1 dado)" IsChecked="{Binding UseRollSpecialization, Mode=TwoWay}"
                                   IsEnabled="{Binding CanApplyRollSpecialization}" Margin="0,0,0,8"
                                   AutomationProperties.Name="Adicionar dado por especialização aplicável" />

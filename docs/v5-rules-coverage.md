@@ -6,7 +6,7 @@ Escopo desta auditoria: o código presente no repositório nesta branch, focado 
 
 | Área | Cobertura encontrada |
 | --- | --- |
-| Rolagens | Sucessos, dados de Fome, críticos, Crítico Bestial, Falha Bestial, limite de rerrolagem de dados comuns e extensão de testes. O rolador agora monta a parada por Atributo + Habilidade, permite marcar especialização aplicável (+1 dado) e somar ajuste situacional; também mantém a opção de parada manual. |
+| Rolagens | Sucessos, dados de Fome, críticos, Crítico Bestial, Falha Bestial e rerrolagem de até três falhas comuns com dano superficial de Vontade aplicado. O rolador monta a parada por Atributo + Habilidade, permite marcar especialização aplicável (+1 dado), registrar ajuste e sua origem; também mantém a opção de parada manual. |
 | Sangue | Potência/Geração, efeitos da Potência, Checagens de Sangue, Surto de Sangue, alimentação, Ressonância e Discrasia. |
 | Humanidade | Níveis e descrições, Máculas existentes, teste de Remorso, perda de Humanidade e dano de Força de Vontade por Máculas. |
 | Frenesi | Alguns gatilhos de exemplo, dificuldades, resistência, encerramento em alguns casos e classificação da Compulsão. |
@@ -23,7 +23,7 @@ Escopo desta auditoria: o código presente no repositório nesta branch, focado 
 6. **Conflitos:** existe resolução matemática de uma troca oposta e redução de dano superficial; falta uma ferramenta integrada para conduzir conflito físico/social/mental por turnos, incluindo paradas, manobras, armas/armaduras, estados da trilha e encerramento.
 7. **Diablerie e Sangues-Ralos:** a ficha pode alertar sobre geração/Potência, mas não encontrei um fluxo de Diablerie com as rolagens, consequências e mudanças persistentes relacionadas. A criação e aplicação dos efeitos/limitações de Sangue-Ralo também precisam de uma revisão específica.
 8. **Vínculos e Torpor:** há cálculos de regras, mas falta uma experiência de ficha para registrar histórico, participantes/datas, condições de despertar e alterações decorrentes.
-9. **Montagem de paradas:** já combina Atributo + Habilidade, uma especialização marcada pelo jogador e ajuste situacional informado pela mesa. Ainda faltam seletores/guias por contexto de ação, equipamento do inventário, situações comuns e controle de modificadores por fonte. A escolha do Narrador continua manual.
+9. **Montagem de paradas:** já combina Atributo + Habilidade, uma especialização marcada pelo jogador, ajuste situacional e texto livre para registrar sua origem. Ainda faltam múltiplos modificadores tipados por fonte, seletores/guias por contexto de ação, equipamento do inventário e situações comuns. A escolha do Narrador continua manual.
 10. **Ressonância e Discrasia na ficha:** há funções para intensidade, dados extras e expiração, mas os efeitos não entram automaticamente nas rolagens nem têm um fluxo completo para registrar consumo/expiração.
 11. **Perdição do clã e dano/cura:** os dados e a gravidade da Perdição podem ser exibidos, e as trilhas de dano podem ser editadas; faltam fluxos gerais para aplicar efeitos da Perdição, dano superficial/agravado, cura e Mending conforme Potência do Sangue.
 12. **Coterie, domínio e sistemas de crônica:** o escopo atual é principalmente ficha individual. Se o aplicativo também for cobrir a mesa/campanha, faltam os registros e fluxos desses sistemas do livro-base.
@@ -38,10 +38,10 @@ Escopo desta auditoria: o código presente no repositório nesta branch, focado 
 
 ## Próximo recorte recomendado
 
-1. Registrar de onde veio cada modificador da parada (especialização, equipamento, ajuda ou circunstância) para a mesa revisar o total.
-2. Expor rerrolagens de Vontade sobre até três dados comuns já falhados, sem permitir selecionar dados de Fome ou sucessos.
-3. Completar o registro de caça/ressonância após consolidar a regra por abordagem e fonte com a edição exata do livro-base usada no projeto.
+1. Completar a composição da parada com modificadores tipados (equipamento, ajuda e circunstância), preservando o registro livre já disponível.
+2. Completar a cena de caça e a ligação entre resultado, fonte de sangue, Ressonância e Discrasia, após conferir os procedimentos na edição exata do livro-base usada no projeto.
+3. Criar resolvedores e fluxos específicos para os poderes restantes de Disciplinas, começando por Proteanismo e sem incluir conteúdo de suplementos.
 
-O montador atual resolve a soma básica e o bônus de especialização. Ele não automatiza contexto, equipamento ou julgamento do Narrador.
+O montador atual resolve a soma básica e o bônus de especialização; o usuário informa a origem do ajuste em texto livre. Ele ainda não automatiza contexto ou equipamento.
 
 Esta lista é uma auditoria inicial do código, não uma certificação de equivalência completa ao livro. Regras e conteúdo novos devem trazer a fonte (livro-base ou errata identificada) e ser conferidos contra a edição adotada pelo projeto antes da implementação.

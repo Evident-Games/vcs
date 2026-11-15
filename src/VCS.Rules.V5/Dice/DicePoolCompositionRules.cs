@@ -31,9 +31,6 @@ public static class DicePoolCompositionRules
         if (attributeDots is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(attributeDots), "Atributo deve ficar entre 0 e 5.");
         if (skillDots is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(skillDots), "Habilidade deve ficar entre 0 e 5.");
         if (situationalModifier is < -50 or > 50) throw new ArgumentOutOfRangeException(nameof(situationalModifier), "O ajuste situacional deve ficar entre -50 e 50.");
-        if (attributeDots is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(attributeDots), "Atributo deve ficar entre 0 e 5.");
-        if (skillDots is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(skillDots), "Habilidade deve ficar entre 0 e 5.");
-        if (situationalModifier is < -50 or > 50) throw new ArgumentOutOfRangeException(nameof(situationalModifier), "O ajuste situacional deve ficar entre -50 e 50.");
         var specializationBonus = specializationApplies ? 1 : 0;
         return new(attributeDots, skillDots, specializationBonus, situationalModifier,
             Math.Max(0, attributeDots + skillDots + specializationBonus + situationalModifier));
