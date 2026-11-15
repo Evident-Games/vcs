@@ -35,5 +35,8 @@ public sealed class ChronicleActions
         ConflictRules.ResolveOpposed(kind, new(first, firstDamageModifier), new(second, secondDamageModifier),
             damageType, firstTargetIsVampire, secondTargetIsVampire);
 
+    public DamageTrackResult ApplyDamage(int capacity, int superficial, int aggravated, int damage, ConflictDamageType type) =>
+        DamageTrackRules.Apply(capacity, superficial, aggravated, damage, type);
+
     public int WeaponDamage(int margin, int weaponModifier) => ConflictRules.WeaponDamage(margin, weaponModifier);
 }

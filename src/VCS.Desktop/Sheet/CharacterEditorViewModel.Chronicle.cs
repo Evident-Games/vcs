@@ -139,9 +139,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private string conflictSummary = "Informe os sucessos dos dois lados para resolver uma troca oposta.";
     private ConflictExchange? _lastConflictExchange;
     public bool CanApplyConflictDamage => _lastConflictExchange is { Damage.ToSecond: > 0 } exchange &&
-        (exchange.Kind == ConflictKind.Physical
-            ? HealthSuperficial + HealthAggravated + exchange.Damage.ToSecond <= HealthCapacity
-            : WillpowerSuperficial + WillpowerAggravated + exchange.Damage.ToSecond <= WillpowerCapacity);
+        (exchange.Kind == ConflictKind.Physical ? HealthAggravated < HealthCapacity : WillpowerAggravated < WillpowerCapacity);
 
     [RelayCommand]
     private void ResolveConflict()
@@ -170,18 +168,17 @@ public partial class CharacterEditorViewModel
     private void ApplyConflictDamage()
     {
         if (_lastConflictExchange is not { } exchange || !CanApplyConflictDamage) return;
-        var damage = exchange.Damage.ToSecond;
-        if (exchange.Kind == ConflictKind.Physical)
-        {
-            if (exchange.Damage.Type == ConflictDamageType.Aggravated) HealthAggravated += damage;
-            else HealthSuperficial += damage;
-        }
-        else
-        {
-            if (exchange.Damage.Type == ConflictDamageType.Aggravated) WillpowerAggravated += damage;
-            else WillpowerSuperficial += damage;
-        }
-        ConflictSummary += " Dano do personagem aplicado à trilha correspondente.";
+        var physical = exchange.Kind == ConflictKind.Physical;
+        var result = _chronicleActions.ApplyDamage(physical ? HealthCapacity : WillpowerCapacity,
+            physical ? HealthSuperficial : WillpowerSuperficial, physical ? HealthAggravated : WillpowerAggravated,
+            exchange.Damage.ToSecond, exchange.Damage.Type);
+        if (physical) { HealthSuperficial = result.Superficial; HealthAggravated = result.Aggravated; }
+        else { WillpowerSuperficial = result.Superficial; WillpowerAggravated = result.Aggravated; }
+        ConflictSummary += " Dano aplicado; excesso superficial convertido em agravado quando a trilha ficou cheia.";
+        if (result.IsImpaired(physical ? HealthCapacity : WillpowerCapacity))
+            ConflictSummary += " Trilha cheia: verifique o estado debilitado e as consequências com o Narrador.";
+        if (result.UnmarkedDamage > 0)
+            ConflictSummary += $" {result.UnmarkedDamage} dano(s) além da capacidade: decisão do Narrador necessária.";
         _lastConflictExchange = null;
         OnPropertyChanged(nameof(CanApplyConflictDamage));
         Notebook.AppendLog("Conflitos", ConflictSummary);

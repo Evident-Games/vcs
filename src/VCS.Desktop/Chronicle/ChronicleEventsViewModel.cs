@@ -8,6 +8,32 @@ namespace VCS.Desktop.Chronicle;
 
 public partial class ChronicleEventsViewModel(IChronicleEventStore store) : ObservableObject
 {
+    [ObservableProperty] private int pool = 5;
+    [ObservableProperty] private int rollHunger;
+    [ObservableProperty] private int difficulty = 3;
+
+    [RelayCommand]
+    private void RollScene()
+    {
+        if (Pool is < 1 or > 50 || RollHunger is < 0 or > 5 || Difficulty is < 1 or > 50)
+        {
+            Status = "Use parada 1–50, Fome 0–5 e dificuldade 1–50.";
+            return;
+        }
+        var result = new VCS.Application.Dice.DiceActions().Roll(Pool, RollHunger, Difficulty);
+        var label = result.Outcome switch
+        {
+            VCS.Rules.V5.Dice.TestOutcome.MessyCritical => "crítico bestial",
+            VCS.Rules.V5.Dice.TestOutcome.BestialFailure => "falha bestial",
+            VCS.Rules.V5.Dice.TestOutcome.CriticalSuccess => "sucesso crítico",
+            VCS.Rules.V5.Dice.TestOutcome.Success => "sucesso",
+            _ => "falha"
+        };
+        Outcome += $"{Environment.NewLine}{Kind}: {label}; {result.Successes} sucessos / dificuldade {Difficulty}. " +
+            $"Comuns [{string.Join(", ", result.NormalDice)}]; Fome [{string.Join(", ", result.HungerDice)}].";
+        Status = "Rolagem registrada no rascunho. Salve o evento para manter o resultado.";
+    }
+
     private bool _loaded;
     private bool _clearParticipant;
     public ObservableCollection<ChronicleEvent> Events { get; } = [];

@@ -41,8 +41,8 @@ public static class DicePoolRules
         var hungerCount = Math.Min(hunger, pool);
         var hungerDice = faces.Take(hungerCount).ToArray();
         var normalDice = faces.Skip(hungerCount).ToArray();
-        var successes = faces.Sum(face => face >= 6 ? face == 10 ? 2 : 1 : 0);
         var tens = faces.Count(face => face == 10);
+        var successes = faces.Count(face => face >= 6) + (tens / 2) * 2;
         var won = successes >= difficulty;
         var critical = won && tens >= 2;
         var messy = critical && hungerDice.Contains(10);
