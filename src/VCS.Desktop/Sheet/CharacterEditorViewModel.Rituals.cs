@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using VCS.Application.Blood;
 using VCS.Desktop.Catalogs;
 using VCS.Sheet;
+using VCS.Rules.V5.Rituals;
 
 namespace VCS.Desktop.Sheet;
 
@@ -84,10 +85,7 @@ public partial class CharacterEditorViewModel
         var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
         var roll = new RitualActions().ResolveDeferred(1, Hunger, pool);
         RitualPreparationSummary = $"Despertar: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}: {roll.Outcome}. " +
-            (roll.IsSuccess ? roll.IsCritical
-                ? "Desperta alerta e ignora as penalidades para permanecer acordado durante o dia até o próximo amanhecer."
-                : "Desperta alerta e ignora as penalidades para permanecer acordado durante o dia enquanto durar a cena."
-                : "O ritual não desperta o personagem; o Narrador decide as consequências.") +
+            AwakeningRitualRules.Describe(roll.IsSuccess, roll.IsCritical) +
             " Fonte: Vampiro: A Máscara V5 (Livro base), p. 276.";
         ReplacePowerEffect(pending, pending with { Active = false, Effect = RitualPreparationSummary });
         Notebook.AppendLog("Rituais", RitualPreparationSummary);

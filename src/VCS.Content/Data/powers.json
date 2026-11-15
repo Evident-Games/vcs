@@ -694,8 +694,8 @@
     "level": 1,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 2; confira exceções do ritual)",
-    "summary": "Protege o sono diurno vulnerável do vampiro. Se qualquer ameaça tentar invadir seu esconderijo enquanto ele dorme de dia, o ritual desperta o vampiro instantaneamente e permite que ele aja durante aquele turno de luz do dia sem penalidades letárgicas.",
-    "source": "Vampiro: A Máscara V5 (Livro base)"
+    "summary": "Preparado antes do amanhecer, permite um teste quando houver perigo durante o sono diurno. Sucesso desperta o conjurador alerta e suspende as penalidades para permanecer acordado durante a cena; uma vitória crítica estende o efeito até o próximo amanhecer.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 276"
   },
   {
     "id": "ritual-illusion-of-peaceful-death",
