@@ -385,6 +385,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         else if (ReferenceEquals(sender, Disciplines)) SyncDisciplineBase();
         RefreshAdvancement();
         RefreshRollPool();
+        OnPropertyChanged(nameof(PhysicalPowerGuidance));
         OnPropertyChanged(nameof(HealthCapacity));
         OnPropertyChanged(nameof(WillpowerCapacity));
         OnPropertyChanged(nameof(FrenzyTriggerGuidance));
@@ -435,6 +436,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
 
     private void OnPowersChanged(object? sender, EventArgs e)
     {
+        OnPropertyChanged(nameof(PhysicalPowerGuidance));
         OnPropertyChanged(nameof(HealthCapacity));
         MarkChanged();
     }

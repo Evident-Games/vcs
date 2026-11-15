@@ -71,7 +71,13 @@
                 <CheckBox Content="Exceção autorizada pelo Narrador" IsChecked="{Binding ActivationExceptionApproved}"/>
                 <CheckBox Content="Conferi os custos desta ativação com a regra do poder" IsChecked="{Binding ActivationCostsConfirmed}"/>
                 <Button Content="Pagar custos e registrar ativação" Command="{Binding ActivatePowerCommand}" HorizontalAlignment="Left"/>
+                <CheckBox Content="Tenacidade ativa (redução superficial por Fortitude)" IsChecked="{Binding ToughnessActive}"/>
+                <CheckBox Content="Poderio ativo (bônus de dano por Potência)" IsChecked="{Binding ProwessActive}"/>
+                <CheckBox Content="Usando Armas Brancas (metade da Potência, para cima)" IsChecked="{Binding UsingMeleeWeapon}"/>
+                <CheckBox Content="Mente Inescrutável aplicável a este teste da ficha" IsChecked="{Binding UnswayableMindApplies}"/>
+                <TextBlock Text="{Binding PhysicalPowerGuidance}" TextWrapping="Wrap"/>
                 <CheckBox Content="Armas da Fera ativas (+2 dano; ignora redução superficial no alvo)" IsChecked="{Binding FeralWeaponsActive}"/>
+                <Button Content="Encerrar cena e efeitos temporários" Command="{Binding EndPowerSceneCommand}" HorizontalAlignment="Left" Margin="0,8,0,0"/>
                 <TextBlock Text="{Binding ActivationSummary}" TextWrapping="Wrap" Margin="0,8,0,0"/>
             </StackPanel></Expander>
             </StackPanel>

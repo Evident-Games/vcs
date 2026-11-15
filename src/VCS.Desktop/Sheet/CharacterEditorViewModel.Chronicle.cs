@@ -148,8 +148,12 @@ public partial class CharacterEditorViewModel
         {
             var exchange = _chronicleActions.ResolveConflict(SelectedConflictKind.Kind,
                 FirstConflictSuccesses, FirstConflictDamageModifier, SecondConflictSuccesses,
-                SecondConflictDamageModifier + (FeralWeaponsActive ? 2 : 0), SelectedConflictDamageType.Type,
-                FirstConflictTargetIsVampire && !FeralWeaponsActive, SecondConflictTargetIsVampire);
+                SecondConflictDamageModifier + (FeralWeaponsActive ? 2 : 0) + (ProwessActive ? VCS.Rules.V5.Conflicts.DisciplineCombatRules.ProwessDamage(DisciplineRating("discipline-potence"), UsingMeleeWeapon) : 0), SelectedConflictDamageType.Type,
+                FirstConflictTargetIsVampire && !FeralWeaponsActive, false);
+            if (exchange.Kind == ConflictKind.Physical && exchange.Damage.Type == ConflictDamageType.Superficial)
+                exchange = exchange with { Damage = exchange.Damage with { ToSecond =
+                    VCS.Rules.V5.Conflicts.DisciplineCombatRules.SuperficialDamage(exchange.Damage.ToSecond,
+                        DisciplineRating("discipline-fortitude"), ToughnessActive, SecondConflictTargetIsVampire) } };
             _lastConflictExchange = exchange;
             var result = exchange.IsTie
                 ? $"Empate: ambos causam dano."

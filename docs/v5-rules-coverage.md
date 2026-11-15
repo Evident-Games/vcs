@@ -85,3 +85,10 @@ Os efeitos específicos dos demais poderes e os procedimentos completos de Sangu
 - O resultado da rerrolagem de Sangue preserva as duas faces para apresentação correta na mesa de dados.
 
 Não foram executados build nem testes por instrução do usuário. A cobertura ainda não equivale a resolvedores mecânicos individuais para todos os poderes: alguns efeitos dependem de alvos, estados da cena e decisões da mesa registrados nos controles existentes.
+
+
+## Fortitude e Potência em combate
+
+Tenacidade foi incluída no catálogo e integrada à ordem de redução: subtrai Fortitude, mantém mínimo 1 para fontes positivas e só então divide o dano superficial contra vampiros. Poderio soma Potência ao dano desarmado ou metade arredondada para cima com Armas Brancas. Mente Inescrutável pode adicionar Fortitude a um teste aplicável montado pela ficha. O encerramento da cena desativa esses estados e os modificadores temporários.
+
+Descrições corrigidas contra pp. 258–265: Resistência das Bestas, Fachada Interior, Pele de Mármore, Poder Vindo da Dor, Desafio à Perdição, Poderio, Corpo Letal e Salto Vertiginoso. Corrigir a descrição de um poder não significa que seu efeito individual esteja inteiramente automatizado.

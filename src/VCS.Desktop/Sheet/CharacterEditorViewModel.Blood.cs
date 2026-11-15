@@ -117,7 +117,7 @@ public partial class CharacterEditorViewModel
     public DicePoolComposition RollPoolComposition => _diceActions.BuildPool(
         SelectedRollAttribute?.Rating ?? 0, SelectedRollSkill?.Rating ?? 0, EffectiveSituationalModifier,
         UseRollSpecialization && CanApplyRollSpecialization);
-    private int EffectiveSituationalModifier => Math.Clamp(RollSituationalModifier + PoolModifiers.Where(x => x.IsApplied).Sum(x => Math.Clamp(x.Dice, -50, 50)), -49, 49) + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0);
+    private int EffectiveSituationalModifier => Math.Clamp(RollSituationalModifier + (UnswayableMindApplies && KnowsPower("power-fortitude-unswayable-mind") ? DisciplineRating("discipline-fortitude") : 0) + PoolModifiers.Where(x => x.IsApplied).Sum(x => Math.Clamp(x.Dice, -50, 50)), -49, 49) + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0);
     public int CurrentRollDicePool => UseSheetDicePool ? RollPoolComposition.DicePool : Math.Max(0, RollDicePool + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0));
     public string RollPoolSummary => UseSheetDicePool
         ? $"Parada montada: {RollPoolComposition.Formula}. Origem do ajuste: {RollModifierSource}{ResonanceBonusSummary}. " +

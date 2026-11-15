@@ -326,7 +326,7 @@
     "level": 2,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "O personagem consegue aguentar danos imensos. Durante uma cena, o dano superficial causado por ataques contundentes e cortes simples é cortado pela metade antes mesmo de sofrer as reduções padrão das regras de dano vampírico.",
+    "summary": "Estende Resiliência aos animais: concede níveis de Saúde iguais à Fortitude. No familiar é gratuito e automático; em outros animais exige Checagem de Sangue e Vigor + Animalismo, dificuldade 3, um animal por ponto de margem. Dura uma cena.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
@@ -336,7 +336,7 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Vigor + Fortitude",
-    "summary": "A pele do vampiro rejeita ferimentos letais. Como uma ação defensiva, o jogador pode rolar os dados e converter o dano Agravado recebido de balas, fogo ou presas em dano Superficial suportável.",
+    "summary": "Converte em superficial uma quantidade de dano agravado igual à Fortitude, como reserva total durante uma cena, antes que o poder expire. O dano convertido não pode ser curado pelo restante da cena. Ativação reflexa inesperada exige Raciocínio + Sobrevivência, dificuldade 3, e o pagamento da Checagem de Sangue se o teste vencer.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
@@ -346,7 +346,7 @@
     "level": 3,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "Fornece imunidade quase total contra poderes sobrenaturais que tentam ler pensamentos, controlar emoções ou invadir a mente, servindo como a defesa perfeita contra a disciplina Dominação.",
+    "summary": "Durante uma cena, aumenta a dificuldade de Perscrutar a Alma, Telepatia e efeitos semelhantes em metade da Fortitude, arredondada para cima. Quando houver resistência permitida, adiciona a Fortitude à parada em vez desse aumento.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
@@ -356,7 +356,7 @@
     "level": 4,
     "cost": "2 checagens de sangue",
     "dicePool": "Nenhuma",
-    "summary": "A resistência beira o nível divino. Uma vez por noite, o vampiro torna sua pele impenetrável por alguns turnos. Nenhum ataque físico mundano consegue causar dano, repelindo balas, lâminas pesadas e explosões.",
+    "summary": "Durante uma cena, ignora a primeira fonte de dano físico de cada turno, inclusive fogo, mas não luz solar. Uma vitória crítica no ataque supera a proteção; o Narrador resolve fontes simultâneas.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
@@ -366,7 +366,7 @@
     "level": 5,
     "cost": "1 checagem de sangue",
     "dicePool": "Vigor + Fortitude",
-    "summary": "Quando atacado fisicamente em combate corporal, o vampiro se recusa a ceder. Quem o acertou também sofre parte do impacto refletido diretamente em seu próprio corpo, recebendo de volta uma porção do dano desferido na forma contundente.",
+    "summary": "Durante uma cena, ignora penalidades físicas por dano e pode aumentar Atributos Físicos em um por nível de dano marcado na Saúde. O limite por atributo é Surto de Sangue + 6; características derivadas não aumentam.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
@@ -446,7 +446,7 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "O corpo ganha propulsão explosiva. O vampiro consegue dar saltos verticais e horizontais absurdos (cobrindo vários metros sem qualquer impulso), ignorando as limitações normais de gravidade para o corpo humano.",
+    "summary": "Salta verticalmente três metros por ponto de Potência e horizontalmente cinco metros por ponto, sem precisar de impulso.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
@@ -456,7 +456,7 @@
     "level": 1,
     "cost": "Nenhum",
     "dicePool": "Nenhuma",
-    "summary": "A força bruta permite rasgar carne e quebrar ossos. Seus ataques corporais desarmados passam a causar dano severo e fatal contra mortais (dano letal), além de ignorar facilmente armaduras rudimentares ou roupas de proteção.",
+    "summary": "Ataques desarmados podem causar dano agravado à Saúde de mortais. Ignora um nível de armadura por ponto de Potência.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
@@ -466,7 +466,7 @@
     "level": 2,
     "cost": "1 checagem de sangue",
     "dicePool": "Nenhuma",
-    "summary": "Durante toda a cena, o personagem soma o seu nível de Potência diretamente no dano de qualquer ataque físico bem-sucedido usando Briga ou armas de combate corpo-a-corpo (como estacas, tacos e espadas).",
+    "summary": "Durante uma cena, soma a Potência ao dano desarmado e aos feitos de Força. Com Armas Brancas, adiciona metade da Potência ao dano, arredondada para cima.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
@@ -754,5 +754,15 @@
     "dicePool": "Nenhuma",
     "summary": "Aumenta em 3 a dificuldade de estaquear fora de combate. Em combate, apenas um crítico no ataque de estaquear atinge o coração. Mesmo estaqueado, permite tentar expulsar a estaca com uma Checagem de Sangue e teste de Força + Determinação, dificuldade 5, uma vez por hora.",
     "source": "Vampiro: A Máscara V5 (Livro base), p. 271"
+  },
+  {
+    "id": "power-fortitude-toughness",
+    "disciplineId": "discipline-fortitude",
+    "name": "Tenacidade",
+    "level": 2,
+    "cost": "1 checagem de sangue",
+    "dicePool": "Nenhuma",
+    "summary": "Subtrai a Fortitude de todo dano superficial sofrido antes da divisão pela metade. Não reduz uma fonte positiva abaixo de 1 antes da divisão. Dura uma cena.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 259"
   }
 ]

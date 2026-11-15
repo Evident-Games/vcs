@@ -8,6 +8,15 @@ public partial class CharacterEditorViewModel
 {
     [ObservableProperty] private bool activationCostsConfirmed;
     [ObservableProperty] private bool feralWeaponsActive;
+    [ObservableProperty] private bool toughnessActive;
+    [ObservableProperty] private bool prowessActive;
+    [ObservableProperty] private bool usingMeleeWeapon;
+    [ObservableProperty] private bool unswayableMindApplies;
+    private int DisciplineRating(string key) => Disciplines.Items.FirstOrDefault(x => x.Key == key)?.Rating ?? 0;
+    private bool KnowsPower(string key) => Powers.PowerRows.Any(x => x.Key == key);
+    public string PhysicalPowerGuidance => $"Salto vertical: {DisciplineRating("discipline-potence") * 3} m; horizontal: {DisciplineRating("discipline-potence") * 5} m (requer Salto Vertiginoso). " +
+        $"Fachada Interior: +{VCS.Rules.V5.Conflicts.DisciplineCombatRules.InnerFacadeDifficulty(DisciplineRating("discipline-fortitude"))} dificuldade quando aplicável.";
+    partial void OnUnswayableMindAppliesChanged(bool value) => RefreshRollPool();
     [ObservableProperty] private PowerRowViewModel? activationPower;
     [ObservableProperty] private int activationRouseChecks;
     [ObservableProperty] private int activationWillpowerCost;
@@ -33,6 +42,18 @@ public partial class CharacterEditorViewModel
     }
 
     [RelayCommand]
+    private void EndPowerScene()
+    {
+        FeralWeaponsActive = false;
+        ToughnessActive = false;
+        ProwessActive = false;
+        UnswayableMindApplies = false;
+        foreach (var modifier in PoolModifiers) modifier.IsApplied = false;
+        ActivationSummary = "Cena encerrada: efeitos temporários de combate e modificadores desativados.";
+        Notebook.AppendLog("Ativações de Disciplinas", ActivationSummary);
+    }
+
+    [RelayCommand]
     private void ActivatePower()
     {
         if (ActivationPower is not { } power) { ActivationSummary = "Selecione um poder."; return; }
@@ -47,6 +68,8 @@ public partial class CharacterEditorViewModel
             var result = new VCS.Application.Blood.PowerActivationActions().Activate(Hunger, BloodPotency, power.Level,
                 ActivationRouseChecks, ActivationWillpowerCost, WillpowerSuperficial, WillpowerAggravated, WillpowerCapacity);
             if (power.Entry?.Definition.Id == "power-protean-feral-weapons") FeralWeaponsActive = true;
+            if (power.Entry?.Definition.Id == "power-fortitude-toughness") ToughnessActive = true;
+            if (power.Entry?.Definition.Id == "power-potence-prowess") ProwessActive = true;
             Hunger = result.Hunger;
             WillpowerSuperficial = result.WillpowerSuperficial;
             ActivationSummary = $"{power.Name}: custos pagos; Fome {Hunger}. Alvo: {ActivationTarget}. Efeito/duração: {ActivationEffect}. " +
