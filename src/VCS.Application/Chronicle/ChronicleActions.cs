@@ -23,6 +23,12 @@ public sealed class ChronicleActions
     public bool CanWakeWithVitae(int vampireBloodPotency, int vitaeBloodPotency, int hungerSlaked, bool staked = false) =>
         TorporRules.CanWakeWithVitae(vampireBloodPotency, vitaeBloodPotency, hungerSlaked, staked);
 
+    public ConflictExchange ResolveConflict(ConflictKind kind, int firstSuccesses, int firstDamageModifier,
+        int secondSuccesses, int secondDamageModifier, ConflictDamageType damageType,
+        bool firstTargetIsVampire = false, bool secondTargetIsVampire = false) =>
+        ConflictRules.ResolveOpposed(kind, firstSuccesses, secondSuccesses, firstDamageModifier,
+            secondDamageModifier, damageType, firstTargetIsVampire, secondTargetIsVampire);
+
     public ConflictOutcome ResolveConflict(ConflictKind kind, DicePoolResult first, int firstDamageModifier,
         DicePoolResult second, int secondDamageModifier, ConflictDamageType damageType,
         bool firstTargetIsVampire = false, bool secondTargetIsVampire = false) =>

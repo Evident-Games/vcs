@@ -18,7 +18,6 @@ using VCS.Content.Disciplines;
 using VCS.Content.Predators;
 using VCS.Content.Skills;
 using VCS.Desktop.Catalogs;
-using VCS.Rules.V5.Advancement;
 using VCS.Rules.V5.Validation;
 using VCS.Sheet;
 
@@ -237,7 +236,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
             }
         }
         finally { _ready = wasReady; }
-        selectedRollSkill ??= Skills.Items.FirstOrDefault(x => x.Rating > 0) ?? Skills.Items.FirstOrDefault();
+        SelectedRollSkill ??= Skills.Items.FirstOrDefault(x => x.Rating > 0) ?? Skills.Items.FirstOrDefault();
         RefreshRollPool();
         RefreshCreation();
     }

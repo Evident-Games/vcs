@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using VCS.Application.Characters;
 using VCS.Content.Clans;
-using VCS.Rules.V5.Validation;
 
 namespace VCS.Desktop.Sheet;
 

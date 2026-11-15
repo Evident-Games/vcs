@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using VCS.Content;
-using VCS.Application.Humanity;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Content.Clans;
 using VCS.Content.Disciplines;

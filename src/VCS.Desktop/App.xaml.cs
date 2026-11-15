@@ -11,6 +11,7 @@ using VCS.Application.Blood;
 using VCS.Application.Advantages;
 using VCS.Application.Characters;
 using VCS.Application.Chronicle;
+using VCS.Application.Dice;
 using VCS.Application.Humanity;
 using VCS.Application.Predators;
 using VCS.Application.Maintenance;
