@@ -84,7 +84,10 @@ public partial class CharacterEditorViewModel
         var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
         var roll = new RitualActions().ResolveDeferred(1, Hunger, pool);
         RitualPreparationSummary = $"Despertar: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}: {roll.Outcome}. " +
-            (roll.IsSuccess ? "Desperta alerta; durante a cena pode agir sem a penalidade de atividade diurna conforme o ritual." : "O ritual não desperta o personagem; o Narrador decide as consequências.") +
+            (roll.IsSuccess ? roll.IsCritical
+                ? "Desperta alerta e ignora as penalidades para permanecer acordado durante o dia até o próximo amanhecer."
+                : "Desperta alerta e ignora as penalidades para permanecer acordado durante o dia enquanto durar a cena."
+                : "O ritual não desperta o personagem; o Narrador decide as consequências.") +
             " Fonte: Vampiro: A Máscara V5 (Livro base), p. 276.";
         ReplacePowerEffect(pending, pending with { Active = false, Effect = RitualPreparationSummary });
         Notebook.AppendLog("Rituais", RitualPreparationSummary);

@@ -139,3 +139,5 @@ O ritual de despertar preparado agora fica registrado nos efeitos da ficha; apó
 O preparo permite uma exceção de pré-requisito quando o Narrador a autoriza e fornece justificativa; a decisão é registrada na tabela de exceções da ficha. Isso não substitui a resolução manual dos requisitos específicos ainda não modelados.
 
 O botão de encerramento do sono diurno permite desativar explicitamente o ritual de despertar pendente sem rolagem ou custo adicional. O término não é inferido pela data real; continua dependendo da confirmação da mesa.
+
+No resultado do despertar, sucesso informa a duração de uma cena e sucesso crítico informa até o próximo amanhecer, conforme livro base p. 276. O app informa o efeito; não controla automaticamente penalidades de atividade diurna ou o calendário da crônica.
