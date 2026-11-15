@@ -25,6 +25,15 @@ public sealed class RitualActions
         if (pool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(pool));
         return DicePoolRules.Roll(pool, hunger, requirements.Difficulty, random);
     }
+
+    /// <summary>Resolve the awakening ritual after the Storyteller confirms danger.</summary>
+    public AwakeningResult ResolveAwakening(int hunger, int pool, Random? random = null)
+    {
+        var roll = ResolveDeferred(1, hunger, pool, random);
+        return new(roll, AwakeningRitualRules.Describe(roll.IsSuccess, roll.IsCritical));
+    }
 }
 
 public sealed record RitualPreparation(RitualRequirements Requirements, RouseCheckResult Check, DicePoolResult? Roll);
+
+public sealed record AwakeningResult(DicePoolResult Roll, string Effect);

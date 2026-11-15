@@ -159,3 +159,5 @@ A rolagem de resistência é executada por `WardActions.RollRetry`, fora da inte
 O contato e a tentativa de resistência registram uma identificação informada para o intruso no diário. A identificação é texto livre e não comprova automaticamente que o intruso foi afetado ou que pagou Vontade; essas confirmações continuam sendo decisões da mesa.
 
 Alterar a identificação do intruso desmarca as confirmações de contato e pagamento de Vontade, para que uma decisão sobre outro alvo não seja reutilizada por engano.
+
+`RitualActions.ResolveAwakening` reúne a rolagem adiada e a interpretação V5 do despertar fora da interface, sem repetir o custo de Sangue. O perigo continua sendo confirmado pelo Narrador e o calendário não é automático.

@@ -178,9 +178,10 @@ public partial class CharacterEditorViewModel
         if (pending is null) { RitualPreparationSummary = "Nenhum ritual de despertar preparado e ativo nesta ficha."; return; }
         if (!AwakeningDangerConfirmed) { RitualPreparationSummary = "Confirme que há perigo durante o sono com o Narrador."; return; }
         var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
-        var roll = new RitualActions().ResolveDeferred(1, Hunger, pool);
+        var result = new RitualActions().ResolveAwakening(Hunger, pool);
+        var roll = result.Roll;
         RitualPreparationSummary = $"Despertar: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}: {roll.Outcome}. " +
-            AwakeningRitualRules.Describe(roll.IsSuccess, roll.IsCritical) +
+            result.Effect +
             " Fonte: Vampiro: A Máscara V5 (Livro base), p. 276.";
         ReplacePowerEffect(pending, pending with { Active = false, Effect = RitualPreparationSummary });
         Notebook.AppendLog("Rituais", RitualPreparationSummary);
