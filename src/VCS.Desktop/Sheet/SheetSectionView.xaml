@@ -137,6 +137,20 @@
                         BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
                     <StackPanel>
                         <TextBlock Text="Rolagem de dados V5" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <Expander Header="Modificadores por fonte (parada da ficha)" Margin="0,0,0,10">
+                         <StackPanel>
+                          <ItemsControl ItemsSource="{Binding PoolModifiers}"><ItemsControl.ItemTemplate><DataTemplate>
+                           <StackPanel Margin="0,6">
+                            <CheckBox Content="Aplicar modificador" IsChecked="{Binding IsApplied}"/>
+                            <TextBox Text="{Binding Reason, UpdateSourceTrigger=PropertyChanged}" ToolTip="Motivo"/>
+                            <TextBox Text="{Binding Source, UpdateSourceTrigger=PropertyChanged}" ToolTip="Fonte do modificador"/>
+                            <controls:NumericField Value="{Binding Dice}" Minimum="-50" Maximum="50"/>
+                            <Button Content="Remover" Command="{Binding DataContext.RemovePoolModifierCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" HorizontalAlignment="Left"/>
+                           </StackPanel>
+                          </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+                          <Button Content="Adicionar modificador" Command="{Binding AddPoolModifierCommand}" HorizontalAlignment="Left"/>
+                         </StackPanel>
+                        </Expander>
                         <TextBlock Text="{Binding DiceRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Margin="0,0,0,8"
                                    Foreground="{DynamicResource VcsInputDescription}" />
                         <UniformGrid Columns="3" Margin="0,0,0,8">

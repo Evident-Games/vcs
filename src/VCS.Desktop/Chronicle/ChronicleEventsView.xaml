@@ -73,6 +73,26 @@
  <TextBlock Text="Sucessos da vítima na disputa"/><TextBox Text="{Binding VictimSuccesses, ValidatesOnExceptions=True}"/>
  <Button Content="Calcular consequências" Command="{Binding ResolveDiablerieCommand}" Margin="0,8,0,0"/>
  </StackPanel></Expander>
+ <Expander Header="Vínculos, Discrasias e estados persistentes" Margin="0,0,0,12"><StackPanel Margin="0,10,0,0">
+ <TextBlock Text="Outra parte / regente"/><TextBox Text="{Binding Counterparty}"/>
+ <TextBlock Text="Nível do vínculo"/><TextBox Text="{Binding BondLevel, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Último gole (dd/MM/aaaa)"/><TextBox Text="{Binding LastDrink, StringFormat=dd/MM/yyyy, ValidatesOnExceptions=True}"/>
+ <Button Content="Registrar gole na data do evento" Command="{Binding RecordVitaeCommand}" Margin="0,8,0,8"/>
+ <TextBlock Text="Efeito / Compulsão / Perdição / benefício"/><TextBox Text="{Binding Effect}" AcceptsReturn="True" TextWrapping="Wrap"/>
+ <TextBlock Text="Disciplina beneficiada"/><TextBox Text="{Binding Discipline}"/>
+ <TextBlock Text="Condição de término ou consumo"/><TextBox Text="{Binding Expiration}"/>
+ <CheckBox Content="Efeito ativo" IsChecked="{Binding Active}"/>
+ </StackPanel></Expander>
+ <Expander Header="Conflito · turnos opostos" Margin="0,0,0,12"><StackPanel Margin="0,10,0,0">
+ <TextBlock Text="Turno"/><TextBox Text="{Binding Round, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Parada do lado 1"/><TextBox Text="{Binding FirstPool, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Fome do lado 1"/><TextBox Text="{Binding FirstHunger, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Modificador de dano lado 1"/><TextBox Text="{Binding FirstWeapon, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Parada do lado 2"/><TextBox Text="{Binding SecondPool, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Fome do lado 2"/><TextBox Text="{Binding SecondHunger, ValidatesOnExceptions=True}"/>
+ <TextBlock Text="Modificador de dano lado 2"/><TextBox Text="{Binding SecondWeapon, ValidatesOnExceptions=True}"/>
+ <Button Content="Rolar turno e registrar dano bruto" Command="{Binding ResolveRoundCommand}" Margin="0,8,0,0"/>
+ </StackPanel></Expander>
  <TextBlock Text="Resultado e consequências"/><TextBox Text="{Binding Outcome, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="80" Margin="0,4,0,10" />
  <TextBlock Text="Fonte (livro, página ou regra da mesa)"/><TextBox Text="{Binding Source, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,12" />
  <WrapPanel><Button Content="Salvar evento" Command="{Binding SaveCommand}" Margin="0,0,8,4"/><Button Content="Excluir selecionado" Command="{Binding DeleteCommand}" /></WrapPanel>

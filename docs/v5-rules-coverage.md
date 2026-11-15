@@ -56,3 +56,12 @@ Esta lista é uma auditoria inicial do código, não uma certificação de equiv
 - Dano: excesso superficial converte marcas em agravadas; excesso além da trilha é indicado para adjudicação.
 
 Ainda não constitui implementação integral de V5: faltam resolvedores individuais dos poderes, fluxos estruturados de Sangues-Ralos, aplicação de Perdição, múltiplos vínculos estruturados, consumo específico de Discrasias, conflitos completos e modificadores tipados por fonte. Os registros do Narrador permitem documentar essas decisões, mas não substituem esses resolvedores.
+
+
+## Registros estruturados e modificadores
+
+Eventos agora persistem o estado de vínculos (outra parte, nível e último gole), efeitos (descrição, disciplina, condição de término/consumo e ativo) e conflitos (turno, paradas, Fome e modificadores de dano). É possível manter vários registros por personagem. A área do Narrador registra os turnos físicos com dano bruto; a aplicação e redução continuam explícitas na ficha.
+
+O rolador da ficha aceita vários modificadores com motivo, fonte, valor e ativação individual. Estes são ajustes da cena atual, não bônus permanentes salvos na ficha.
+
+Build e testes não executados por instrução do usuário nesta rodada.
