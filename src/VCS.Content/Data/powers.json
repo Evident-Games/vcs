@@ -693,7 +693,7 @@
     "name": "Despertar com a Brisa do Entardecer",
     "level": 1,
     "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 1)",
+    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 2; confira exceções do ritual)",
     "summary": "Protege o sono diurno vulnerável do vampiro. Se qualquer ameaça tentar invadir seu esconderijo enquanto ele dorme de dia, o ritual desperta o vampiro instantaneamente e permite que ele aja durante aquele turno de luz do dia sem penalidades letárgicas.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
@@ -704,7 +704,7 @@
     "name": "Ilusão de Morte Pacífica",
     "level": 2,
     "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 2)",
+    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 3; confira exceções do ritual)",
     "summary": "Lança pó e sangue falso em um cadáver recém-assassinado pelo vampiro. Em segundos, esconde marcas de presas, arranhões de garras ou perda severa de sangue. Quando o legista examinar, o corpo parecerá ter morrido de ataque cardíaco natural.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
@@ -712,12 +712,12 @@
     "id": "ritual-ward-against-lupines",
     "disciplineId": "discipline-blood-sorcery",
     "isRitual": true,
-    "name": "Proteção contra Feras",
+    "name": "Proteção contra Lupinos",
     "level": 3,
     "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 3)",
-    "summary": "Ao desenhar sigilos de sangue por 30 minutos em um ambiente ou num objeto (como um carro ou taco), o mago cria uma barreira mística dolorosa e flamejante contra Lobisomens. Qualquer lupino que tentar cruzar a porta ou tocar no objeto marcado receberá muito dano místico.",
-    "source": "Vampiro: A Máscara V5 (Livro base)"
+    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 4; confira exceções do ritual)",
+    "summary": "Proteção de objeto contra lobisomens; não protege um ambiente inteiro. Exige prata em pó misturada ao Sangue. O primeiro toque voluntário aciona a rolagem de Ritual: sucesso causa 1 dano agravado de Vitalidade; crítico causa 3. Para círculos de proteção, use o ritual correspondente e suas regras próprias.",
+    "source": "Vampiro: A Máscara V5 (Livro base), pp. 275, 279"
   },
   {
     "id": "ritual-ward-against-cainites",
@@ -726,7 +726,7 @@
     "name": "Proteção contra Cainitas",
     "level": 4,
     "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 4)",
+    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 5; confira exceções do ritual)",
     "summary": "Funciona como a Proteção contra Feras, mas queima e repele outros Vampiros. Torna Refúgios impenetráveis ou cria armas e roupas místicas que eletrocutam ou queimam cainitas que toquem no alvo protegido.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
@@ -737,7 +737,7 @@
     "name": "Fuga para o Santuário Verdadeiro",
     "level": 5,
     "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 5)",
+    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 6; confira exceções do ritual)",
     "summary": "Cria dois círculos de cinzas e sangue (um na base segura e outro que o mago usa durante emergências nas ruas). Ao entrar no círculo de emergência, o corpo do Feiticeiro desaparece instantaneamente e é teleportado ileso de volta para o seu santuário particular.",
     "source": "Vampiro: A Máscara V5 (Livro base)"
   },
