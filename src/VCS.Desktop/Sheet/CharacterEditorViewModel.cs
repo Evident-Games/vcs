@@ -33,6 +33,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     private readonly DiceActions _diceActions;
     private readonly CharacterSheetActions _characterActions;
     private readonly ChronicleActions _chronicleActions;
+    private readonly VCS.Rules.Disciplines.PowerRulesetRegistry _powerRulesets;
     private readonly PredatorActions _predatorActions;
     private readonly LoresheetActions _loresheetActions;
     private readonly SemaphoreSlim _saveGate = new(1, 1);
@@ -55,7 +56,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         BloodActions? bloodActions = null, HumanityActions? humanityActions = null,
         DiceActions? diceActions = null, CharacterSheetActions? characterActions = null,
         PredatorActions? predatorActions = null, LoresheetActions? loresheetActions = null,
-        ChronicleActions? chronicleActions = null)
+        ChronicleActions? chronicleActions = null,
+        VCS.Rules.Disciplines.PowerRulesetRegistry? powerRulesets = null)
     {
         _current = character;
         _service = service;
@@ -68,6 +70,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         _predatorActions = predatorActions ?? new();
         _loresheetActions = loresheetActions ?? new();
         _chronicleActions = chronicleActions ?? new();
+        _powerRulesets = powerRulesets ?? new([new VCS.Rules.V5.Disciplines.V5PowerRuleset()]);
         var d = character.Details;
         _advancement = (d.Advancement ?? new()) with { AutomaticExperience = true, IsCreating = true, HasCreationProfile = true };
         _predatorSelection = d.PredatorSelection;

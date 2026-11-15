@@ -144,7 +144,7 @@ public partial class CharacterEditorViewModel
         try
         {
             var discipline = power.Entry?.Definition.DisciplineId ?? "";
-            var result = new PowerUseActions().Resolve(new(use, ActivationExceptionApproved ? power.Level : use.Level, PowerUsePool, PowerRollRequired,
+            var result = new PowerUseActions(_powerRulesets).Resolve(new(use, ActivationExceptionApproved ? power.Level : use.Level, PowerUsePool, PowerRollRequired,
                 PowerUseDifficulty, PowerOpponentSuccesses, DisciplineRating(discipline), AttributeRating("wits"),
                 PowerTargetIsVampire, Hunger, EffectiveBloodPotency, ActivationRouseChecks, ActivationWillpowerCost,
                 WillpowerSuperficial, WillpowerAggravated, WillpowerCapacity));

@@ -5,6 +5,7 @@
     <Project Path="src/VCS.Content/VCS.Content.csproj" />
     <Project Path="src/VCS.Infrastructure/VCS.Infrastructure.csproj" />
     <Project Path="src/VCS.Rules.V5/VCS.Rules.V5.csproj" />
+    <Project Path="src/VCS.Rules/VCS.Rules.csproj" />
     <Project Path="src/VCS.Sheet/VCS.Sheet.csproj" />
   </Folder>
   <Folder Name="/tests/">

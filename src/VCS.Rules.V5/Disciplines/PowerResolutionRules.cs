@@ -1,19 +1,14 @@
 using VCS.Content;
 using VCS.Content.Disciplines;
+using VCS.Rules.Disciplines;
 
 namespace VCS.Rules.V5.Disciplines;
 
-public sealed record PowerResolutionContext(int Rating, int Successes, int Difficulty, int OpponentSuccesses,
-    bool Rolled, bool Critical, bool VampireTarget, int RouseChecks, int Wits, int BloodPotency);
-
-/// <summary>Computed outcome for a named target. Health/Hunger changes are proposals until explicitly applied.</summary>
-public sealed record PowerResolution(bool Succeeded, string Effect, string Duration, int Margin = 0,
-    int HealthDamage = 0, bool Aggravated = false, int WillpowerDamage = 0, int HungerIncrease = 0,
-    int HealthBonus = 0, int PoolBonus = 0, int PotencyIncrease = 0, int Turns = 0);
-
 [RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 244–274")]
-public static class PowerResolutionRules
+public sealed class V5PowerRuleset : IPowerRuleset
 {
+    public string EditionId => "V5";
+
     public static PowerResolution Resolve(PowerUseDefinition use, PowerResolutionContext context)
     {
         if (context.Rating is < 0 or > 5 || context.Successes < 0 || context.Difficulty < 0 ||
@@ -93,4 +88,6 @@ public static class PowerResolutionRules
             _ => result
         };
     }
+
+    PowerResolution IPowerRuleset.Resolve(PowerUseDefinition use, PowerResolutionContext context) => Resolve(use, context);
 }

@@ -27,6 +27,8 @@ using VCS.Desktop.Themes;
 using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
+using VCS.Rules.Disciplines;
+using VCS.Rules.V5.Disciplines;
 
 namespace VCS.Desktop;
 
@@ -81,6 +83,8 @@ public partial class App : System.Windows.Application
             builder.Services.AddSingleton<PredatorActions>();
             builder.Services.AddSingleton<LoresheetActions>();
             builder.Services.AddSingleton<ChronicleActions>();
+            builder.Services.AddSingleton<IPowerRuleset, V5PowerRuleset>();
+            builder.Services.AddSingleton<PowerRulesetRegistry>();
             builder.Services.AddSingleton<IChronicleEventStore, VCS.Infrastructure.Chronicle.JsonChronicleEventStore>();
             builder.Services.AddSingleton<VCS.Desktop.Chronicle.ChronicleEventsViewModel>();
             builder.Services.AddSingleton<ProvidedDisciplineCatalog>();
@@ -109,7 +113,8 @@ public partial class App : System.Windows.Application
                     provider.GetRequiredService<CharacterSheetActions>(),
                     provider.GetRequiredService<PredatorActions>(),
                     provider.GetRequiredService<LoresheetActions>(),
-                    provider.GetRequiredService<ChronicleActions>()));
+                    provider.GetRequiredService<ChronicleActions>(),
+                    provider.GetRequiredService<PowerRulesetRegistry>()));
             builder.Services.AddSingleton<UpdateService>();
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<MainWindow>();
