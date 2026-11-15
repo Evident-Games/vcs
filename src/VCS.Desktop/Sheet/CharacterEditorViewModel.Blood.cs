@@ -69,6 +69,7 @@ public partial class CharacterEditorViewModel
     public string DiceRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(DicePoolRules));
     public string RouseRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(RouseCheckRules));
     public string ResonanceRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(ResonanceRules));
+    public string MendingRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyEffects));
     public string FeedingRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(FeedingRules));
     public string FrenzyRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(FrenzyRules));
     public string HumanityRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(HumanityRules));
@@ -435,6 +436,25 @@ public partial class CharacterEditorViewModel
                 ? $"Checagem de Sangue: falha ({result.Die}). Fome já estava em 5."
                 : $"Checagem de Sangue: falha ({result.Die}). Fome aumenta para {Hunger}.";
         ShowDiceRoll("Checagem de Sangue", RouseCheckSummary, [new RolledDieDisplay(result.Die, "SANGUE")]);
+    }
+
+    [RelayCommand]
+    private void MendSuperficialHealth()
+    {
+        try
+        {
+            var result = _bloodActions.MendSuperficialHealth(HealthSuperficial, Hunger, BloodPotency);
+            Hunger = result.HungerAfter;
+            HealthSuperficial = Math.Max(0, HealthSuperficial - result.SuperficialHealed);
+            RouseCheckSummary = result.RouseCheck.Succeeded
+                ? $"Mending: checagem {result.RouseCheck.Die}, sucesso. Recuperou {result.SuperficialHealed} dano(s) superficial(is) de Saúde; Fome {Hunger}."
+                : $"Mending: checagem {result.RouseCheck.Die}, falha. Recuperou {result.SuperficialHealed} dano(s) superficial(is) de Saúde; Fome {Hunger}.";
+            ShowDiceRoll("Mending", RouseCheckSummary, [new RolledDieDisplay(result.RouseCheck.Die, "SANGUE")]);
+        }
+        catch (InvalidOperationException exception)
+        {
+            RouseCheckSummary = exception.Message;
+        }
     }
 }
 

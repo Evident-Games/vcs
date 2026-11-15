@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 10575)
-Total output lines: 469
-
 <UserControl x:Class="VCS.Desktop.Sheet.SheetSectionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -109,6 +106,17 @@ Total output lines: 469
                 <sheet:BloodLineageDiagram BloodPotency="{Binding BloodPotency, Mode=TwoWay}"
                                              Generation="{Binding Generation, Mode=TwoWay}"
                                              BloodPotencyEnabled="{Binding CanEditBuild}" Margin="8,0,8,12" />
+                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
+                    <StackPanel>
+                        <TextBlock Text="Mending" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding MendingRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" Margin="0,3,0,4" />
+                        <TextBlock Text="Gasta uma checagem de Sangue e recupera o limite de dano superficial de Saúde da Potência do Sangue. A falha ainda aumenta a Fome."
+                                   TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
+                        <Button Content="Fazer Mending" Command="{Binding MendSuperficialHealthCommand}" HorizontalAlignment="Left" Margin="0,6,0,0"
+                                AutomationProperties.Name="Recuperar dano superficial de Saúde com Mending" />
+                    </StackPanel>
+                </Border>
                 <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
                         BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
                     <StackPanel>
@@ -234,7 +242,25 @@ Total output lines: 469
                             <StackPanel Width="180" Margin="0,0,8,6"><TextBlock Text="Vassalo" Style="{StaticResource FieldLabel}" />
                                 <TextBox Text="{Binding BloodBondThrallId, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Vassalo do Vínculo de Sangue" /></StackPanel>
                             <StackPanel Width="84" Margin="0,0,8,6"><TextBlock Text="Nível atual" Style="{StaticResource FieldLabel}" />
-                                <controls:NumericField Value="{Binding BloodBondLevel, Mode=TwoWay}" Minimum="0" Maximum="3" AutomationProperties.Name="Nível atual do vínculo" /></StackPan…575 tokens truncated…                  <TextBlock Text="{Binding TorporSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
+                                <controls:NumericField Value="{Binding BloodBondLevel, Mode=TwoWay}" Minimum="0" Maximum="3" AutomationProperties.Name="Nível atual do vínculo" /></StackPanel>
+                            <StackPanel Width="145" Margin="0,0,8,6"><TextBlock Text="Último gole" Style="{StaticResource FieldLabel}" />
+                                <DatePicker SelectedDate="{Binding BloodBondLastVitaeDate, Mode=TwoWay}" AutomationProperties.Name="Data do último gole" /></StackPanel>
+                            <StackPanel Width="145" Margin="0,0,8,6"><TextBlock Text="Gole registrado em" Style="{StaticResource FieldLabel}" />
+                                <DatePicker SelectedDate="{Binding BloodBondEventDate, Mode=TwoWay}" AutomationProperties.Name="Data do gole" /></StackPanel>
+                            <Button Content="Registrar gole" Command="{Binding RecordBloodBondDrinkCommand}" VerticalAlignment="Bottom" Margin="0,0,0,6" />
+                        </WrapPanel>
+                        <TextBlock Text="{Binding BloodBondSummary}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding BloodBondEffectiveLevel, StringFormat=Nível efetivo nesta data: {0}/3}" Foreground="{DynamicResource VcsInputDescription}" />
+                        <WrapPanel Margin="0,10,0,0" VerticalAlignment="Center">
+                            <StackPanel Width="145" Margin="0,0,8,6"><TextBlock Text="Entrada em Torpor" Style="{StaticResource FieldLabel}" />
+                                <DatePicker SelectedDate="{Binding TorporEnteredAt, Mode=TwoWay}" AutomationProperties.Name="Data de entrada em Torpor" /></StackPanel>
+                            <StackPanel Width="145" Margin="0,0,8,6"><TextBlock Text="Verificar em" Style="{StaticResource FieldLabel}" />
+                                <DatePicker SelectedDate="{Binding TorporCheckAt, Mode=TwoWay}" AutomationProperties.Name="Data para verificar o Torpor" /></StackPanel>
+                            <CheckBox Content="Está empalado" IsChecked="{Binding TorporStaked, Mode=TwoWay}" VerticalAlignment="Bottom" Margin="0,0,12,10" />
+                            <Button Content="Calcular despertar" Command="{Binding CalculateTorporCommand}" VerticalAlignment="Bottom" Margin="0,0,0,6" />
+                        </WrapPanel>
+                        <TextBlock Text="{Binding TorporRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding TorporSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
                         <WrapPanel Margin="0,6,0,0" VerticalAlignment="Center">
                             <StackPanel Width="130" Margin="0,0,8,6"><TextBlock Text="Potência da Vitae" Style="{StaticResource FieldLabel}" />
                                 <controls:NumericField Value="{Binding TorporVitaeBloodPotency, Mode=TwoWay}" Minimum="0" Maximum="10" /></StackPanel>

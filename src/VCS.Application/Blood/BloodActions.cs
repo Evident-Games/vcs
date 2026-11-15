@@ -30,6 +30,7 @@ public sealed record CompulsionActionResult(
     IReadOnlyList<int> TableRolls);
 
 public sealed record ResonanceActionResult(ResonanceResult Resolution, IReadOnlyList<int> Dice);
+public sealed record MendingActionResult(RouseCheckResult RouseCheck, int SuperficialHealed, int HungerAfter);
 
 /// <summary>
 /// Coordinates blood-related V5 use cases without depending on a desktop UI.
@@ -171,4 +172,13 @@ public sealed class BloodActions
 
     public RouseCheckResult MakeRouseCheck(int hunger, Random? random = null) =>
         RouseCheckRules.Roll(hunger, random);
+
+    public MendingActionResult MendSuperficialHealth(int superficialDamage, int hunger, int bloodPotency, Random? random = null)
+    {
+        if (superficialDamage <= 0) throw new InvalidOperationException("Não há dano superficial de Saúde para recuperar.");
+        if (bloodPotency is < 0 or > 10) throw new ArgumentOutOfRangeException(nameof(bloodPotency));
+        var rouse = RouseCheckRules.Roll(hunger, random);
+        var healed = Math.Min(superficialDamage, BloodPotencyEffects.At(bloodPotency).MendSuperficial);
+        return new(rouse, healed, rouse.HungerAfter);
+    }
 }
