@@ -118,7 +118,7 @@ public partial class CharacterEditorViewModel
         if (SelectedPowerEffect is not { Active: true } ward ||
             ward.PowerId is not ("ritual-ward-against-lupines" or "ritual-ward-against-cainites"))
         { RitualPreparationSummary = "Selecione nos efeitos uma proteção de objeto ativa."; return; }
-        if (ward.PowerId == "ritual-ward-against-cainites" && WardIntruderIsCaster)
+        if (WardRules.ExcludesCaster(ward.PowerId, WardIntruderIsCaster))
         { RitualPreparationSummary = "A Proteção contra Cainitas não afeta o próprio conjurador. Nenhuma rolagem foi feita."; return; }
         if (!WardContactConfirmed)
         { RitualPreparationSummary = "Confirme com o Narrador o toque voluntário do intruso correspondente."; return; }
@@ -143,7 +143,8 @@ public partial class CharacterEditorViewModel
         }
         var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
         var attempt = new WardActions().ResolveFirstContact(ward.RemainingPoints, Hunger, pool, true, true,
-            casterBeastSubdued: HasActivePower("power-animalism-quell-the-beast"));
+            casterBeastSubdued: HasActivePower("power-animalism-quell-the-beast"),
+            ritualId: ward.PowerId, intruderIsCaster: WardIntruderIsCaster);
         if (attempt.Roll is not { } roll) return;
         RitualPreparationSummary = $"{ward.Name} em {ward.Target}; intruso {intruder}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}. " +
             $"Dano agravado proposto ao intruso: {attempt.Result.AggravatedHealthDamage}. Nenhuma outra ficha foi alterada. Fonte: {ward.Source}.";
@@ -162,7 +163,7 @@ public partial class CharacterEditorViewModel
             ward.PowerId is not ("ritual-ward-against-lupines" or "ritual-ward-against-cainites") ||
             ward.PoolBonus is not (2 or 4))
         { RitualPreparationSummary = "Selecione uma proteção com resultado estruturado bem-sucedido."; return; }
-        if (ward.PowerId == "ritual-ward-against-cainites" && WardIntruderIsCaster)
+        if (WardRules.ExcludesCaster(ward.PowerId, WardIntruderIsCaster))
         { RitualPreparationSummary = "A Proteção contra Cainitas não afeta o próprio conjurador. Nenhuma rolagem foi feita."; return; }
         if (!WardRetryCostConfirmed)
         { RitualPreparationSummary = "Confirme que o intruso já foi afetado e gastou um ponto de Vontade."; return; }
@@ -170,7 +171,8 @@ public partial class CharacterEditorViewModel
         { RitualPreparationSummary = "Identifique o intruso para registrar esta tentativa."; return; }
         if (WardRetryPool is < 0 or > 50 || WardRetryHunger is < 0 or > 5)
         { RitualPreparationSummary = "Parada deve estar entre 0 e 50; Fome entre 0 e 5."; return; }
-        var roll = new WardActions().RollRetry(ward.PoolBonus - 1, WardRetryPool, WardRetryHunger);
+        var roll = new WardActions().RollRetry(ward.PoolBonus - 1, WardRetryPool, WardRetryHunger,
+            ritualId: ward.PowerId, intruderIsCaster: WardIntruderIsCaster);
         RitualPreparationSummary = $"Nova tentativa de {WardIntruder.Trim()} contra {ward.Name} em {ward.Target}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}, {roll.Outcome}. " +
             (roll.IsSuccess ? "O intruso pode tentar tocar novamente." : "O intruso não pode tentar tocar nesta ocasião.") +
             " Custo registrado pela mesa; nenhuma outra ficha foi alterada. Fonte: Livro base, p. 275.";
