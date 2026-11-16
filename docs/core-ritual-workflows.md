@@ -25,7 +25,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Proteção contra Lupinos | Fluxo dedicado preservado | Elegibilidade e aplicação no intruso |
 | Círculo de Proteção contra Lupinos | Fluxo dos círculos com nível próprio | Elegibilidade e consequências fora da ficha |
 | Defesa do Refúgio Sagrado | Custo, raio máximo, teste ao nascer do sol confirmado e bloqueio de dano solar em área confirmada | Permanência do conjurador, limites do local, tempo e beneficiários |
-| Olhos do Falcão Noturno | Custo, teste, efeito/crítico e aviso de retirada dos olhos | Controle da ave, suas ações/Disciplinas e cegueira de três noites ao descumprir o encerramento |
+| Olhos do Falcão Noturno | Custo, teste, efeito/crítico, encerramento confirmado, cegueira persistente de três noites e avanço explícito pelas datas da crônica | Controle da ave, ações/Disciplinas e adjudicação de limitações da cegueira; nenhum modificador numérico é inventado |
 | Passagem Incorpórea | Custo, teste, efeito por cena/caco, bloqueio de Surto e proteção contra dano físico comum confirmado | Movimento em sólidos, perda do caco, fontes arcanas e materialização |
 | Proteção contra Cainitas | Fluxo dedicado preservado, conjurador isento | Leitura da assinatura por Auspícios e consequências no intruso |
 | Círculo de Proteção contra Cainitas | Fluxo dos círculos com nível próprio | Elegibilidade, sentido da travessia e consequências no intruso |
@@ -42,6 +42,16 @@ Andarilho do Fogo reduz o dano na aplicação explícita do conflito somente qua
 Exceções justificadas de pré-requisitos/beneficiário são copiadas para o registro da ficha. Limites de pedras e área podem usar a decisão registrada; não se presume permissão sem justificativa. O fluxo não fornece um editor universal para substituir todas as regras ou estágios internos. Custos já pagos não são reembolsados ao encerrar um preparo. Textos personalizados, temas e dados 3D existentes foram preservados.
 
 Ilusão de Morte Pacífica continua como entrada legada de fonte não verificada, sem execução automática; não integra os 26 títulos. Nenhum poder de suplemento foi adicionado. A classificação herdada dos 88 poderes de Disciplinas continua 37 diretos, 11 propostas numéricas e 40 assistidos, sem nova auditoria completa neste ciclo. Efeitos narrativos não devem ser classificados como aplicação direta apenas por terem custo e rolagem.
+
+## Encerramento de Olhos do Falcão Noturno
+
+Conferência visual do PDF oficial fornecido, página impressa 280 (282 do PDF). O fluxo agora exige uma escolha explícita no fim da noite: olhos removidos ou não removidos. A consequência vem de `RitualOngoingRules`; `RitualWorkflowActions` coordena o encerramento e a interface apresenta a decisão. Não há nova Checagem de Sangue, teste ou dado fictício.
+
+Sem remoção, o voo fica inativo e é criado um registro separado de cegueira por três noites, com fonte, alvo e noite inicial. Fichas de terceiros não são alteradas: um beneficiário excepcional externo recebe uma proposta registrada. O contador só avança quando a mesa informa e confirma a última noite da crônica concluída. Não usa o calendário real: saltos de data descontam as noites confirmadas, datas repetidas ou anteriores são rejeitadas e o efeito termina quando o contador chega a zero. Os campos opcionais `NightsRemaining` e `LastNightAdvanced` usam o JSON existente dos efeitos, sem coluna nova no banco.
+
+O encerramento genérico não descarta silenciosamente o voo ou uma cegueira ativa. Um término antecipado da cegueira exige autorização própria e justificativa, copiadas à tabela de exceções; essas confirmações são limpas ao trocar o efeito selecionado. Movimento, visão e modificadores situacionais continuam com o Narrador: este ciclo não define uma penalidade universal de cegueira nem afirma automação integral do ritual.
+
+Contagens mantidas: 88 poderes com perfil (37 diretos, 11 propostas numéricas, 40 assistidos; classificação herdada), 26 rituais com catálogo e fluxo, zero rituais confirmados ausentes e uma entrada legada não verificada. O avanço acima melhora um procedimento já existente e não acrescenta outro ritual à contagem.
 
 ## Revisão e limites da entrega
 

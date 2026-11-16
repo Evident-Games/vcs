@@ -90,6 +90,8 @@ public partial class CharacterEditorViewModel
 
     partial void OnSelectedPowerEffectChanged(PowerEffectEntry? value)
     {
+        RitualEndingExceptionApproved = false;
+        RitualEndingExceptionReason = "";
         CoreRitualConditionsConfirmed = false;
         CoreRitualCandleDamageConfirmed = false;
         CoreRitualRetryCostConfirmed = false;

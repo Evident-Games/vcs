@@ -22,7 +22,7 @@
                 <TextBlock Text=" · Doses: "/><TextBlock Text="{Binding SelectedPowerEffect.RitualWorkflow.Charges}"/>
             </WrapPanel>
             <Button Content="Pagar próxima Checagem de Sangue" Command="{Binding PayRitualWorkflowCheckCommand}" HorizontalAlignment="Left"/>
-            <TextBlock Text="Noite na crônica (para Pedra de Sangue)"/>
+            <TextBlock Text="Noite na crônica (Pedra de Sangue / encerramento do voo / cegueira)"/>
             <TextBox Text="{Binding PowerGameDate, StringFormat=dd/MM/yyyy, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"/>
             <Button Content="Pedra de Sangue: registrar uma hora nesta noite confirmada" Command="{Binding RecordBloodstonePreparationNightCommand}" HorizontalAlignment="Left"/>
             <WrapPanel>
@@ -37,6 +37,17 @@
             <Button Content="Coração de Pedra: aplicar cura crítica da vela confirmada" Command="{Binding ApplyRitualCandleHealingCommand}" HorizontalAlignment="Left"/>
             <Button Content="Essência do Ar: consumir uma dose confirmada" Command="{Binding ConsumeRitualAirDoseCommand}" HorizontalAlignment="Left"/>
             <Button Content="Iluminar Rastro: rolar Inteligência + Sobrevivência" Command="{Binding RollRitualTrackingCommand}" HorizontalAlignment="Left"/>
+            <Expander Header="Olhos do Falcão Noturno: encerramento" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Selecione o voo ativo, informe acima a noite da crônica que terminou e confirme as circunstâncias com o Narrador. Escolha explicitamente o que ocorreu com os olhos da ave. Fonte: Livro base, p. 280." TextWrapping="Wrap"/>
+                <Button Content="Fim da noite: olhos da ave removidos" Command="{Binding EndNighthawkWithEyesRemovedCommand}" HorizontalAlignment="Left"/>
+                <Button Content="Fim da noite: olhos da ave NÃO removidos" Command="{Binding EndNighthawkWithoutEyesRemovedCommand}" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding RitualBlindnessSummary}" TextWrapping="Wrap" Margin="0,8"/>
+                <TextBlock Text="Para a cegueira, selecione seu registro, informe a última noite concluída e confirme o avanço. A mesma noite não será descontada novamente; saltos de data contam as noites transcorridas que a mesa confirmou. Nenhum modificador numérico de cegueira é presumido." TextWrapping="Wrap"/>
+                <Button Content="Confirmar noites concluídas da cegueira" Command="{Binding AdvanceRitualBlindnessNightsCommand}" HorizontalAlignment="Left"/>
+                <CheckBox Content="Narrador autorizou encerrar esta cegueira antes do prazo" IsChecked="{Binding RitualEndingExceptionApproved}"/>
+                <TextBox Text="{Binding RitualEndingExceptionReason, UpdateSourceTrigger=PropertyChanged}" ToolTip="Justificativa desta decisão excepcional" TextWrapping="Wrap"/>
+                <Button Content="Encerrar cegueira por exceção justificada" Command="{Binding EndRitualBlindnessByRulingCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <Expander Header="Fuste: ataque ou extração da lasca" Margin="0,8"><StackPanel Margin="8">
                 <TextBlock Text="Ataque: informe a parada de quem usa a estaca, sem o bônus ritual (+3 é acrescentado). Use os sucessos da oposição acima. Cirurgia: informe Destreza + Medicina de outra pessoa e confirme até quatro horas disponíveis. Identifique a Fome do executor, 0 para mortal. Não há alteração automática na vítima." TextWrapping="Wrap"/>
                 <TextBlock Text="Parada do executor"/><controls:NumericField Value="{Binding RitualFollowUpPool}" Minimum="0" Maximum="47"/>
