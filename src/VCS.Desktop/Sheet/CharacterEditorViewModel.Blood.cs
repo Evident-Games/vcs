@@ -5,7 +5,6 @@ using VCS.Application.Blood;
 using VCS.Content;
 using VCS.Rules.V5.Blood;
 using VCS.Rules.V5.Dice;
-using VCS.Rules.V5.Disciplines;
 
 namespace VCS.Desktop.Sheet;
 
@@ -347,7 +346,7 @@ public partial class CharacterEditorViewModel
         var rouseSummary = "";
         var displayedDice = new List<RolledDieDisplay>();
         var action = _bloodActions.RollTest(CurrentRollDicePool, rollDifficulty, Hunger, EffectiveBloodPotency,
-            UseHungerDice, UseBloodSurge && QuellBeastRules.CanUseBloodSurge(beastQuelled));
+            UseHungerDice, UseBloodSurge, beastSubdued: beastQuelled);
         if (action.BloodSurgeCheck is { } rouse)
         {
             Hunger = action.HungerAfter;
@@ -357,7 +356,7 @@ public partial class CharacterEditorViewModel
         }
 
         var fleetnessDodgeApplied = UseSheetDicePool && FleetnessPoolBonus > 0 && RollIsCombat && RollIsDodge;
-        var result = QuellBeastRules.ApplyToRoll(action.Roll, beastQuelled);
+        var result = action.Roll;
         _lastRollForReroll = result;
         _lastRollPool = CurrentRollDicePool + action.BloodSurgeDice;
         _lastRollHunger = UseHungerDice ? action.HungerAfter : 0;
@@ -433,8 +432,7 @@ public partial class CharacterEditorViewModel
         var hungerCount = previous.HungerDice.Count;
         var indices = selected.Select(die => hungerCount + die.Index).ToArray();
         var result = _diceActions.RerollFailures(_lastRollPool, _lastRollHunger, _lastRollDifficulty,
-            initialFaces, indices);
-        result = QuellBeastRules.ApplyToRoll(result, _lastRollBeastQuelled);
+            initialFaces, indices, beastSubdued: _lastRollBeastQuelled);
         WillpowerSuperficial = Math.Min(WillpowerCapacity - WillpowerAggravated, WillpowerSuperficial + 1);
         _rerollUsed = true;
         _lastRollForReroll = null;

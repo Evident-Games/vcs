@@ -1,4 +1,5 @@
 using VCS.Rules.V5.Dice;
+using VCS.Rules.V5.Disciplines;
 
 namespace VCS.Application.Dice;
 
@@ -13,11 +14,13 @@ public sealed class DiceActions
         DicePoolRules.Roll(pool, hunger, difficulty, random);
 
     public DicePoolResult RerollFailures(int pool, int hunger, int difficulty,
-        IReadOnlyList<int> initialFaces, IReadOnlyList<int> regularDieIndices, Random? random = null)
+        IReadOnlyList<int> initialFaces, IReadOnlyList<int> regularDieIndices, Random? random = null,
+        bool beastSubdued = false)
     {
         random ??= Random.Shared;
         var replacements = regularDieIndices.Select(_ => random.Next(1, 11)).ToArray();
-        return DicePoolRules.RerollRegularFailures(pool, hunger, difficulty, initialFaces,
+        var roll = DicePoolRules.RerollRegularFailures(pool, hunger, difficulty, initialFaces,
             regularDieIndices, replacements);
+        return QuellBeastRules.ApplyToRoll(roll, beastSubdued);
     }
 }

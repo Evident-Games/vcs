@@ -1,5 +1,6 @@
 using VCS.Rules.V5.Blood;
 using VCS.Rules.V5.Dice;
+using VCS.Rules.V5.Disciplines;
 
 namespace VCS.Application.Blood;
 
@@ -155,12 +156,13 @@ public sealed class BloodActions
         int bloodPotency,
         bool useHungerDice,
         bool useBloodSurge,
-        Random? random = null)
+        Random? random = null,
+        bool beastSubdued = false)
     {
         var hungerAfter = hunger;
         var surgeDice = 0;
         RouseCheckResult? surgeCheck = null;
-        if (useBloodSurge)
+        if (useBloodSurge && QuellBeastRules.CanUseBloodSurge(beastSubdued))
         {
             surgeDice = BloodPotencyEffects.At(bloodPotency).BloodSurgeDice;
             surgeCheck = RouseCheckRules.Roll(hunger, random);
@@ -169,7 +171,7 @@ public sealed class BloodActions
 
         var roll = DicePoolRules.Roll(dicePool + surgeDice,
             useHungerDice ? hungerAfter : 0, difficulty, random);
-        return new(surgeCheck, surgeDice, hungerAfter, roll);
+        return new(surgeCheck, surgeDice, hungerAfter, QuellBeastRules.ApplyToRoll(roll, beastSubdued));
     }
 
     public RouseCheckResult MakeRouseCheck(int hunger, Random? random = null) =>
