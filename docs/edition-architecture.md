@@ -8,6 +8,10 @@ Para acrescentar outra edição, primeiro defina seus próprios modelos de custo
 
 A extração da interface não automatiza poderes ou rituais pendentes. O inventário detalhado continua em `power-effect-coverage.md`.
 
+## Organização das pastas
+
+A estrutura-alvo sem o prefixo repetido VCS está em [architecture/project-structure.md](architecture/project-structure.md). Ela separa código compartilhado em Shared e conteúdo/regras/fluxos em Editions/V5, Editions/V3 e Editions/V20. Essa árvore é planejada: o código atual ainda usa pastas de projeto como VCS.Sheet e VCS.Rules.V5.
+
 ## Rituais do livro base V5
 
 `VCS.Rules.Rituals.IRitualEffectRuleset` expõe um contexto de resultado independente do rolador WPF e uma proposta de efeito. `V5RitualEffectRuleset` interpreta esse contexto, enquanto `RitualOngoingRules` calcula ajustes condicionais e proteção. Nenhuma regra de V20/V3/V2/V1 foi acrescentada.
@@ -51,14 +55,14 @@ Os livros-base V3 e V20 consultados não estruturam a criação como a escolha d
 - Um grupo pode adotar um módulo opcional de conversão, desde que declare edição compatível, fonte e efeitos aprovados pelo Narrador. Isso será regra da mesa, não regra-base V3/V20.
 - Backgrounds/Antecedentes e vantagens homônimas não devem ser mesclados só pelo nome: custos, escala e integração à criação precisam vir dos livros de cada edição.
 
-### Estado arquitetural encontrado no HEAD c775218
+### Estado arquitetural encontrado no HEAD 0cddd927 (antes desta atualização documental)
 
 - `VCS.Sheet` define os dados de ficha e traços persistidos, sem referência a `VCS.Rules.V5`. Isso dá um núcleo neutro de armazenamento, mas o modelo atual ainda contém campos específicos da V5 e uma estratégia de persistência única; não é um modelo de ficha multi-edição concluído.
 - `VCS.Content` fornece catálogos como JSON embutido. Os dados têm fontes por item, mas os catálogos presentes são majoritariamente V5; ainda não há resolução de pacotes por edição/módulo nem controle completo de dependências e conflitos.
 - `VCS.Rules` contém contratos iniciais para resolução de poderes e proposta de efeitos de rituais. `PowerResolutionContext` ainda expõe `BloodPotency` e `RouseChecks`; o formato `PowerResolution` inclui `HungerIncrease`. O contrato não é neutro e `RitualWorkflowActions` continua sendo coordenador V5.
 - `VCS.Rules.V5` implementa regras V5, validação, custos e aplicação. O projeto referencia `VCS.Content` e `VCS.Sheet`; ele não pode ser descrito como uma engine independente de dados da edição.
 - `VCS.Application` contém casos de uso, mas `PredatorActions` chama diretamente `VCS.Rules.V5.PredatorRules`, e a composição injeta implementação V5 em fluxos de ficha. Há separação de camadas parcial, não seleção genérica de rulesets para todo o domínio.
-- `VCS.Desktop` apresenta e edita os dados. A tela de ficha chama ações e ViewModels que coordenam distribuição; XAML exibe controles. Apresentação visual é separável, mas a interface atual é construída em torno da ficha e dos conceitos V5, não de cinco edições selecionáveis.
+- `VCS.Desktop` apresenta e edita os dados. A tela de ficha chama ações e ViewModels que coordenam distribuição; XAML exibe controles. Apresentação visual é separável, mas a interface atual é construída em torno da ficha e dos conceitos V5, sem seletor genérico de edição.
 - Os pontos de investimento em vantagem/desvantagem do predador continuam persistidos separadamente para manter a concessão, o orçamento e o custo de XP sem cobrança dupla; a linha unificada é uma projeção da interface.
 
 ### O que pode ser compartilhado e o que precisa de regra de edição
