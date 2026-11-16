@@ -4,6 +4,10 @@
 
 Escopo desta auditoria: o código presente no repositório nesta branch, focado no livro-base. A existência de uma regra no projeto `VCS.Rules.V5` não significa que exista uma tela ou integração completa para usá-la.
 
+## Vantagens e desvantagens do predador
+
+A ficha apresenta concessões e investimentos adicionais na mesma linha para entradas do catálogo com correspondência inequívoca. Ambas as categorias permitem aumentar o total dentro do limite do item; apenas a parcela adicional conta no orçamento normal. A distribuição dos pontos gratuitos continua separada nos detalhes. Veja [comportamento e limitações](predator-merit-investment.md). Esta alteração não muda a cobertura de poderes e rituais e não foi executada em build ou testes.
+
 ## Já há lógica implementada
 
 | Área | Cobertura encontrada |

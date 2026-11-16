@@ -74,9 +74,28 @@ public sealed class AdvantageCatalogViewModel : IDisposable
     }
 
     private static string FamilyName(string name) => name == "Visual" ? "Beleza" : name;
-    internal IEnumerable<TraitItemViewModel> Items => RowItems(TraitCategory.Advantage).Concat(_flaws.Items);
-    private IEnumerable<TraitItemViewModel> RowItems(TraitCategory kind) => kind == TraitCategory.Flaw ? _flaws.Items
+    internal IEnumerable<TraitItemViewModel> Items => AllRowItems(TraitCategory.Advantage).Concat(_flaws.Items);
+    // Persist grants and investments separately for existing budget/XP rules, but display one total.
+    private IEnumerable<TraitItemViewModel> RowItems(TraitCategory kind) =>
+        AllRowItems(kind).Where(x => !IsCombinedInvestment(x));
+    private IEnumerable<TraitItemViewModel> AllRowItems(TraitCategory kind) => kind == TraitCategory.Flaw ? _flaws.Items
         : _loresheets is null ? _advantages.Items : _advantages.Items.Concat(_loresheets.Items);
+
+    internal AdvantageDefinition? GrantDefinition(TraitItemViewModel grant) =>
+        grant.IsPredatorGrant ? AllOptions.Select(x => x.Definition)
+            .FirstOrDefault(x => Matches(x, grant)) : null;
+
+    // Only combine an unambiguous catalog entry. Personal entries and distinct grant targets stay separate.
+    internal TraitItemViewModel? GrantFor(AdvantageDefinition definition)
+    {
+        var grants = Traits(definition.Category).Items.Where(x => x.IsPredatorGrant && Matches(definition, x)).ToArray();
+        return grants.Length == 1 ? grants[0] : null;
+    }
+    internal TraitItemViewModel? InvestmentFor(TraitItemViewModel grant) =>
+        GrantDefinition(grant) is { } definition && GrantFor(definition) == grant
+            ? Traits(grant.Category).Items.FirstOrDefault(x => !x.IsPredatorGrant && x.Key == definition.Id) : null;
+    private bool IsCombinedInvestment(TraitItemViewModel item) =>
+        !item.IsPredatorGrant && DefinitionOf(item) is { } definition && GrantFor(definition) is not null;
     internal TraitGroupViewModel Traits(TraitCategory category) => category switch
     {
         TraitCategory.Flaw => _flaws,
@@ -149,6 +168,7 @@ public sealed class AdvantageCatalogViewModel : IDisposable
 
     private IEnumerable<MeritOptionViewModel> AllOptions => Families.SelectMany(x => x.Options);
     internal AdvantageDefinition? DefinitionOf(TraitItemViewModel item) =>
+        item.IsPredatorGrant ? GrantDefinition(item) :
         AllOptions.FirstOrDefault(x => x.Definition.Id == item.Key && x.Definition.Category == item.Category)?.Definition;
     internal MeritFamilyViewModel FamilyOf(AdvantageDefinition definition) =>
         Families.First(x => x.Options.Any(option => option.Definition.Id == definition.Id));
@@ -176,6 +196,7 @@ public sealed class AdvantageCatalogViewModel : IDisposable
         var family = FamilyByName(row.Category);
         return (family is null ? Families : [family]).SelectMany(x => x.Options.Select(option => (Family: x, option.Definition)))
             .Where(x => Fits(x.Definition, row.Kind))
+            .Where(x => GrantFor(x.Definition) is null)
             .Where(x => x.Family.Find(x.Definition) is not { } item || item == row.Item)
             .OrderBy(x => x.Definition.Name, StringComparer.CurrentCulture)
             .Select(x => new SuggestionItem(x.Definition.Name,

@@ -58,18 +58,29 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
     public bool CanEditName => CanEdit && !IsLoresheet;
     public bool CanEditCategory => CanEditName && !IsCatalog;
     public bool CanReallocate => Option is not null;
-    public bool CanEditRating => CanReallocate || CanEdit && !IsLoresheet;
+    private TraitItemViewModel? Investment => _item is { IsPredatorGrant: true } grant
+        ? _sheet.InvestmentFor(grant) : null;
+    private int GrantedPoints => _item?.IsPredatorGrant == true ? _item.Rating : 0;
+    private int InvestedPoints => Investment?.Rating ?? 0;
+    public bool CanInvest => _item is { IsPredatorGrant: true } grant &&
+        Definition is { } definition && _sheet.GrantFor(definition) == grant;
+    public bool CanEditRating => CanInvest || CanReallocate || CanEdit && !IsLoresheet;
     public string Title => IsPredator ? _sheet.DisplayName(Kind, Name) : Name;
     private int Free => _sheet.Host?.PredatorRemaining(Kind) ?? 0;
     public string Subtitle => IsLoresheet ? (Definition?.LoresheetCollection is { Length: > 0 } collection ? collection
             : _item?.Loresheet?.Collection ?? "") + (_item?.Loresheet?.Payment is LoresheetPayment.AdvantagePoints or null ? "" : " · pago com XP")
         : IsPending ? $"predador · {Free} {(Free == 1 ? "ponto livre" : "pontos livres")} · até {Maximum}"
-        : IsPredator ? CanReallocate && Free > 0 ? $"predador · {Free} {(Free == 1 ? "ponto livre" : "pontos livres")}" : "predador" : "";
-    public int Minimum => CanReallocate ? 0 : Definition?.Minimum ?? 0;
-    public int Maximum => Option is { } option ? _sheet.Host!.PredatorRoom(option) : Definition?.Maximum ?? 5;
+        : IsPredator ? $"{GrantedPoints} predador + {InvestedPoints} adicionais = {Rating}" +
+          (CanReallocate && Free > 0 ? $" · {Free} livre(s) do predador" : "") : "";
+    public int Minimum => CanReallocate ? 0 : IsPredator ? GrantedPoints : Definition?.Minimum ?? 0;
+    public int Maximum => CanInvest ? Math.Max(Rating, Definition!.Maximum)
+        : Option is { } option ? _sheet.Host!.PredatorRoom(option) : Definition?.Maximum ?? 5;
     public string Reference => IsPredator
         ? (IsPending ? "Opção do predador: marque os pontos para escolhê-la." : "Concedida pelo predador.") +
-          (CanReallocate ? " Diminuir devolve os pontos ao predador para escolher outra opção." : "")
+          (CanInvest ? $" Total: {GrantedPoints} do predador + {InvestedPoints} adicionais. " +
+              $"Limite de referência: {Definition!.PointsLabel}. Fonte: {SourceAttribution.Format(Definition!.Source)}. " +
+              "Os pontos adicionais entram na sua distribuição normal; defeitos não geram vantagens extras." : "") +
+          (CanReallocate ? " Ao diminuir, primeiro retire os pontos adicionais; depois devolva os pontos ao predador." : "")
         : IsLoresheet ? $"{Subtitle} · {Definition?.PointsLabel ?? _item!.Rating.ToString()} ponto(s). {Definition?.Description ?? _item!.Loresheet?.Description}" +
           (_item?.Loresheet is { } lore ? $" {(!string.IsNullOrWhiteSpace(lore.Source) ? $"Fonte: {lore.Source}. " : "")}{(!string.IsNullOrWhiteSpace(lore.Prerequisite) ? $"Pré-requisito: {lore.Prerequisite}. " : "")}" +
             (lore.PrerequisiteConfirmed || lore.LimitOverrideApproved ? $"Aprovado pelo Narrador: {lore.ApprovalNote}" : "") : "")
@@ -80,7 +91,7 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
     public string Warning => string.Join(" ", new[]
     {
         _error,
-        _item is not null && Definition is { } d && (_item.Rating < d.Minimum || _item.Rating > d.Maximum)
+        _item is not null && Definition is { } d && (Rating < d.Minimum || Rating > d.Maximum)
             ? $"Pontuação fora da referência ({d.PointsLabel})." : "",
         _item is null ? "" : _sheet.FamilyOf(_item).ConflictWarning
     }.Where(x => x.Length > 0));
@@ -135,12 +146,30 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
 
     public int Rating
     {
-        get => _item?.Rating ?? PendingOption?.Points ?? _rating;
+        get => _item is { IsPredatorGrant: true } grant ? grant.Rating + InvestedPoints
+            : _item?.Rating ?? PendingOption?.Points ?? _rating;
         set
         {
             if (!CanEditRating) return;
             value = Math.Clamp(value, Minimum, Maximum);
             if (value == Rating) return;
+            if (CanInvest)
+            {
+                var granted = GrantedPoints;
+                if (value < granted)
+                {
+                    // Remove the ordinary investment before returning variable predator points.
+                    _sheet.Edit(() => SetInvestment(0));
+                    if (Option is { } reduced) _sheet.Host!.AllocatePredator(reduced, value);
+                }
+                else
+                {
+                    // Keep allocation choices explicit: the normal track edits only the extra portion.
+                    _sheet.Edit(() => SetInvestment(value - granted));
+                }
+                Refresh();
+                return;
+            }
             if (Option is { } option)
             {
                 _sheet.Host!.AllocatePredator(option, value);
@@ -155,9 +184,41 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
         }
     }
 
+    private void SetInvestment(int points)
+    {
+        if (_item is not { } grant || Definition is not { } definition) return;
+        var group = _sheet.Traits(grant.Category);
+        if (Investment is { } investment)
+        {
+            if (points == 0) group.RemoveCommand.Execute(investment);
+            else investment.Rating = points;
+        }
+        else if (points > 0)
+            group.AddEntry(new(grant.Category, definition.Id, definition.Name, points));
+    }
+
+    // Variable grants have their own control; increasing the total must not silently spend free predator points.
+    public int PredatorPoints
+    {
+        get => Option?.Points ?? 0;
+        set
+        {
+            if (Option is not { } option || value == option.Points) return;
+            var invested = InvestedPoints;
+            var maximum = Definition?.Maximum ?? 5;
+            var limit = Math.Max(option.Points, maximum - invested);
+            _sheet.Host!.AllocatePredator(option, Math.Clamp(value, 0, limit));
+            Refresh();
+        }
+    }
+    public int PredatorMaximum => Option is { } option
+        ? Math.Min(_sheet.Host!.PredatorRoom(option), Math.Max(option.Points, (Definition?.Maximum ?? 5) - InvestedPoints)) : 0;
+
     public string Notes
     {
-        get => _item?.Description ?? _notes;
+        get => IsPredator && Investment is { Description.Length: > 0 } investment
+            ? string.Join(Environment.NewLine, new[] { _item?.Description ?? "", investment.Description }.Where(x => x.Length > 0))
+            : _item?.Description ?? _notes;
         set
         {
             value ??= "";
@@ -284,6 +345,7 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
                      nameof(IsPredator), nameof(IsLoresheet), nameof(IsFixed), nameof(CanEditName), nameof(CanReallocate),
                      nameof(CanEditRating), nameof(Subtitle), nameof(Title), nameof(IsPending),
                      nameof(Minimum), nameof(Maximum), nameof(Reference), nameof(Rating), nameof(Notes),
+                     nameof(PredatorPoints), nameof(PredatorMaximum), nameof(CanInvest),
                      nameof(NameSuggestions), nameof(Warning), nameof(HasWarning) })
             OnPropertyChanged(property);
         RemoveCommand.NotifyCanExecuteChanged();

@@ -58,7 +58,15 @@ public partial class MeritFamilyViewModel : ObservableObject
         var item = Find(definition);
         if (rating > 0)
         {
-            rating = Math.Clamp(rating, definition.Minimum, definition.Maximum);
+            var granted = _sheet.GrantFor(definition)?.Rating ?? 0;
+            var maximum = Math.Max(0, definition.Maximum - granted);
+            if (maximum == 0)
+            {
+                Message = "O predador já preenche o limite desta característica. Ajuste os pontos na linha destacada.";
+                return;
+            }
+            // This stored entry is only the ordinary portion; the combined row enforces the catalog total.
+            rating = Math.Clamp(rating, granted > 0 ? 1 : definition.Minimum, maximum);
             if (item is null) _sheet.Traits(definition.Category).AddEntry(new(definition.Category, definition.Id, definition.Name, rating));
             else item.Rating = rating;
         }

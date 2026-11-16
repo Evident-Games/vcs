@@ -53,7 +53,8 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
             ? $"{type.Name}: marque \"predador\" em uma destas disciplinas para receber +1 gratuito: {string.Join(", ", PredatorDisciplines)}."
             : "Selecione um predador para ver em qual disciplina pode colocar o ponto extra.";
     public string PredatorAllocationSummary => SelectedPredatorType is { } type && (HasPredatorAdvantageAllocation || HasPredatorFlawAllocation)
-        ? $"{type.Name}: as linhas destacadas vêm do predador. Distribua os pontos livres nelas; ao diminuir uma, os pontos voltam a ficar livres." : "";
+        ? $"{type.Name}: as linhas destacadas somam os pontos do predador e os adicionais. " +
+          "Use os pontos da linha para investir; abra os detalhes para distribuir ou devolver os pontos livres do predador." : "";
     /// <summary>Header legend for the ✦ marks: the predator options, or the one already chosen.</summary>
     public string PredatorDisciplineLegend => !IsCreating || IsNpc || SelectedPredatorType is null ? ""
         : _predatorSelection is { Discipline.Length: > 0 } applied ? $"+1 em {applied.Discipline}"

@@ -143,6 +143,12 @@
                         Visibility="{Binding IsExpanded, Converter={StaticResource BoolVisibility}}">
                     <StackPanel>
                         <TextBlock Text="{Binding Reference}" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="0,0,0,6" />
+                        <StackPanel Margin="0,0,0,8" Visibility="{Binding CanReallocate, Converter={StaticResource BoolVisibility}}">
+                            <TextBlock Text="Pontos concedidos pelo predador (devolver ou distribuir)" FontSize="11"
+                                       Foreground="{DynamicResource VcsInputDescription}" TextWrapping="Wrap" />
+                            <controls:DotTrack Value="{Binding PredatorPoints, Mode=TwoWay}" Minimum="0" Maximum="{Binding PredatorMaximum}"
+                                               HorizontalAlignment="Left" AutomationProperties.Name="Distribuição dos pontos do predador" />
+                        </StackPanel>
                         <TextBox Style="{StaticResource PaperLineTextBox}" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" Tag="anotações"
                                  AcceptsReturn="True" TextWrapping="Wrap" MinHeight="44" MaxLength="20000" FontSize="12.5"
                                  IsReadOnly="{Binding IsLocked}"
