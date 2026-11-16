@@ -71,6 +71,7 @@
                 <Button Content="Preparar ritual" Command="{Binding PrepareRitualCommand}" HorizontalAlignment="Left"/>
                 <TextBlock Text="Intruso (nome ou identificação da cena)"/>
                 <TextBox Text="{Binding WardIntruder, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="O intruso é o próprio conjurador" IsChecked="{Binding WardIntruderIsCaster}"/>
                 <CheckBox Content="Narrador confirmou toque voluntário do intruso correspondente" IsChecked="{Binding WardContactConfirmed}"/>
                 <Button Content="Resolver contato da proteção selecionada" Command="{Binding ResolveWardContactCommand}" HorizontalAlignment="Left"/>
                 <TextBlock Text="Intruso já afetado: parada Vigor + Determinação e Fome (0 para mortal)" TextWrapping="Wrap"/>

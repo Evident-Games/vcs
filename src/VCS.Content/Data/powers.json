@@ -727,8 +727,8 @@
     "level": 4,
     "cost": "1 checagem de sangue",
     "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 5; confira exceções do ritual)",
-    "summary": "Funciona como a Proteção contra Feras, mas queima e repele outros Vampiros. Torna Refúgios impenetráveis ou cria armas e roupas místicas que eletrocutam ou queimam cainitas que toquem no alvo protegido.",
-    "source": "Vampiro: A Máscara V5 (Livro base)"
+    "summary": "Protege um objeto contra vampiros, exceto o próprio conjurador, usando as regras gerais de Proteções. Exige cinzas quentes de um fogo ainda aceso; quem sucumbir ao frenesi de terror não pode inscrever esta proteção naquela noite. Para proteger uma área, consulte o ritual separado de círculo de proteção.",
+    "source": "Vampiro: A Máscara V5 (Livro base), pp. 275, 280"
   },
   {
     "id": "ritual-escape-to-true-sanctuary",

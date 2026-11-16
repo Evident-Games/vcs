@@ -16,6 +16,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool awakeningDangerConfirmed;
     [ObservableProperty] private string wardObject = "";
     [ObservableProperty] private bool wardContactConfirmed;
+    [ObservableProperty] private bool wardIntruderIsCaster;
     [ObservableProperty] private string wardIntruder = "";
     [ObservableProperty] private int wardRetryPool = 2;
     [ObservableProperty] private int wardRetryHunger;
@@ -34,6 +35,7 @@ public partial class CharacterEditorViewModel
     partial void OnSelectedPowerEffectChanged(PowerEffectEntry? value)
     {
         WardContactConfirmed = false;
+        WardIntruderIsCaster = false;
         WardRetryCostConfirmed = false;
         WardIntruder = "";
     }
@@ -41,6 +43,7 @@ public partial class CharacterEditorViewModel
     partial void OnWardIntruderChanged(string value)
     {
         WardContactConfirmed = false;
+        WardIntruderIsCaster = false;
         WardRetryCostConfirmed = false;
     }
 
@@ -115,6 +118,8 @@ public partial class CharacterEditorViewModel
         if (SelectedPowerEffect is not { Active: true } ward ||
             ward.PowerId is not ("ritual-ward-against-lupines" or "ritual-ward-against-cainites"))
         { RitualPreparationSummary = "Selecione nos efeitos uma proteção de objeto ativa."; return; }
+        if (ward.PowerId == "ritual-ward-against-cainites" && WardIntruderIsCaster)
+        { RitualPreparationSummary = "A Proteção contra Cainitas não afeta o próprio conjurador. Nenhuma rolagem foi feita."; return; }
         if (!WardContactConfirmed)
         { RitualPreparationSummary = "Confirme com o Narrador o toque voluntário do intruso correspondente."; return; }
         if (string.IsNullOrWhiteSpace(WardIntruder))
@@ -157,6 +162,8 @@ public partial class CharacterEditorViewModel
             ward.PowerId is not ("ritual-ward-against-lupines" or "ritual-ward-against-cainites") ||
             ward.PoolBonus is not (2 or 4))
         { RitualPreparationSummary = "Selecione uma proteção com resultado estruturado bem-sucedido."; return; }
+        if (ward.PowerId == "ritual-ward-against-cainites" && WardIntruderIsCaster)
+        { RitualPreparationSummary = "A Proteção contra Cainitas não afeta o próprio conjurador. Nenhuma rolagem foi feita."; return; }
         if (!WardRetryCostConfirmed)
         { RitualPreparationSummary = "Confirme que o intruso já foi afetado e gastou um ponto de Vontade."; return; }
         if (string.IsNullOrWhiteSpace(WardIntruder))
