@@ -82,6 +82,18 @@
                 <Button Content="Resolver perigo: ritual de despertar" Command="{Binding ResolveAwakeningDangerCommand}" HorizontalAlignment="Left"/>
                 <Button Content="Encerrar sono diurno" Command="{Binding EndAwakeningSleepCommand}" HorizontalAlignment="Left"/>
                 <TextBlock Text="Fuga para o Verdadeiro Santuário: selecione o ritual acima para tentar viajar." TextWrapping="Wrap"/>
+                <Expander Header="Preparação dos círculos"><StackPanel Margin="8">
+                    <TextBlock Text="{Binding SanctuaryPreparationProgress}" TextWrapping="Wrap"/>
+                    <TextBlock Text="Círculo 1: partida · Círculo 2: chegada. Cada círculo exige duas horas e duas checagens por noite, durante três noites consecutivas. Pague uma checagem por vez." TextWrapping="Wrap"/>
+                    <ComboBox ItemsSource="{Binding SanctuaryCircles}" SelectedItem="{Binding SanctuaryCircle}"/>
+                    <TextBlock Text="Data da noite na crônica (dd/MM/aaaa)"/>
+                    <TextBox Text="{Binding SanctuaryNight, StringFormat=dd/MM/yyyy, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"/>
+                    <CheckBox Content="Narrador confirmou círculo, ingredientes e as duas horas de preparação desta noite" IsChecked="{Binding SanctuaryPreparationConfirmed}"/>
+                    <Button Content="Pagar próxima Checagem de Sangue" Command="{Binding PrepareSanctuaryCheckCommand}" HorizontalAlignment="Left"/>
+                    <TextBlock Text="As checagens pagas ficam nos efeitos e no diário. Interrupções exigem decisão da mesa; use a justificativa de exceção acima." TextWrapping="Wrap"/>
+                    <CheckBox Content="Narrador confirmou abandono ou inutilização deste par de círculos" IsChecked="{Binding SanctuaryResetConfirmed}"/>
+                    <Button Content="Encerrar preparação do par" Command="{Binding ResetSanctuaryPreparationCommand}" HorizontalAlignment="Left"/>
+                </StackPanel></Expander>
                 <CheckBox Content="Narrador confirmou círculos completos e intactos, partida e concentração" IsChecked="{Binding SanctuaryTravelConfirmed}"/>
                 <Button Content="Rolar viagem ao Santuário" Command="{Binding RollSanctuaryTravelCommand}" HorizontalAlignment="Left"/>
                 <TextBlock Text="{Binding RitualPreparationSummary}" TextWrapping="Wrap"/>

@@ -261,6 +261,11 @@ public partial class CharacterEditorViewModel
     private void EndSelectedPowerEffect()
     {
         if (SelectedPowerEffect is not { Active: true } entry) return;
+        if (entry.PowerId == "ritual-sanctuary-preparation-check")
+        {
+            ActivationSummary = "As checagens pagas pertencem ao histórico do par de círculos. Para abandoná-lo, use o encerramento da preparação do Santuário.";
+            return;
+        }
         if (entry.PowerId == "ritual-sanctuary-travel-attempt")
         {
             ActivationSummary = "O marcador de viagem termina ao encerrar a cena. Uma nova tentativa na mesma cena exige exceção justificada pelo Narrador.";

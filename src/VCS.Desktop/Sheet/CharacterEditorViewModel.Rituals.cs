@@ -31,6 +31,8 @@ public partial class CharacterEditorViewModel
         RitualExceptionReason = "";
         AwakeningDangerConfirmed = false;
         SanctuaryTravelConfirmed = false;
+        SanctuaryPreparationConfirmed = false;
+        SanctuaryResetConfirmed = false;
         RitualPreparationSummary = "Confira novamente os ingredientes, o alvo e as condições deste ritual.";
     }
 
@@ -41,8 +43,11 @@ public partial class CharacterEditorViewModel
             ritual.Entry?.Definition is not { Id: "ritual-escape-to-true-sanctuary", IsRitual: true })
         { RitualPreparationSummary = "Selecione o ritual Fuga para o Verdadeiro Santuário conhecido nesta ficha."; return; }
         var alreadyAttempted = PowerEffects.Any(x => x.Active && x.IsSelf && x.PowerId == "ritual-sanctuary-travel-attempt");
-        if ((ritual.HasWarning || alreadyAttempted) && (!RitualExceptionApproved || string.IsNullOrWhiteSpace(RitualExceptionReason)))
+        var preparation = SanctuaryPaidChecks();
+        var preparationIncomplete = preparation.Length > 0 && !TrueSanctuaryRules.IsPreparationComplete(preparation);
+        if ((ritual.HasWarning || alreadyAttempted || preparationIncomplete) && (!RitualExceptionApproved || string.IsNullOrWhiteSpace(RitualExceptionReason)))
         { RitualPreparationSummary = (alreadyAttempted ? "Já houve uma tentativa de viagem nesta cena. " : "") +
+            (preparationIncomplete ? "A preparação registrada dos círculos ainda está incompleta. " : "") +
             (ritual.HasWarning ? ritual.Warning + " " : "") + "Autorize e justifique a exceção com o Narrador."; return; }
         if (!SanctuaryTravelConfirmed)
         { RitualPreparationSummary = "Confirme com o Narrador os círculos, a posição, a concentração e o limite por cena."; return; }
@@ -56,6 +61,8 @@ public partial class CharacterEditorViewModel
                 ExceptionRegister.Record(ritual.Name, ritual.Warning, RitualExceptionReason.Trim());
             if (alreadyAttempted)
                 ExceptionRegister.Record(ritual.Name, "Nova tentativa de viagem na mesma cena", RitualExceptionReason.Trim());
+            if (preparationIncomplete)
+                ExceptionRegister.Record(ritual.Name, "Viagem com preparação registrada incompleta", RitualExceptionReason.Trim());
             if (!alreadyAttempted)
             {
                 PowerEffects.Add(new PowerEffectEntry(Guid.NewGuid(), "ritual-sanctuary-travel-attempt", ritual.Name,

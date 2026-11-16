@@ -1,12 +1,25 @@
 using VCS.Rules.V5.Dice;
 using VCS.Rules.V5.Disciplines;
 using VCS.Rules.V5.Rituals;
+using VCS.Sheet;
 
 namespace VCS.Application.Blood;
 
 /// <summary>Resolve a confirmed sanctuary travel attempt without moving or changing any character.</summary>
 public sealed class TrueSanctuaryActions
 {
+    public SanctuaryPreparationCheckResult PrepareNextCheck(int circle, DateOnly nightDate,
+        IReadOnlyList<RitualPreparationStep> paidChecks, int hunger, bool conditionsConfirmed,
+        bool scheduleExceptionApproved = false, Random? random = null)
+    {
+        if (!conditionsConfirmed)
+            throw new InvalidOperationException("Confirme com o Narrador o círculo, os ingredientes e o tempo de preparação desta noite.");
+        var advance = TrueSanctuaryRules.NextPreparationCheck(circle, nightDate, paidChecks, scheduleExceptionApproved);
+        if (hunger is < 0 or >= 5)
+            throw new InvalidOperationException("Fome 5 impede despertar o Sangue voluntariamente; nenhum custo foi rolado.");
+        return new(advance, RouseCheckRules.Roll(hunger, random));
+    }
+
     public DicePoolResult AttemptTravel(int pool, int hunger, bool circlesComplete, bool circlesIntact,
         bool atDepartureCircle, bool concentratedForTurn, bool alreadyAttemptedThisScene,
         Random? random = null, bool beastSubdued = false, bool sceneLimitExceptionApproved = false)
@@ -20,3 +33,5 @@ public sealed class TrueSanctuaryActions
         return QuellBeastRules.ApplyToRoll(DicePoolRules.Roll(pool, hunger, difficulty, random), beastSubdued);
     }
 }
+
+public sealed record SanctuaryPreparationCheckResult(SanctuaryPreparationAdvance Advance, RouseCheckResult Check);

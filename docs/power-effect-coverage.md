@@ -8,7 +8,7 @@ Inventário desta rodada: **88 poderes de Disciplinas**, todos com perfil de uso
 | Proposta numérica calculada; aplicação no alvo pelo Narrador | 11 |
 | Resolução assistida de efeito narrativo/condicional | 40 |
 | Poder sem perfil de uso | 0 |
-| Rituais existentes sem resolvedor específico | 5 |
+| Rituais cadastrados com automação incompleta | 5 |
 
 **Perfil de uso não significa automação integral.** Custos, dados e texto por si só não contam como integração direta. Portanto ainda há 51 poderes sem aplicação direta de seu efeito principal na ficha; a divisão abaixo permite acompanhar esse trabalho sem confundir cadastro com implementação. Mesmo os 37 diretos podem ter procedimentos secundários conduzidos pelo Narrador.
 
@@ -197,3 +197,11 @@ Uma tentativa de viagem agora cria um marcador persistente na ficha, encerrado p
 O marcador de tentativa não pode ser encerrado pelo comando genérico de encerrar um efeito; use o fim de cena ou registre uma exceção para outra tentativa. Caso haja ao mesmo tempo um aviso de pré-requisito e uma nova tentativa na cena, ambas as exceções são registradas.
 
 A ação de viagem recebe o estado real da tentativa anterior e uma autorização explícita de exceção ao limite de cena. A ficha exige justificativa e registra a decisão; a confirmação das demais condições permanece obrigatória.
+
+## Preparação persistente do Santuário
+
+O fluxo específico agora permite pagar as 12 checagens individualmente, sem teste de Ritual durante o preparo. Selecione o ritual, o círculo (1: partida; 2: chegada), a data da noite na crônica e confirme ingredientes e duas horas de preparação. As regras V5 calculam a próxima sequência: duas checagens na mesma noite, por três noites consecutivas em cada círculo. O serviço valida o histórico antes de rolar e impede novos pagamentos após as seis checagens daquele círculo. Fome 5 bloqueia o próximo custo; se uma falha levar a Fome a 5, a primeira checagem permanece paga, sem cobrar a seguinte silenciosamente.
+
+Cada pagamento fica em um registro estruturado dos efeitos da ficha, com fonte, data e sequência, e no diário; o dado vai para a mesa existente. O novo campo é opcional no JSON dos efeitos, preservando os registros anteriores e dispensando nova coluna no banco. A preparação não expira ao fim da cena. Para abandonar ou inutilizar o par, confirme o encerramento específico: os registros ficam inativos e seus custos permanecem no histórico.
+
+Datas fora da sequência exigem justificativa do Narrador; o app não inventa um reinício ou reembolso. Uma viagem com preparação registrada incompleta também requer uma exceção registrada. Preparações antigas, conduzidas fora do app, continuam dependendo da confirmação explícita da mesa. Ainda faltam identidade e localização persistentes dos círculos, verificação de dano e da carga transportada; não há movimentação automática. Os cinco rituais cadastrados continuam incompletos. As contagens de 37/11/40 poderes foram herdadas do inventário anterior e não foram auditadas integralmente nesta alteração. Build e testes não foram executados por instrução do usuário.
