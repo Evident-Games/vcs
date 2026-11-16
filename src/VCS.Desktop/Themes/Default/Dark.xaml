@@ -13,6 +13,8 @@
     <SolidColorBrush x:Key="VcsAppInputTitle" Color="#F3EDF0" />
     <SolidColorBrush x:Key="VcsAppInputDescription" Color="#C3B1B8" />
     <SolidColorBrush x:Key="VcsAppAccent" Color="#F16B7D" />
+    <SolidColorBrush x:Key="VcsAppHudAccent" Color="#9E0B22" />
+    <SolidColorBrush x:Key="VcsAppHudSurface" Color="#F61C191A" />
     <SolidColorBrush x:Key="VcsAppDieNumber" Color="#0C0B0D" />
     <SolidColorBrush x:Key="VcsAppAccentText" Color="#F16B7D" />
     <SolidColorBrush x:Key="VcsAppAccentBorder" Color="#F16B7D" />

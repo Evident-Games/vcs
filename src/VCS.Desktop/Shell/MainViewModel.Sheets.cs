@@ -17,6 +17,7 @@ public partial class MainViewModel
         OnPropertyChanged(nameof(IsHome));
         OnPropertyChanged(nameof(IsEditing));
         OnPropertyChanged(nameof(CanActOnCharacter));
+        RefreshHud();
     }
 
     private void NotifyLayout()
@@ -55,6 +56,7 @@ public partial class MainViewModel
         OnPropertyChanged(nameof(HasManyOpen));
         OnPropertyChanged(nameof(SheetColumns));
         NotifyLayout();
+        RefreshHud();
     }
 
     private void CloseEditor(CharacterEditorViewModel editor)

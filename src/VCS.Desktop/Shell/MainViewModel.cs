@@ -119,13 +119,16 @@ public partial class MainViewModel(
             {
                 Display.Changed += OnDisplayChanged;
                 _displayInitialized = true;
+                RefreshHudProfile();
             }
         }
+        await InitializeHudAsync();
     });
 
     private void OnDisplayChanged(object? sender, EventArgs e)
     {
         NotifyLayout();
+        RefreshHudProfile();
         try
         {
             if (preferencesStore is not null)

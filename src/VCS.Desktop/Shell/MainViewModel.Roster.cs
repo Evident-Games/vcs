@@ -23,6 +23,7 @@ public partial class MainViewModel
         var wasSelected = SelectedCharacter?.Id == saved.Id;
         Characters[index] = summary;
         if (wasSelected) SelectedCharacter = summary;
+        RefreshHud();
     }
 
     private bool MatchesSearch(CharacterSummary character) =>
@@ -42,6 +43,7 @@ public partial class MainViewModel
         OnPropertyChanged(nameof(HasCreatedCharacters));
         OnPropertyChanged(nameof(IsEmpty));
         OnPropertyChanged(nameof(CountLabel));
+        RefreshHud();
     }
 
     private async Task RefreshAsync()

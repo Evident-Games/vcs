@@ -227,9 +227,38 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
     private bool _loaded;
     private bool _clearParticipant;
     public ObservableCollection<ChronicleEvent> Events { get; } = [];
+    [ObservableProperty] private string chronicleScope = "";
+    public IReadOnlyList<ChronicleEvent> VisibleEvents => Events.Where(x => string.IsNullOrWhiteSpace(ChronicleScope) ||
+        string.Equals(x.Chronicle.Trim(), ChronicleScope.Trim(), StringComparison.OrdinalIgnoreCase)).ToArray();
+    partial void OnChronicleScopeChanged(string value) => OnPropertyChanged(nameof(VisibleEvents));
+    [RelayCommand] private void ClearChronicleScope() => ChronicleScope = "";
+
+    public async Task RegisterChronicleAsync(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name) || name.Trim().Length > 120)
+            throw new ArgumentException("Informe um nome de crônica com até 120 caracteres.", nameof(name));
+        name = name.Trim();
+        if (IsBusy) throw new InvalidOperationException("Aguarde o salvamento do evento atual.");
+        IsBusy = true;
+        try
+        {
+            var entry = new ChronicleEvent(Guid.NewGuid(), DateTime.Today, name, "Crônica", name, null, "",
+                "Registro inicial da crônica. Use novos eventos para organizar histórias e cenas.", "", "Conteúdo da mesa");
+            await store.SaveAsync(Events.Append(entry).ToArray());
+            Events.Insert(0, entry);
+            OnPropertyChanged(nameof(VisibleEvents));
+        }
+        finally { IsBusy = false; }
+    }
     public ObservableCollection<CharacterSummary> Participants { get; } = [];
-    public string[] Kinds { get; } = ["Caça", "Conflito", "Compulsão", "Máculas e Remorso", "Diablerie", "Vínculo de Sangue", "Torpor", "Discrasia", "Perdição", "Domínio e Coterie", "Sangue-Ralo", "Exceção do Narrador", "Outro"];
+    public string[] Kinds { get; } = ["Crônica", "Caça", "Conflito", "Compulsão", "Máculas e Remorso", "Diablerie", "Vínculo de Sangue", "Torpor", "Discrasia", "Perdição", "Domínio e Coterie", "Sangue-Ralo", "Exceção do Narrador", "Outro"];
     [ObservableProperty] private ChronicleEvent? selectedEvent;
+    // Filtering the navigation list must not turn an existing editor into an unsaved duplicate.
+    public ChronicleEvent? SelectedVisibleEvent
+    {
+        get => SelectedEvent;
+        set { if (value is not null) SelectedEvent = value; }
+    }
     [ObservableProperty] private CharacterSummary? participant;
     partial void OnParticipantChanged(CharacterSummary? value) => SceneBeastSubdued = false;
     [ObservableProperty] private DateTime? date = DateTime.Today;
@@ -250,10 +279,12 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
         var events = await store.LoadAsync();
         foreach (var entry in events.OrderByDescending(x => x.Date)) Events.Add(entry);
         _loaded = true;
+        OnPropertyChanged(nameof(VisibleEvents));
     }
 
     partial void OnSelectedEventChanged(ChronicleEvent? value)
     {
+        OnPropertyChanged(nameof(SelectedVisibleEvent));
         if (value is null) return;
         _clearParticipant = false;
         RestoreState(value.State ?? new());
@@ -266,6 +297,7 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
     private void NewEvent()
     {
         SelectedEvent = null; Participant = null; Date = DateTime.Today;
+        if (!string.IsNullOrWhiteSpace(ChronicleScope)) Chronicle = ChronicleScope;
         RestoreState(new());
         _clearParticipant = true;
         Title = ""; Notes = ""; Outcome = ""; Source = "Decisão do Narrador"; Status = "Novo evento.";
@@ -295,6 +327,7 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
             Events.Clear();
             foreach (var item in updated) Events.Add(item);
             SelectedEvent = entry;
+            OnPropertyChanged(nameof(VisibleEvents));
             Status = "Evento salvo. A ficha do personagem não foi alterada.";
         }
         catch (Exception exception) { Status = $"Não foi possível salvar: {exception.Message}"; }
@@ -311,6 +344,7 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
             var updated = Events.Where(x => x.Id != entry.Id).ToArray();
             await store.SaveAsync(updated);
             Events.Remove(entry); NewEvent(); Status = "Evento excluído.";
+            OnPropertyChanged(nameof(VisibleEvents));
         }
         catch (Exception exception) { Status = $"Não foi possível excluir: {exception.Message}"; }
         finally { IsBusy = false; }

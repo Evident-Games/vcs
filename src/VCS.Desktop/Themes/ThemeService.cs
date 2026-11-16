@@ -64,7 +64,33 @@ public sealed class ThemeService
         Copy("VcsApp");
         foreach (var key in new[] { "VcsHeaderText", "VcsFooterText" })
             if (!palette.Contains(key)) palette[key] = palette["VcsOuterText"];
+        AddHudPalette(palette);
         return palette;
+    }
+
+    private static void AddHudPalette(ResourceDictionary palette)
+    {
+        var accent = ((SolidColorBrush)palette["VcsAccent"]).Color;
+        var background = ((SolidColorBrush)palette["VcsBackground"]).Color;
+        static Color Shade(Color color, double amount) => Color.FromRgb((byte)(color.R * amount), (byte)(color.G * amount), (byte)(color.B * amount));
+        void Default(string key, object value) { if (!palette.Contains(key)) palette[key] = value; }
+        // Optional VcsAppHud* overrides are loaded above; older custom themes need no new keys.
+        var surface = IsDark(background) ? Color.FromArgb(246, background.R, background.G, background.B) : Color.FromArgb(246, 28, 25, 26);
+        Default("VcsHudSurface", new SolidColorBrush(surface));
+        Default("VcsHudDock", new SolidColorBrush(Color.FromArgb(235, 24, 21, 22)));
+        Default("VcsHudCard", new SolidColorBrush(Color.FromRgb(35, 31, 33)));
+        Default("VcsHudText", new SolidColorBrush(Color.FromRgb(242, 242, 242)));
+        Default("VcsHudMuted", new SolidColorBrush(Color.FromRgb(158, 155, 155)));
+        Default("VcsHudBorder", new SolidColorBrush(Color.FromArgb(70, 200, 190, 194)));
+        Default("VcsHudAccent", new SolidColorBrush(accent));
+        Default("VcsHudOpen", new SolidColorBrush(Color.FromRgb(108, 179, 135)));
+        Default("VcsHudClosed", new SolidColorBrush(Color.FromRgb(100, 96, 99)));
+        var hudAccent = ((SolidColorBrush)palette["VcsHudAccent"]).Color;
+        Default("VcsHudAccentColor", hudAccent);
+        Default("VcsHudSection", new LinearGradientBrush(new GradientStopCollection
+        {
+            new(Shade(hudAccent, 0.12), 0), new(Shade(hudAccent, 0.4), 0.5), new(Shade(hudAccent, 0.12), 1)
+        }, new Point(0, 0.5), new Point(1, 0.5)));
     }
 
     /// <summary>Loads the sheet block for one sheet; system selection colors are scoped with it.</summary>

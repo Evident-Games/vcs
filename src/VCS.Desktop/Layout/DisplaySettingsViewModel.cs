@@ -38,6 +38,12 @@ public partial class DisplaySettingsViewModel : ObservableObject
     [ObservableProperty] private bool useBento;
     [ObservableProperty] private bool showSidebar = true;
     [ObservableProperty] private bool show3DDice = true;
+    [ObservableProperty] private bool hudCollapsed;
+    [ObservableProperty] private string hudPlayerName = "";
+    [ObservableProperty] private string hudAvatarPath = "";
+    partial void OnHudCollapsedChanged(bool value) => Changed?.Invoke(this, EventArgs.Empty);
+    partial void OnHudPlayerNameChanged(string value) => Changed?.Invoke(this, EventArgs.Empty);
+    partial void OnHudAvatarPathChanged(string value) => Changed?.Invoke(this, EventArgs.Empty);
     public bool IsContinuous
     {
         get => !UseTabs && !UseBento;
