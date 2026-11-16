@@ -169,3 +169,5 @@ Graça Felina também funciona em testes de equilíbrio durante combate quando a
 Pegada Sobrenatural também não recebe restrição automática por combate: o livro base p. 265 prevê sucesso nos testes de escalada de superfícies não metálicas enquanto o poder estiver ativo. A mesa ainda confirma a superfície e a aplicação ao teste.
 
 O teste de escalada de Pegada Sobrenatural não é limitado à habilidade Atletismo: o livro menciona testes de habilidade feitos para escalar. A escolha do contexto continua explícita; a regra não transforma testes de outras ações em sucesso automático.
+
+`QuellBeastRules` reúne no módulo V5 o bloqueio de Surto de Sangue e a conversão de crítico bestial em crítico normal enquanto a Besta está subjugada. A mesma regra é usada para a rolagem inicial e para a rerrolagem; a duração e o contexto seguem o registro do efeito.
