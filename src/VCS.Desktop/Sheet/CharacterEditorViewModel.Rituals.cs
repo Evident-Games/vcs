@@ -14,6 +14,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool ritualExceptionApproved;
     [ObservableProperty] private string ritualExceptionReason = "";
     [ObservableProperty] private bool awakeningDangerConfirmed;
+    [ObservableProperty] private bool sanctuaryTravelConfirmed;
     [ObservableProperty] private string wardObject = "";
     [ObservableProperty] private bool wardContactConfirmed;
     [ObservableProperty] private bool wardIntruderIsCaster;
@@ -29,7 +30,40 @@ public partial class CharacterEditorViewModel
         RitualExceptionApproved = false;
         RitualExceptionReason = "";
         AwakeningDangerConfirmed = false;
+        SanctuaryTravelConfirmed = false;
         RitualPreparationSummary = "Confira novamente os ingredientes, o alvo e as condições deste ritual.";
+    }
+
+    [RelayCommand]
+    private void RollSanctuaryTravel()
+    {
+        if (SelectedPreparedRitual is not { } ritual ||
+            ritual.Entry?.Definition is not { Id: "ritual-escape-to-true-sanctuary", IsRitual: true })
+        { RitualPreparationSummary = "Selecione o ritual Fuga para o Verdadeiro Santuário conhecido nesta ficha."; return; }
+        if (ritual.HasWarning && (!RitualExceptionApproved || string.IsNullOrWhiteSpace(RitualExceptionReason)))
+        { RitualPreparationSummary = ritual.Warning + " Autorize e justifique a exceção com o Narrador."; return; }
+        if (!SanctuaryTravelConfirmed)
+        { RitualPreparationSummary = "Confirme com o Narrador os círculos, a posição, a concentração e o limite por cena."; return; }
+        try
+        {
+            var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
+            var roll = new TrueSanctuaryActions().AttemptTravel(pool, Hunger, true, true, true, true, false,
+                beastSubdued: HasActivePower("power-animalism-quell-the-beast"));
+            if (ritual.HasWarning)
+                ExceptionRegister.Record(ritual.Name, ritual.Warning, RitualExceptionReason.Trim());
+            RitualPreparationSummary = $"Viagem ao Santuário: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}: {roll.Outcome}. " +
+                (roll.IsSuccess ? "A viagem pode ocorrer conforme a decisão da mesa." : "A tentativa falhou; não tente novamente nesta cena.") +
+                " Nenhuma ficha foi movida. Fonte: Vampiro: A Máscara V5 (Livro base), p. 281.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            ShowDiceRoll(ritual.Name, RitualPreparationSummary,
+                roll.NormalDice.Select(x => new RolledDieDisplay(x, "COMUM"))
+                    .Concat(roll.HungerDice.Select(x => new RolledDieDisplay(x, "FOME"))));
+            SanctuaryTravelConfirmed = false;
+            RitualExceptionApproved = false;
+            RitualExceptionReason = "";
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
     }
 
     partial void OnSelectedPowerEffectChanged(PowerEffectEntry? value)
