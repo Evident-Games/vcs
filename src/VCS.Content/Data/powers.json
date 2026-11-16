@@ -690,11 +690,11 @@
     "id": "ritual-wake-with-evenings-freshness",
     "disciplineId": "discipline-blood-sorcery",
     "isRitual": true,
-    "name": "Despertar com a Brisa do Entardecer",
+    "name": "Despertar com o Frescor do Anoitecer",
     "level": 1,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 2; confira exceções do ritual)",
-    "summary": "Preparado antes do amanhecer, permite um teste quando houver perigo durante o sono diurno. Sucesso desperta o conjurador alerta e suspende as penalidades para permanecer acordado durante a cena; uma vitória crítica estende o efeito até o próximo amanhecer.",
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "O teste só ocorre diante de perigo; sucesso suspende as penalidades de vigília pela cena e crítico até o próximo amanhecer.",
     "source": "Vampiro: A Máscara V5 (Livro base), p. 276"
   },
   {
@@ -714,10 +714,10 @@
     "isRitual": true,
     "name": "Proteção contra Lupinos",
     "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 4; confira exceções do ritual)",
-    "summary": "Proteção de objeto contra lobisomens; não protege um ambiente inteiro. Exige prata em pó misturada ao Sangue. O primeiro toque voluntário aciona a rolagem de Ritual: sucesso causa 1 dano agravado de Vitalidade; crítico causa 3. Para círculos de proteção, use o ritual correspondente e suas regras próprias.",
-    "source": "Vampiro: A Máscara V5 (Livro base), pp. 275, 279"
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Proteção de objeto; sucesso propõe 1 dano agravado e crítico 3, conforme p. 275.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 279"
   },
   {
     "id": "ritual-ward-against-cainites",
@@ -725,20 +725,20 @@
     "isRitual": true,
     "name": "Proteção contra Cainitas",
     "level": 4,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 5; confira exceções do ritual)",
-    "summary": "Protege um objeto contra vampiros, exceto o próprio conjurador, usando as regras gerais de Proteções. Exige cinzas quentes de um fogo ainda aceso; quem sucumbir ao frenesi de terror não pode inscrever esta proteção naquela noite. Para proteger uma área, consulte o ritual separado de círculo de proteção.",
-    "source": "Vampiro: A Máscara V5 (Livro base), pp. 275, 280"
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Proteção de objeto contra vampiros. Sentir o Invisível pode revelar o nome do conjurador por disputa específica.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 280"
   },
   {
     "id": "ritual-escape-to-true-sanctuary",
     "disciplineId": "discipline-blood-sorcery",
     "isRitual": true,
-    "name": "Fuga para o Santuário Verdadeiro",
+    "name": "Fuga para o Verdadeiro Santuário",
     "level": 5,
-    "cost": "12 Checagens de Sangue ao longo da preparação dos dois círculos; veja o processo",
-    "dicePool": "Inteligência + Feitiçaria de Sangue; rolagem de Ritual em cada tentativa de viagem",
-    "summary": "Prepara dois círculos no solo ou piso de uma construção: para cada um, duas horas de cânticos e duas Checagens de Sangue por noite durante três noites. A viagem ocorre somente do círculo de partida para o de chegada, após um turno de concentração e uma rolagem de Ritual; só há uma tentativa por cena. A preparação e a viagem exigem acompanhamento da mesa.",
+    "cost": "12 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Viagem de mão única entre os círculos; um turno de concentração e uma tentativa por cena. Dano em qualquer círculo inutiliza ambos.",
     "source": "Vampiro: A Máscara V5 (Livro base), p. 281"
   },
   {
@@ -953,5 +953,247 @@
     "dicePool": "Força + Feitiçaria de Sangue vs. Vigor + Ocultismo ou Fortitude",
     "summary": "Entrega de veneno deve acertar separadamente. Margem em agravado para mortal ou vampiro; mortal ferido morre. Vampiro ferido: segunda disputa determina Torpor na próxima vez que dormir.",
     "source": "Vampiro: A Máscara V5 (Livro base), p. 274"
+  },
+  {
+    "id": "ritual-clinging-of-the-insect",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Aderência do Inseto",
+    "level": 1,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Permite aderir a paredes e tetos usando mãos e pés, movendo-se a cerca de metade da velocidade habitual.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 276"
+  },
+  {
+    "id": "ritual-blood-walk",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Caminho do Sangue",
+    "level": 1,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Revela geração e nome do alvo e de seu Senhor; crítico também revela Laços de Sangue ativos. Informações são fornecidas pelo Narrador.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 276"
+  },
+  {
+    "id": "ritual-craft-bloodstone",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Criar Pedra de Sangue",
+    "level": 1,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Permite localizar direção e distância da pedra por uma semana ou até sua destruição.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 276"
+  },
+  {
+    "id": "ritual-ward-against-ghouls",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Proteção contra Carniçais",
+    "level": 1,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Proteção de objeto contra carniçais; sucesso propõe 1 dano agravado, crítico 3. Não equivale a um círculo de proteção.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 276"
+  },
+  {
+    "id": "ritual-warding-circle-against-ghouls",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Círculo de Proteção contra Carniçais",
+    "level": 2,
+    "cost": "3 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Impede passagem de carniçais por disputa. Duração padrão até o amanhecer; um ano e um dia exige teste inicial com dificuldade +2.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 277"
+  },
+  {
+    "id": "ritual-communicate-with-kindred-sire",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Comunicação com o Senhor do Membro",
+    "level": 2,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Sucesso permite conversa silenciosa por dez minutos após mais quinze minutos; crítico estabelece a comunicação imediatamente.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 277"
+  },
+  {
+    "id": "ritual-illuminate-trail-of-prey",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Iluminar o Rastro da Presa",
+    "level": 2,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Cria um rastro visível só ao conjurador; para seguir, Inteligência + Sobrevivência contra dificuldade 6 menos a margem do Ritual.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 277"
+  },
+  {
+    "id": "ritual-eyes-of-babel",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Olhos de Babel",
+    "level": 2,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Concede idiomas conhecidos pela vítima durante uma semana; crítico estende para um mês.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 277"
+  },
+  {
+    "id": "ritual-ward-against-spirits",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Proteção contra Espíritos",
+    "level": 2,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Protege um objeto contra aparições, fantasmas e espíritos elementais; usa as regras gerais de Proteções.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 277"
+  },
+  {
+    "id": "ritual-truth-of-blood",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Verdade do Sangue",
+    "level": 2,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Revela a verdade conforme o conhecimento do alvo; falha encerra o ritual. Não recupera memórias apagadas.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 277"
+  },
+  {
+    "id": "ritual-firewalker",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Andarilho do Fogo",
+    "level": 3,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "O beneficiário sofre metade do dano de fogo pelo restante da noite. Teste Vigor + Determinação, dificuldade 3; a ponta do dedo sacrificada é sempre do conjurador, mesmo para beneficiar terceiros. A mutilação não causa dano à trilha.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 278"
+  },
+  {
+    "id": "ritual-dagons-call",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "O Chamado de Dagon",
+    "level": 3,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Margem causa dano agravado a mortais e superficial a vampiros; até três execuções, cada uma com Checagem adicional.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 278"
+  },
+  {
+    "id": "ritual-warding-circle-against-spirits",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Círculo de Proteção contra Espíritos",
+    "level": 3,
+    "cost": "3 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Círculo contra espíritos, distinto da proteção de objeto; usa disputa e custos próprios dos círculos.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 278"
+  },
+  {
+    "id": "ritual-deflection-of-wooden-doom",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Deflecção da Ruína de Madeira",
+    "level": 3,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Sucesso destrói a primeira estaca; crítico também cega o atacante por dois turnos. Dura até o fim da noite ou retirada da lasca.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 278"
+  },
+  {
+    "id": "ritual-essence-of-air",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Essência do Ar",
+    "level": 3,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Prepara uma dose de voo por uma cena, duas no crítico. A poção perde a potência ao fim da noite; transportar massa de uma pessoa reduz a velocidade.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 279"
+  },
+  {
+    "id": "ritual-warding-circle-against-lupines",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Círculo de Proteção contra Lupinos",
+    "level": 4,
+    "cost": "3 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Círculo contra lobisomens; até três metros de raio; não é uma proteção de objeto.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 279"
+  },
+  {
+    "id": "ritual-defense-of-sacred-haven",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Defesa do Refúgio Sagrado",
+    "level": 4,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Sucesso impede dano de luz solar dentro da área por um dia; crítico permite enxergar vagamente o exterior.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 279"
+  },
+  {
+    "id": "ritual-eyes-of-nighthawk",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Olhos do Falcão Noturno",
+    "level": 4,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Controla o voo e vê pelos olhos da ave; crítico permite ações simples. Encerrar sem remover os olhos impõe cegueira por três noites.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 279"
+  },
+  {
+    "id": "ritual-incorporeal-passage",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Passagem Incorpórea",
+    "level": 4,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Forma incorpórea por uma cena ou até largar o caco; fogo, sol e armas arcanas apropriadas ainda afetam. Não permite Inflamar o Sangue.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 280"
+  },
+  {
+    "id": "ritual-warding-circle-against-cainites",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Círculo de Proteção contra Cainitas",
+    "level": 5,
+    "cost": "3 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Círculo contra vampiros; usa os custos e disputas da p. 275, distintos da proteção de objeto.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 280"
+  },
+  {
+    "id": "ritual-heart-of-stone",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Coração de Pedra",
+    "level": 5,
+    "cost": "1 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "Imunidade a estacas; penalidade de três dados em Remorso e testes sociais ativos, exceto Intimidação e Dominação. Não usa Presença e ganha três dados para resistir a ela.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 280"
+  },
+  {
+    "id": "ritual-shaft-of-belated-quiescence",
+    "disciplineId": "discipline-blood-sorcery",
+    "isRitual": true,
+    "name": "Fuste de Extinção Tardia",
+    "level": 5,
+    "cost": "2 Checagem(ns) de Sangue próprias; confira ingredientes e processo",
+    "dicePool": "Veja o procedimento específico do ritual; testes e gatilhos não são intercambiáveis.",
+    "summary": "A estaca concede três dados para estaquear; margem de ataque pelo menos cinco causa Morte Final. Outros acertos fazem a lasca avançar; remoção exige procedimento próprio.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 281"
   }
 ]

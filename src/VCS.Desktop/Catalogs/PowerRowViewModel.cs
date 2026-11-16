@@ -107,7 +107,8 @@ public partial class PowerRowViewModel : ObservableObject
 
     public static PowerInfo Defaults(PowerDefinition definition) => new(
         definition.Discipline, definition.Cost, definition.DicePool, "",
-        definition.IsRitual ? "" : definition.Summary, definition.IsRitual, "", "",
+        definition.IsRitual ? "" : definition.Summary, definition.IsRitual,
+        RitualUseCatalog.Find(definition.Id)?.Ingredients ?? "", RitualUseCatalog.Find(definition.Id)?.Process ?? "",
         definition.IsRitual ? definition.Summary : "",
         string.Join(" · ", new[] { definition.Prerequisite, definition.AmalgamDiscipline is { } amalgam ? $"Amálgama: {amalgam} {definition.AmalgamLevel}" : "" }.Where(x => x.Length > 0)));
 }
