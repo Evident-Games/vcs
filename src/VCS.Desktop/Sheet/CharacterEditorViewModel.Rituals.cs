@@ -49,8 +49,9 @@ public partial class CharacterEditorViewModel
         try
         {
             var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
-            var roll = new TrueSanctuaryActions().AttemptTravel(pool, Hunger, true, true, true, true, false,
-                beastSubdued: HasActivePower("power-animalism-quell-the-beast"));
+            var roll = new TrueSanctuaryActions().AttemptTravel(pool, Hunger, true, true, true, true, alreadyAttempted,
+                beastSubdued: HasActivePower("power-animalism-quell-the-beast"),
+                sceneLimitExceptionApproved: alreadyAttempted && RitualExceptionApproved);
             if (ritual.HasWarning)
                 ExceptionRegister.Record(ritual.Name, ritual.Warning, RitualExceptionReason.Trim());
             if (alreadyAttempted)

@@ -195,3 +195,5 @@ A ficha agora permite rolar a viagem de Santuário selecionando o ritual conheci
 Uma tentativa de viagem agora cria um marcador persistente na ficha, encerrado pelo comando de fim de cena. Enquanto ativo, outra tentativa exige exceção justificada pelo Narrador. O marcador vale tanto para sucesso quanto para falha. O término da cena continua explícito, e a preparação dos círculos permanece manual; o ritual continua incompleto.
 
 O marcador de tentativa não pode ser encerrado pelo comando genérico de encerrar um efeito; use o fim de cena ou registre uma exceção para outra tentativa. Caso haja ao mesmo tempo um aviso de pré-requisito e uma nova tentativa na cena, ambas as exceções são registradas.
+
+A ação de viagem recebe o estado real da tentativa anterior e uma autorização explícita de exceção ao limite de cena. A ficha exige justificativa e registra a decisão; a confirmação das demais condições permanece obrigatória.

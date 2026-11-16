@@ -9,10 +9,10 @@ public sealed class TrueSanctuaryActions
 {
     public DicePoolResult AttemptTravel(int pool, int hunger, bool circlesComplete, bool circlesIntact,
         bool atDepartureCircle, bool concentratedForTurn, bool alreadyAttemptedThisScene,
-        Random? random = null, bool beastSubdued = false)
+        Random? random = null, bool beastSubdued = false, bool sceneLimitExceptionApproved = false)
     {
         if (!TrueSanctuaryRules.CanAttemptTravel(circlesComplete, circlesIntact, atDepartureCircle,
-            concentratedForTurn, alreadyAttemptedThisScene))
+            concentratedForTurn, alreadyAttemptedThisScene && !sceneLimitExceptionApproved))
             throw new InvalidOperationException("Confirme os círculos completos e intactos, a posição, a concentração e o limite de uma tentativa por cena.");
         if (pool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(pool));
         if (hunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(hunger));
