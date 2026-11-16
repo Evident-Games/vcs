@@ -6,7 +6,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 
 | Ritual | Implementado no fluxo | Permanece com a mesa / integração ainda parcial |
 | --- | --- | --- |
-| Aderência do Inseto | Custo, teste, cena/noite conforme crítico, beneficiário conjurador | Superfícies, movimento e metade da velocidade |
+| Aderência do Inseto | Custo, teste, beneficiário conjurador; proposta descreve paredes/tetos, uso das mãos e pés, velocidade aproximada pela metade e cena/noite conforme crítico | A mesa escolhe a superfície da cena e conduz o deslocamento; o app não simula mapa ou velocidade tática |
 | Caminho do Sangue | Custo, teste, informações solicitadas e ampliação crítica | Amostra, geração, nomes e Laços reais do alvo |
 | Criar Pedra de Sangue | Custo, três noites registradas com confirmação de uma hora, teste final e limite por Determinação | Pedras ativas, localização e destruição; a mesa fornece as datas da crônica |
 | Despertar com o Frescor do Anoitecer | Preparo, custo, teste adiado ao perigo, encerramento do sono | Perigo real e limites da vigília; fluxo dedicado |
@@ -32,6 +32,14 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Coração de Pedra | Custo, frenesi antes do teste, crítico, cura específica explícita uma vez, reversão por repetição, ajustes sociais/contra Presença, bloqueio de Presença e −3 em Remorso | Confirmar vela e dano já marcado; imunidade a estacas é informada, sem resolvedor universal de estaqueamento |
 | Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, dois círculos, rolagem por viagem e limite por cena | Locais, integridade, concentração e deslocamento narrativo |
 | Fuste de Extinção Tardia | Duas checagens separadas, preparo/teste, ataque com +3, margem de Morte Final/lasca, cirurgia Destreza + Medicina dificuldade 6 | Tempo de avanço da lasca decidido pelo Narrador, não especificado numericamente no livro; vítima, integridade e consequências confirmadas; não aplica Morte Final |
+
+## Auditoria: Aderência do Inseto
+
+O livro-base V5 (página impressa 276) descreve que o beneficiário se prende a paredes e tetos usando mãos e pés, deslocando-se a aproximadamente metade de sua velocidade habitual. A duração é uma cena; em sucesso crítico, estende-se pela noite inteira.
+
+O resolvedor atual já apresenta esses detalhes e limita o benefício ao conjurador. O que ainda não existe é um mapa ou sistema de deslocamento que aplique a condição a uma cena. A mesa precisa confirmar onde a superfície existe e conduzir o movimento. Não converti “aproximadamente metade” em uma velocidade numérica inventada, nem apliquei efeitos a outro personagem.
+
+Por isso, o ritual continua parcialmente assistido e as contagens permanecem em 26 rituais com perfil/fluxo; esta revisão não aumenta a contagem de automação direta.
 
 ## Contextos, exceções e persistência
 
