@@ -261,6 +261,11 @@ public partial class CharacterEditorViewModel
     private void EndSelectedPowerEffect()
     {
         if (SelectedPowerEffect is not { Active: true } entry) return;
+        if (entry.PowerId == "ritual-sanctuary-travel-attempt")
+        {
+            ActivationSummary = "O marcador de viagem termina ao encerrar a cena. Uma nova tentativa na mesma cena exige exceção justificada pelo Narrador.";
+            return;
+        }
         ReplacePowerEffect(entry, entry with { Active = false });
         if (entry.IsSelf) SetPowerState(entry.PowerId, false);
         RefreshRollPool();

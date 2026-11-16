@@ -42,7 +42,8 @@ public partial class CharacterEditorViewModel
         { RitualPreparationSummary = "Selecione o ritual Fuga para o Verdadeiro Santuário conhecido nesta ficha."; return; }
         var alreadyAttempted = PowerEffects.Any(x => x.Active && x.IsSelf && x.PowerId == "ritual-sanctuary-travel-attempt");
         if ((ritual.HasWarning || alreadyAttempted) && (!RitualExceptionApproved || string.IsNullOrWhiteSpace(RitualExceptionReason)))
-        { RitualPreparationSummary = (alreadyAttempted ? "Já houve uma tentativa de viagem nesta cena. " : ritual.Warning + " ") + "Autorize e justifique a exceção com o Narrador."; return; }
+        { RitualPreparationSummary = (alreadyAttempted ? "Já houve uma tentativa de viagem nesta cena. " : "") +
+            (ritual.HasWarning ? ritual.Warning + " " : "") + "Autorize e justifique a exceção com o Narrador."; return; }
         if (!SanctuaryTravelConfirmed)
         { RitualPreparationSummary = "Confirme com o Narrador os círculos, a posição, a concentração e o limite por cena."; return; }
         try
@@ -50,8 +51,10 @@ public partial class CharacterEditorViewModel
             var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
             var roll = new TrueSanctuaryActions().AttemptTravel(pool, Hunger, true, true, true, true, false,
                 beastSubdued: HasActivePower("power-animalism-quell-the-beast"));
-            if (ritual.HasWarning || alreadyAttempted)
-                ExceptionRegister.Record(ritual.Name, alreadyAttempted ? "Nova tentativa de viagem na mesma cena" : ritual.Warning, RitualExceptionReason.Trim());
+            if (ritual.HasWarning)
+                ExceptionRegister.Record(ritual.Name, ritual.Warning, RitualExceptionReason.Trim());
+            if (alreadyAttempted)
+                ExceptionRegister.Record(ritual.Name, "Nova tentativa de viagem na mesma cena", RitualExceptionReason.Trim());
             if (!alreadyAttempted)
             {
                 PowerEffects.Add(new PowerEffectEntry(Guid.NewGuid(), "ritual-sanctuary-travel-attempt", ritual.Name,
