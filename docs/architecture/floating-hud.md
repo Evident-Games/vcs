@@ -14,20 +14,22 @@ Crônicas são agrupadas pelos nomes já presentes nas fichas e nos eventos salv
 
 ## Temas
 
-O HUD usa recursos próprios derivados da paleta do aplicativo; o tema individual de uma ficha permanece independente. Arquivos existentes não precisam receber novas chaves. Para personalizar o HUD, um tema pode fornecer estes recursos no bloco do aplicativo:
+O HUD acompanha integralmente as cores da paleta do aplicativo, inclusive nos temas claros; o tema individual de uma ficha permanece independente. Arquivos existentes não precisam receber novas chaves. Para personalizar o HUD, um tema pode fornecer estes recursos no bloco do aplicativo:
 
 | Chave opcional | Tipo | Uso |
 | --- | --- | --- |
 | `VcsAppHudSurface` | SolidColorBrush | Fundo do drawer |
 | `VcsAppHudDock` | SolidColorBrush | Pílula translúcida |
 | `VcsAppHudCard` | SolidColorBrush | Cards, campos e avatares |
+| `VcsAppHudHover` | SolidColorBrush | Hover dos botões |
+| `VcsAppHudSelection` / `VcsAppHudSelectionText` | SolidColorBrush | Fundo / texto da ficha selecionada |
 | `VcsAppHudText` / `VcsAppHudMuted` | SolidColorBrush | Texto principal / secundário |
 | `VcsAppHudBorder` | SolidColorBrush | Bordas sutis |
 | `VcsAppHudAccent` | SolidColorBrush | Destaque e ícones selecionados |
 | `VcsAppHudSection` | Brush | Gradiente dos accordions |
 | `VcsAppHudOpen` / `VcsAppHudClosed` | SolidColorBrush | Ficha aberta / salva |
 
-O tema escuro vermelho define o carmesim `#9E0B22`; os outros herdam o próprio destaque. Cinzel e Inter/Montserrat são preferidos quando instalados, com Georgia/Segoe UI como alternativas locais. A translucidez usa brushes com alfa e sombras nativas; não se aplica `BlurEffect` ao conteúdo nem se afirma implementar o `backdrop-filter` do navegador. A mesa de dados continua funcional e foi posicionada à esquerda para não ficar sob o HUD.
+Fundos e textos seguem Card/CardText; bordas, descrições, hover e seleção usam seus papéis correspondentes. O dock mantém translucidez sem impor preto ou branco. Indicadores locais usam o destaque e a descrição do tema; o gradiente mistura Card e Selection. Não há override carmesim ou fundo escuro fixo no tema padrão. Cinzel e Inter/Montserrat são preferidos quando instalados, com Georgia/Segoe UI como alternativas locais. A translucidez usa brushes com alfa e sombras nativas; não se aplica `BlurEffect` ao conteúdo nem se afirma implementar o `backdrop-filter` do navegador. A mesa de dados continua funcional e foi posicionada à esquerda para não ficar sob o HUD.
 
 ## Verificação
 

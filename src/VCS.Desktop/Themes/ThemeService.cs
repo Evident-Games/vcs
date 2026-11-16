@@ -70,26 +70,30 @@ public sealed class ThemeService
 
     private static void AddHudPalette(ResourceDictionary palette)
     {
-        var accent = ((SolidColorBrush)palette["VcsAccent"]).Color;
-        var background = ((SolidColorBrush)palette["VcsBackground"]).Color;
-        static Color Shade(Color color, double amount) => Color.FromRgb((byte)(color.R * amount), (byte)(color.G * amount), (byte)(color.B * amount));
         void Default(string key, object value) { if (!palette.Contains(key)) palette[key] = value; }
-        // Optional VcsAppHud* overrides are loaded above; older custom themes need no new keys.
-        var surface = IsDark(background) ? Color.FromArgb(246, background.R, background.G, background.B) : Color.FromArgb(246, 28, 25, 26);
-        Default("VcsHudSurface", new SolidColorBrush(surface));
-        Default("VcsHudDock", new SolidColorBrush(Color.FromArgb(235, 24, 21, 22)));
-        Default("VcsHudCard", new SolidColorBrush(Color.FromRgb(35, 31, 33)));
-        Default("VcsHudText", new SolidColorBrush(Color.FromRgb(242, 242, 242)));
-        Default("VcsHudMuted", new SolidColorBrush(Color.FromRgb(158, 155, 155)));
-        Default("VcsHudBorder", new SolidColorBrush(Color.FromArgb(70, 200, 190, 194)));
-        Default("VcsHudAccent", new SolidColorBrush(accent));
-        Default("VcsHudOpen", new SolidColorBrush(Color.FromRgb(108, 179, 135)));
-        Default("VcsHudClosed", new SolidColorBrush(Color.FromRgb(100, 96, 99)));
-        var hudAccent = ((SolidColorBrush)palette["VcsHudAccent"]).Color;
-        Default("VcsHudAccentColor", hudAccent);
+        Brush Translucent(string key, double opacity)
+        {
+            var brush = ((Brush)palette[key]).CloneCurrentValue();
+            brush.Opacity *= opacity;
+            return brush;
+        }
+        // The HUD follows the application palette in light, dark and customized themes.
+        // Optional VcsAppHud* overrides still take precedence without changing existing theme files.
+        Default("VcsHudSurface", Translucent("VcsCard", 0.97));
+        Default("VcsHudDock", Translucent("VcsCard", 0.92));
+        foreach (var (hud, theme) in new[]
+        {
+            ("Card", "Card"), ("Text", "CardText"), ("Muted", "InputDescription"),
+            ("Border", "Border"), ("Accent", "Accent"), ("Hover", "Hover"),
+            ("Selection", "Selection"), ("SelectionText", "SelectionText"),
+            ("Open", "Accent"), ("Closed", "InputDescription")
+        }) Default("VcsHud" + hud, palette["Vcs" + theme]);
+        Default("VcsHudAccentColor", ((SolidColorBrush)palette["VcsHudAccent"]).Color);
+        var card = ((SolidColorBrush)palette["VcsCard"]).Color;
+        var selection = ((SolidColorBrush)palette["VcsSelection"]).Color;
         Default("VcsHudSection", new LinearGradientBrush(new GradientStopCollection
         {
-            new(Shade(hudAccent, 0.12), 0), new(Shade(hudAccent, 0.4), 0.5), new(Shade(hudAccent, 0.12), 1)
+            new(card, 0), new(selection, 0.5), new(card, 1)
         }, new Point(0, 0.5), new Point(1, 0.5)));
     }
 

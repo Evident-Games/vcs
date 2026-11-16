@@ -25,7 +25,7 @@
                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center"/>
                 </Border>
                 <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="{DynamicResource VcsHudCard}"/></Trigger>
+                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="{DynamicResource VcsHudHover}"/></Trigger>
                     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Surface" Property="BorderBrush" Value="{DynamicResource VcsHudAccent}"/></Trigger>
                     <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Surface" Property="Opacity" Value="0.45"/></Trigger>
                 </ControlTemplate.Triggers>
@@ -107,7 +107,7 @@
             </Button>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding IsOpen}" Value="True"><Setter TargetName="Presence" Property="Fill" Value="{DynamicResource VcsHudOpen}"/></DataTrigger>
-                <DataTrigger Binding="{Binding IsActive}" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource VcsHudSection}"/></DataTrigger>
+                <DataTrigger Binding="{Binding IsActive}" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource VcsHudSelection}"/><Setter TargetName="Row" Property="TextElement.Foreground" Value="{DynamicResource VcsHudSelectionText}"/></DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
     </UserControl.Resources>
