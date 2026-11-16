@@ -4,6 +4,12 @@ public sealed record DisciplineDefinition(string Id, string Name, string Source 
 
 public static class DisciplineCatalog
 {
+    /// <summary>Legacy entries retained for saved sheets whose claimed core-book source was not verified.</summary>
+    public static IReadOnlySet<string> UnverifiedPowerIds { get; } = new HashSet<string>(StringComparer.Ordinal)
+    {
+        "ritual-illusion-of-peaceful-death",
+    };
+
     public static IReadOnlySet<string> SupplementPowerIds { get; } = new HashSet<string>(StringComparer.Ordinal)
     {
         "power-oblivion-oblivions-sight",

@@ -178,6 +178,8 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
 
     internal string WarningFor(PowerRowViewModel row)
     {
+        if (row.Entry is { } legacy && DisciplineCatalog.UnverifiedPowerIds.Contains(legacy.Definition.Id))
+            return legacy.Warning;
         if (string.IsNullOrWhiteSpace(row.Name) || string.IsNullOrWhiteSpace(row.Discipline)) return "";
         var rating = Rating(row.Discipline);
         if (row.Level > rating)

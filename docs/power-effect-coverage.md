@@ -1,6 +1,6 @@
 # Cobertura dos poderes do livro base
 
-Inventário desta rodada: **88 poderes de Disciplinas**, todos com perfil de uso (custos, parada, oposição, condições e fonte). Foram acrescentadas 17 entradas ao catálogo anterior de 71. Os 5 rituais já cadastrados são contados separadamente; esta lista não abrange as fórmulas de Alquimia de Sangue-Ralo.
+Catálogo atual: **88 poderes de Disciplinas**, todos com perfil de uso. A conferência dos rituais do livro base encontrou **26 títulos, dos quais 4 estão cadastrados e 22 faltam**. Há ainda uma entrada legada com fonte não verificada, Ilusão de Morte Pacífica, preservada sem automação. Consulte [o inventário por nível e página](core-ritual-inventory.md). Fórmulas de Alquimia de Sangue-Ralo são contadas separadamente.
 
 | Critério | Quantidade |
 | --- | ---: |
@@ -8,9 +8,13 @@ Inventário desta rodada: **88 poderes de Disciplinas**, todos com perfil de uso
 | Proposta numérica calculada; aplicação no alvo pelo Narrador | 11 |
 | Resolução assistida de efeito narrativo/condicional | 40 |
 | Poder sem perfil de uso | 0 |
-| Rituais cadastrados com automação incompleta | 5 |
+| Rituais confirmados do livro base cadastrados, ainda incompletos | 4 |
+| Rituais do livro base ausentes do catálogo | 22 |
+| Ritual legado com fonte não verificada | 1 |
 
 **Perfil de uso não significa automação integral.** Custos, dados e texto por si só não contam como integração direta. Portanto ainda há 51 poderes sem aplicação direta de seu efeito principal na ficha; a divisão abaixo permite acompanhar esse trabalho sem confundir cadastro com implementação. Mesmo os 37 diretos podem ter procedimentos secundários conduzidos pelo Narrador.
+
+As categorias 37/11/40 são herdadas do inventário anterior e não foram auditadas integralmente nesta conferência. As notas históricas abaixo que mencionam cinco rituais pendentes antecedem a identificação da entrada com fonte incorreta; o inventário atual acima substitui essa contagem.
 
 ## Como usar
 

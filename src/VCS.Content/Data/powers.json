@@ -703,10 +703,10 @@
     "isRitual": true,
     "name": "Ilusão de Morte Pacífica",
     "level": 2,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 3; confira exceções do ritual)",
-    "summary": "Lança pó e sangue falso em um cadáver recém-assassinado pelo vampiro. Em segundos, esconde marcas de presas, arranhões de garras ou perda severa de sangue. Quando o legista examinar, o corpo parecerá ter morrido de ataque cardíaco natural.",
-    "source": "Vampiro: A Máscara V5 (Livro base)"
+    "cost": "Não automatizado: fonte não verificada",
+    "dicePool": "Resolução manual pelo Narrador",
+    "summary": "Entrada legada preservada para fichas existentes. Não consta no inventário de rituais do livro base fornecido; nível, custos e efeito anteriores não estão verificados.",
+    "source": "Fonte não verificada; não consta nos rituais do livro base fornecido (pp. 276–282)"
   },
   {
     "id": "ritual-ward-against-lupines",

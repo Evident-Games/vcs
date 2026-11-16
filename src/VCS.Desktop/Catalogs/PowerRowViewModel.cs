@@ -32,7 +32,9 @@ public partial class PowerRowViewModel : ObservableObject
     public PowerItemViewModel? Entry { get; internal set; }
     public bool IsCatalog => Entry is { IsUnavailable: false };
     public bool CanEditLevel => !IsCatalog;
-    public string SourceLabel => IsCatalog ? $"Fonte: {SourceAttribution.Format(Entry!.Definition.Source)} — os campos podem ser ajustados." : "Poder próprio — fonte definida pela mesa.";
+    public string SourceLabel => Entry is { } entry && DisciplineCatalog.UnverifiedPowerIds.Contains(entry.Definition.Id)
+        ? "Fonte não verificada — registro legado preservado."
+        : IsCatalog ? $"Fonte: {SourceAttribution.Format(Entry!.Definition.Source)} — os campos podem ser ajustados." : "Poder próprio — fonte definida pela mesa.";
 
     [ObservableProperty] private string discipline = "";
     [ObservableProperty] private string name = "";

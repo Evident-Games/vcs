@@ -1,6 +1,7 @@
 using VCS.Rules.V5.Dice;
 using VCS.Rules.V5.Rituals;
 using VCS.Rules.V5.Disciplines;
+using VCS.Content.Disciplines;
 
 namespace VCS.Application.Blood;
 
@@ -10,6 +11,8 @@ public sealed class RitualActions
     public RitualPreparation Prepare(int level, int hunger, int pool, bool deferred, Random? random = null,
         bool beastSubdued = false, string? ritualId = null)
     {
+        if (ritualId is not null && DisciplineCatalog.UnverifiedPowerIds.Contains(ritualId))
+            throw new InvalidOperationException("A fonte deste ritual não foi verificada no livro base fornecido. Resolva manualmente com o Narrador; nenhuma checagem foi feita.");
         if (RitualRules.RequiresManualPreparation(ritualId))
         {
             var sanctuary = TrueSanctuaryRules.Preparation();

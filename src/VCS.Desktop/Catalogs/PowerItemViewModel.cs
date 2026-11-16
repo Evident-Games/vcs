@@ -22,7 +22,7 @@ public partial class PowerItemViewModel : ObservableObject
         _clan = clan ?? (() => "");
         _advancement = advancement ?? ((clanName, discipline, current) =>
             new CharacterSheetActions().DescribeDisciplineAdvancement(clanName, discipline, current));
-        IsUnavailable = unavailable;
+        IsUnavailable = unavailable || DisciplineCatalog.UnverifiedPowerIds.Contains(definition.Id);
     }
 
     public PowerDefinition Definition { get; }
@@ -31,7 +31,9 @@ public partial class PowerItemViewModel : ObservableObject
     public string Heading => $"{Definition.Name} · Nível {Definition.Level}" +
         (Definition.AmalgamDiscipline is { } discipline ? $" · Amálgama: {discipline} {Definition.AmalgamLevel}" : "") +
         ($" · {SourceAttribution.Format(Definition.Source)}");
-    public string Warning => IsUnavailable
+    public string Warning => DisciplineCatalog.UnverifiedPowerIds.Contains(Definition.Id)
+        ? "Fonte não verificada: esta entrada não consta nos rituais do livro base fornecido. O registro foi preservado; resolva manualmente com o Narrador."
+        : IsUnavailable
         ? "Entrada fora do catalogo atual. A selecao foi preservada; os detalhes originais nao estao disponiveis."
         : IsKnown && Definition.Level > _rating(Definition.Discipline)
             ? $"Aviso: requer nivel {Definition.Level} de {Definition.Discipline}; sua ficha tem {_rating(Definition.Discipline)}. Selecao livre."
