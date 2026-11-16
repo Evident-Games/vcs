@@ -1,6 +1,6 @@
 # Cobertura dos poderes do livro base
 
-Catálogo atual: **88 poderes de Disciplinas**, todos com perfil de uso. A conferência dos rituais do livro base encontrou **26 títulos, dos quais 4 estão cadastrados e 22 faltam**. Há ainda uma entrada legada com fonte não verificada, Ilusão de Morte Pacífica, preservada sem automação. Consulte [o inventário por nível e página](core-ritual-inventory.md). Fórmulas de Alquimia de Sangue-Ralo são contadas separadamente.
+Catálogo atual: **88 poderes de Disciplinas**, todos com perfil de uso. A conferência dos rituais do livro base encontrou **26 títulos, todos cadastrados e com fluxo de uso**. Há ainda uma entrada legada com fonte não verificada, Ilusão de Morte Pacífica, preservada sem automação. Consulte [o inventário por nível e página](core-ritual-inventory.md). Fórmulas de Alquimia de Sangue-Ralo são contadas separadamente.
 
 | Critério | Quantidade |
 | --- | ---: |
@@ -8,13 +8,15 @@ Catálogo atual: **88 poderes de Disciplinas**, todos com perfil de uso. A confe
 | Proposta numérica calculada; aplicação no alvo pelo Narrador | 11 |
 | Resolução assistida de efeito narrativo/condicional | 40 |
 | Poder sem perfil de uso | 0 |
-| Rituais confirmados do livro base cadastrados, ainda incompletos | 4 |
-| Rituais do livro base ausentes do catálogo | 22 |
+| Rituais confirmados do livro base com perfil e fluxo de uso, ainda parcialmente assistidos | 26 |
+| Rituais do livro base ausentes do catálogo | 0 |
 | Ritual legado com fonte não verificada | 1 |
 
 **Perfil de uso não significa automação integral.** Custos, dados e texto por si só não contam como integração direta. Portanto ainda há 51 poderes sem aplicação direta de seu efeito principal na ficha; a divisão abaixo permite acompanhar esse trabalho sem confundir cadastro com implementação. Mesmo os 37 diretos podem ter procedimentos secundários conduzidos pelo Narrador.
 
 As categorias 37/11/40 são herdadas do inventário anterior e não foram auditadas integralmente nesta conferência. As notas históricas abaixo que mencionam cinco rituais pendentes antecedem a identificação da entrada com fonte incorreta; o inventário atual acima substitui essa contagem.
+
+Veja [a matriz de rituais e suas limitações](core-ritual-workflows.md). Cadastro, pagamento de custos, proposta de efeito e aplicação direta são etapas distintas; os 26 fluxos não devem ser divulgados como 26 automações integrais.
 
 ## Como usar
 

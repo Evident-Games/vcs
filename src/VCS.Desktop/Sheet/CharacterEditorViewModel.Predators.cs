@@ -390,7 +390,8 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
     {
         try
         {
-            var result = _humanityActions.RollRemorse(Snapshot().Details);
+            var result = _humanityActions.RollRemorse(Snapshot().Details,
+                poolModifier: HasRitualEffect("ritual-heart-of-stone") ? -3 : 0);
             _ready = false;
             try { Stains = result.Details.Stains; Humanity = result.Details.Humanity; }
             finally { _ready = true; }

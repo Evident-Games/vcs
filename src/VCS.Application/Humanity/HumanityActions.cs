@@ -12,8 +12,8 @@ public sealed class HumanityActions
     public CharacterDetails ApplyStainDamage(CharacterDetails details, IReadOnlyList<TraitValue> traits) =>
         HumanityRules.ApplyStainDamage(details, traits);
 
-    public RemorseResult RollRemorse(CharacterDetails details, Random? random = null) =>
-        HumanityRules.RollRemorse(details, random);
+    public RemorseResult RollRemorse(CharacterDetails details, Random? random = null, int poolModifier = 0) =>
+        HumanityRules.RollRemorse(details, random, poolModifier);
 
     public CharacterDetails FailRemorse(CharacterDetails details) =>
         HumanityRules.FailRemorse(details);

@@ -1,3 +1,5 @@
+> Atualização de 16/11/2026: para os números atuais de poderes e rituais, consulte [poderes](power-effect-coverage.md) e [procedimentos dos 26 rituais](core-ritual-workflows.md). As seções antigas abaixo são histórico de planejamento e não substituem essas matrizes.
+
 # Cobertura de regras V5 no aplicativo
 
 Escopo desta auditoria: o código presente no repositório nesta branch, focado no livro-base. A existência de uma regra no projeto `VCS.Rules.V5` não significa que exista uma tela ou integração completa para usá-la.

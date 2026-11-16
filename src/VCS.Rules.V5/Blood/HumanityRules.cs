@@ -9,18 +9,28 @@ public sealed record HumanityLevel(int Level, string Description, int SocialPena
 public sealed record RemorseResult(CharacterDetails Details, IReadOnlyList<int> Dice, int Successes, bool MaintainedHumanity);
 
 [RuleSource("Vampiro: A Máscara V5 (Livro base)")]
+[RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 239, 280–281")]
 public static class HumanityRules
 {
-    /// <summary>Remorse pool equals current Humanity; one success clears all Stains, no successes loses one Humanity.</summary>
-    public static RemorseResult ResolveRemorse(CharacterDetails details, IReadOnlyList<int> dice)
+    /// <summary>Unmarked Humanity boxes, minimum one die after modifiers. One success clears Stains.</summary>
+    public static int RemorsePool(CharacterDetails details, int poolModifier = 0)
+    {
+        ArgumentNullException.ThrowIfNull(details);
+        if (details.Humanity is < 1 or > 10) throw new InvalidOperationException("Humanidade deve estar entre 1 e 10 para rolar Remorso.");
+        if (details.Stains <= 0) throw new InvalidOperationException("Nao ha Maculas para resolver.");
+        if (poolModifier is < -50 or > 50) throw new ArgumentOutOfRangeException(nameof(poolModifier));
+        return Math.Max(1, 10 - details.Humanity - details.Stains + poolModifier);
+    }
+
+    public static RemorseResult ResolveRemorse(CharacterDetails details, IReadOnlyList<int> dice, int poolModifier = 0)
     {
         ArgumentNullException.ThrowIfNull(details);
         ArgumentNullException.ThrowIfNull(dice);
         if (details.Humanity is < 1 or > 10) throw new InvalidOperationException("Humanidade deve estar entre 1 e 10 para rolar Remorso.");
         if (details.Stains <= 0) throw new InvalidOperationException("Nao ha Maculas para resolver.");
         if (details.Humanity <= 0) throw new InvalidOperationException("Humanidade ja esta em zero (Wassail).");
-        if (dice.Count != details.Humanity)
-            throw new ArgumentException("A rolagem de Remorso usa uma quantidade de dados igual a Humanidade atual.", nameof(dice));
+        if (dice.Count != RemorsePool(details, poolModifier))
+            throw new ArgumentException("A rolagem de Remorso usa os espaços vazios da trilha de Humanidade, com modificadores e mínimo de um dado.", nameof(dice));
         if (dice.Any(face => face is < 1 or > 10))
             throw new ArgumentException("Cada dado deve resultar entre 1 e 10.", nameof(dice));
 
@@ -32,13 +42,13 @@ public static class HumanityRules
         return new(updated, dice.ToArray(), successes, maintained);
     }
 
-    public static RemorseResult RollRemorse(CharacterDetails details, Random? random = null)
+    public static RemorseResult RollRemorse(CharacterDetails details, Random? random = null, int poolModifier = 0)
     {
         ArgumentNullException.ThrowIfNull(details);
         if (details.Humanity is < 1 or > 10) throw new InvalidOperationException("Humanidade deve estar entre 1 e 10 para rolar Remorso.");
         random ??= Random.Shared;
-        var dice = Enumerable.Range(0, details.Humanity).Select(_ => random.Next(1, 11)).ToArray();
-        return ResolveRemorse(details, dice);
+        var dice = Enumerable.Range(0, RemorsePool(details, poolModifier)).Select(_ => random.Next(1, 11)).ToArray();
+        return ResolveRemorse(details, dice, poolModifier);
     }
 
     public static IReadOnlyList<HumanityLevel> Levels { get; } =
