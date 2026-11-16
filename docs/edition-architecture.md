@@ -19,33 +19,32 @@ A extração da interface não automatiza poderes ou rituais pendentes. O invent
 O encerramento e as noites de cegueira de Olhos do Falcão Noturno usam `RitualOngoingRules` e `RitualWorkflowActions`, fora do ViewModel. A interface só envia a decisão confirmada e a data da crônica; a interpretação de três noites é V5. Exceções antecipadas são registradas explicitamente, sem reaproveitar automaticamente uma autorização do preparo.
 
 
-## Mapa comparativo: V5, V3, V20 e V20 Dark Ages
+## Mapa comparativo: V5, V3 e V20
 
 ### Escopo e fontes
 
 - **V5:** livro-base V5 fornecido pelo usuário e implementação ativa no repositório.
 - **V3:** *Vampiro: A Máscara*, 3ª edição, livro-base em português fornecido pelo usuário.
-- **V20 moderno:** *Vampire: The Masquerade 20th Anniversary Edition*, livro-base anexado pelo usuário e consultado nesta rodada.
-- **V20 Dark Ages:** *V20 Dark Ages Core Rulebook* (2015), outro livro e outro cenário. Não é o livro-base moderno V20; suas regras/opções medievais ficam em módulo/setting separado.
+- **V20:** *Vampire: The Masquerade 20th Anniversary Edition*, livro-base anexado pelo usuário e consultado nesta rodada.
 - O mapa serve à arquitetura; não é uma transcrição exaustiva de regras. Quando a comparação precisa de regra detalhada — especialmente custos, limites de geração, combate ou disciplina — ela fica pendente do livro/trecho correto.
 
 
 
 ### Diferenças mecânicas e de conteúdo confirmadas
 
-| Subsistema | V5 | V3 (livro-base) | V20 moderno (livro-base) | V20 Dark Ages | Consequência para módulos |
-| --- | --- | --- | --- | --- | --- |
-| Resolução de ações | Pool de Atributo + Habilidade, d10; sucessos e regra de Fome/críticos próprios da V5. | Pool de Atributo + Habilidade, d10; regras clássicas de dificuldade, falha crítica e especialidades. | Sistema Storyteller clássico: pools de d10, dificuldade e sucessos; sem dados de Fome da V5. | Sistema Storyteller clássico no cenário medieval, com opções e ajustes próprios. | O lançador pode ser compartilhado; composição, dificuldade, sucessos, falhas e Força de Vontade são políticas da edição/setting. |
-| Criação | Distribuição e validações próprias da V5; inclui Potência do Sangue, Geração e Humanidade no modelo da edição. | Criação clássica: Atributos 7/5/3; Habilidades 13/9/5; 3 Disciplinas, 5 Antecedentes, 7 Virtudes e 15 pontos de bônus (pp. 102–104). | Criação clássica confirmada: Atributos 7/5/3; Habilidades 13/9/5; 3 Disciplinas, 5 Antecedentes, 7 Virtudes e 15 pontos livres (criação, p. 80). | Criação medieval própria, descrita em seção separada do V20 moderno. | A interface pode compartilhar controles, mas distribuição, características, limites, bônus e cálculos derivados vêm do módulo da edição/setting. |
-| Traços morais | Humanidade, Convicções/Tenets e Máculas/Remorso na implementação V5. | Humanidade ou Trilhas; Virtudes clássicas incluem Consciência, Autocontrole e Coragem. | Humanidade ou Trilhas e Virtudes clássicas, com degeneração do sistema clássico. | Roads e Virtudes adequadas ao cenário medieval. | A UI pode reutilizar apresentação; modelo moral, testes e progressão não devem ser convertidos automaticamente. |
-| Sangue e geração | Fome, Checagens de Sangue, Potência do Sangue e tabela Geração/Potência V5. | Pontos de Sangue e Geração clássicos; sem Fome ou Potência do Sangue V5. | Pontos de Sangue, reserva e limites definidos por Geração; sem mecânica de Fome/Potência V5. | Economia clássica de sangue adaptada ao cenário Dark Ages. | Um controle genérico de recurso é reutilizável; economia, limites e efeitos são específicos da edição/setting. |
-| Vantagens, defeitos e caça | Predator Types são escolhas de criação com concessões e regras próprias V5. | A criação usa Antecedentes como Rebanho; não foi encontrada etapa de seleção equivalente a Predator Type no livro-base consultado. | A criação usa Backgrounds como Herd; no capítulo de criação consultado não há pacote de Predator Type equivalente ao da V5. | Merits/Flaws opcionais e Backgrounds no contexto medieval, sem importar automaticamente os pacotes V5. | Catálogos e regras de seleção ficam no módulo. Nome/estilo de caça não concede efeitos V5 em outra edição sem regra opcional explícita. |
-| Disciplinas e magia | Disciplinas, poderes e custos V5; Taumaturgia como Feitiçaria de Sangue. | Disciplinas clássicas; Taumaturgia e Necromancia com linhas/rituais e progressões próprias. | Disciplinas clássicas e opções do livro-base moderno. | Conteúdo e opções medievais próprios, incluindo diferenças de clãs/linhagens e magia. | Nome/fonte/nível podem compartilhar formato; árvore, aprendizado, custo, teste e efeito são do módulo e catálogo de cada edição. |
-| Clãs e cenário | Clãs, fraquezas, compulsões, seitas e conteúdo V5. | Clãs, seitas, linhagens e fraquezas do livro-base de 3ª edição. | Clãs, seitas, linhagens e fraquezas do livro-base moderno V20. | Clãs altos/baixos, Roads e opções medievais do livro Dark Ages. | Conteúdo e regra de clã são pacotes identificados por edição/setting; não inferir compatibilidade pelo nome. |
+| Subsistema | V5 | V3 (livro-base) | V20 (livro-base) | Consequência para módulos |
+| --- | --- | --- | --- | --- |
+| Resolução de ações | Pool de Atributo + Habilidade, d10; sucessos e regra de Fome/críticos próprios da V5. | Pool de Atributo + Habilidade, d10; regras clássicas de dificuldade, falha crítica e especialidades. | Sistema Storyteller clássico: pools de d10, dificuldade e sucessos; sem dados de Fome da V5. | O lançador pode ser compartilhado; composição, dificuldade, sucessos, falhas e Força de Vontade são políticas da edição/setting. |
+| Criação | Distribuição e validações próprias da V5; inclui Potência do Sangue, Geração e Humanidade no modelo da edição. | Criação clássica: Atributos 7/5/3; Habilidades 13/9/5; 3 Disciplinas, 5 Antecedentes, 7 Virtudes e 15 pontos de bônus (pp. 102–104). | Criação clássica confirmada: Atributos 7/5/3; Habilidades 13/9/5; 3 Disciplinas, 5 Antecedentes, 7 Virtudes e 15 pontos livres (criação, p. 80). | A interface pode compartilhar controles, mas distribuição, características, limites, bônus e cálculos derivados vêm do módulo da edição/setting. |
+| Traços morais | Humanidade, Convicções/Tenets e Máculas/Remorso na implementação V5. | Humanidade ou Trilhas; Virtudes clássicas incluem Consciência, Autocontrole e Coragem. | Humanidade ou Trilhas e Virtudes clássicas, com degeneração do sistema clássico. | A UI pode reutilizar apresentação; modelo moral, testes e progressão não devem ser convertidos automaticamente. |
+| Sangue e geração | Fome, Checagens de Sangue, Potência do Sangue e tabela Geração/Potência V5. | Pontos de Sangue e Geração clássicos; sem Fome ou Potência do Sangue V5. | Pontos de Sangue, reserva e limites definidos por Geração; sem mecânica de Fome/Potência V5. | Um controle genérico de recurso é reutilizável; economia, limites e efeitos são específicos da edição/setting. |
+| Vantagens, defeitos e caça | Predator Types são escolhas de criação com concessões e regras próprias V5. | A criação usa Antecedentes como Rebanho; não foi encontrada etapa de seleção equivalente a Predator Type no livro-base consultado. | A criação usa Backgrounds como Herd; no capítulo de criação consultado não há pacote de Predator Type equivalente ao da V5. | Catálogos e regras de seleção ficam no módulo. Nome/estilo de caça não concede efeitos V5 em outra edição sem regra opcional explícita. |
+| Disciplinas e magia | Disciplinas, poderes e custos V5; Taumaturgia como Feitiçaria de Sangue. | Disciplinas clássicas; Taumaturgia e Necromancia com linhas/rituais e progressões próprias. | Disciplinas clássicas e opções do livro-base moderno. | Nome/fonte/nível podem compartilhar formato; árvore, aprendizado, custo, teste e efeito são do módulo e catálogo de cada edição. |
+| Clãs e cenário | Clãs, fraquezas, compulsões, seitas e conteúdo V5. | Clãs, seitas, linhagens e fraquezas do livro-base de 3ª edição. | Clãs, seitas, linhagens e fraquezas do livro-base moderno V20. | Conteúdo e regra de clã são pacotes identificados por edição/setting; não inferir compatibilidade pelo nome. |
 
 ### O que “Predator Type” significa fora da V5
 
-Os livros-base V3 e V20 moderno consultados não estruturam a criação como a escolha de um Predator Type que concede um pacote fixo de vantagens, defeitos, pontos e regras de caça, como na V5. Ambos têm Antecedentes/Backgrounds — incluindo Rebanho/Herd — e descrevem caça/alimentação no fluxo do jogo. Portanto:
+Os livros-base V3 e V20 consultados não estruturam a criação como a escolha de um Predator Type que concede um pacote fixo de vantagens, defeitos, pontos e regras de caça, como na V5. Ambos têm Antecedentes/Backgrounds — incluindo Rebanho/Herd — e descrevem caça/alimentação no fluxo do jogo. Portanto:
 
 - V5 mantém Predator Type como regra exclusiva do seu módulo.
 - Em V3/V20, uma preferência ou estilo de caça pode ser anotado como dado narrativo, mas não cria automaticamente as concessões ou restrições da V5.
@@ -83,11 +82,10 @@ Nenhum conteúdo V3/V20 deve herdar V5 implicitamente. “Compatível” precisa
 3. Introduzir um manifesto de módulo com compatibilidade/dependências/conflitos e registro de implementations, e compor regras + catálogo a partir da edição da ficha.
 4. Fazer um protótipo de V3 com o livro anexo e validar criação, ficha e regras em fluxo isolado antes de expor seletor de edição.
 5. Converter regras específicas já misturadas nos contratos comuns para tipos próprios de cada edição; integrar o registry antes de disponibilizar seleção ou módulos opcionais.
-6. Manter V20 moderno e V20 Dark Ages como edições/settings distintos. O livro-base V20 moderno já foi fornecido e consultado; ele não substitui o livro Dark Ages, nem o inverso.
+6. Disponibilizar a seleção de módulos quando a edição e seus fluxos estiverem implementados e documentados.
 
 ### Fontes
 
 - *Vampire: The Masquerade V5 Corebook*, livro-base anexado; sistema V5 e ficha atual.
 - *Vampiro: A Máscara*, 3ª edição, livro-base em português anexado, especialmente criação de personagem pp. 102–104.
 - *Vampire: The Masquerade 20th Anniversary Edition*, livro-base moderno fornecido pelo usuário; criação de personagens (p. 80), antecedentes e caça.
-- *V20 Dark Ages Core Rulebook* (2015), arquivo separado fornecido pelo usuário; cenário medieval, Roads, clãs/linhagens e opções próprias. Não substitui o livro-base moderno.
