@@ -11,7 +11,10 @@ public sealed class RitualActions
         bool beastSubdued = false, string? ritualId = null)
     {
         if (RitualRules.RequiresManualPreparation(ritualId))
-            throw new InvalidOperationException("Fuga para o Verdadeiro Santuário requer preparação de dois círculos em três noites e 12 Checagens de Sangue no total; a rolagem ocorre em cada tentativa de viagem. Resolva e registre o processo com o Narrador. Nenhuma checagem foi feita. Fonte: Livro base, p. 281.");
+        {
+            var sanctuary = TrueSanctuaryRules.Preparation();
+            throw new InvalidOperationException($"Fuga para o Verdadeiro Santuário requer {sanctuary.CircleCount} círculos, cada um preparado em {sanctuary.ConsecutiveNightsPerCircle} noites consecutivas, {sanctuary.MinutesPerCirclePerNight} minutos e {sanctuary.RouseChecksPerCirclePerNight} Checagens de Sangue por noite; {sanctuary.TotalRouseChecks} checagens no total. A rolagem ocorre em cada tentativa de viagem. Resolva e registre o processo com o Narrador. Nenhuma checagem foi feita. Fonte: Livro base, p. 281.");
+        }
         var requirements = RitualRules.DefaultRequirements(level);
         if (hunger is < 0 or >= 5) throw new InvalidOperationException("Fome 5 impede despertar o Sangue voluntariamente.");
         if (pool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(pool));
