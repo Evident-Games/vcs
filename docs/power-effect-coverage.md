@@ -171,3 +171,5 @@ Pegada Sobrenatural também não recebe restrição automática por combate: o l
 O teste de escalada de Pegada Sobrenatural não é limitado à habilidade Atletismo: o livro menciona testes de habilidade feitos para escalar. A escolha do contexto continua explícita; a regra não transforma testes de outras ações em sucesso automático.
 
 `QuellBeastRules` reúne no módulo V5 o bloqueio de Surto de Sangue e a conversão de crítico bestial em crítico normal enquanto a Besta está subjugada. A mesma regra é usada para a rolagem inicial e para a rerrolagem; a duração e o contexto seguem o registro do efeito.
+
+As rolagens de uso de poder também passam por `QuellBeastRules` quando a própria ficha está sob o efeito. Isso corrige a apresentação do resultado sem alterar os dados, os sucessos ou a decisão sobre efeitos de outros alvos. Rolagens de ritual e ferramentas do Narrador ainda exigem revisão específica.

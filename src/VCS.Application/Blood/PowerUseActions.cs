@@ -1,5 +1,6 @@
 using VCS.Content.Disciplines;
 using VCS.Rules.V5.Dice;
+using VCS.Rules.V5.Disciplines;
 using VCS.Rules.Disciplines;
 
 namespace VCS.Application.Blood;
@@ -7,7 +8,8 @@ namespace VCS.Application.Blood;
 public sealed record PowerUseRequest(PowerUseDefinition Definition, int PowerLevel, int Pool, bool RollRequired,
     int Difficulty, int OpponentSuccesses, int Rating, int Wits, bool VampireTarget,
     int Hunger, int BloodPotency, int RouseChecks, int WillpowerCost,
-    int WillpowerSuperficial, int WillpowerAggravated, int WillpowerCapacity, string EditionId = "V5");
+    int WillpowerSuperficial, int WillpowerAggravated, int WillpowerCapacity, string EditionId = "V5",
+    bool BeastSubdued = false);
 
 public sealed record PowerUseResult(PowerActivationResult Costs, DicePoolResult? Roll, PowerResolution Resolution);
 
@@ -34,6 +36,7 @@ public sealed class PowerUseActions
             request.WillpowerAggravated, request.WillpowerCapacity, random);
         var rollDifficulty = request.Definition.Mode == "opposed" ? request.OpponentSuccesses + 1 : request.Difficulty;
         var roll = request.RollRequired ? DicePoolRules.Roll(request.Pool, costs.Hunger, rollDifficulty, random) : null;
+        if (roll is not null) roll = QuellBeastRules.ApplyToRoll(roll, request.BeastSubdued);
         var outcome = ruleset.Resolve(request.Definition, new(request.Rating, roll?.Successes ?? 0,
             request.Difficulty, request.OpponentSuccesses, request.RollRequired, roll?.IsCritical ?? false,
             request.VampireTarget, request.RouseChecks, request.Wits, request.BloodPotency));
