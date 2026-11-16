@@ -52,6 +52,7 @@
  <TextBlock Text="Dados da parada"/><TextBox Text="{Binding Pool, ValidatesOnExceptions=True}"/>
  <TextBlock Text="Fome do participante"/><TextBox Text="{Binding RollHunger, ValidatesOnExceptions=True}"/>
  <TextBlock Text="Dificuldade"/><TextBox Text="{Binding Difficulty, ValidatesOnExceptions=True}"/>
+ <CheckBox Content="Besta subjugada neste teste (confirmado pelo Narrador)" IsChecked="{Binding SceneBeastSubdued}"/>
  <Button Content="Rolar e registrar resultado" Command="{Binding RollSceneCommand}" Margin="0,8,0,0"/>
  </StackPanel></Border>
  <Expander Header="Caça · preparar cena" Margin="0,0,0,12"><StackPanel Margin="0,10,0,0">
@@ -87,9 +88,11 @@
  <TextBlock Text="Turno"/><TextBox Text="{Binding Round, ValidatesOnExceptions=True}"/>
  <TextBlock Text="Parada do lado 1"/><TextBox Text="{Binding FirstPool, ValidatesOnExceptions=True}"/>
  <TextBlock Text="Fome do lado 1"/><TextBox Text="{Binding FirstHunger, ValidatesOnExceptions=True}"/>
+ <CheckBox Content="Besta subjugada no lado 1 neste turno" IsChecked="{Binding FirstBeastSubdued}"/>
  <TextBlock Text="Modificador de dano lado 1"/><TextBox Text="{Binding FirstWeapon, ValidatesOnExceptions=True}"/>
  <TextBlock Text="Parada do lado 2"/><TextBox Text="{Binding SecondPool, ValidatesOnExceptions=True}"/>
  <TextBlock Text="Fome do lado 2"/><TextBox Text="{Binding SecondHunger, ValidatesOnExceptions=True}"/>
+ <CheckBox Content="Besta subjugada no lado 2 neste turno" IsChecked="{Binding SecondBeastSubdued}"/>
  <TextBlock Text="Modificador de dano lado 2"/><TextBox Text="{Binding SecondWeapon, ValidatesOnExceptions=True}"/>
  <Button Content="Rolar turno e registrar dano bruto" Command="{Binding ResolveRoundCommand}" Margin="0,8,0,0"/>
  </StackPanel></Expander>

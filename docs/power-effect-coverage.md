@@ -175,3 +175,5 @@ O teste de escalada de Pegada Sobrenatural não é limitado à habilidade Atleti
 O bloqueio e a classificação dessas rolagens passam pelas ações de aplicação `BloodActions` e `DiceActions`; a interface informa o estado da Besta, sem decidir o resultado. Chamadores que não informam esse estado mantêm o comportamento anterior.
 
 As rolagens de uso de poder, preparo de ritual, despertar e primeiro contato de proteção do conjurador passam por `QuellBeastRules` quando sua ficha está sob o efeito. Isso não altera dados nem sucessos. A resistência do intruso não herda o estado do conjurador; ferramentas do Narrador ainda exigem revisão específica.
+
+Nos testes de cena e conflitos do Narrador, a Besta subjugada pode ser confirmada separadamente para cada participante. A confirmação vale apenas para aquela rolagem, é anotada no resultado e precisa ser refeita no próximo teste; ela não lê nem altera automaticamente outra ficha. Outras ferramentas do Narrador ainda requerem revisão.

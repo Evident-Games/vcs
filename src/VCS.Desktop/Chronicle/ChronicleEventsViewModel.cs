@@ -11,6 +11,7 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
     [ObservableProperty] private int pool = 5;
     [ObservableProperty] private int rollHunger;
     [ObservableProperty] private int difficulty = 3;
+    [ObservableProperty] private bool sceneBeastSubdued;
 
     [RelayCommand]
     private void RollScene()
@@ -20,7 +21,9 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
             Status = "Use parada 1–50, Fome 0–5 e dificuldade 1–50.";
             return;
         }
-        var result = new VCS.Application.Dice.DiceActions().Roll(Pool, RollHunger, Difficulty);
+        var beastSubdued = SceneBeastSubdued;
+        var result = new VCS.Application.Dice.DiceActions().Roll(Pool, RollHunger, Difficulty, beastSubdued: beastSubdued);
+        SceneBeastSubdued = false;
         var label = result.Outcome switch
         {
             VCS.Rules.V5.Dice.TestOutcome.MessyCritical => "crítico bestial",
@@ -30,7 +33,8 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
             _ => "falha"
         };
         Outcome += $"{Environment.NewLine}{Kind}: {label}; {result.Successes} sucessos / dificuldade {Difficulty}. " +
-            $"Comuns [{string.Join(", ", result.NormalDice)}]; Fome [{string.Join(", ", result.HungerDice)}].";
+            $"Comuns [{string.Join(", ", result.NormalDice)}]; Fome [{string.Join(", ", result.HungerDice)}]." +
+            (beastSubdued ? " Besta subjugada confirmada pelo Narrador." : "");
         Status = "Rolagem registrada no rascunho. Salve o evento para manter o resultado.";
     }
 
@@ -97,6 +101,8 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
     [ObservableProperty] private int secondHunger;
     [ObservableProperty] private int firstWeapon;
     [ObservableProperty] private int secondWeapon;
+    [ObservableProperty] private bool firstBeastSubdued;
+    [ObservableProperty] private bool secondBeastSubdued;
 
     [RelayCommand]
     private void RecordVitae()
@@ -126,15 +132,21 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
             FirstWeapon is < -20 or > 20 || SecondWeapon is < -20 or > 20 || Round < 1)
         { Status = "Confira as paradas (1–50), Fome (0–5), modificadores (−20 a 20) e turno."; return; }
         var dice = new VCS.Application.Dice.DiceActions();
-        var first = dice.Roll(FirstPool, FirstHunger, 1);
-        var second = dice.Roll(SecondPool, SecondHunger, 1);
+        var firstSubdued = FirstBeastSubdued;
+        var secondSubdued = SecondBeastSubdued;
+        var first = dice.Roll(FirstPool, FirstHunger, 1, beastSubdued: firstSubdued);
+        var second = dice.Roll(SecondPool, SecondHunger, 1, beastSubdued: secondSubdued);
+        FirstBeastSubdued = false;
+        SecondBeastSubdued = false;
         var result = new ChronicleActions().ResolveConflict(VCS.Rules.V5.Conflicts.ConflictKind.Physical,
             first, FirstWeapon, second, SecondWeapon, VCS.Rules.V5.Conflicts.ConflictDamageType.Superficial);
         Kind = "Conflito";
         if (string.IsNullOrWhiteSpace(Title)) Title = "Conflito";
         Outcome += $"{Environment.NewLine}Turno {Round}: {first.Successes} vs {second.Successes} sucessos; " +
             $"dano bruto lado 1: {result.Exchange.Damage.ToFirst}, lado 2: {result.Exchange.Damage.ToSecond}. " +
-            $"Resultados: {result.FirstOutcome} / {result.SecondOutcome}.";
+            $"Resultados: {result.FirstOutcome} / {result.SecondOutcome}." +
+            (firstSubdued ? " Besta subjugada no lado 1 confirmada pelo Narrador." : "") +
+            (secondSubdued ? " Besta subjugada no lado 2 confirmada pelo Narrador." : "");
         Round++;
         Status = "Turno registrado. Confirme tipo de dano, redução, manobra e aplicação nas fichas conforme a cena.";
     }
@@ -145,6 +157,7 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
 
     private void RestoreState(ChronicleEventState state)
     {
+        SceneBeastSubdued = false; FirstBeastSubdued = false; SecondBeastSubdued = false;
         Formula = state.Formula; Ingredients = state.Ingredients; Resonance = state.Resonance;
         Alchemy = state.Alchemy; FormulaLevel = state.FormulaLevel; AlchemyAttribute = state.AlchemyAttribute;
         IngredientModifier = state.IngredientModifier; Method = state.Method; Improvised = state.Improvised;
@@ -218,6 +231,7 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
     public string[] Kinds { get; } = ["Caça", "Conflito", "Compulsão", "Máculas e Remorso", "Diablerie", "Vínculo de Sangue", "Torpor", "Discrasia", "Perdição", "Domínio e Coterie", "Sangue-Ralo", "Exceção do Narrador", "Outro"];
     [ObservableProperty] private ChronicleEvent? selectedEvent;
     [ObservableProperty] private CharacterSummary? participant;
+    partial void OnParticipantChanged(CharacterSummary? value) => SceneBeastSubdued = false;
     [ObservableProperty] private DateTime? date = DateTime.Today;
     [ObservableProperty] private string chronicle = "";
     [ObservableProperty] private string kind = "Caça";

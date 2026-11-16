@@ -10,8 +10,9 @@ public sealed class DiceActions
         bool specializationApplies = false) =>
         DicePoolCompositionRules.Build(attributeDots, skillDots, situationalModifier, specializationApplies);
 
-    public DicePoolResult Roll(int pool, int hunger, int difficulty, Random? random = null) =>
-        DicePoolRules.Roll(pool, hunger, difficulty, random);
+    public DicePoolResult Roll(int pool, int hunger, int difficulty, Random? random = null,
+        bool beastSubdued = false) =>
+        QuellBeastRules.ApplyToRoll(DicePoolRules.Roll(pool, hunger, difficulty, random), beastSubdued);
 
     public DicePoolResult RerollFailures(int pool, int hunger, int difficulty,
         IReadOnlyList<int> initialFaces, IReadOnlyList<int> regularDieIndices, Random? random = null,
