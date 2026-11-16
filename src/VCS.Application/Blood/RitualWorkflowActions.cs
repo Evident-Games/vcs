@@ -108,6 +108,23 @@ public sealed class RitualWorkflowActions
             LastCasterCritical = critical, LastIntruderAffected = affected, Intruders = intruders }, proposal, caster, opposition);
     }
 
+    /// <summary>Follow an already prepared trail without repaying its ritual cost or refreshing its duration.</summary>
+    public RitualWorkflowResolution TrackPrey(PowerEffectEntry trail, int intelligence, int survival, int hunger,
+        bool tableConfirmed, bool beastSubdued = false, Random? random = null)
+    {
+        if (trail is not { Active: true, RitualWorkflow: { Stage: "effect", Resolved: true } state } ||
+            RitualUseCatalog.Find(trail.PowerId)?.Kind != "trail" || !tableConfirmed)
+            throw new InvalidOperationException("Selecione um rastro ativo e confirme sua validade e a situação atual com o Narrador.");
+        if (intelligence is < 0 or > 50 || survival is < 0 or > 50 || intelligence + survival > 50 ||
+            hunger is < 0 or > 5 || trail.RemainingPoints is < 0 or > 50)
+            throw new ArgumentOutOfRangeException(nameof(trail), "Confira os valores de Inteligência, Sobrevivência, Fome e dificuldade do rastro.");
+        var roll = QuellBeastRules.ApplyToRoll(
+            DicePoolRules.Roll(intelligence + survival, hunger, trail.RemainingPoints, random), beastSubdued);
+        var effect = roll.IsSuccess ? "O rastro foi seguido; o Narrador descreve o trajeto." : "O teste para seguir o rastro falhou.";
+        if (beastSubdued) effect += " Besta subjugada considerada; fonte: Livro base, p. 246.";
+        return new(state, new(roll.IsSuccess, effect, trail.Duration), roll);
+    }
+
     public RitualWorkflowResolution ConsumeAir(RitualUseDefinition ritual, RitualWorkflowState state, bool confirmed)
     {
         if (ritual.Kind != "air" || state.Stage != "potion" || state.Charges < 1 || !confirmed)

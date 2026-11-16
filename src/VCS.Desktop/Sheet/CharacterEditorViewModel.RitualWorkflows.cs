@@ -156,14 +156,17 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void RollRitualTracking()
     {
-        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-illuminate-trail-of-prey", RitualWorkflow: { Stage: "effect" } state } entry ||
-            !CoreRitualConditionsConfirmed)
+        if (SelectedPowerEffect is not { } entry)
         { RitualPreparationSummary = "Selecione um rastro ativo e confirme a situação atual com o Narrador."; return; }
-        var pool = AttributeRating("intelligence") + (Skills.Items.FirstOrDefault(x => x.Key == "skill-survival")?.Rating ?? 0);
-        var roll = VCS.Rules.V5.Dice.DicePoolRules.Roll(pool, Hunger, entry.RemainingPoints);
-        var result = new RitualWorkflowResolution(state,
-            new(roll.IsSuccess, roll.IsSuccess ? "O rastro foi seguido; o Narrador descreve o trajeto." : "O teste para seguir o rastro falhou.", entry.Duration), roll);
-        DisplayRitualResolution(entry, result);
+        try
+        {
+            var result = new RitualWorkflowActions().TrackPrey(entry, AttributeRating("intelligence"),
+                Skills.Items.FirstOrDefault(x => x.Key == "skill-survival")?.Rating ?? 0, Hunger,
+                CoreRitualConditionsConfirmed, HasActivePower("power-animalism-quell-the-beast"));
+            DisplayRitualResolution(entry, result);
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
     }
 
     [RelayCommand]

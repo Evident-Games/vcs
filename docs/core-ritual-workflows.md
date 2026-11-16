@@ -13,7 +13,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Proteção contra Carniçais | Preparo, custo, contato elegível e resistência posterior | Contato voluntário, identificação do tipo, dano ao intruso |
 | Círculo de Proteção contra Carniçais | Três custos, versão até amanhecer/ano e dia, dificuldade, disputas e histórico por intruso | Círculo intacto, elegibilidade, passagem, custo de Vontade e dano em outra ficha |
 | Comunicação com o Senhor do Membro | Custo, teste, atraso e duração; crítico elimina atraso | Contato e conteúdo da comunicação; sem relógio automático |
-| Iluminar o Rastro da Presa | Custo, teste, dificuldade de rastreio por margem, duração e rolagem posterior de Inteligência + Sobrevivência | Trajeto real e interpretação do Narrador |
+| Iluminar o Rastro da Presa | Custo, teste, dificuldade por margem, duração e rastreio posterior na aplicação; considera Besta Subjugada | Trajeto real, validade temporal e interpretação do Narrador |
 | Olhos de Babel | Custo, teste, semana/mês conforme crítico | Idiomas efetivamente conhecidos pela vítima |
 | Proteção contra Espíritos | Mesmo fluxo dedicado de objeto, com nível próprio | Identidade, contato e dano no espírito |
 | Verdade do Sangue | Determinação + Feitiçaria, sucessos opostos, afirmações sucessivas sem novo custo; falha/cena encerra | Conhecimento do alvo, memórias e resposta do Narrador |
@@ -52,6 +52,14 @@ Sem remoção, o voo fica inativo e é criado um registro separado de cegueira p
 O encerramento genérico não descarta silenciosamente o voo ou uma cegueira ativa. Um término antecipado da cegueira exige autorização própria e justificativa, copiadas à tabela de exceções; essas confirmações são limpas ao trocar o efeito selecionado. Movimento, visão e modificadores situacionais continuam com o Narrador: este ciclo não define uma penalidade universal de cegueira nem afirma automação integral do ritual.
 
 Contagens mantidas: 88 poderes com perfil (37 diretos, 11 propostas numéricas, 40 assistidos; classificação herdada), 26 rituais com catálogo e fluxo, zero rituais confirmados ausentes e uma entrada legada não verificada. O avanço acima melhora um procedimento já existente e não acrescenta outro ritual à contagem.
+
+## Rastreio posterior e Besta Subjugada
+
+O teste posterior de Iluminar o Rastro da Presa passa por `RitualWorkflowActions.TrackPrey`, fora do ViewModel. O serviço valida o efeito ativo e resolvido, a confirmação da mesa, os valores dos traços e a dificuldade já registrada; monta Inteligência + Sobrevivência e aplica `QuellBeastRules` quando a Besta do próprio conjurador estiver subjugada. O resultado continua na mesa de dados e no diário existentes.
+
+A rota anterior rolava diretamente na interface e ignorava essa condição da Besta. A integração reutiliza a regra V5 existente (Livro base, p. 246), sem alterar faces ou sucessos; o procedimento de rastreio continua referenciado na p. 277. Não há nova Checagem de Sangue, renovação da duração, consumo de Vontade ou movimento automático de personagem. Confirmar a validade do rastro e informar seu trajeto continuam tarefas da mesa.
+
+Esta alteração mantém as contagens: 88 poderes com perfil, 26 rituais com fluxo, zero rituais confirmados ausentes e uma entrada legada não verificada; a classificação herdada 37/11/40 não foi reavaliada. Revisão textual do serviço e do chamador, sem nova conferência do PDF neste ciclo. Build, testes e execução do aplicativo não foram realizados.
 
 ## Revisão e limites da entrega
 
