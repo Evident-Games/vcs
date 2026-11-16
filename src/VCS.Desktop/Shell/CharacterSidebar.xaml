@@ -1,85 +1,237 @@
 <UserControl x:Class="VCS.Desktop.Shell.CharacterSidebar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <!-- Character list beside the sheets: search, new sheet and quick open. -->
-    <Border Width="264" Padding="18" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,1,0"
-            Background="{DynamicResource VcsCard}" TextElement.Foreground="{DynamicResource VcsCardText}" Visibility="{Binding Display.ShowSidebar, Converter={StaticResource BoolVisibility}}">
-        <DockPanel>
-            <StackPanel DockPanel.Dock="Top">
-                <TextBlock Text="Personagens" FontSize="20" FontFamily="Georgia" Margin="0,0,0,12" />
-                <Border Background="{DynamicResource VcsInput}" BorderBrush="{DynamicResource VcsBorder}"
-                        BorderThickness="1" CornerRadius="9" Margin="0,0,0,14" Padding="2">
-                    <DockPanel>
-                        <Button x:Name="NewSheetButton" DockPanel.Dock="Right" Content="+" Width="28" Height="28"
-                                MinWidth="28" MinHeight="28" Padding="0" FontSize="17" Click="OnNewSheetMenu"
-                                ToolTip="Criar ficha de PC ou NPC" AutomationProperties.Name="Adicionar ficha">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border x:Name="Circle" CornerRadius="14" Background="{DynamicResource VcsInput}"
-                                            BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                          TextElement.Foreground="{DynamicResource VcsAccentText}" />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Circle" Property="Background" Value="{DynamicResource VcsSelection}" /><Setter TargetName="Circle" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /></Trigger>
-                                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Circle" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /><Setter TargetName="Circle" Property="BorderThickness" Value="2" /></Trigger>
-                                        <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Circle" Property="Opacity" Value="0.5" /></Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                            <Button.ContextMenu>
-                                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"
-                                             Background="{DynamicResource VcsCard}" Foreground="{DynamicResource VcsCardText}">
-                                    <MenuItem Header="PC / Personagem" Command="{Binding CreateCommand}" AutomationProperties.Name="Criar PC" />
-                                    <MenuItem Header="NPC / Ficha pratica" Command="{Binding CreateNpcCommand}" AutomationProperties.Name="Criar NPC" />
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ToolTip="Buscar por nome, cla ou cronica"
-                                 Background="Transparent" BorderThickness="0" Padding="9,0" MinWidth="0" MinHeight="30" Height="30" FontSize="12"
-                                 VerticalContentAlignment="Center" AutomationProperties.Name="Busca lateral de personagens" />
-                    </DockPanel>
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Visibility="{Binding Display.ShowSidebar, Converter={StaticResource BoolVisibility}}"
+    FontFamily="Inter, Montserrat, Segoe UI" Foreground="{DynamicResource VcsHudText}"
+    Background="{x:Null}" ToolTipService.InitialShowDelay="250">
+    <UserControl.Resources>
+        <Style x:Key="HudTip" TargetType="ToolTip">
+            <Setter Property="Placement" Value="Left"/><Setter Property="HorizontalOffset" Value="-12"/>
+            <Setter Property="Foreground" Value="{DynamicResource VcsHudText}"/><Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToolTip">
+                <Border Background="{DynamicResource VcsHudDock}" BorderBrush="{DynamicResource VcsHudBorder}"
+                        BorderThickness="1" CornerRadius="99" Padding="14,9"><ContentPresenter/></Border>
+            </ControlTemplate></Setter.Value></Setter>
+        </Style>
+        <Style x:Key="HudButton" TargetType="Button">
+            <Setter Property="Foreground" Value="{DynamicResource VcsHudText}"/>
+            <Setter Property="Background" Value="Transparent"/><Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="10"/><Setter Property="MinWidth" Value="0"/><Setter Property="MinHeight" Value="36"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+                <Border x:Name="Surface" Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}"
+                        BorderBrush="Transparent" BorderThickness="1">
+                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center"/>
                 </Border>
-            </StackPanel>
-            <ListBox ItemsSource="{Binding Characters}" SelectedItem="{Binding SelectedCharacter}" BorderThickness="0"
-                     ItemContainerStyle="{StaticResource SidebarRosterItem}"
-                     Background="Transparent" AutomationProperties.Name="Lista lateral de personagens">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Button Command="{Binding DataContext.OpenCharacterCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}" HorizontalContentAlignment="Stretch" MinHeight="34" Cursor="Hand">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="Transparent" Padding="8,4">
-                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" />
-                                    </Border>
-                                </ControlTemplate>
-                            </Button.Template>
-                            <Button.ContextMenu>
-                                <ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
-                                             Background="{DynamicResource VcsCard}" Foreground="{DynamicResource VcsCardText}">
-                                    <MenuItem Header="Abrir ficha" Command="{Binding OpenCharacterCommand}"
-                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                                    <Separator />
-                                    <MenuItem Header="Duplicar personagem" Command="{Binding DuplicateCommand}"
-                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                                    <MenuItem Header="Excluir personagem..." Command="{Binding DeleteCommand}"
-                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                            <Button.Tag>
-                                <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=Window}" />
-                            </Button.Tag>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
-                                           FontFamily="Georgia" FontSize="14" />
-                                <TextBlock Text="{Binding Clan}" Foreground="{DynamicResource VcsInputDescription}"
-                                           TextTrimming="CharacterEllipsis" FontSize="11" />
-                            </StackPanel>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="{DynamicResource VcsHudCard}"/></Trigger>
+                    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Surface" Property="BorderBrush" Value="{DynamicResource VcsHudAccent}"/></Trigger>
+                    <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Surface" Property="Opacity" Value="0.45"/></Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate></Setter.Value></Setter>
+        </Style>
+        <Style x:Key="HudDockButton" TargetType="Button" BasedOn="{StaticResource HudButton}">
+            <Setter Property="Width" Value="40"/><Setter Property="Height" Value="42"/><Setter Property="Padding" Value="4"/>
+            <Setter Property="Foreground" Value="{DynamicResource VcsHudMuted}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="HudAddButton" TargetType="Button" BasedOn="{StaticResource HudButton}">
+            <Setter Property="Margin" Value="0,8,0,4"/><Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{DynamicResource VcsHudMuted}"/>
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+                <Grid MinHeight="42">
+                    <Rectangle x:Name="Outline" Stroke="{DynamicResource VcsHudBorder}" StrokeDashArray="4 3" RadiusX="8" RadiusY="8" Fill="Transparent"/>
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8"/>
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="{DynamicResource VcsHudAccent}"/></Trigger>
+                    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="{DynamicResource VcsHudText}"/></Trigger>
+                    <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.45"/></Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate></Setter.Value></Setter>
+        </Style>
+        <Style x:Key="HudSection" TargetType="Expander">
+            <Setter Property="Foreground" Value="{DynamicResource VcsHudText}"/>
+            <Setter Property="Margin" Value="0,0,0,14"/>
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Expander">
+                <StackPanel>
+                    <ToggleButton IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                        <ToggleButton.Template><ControlTemplate TargetType="ToggleButton">
+                            <Border x:Name="Heading" Background="{DynamicResource VcsHudSection}" CornerRadius="5" Padding="12,10">
+                                <DockPanel><TextBlock x:Name="Arrow" DockPanel.Dock="Right" Text="⌄" Foreground="{DynamicResource VcsHudMuted}"/>
+                                    <TextBlock Text="{Binding Header, RelativeSource={RelativeSource AncestorType=Expander}}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource VcsHudText}"/>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True"><Setter TargetName="Arrow" Property="Text" Value="⌃"/></Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Heading" Property="BorderBrush" Value="{DynamicResource VcsHudAccent}"/><Setter TargetName="Heading" Property="BorderThickness" Value="1"/></Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate></ToggleButton.Template>
+                    </ToggleButton>
+                    <ContentPresenter x:Name="Body" Visibility="Collapsed" Margin="0,8,0,0"/>
+                </StackPanel>
+                <ControlTemplate.Triggers><Trigger Property="IsExpanded" Value="True"><Setter TargetName="Body" Property="Visibility" Value="Visible"/></Trigger></ControlTemplate.Triggers>
+            </ControlTemplate></Setter.Value></Setter>
+        </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="Background" Value="{DynamicResource VcsHudCard}"/><Setter Property="Foreground" Value="{DynamicResource VcsHudText}"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource VcsHudText}"/><Setter Property="BorderBrush" Value="{DynamicResource VcsHudBorder}"/>
+        </Style>
+        <DataTemplate x:Key="HudCharacter">
+            <Button Style="{StaticResource HudButton}" Padding="4,8"
+                    Command="{Binding DataContext.OpenCharacterCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    CommandParameter="{Binding Character}" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    ToolTip="{Binding Status}" AutomationProperties.Name="{Binding Character.Name}">
+                <Button.ContextMenu>
+                    <ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                        <MenuItem Header="Abrir ficha" Command="{Binding OpenCharacterCommand}" CommandParameter="{Binding PlacementTarget.DataContext.Character, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                        <MenuItem Header="Duplicar" Command="{Binding DuplicateCommand}" CommandParameter="{Binding PlacementTarget.DataContext.Character, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                        <MenuItem Header="Excluir…" Command="{Binding DeleteCommand}" CommandParameter="{Binding PlacementTarget.DataContext.Character, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                    </ContextMenu>
+                </Button.ContextMenu>
+                <Border x:Name="Row" CornerRadius="8" Padding="4" Background="Transparent">
+                    <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="46"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <Grid Width="38" Height="38" HorizontalAlignment="Left">
+                            <Ellipse Fill="{DynamicResource VcsHudCard}" Stroke="{DynamicResource VcsHudBorder}"/>
+                            <TextBlock Text="{Binding Initials}" FontFamily="Cinzel, Georgia" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Ellipse x:Name="Presence" Width="8" Height="8" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                     Fill="{DynamicResource VcsHudClosed}" Stroke="{DynamicResource VcsHudSurface}" StrokeThickness="2"/>
+                        </Grid>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Character.Name}" FontFamily="Cinzel, Georgia" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{Binding Character.Clan}" Foreground="{DynamicResource VcsHudMuted}" FontSize="10" Margin="0,3,0,0" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Button>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding IsOpen}" Value="True"><Setter TargetName="Presence" Property="Fill" Value="{DynamicResource VcsHudOpen}"/></DataTrigger>
+                <DataTrigger Binding="{Binding IsActive}" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource VcsHudSection}"/></DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </UserControl.Resources>
+    <!-- Null background leaves clicks outside the actual dock and drawer to the workspace. -->
+    <Grid Background="{x:Null}">
+        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+        <StackPanel Width="52" VerticalAlignment="Top">
+            <Grid Width="52" Height="52" ToolTip="{Binding HudStatus}">
+                <Ellipse Fill="{DynamicResource VcsHudCard}" Stroke="{DynamicResource VcsHudBorder}"/>
+                <TextBlock Text="{Binding HudInitials}" FontFamily="Cinzel, Georgia" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Ellipse><Ellipse.Fill><ImageBrush ImageSource="{Binding HudAvatarImage}" Stretch="UniformToFill"/></Ellipse.Fill></Ellipse>
+            </Grid>
+            <Border Background="{DynamicResource VcsHudDock}" BorderBrush="{DynamicResource VcsHudBorder}" BorderThickness="1"
+                    CornerRadius="26" Padding="5,10" Margin="0,14,0,0">
+                <Border.Effect><DropShadowEffect BlurRadius="20" ShadowDepth="4" Opacity="0.3"/></Border.Effect>
+                <StackPanel>
+                    <Button Command="{Binding SelectHudCharactersCommand}" AutomationProperties.Name="Personagens">
+                        <Button.Style><Style TargetType="Button" BasedOn="{StaticResource HudDockButton}"><Style.Triggers>
+                            <DataTrigger Binding="{Binding IsHudCharacters}" Value="True"><Setter Property="Foreground" Value="{DynamicResource VcsHudAccent}"/><Setter Property="Effect"><Setter.Value><DropShadowEffect Color="{DynamicResource VcsHudAccentColor}" BlurRadius="8" ShadowDepth="0" Opacity="0.35"/></Setter.Value></Setter></DataTrigger>
+                        </Style.Triggers></Style></Button.Style>
+                        <Button.ToolTip><ToolTip Style="{StaticResource HudTip}" Content="CHARACTERS"/></Button.ToolTip>
+                        <Path Data="M8,3 A3,3 0 1 1 8,9 A3,3 0 1 1 8,3 M2,19 L2,16 C2,11 14,11 14,16 L14,19 M16,4 A3,3 0 0 1 16,10 M17,13 C21,13 22,16 22,19"
+                              Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.5" Stretch="Uniform" Width="22" Height="22"/>
+                    </Button>
+                    <Button Command="{Binding SelectHudChroniclesCommand}" AutomationProperties.Name="Crônicas">
+                        <Button.Style><Style TargetType="Button" BasedOn="{StaticResource HudDockButton}"><Style.Triggers>
+                            <DataTrigger Binding="{Binding IsHudChronicles}" Value="True"><Setter Property="Foreground" Value="{DynamicResource VcsHudAccent}"/><Setter Property="Effect"><Setter.Value><DropShadowEffect Color="{DynamicResource VcsHudAccentColor}" BlurRadius="8" ShadowDepth="0" Opacity="0.35"/></Setter.Value></Setter></DataTrigger>
+                        </Style.Triggers></Style></Button.Style>
+                        <Button.ToolTip><ToolTip Style="{StaticResource HudTip}" Content="CHRONICLES"/></Button.ToolTip>
+                        <Path Data="M4,2 L15,2 L20,7 L20,22 L4,22 Z M14,2 L14,8 L20,8 M8,12 L16,12 M8,16 L16,16"
+                              Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.5" Stretch="Uniform" Width="20" Height="22"/>
+                    </Button>
+                    <Button Style="{StaticResource HudDockButton}" Command="{Binding ToggleHudCommand}" AutomationProperties.Name="Recolher ou expandir painel lateral">
+                        <Button.ToolTip><ToolTip Style="{StaticResource HudTip}"><TextBlock><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Text" Value="MINIMIZE"/><Style.Triggers><DataTrigger Binding="{Binding Display.HudCollapsed}" Value="True"><Setter Property="Text" Value="MAXIMIZE"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock></ToolTip></Button.ToolTip>
+                        <Grid Width="30" Height="30">
+                            <Ellipse Stroke="{DynamicResource VcsHudText}"><Ellipse.Style><Style TargetType="Ellipse"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding Display.HudCollapsed}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></Ellipse.Style></Ellipse>
+                            <Path Data="M3,5 L21,5 L21,19 L3,19 Z M14,5 L14,19" Width="20" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  Stroke="{DynamicResource VcsHudText}" StrokeThickness="1.5"/>
+                        </Grid>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        <Grid x:Name="DrawerHost" Grid.Column="1" Width="352" ClipToBounds="True">
+            <Border x:Name="Drawer" Width="340" Margin="12,0,0,0" HorizontalAlignment="Left" Background="{DynamicResource VcsHudSurface}"
+                    BorderBrush="{DynamicResource VcsHudBorder}" BorderThickness="1" CornerRadius="14" Padding="18">
+                <Border.RenderTransform><TranslateTransform x:Name="DrawerTranslation"/></Border.RenderTransform>
+                <Border.Effect><DropShadowEffect BlurRadius="30" ShadowDepth="8" Opacity="0.4"/></Border.Effect>
+                <DockPanel>
+                    <Grid DockPanel.Dock="Top" Margin="0,2,0,18">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="52"/><ColumnDefinition Width="*"/><ColumnDefinition Width="28"/></Grid.ColumnDefinitions>
+                        <Grid Width="42" Height="42" HorizontalAlignment="Left" ToolTip="{Binding HudStatus}">
+                            <Ellipse Fill="{DynamicResource VcsHudCard}" Stroke="{DynamicResource VcsHudBorder}"/>
+                            <TextBlock Text="{Binding HudInitials}" FontFamily="Cinzel, Georgia" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Ellipse><Ellipse.Fill><ImageBrush ImageSource="{Binding HudAvatarImage}" Stretch="UniformToFill"/></Ellipse.Fill></Ellipse>
+                            <Ellipse x:Name="HeaderStatus" Width="9" Height="9" Stroke="{DynamicResource VcsHudSurface}" StrokeThickness="2" HorizontalAlignment="Right" VerticalAlignment="Bottom"><Ellipse.Style><Style TargetType="Ellipse"><Setter Property="Fill" Value="{DynamicResource VcsHudClosed}"/><Style.Triggers><DataTrigger Binding="{Binding HudHasActiveCharacter}" Value="True"><Setter Property="Fill" Value="{DynamicResource VcsHudOpen}"/></DataTrigger></Style.Triggers></Style></Ellipse.Style></Ellipse>
+                        </Grid>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center"><TextBlock Text="{Binding HudHeaderName}" FontFamily="Cinzel, Georgia" FontSize="17" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{Binding HudPlayerLabel}" Foreground="{DynamicResource VcsHudAccent}" FontSize="10" Margin="0,5,0,0" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+                        <Button Grid.Column="2" Style="{StaticResource HudButton}" Content="☰" Padding="2" MinHeight="28" Click="OnNewSheetMenu" ToolTip="Menu da mesa" AutomationProperties.Name="Menu do HUD">
+                            <Button.ContextMenu><ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="Novo personagem" Command="{Binding CreateCommand}"/>
+                                <MenuItem Header="Novo NPC" Command="{Binding CreateNpcCommand}"/>
+                                <Separator/><MenuItem Header="Ferramentas do Narrador" Command="{Binding ToggleNarratorCommand}" IsEnabled="{Binding CanOpenNarrator}"/>
+                                <MenuItem Header="Recolher painel" Command="{Binding ToggleHudCommand}"/>
+                            </ContextMenu></Button.ContextMenu>
                         </Button>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </DockPanel>
-    </Border>
+                    </Grid>
+                    <StackPanel DockPanel.Dock="Bottom" Margin="0,14,0,0" IsHitTestVisible="False">
+                        <Grid Margin="2,0,2,8"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="32"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                            <Border Height="1" Background="{DynamicResource VcsHudAccent}" VerticalAlignment="Center" Opacity="0.55"/>
+                            <TextBlock Grid.Column="1" Text="☥" FontSize="21" FontFamily="Segoe UI Symbol" HorizontalAlignment="Center" Foreground="{DynamicResource VcsHudAccent}"/>
+                            <Border Grid.Column="2" Height="1" Background="{DynamicResource VcsHudAccent}" VerticalAlignment="Center" Opacity="0.55"/>
+                        </Grid>
+                        <TextBlock Text="VAMPIRE" FontFamily="Cinzel, Georgia" FontSize="24" TextAlignment="Center"/>
+                        <TextBlock Text="THE MASQUERADE" FontSize="8" TextAlignment="Center" Foreground="{DynamicResource VcsHudMuted}" Margin="0,3,0,0"/>
+                    </StackPanel>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="0,0,4,0">
+                        <StackPanel>
+                            <Expander Header="PERFIL LOCAL" Style="{StaticResource HudSection}">
+                                <StackPanel><TextBlock Text="Nome do jogador" FontSize="10" Foreground="{DynamicResource VcsHudMuted}"/>
+                                    <TextBox Text="{Binding Display.HudPlayerName, UpdateSourceTrigger=PropertyChanged}" MaxLength="80"/>
+                                    <Button Style="{StaticResource HudButton}" Content="Escolher avatar…" Click="OnChooseAvatar"/>
+                                    <TextBlock Text="Indicadores mostram fichas abertas neste dispositivo. Não representam presença online." TextWrapping="Wrap" FontSize="10" Foreground="{DynamicResource VcsHudMuted}" Margin="0,6"/>
+                                </StackPanel>
+                            </Expander>
+                            <StackPanel Visibility="{Binding IsHudCharacters, Converter={StaticResource BoolVisibility}}">
+                                <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ToolTip="Buscar nome, clã ou crônica" AutomationProperties.Name="Buscar personagens no HUD" Margin="0,0,0,14"/>
+                                <Expander Header="COTERIE" IsExpanded="True" Style="{StaticResource HudSection}">
+                                    <StackPanel>
+                                        <TextBlock Text="Personagens locais" FontSize="10" Foreground="{DynamicResource VcsHudMuted}" Margin="4,0,0,4"/>
+                                        <ItemsControl x:Name="PcList" ItemsSource="{Binding HudCharacters}" ItemTemplate="{StaticResource HudCharacter}"/>
+                                        <TextBlock x:Name="PcEmpty" Text="Nenhum personagem nesta busca." FontSize="11" Margin="4,10" Foreground="{DynamicResource VcsHudMuted}"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding HasItems, ElementName=PcList}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
+                                        <Button Content="＋ Novo personagem" Style="{StaticResource HudAddButton}" Command="{Binding CreateCommand}"/>
+                                    </StackPanel>
+                                </Expander>
+                                <Expander Header="NPCs" IsExpanded="True" Style="{StaticResource HudSection}">
+                                    <StackPanel><ItemsControl ItemsSource="{Binding HudNpcs}" ItemTemplate="{StaticResource HudCharacter}"/>
+                                        <Button Content="＋ Novo NPC" Style="{StaticResource HudAddButton}" Command="{Binding CreateNpcCommand}"/>
+                                    </StackPanel>
+                                </Expander>
+                            </StackPanel>
+                            <StackPanel Visibility="{Binding IsHudChronicles, Converter={StaticResource BoolVisibility}}">
+                                <TextBlock Text="CRÔNICAS" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource VcsHudMuted}" Margin="0,2,0,12"/>
+                                <ItemsControl x:Name="ChronicleList" ItemsSource="{Binding HudChronicles}"><ItemsControl.ItemTemplate><DataTemplate>
+                                    <Button Style="{StaticResource HudButton}" Background="{DynamicResource VcsHudCard}" Margin="0,0,0,10"
+                                            Command="{Binding DataContext.OpenHudChronicleCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
+                                        <StackPanel><TextBlock Text="{Binding Name}" FontFamily="Cinzel, Georgia" FontSize="15" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Description}" FontSize="10" Foreground="{DynamicResource VcsHudMuted}" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+                                <TextBlock x:Name="ChronicleEmpty" Text="Sua próxima história começa com uma crônica." TextWrapping="Wrap" Foreground="{DynamicResource VcsHudMuted}" FontSize="12" Margin="0,8,0,14"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding HasItems, ElementName=ChronicleList}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
+                                <Expander Header="＋ NOVA CRÔNICA" Style="{StaticResource HudSection}" IsEnabled="{Binding CanOpenNarrator}">
+                                    <StackPanel><TextBox Text="{Binding HudNewChronicleName, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" AutomationProperties.Name="Nome da nova crônica"/>
+                                        <Button Content="＋ Criar crônica" Style="{StaticResource HudAddButton}" Command="{Binding CreateHudChronicleCommand}"/>
+                                    </StackPanel>
+                                </Expander>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Grid>
 </UserControl>

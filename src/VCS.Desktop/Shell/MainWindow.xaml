@@ -31,13 +31,12 @@
                      Foreground="{DynamicResource VcsHeaderText}" ButtonsForeground="{DynamicResource VcsHeaderText}" />
         <shell:MainMenu Grid.Row="1" />
         <Grid Grid.Row="2" IsEnabled="{Binding IsIdle}">
-            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
-            <shell:CharacterSidebar />
-            <shell:WorkspaceView Grid.Column="1" />
-            <chronicle:ChronicleEventsView Grid.ColumnSpan="2" Visibility="{Binding IsNarratorOpen, Converter={StaticResource BoolVisibility}}" />
-            <layout:LayoutEditorView Grid.ColumnSpan="2" />
-            <shell:HelpView Grid.ColumnSpan="2" />
-            <database:DatabaseEditorView Grid.ColumnSpan="2" />
+            <shell:WorkspaceView />
+            <chronicle:ChronicleEventsView Visibility="{Binding IsNarratorOpen, Converter={StaticResource BoolVisibility}}" />
+            <layout:LayoutEditorView />
+            <shell:HelpView />
+            <database:DatabaseEditorView />
+            <shell:CharacterSidebar HorizontalAlignment="Right" Margin="20" Panel.ZIndex="9999" />
         </Grid>
         <shell:StatusBar Grid.Row="3" />
     </Grid>

@@ -23,12 +23,14 @@
  <DockPanel>
  <DockPanel DockPanel.Dock="Top" Margin="0,0,0,16">
  <Button DockPanel.Dock="Right" Content="Voltar às fichas" Command="{Binding ToggleNarratorCommand}" />
- <StackPanel><TextBlock Text="Narrador · Eventos da crônica" FontFamily="Georgia" FontSize="26" />
+ <StackPanel><TextBlock Text="{Binding Narrator.ChronicleScope}" Foreground="{DynamicResource VcsAccentText}"/>
+ <Button Content="Todas as crônicas" Command="{Binding Narrator.ClearChronicleScopeCommand}" HorizontalAlignment="Left"/>
+ <TextBlock Text="Narrador · Eventos da crônica" FontFamily="Georgia" FontSize="26" />
  <TextBlock Text="Selecione um evento para editar ou registre uma nova decisão da mesa." Margin="0,6,0,0" /></StackPanel>
  </DockPanel>
  <Grid DataContext="{Binding Narrator}">
  <Grid.ColumnDefinitions><ColumnDefinition Width="3*"/><ColumnDefinition Width="2*"/></Grid.ColumnDefinitions>
- <DataGrid ItemsSource="{Binding Events}" SelectedItem="{Binding SelectedEvent}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single" HeadersVisibility="Column" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}" Foreground="{DynamicResource VcsCardText}" BorderBrush="{DynamicResource VcsBorder}" Margin="0,0,20,0" AutomationProperties.Name="Eventos do Narrador">
+ <DataGrid ItemsSource="{Binding VisibleEvents}" SelectedItem="{Binding SelectedVisibleEvent}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single" HeadersVisibility="Column" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}" Foreground="{DynamicResource VcsCardText}" BorderBrush="{DynamicResource VcsBorder}" Margin="0,0,20,0" AutomationProperties.Name="Eventos do Narrador">
  <DataGrid.Columns>
  <DataGridTextColumn Header="Data" Binding="{Binding Date, StringFormat=dd/MM/yyyy}" Width="100" />
  <DataGridTextColumn Header="Crônica" Binding="{Binding Chronicle}" Width="*" />
