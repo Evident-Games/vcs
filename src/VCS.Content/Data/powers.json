@@ -736,10 +736,10 @@
     "isRitual": true,
     "name": "Fuga para o Santuário Verdadeiro",
     "level": 5,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 6; confira exceções do ritual)",
-    "summary": "Cria dois círculos de cinzas e sangue (um na base segura e outro que o mago usa durante emergências nas ruas). Ao entrar no círculo de emergência, o corpo do Feiticeiro desaparece instantaneamente e é teleportado ileso de volta para o seu santuário particular.",
-    "source": "Vampiro: A Máscara V5 (Livro base)"
+    "cost": "12 Checagens de Sangue ao longo da preparação dos dois círculos; veja o processo",
+    "dicePool": "Inteligência + Feitiçaria de Sangue; rolagem de Ritual em cada tentativa de viagem",
+    "summary": "Prepara dois círculos no solo ou piso de uma construção: para cada um, duas horas de cânticos e duas Checagens de Sangue por noite durante três noites. A viagem ocorre somente do círculo de partida para o de chegada, após um turno de concentração e uma rolagem de Ritual; só há uma tentativa por cena. A preparação e a viagem exigem acompanhamento da mesa.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 281"
   },
   {
     "id": "power-protean-metamorphosis",

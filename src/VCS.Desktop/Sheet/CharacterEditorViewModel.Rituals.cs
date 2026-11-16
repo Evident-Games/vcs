@@ -58,6 +58,11 @@ public partial class CharacterEditorViewModel
         { RitualPreparationSummary = "Informe a decisão do Narrador para registrar a exceção."; return; }
         if (ritual.Entry?.Definition is not { IsRitual: true } definition)
         { RitualPreparationSummary = "Ritual próprio: resolva custos e teste manualmente com o Narrador."; return; }
+        if (definition.Id == "ritual-escape-to-true-sanctuary")
+        {
+            RitualPreparationSummary = "Fuga para o Verdadeiro Santuário requer preparação de dois círculos em três noites e 12 Checagens de Sangue no total; a rolagem ocorre em cada tentativa de viagem. Resolva e registre o processo com o Narrador. Nenhuma checagem foi feita. Fonte: Livro base, p. 281.";
+            return;
+        }
         var deferred = definition.Id is "ritual-ward-against-lupines" or "ritual-ward-against-cainites" or "ritual-wake-with-evenings-freshness";
         var isWard = definition.Id is "ritual-ward-against-lupines" or "ritual-ward-against-cainites";
         if (isWard && string.IsNullOrWhiteSpace(WardObject))
