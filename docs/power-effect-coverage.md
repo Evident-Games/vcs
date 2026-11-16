@@ -167,3 +167,5 @@ As condições dos sucessos automáticos de Graça Felina e Pegada Sobrenatural 
 Graça Felina também funciona em testes de equilíbrio durante combate quando a superfície suporta o peso; o livro base p. 252 não estabelece uma restrição de combate para esse efeito. A confirmação de contexto continua necessária.
 
 Pegada Sobrenatural também não recebe restrição automática por combate: o livro base p. 265 prevê sucesso nos testes de escalada de superfícies não metálicas enquanto o poder estiver ativo. A mesa ainda confirma a superfície e a aplicação ao teste.
+
+O teste de escalada de Pegada Sobrenatural não é limitado à habilidade Atletismo: o livro menciona testes de habilidade feitos para escalar. A escolha do contexto continua explícita; a regra não transforma testes de outras ações em sucesso automático.

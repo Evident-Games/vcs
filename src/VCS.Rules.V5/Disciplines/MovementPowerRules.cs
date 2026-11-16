@@ -10,7 +10,6 @@ public static class MovementPowerRules
         bool dexterityOrAthletics) =>
         knowsPower && balanceTest && surfaceSupportsWeight && dexterityOrAthletics;
 
-    public static bool UncannyGripSucceeds(bool active, bool climbingTest, bool suitableNonMetalSurface,
-        bool athletics) =>
-        active && climbingTest && suitableNonMetalSurface && athletics;
+    public static bool UncannyGripSucceeds(bool active, bool climbingSkillTest, bool suitableNonMetalSurface) =>
+        active && climbingSkillTest && suitableNonMetalSurface;
 }

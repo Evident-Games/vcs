@@ -57,7 +57,7 @@
                 <TextBox Text="{Binding CurrentPowerRollTarget, UpdateSourceTrigger=PropertyChanged}"/>
                 <CheckBox Content="Teste apenas de equilíbrio (Graça Felina)" IsChecked="{Binding PowerBalanceContext}"/>
                 <CheckBox Content="Suporte aguenta o peso" IsChecked="{Binding PowerTerrainSupportsWeight}"/>
-                <CheckBox Content="Teste de escalada (Pegada Sobrenatural)" IsChecked="{Binding PowerClimbingContext}"/>
+                <CheckBox Content="Teste de habilidade para escalar (Pegada Sobrenatural)" IsChecked="{Binding PowerClimbingContext}"/>
                 <CheckBox Content="Superfície não metálica e resistente" IsChecked="{Binding PowerNonMetalSurface}"/>
                 <CheckBox Content="Defensor anulou Mira/Golpe com Celeridade 5 e checagem" IsChecked="{Binding PowerCounteredByCelerity}"/>
                 <CheckBox Content="Este teste é um feito de Força (Poderio)" IsChecked="{Binding StrengthFeatContext}"/>
