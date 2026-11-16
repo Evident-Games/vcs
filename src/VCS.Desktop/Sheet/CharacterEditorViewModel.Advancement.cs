@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using VCS.Content.Advantages;
 using VCS.Rules.V5.Advancement;
-using VCS.Rules.V5.Clans;
 using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
@@ -23,8 +22,8 @@ public partial class CharacterEditorViewModel
             if (!Enum.IsDefined((VampireAge)value) || AgeIndex == value) return;
             var previous = _advancement!.Age;
             _advancement = _advancement with { Age = (VampireAge)value };
-            BloodPotency = Math.Clamp(BloodPotency + CharacterAdvancement.StartingBlood((VampireAge)value) -
-                CharacterAdvancement.StartingBlood(previous), 0, 10);
+            BloodPotency = Math.Clamp(BloodPotency + _characterActions.StartingBlood((VampireAge)value) -
+                _characterActions.StartingBlood(previous), 0, 10);
             MarkChanged();
         }
     }
@@ -40,14 +39,14 @@ public partial class CharacterEditorViewModel
     }
     public bool IsAttributeBaseLocked => _advancement?.AttributeBase.Length > 0;
     private bool IsAttributeSpreadCustom => !IsAttributeBaseLocked &&
-        CharacterAdvancement.MissingDistribution(Attributes.Items.Select(x => x.Rating), CharacterAdvancement.AttributeDistribution).Length == 0;
+        _characterActions.MissingDistribution(Attributes.Items.Select(x => x.Rating), _characterActions.AttributeDistribution).Count == 0;
     public string InitialAttributesDescription => IsNpc
         ? "NPC: distribua livremente os grupos Físicos, Sociais e Mentais, de 0 a 5."
         : IsAttributeBaseLocked
             ? "Base registrada. Cada ponto novo custa o nível alcançado × 5 XP: 1→2 = 10 XP, 2→3 = 15, 3→4 = 20, 4→5 = 25. Baixar um atributo abaixo da base libera a redistribuição."
             : IsAttributeSpreadCustom
-                ? $"Sem base registrada, nada é cobrado. Para cobrar XP, deixe exatamente {DotSpread(CharacterAdvancement.AttributeDistribution)} e depois suba."
-                : $"Monte a base: {DotSpread(CharacterAdvancement.AttributeDistribution)}. Ela é registrada assim que a distribuição fecha; depois disso, cada ponto extra custa XP.";
+                ? $"Sem base registrada, nada é cobrado. Para cobrar XP, deixe exatamente {DotSpread(_characterActions.AttributeDistribution)} e depois suba."
+                : $"Monte a base: {DotSpread(_characterActions.AttributeDistribution)}. Ela é registrada assim que a distribuição fecha; depois disso, cada ponto extra custa XP.";
     public string AttributesSummary
     {
         get
@@ -61,12 +60,12 @@ public partial class CharacterEditorViewModel
     private void SyncAttributeBase()
     {
         if (IsNpc || _advancement is null) return;
-        _advancement = CharacterAdvancement.SyncAttributeBase(_advancement, Attributes.Items.Select(x => x.ToValue()));
+        _advancement = _characterActions.SyncAttributeBase(_advancement, Attributes.Items.Select(x => x.ToValue()));
     }
     private void SyncDisciplineBase()
     {
         if (IsNpc || _advancement is null) return;
-        _advancement = CharacterAdvancement.SyncDisciplineBase(_advancement, Snapshot().Details, Disciplines.Items.Select(x => x.ToValue()));
+        _advancement = _characterActions.SyncDisciplineBase(_advancement, Snapshot().Details, Disciplines.Items.Select(x => x.ToValue()));
     }
     private void RefreshAttributeInfo()
     {
@@ -85,41 +84,41 @@ public partial class CharacterEditorViewModel
         }
     }
     public string InitialSkillsDescription =>
-        $"{DotSpread(CharacterAdvancement.SkillDistribution((SkillProfile)SkillProfileIndex))} · demais em 0";
-    public bool IsInitialSkillsComplete => !CharacterAdvancement.MissingDistribution(Skills.Items.Select(x => x.Rating),
-        CharacterAdvancement.SkillDistribution((SkillProfile)SkillProfileIndex)).Any();
+        $"{DotSpread(_characterActions.SkillDistribution((SkillProfile)SkillProfileIndex))} · demais em 0";
+    public bool IsInitialSkillsComplete => _characterActions.MissingDistribution(Skills.Items.Select(x => x.Rating),
+        _characterActions.SkillDistribution((SkillProfile)SkillProfileIndex)).Count == 0;
     public const string SkillProfileHelp =
         "Especialista: 4 · 3 · 3 · 3 · 2 · 2 · 2 · 1 · 1 · 1\nEquilibrado: 3 · 3 · 3 · 2 · 2 · 2 · 2 · 2 · 1 · 1 · 1 · 1 · 1 · 1\n" +
         "Pau para toda obra: 3 · 2 · 2 · 2 · 2 · 2 · 2 · 2 · 2 · 1 · 1 · 1 · 1 · 1 · 1 · 1 · 1 · 1 · 1\n\n" +
         "Distribua esses pontos gratuitos; as demais habilidades ficam em 0. Uma nota maior cobre uma vaga menor.";
     public string InitialAttributesRemaining => MissingRatings(Attributes.Items.Select(x => x.Rating),
-        CharacterAdvancement.AttributeDistribution);
+        _characterActions.AttributeDistribution);
     public string InitialSkillsRemaining => MissingRatings(Skills.Items.Select(x => x.Rating),
-        CharacterAdvancement.SkillDistribution((SkillProfile)SkillProfileIndex));
+        _characterActions.SkillDistribution((SkillProfile)SkillProfileIndex));
     public string InitialSkillsStatus
     {
         get
         {
-            var missing = CharacterAdvancement.MissingDistribution(Skills.Items.Select(x => x.Rating),
-                CharacterAdvancement.SkillDistribution((SkillProfile)SkillProfileIndex)).ToArray();
-            return missing.Length == 0 ? "✓ completa" : $"Faltam: {DotSpread(missing)}";
+            var missing = _characterActions.MissingDistribution(Skills.Items.Select(x => x.Rating),
+                _characterActions.SkillDistribution((SkillProfile)SkillProfileIndex));
+            return missing.Count == 0 ? "✓ completa" : $"Faltam: {DotSpread(missing)}";
         }
     }
-    public static readonly int[] DisciplineDistribution = CharacterAdvancement.DisciplineDistribution;
+    public IReadOnlyList<int> DisciplineDistribution => _characterActions.DisciplineDistribution;
     public string InitialDisciplinesSpread => $"{DotSpread(DisciplineDistribution)} do clã · +1 × ● do predador";
     public const string DisciplineHelp =
         "1 × ●● disciplina principal do clã\n1 × ● disciplina secundária do clã\n1 × ● do tipo de predador (aplicado na seção Vantagens)\n\n" +
         "Acima disso, cada novo nível custa nível × 5 XP (do clã) ou × 7 XP (fora do clã).";
-    private int[] MissingDisciplines()
+    private IReadOnlyList<int> MissingDisciplines()
     {
         var predatorKey = _predatorSelection?.DisciplineKey;
         var ratings = Disciplines.Items
-            .Where(x => DisciplineAdvancement.IsInClan(Clan, x.Name) == true)
+            .Where(x => _characterActions.IsDisciplineInClan(Clan, x.Name) == true)
             .Select(x => x.Key == predatorKey ? x.Rating - 1 : x.Rating);
-        return CharacterAdvancement.MissingDistribution(ratings, DisciplineDistribution);
+        return _characterActions.MissingDistribution(ratings, DisciplineDistribution);
     }
-    public bool IsInitialDisciplinesComplete => MissingDisciplines().Length == 0;
-    public string InitialDisciplinesStatus => MissingDisciplines() is { Length: > 0 } missing ? $"Faltam: {DotSpread(missing)}" : "✓ completa";
+    public bool IsInitialDisciplinesComplete => MissingDisciplines().Count == 0;
+    public string InitialDisciplinesStatus => MissingDisciplines() is { Count: > 0 } missing ? $"Faltam: {DotSpread(missing)}" : "✓ completa";
     public int DisciplinesExperienceTotal => _experienceCalculation?.Costs.Where(x => x.Section == SheetSection.Disciplines).Sum(x => x.Cost) ?? 0;
     public string DisciplinesExperienceHelp =>
         "Cada nível acima dos pontos iniciais custa o novo nível × 5 XP (do clã) ou × 7 XP (fora do clã).\n\n" +
@@ -128,16 +127,16 @@ public partial class CharacterEditorViewModel
     public static string DotSpread(IEnumerable<int> ratings) => string.Join(" · ", ratings.Where(x => x > 0)
         .GroupBy(x => x).OrderByDescending(x => x.Key).Select(x => $"{x.Count()} × {new string('●', x.Key)}"));
     public string InitialAdvantagesDescription =>
-        $"Pontos iniciais gratuitos: {CharacterAdvancement.AdvantageBudget((VampireAge)AgeIndex)} em vantagens (inclui loresheets). " +
-        $"Desvantagens de referencia: {CharacterAdvancement.FlawBudget((VampireAge)AgeIndex)}. Vantagens excedentes: 3 XP por ponto; bonus de predador nao sao cobrados.";
+        $"Pontos iniciais gratuitos: {_characterActions.AdvantageBudget((VampireAge)AgeIndex)} em vantagens (inclui loresheets). " +
+        $"Desvantagens de referencia: {_characterActions.FlawBudget((VampireAge)AgeIndex)}. Vantagens excedentes: 3 XP por ponto; bonus de predador nao sao cobrados.";
     public string AdvantageSelectionGuidance
     {
         get
         {
             if (IsNpc) return "";
             var traits = Snapshot().Traits;
-            var budget = CharacterAdvancement.AdvantageBudget((VampireAge)AgeIndex);
-            var selected = CharacterAdvancement.AdvantagePoints(traits);
+            var budget = _characterActions.AdvantageBudget((VampireAge)AgeIndex);
+            var selected = _characterActions.AdvantagePoints(traits);
             var status = selected < budget ? $"faltam {budget - selected}"
                 : selected > budget ? $"excedente {selected - budget} × 3 = {(selected - budget) * 3} XP" : "✓ completos";
             var xp = _experienceCalculation?.Costs.Where(x => x.Section == SheetSection.Advantages).Sum(x => x.Cost) ?? 0;
@@ -150,8 +149,8 @@ public partial class CharacterEditorViewModel
         get
         {
             if (IsNpc) return "";
-            var budget = CharacterAdvancement.FlawBudget((VampireAge)AgeIndex);
-            var selected = CharacterAdvancement.FlawPoints(Snapshot().Traits);
+            var budget = _characterActions.FlawBudget((VampireAge)AgeIndex);
+            var selected = _characterActions.FlawPoints(Snapshot().Traits);
             return $"Base da idade: {budget} pontos · Usados: {selected} · " +
                 (selected < budget ? $"faltam {budget - selected}" : "✓ completos") +
                 ". Defeitos não concedem XP; os do predador são adicionais.";
@@ -161,7 +160,7 @@ public partial class CharacterEditorViewModel
         get
         {
             var snapshot = Snapshot();
-            return CharacterAdvancement.FreeSpecializationsRemaining(snapshot.Details, snapshot.Traits);
+            return _characterActions.FreeSpecializationsRemaining(snapshot.Details, snapshot.Traits);
         }
     }
     public const string SpecializationHelp =
@@ -178,7 +177,7 @@ public partial class CharacterEditorViewModel
         "1 por ficha; a especializacao escolhida no predador e adicional e aplicada automaticamente. +1 local ao atingir 4; " +
         "+1 local no primeiro ponto de Erudicao, Oficios, Performance e Ciencia. " +
         "Separe uma especializacao por linha ou por ponto e virgula. Excedentes: 3 XP cada, calculados automaticamente.";
-    public int InitialExperience => CharacterAdvancement.StartingXp((VampireAge)AgeIndex);
+    public int InitialExperience => _characterActions.StartingExperience((VampireAge)AgeIndex);
     public int MaximumCampaignExperience => 1000000 - InitialExperience;
     public string ExperienceWarning => SectionExperience(SheetSection.Background);
     public string AttributesExperience => SectionExperience(SheetSection.Attributes);
@@ -190,10 +189,10 @@ public partial class CharacterEditorViewModel
     private string SectionExperience(string section) => _experienceCalculation is not { } calculation ? "" :
         string.Join(Environment.NewLine, calculation.Costs.Where(x => x.Section == section).Select(x => $"{x.Name}: {x.Cost} XP.")
             .Concat(calculation.Warnings.Where(x => x.Field == section).Select(x => x.Message)));
-    private static string MissingRatings(IEnumerable<int> ratings, IEnumerable<int> expected)
+    private string MissingRatings(IEnumerable<int> ratings, IEnumerable<int> expected)
     {
-        var missing = CharacterAdvancement.MissingDistribution(ratings, expected);
-        return missing.Length == 0 ? "Distribuicao inicial completa." : $"Faltam: {DotSpread(missing)}";
+        var missing = _characterActions.MissingDistribution(ratings, expected);
+        return missing.Count == 0 ? "Distribuicao inicial completa." : $"Faltam: {DotSpread(missing)}";
     }
     private void RecalculateExperience()
     {
@@ -202,7 +201,7 @@ public partial class CharacterEditorViewModel
         try
         {
             var snapshot = Snapshot();
-            _experienceCalculation = AutomaticExperience.Calculate(snapshot.Details, snapshot.Traits);
+            _experienceCalculation = _characterActions.CalculateExperience(snapshot.Details, snapshot.Traits);
             ExperienceTotal = _experienceCalculation.Total;
             ExperienceSpent = _experienceCalculation.Spent;
             CampaignExperienceSpent = _experienceCalculation.CampaignSpent;

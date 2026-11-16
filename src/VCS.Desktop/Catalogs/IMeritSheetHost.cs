@@ -15,6 +15,6 @@ public interface IMeritSheetHost
     int PredatorRoom(PredatorAllocationViewModel option);
     void AllocatePredator(PredatorAllocationViewModel option, int points);
     /// <summary>Buys the benefit; returns the refusal message or null.</summary>
-    string? AddLoresheet(AdvantageDefinition benefit);
+    string? AddLoresheet(AdvantageDefinition benefit, bool prerequisiteConfirmed, bool limitOverrideApproved, string approvalNote);
     void RemoveLoresheet(TraitItemViewModel item);
 }

@@ -1,0 +1,43 @@
+<UserControl x:Class="VCS.Desktop.Controls.Dice3DView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Width="72" Height="92" Loaded="OnDieLoaded"
+    AutomationProperties.Name="{Binding Value, StringFormat='Dado V5: {0}'}">
+    <Grid x:Name="DieRoot" RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform>
+            <TranslateTransform x:Name="DropTransform" Y="-88" />
+        </Grid.RenderTransform>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="72" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Viewport3D x:Name="DieViewport" ClipToBounds="True" IsHitTestVisible="False">
+                <Viewport3D.Resources>
+                    <DiffuseMaterial x:Key="DieMaterial" Brush="{DynamicResource VcsAccent}" />
+                </Viewport3D.Resources>
+                <Viewport3D.Camera>
+                    <PerspectiveCamera Position="0,0,3.8" LookDirection="0,0,-3.8"
+                                       UpDirection="0,1,0" FieldOfView="48" />
+                </Viewport3D.Camera>
+            </Viewport3D>
+            <TextBlock x:Name="DieValue" Text="{Binding Value}" HorizontalAlignment="Center"
+                       VerticalAlignment="Center" Margin="0,0,0,2" FontFamily="Georgia"
+                       FontSize="21" FontWeight="Bold" Foreground="{DynamicResource VcsDieNumber}"
+                       Opacity="0" />
+        </Grid>
+        <TextBlock Grid.Row="1" Text="{Binding Kind}" HorizontalAlignment="Center" FontSize="9"
+                   FontWeight="Bold">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsHunger}" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </Grid>
+</UserControl>

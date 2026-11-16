@@ -2,17 +2,18 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sheet="clr-namespace:VCS.Desktop.Sheet"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls"
     xmlns:shell="clr-namespace:VCS.Desktop.Shell"
     xmlns:themes="clr-namespace:VCS.Desktop.Themes">
     <!-- Open sheet tabs, the home view and every open sheet (alone or side by side). -->
-    <DockPanel Margin="20,10,20,20">
+    <DockPanel Margin="24,16,24,24">
     <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding OpenEditors}" Margin="0,0,0,10"
                   Visibility="{Binding HasOpenEditors, Converter={StaticResource BoolVisibility}}"
                   AutomationProperties.Name="Fichas abertas">
         <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Border x:Name="Tab" Margin="0,0,6,4" CornerRadius="6" BorderThickness="1" Padding="10,2,2,2"
+                <Border x:Name="Tab" Margin="0,0,6,4" CornerRadius="8" BorderThickness="1" Padding="10,3,3,3"
                         BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}">
                     <StackPanel Orientation="Horizontal">
                         <Button Background="Transparent" BorderThickness="0" Padding="0,2" MaxWidth="180"
@@ -22,7 +23,7 @@
                                 <TextBlock Text="NPC" FontSize="10" FontWeight="Bold" Margin="0,0,6,0" VerticalAlignment="Center"
                                            Foreground="{DynamicResource VcsAccentText}"
                                            Visibility="{Binding IsNpc, Converter={StaticResource BoolVisibility}}" />
-                                <TextBlock Text="{Binding TabTitle}" TextTrimming="CharacterEllipsis" FontFamily="Georgia"
+                                <TextBlock x:Name="TabTitleText" Text="{Binding TabTitle}" TextTrimming="CharacterEllipsis" FontFamily="Georgia"
                                            Foreground="{DynamicResource VcsCardText}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
@@ -35,7 +36,9 @@
                 <DataTemplate.Triggers>
                     <DataTrigger Binding="{Binding IsActive}" Value="True">
                         <Setter TargetName="Tab" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                        <Setter TargetName="Tab" Property="BorderThickness" Value="1,1,1,2" />
                         <Setter TargetName="Tab" Property="Background" Value="{DynamicResource VcsSelection}" />
+                        <Setter TargetName="TabTitleText" Property="FontWeight" Value="SemiBold" />
                     </DataTrigger>
                 </DataTemplate.Triggers>
             </DataTemplate>
@@ -114,6 +117,105 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </Grid>
+        <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,12,12"
+                Width="456" MaxHeight="360" Padding="12" CornerRadius="12"
+                Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}"
+                BorderThickness="1" Panel.ZIndex="20" AutomationProperties.Name="Mesa de rolagem 3D"
+                themes:SheetTheme.Id="{Binding Editor.EffectiveSheetThemeId}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Editor.HasRollDisplay}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel>
+                <Grid Margin="0,0,0,8">
+                    <StackPanel>
+                        <TextBlock Text="MESA DE DADOS" FontSize="10" FontWeight="Bold"
+                                   Foreground="{DynamicResource VcsInputDescription}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Display.Show3DDice}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Text="RESULTADO DA ROLAGEM" FontSize="10" FontWeight="Bold"
+                                   Foreground="{DynamicResource VcsInputDescription}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Display.Show3DDice}" Value="False">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Text="{Binding Editor.LastRollLabel}" FontFamily="Georgia" FontSize="16"
+                                   Foreground="{DynamicResource VcsCardText}" />
+                    </StackPanel>
+                    <Button Content="×" Width="26" Height="26" Padding="0" HorizontalAlignment="Right"
+                            Background="Transparent" BorderThickness="0" Foreground="{DynamicResource VcsInputDescription}"
+                            ToolTip="Fechar visualização dos dados" Command="{Binding Editor.ClearRolledDiceCommand}"
+                            AutomationProperties.Name="Fechar mesa de dados" />
+                </Grid>
+                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="8" Padding="8">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Display.Show3DDice}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <ScrollViewer MaxHeight="192" VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding Editor.RolledDice}"
+                                      AutomationProperties.Name="Resultados dos dados tridimensionais">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate><controls:Dice3DView /></DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+                <TextBlock Text="{Binding Editor.LastRollSummary}" Margin="4,8,4,2"
+                           TextWrapping="Wrap" Foreground="{DynamicResource VcsCardText}"
+                           AutomationProperties.Name="Resultado da rolagem" />
+                <StackPanel Margin="4,6,4,0">
+                    <ItemsControl ItemsSource="{Binding Editor.RerollableDice}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Margin="0,0,10,4"
+                                          AutomationProperties.Name="Selecionar dado comum falho para rerrolagem">
+                                    <TextBlock Text="{Binding Face, StringFormat='Dado comum falho: {0}'}" />
+                                </CheckBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Content="Rerrolar até 3 dados comuns (1 dano de Vontade)"
+                            Command="{Binding Editor.RerollFailuresCommand}"
+                            IsEnabled="{Binding Editor.CanReroll}" HorizontalAlignment="Left" Margin="0,2,0,0"
+                            AutomationProperties.Name="Rerrolar falhas comuns usando Vontade" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
     </Grid>
     </DockPanel>
 </UserControl>

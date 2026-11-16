@@ -37,6 +37,7 @@ public partial class DisplaySettingsViewModel : ObservableObject
     [ObservableProperty] private bool useTabs;
     [ObservableProperty] private bool useBento;
     [ObservableProperty] private bool showSidebar = true;
+    [ObservableProperty] private bool show3DDice = true;
     public bool IsContinuous
     {
         get => !UseTabs && !UseBento;
@@ -62,6 +63,7 @@ public partial class DisplaySettingsViewModel : ObservableObject
     }
 
     partial void OnShowSidebarChanged(bool value) => Changed?.Invoke(this, EventArgs.Empty);
+    partial void OnShow3DDiceChanged(bool value) => Changed?.Invoke(this, EventArgs.Empty);
 
     private void OnLayoutChanged(object? sender, EventArgs e)
     {

@@ -1,8 +1,10 @@
 using VCS.Content.Clans;
+using VCS.Content;
 using VCS.Content.Disciplines;
 
 namespace VCS.Rules.V5.Clans;
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class DisciplineAdvancement
 {
     /// <param name="discipline">The discipline id, or its name as a sheet shows it.</param>

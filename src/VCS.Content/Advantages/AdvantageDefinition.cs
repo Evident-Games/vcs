@@ -15,4 +15,6 @@ public sealed class AdvantageDefinition
     public string Description { get; set; } = "";
     public string LoresheetCollection { get; set; } = "";
     public bool IsLineage { get; set; }
+    public string Prerequisite { get; set; } = "";
+    public string Source { get; set; } = "";
 }

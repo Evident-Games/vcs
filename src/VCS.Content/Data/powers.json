@@ -4,612 +4,687 @@
     "disciplineId": "discipline-animalism",
     "name": "Laço com Familiar",
     "level": 1,
-    "cost": "O sangue para criar um carniçal (1 checagem de sangue)",
-    "dicePool": "Nenhuma",
-    "summary": "Cria um vínculo mental duradouro com um animal que se torna um carniçal do vampiro. Garante empatia mútua, permitindo que o animal atue como espião ou guarda-costas sem a necessidade contínua de rolar dados para comandos simples."
+    "cost": "Uma Checagem de Sangue por noite, em três noites; gratuito na criação",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Um único familiar. Fora da criação, alimentar em três noites distintas, pagando uma checagem em cada noite. Ordens sem Sussurros: Carisma + Empatia com Animais, dificuldade 2 ou maior. Registre cada noite; não conclua o vínculo com um só gole.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 245"
   },
   {
     "id": "power-animalism-sense-the-beast",
     "disciplineId": "discipline-animalism",
     "name": "Sentir a Besta",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Determinação + Animalismo vs Autocontrole + Lábia",
-    "summary": "O vampiro foca seus sentidos sobrenaturais para detectar a Besta em outros, identificando instantaneamente se o alvo é um vampiro, lobisomem, carniçal ou qual a sua emoção mortal dominante no momento."
+    "cost": "Gratuito",
+    "dicePool": "Determinação + Animalismo vs. Autocontrole + Subterfúgio",
+    "summary": "Revela hostilidade e presença de Besta sobrenatural. Crítico distingue natureza, Fome e Ressonância. Informações reais são fornecidas pelo Narrador.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 245"
   },
   {
     "id": "power-animalism-feral-whispers",
     "disciplineId": "discipline-animalism",
     "name": "Sussurros Selvagens",
     "level": 2,
-    "cost": "1 checagem de sangue (por cena)",
-    "dicePool": "Manipulação + Animalismo vs Atributo + Determinação (caso o animal seja hostil)",
-    "summary": "O vampiro se comunica verbalmente com animais, podendo fazer perguntas, dar instruções e compreendê-los. As respostas e obediência variam de acordo com a inteligência nativa do bicho."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Manipulação + Animalismo (dificuldade 3; ajustar conforme a situação)",
+    "summary": "Comunicação simples não exige teste. Para serviços, Manipulação + Animalismo; dificuldade 3 a 6 conforme o pedido. Para convocar, use Carisma + Animalismo. Familiar dispensa custo. Herbívoros: +1 dificuldade.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 246"
   },
   {
     "id": "power-animalism-quell-the-beast",
     "disciplineId": "discipline-animalism",
-    "name": "Acalmar a Besta",
+    "name": "Subjugar a Besta",
     "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Carisma + Animalismo vs Vigor + Determinação (mortais) ou Determinação + Autocontrole (vampiros)",
-    "summary": "Reduz o pânico, a letargia ou a fúria em um alvo. Em mortais, tira completamente a vontade de lutar. Em vampiros, pode reprimir o Frenesi ou impedir que o alvo use pontos de Força de Vontade por um turno."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Carisma + Animalismo vs. Vigor + Determinação",
+    "summary": "Mortal fica apático, podendo apenas se preservar. Vampiro não usa Surto de Sangue e fica imune a críticos bestiais; crítico encerra frenesi. Duração vampírica: margem +1 turnos.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 246"
   },
   {
     "id": "power-animalism-animal-succulence",
     "disciplineId": "discipline-animalism",
     "name": "Suculência Animal",
     "level": 3,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "O vampiro aprende a extrair sustento aprimorado de feras. Alimentar-se de animais passa a saciar mais Fome (podendo chegar a reduzir a Fome até o nível 1), facilitando a sobrevivência sem caçar humanos."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Sangue animal: +1 Fome saciada e Potência efetiva −2 para restrições. Consumir o próprio familiar sacia 4, inclusive a última Fome, e concede +2 ao atributo associado pelo Narrador até nova alimentação ou Fome 5.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 247"
   },
   {
     "id": "power-animalism-subsume-the-spirit",
     "disciplineId": "discipline-animalism",
-    "name": "Subjugar o Espírito",
+    "name": "Comunhão de Espíritos",
     "level": 4,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Manipulação + Animalismo vs Determinação + Inteligência (caso seja familiar de outro vampiro)",
-    "summary": "O vampiro transfere sua consciência para o corpo de um animal, enxergando pelos olhos dele e controlando-o totalmente. Durante o efeito, o corpo do próprio vampiro fica inerte, como se estivesse em torpor."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Manipulação + Animalismo (dificuldade 4; ajustar conforme a situação)",
+    "summary": "Familiar dispensa checagem. Crítico permite duração indefinida. Corpo original imóvel; dano nele rompe o transe. Morte do animal encerra e causa 1 agravado de Vontade. Atividade diurna exige permanecer acordado.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 247"
   },
   {
     "id": "power-animalism-animal-dominion",
     "disciplineId": "discipline-animalism",
-    "name": "Domínio Animal",
+    "name": "Controle Animal",
     "level": 5,
-    "cost": "1 ou 2 checagens de sangue",
-    "dicePool": "Carisma + Animalismo",
-    "summary": "Uma evolução dos Sussurros Selvagens, permitindo comandar telepaticamente enxames, bandos ou matilhas inteiras de uma só vez (como nuvens de insetos, matilhas de cães ou revoada de corvos) para destruir obstáculos ou atacar inimigos."
+    "cost": "2 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Carisma + Animalismo (dificuldade 3; ajustar conforme a situação)",
+    "summary": "Comanda animais já presentes, não os convoca. Dificuldade conforme espécie e ordem, por exemplo 3 a 5; herbívoros +1. O Narrador determina quantidade e comportamento.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 247"
   },
   {
     "id": "power-animalism-drawing-out-the-beast",
     "disciplineId": "discipline-animalism",
-    "name": "Extrair a Besta",
+    "name": "Expulsar a Besta",
     "level": 5,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Raciocínio + Animalismo vs Autocontrole + Determinação",
-    "summary": "Durante um Frenesi, o vampiro pode projetar forçosamente a própria fúria para o corpo de outra pessoa próxima. O alvo assumirá o Frenesi no lugar do vampiro, perdendo o controle e atacando os outros brutalmente."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Raciocínio + Animalismo vs. Autocontrole + Determinação",
+    "summary": "Somente frenesi de fúria ou terror, nunca fome. Em falha, o usuário entra em frenesi. Em sucesso, o alvo recebe o frenesi e um novo gatilho pode afetar novamente o usuário.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 248"
   },
   {
     "id": "power-auspex-heightened-senses",
     "disciplineId": "discipline-auspex",
     "name": "Sentidos Aguçados",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Raciocínio + Prontidão (Apenas se houver distrações)",
-    "summary": "Amplia passivamente os sentidos. Permite enxergar no escuro, ouvir conversas através de paredes e farejar sangue antigo, mas torna o vampiro muito vulnerável a sons altos e luzes intensas."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Soma Auspícios às rolagens de percepção. Estímulos extremos: Raciocínio + Determinação, dificuldade 3 ou maior; falha impõe −3 em percepção pelo resto da cena.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 249"
   },
   {
     "id": "power-auspex-sense-the-unseen",
     "disciplineId": "discipline-auspex",
     "name": "Sentir o Invisível",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Raciocínio + Auspícios vs Raciocínio + Ofuscação (se o alvo tentar se esconder)",
-    "summary": "Concede a chance de detectar presenças ocultas por magia, vampiros usando Ofuscação, fantasmas ou ilusões. É ativado frequentemente pelo Narrador de forma passiva quando o perigo oculto se aproxima."
+    "cost": "Gratuito",
+    "dicePool": "Raciocínio + Auspícios vs. Parada de ocultação do alvo",
+    "summary": "Detecção passiva usa Raciocínio; busca ativa, Determinação. Contra Ofuscação: Raciocínio + Ofuscação. Sem oposição, o Narrador define dificuldade e pode realizar teste secreto.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 249"
   },
   {
     "id": "power-auspex-premonition",
     "disciplineId": "discipline-auspex",
     "name": "Premonição",
     "level": 2,
-    "cost": "1 checagem de sangue (ou grátis em uso passivo)",
-    "dicePool": "Determinação + Auspícios",
-    "summary": "O vampiro recebe \"flashes\" de intuição sobre o futuro imediato ou ameaças escondidas. Pode salvar a vida do personagem, alertando-o sobre emboscadas ou revelando quem é o verdadeiro traidor em uma sala."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Determinação + Auspícios (dificuldade 1; ajustar conforme a situação)",
+    "summary": "Visão espontânea do Narrador é gratuita e sem teste. Provocar visão exige checagem e Determinação + Auspícios; sucessos orientam a informação. Sugestão: uma premonição por cena para a mesa.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 249"
   },
   {
     "id": "power-auspex-share-the-senses",
     "disciplineId": "discipline-auspex",
     "name": "Compartilhar os Sentidos",
     "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Determinação + Auspícios",
-    "summary": "O vampiro se conecta mentalmente a um alvo na sua linha de visão, passando a ver, ouvir e sentir exatamente tudo o que o alvo está experimentando em tempo real, independentemente da distância em que ele for depois."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Determinação + Auspícios (dificuldade 3; ajustar conforme a situação)",
+    "summary": "Alvo visível ou ainda com Sangue do usuário. Expulsão: Raciocínio + Determinação contra a mesma parada; se expulso, não repetir até a próxima noite.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 250"
   },
   {
     "id": "power-auspex-scry-the-soul",
     "disciplineId": "discipline-auspex",
-    "name": "Sondar a Alma",
+    "name": "Perscrutar a Alma",
     "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Auspícios vs Autocontrole + Lábia",
-    "summary": "Permite \"ler\" a aura da pessoa. Revela o estado emocional atual, se a criatura é humana ou sobrenatural e identifica manchas escuras que provam que o vampiro cometeu diablerie (devorou a alma de outro)."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Inteligência + Auspícios vs. Autocontrole + Subterfúgio",
+    "summary": "Uma pergunta sobre aura por ponto de margem; crítico pode revelar algo inesperado. Multidões usam dificuldade definida pelo Narrador. Pode revelar diablerie no último ano.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 250"
   },
   {
     "id": "power-auspex-spirits-touch",
     "disciplineId": "discipline-auspex",
-    "name": "O Toque do Espírito",
+    "name": "Toque do Espírito",
     "level": 4,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Auspícios",
-    "summary": "Ao tocar um objeto inanimado ou o chão de um local, o vampiro lê os fortes ecos emocionais presos nele. Consegue ver o rosto de quem tocou por último e reproduzir cenas traumáticas ou intensas ocorridas na presença do item."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Inteligência + Auspícios (dificuldade 3; ajustar conforme a situação)",
+    "summary": "Tocar objeto ou local. Dificuldade segundo idade e informação (exemplos 3 a 6+). Cada margem revela um portador e circunstância anterior, começando pelo mais recente.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 250"
   },
   {
     "id": "power-auspex-clairvoyance",
     "disciplineId": "discipline-auspex",
     "name": "Clarividência",
     "level": 5,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Auspícios",
-    "summary": "A percepção se desliga do corpo físico e se projeta livremente pelo mundo, como uma câmera fantasma invisível. Permite espiar covis inimigos ou conversas distantes sem precisar estar perto do local."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Inteligência + Auspícios (dificuldade 3; ajustar conforme a situação)",
+    "summary": "Área aproximada de um quarteirão, ampliável em espaço aberto. Dificuldade conforme segurança e atividade, 3 a 7+. No próprio Refúgio soma seu valor base como modificador. Uma pergunta por margem, a critério do Narrador.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 251"
   },
   {
     "id": "power-auspex-telepathy",
     "disciplineId": "discipline-auspex",
     "name": "Telepatia",
     "level": 5,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Determinação + Auspícios vs Raciocínio + Determinação",
-    "summary": "Além de ler superficialmente os pensamentos alheios e vasculhar a mente do alvo em busca de memórias específicas, o vampiro pode projetar seus próprios pensamentos diretamente na mente do alvo."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Determinação + Auspícios vs. Raciocínio + Subterfúgio",
+    "summary": "Projetar pensamentos dispensa teste. Leitura consentida também. Vampiro involuntário exige ainda 1 Vontade. Margem permite memórias profundas; crítico fornece panorama coerente. Exige visão.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 252"
   },
   {
     "id": "power-celerity-cats-grace",
     "disciplineId": "discipline-celerity",
     "name": "Graça Felina",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "O corpo adquire equilíbrio e leveza sobrenaturais. O vampiro nunca perde o balanço, pode andar sobre arames finos sem cair, e pode se levantar da posição deitado sem gastar nenhuma ação ou esforço."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Sucesso automático em Destreza ou Atletismo para equilíbrio, desde que a superfície sustente o peso. Não torna qualquer acrobacia automaticamente bem-sucedida.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 252"
   },
   {
     "id": "power-celerity-rapid-reflexes",
     "disciplineId": "discipline-celerity",
     "name": "Reflexos Rápidos",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "Ignora completamente as penalidades por lutar sem cobertura contra atiradores e reage instintivamente, o que significa que o vampiro não sofre perda de dados em defesas contra ataques surpresa."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Remove penalidade de defesa contra tiros por falta de cobertura. Uma ação menor de até dois dados fica gratuita a cada turno; não concede ataque extra.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 253"
   },
   {
     "id": "power-celerity-fleetness",
     "disciplineId": "discipline-celerity",
     "name": "Rapidez",
     "level": 2,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "Ao ativar, o vampiro soma seu nível total de Celeridade a qualquer rolagem de Destreza não relacionada a ataques de combate (como fugir, escalar, correr ou realizar furtos). O efeito dura uma cena inteira."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Soma Celeridade à Destreza fora de combate; uma vez por turno também à esquiva com Destreza + Atletismo.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 253"
   },
   {
     "id": "power-celerity-blink-traversal",
     "disciplineId": "discipline-celerity",
-    "name": "Piscar / Travessia",
+    "name": "Piscadela",
     "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Destreza + Atletismo (para Travessia)",
-    "summary": "O vampiro pode cruzar curtas distâncias instantaneamente para golpear, ou usar a inércia da supervelocidade para correr literalmente nas paredes ou por cima da água por turnos limitados sem cair."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Deslocamento reto de até 50 metros, ainda permitindo uma ação. Terreno perigoso exige Destreza + Atletismo; disputa de velocidade depende da ação concorrente. Esta entrada antiga deixou de conceder Travessia.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 253"
   },
   {
     "id": "power-celerity-unerring-aim",
     "disciplineId": "discipline-celerity",
     "name": "Mira Infalível",
     "level": 4,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "A percepção mental do vampiro acelera, fazendo os inimigos se moverem em câmera lenta. Ele reduz a zero qualquer penalidade de tiro por cobertura, clima ou movimentação do alvo."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Ataque à distância com dificuldade 1, sem defesa. Alvo com Celeridade 5 pode pagar checagem para defender-se normalmente. Não causa acerto automático.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 254",
+    "amalgamDisciplineId": "discipline-auspex",
+    "amalgamLevel": 2
   },
   {
     "id": "power-celerity-split-second",
     "disciplineId": "discipline-celerity",
     "name": "Fração de Segundos",
     "level": 5,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "O vampiro se move de forma tão impossível que consegue \"rebobinar\" eventos da narrativa que acabaram de acontecer na rodada. Se alguém caiu de um prédio, ele já estará lá embaixo segurando o alvo, reagindo mais rápido que as consequências normais da física."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Permite alterar a reação narrada dentro de poucos segundos e do razoável. Narrador decide testes necessários; não desfaz livremente qualquer evento.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 254"
   },
   {
     "id": "power-dominate-compel",
     "disciplineId": "discipline-dominate",
     "name": "Compelir",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Carisma + Dominação vs Inteligência + Determinação",
-    "summary": "Exige contato visual ininterrupto. O vampiro comanda o alvo em uma frase curta (\"Pare!\", \"Largue a arma!\"). O comando deve ser imediato e se resolver no mesmo turno, não podendo ser obviamente letal ao alvo."
+    "cost": "Gratuito",
+    "dicePool": "Carisma + Dominação vs. Inteligência + Determinação",
+    "summary": "Ordem curta, imediata e realizável em um turno. Mortal despreparado dispensa teste; resistência, repetição na cena, vampiros ou ordens contrárias à natureza exigem disputa.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 256"
   },
   {
     "id": "power-dominate-cloud-memory",
     "disciplineId": "discipline-dominate",
-    "name": "Obscurecer Memória",
+    "name": "Nublar Memória",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Carisma + Dominação vs Inteligência + Determinação",
-    "summary": "O vampiro foca seu olhar em alguém e apaga os últimos minutos da memória recente do alvo (a duração da cena atual). A vítima fica momentaneamente confusa, incapaz de lembrar o que acabou de fazer ou de ver."
+    "cost": "Gratuito",
+    "dicePool": "Carisma + Dominação vs. Raciocínio + Determinação",
+    "summary": "Apaga os últimos minutos, sem inserir novas lembranças. Mortal despreparado dispensa teste; alvo resistente ou vampiro exige disputa.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 256"
   },
   {
     "id": "power-dominate-mesmerize",
     "disciplineId": "discipline-dominate",
-    "name": "Sugestão Hipnótica",
+    "name": "Mesmerismo",
     "level": 2,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Manipulação + Dominação vs Inteligência + Determinação",
-    "summary": "O vampiro implanta um comando complexo na mente do alvo, condicionado a um gatilho. Quando o evento determinado ocorrer (\"Quando o sino tocar...\"), a vítima executará o comando imposto."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Manipulação + Dominação vs. Inteligência + Determinação",
+    "summary": "Ordem complexa deve ser imediata, não condicional. Mortal despreparado pode dispensar teste; Diretriz Submersa permite gatilho posterior.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 256"
   },
   {
     "id": "power-dominate-the-forgetful-mind",
     "disciplineId": "discipline-dominate",
-    "name": "O Esquece-me",
+    "name": "A Mente Esquecida",
     "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Dominação vs Inteligência + Determinação",
-    "summary": "Versão muito mais agressiva do Obscurecer Memória. Permite que o vampiro destrua e reescreva seletivamente as memórias antigas e complexas de uma vítima, podendo mudar lembranças inteiras sobre a vida dela."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Manipulação + Dominação vs. Inteligência + Determinação",
+    "summary": "Cada margem altera uma memória de cena. Sem leitura das memórias originais. Lembranças normais são vagas e questionáveis; crítico cria lembranças convincentes.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 257"
   },
   {
     "id": "power-dominate-submerged-directive",
     "disciplineId": "discipline-dominate",
-    "name": "Submersão da Diretriz",
+    "name": "Diretriz Submersa",
     "level": 3,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "Torna os comandos inseridos via Sugestão Hipnótica perfeitos e indetectáveis. A vítima esquecerá conscientemente que recebeu a ordem, mas ainda a executará, acreditando que a ideia foi puramente genuína e originada dela mesma."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Modifica Mesmerismo, sem custo adicional; um gatilho por vítima. Teste pode ser secreto. Não execute a ordem antes do gatilho. Não substitui Racionalizar.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 257",
+    "prerequisite": "Mesmerismo"
   },
   {
     "id": "power-dominate-rationalize",
     "disciplineId": "discipline-dominate",
-    "name": "Racionalização",
+    "name": "Racionalizar",
     "level": 4,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "Modifica fundamentalmente como o cérebro da vítima processa a Dominação. Em vez de perceberem que foram controladas, as vítimas justificarão qualquer comando bizarro com uma desculpa lógica que criam em suas próprias mentes, nunca suspeitando do vampiro."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Vítima considera suas ações dominadas voluntárias. Se questionada, Raciocínio + Percepção, dificuldade 5, permite desconfiar. Não elimina consequências ou Máculas.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 257"
   },
   {
     "id": "power-dominate-mass-manipulation",
     "disciplineId": "discipline-dominate",
-    "name": "Comando em Massa",
+    "name": "Manipulação em Massa",
     "level": 5,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Carisma + Dominação",
-    "summary": "O limite do controle singular é quebrado. O vampiro pode aplicar poderes como Compelir ou Sugestão Hipnótica em todo um grupo de mortais de uma só vez, independentemente do contato visual direto, desde que consigam ouvir a voz do vampiro."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Acrescenta uma checagem ao poder de Dominação escolhido. Todos os alvos devem ver os olhos do usuário; resolve-se contra o mais forte. Registre o poder base e seu custo adicional.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 257"
   },
   {
     "id": "power-dominate-terminal-decree",
     "disciplineId": "discipline-dominate",
-    "name": "Ditame Terminal",
+    "name": "Decreto Terminal",
     "level": 5,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "A última barreira moral da Dominação cai. O vampiro ganha a capacidade assustadora de comandar suas vítimas a realizarem ações obviamente letais, permitindo ordens como atear fogo em si mesmas ou atirar na própria cabeça."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Ordens evidentemente letais passam a exigir resistência em vez de falhar automaticamente. Usa o teste do poder base. Narrador avalia Máculas e os limites da ordem.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 257"
   },
   {
     "id": "power-fortitude-resilience",
     "disciplineId": "discipline-fortitude",
     "name": "Resiliência",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "Endurecimento passivo da carne morta-viva. O vampiro ganha um número de níveis de Vitalidade adicionais equivalente ao seu nível de Fortitude, tornando-o fisicamente muito mais difícil de derrubar em combate."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Adiciona Fortitude à capacidade de Saúde; já integrada à trilha da ficha.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 258"
   },
   {
     "id": "power-fortitude-unswayable-mind",
     "disciplineId": "discipline-fortitude",
-    "name": "Mente Inabalável",
+    "name": "Mente Inescrutável",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "Fortalece o escudo psíquico. O vampiro passa a somar seus pontos de Fortitude ao tentar resistir a rolagens de testes sociais, intimidação mortal, ou tentativas de sedução e leitura mental, como a disciplina Auspícios."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Fortitude em resistência a coerção, intimidação, sedução e influência indesejada, incluindo Dominação e Presença.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 258"
   },
   {
     "id": "power-fortitude-enduring-beasts",
     "disciplineId": "discipline-fortitude",
-    "name": "Resiliência das Bestas",
+    "name": "Feras Tenazes",
     "level": 2,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "O personagem consegue aguentar danos imensos. Durante uma cena, o dano superficial causado por ataques contundentes e cortes simples é cortado pela metade antes mesmo de sofrer as reduções padrão das regras de dano vampírico."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Vigor + Animalismo (dificuldade 3; ajustar conforme a situação)",
+    "summary": "Familiar: automático e gratuito. Outros animais: Vigor + Animalismo, dificuldade 3; um animal por margem recebe Saúde extra igual à Fortitude. Ao expirar, retirar caixas vazias primeiro pode causar morte.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 258",
+    "amalgamDisciplineId": "discipline-animalism",
+    "amalgamLevel": 1
   },
   {
     "id": "power-fortitude-defy-bane",
     "disciplineId": "discipline-fortitude",
-    "name": "Ignorar Danos",
+    "name": "Desafio à Perdição",
     "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Vigor + Fortitude",
-    "summary": "A pele do vampiro rejeita ferimentos letais. Como uma ação defensiva, o jogador pode rolar os dados e converter o dano Agravado recebido de balas, fogo ou presas em dano Superficial suportável."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Reserva total de conversão de agravado em superficial igual à Fortitude. Dano convertido não pode ser curado nesta cena. Ativação reflexa exige antes Raciocínio + Sobrevivência, dificuldade 3. Nova ativação repõe reserva com novo custo.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 259"
   },
   {
     "id": "power-fortitude-fortify-the-inner-facade",
     "disciplineId": "discipline-fortitude",
-    "name": "Fortificar Barreira Íntima",
+    "name": "Fortificar a Fachada Interior",
     "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "Fornece imunidade quase total contra poderes sobrenaturais que tentam ler pensamentos, controlar emoções ou invadir a mente, servindo como a defesa perfeita contra a disciplina Dominação."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Contra sondagem mental: +metade da Fortitude, para cima, à dificuldade; se houver resistência, soma Fortitude à parada em vez disso.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 259"
   },
   {
     "id": "power-fortitude-flesh-of-marble",
     "disciplineId": "discipline-fortitude",
-    "name": "Proteção de Mármore",
-    "level": 4,
-    "cost": "2 checagens de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "A resistência beira o nível divino. Uma vez por noite, o vampiro torna sua pele impenetrável por alguns turnos. Nenhum ataque físico mundano consegue causar dano, repelindo balas, lâminas pesadas e explosões."
+    "name": "Pele de Mármore",
+    "level": 5,
+    "cost": "2 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Ignora a primeira fonte física por turno, inclusive fogo, exceto luz solar e ataques com vitória crítica.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 259"
   },
   {
     "id": "power-fortitude-prowess-from-pain",
     "disciplineId": "discipline-fortitude",
-    "name": "Agonia da Carne",
+    "name": "Poder Vindo da Dor",
     "level": 5,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Vigor + Fortitude",
-    "summary": "Quando atacado fisicamente em combate corporal, o vampiro se recusa a ceder. Quem o acertou também sofre parte do impacto refletido diretamente em seu próprio corpo, recebendo de volta uma porção do dano desferido na forma contundente."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Ignora penalidades físicas de dano; permite aumentar Atributos Físicos por níveis de dano marcados, limite Surto de Sangue +6. Não aumenta características derivadas.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 260"
   },
   {
     "id": "power-obfuscate-cloak-of-shadows",
     "disciplineId": "discipline-obfuscate",
     "name": "Manto de Sombras",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "Exige que haja uma sombra real ou cobertura próxima. Desde que o personagem fique em silêncio absoluto e completamente imóvel contra essa cobertura, ele apaga sua presença do ambiente e fica invisível para quem o olhar."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Oculto enquanto imóvel e silencioso, respeitando as regras gerais de Ofuscação. Movimento ou detecção encerra; não requer sombra real.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 261"
   },
   {
     "id": "power-obfuscate-silence-of-death",
     "disciplineId": "discipline-obfuscate",
     "name": "Silêncio da Morte",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "Abafa todo o som causado diretamente pelas ações físicas do vampiro. Passos, armas disparando, batidas e esmagamentos não farão o menor ruído, permitindo abates perfeitamente silenciosos ou furtividade absoluta."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Silencia sons pessoais, não objetos lançados, portas batidas ou disparos externos. Não engana microfones; não concede invisibilidade.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 261"
   },
   {
     "id": "power-obfuscate-unseen-passage",
     "disciplineId": "discipline-obfuscate",
     "name": "Passagem Invisível",
     "level": 2,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Raciocínio + Furtividade",
-    "summary": "Extensão do Manto de Sombras. Permite que o vampiro mantenha a invisibilidade enquanto se desloca e caminha pelo ambiente. Ele não pode atacar ninguém durante o percurso e, se alguém colidir fisicamente contra ele, a ilusão quebra."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Pode mover-se oculto, sem ruído acima de sussurro ou odor predominante. Não pode desaparecer observado sem Desaparecer; ações que não podem ser ignoradas quebram a ocultação.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 261"
   },
   {
     "id": "power-obfuscate-mask-of-a-thousand-faces",
     "disciplineId": "discipline-obfuscate",
-    "name": "Máscara das Mil Faces",
+    "name": "Máscara de Mil Faces",
     "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Manipulação + Ofuscação",
-    "summary": "Em vez de se tornar invisível, o vampiro força as mentes ao redor a enxergarem uma aparência completamente diferente para ele. Pode criar a ilusão mental de vestir roupas que não possui, ou parecer com uma pessoa genérica para passar por seguranças."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Aparência genérica plausível do mesmo gênero, altura e constituição. Não fornece documentos nem imita uma pessoa específica; Sentir o Invisível pode revelar.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 262"
   },
   {
     "id": "power-obfuscate-ghost-in-the-machine",
     "disciplineId": "discipline-obfuscate",
-    "name": "Fantasma Cibernético",
+    "name": "Fantasma na Máquina",
     "level": 3,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "Estende os efeitos mágicos da Ofuscação (Passagem Invisível e Máscara das Mil Faces) para as lentes digitais. O vampiro se torna capaz de enganar equipamentos de segurança, desaparecendo de gravações, drones e sensores infravermelhos em tempo real."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Transmissões ao vivo seguem Ofuscação normal. Gravações: +3 dificuldade para identificação. +3 dados ao contornar vigilância eletrônica automatizada.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 261"
   },
   {
     "id": "power-obfuscate-conceal",
     "disciplineId": "discipline-obfuscate",
     "name": "Ocultar",
     "level": 4,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Ofuscação",
-    "summary": "O personagem cria ilusões potentes em um objeto inanimado do tamanho máximo de uma casa, ou remove esse objeto das mentes locais. Pode esconder a porta de um cofre no meio da parede ou fazer um baú valioso sumir de vista."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Inteligência + Ofuscação (dificuldade 2; ajustar conforme a situação)",
+    "summary": "Tocar objeto, até casa de dois andares ou veículo. Dificuldade 2 a 6 segundo volume e ambiente. Dura uma noite + margem. Pessoas dentro ficam ocultas para observadores externos.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 262",
+    "amalgamDisciplineId": "discipline-auspex",
+    "amalgamLevel": 3
   },
   {
     "id": "power-obfuscate-cloak-the-gathering",
     "disciplineId": "discipline-obfuscate",
-    "name": "Manto do Grupo",
+    "name": "Ocultar o Grupo",
     "level": 5,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Carisma + Ofuscação",
-    "summary": "O ápice da invisibilidade. O vampiro pode envolver aliados próximos dentro do raio do poder. Tanto ele quanto o restante do grupo se tornam invisíveis ou mudam de aparência usando a Máscara das Mil Faces simultaneamente, protegendo todo o círculo."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Amplia outro poder de Ofuscação e seu custo. Alvos adicionais: Raciocínio +1 por checagem extra. Um aliado revelado não revela os outros; se o usuário for revelado, todos são.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 263"
   },
   {
     "id": "power-potence-soaring-leap",
     "disciplineId": "discipline-potence",
-    "name": "Salto Impressionante",
+    "name": "Salto Vertiginoso",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "O corpo ganha propulsão explosiva. O vampiro consegue dar saltos verticais e horizontais absurdos (cobrindo vários metros sem qualquer impulso), ignorando as limitações normais de gravidade para o corpo humano."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Sem impulso: alcance vertical 3 × Potência em metros; horizontal 5 × Potência. Não é voo nem cancela dano de queda.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 264"
   },
   {
     "id": "power-potence-lethal-body",
     "disciplineId": "discipline-potence",
     "name": "Corpo Letal",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "A força bruta permite rasgar carne e quebrar ossos. Seus ataques corporais desarmados passam a causar dano severo e fatal contra mortais (dano letal), além de ignorar facilmente armaduras rudimentares ou roupas de proteção."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Ataques desarmados podem causar agravado a mortais e ignoram armadura igual à Potência. Não causa agravado a vampiros por si só.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 264"
   },
   {
     "id": "power-potence-prowess",
     "disciplineId": "discipline-potence",
-    "name": "Bravura",
+    "name": "Poderio",
     "level": 2,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "Durante toda a cena, o personagem soma o seu nível de Potência diretamente no dano de qualquer ataque físico bem-sucedido usando Briga ou armas de combate corpo-a-corpo (como estacas, tacos e espadas)."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Potência no dano desarmado e feitos de Força; metade para cima no dano com Armas Brancas, sem bônus de acerto.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 264"
   },
   {
     "id": "power-potence-brutal-feed",
     "disciplineId": "discipline-potence",
     "name": "Alimentação Brutal",
     "level": 3,
-    "cost": "Nenhum",
-    "dicePool": "Força + Briga",
-    "summary": "O vampiro morde e drena sangue de forma bestial no meio de um combate. Em apenas um ou dois turnos rápidos, ele consegue sugar quantidades letais de sangue de uma vítima, curando-se enquanto causa dano massivo simultaneamente."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Após mordida bem-sucedida: ações de alimentação até Potência, ou metade para baixo contra vampiros. Cada Fome saciada causa 1 agravado ao mortal ou superficial ao vampiro, além da mordida. Não cura automaticamente o usuário.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 264"
   },
   {
     "id": "power-potence-draught-of-might",
     "disciplineId": "discipline-potence",
-    "name": "Poção de Força",
+    "name": "Força Direto da Fonte",
     "level": 4,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "O personagem concentra sua superforça no próprio sangue. Se ele der esse sangue para que outros bebam na mesma cena (como Carniçais ou outros vampiros), quem bebeu também ganhará metade do nível de Potência do vampiro original por um tempo."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Beber diretamente concede metade da Potência, para baixo, e poderes do doador até esse nível. Pode criar Laço; alimentação ou Fome 5 encerra em vampiros.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 265"
   },
   {
     "id": "power-potence-earthshock",
     "disciplineId": "discipline-potence",
-    "name": "Choque Terrestre",
+    "name": "Terremoto",
     "level": 5,
-    "cost": "2 checagens de sangue",
-    "dicePool": "Força + Potência vs Vigor + Atletismo",
-    "summary": "O vampiro esmurra o chão ou pisa com força titânica, criando uma onda de choque que quebra o piso e arremessa todos num raio de vários metros ao chão. As vítimas caem e recebem dano contundente pelo tremor brutal."
+    "cost": "2 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Uma vez por cena; raio 5 m. Alvos rolam Destreza + Atletismo, dificuldade 3 (+1 resultado se preparados): crítico sem efeito, sucesso perde ação, falha cai e gasta turno para levantar. Não causa dano direto automático; quedas e destruição são decididas pelo Narrador.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 265"
   },
   {
     "id": "power-presence-dread-gaze",
     "disciplineId": "discipline-presence",
     "name": "Olhar Aterrorizante",
-    "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma (Atua passivamente em Intimidação)",
-    "summary": "Exala uma aura de perigo sutil, mas constante. Mortais se afastam, desviam o olhar e evitam confusão com o personagem. Adiciona bônus em todos os testes de Intimidação."
+    "level": 3,
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Carisma + Presença vs. Autocontrole + Determinação",
+    "summary": "Falha: mortais recuam e só se defendem; vampiros não afetados. Sucesso: terror mortal; vampiro só se defende salvo gasto de Vontade igual à margem (mínimo 1). Crítico exige frenesi de terror vampírico, dificuldade 3.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 267"
   },
   {
     "id": "power-presence-awe",
     "disciplineId": "discipline-presence",
     "name": "Fascínio",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Carisma + Presença vs Autocontrole + Inteligência (caso resista)",
-    "summary": "Atrai toda a atenção do ambiente. Aqueles sob o efeito do fascínio vão concordar com as ideias do vampiro e considerá-lo extremamente interessante, garantindo bônus em testes de Lábia, Liderança ou Persuasão."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Presença em Persuasão, Performance e outros testes de Carisma autorizados. Resistência consciente: Autocontrole + Inteligência vs Manipulação + Presença; sucesso protege uma cena, crítico uma noite. Incompatível com Amedrontar.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 267"
   },
   {
     "id": "power-presence-lingering-kiss",
     "disciplineId": "discipline-presence",
-    "name": "Beijo Persistente",
+    "name": "Beijo Indelével",
     "level": 2,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "Transforma a mordida do vampiro em uma droga extremamente viciante. As vítimas mordidas sofrem de abstinência se ficarem longe dele, procurando o vampiro de forma obsessiva para serem mordidas novamente nas noites seguintes."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Após saciar ao menos 1 Fome: bônus de metade da Presença, para cima, em um Atributo Social da vítima por uma noite; depois penalidade igual fora da busca por nova dose por noites iguais à Presença. 1 Vontade ignora abstinência por cena. Respeitar restrições de Laço e À Prova de Laço.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 267"
   },
   {
     "id": "power-presence-entrancement",
     "disciplineId": "discipline-presence",
     "name": "Transe",
     "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Carisma + Presença vs Autocontrole + Inteligência",
-    "summary": "Convence instantaneamente o alvo de que o vampiro é seu amigo mais fiel e verdadeiro. O alvo passará a proteger o vampiro, compartilhar segredos e defendê-lo de aliados, durando até ser fisicamente ferido por ele."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Carisma + Presença vs. Autocontrole + Raciocínio",
+    "summary": "Bônus de Presença nas paradas sociais contra alvo fascinado, sem acumular com Fascínio. Uma hora + margem. Pedidos prejudiciais ou contra princípios exigem nova disputa ou encerram. Renovação falha dá imunidade pelo resto da noite.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 267"
   },
   {
     "id": "power-presence-summon",
     "disciplineId": "discipline-presence",
-    "name": "Convocação",
+    "name": "Convocar",
     "level": 4,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Manipulação + Presença vs Autocontrole + Inteligência",
-    "summary": "O vampiro foca em uma pessoa com quem ele já tenha interagido antes e a chama mentalmente. O alvo sentirá um desejo desesperado e incontrolável de ir até a localização do vampiro o mais rápido possível, não importando a distância."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Manipulação + Presença vs. Autocontrole + Inteligência",
+    "summary": "Concentrar por 5 minutos. Alvo já provou seu Sangue ou foi afetado por Fascínio, Transe ou Majestade. Sucesso faz ouvir, mas permite recusar; crítico obriga a vir sem risco imediato. Não teleporta.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 268"
   },
   {
     "id": "power-presence-majesty",
     "disciplineId": "discipline-presence",
     "name": "Majestade",
     "level": 5,
-    "cost": "2 checagens de sangue",
-    "dicePool": "Carisma + Presença vs Autocontrole + Determinação",
-    "summary": "A aura do vampiro se torna divina ou apavorante em nível absoluto. Ninguém ao redor consegue agir agressivamente, levantar a voz ou atacar o vampiro sem antes passar num teste dificílimo, rendendo-se à veneração ou ao terror submisso."
+    "cost": "2 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Carisma + Presença vs. Autocontrole + Determinação",
+    "summary": "Quem agir contra o usuário resiste com Autocontrole + Determinação. Vitória do resistente permite 1 + margem turnos livres, crítico uma cena. Autopreservação permanece possível.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 268"
   },
   {
     "id": "power-protean-weight-of-the-feather",
     "disciplineId": "discipline-protean",
-    "name": "Peso da Pena",
+    "name": "Peso Pena",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "A gravidade tem menos efeito no corpo morto-vivo. O vampiro torna-se imune a qualquer tipo de dano por queda, caindo suavemente ou reduzindo o impacto no chão, não importando a altura de onde pulou."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Imune a dano de queda, colisão ou arremesso enquanto ativo. Se reação inesperada, antes exige Raciocínio + Sobrevivência, dificuldade 3. Não amplia saltos; sensores de pressão dependem do Narrador.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 269"
   },
   {
     "id": "power-protean-eyes-of-the-beast",
     "disciplineId": "discipline-protean",
     "name": "Olhos da Besta",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "Os olhos do vampiro brilham em um vermelho predatório (ou amarelo fenda). Permite enxergar perfeitamente na escuridão absoluta, removendo qualquer penalidade visual por falta de luz, e intimida mortalmente quem observar os olhos de perto."
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Ignora penalidades visuais por escuridão, inclusive sobrenatural. Olhos inumanos concedem +2 à Intimidação contra mortais.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 269"
   },
   {
     "id": "power-protean-feral-weapons",
     "disciplineId": "discipline-protean",
-    "name": "Armas da Fera",
+    "name": "Armas Ferais",
     "level": 2,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "O vampiro projeta garras afiadas nas mãos ou presas alongadas monstruosas. Esses ataques desarmados passam a causar dano Agravado profundo, rasgando carne de vampiros e armaduras corporais com extrema facilidade."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Arma natural de Briga +2, superficial sem divisão pela metade. Mordida continua causando 2 agravados fixos, sem penalidade de ataque localizado; não somar os dois efeitos.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 270"
   },
   {
     "id": "power-protean-earth-meld",
     "disciplineId": "discipline-protean",
     "name": "Fusão com a Terra",
     "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "Como uma poça de sangue afundando no solo, o vampiro derrete e entra dentro da terra natural (grama, barro, areia, mas não concreto ou asfalto) para descansar o dia inteiro no subsolo em segurança perfeita."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Uma ação para fundir em superfície natural; não concreto ou asfalto. Itens carregados ficam de fora. Torpor impede emergência automática; sono diurno segue regras normais.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 270"
   },
   {
     "id": "power-protean-shapechange",
     "disciplineId": "discipline-protean",
     "name": "Mudança de Forma",
-    "level": 4,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "O vampiro se transforma integralmente em um animal selvagem grande e combativo (usualmente um grande lobo). Ganha todos os sentidos, a velocidade e as capacidades letais da fera."
+    "level": 3,
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Uma ação sem outras atividades, animal de porte semelhante escolhido ao adquirir. Usa físicos e sentidos do animal, com limites de manipulação e comunicação. Não concede poderes sobrenaturais da espécie; disciplinas dependem da forma e do Narrador.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 270"
   },
   {
     "id": "power-protean-mist-form",
     "disciplineId": "discipline-protean",
     "name": "Forma de Névoa",
     "level": 5,
-    "cost": "1 a 3 checagens de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "O corpo, as roupas e pertences se desfazem em uma neblina fria. Nessa forma, o vampiro se torna totalmente imune a ataques físicos convencionais, pode voar ou flutuar pelos ares e passar por baixo de portas, tubulações ou frestas finas."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Transformação de 3 turnos; cada checagem extra reduz 1 (mínimo 1 turno, máximo 3 checagens). Não fala, toca, usa objetos ou faz contato visual. Só fogo, sol e ataques sobrenaturais imateriais ferem; disciplinas dependem do Narrador.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 271"
   },
   {
     "id": "power-blood-sorcery-a-taste-for-blood",
     "disciplineId": "discipline-blood-sorcery",
-    "name": "Gosto de Sangue",
+    "name": "Um Gosto por Sangue",
     "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "Bebendo uma única gota de sangue (fresco ou ressecado), o Feiticeiro descobre informações ocultas de quem sangrou. Revela o Clã do vampiro, sua Potência do Sangue e detecta se o alvo cometeu o crime de diablerie (devorou outro vampiro)."
+    "cost": "Gratuito",
+    "dicePool": "Determinação + Feitiçaria de Sangue (dificuldade 3; ajustar conforme a situação)",
+    "summary": "Provar uma gota. Sucesso: natureza, Ressonância e intensidade humana ou Potência relativa vampírica. Crítico: diablerie e geração aproximada da vítima diablerizada. Não identifica automaticamente o Clã.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 272"
   },
   {
     "id": "power-blood-sorcery-corrosive-vitae",
     "disciplineId": "discipline-blood-sorcery",
-    "name": "Sangue Corrosivo",
+    "name": "Vitae Corrosivo",
     "level": 1,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "O personagem força propriedades ácidas e tóxicas no próprio suor ou sangue. Pode derreter algemas, destruir fechaduras de portas de metal, queimar evidências ou corroer cordas rapidamente usando apenas o próprio fluido."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Somente objetos; não carne viva nem vampírica. Cada checagem corrói aproximadamente 35 cm a partir do contato. Metais resistentes exigem tempo e decisão do Narrador; não é ataque ácido em pessoas.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 272"
   },
   {
     "id": "power-blood-sorcery-extinguish-vitae",
     "disciplineId": "discipline-blood-sorcery",
     "name": "Extinguir Vitae",
     "level": 2,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue vs Vigor + Determinação",
-    "summary": "O feiticeiro evapora a magia no sangue de outro vampiro à distância, aumentando instantaneamente os níveis de Fome do alvo e possivelmente forçando o inimigo a um frenesi por sangue."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Inteligência + Feitiçaria de Sangue vs. Vigor + Autocontrole",
+    "summary": "Alvo vampiro visível, um turno de concentração. Sucesso aumenta Fome em 1; crítico em 2. Não drena o sangue para o usuário.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 273"
   },
   {
     "id": "power-blood-sorcery-scorpions-touch",
     "disciplineId": "discipline-blood-sorcery",
-    "name": "Toque do Escorpião",
+    "name": "Picada de Escorpião",
     "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Força + Feitiçaria de Sangue vs Vigor + Determinação",
-    "summary": "O usuário converte sua vitae num veneno místico paralisante e o aplica em uma lâmina ou tenta tocá-lo na pele do inimigo. Causa fortes espasmos e rouba as capacidades motoras e a vitalidade de mortais e vampiros."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Força + Feitiçaria de Sangue vs. Vigor + Ocultismo ou Fortitude",
+    "summary": "Preparar veneno exige um turno por dose; ataque de entrega separado deve acertar. Resistência: Vigor + Ocultismo ou Fortitude. Margem agravada em mortal, superficial sem metade em vampiro; mortal ferido fica inconsciente.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 273"
   },
   {
     "id": "power-blood-sorcery-theft-of-vitae",
     "disciplineId": "discipline-blood-sorcery",
     "name": "Roubo de Vitae",
     "level": 4,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue vs Raciocínio + Ocultismo",
-    "summary": "O feiticeiro drena violentamente o sangue do corpo de um alvo (mortal ou vampiro) à distância, forçando a energia vital a voar pelos ares ou entrar misticamente nas veias do próprio feiticeiro, curando-o e causando ferimentos graves na vítima."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Raciocínio + Feitiçaria de Sangue vs. Raciocínio + Ocultismo",
+    "summary": "Somente alvo mortal visível. Alimentação ao dobro da velocidade, triplo no crítico. Usuário não faz outra ação; traje hermético pode impedir coleta. Aplicar regras normais de saciedade e risco ao mortal.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 274"
   },
   {
     "id": "power-blood-sorcery-cauldron-of-blood",
     "disciplineId": "discipline-blood-sorcery",
     "name": "Caldeirão de Sangue",
     "level": 5,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue vs Vigor + Determinação",
-    "summary": "Com um toque e uma palavra, o Feiticeiro faz o sangue ferver de dentro para fora no corpo da vítima. Os vasos sanguíneos da vítima estouram e o sangue vaporiza em uma nuvem vermelha escarlate, causando morte excruciante."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Determinação + Feitiçaria de Sangue vs. Autocontrole + Ocultismo ou Fortitude",
+    "summary": "Exige toque, com Destreza + Atletismo se necessário. Margem em agravado; mortal ferido morre. Vampiro ganha Fome igual ao dano até 5. Gera uma ou mais Máculas, julgadas pelo Narrador.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 274"
   },
   {
     "id": "ritual-wake-with-evenings-freshness",
@@ -618,8 +693,9 @@
     "name": "Despertar com a Brisa do Entardecer",
     "level": 1,
     "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 1)",
-    "summary": "Protege o sono diurno vulnerável do vampiro. Se qualquer ameaça tentar invadir seu esconderijo enquanto ele dorme de dia, o ritual desperta o vampiro instantaneamente e permite que ele aja durante aquele turno de luz do dia sem penalidades letárgicas."
+    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 2; confira exceções do ritual)",
+    "summary": "Preparado antes do amanhecer, permite um teste quando houver perigo durante o sono diurno. Sucesso desperta o conjurador alerta e suspende as penalidades para permanecer acordado durante a cena; uma vitória crítica estende o efeito até o próximo amanhecer.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 276"
   },
   {
     "id": "ritual-illusion-of-peaceful-death",
@@ -628,18 +704,20 @@
     "name": "Ilusão de Morte Pacífica",
     "level": 2,
     "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 2)",
-    "summary": "Lança pó e sangue falso em um cadáver recém-assassinado pelo vampiro. Em segundos, esconde marcas de presas, arranhões de garras ou perda severa de sangue. Quando o legista examinar, o corpo parecerá ter morrido de ataque cardíaco natural."
+    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 3; confira exceções do ritual)",
+    "summary": "Lança pó e sangue falso em um cadáver recém-assassinado pelo vampiro. Em segundos, esconde marcas de presas, arranhões de garras ou perda severa de sangue. Quando o legista examinar, o corpo parecerá ter morrido de ataque cardíaco natural.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "ritual-ward-against-lupines",
     "disciplineId": "discipline-blood-sorcery",
     "isRitual": true,
-    "name": "Proteção contra Feras",
+    "name": "Proteção contra Lupinos",
     "level": 3,
     "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 3)",
-    "summary": "Ao desenhar sigilos de sangue por 30 minutos em um ambiente ou num objeto (como um carro ou taco), o mago cria uma barreira mística dolorosa e flamejante contra Lobisomens. Qualquer lupino que tentar cruzar a porta ou tocar no objeto marcado receberá muito dano místico."
+    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 4; confira exceções do ritual)",
+    "summary": "Proteção de objeto contra lobisomens; não protege um ambiente inteiro. Exige prata em pó misturada ao Sangue. O primeiro toque voluntário aciona a rolagem de Ritual: sucesso causa 1 dano agravado de Vitalidade; crítico causa 3. Para círculos de proteção, use o ritual correspondente e suas regras próprias.",
+    "source": "Vampiro: A Máscara V5 (Livro base), pp. 275, 279"
   },
   {
     "id": "ritual-ward-against-cainites",
@@ -648,8 +726,9 @@
     "name": "Proteção contra Cainitas",
     "level": 4,
     "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 4)",
-    "summary": "Funciona como a Proteção contra Feras, mas queima e repele outros Vampiros. Torna Refúgios impenetráveis ou cria armas e roupas místicas que eletrocutam ou queimam cainitas que toquem no alvo protegido."
+    "dicePool": "Inteligência + Feitiçaria de Sangue (dificuldade padrão 5; confira exceções do ritual)",
+    "summary": "Protege um objeto contra vampiros, exceto o próprio conjurador, usando as regras gerais de Proteções. Exige cinzas quentes de um fogo ainda aceso; quem sucumbir ao frenesi de terror não pode inscrever esta proteção naquela noite. Para proteger uma área, consulte o ritual separado de círculo de proteção.",
+    "source": "Vampiro: A Máscara V5 (Livro base), pp. 275, 280"
   },
   {
     "id": "ritual-escape-to-true-sanctuary",
@@ -657,115 +736,222 @@
     "isRitual": true,
     "name": "Fuga para o Santuário Verdadeiro",
     "level": 5,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Inteligência + Feitiçaria de Sangue (Dificuldade 5)",
-    "summary": "Cria dois círculos de cinzas e sangue (um na base segura e outro que o mago usa durante emergências nas ruas). Ao entrar no círculo de emergência, o corpo do Feiticeiro desaparece instantaneamente e é teleportado ileso de volta para o seu santuário particular."
+    "cost": "12 Checagens de Sangue ao longo da preparação dos dois círculos; veja o processo",
+    "dicePool": "Inteligência + Feitiçaria de Sangue; rolagem de Ritual em cada tentativa de viagem",
+    "summary": "Prepara dois círculos no solo ou piso de uma construção: para cada um, duas horas de cânticos e duas Checagens de Sangue por noite durante três noites. A viagem ocorre somente do círculo de partida para o de chegada, após um turno de concentração e uma rolagem de Ritual; só há uma tentativa por cena. A preparação e a viagem exigem acompanhamento da mesa.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 281"
   },
   {
-    "id": "power-oblivion-oblivions-sight",
-    "disciplineId": "discipline-oblivion",
-    "name": "Visão do Oblívio",
-    "level": 1,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "Os olhos do vampiro ficam completamente negros. Ele passa a enxergar através de qualquer escuridão (mesmo as sobrenaturais criadas por outros poderes) e consegue ver fantasmas ou espíritos inquietos no ambiente."
-  },
-  {
-    "id": "power-oblivion-shadow-cloak",
-    "disciplineId": "discipline-oblivion",
-    "name": "Manto Sombrio",
-    "level": 1,
-    "cost": "Nenhum",
-    "dicePool": "Nenhuma",
-    "summary": "As sombras do ambiente literalmente se curvam e se agarram ao corpo do Lasombra. Isso concede bônus em testes de Furtividade para se esconder nas trevas e bônus em Intimidação, tornando sua presença sinistra."
-  },
-  {
-    "id": "power-oblivion-arms-of-ahriman",
-    "disciplineId": "discipline-oblivion",
-    "name": "Braços de Ahriman",
-    "level": 2,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Raciocínio + Oblívio vs Força + Atletismo (para agarrar)",
-    "summary": "O vampiro invoca tentáculos de pura escuridão que brotam de cantos não iluminados da sala. Esses tentáculos podem açoitar, esmagar ou prender inimigos à distância, causando dano superficial e agarrando os alvos."
-  },
-  {
-    "id": "power-oblivion-touch-of-oblivion",
-    "disciplineId": "discipline-oblivion",
-    "name": "Toque do Oblívio",
-    "level": 3,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Força + Briga",
-    "summary": "O vampiro canaliza a força destrutiva do Abismo em suas mãos. Um soco ou agarrão bem-sucedido causa dano agravado (queimando a vítima com energia necrótica) e murcha o membro atingido, reduzindo a Força do alvo no combate."
-  },
-  {
-    "id": "power-oblivion-stygian-shroud",
-    "disciplineId": "discipline-oblivion",
-    "name": "Mortalha Estígia",
+    "id": "power-protean-metamorphosis",
+    "disciplineId": "discipline-protean",
+    "name": "Metamorfose",
     "level": 4,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Raciocínio + Oblívio",
-    "summary": "O vampiro preenche uma sala ou área ampla com uma fumaça de escuridão absoluta. Mortais sufocam e perdem vitalidade lá dentro, os sons são abafados, e todos (exceto o próprio Lasombra) ficam totalmente cegos."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Forma animal adicional, permitindo porte diferente. Segue Mudança de Forma; registrar a forma escolhida e seu perfil.",
+    "prerequisite": "Mudança de Forma",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 271"
   },
   {
-    "id": "power-oblivion-shadow-step",
-    "disciplineId": "discipline-oblivion",
-    "name": "Passo Sombrio",
+    "id": "power-protean-unfettered-heart",
+    "disciplineId": "discipline-protean",
+    "name": "Coração Vagante",
     "level": 5,
-    "cost": "1 checagem de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "O vampiro dá um passo para dentro de uma sombra projetada na parede ou no chão e desaparece. No mesmo turno, ele emerge instantaneamente de outra sombra que esteja no seu campo de visão ou em um local que ele conheça muito bem."
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Força + Determinação (dificuldade 5; ajustar conforme a situação)",
+    "summary": "Passivo: +3 dificuldade para estaquear fora de combate; em combate apenas crítico atinge. Uma vez por hora, checagem e Força + Determinação 5 para expulsar estaca; impossível a Fome 5.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 271"
   },
   {
-    "id": "power-oblivion-tenebrous-avatar",
-    "disciplineId": "discipline-oblivion",
-    "name": "Avatar Tenebroso",
-    "level": 5,
-    "cost": "2 checagens de sangue",
-    "dicePool": "Nenhuma",
-    "summary": "O corpo do vampiro se dissolve, tornando-se uma mancha bidimensional de sombra rastejante. Ele fica imune a qualquer ataque físico, pode deslizar por rachaduras e paredes, e é capaz de envolver e asfixiar vítimas pelo toque."
-  },
-  {
-    "id": "power-obfuscate-chimerstry",
-    "disciplineId": "discipline-obfuscate",
-    "name": "Quimerismo",
+    "id": "power-fortitude-toughness",
+    "disciplineId": "discipline-fortitude",
+    "name": "Tenacidade",
     "level": 2,
-    "cost": "Uma Checagem de Sangue",
-    "dicePool": "Manipulação + Ofuscação vs. Autocontrole + Raciocínio",
-    "summary": "O vampiro projeta uma alucinação rápida e vívida que afeta apenas um dos cinco sentidos. Serve para enganar ou assustar vítimas momentaneamente, distraindo-as a ponto de fazê-las perder dados de combate ou ações ativas na rodada.",
-    "amalgamDisciplineId": "discipline-presence",
-    "amalgamLevel": 1
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Subtrai Fortitude do dano superficial antes de dividi-lo, mínimo 1 antes da divisão.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 259"
   },
   {
-    "id": "power-obfuscate-fata-morgana",
-    "disciplineId": "discipline-obfuscate",
-    "name": "Fata Morgana",
+    "id": "power-animalism-unliving-hive",
+    "disciplineId": "discipline-animalism",
+    "name": "Enxame Não Vivo",
     "level": 3,
-    "cost": "Uma Checagem de Sangue",
-    "dicePool": "Manipulação + Ofuscação",
-    "summary": "Cria ilusões complexas e duradouras que não têm efeito físico, mas enganam múltiplos sentidos ao mesmo tempo (como ver e ouvir uma torrente de sangue jorrando). Afeta simultaneamente várias vítimas próximas que consigam ver ou ouvir a ilusão pela duração total de uma cena.",
-    "amalgamDisciplineId": "discipline-presence",
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Estende Animalismo a enxames. Saúde 5, defesa 8 dados; distração −2 no alvo; intimidação +1 a +3 definida pelo Narrador. Briga causa superficial; fogo e inseticida, agravado.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 246",
+    "amalgamDisciplineId": "discipline-obfuscate",
     "amalgamLevel": 2
   },
   {
-    "id": "power-auspex-obeah",
+    "id": "power-auspex-possession",
     "disciplineId": "discipline-auspex",
-    "name": "Obeah",
+    "name": "Possessão",
+    "level": 5,
+    "cost": "2 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Determinação + Auspícios vs. Determinação + Inteligência",
+    "summary": "Somente mortal; carniçal deve estar Enlaçado ao usuário. Exige olhar. Falha total bloqueia novas tentativas nesse alvo pela história. Corpo original em transe; dano agravado nele encerra. Alvo ferido: Determinação + Auspícios, dificuldade 2 + dano. Morte do hospedeiro causa 3 agravados de Vontade.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 251",
+    "amalgamDisciplineId": "discipline-dominate",
+    "amalgamLevel": 3
+  },
+  {
+    "id": "power-celerity-traversal",
+    "disciplineId": "discipline-celerity",
+    "name": "Travessia",
+    "level": 3,
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Destreza + Atletismo (dificuldade 3; ajustar conforme a situação)",
+    "summary": "Dificuldade 3 a 6 segundo superfície. Margem determina alcance narrativo. Mais de 60 m sobre água ou 30 andares geralmente excede o poder; confirmar antes de usar.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 254"
+  },
+  {
+    "id": "power-celerity-draught-of-elegance",
+    "disciplineId": "discipline-celerity",
+    "name": "Elegância Direto da Fonte",
+    "level": 4,
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Beber diretamente concede metade da Celeridade do doador, arredondada para baixo, e seus poderes não amálgama até esse nível. Pode criar Laço de Sangue. Vampiros perdem o benefício ao alimentar-se ou chegar a Fome 5.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 254"
+  },
+  {
+    "id": "power-celerity-lightning-strike",
+    "disciplineId": "discipline-celerity",
+    "name": "Golpe Relâmpago",
+    "level": 5,
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Ataque corpo a corpo com dificuldade 1, sem defesa. Alvo com Celeridade 5 pode pagar checagem para defender-se normalmente.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 254"
+  },
+  {
+    "id": "power-dominate-dementation",
+    "disciplineId": "discipline-dominate",
+    "name": "Demência",
     "level": 2,
-    "cost": "Uma Checagem de Sangue (Força de Vontade adicional dependendo das circunstâncias)",
-    "dicePool": "Autocontrole + Auspícios",
-    "summary": "O vampiro usa a serenidade mística para acalmar alvos emocionalmente agitados ou desesperados. Ao ser usado, restaura níveis de danos Superficiais ou Agravados na trilha de Força de Vontade do alvo.",
-    "amalgamDisciplineId": "discipline-fortitude",
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Manipulação + Dominação vs. Autocontrole + Inteligência",
+    "summary": "Após conversar, conflito a cada turno causa margem em dano superficial de Vontade. Alvo debilitado: colapso mortal ou Compulsão vampírica escolhida pelo usuário. Outra vítima exige outra checagem.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 256",
+    "amalgamDisciplineId": "discipline-obfuscate",
+    "amalgamLevel": 2
+  },
+  {
+    "id": "power-fortitude-draught-of-endurance",
+    "disciplineId": "discipline-fortitude",
+    "name": "Resistência Direto da Fonte",
+    "level": 4,
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Beber diretamente concede metade da Fortitude do doador, para baixo, e seus poderes até esse nível. Pode criar Laço. Vampiros perdem ao se alimentar ou chegar a Fome 5.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 259"
+  },
+  {
+    "id": "power-obfuscate-vanish",
+    "disciplineId": "discipline-obfuscate",
+    "name": "Desaparecer",
+    "level": 4,
+    "cost": "Gratuito",
+    "dicePool": "Raciocínio + Ofuscação vs. Raciocínio + Percepção",
+    "summary": "Permite iniciar Manto ou Passagem observado, pagando o custo do poder base. Mortais ficam com memória nebulosa, apagada no crítico. Vampiros apenas perdem a visão do usuário. Uma vez por cena.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 262",
+    "prerequisite": "Manto de Sombras"
+  },
+  {
+    "id": "power-obfuscate-impostors-guise",
+    "disciplineId": "discipline-obfuscate",
+    "name": "Disfarce do Impostor",
+    "level": 5,
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Raciocínio + Ofuscação (dificuldade 4; ajustar conforme a situação)",
+    "summary": "Observar rosto por 5 minutos e mais 10 para voz e gestos. Teste secreto. Sucesso exige ainda Manipulação + Performance para modos e voz; crítico dispensa. Apenas aparência humana.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 263",
+    "prerequisite": "Máscara de Mil Faces"
+  },
+  {
+    "id": "power-potence-spark-of-rage",
+    "disciplineId": "discipline-potence",
+    "name": "Centelha de Fúria",
+    "level": 3,
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Manipulação + Potência vs. Autocontrole + Inteligência",
+    "summary": "Soma Potência para incitar violência. Contra vampiro: disputa; se vencer, alvo faz teste de frenesi de fúria, dificuldade 3.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 264",
+    "amalgamDisciplineId": "discipline-presence",
+    "amalgamLevel": 3
+  },
+  {
+    "id": "power-potence-uncanny-grip",
+    "disciplineId": "discipline-potence",
+    "name": "Pegada Sobrenatural",
+    "level": 3,
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Escalada automática em superfícies não metálicas. Metais moles dependem do Narrador; vidro fino pode quebrar. Pendura-se por uma cena, pés precisam estar descalços; rastros detectáveis com Inteligência + Investigação, dificuldade 2.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 265"
+  },
+  {
+    "id": "power-potence-fist-of-caine",
+    "disciplineId": "discipline-potence",
+    "name": "Punho de Caim",
+    "level": 5,
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Briga desarmada causa agravado à Saúde de mortais e seres sobrenaturais durante a cena.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 265"
+  },
+  {
+    "id": "power-presence-daunt",
+    "disciplineId": "discipline-presence",
+    "name": "Amedrontar",
+    "level": 1,
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Soma Presença à Intimidação. Atacar o usuário exige Determinação + Autocontrole, dificuldade 2. Incompatível com Fascínio; não interrompe ataques em combate já iniciado.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 266"
+  },
+  {
+    "id": "power-presence-irresistible-voice",
+    "disciplineId": "discipline-presence",
+    "name": "Voz Irresistível",
+    "level": 4,
+    "cost": "Gratuito",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Poderes de Dominação podem usar a voz em vez do contato visual. Não funciona por transmissão eletrônica.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 268",
+    "amalgamDisciplineId": "discipline-dominate",
     "amalgamLevel": 1
   },
   {
-    "id": "power-auspex-unburdening-the-bestial-soul",
-    "disciplineId": "discipline-auspex",
-    "name": "Aliviando a Alma Bestial",
+    "id": "power-presence-star-magnetism",
+    "disciplineId": "discipline-presence",
+    "name": "Magnetismo de Estrela",
     "level": 5,
-    "cost": "Duas Checagens de Sangue (o usuário ganha uma Mácula)",
-    "dicePool": "Autocontrole + Auspícios vs. Humanidade",
-    "summary": "O Salubri apazigua a Besta interior de outro Membro, compartilhando serenidade para perdoar os remorsos do alvo. Consegue remover e blindar as Máculas espirituais dele e, através de um acerto crítico, pode até devolver um ponto de Humanidade perdido permanentemente.",
-    "amalgamDisciplineId": "discipline-dominate",
-    "amalgamLevel": 3
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Sem teste na ativação",
+    "summary": "Amplia Fascínio, Amedrontar ou Transe em transmissão ao vivo ou telefone, não gravação. Custo adicional ao poder base. Transe exige nome pronunciado e afeta apenas uma pessoa.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 268"
+  },
+  {
+    "id": "power-blood-sorcery-blood-of-potency",
+    "disciplineId": "discipline-blood-sorcery",
+    "name": "Sangue Potente",
+    "level": 3,
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Determinação + Feitiçaria de Sangue (dificuldade 0; ajustar conforme a situação)",
+    "summary": "Dificuldade Potência de Sangue atual +2. Sucesso +1, crítico +2 temporário; pode exceder limite de geração. Não elevar permanentemente nem acumular recasts.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 273"
+  },
+  {
+    "id": "power-blood-sorcery-baals-caress",
+    "disciplineId": "discipline-blood-sorcery",
+    "name": "Carícia de Baal",
+    "level": 5,
+    "cost": "1 Checagem(ns) de Sangue; confira as condições do sistema",
+    "dicePool": "Força + Feitiçaria de Sangue vs. Vigor + Ocultismo ou Fortitude",
+    "summary": "Entrega de veneno deve acertar separadamente. Margem em agravado para mortal ou vampiro; mortal ferido morre. Vampiro ferido: segunda disputa determina Torpor na próxima vez que dormir.",
+    "source": "Vampiro: A Máscara V5 (Livro base), p. 274"
   }
 ]

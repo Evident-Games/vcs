@@ -15,7 +15,7 @@ public sealed class SqliteSkillCatalog(DatabaseAccess database) : ISkillCatalog,
         {
             await using var db = database.CreateContext();
             var rows = await db.SkillCatalog.AsNoTracking().ToDictionaryAsync(x => x.Id, cancellationToken);
-            var builtIn = SkillCatalog.BuiltIn.Select(x => rows.GetValueOrDefault(x.Id) ?? x).ToArray();
+            var builtIn = SkillCatalog.BuiltIn.Select(x => rows.GetValueOrDefault(x.Id) is { } edit ? edit with { Source = x.Source } : x).ToArray();
             return [.. builtIn.Concat(rows.Values.Where(x => Seed(x.Id) is null)).OrderBy(x => x.Name)];
         }
         finally { database.Gate.Release(); }

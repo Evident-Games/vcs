@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:themes="clr-namespace:VCS.Desktop.Themes">
     <!-- Main menu bar. -->
-    <Border BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1" Padding="4,0">
+    <Border BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1" Padding="10,4">
         <Menu IsEnabled="{Binding IsIdle}" Background="Transparent" Foreground="{DynamicResource VcsHeaderText}"
               AutomationProperties.Name="Menu principal">
             <MenuItem Header="_Arquivo">
@@ -26,12 +26,18 @@
             </MenuItem>
             <MenuItem Header="E_xibir">
                 <MenuItem Header="Layout da ficha..." Command="{Binding ToggleLayoutSettingsCommand}" />
+                <MenuItem Header="Dados de rolagem em 3D" IsCheckable="True"
+                          IsChecked="{Binding Display.Show3DDice, Mode=TwoWay}"
+                          ToolTip="Animar todas as rolagens da ficha em uma mesa de dados" />
                 <MenuItem Header="Lista lateral de personagens" IsCheckable="True" IsChecked="{Binding Display.ShowSidebar, Mode=TwoWay}" />
                 <Separator />
                 <MenuItem Header="Temas">
                     <themes:AppThemeMenu />
                     <themes:SheetThemeMenu />
                 </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Narrador">
+                <MenuItem Header="Eventos da crônica" Command="{Binding ToggleNarratorCommand}" IsEnabled="{Binding CanOpenNarrator}" />
             </MenuItem>
             <MenuItem Header="_Ferramentas">
                 <MenuItem Header="Criar dump do banco..." Command="{Binding BackupCommand}" ToolTip="Salvar copia SQLite do banco completo" />

@@ -1,9 +1,10 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using VCS.Content;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Application.Catalogs;
-using VCS.Content;
+using VCS.Application.Characters;
 using VCS.Content.Disciplines;
 using VCS.Desktop.Sheet;
 using VCS.Sheet;
@@ -16,13 +17,17 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
     private readonly TraitGroupViewModel _disciplines;
     private readonly PowerItemViewModel[] _all;
     private readonly string[] _catalogDisciplines;
+    private readonly CharacterSheetActions _characterActions;
     private bool _syncing;
-    public DisciplineCatalogViewModel(IDisciplineCatalog catalog, TraitGroupViewModel disciplines, IEnumerable<TraitValue> traits)
+    public DisciplineCatalogViewModel(IDisciplineCatalog catalog, TraitGroupViewModel disciplines, IEnumerable<TraitValue> traits,
+        CharacterSheetActions? characterActions = null)
     {
         _disciplines = disciplines;
+        _characterActions = characterActions ?? new();
         var powers = traits.Where(x => x.Category == TraitCategory.DisciplinePower).ToArray();
         var known = powers.ToDictionary(x => x.Key);
-        var entries = catalog.Powers.Select(p => new PowerItemViewModel(p, known.ContainsKey(p.Id), Rating, clan: () => Clan)).ToList();
+        var entries = catalog.Powers.Select(p => new PowerItemViewModel(p, known.ContainsKey(p.Id), Rating, clan: () => Clan,
+            advancement: (clan, discipline, rating) => _characterActions.DescribeDisciplineAdvancement(clan, discipline, rating))).ToList();
         var ids = catalog.Powers.Select(x => x.Id).ToHashSet(StringComparer.Ordinal);
         foreach (var missing in powers.Where(x => !ids.Contains(x.Key) && x.Power is null))
             entries.Add(new(new(missing.Key, "Fora do catalogo", missing.Name, missing.Rating, "", "", ""),
@@ -153,7 +158,10 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
             .OrderBy(x => x.Definition.Level).ThenBy(x => x.Definition.Name, StringComparer.CurrentCultureIgnoreCase)
             .Select(x => new SuggestionItem(x.Definition.Name, filtered is null && !row.IsRitual
                 ? $"{x.Definition.Discipline} · {new string('●', x.Definition.Level)}"
-                : new string('●', x.Definition.Level)))
+                : new string('●', x.Definition.Level),
+                string.Join(" · ", new[] { SourceAttribution.Format(x.Definition.Source),
+                    string.IsNullOrWhiteSpace(x.Definition.Prerequisite) ? "" : $"Pré-requisito: {x.Definition.Prerequisite}" }
+                    .Where(value => !string.IsNullOrWhiteSpace(value)))))
             .ToArray();
     }
 
@@ -164,7 +172,8 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
             : _disciplines.Items.Where(x => x.Rating > 0).Select(x => x.Name).Concat(_catalogDisciplines)
                 .Concat(_disciplines.Items.Select(x => x.Name));
         return names.Where(x => !string.IsNullOrWhiteSpace(x)).DistinctBy(CatalogText.Normalize)
-            .Select(x => new SuggestionItem(x, Rating(x) is var r and > 0 ? new string('●', r) : "")).ToArray();
+            .Select(x => new SuggestionItem(x, Rating(x) is var r and > 0 ? new string('●', r) : "",
+                SourceAttribution.Format(DisciplineCatalog.Find(x)?.Source, isCustom: true))).ToArray();
     }
 
     internal string WarningFor(PowerRowViewModel row)
@@ -176,7 +185,10 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
         return row.Entry is { IsUnavailable: false } entry && entry.Definition.AmalgamDiscipline is { } amalgam &&
             Rating(amalgam) < entry.Definition.AmalgamLevel
             ? $"Amálgama requer {amalgam} {entry.Definition.AmalgamLevel}; a ficha tem {Rating(amalgam)}. Seleção livre."
-            : "";
+            : !string.IsNullOrWhiteSpace(row.Prerequisite) && !PowerRows.Concat(RitualRows).Any(x =>
+                CatalogText.Normalize(x.Name) == CatalogText.Normalize(row.Prerequisite))
+                ? $"Pré-requisito a conferir: {row.Prerequisite}. Seleção livre com autorização do Narrador."
+                : "";
     }
 
     private void EnsureDiscipline(PowerItemViewModel entry)
@@ -267,7 +279,7 @@ public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
             (!KnownOnly || item.IsKnown) &&
             (SelectedDiscipline == AllDisciplines ||
              CatalogText.Normalize(item.Definition.Discipline) == CatalogText.Normalize(SelectedDiscipline)) &&
-            CatalogText.Normalize($"{item.Definition.Name}\n{item.Definition.Discipline}\n{item.Definition.Cost}\n{item.Definition.DicePool}\n{item.Definition.Summary}\n{item.Definition.AmalgamDiscipline}")
+            CatalogText.Normalize($"{item.Definition.Name}\n{item.Definition.Discipline}\n{item.Definition.Cost}\n{item.Definition.DicePool}\n{item.Definition.Summary}\n{item.Definition.AmalgamDiscipline}\n{item.Definition.Prerequisite}\n{item.Definition.Source}")
                 .Contains(term, StringComparison.Ordinal);
 
         var previousPower = SelectedPower;

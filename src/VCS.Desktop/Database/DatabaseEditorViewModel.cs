@@ -23,7 +23,7 @@ public sealed class DatabaseEditorViewModel(
             x => new(x?.Value ?? new("", ""), x?.IsBuiltIn == true)),
         new CatalogTab<PowerDefinition, PowerDraft>("Poderes e rituais", powers,
             x => (x.Name, $"{x.Discipline}{(x.IsRitual ? " · ritual" : "")} · nivel {x.Level}"),
-            x => new(x?.Value ?? new("", DisciplineCatalog.All[0].Id, "", 1, "", "", ""))),
+            x => new(x?.Value ?? new("", DisciplineCatalog.All[0].Id, "", 1, "", "", "", Source: ""))),
         new CatalogTab<ClanDefinition, ClanDraft>("Clas", clans, x => (x.Name, string.Join(" · ", x.Disciplines.Select(DisciplineCatalog.NameOf))),
             x => new(x?.Value ?? new("", "", "", [], []), x?.IsBuiltIn == true))
     ];

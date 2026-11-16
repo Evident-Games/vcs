@@ -1,46 +1,57 @@
 [
   {
     "id": "discipline-animalism",
-    "name": "Animalismo"
+    "name": "Animalismo",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "discipline-auspex",
-    "name": "Auspícios"
+    "name": "Auspícios",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "discipline-blood-sorcery",
-    "name": "Feitiçaria de Sangue"
+    "name": "Feitiçaria de Sangue",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "discipline-celerity",
-    "name": "Celeridade"
+    "name": "Celeridade",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "discipline-dominate",
-    "name": "Dominação"
+    "name": "Dominação",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "discipline-fortitude",
-    "name": "Fortitude"
+    "name": "Fortitude",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "discipline-obfuscate",
-    "name": "Ofuscação"
+    "name": "Ofuscação",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "discipline-oblivion",
-    "name": "Oblívio"
+    "name": "Oblívio",
+    "source": "Fonte pendente de conferência (disciplina apresentada em suplemento V5)"
   },
   {
     "id": "discipline-potence",
-    "name": "Potência"
+    "name": "Potência",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "discipline-presence",
-    "name": "Presença"
+    "name": "Presença",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "discipline-protean",
-    "name": "Proteanismo"
+    "name": "Proteanismo",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   }
 ]

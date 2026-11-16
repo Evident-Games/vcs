@@ -12,7 +12,8 @@
       "Assamitas",
       "Assamita"
     ],
-    "bane": "Sede de Sangue Justo — sentem uma compulsão irresistível por beber sangue de outros vampiros, especialmente dos que cometeram transgressões."
+    "bane": "Sede de Sangue Justo — sentem uma compulsão irresistível por beber sangue de outros vampiros, especialmente dos que cometeram transgressões.",
+    "source": "Vampiro: A Máscara V5 — Camarilla"
   },
   {
     "id": "clan-brujah",
@@ -24,7 +25,8 @@
       "discipline-presence"
     ],
     "aliases": [],
-    "bane": "Sangue Fervoroso — têm temperamento explosivo e podem cair mais facilmente em frenesi de fúria quando provocados ou sob estresse."
+    "bane": "Sangue Fervoroso — têm temperamento explosivo e podem cair mais facilmente em frenesi de fúria quando provocados ou sob estresse.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "clan-gangrel",
@@ -36,7 +38,8 @@
       "discipline-protean"
     ],
     "aliases": [],
-    "bane": "Características Bestiais — ao entrar em frenesi, ganham traços animais temporários ou permanentes, como orelhas, pelo, olhos ou garras."
+    "bane": "Características Bestiais — ao entrar em frenesi, ganham traços animais temporários ou permanentes, como orelhas, pelo, olhos ou garras.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "clan-malkavian",
@@ -51,7 +54,8 @@
       "Malkaviano",
       "Malkavian"
     ],
-    "bane": "Perspectiva Fraturada — carregam um transtorno mental permanente ou delírios profundos, ligados à percepção sobrenatural do clã."
+    "bane": "Perspectiva Fraturada — carregam um transtorno mental permanente ou delírios profundos, ligados à percepção sobrenatural do clã.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "clan-ministry",
@@ -67,7 +71,8 @@
       "Setitas",
       "Setita"
     ],
-    "bane": "Aversão à Luz — são extremamente sensíveis à luz intensa e ao sol."
+    "bane": "Aversão à Luz — são extremamente sensíveis à luz intensa e ao sol.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "clan-nosferatu",
@@ -79,7 +84,8 @@
       "discipline-potence"
     ],
     "aliases": [],
-    "bane": "Aparência Repulsiva — o Abraço deforma o corpo e dificulta disfarçar-se ou passar por mortal."
+    "bane": "Aparência Repulsiva — o Abraço deforma o corpo e dificulta disfarçar-se ou passar por mortal.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "clan-ravnos",
@@ -91,7 +97,8 @@
       "discipline-presence"
     ],
     "aliases": [],
-    "bane": "Incapacidade de Raiz — não conseguem permanecer muito tempo no mesmo lugar sem atrair azar e perseguição."
+    "bane": "Incapacidade de Raiz — não conseguem permanecer muito tempo no mesmo lugar sem atrair azar e perseguição.",
+    "source": "Vampiro: A Máscara V5 Companion"
   },
   {
     "id": "clan-salubri",
@@ -103,7 +110,8 @@
       "discipline-fortitude"
     ],
     "aliases": [],
-    "bane": "Terceiro Olho — carregam um olho vertical na testa que denuncia sua herança e atrai perseguição."
+    "bane": "Terceiro Olho — carregam um olho vertical na testa que denuncia sua herança e atrai perseguição.",
+    "source": "Vampiro: A Máscara V5 Companion"
   },
   {
     "id": "clan-toreador",
@@ -115,7 +123,8 @@
       "discipline-presence"
     ],
     "aliases": [],
-    "bane": "Fixação / Obsessão Estética — sofrem redutores em paradas de Disciplinas quando estão em ambientes que consideram feios ou monótonos."
+    "bane": "Fixação / Obsessão Estética — sofrem redutores em paradas de Disciplinas quando estão em ambientes que consideram feios ou monótonos.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "clan-tremere",
@@ -127,7 +136,8 @@
       "discipline-blood-sorcery"
     ],
     "aliases": [],
-    "bane": "Sangue Imperfeito — têm dificuldade para criar laços de sangue e novos carniçais; a história do clã também é marcada por hierarquia e paranoia."
+    "bane": "Sangue Imperfeito — têm dificuldade para criar laços de sangue e novos carniçais; a história do clã também é marcada por hierarquia e paranoia.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "clan-tzimisce",
@@ -139,7 +149,8 @@
       "discipline-protean"
     ],
     "aliases": [],
-    "bane": "Enraizados (Posse) — precisam escolher uma posse, local ou grupo ao qual se ligam e sentem ansiedade ou fraqueza se dormirem longe dela."
+    "bane": "Enraizados (Posse) — precisam escolher uma posse, local ou grupo ao qual se ligam e sentem ansiedade ou fraqueza se dormirem longe dela.",
+    "source": "Vampiro: A Máscara V5 Companion"
   },
   {
     "id": "clan-ventrue",
@@ -151,7 +162,8 @@
       "discipline-presence"
     ],
     "aliases": [],
-    "bane": "Paladar Refinado — só conseguem alimentar-se de um tipo específico de mortal; outro sangue é rejeitado, salvo esforço de Força de Vontade."
+    "bane": "Paladar Refinado — só conseguem alimentar-se de um tipo específico de mortal; outro sangue é rejeitado, salvo esforço de Força de Vontade.",
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "clan-hecata",
@@ -165,7 +177,8 @@
     "aliases": [
       "Giovanni"
     ],
-    "bane": "Banquete Doloroso — a mordida de alimentação causa dor lancinante ao mortal, dificultando caçadas discretas."
+    "bane": "Banquete Doloroso — a mordida de alimentação causa dor lancinante ao mortal, dificultando caçadas discretas.",
+    "source": "Vampiro: A Máscara V5 — Cults of the Blood Gods"
   },
   {
     "id": "clan-lasombra",
@@ -177,6 +190,7 @@
       "discipline-potence"
     ],
     "aliases": [],
-    "bane": "Ausência de Reflexo — não aparecem em espelhos, superfícies polidas, câmeras digitais ou fotografias, dificultando manter a Máscara."
+    "bane": "Ausência de Reflexo — não aparecem em espelhos, superfícies polidas, câmeras digitais ou fotografias, dificultando manter a Máscara.",
+    "source": "Vampiro: A Máscara V5 — Chicago by Night"
   }
 ]

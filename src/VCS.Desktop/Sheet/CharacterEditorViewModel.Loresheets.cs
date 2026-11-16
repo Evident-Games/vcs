@@ -4,8 +4,6 @@ using CommunityToolkit.Mvvm.Input;
 using VCS.Content;
 using VCS.Content.Advantages;
 using VCS.Desktop.Catalogs;
-using VCS.Rules.V5.Advantages;
-using VCS.Rules.V5.Validation;
 using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
@@ -23,7 +21,11 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private int campaignExperienceSpent;
     public int CampaignExperienceAvailable => CampaignExperienceTotal - CampaignExperienceSpent;
     public int NonCampaignExperienceAvailable => ExperienceAvailable - CampaignExperienceAvailable;
-    public string LoresheetDescription => SelectedLoresheetBenefit?.Description ?? "Selecione um beneficio da colecao.";
+    public string LoresheetDescription => SelectedLoresheetBenefit is { } selected
+        ? $"{selected.Description}" +
+          (string.IsNullOrWhiteSpace(selected.Prerequisite) ? "" : $" Pré-requisito: {selected.Prerequisite}.") +
+          (string.IsNullOrWhiteSpace(selected.Source) ? "" : $" Fonte: {selected.Source}.")
+        : "Selecione um beneficio da colecao.";
     public string LoresheetCost => SelectedLoresheetBenefit is { } benefit
         ? $"{benefit.LoresheetCollection} / {(benefit.IsLineage ? "Linhagem/descendencia" : "Geral")} / {benefit.Minimum} ponto(s), comprado separadamente. " +
           $"Use {benefit.Minimum} pontos de vantagens OU {benefit.Minimum * 3} XP (idade primeiro, depois campanha)."
@@ -54,7 +56,7 @@ public partial class CharacterEditorViewModel
         LoresheetBenefits.Clear();
         foreach (var item in _loresheetDefinitions.Where(x =>
             (SelectedLoresheetCollection == "Todas as colecoes" || x.LoresheetCollection == SelectedLoresheetCollection) &&
-            CatalogText.Normalize($"{x.Name} {x.LoresheetCollection} {x.Description}").Contains(search, StringComparison.Ordinal))
+            CatalogText.Normalize($"{x.Name} {x.LoresheetCollection} {x.Description} {x.Prerequisite} {x.Source}").Contains(search, StringComparison.Ordinal))
             .OrderBy(x => x.LoresheetCollection).ThenBy(x => x.Minimum))
             LoresheetBenefits.Add(item);
         SelectedLoresheetBenefit = LoresheetBenefits.FirstOrDefault(x => x.Id == selectedId) ?? LoresheetBenefits.FirstOrDefault();
@@ -73,23 +75,25 @@ public partial class CharacterEditorViewModel
         else AddLoresheetEntry(item);
     }
     TraitGroupViewModel IMeritSheetHost.Loresheets => Loresheets;
-    string? IMeritSheetHost.AddLoresheet(AdvantageDefinition benefit) => AddLoresheetEntry(benefit) ? null : Error;
+    string? IMeritSheetHost.AddLoresheet(AdvantageDefinition benefit, bool prerequisiteConfirmed, bool limitOverrideApproved, string approvalNote) =>
+        AddLoresheetEntry(benefit, prerequisiteConfirmed, limitOverrideApproved, approvalNote) ? null : Error;
     void IMeritSheetHost.RemoveLoresheet(TraitItemViewModel item)
     {
         if (IsCreating) RemoveInitialLoresheet(item);
         else Loresheets.RemoveCommand.Execute(item);
     }
-    private bool AddLoresheetEntry(AdvantageDefinition item)
+    private bool AddLoresheetEntry(AdvantageDefinition item, bool prerequisiteConfirmed = false, bool limitOverrideApproved = false, string approvalNote = "")
     {
         try
         {
             var snapshot = Snapshot();
-            var fundingIssues = CharacterRules.Validate(snapshot.Details, snapshot.Traits);
+            var fundingIssues = _characterActions.Validate(snapshot.Details, snapshot.Traits);
             if (fundingIssues.Count != 0) throw new InvalidOperationException(string.Join(Environment.NewLine, fundingIssues.Select(x => x.Message)));
             var payment = IsCreating ? PayLoresheetWithInitialXp ? LoresheetPayment.InitialXp : LoresheetPayment.AdvantagePoints : LoresheetPayment.CampaignXp;
-            var result = LoresheetRules.Select(snapshot.Details, snapshot.Traits,
+            var result = _loresheetActions.Select(snapshot.Details, snapshot.Traits,
                 new(TraitCategory.Loresheet, item.Id, item.Name, item.Minimum,
-                    Loresheet: new(item.LoresheetCollection, item.IsLineage, item.Description, payment)), payment);
+                    Loresheet: new(item.LoresheetCollection, item.IsLineage, item.Description, payment,
+                        item.Prerequisite, item.Source, prerequisiteConfirmed, limitOverrideApproved, (approvalNote ?? "").Trim())), payment);
             _ready = false;
             try
             {
@@ -115,7 +119,7 @@ public partial class CharacterEditorViewModel
         {
             if (item is null) throw new InvalidOperationException("Selecione um beneficio da ficha.");
             var snapshot = Snapshot();
-            var result = LoresheetRules.RemoveInitial(snapshot.Details, snapshot.Traits, item.Key);
+            var result = _loresheetActions.RemoveInitial(snapshot.Details, snapshot.Traits, item.Key);
             _ready = false;
             try { Loresheets.RemoveCommand.Execute(item); ExperienceSpent = result.Details.ExperienceSpent; }
             finally { _ready = true; }

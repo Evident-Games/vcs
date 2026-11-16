@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using VCS.Content;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Content.Advantages;
 using VCS.Desktop.Catalogs;
@@ -47,6 +48,9 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
     public bool IsCatalog => Definition is not null;
     public bool IsPredator => _item?.IsPredatorGrant == true || IsPending;
     public bool IsLoresheet => _item?.Category == TraitCategory.Loresheet;
+    public bool IsLoresheetCategory => Kind == TraitCategory.Advantage &&
+        (IsLoresheet || CatalogText.Normalize(_category) == CatalogText.Normalize("Ficha de Conhecimento"));
+    public bool CanApproveLoresheet => IsLoresheetCategory && _item is null;
     /// <summary>Predator and loresheet lines keep their name; they show it as text with a subtitle.</summary>
     public bool IsFixed => IsPredator || IsLoresheet;
     public bool CanEdit => !IsPredator;
@@ -66,8 +70,10 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
     public string Reference => IsPredator
         ? (IsPending ? "Opção do predador: marque os pontos para escolhê-la." : "Concedida pelo predador.") +
           (CanReallocate ? " Diminuir devolve os pontos ao predador para escolher outra opção." : "")
-        : IsLoresheet ? $"{Subtitle} · {Definition?.PointsLabel ?? _item!.Rating.ToString()} ponto(s). {Definition?.Description ?? _item!.Loresheet?.Description}"
-        : Definition is { } definition ? $"{definition.PointsLabel} ponto(s). {definition.Description}"
+        : IsLoresheet ? $"{Subtitle} · {Definition?.PointsLabel ?? _item!.Rating.ToString()} ponto(s). {Definition?.Description ?? _item!.Loresheet?.Description}" +
+          (_item?.Loresheet is { } lore ? $" {(!string.IsNullOrWhiteSpace(lore.Source) ? $"Fonte: {lore.Source}. " : "")}{(!string.IsNullOrWhiteSpace(lore.Prerequisite) ? $"Pré-requisito: {lore.Prerequisite}. " : "")}" +
+            (lore.PrerequisiteConfirmed || lore.LimitOverrideApproved ? $"Aprovado pelo Narrador: {lore.ApprovalNote}" : "") : "")
+        : Definition is { } definition ? $"{definition.PointsLabel} ponto(s). {definition.Description} Fonte: {SourceAttribution.Format(definition.Source)}"
         : Kind == TraitCategory.Flaw ? "Defeito próprio — descreva livremente." : "Vantagem própria — descreva livremente.";
     public IReadOnlyList<SuggestionItem> CategorySuggestions => _sheet.CategorySuggestions(Kind);
     public IReadOnlyList<SuggestionItem> NameSuggestions => _sheet.NameSuggestions(this);
@@ -80,6 +86,16 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
     }.Where(x => x.Length > 0));
     public bool HasWarning => Warning.Length > 0;
     [ObservableProperty] private bool isExpanded;
+    [ObservableProperty] private bool prerequisiteConfirmed;
+    [ObservableProperty] private bool limitOverrideApproved;
+    [ObservableProperty] private string approvalNote = "";
+
+    [RelayCommand]
+    private void ConfirmLoresheet()
+    {
+        if (IsLoresheetCategory && _item is null && !string.IsNullOrWhiteSpace(Name))
+            _sheet.Edit(() => { Resolve(Name.Trim()); Refresh(); });
+    }
 
     public string Category
     {
@@ -97,6 +113,8 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
                 });
             OnPropertyChanged();
             OnPropertyChanged(nameof(NameSuggestions));
+            OnPropertyChanged(nameof(IsLoresheetCategory));
+            OnPropertyChanged(nameof(CanApproveLoresheet));
         }
     }
 
@@ -160,6 +178,7 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
 
     private void Resolve(string name)
     {
+        _error = "";
         var definition = name.Length == 0 ? null : _sheet.FindDefinition(Kind, name, _category);
         if (definition is not null)
         {
@@ -173,9 +192,12 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
             }
             if (definition.Category == TraitCategory.Loresheet)
             {
+                _category = family.Name;
+                OnPropertyChanged(nameof(Category));
+                OnPropertyChanged(nameof(IsLoresheetCategory));
                 if (_sheet.Host is null) return;
                 Release();
-                if (_sheet.Host.AddLoresheet(definition) is { } refusal) _error = refusal;
+                if (_sheet.Host.AddLoresheet(definition, PrerequisiteConfirmed, LimitOverrideApproved, ApprovalNote) is { } refusal) _error = refusal;
                 else if (family.Find(definition) is { } benefit)
                 {
                     Attach(benefit);
@@ -227,6 +249,12 @@ public sealed partial class MeritRowViewModel : ObservableObject, IDisposable
         if (_item is not null) _item.PropertyChanged -= OnItemChanged;
         _item = item;
         if (item is not null) item.PropertyChanged += OnItemChanged;
+        var lore = item?.Loresheet;
+        PrerequisiteConfirmed = lore?.PrerequisiteConfirmed ?? false;
+        LimitOverrideApproved = lore?.LimitOverrideApproved ?? false;
+        ApprovalNote = lore?.ApprovalNote ?? "";
+        OnPropertyChanged(nameof(IsLoresheetCategory));
+        OnPropertyChanged(nameof(CanApproveLoresheet));
     }
 
     private void OnItemChanged(object? sender, PropertyChangedEventArgs e)

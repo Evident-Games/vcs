@@ -34,10 +34,11 @@ public sealed class MeritFamilyTests : IAsyncLifetime
         public int PredatorRemaining(TraitCategory category) => 0;
         public int PredatorRoom(PredatorAllocationViewModel option) => 0;
         public void AllocatePredator(PredatorAllocationViewModel option, int points) { }
-        public string? AddLoresheet(AdvantageDefinition benefit)
+        public string? AddLoresheet(AdvantageDefinition benefit, bool prerequisiteConfirmed, bool limitOverrideApproved, string approvalNote)
         {
             Loresheets.AddEntry(new(TraitCategory.Loresheet, benefit.Id, benefit.Name, benefit.Minimum,
-                Loresheet: new(benefit.LoresheetCollection, benefit.IsLineage, benefit.Description, LoresheetPayment.AdvantagePoints)));
+                Loresheet: new(benefit.LoresheetCollection, benefit.IsLineage, benefit.Description, LoresheetPayment.AdvantagePoints,
+                    benefit.Prerequisite, benefit.Source, prerequisiteConfirmed, limitOverrideApproved, approvalNote)));
             return null;
         }
         public void RemoveLoresheet(TraitItemViewModel item)
@@ -62,7 +63,7 @@ public sealed class MeritFamilyTests : IAsyncLifetime
         row.Category = AdvantageCatalogViewModel.LoresheetFamily;
         Assert.All(row.NameSuggestions, x => Assert.True(x.HasNote));
         var benefit = _entries.First(x => x.Category == TraitCategory.Loresheet);
-        Assert.Contains(row.NameSuggestions, x => x.Value == benefit.Name && x.Note == benefit.LoresheetCollection);
+        Assert.Contains(row.NameSuggestions, x => x.Value == benefit.Name && x.Note.Contains(benefit.LoresheetCollection, StringComparison.Ordinal));
         row.Name = benefit.Name;
         var item = Assert.Single(host.Loresheets.Items);
         Assert.Empty(advantages.Items);
@@ -155,7 +156,7 @@ public sealed class MeritFamilyTests : IAsyncLifetime
     }
 
     [Fact]
-    public void Related_advantages_and_flaws_share_families_and_beauty_is_exclusive()
+    public void Related_advantages_and_flaws_share_families_and_conflicts_are_non_destructive()
     {
         using var advantages = new TraitGroupViewModel(TraitCategory.Advantage, []);
         using var flaws = new TraitGroupViewModel(TraitCategory.Flaw, []);
@@ -166,20 +167,21 @@ public sealed class MeritFamilyTests : IAsyncLifetime
         var stunning = beauty.Options.Single(x => x.Name == "Deslumbrante");
         var ugly = beauty.Options.Single(x => x.Name == "Feio");
         beautiful.IsSelected = true;
-        Assert.Equal(2, Assert.Single(advantages.Items).Rating);
+        Assert.Contains(advantages.Items, x => x.Key == "advantage-looks-beautiful" && x.Rating == 2);
         stunning.IsSelected = true;
-        Assert.False(beautiful.IsSelected);
-        Assert.Equal(4, Assert.Single(advantages.Items).Rating);
+        Assert.True(beautiful.IsSelected);
+        Assert.Contains(advantages.Items, x => x.Key == "advantage-looks-stunning" && x.Rating == 4);
         ugly.IsSelected = true;
-        Assert.Empty(advantages.Items);
+        Assert.Equal(2, advantages.Items.Count);
         Assert.Equal(1, Assert.Single(flaws.Items).Rating);
-        Assert.Empty(beauty.ConflictWarning);
+        Assert.NotEmpty(beauty.ConflictWarning);
         ugly.IsSelected = false;
         Assert.Empty(flaws.Items);
+        Assert.NotEmpty(beauty.ConflictWarning);
     }
 
     [Fact]
-    public void Only_confirmed_options_are_exclusive_and_other_families_accumulate()
+    public void Related_options_can_be_combined_without_automatic_removal()
     {
         using var advantages = new TraitGroupViewModel(TraitCategory.Advantage, []);
         using var flaws = new TraitGroupViewModel(TraitCategory.Flaw, []);
@@ -187,21 +189,25 @@ public sealed class MeritFamilyTests : IAsyncLifetime
         var resources = sheet.Families.Single(x => x.Name == "Recursos");
         resources.Options.Single(x => x.Name == "Recursos").Rating = 5;
         resources.Options.Single(x => x.Name == "Destituído").IsSelected = true;
-        Assert.Empty(advantages.Items);
+        Assert.Contains(advantages.Items, x => x.Name == "Recursos" && x.Rating == 5);
+        Assert.Contains(flaws.Items, x => x.Name == "Destituído");
+        Assert.NotEmpty(resources.ConflictWarning);
         var members = sheet.Families.Single(x => x.Name == "Membros");
         members.Options.Single(x => x.Name == "Mawla").Rating = 3;
         members.Options.Single(x => x.Name == "Adversário").Rating = 4;
         members.Options.Single(x => x.Name == "Status").Rating = 5;
         members.Options.Single(x => x.Name == "Suspeito").IsSelected = true;
         members.Options.Single(x => x.Name == "Segregado").IsSelected = true;
-        Assert.False(members.Options.Single(x => x.Name == "Status").IsSelected);
-        Assert.False(members.Options.Single(x => x.Name == "Suspeito").IsSelected);
-        Assert.Contains(advantages.Items, x => x.Name == "Mawla" && x.Rating == 3);
-        Assert.Contains(flaws.Items, x => x.Name == "Adversário" && x.Rating == 4);
+        Assert.True(members.Options.Single(x => x.Name == "Status").IsSelected);
+        Assert.True(members.Options.Single(x => x.Name == "Suspeito").IsSelected);
+        Assert.True(members.Options.Single(x => x.Name == "Segregado").IsSelected);
+        Assert.Contains(advantages.Items, x => x.Name == "Status" && x.Rating == 5);
+        Assert.Contains(flaws.Items, x => x.Name == "Suspeito");
+        Assert.Contains(flaws.Items, x => x.Name == "Segregado");
+        Assert.NotEmpty(members.ConflictWarning);
         foreach (var option in sheet.Families.Single(x => x.Name == "Acompanhando o Tempo").Options)
             option.IsSelected = true;
         Assert.Equal(2, sheet.Families.Single(x => x.Name == "Acompanhando o Tempo").Options.Count(x => x.IsSelected));
-        Assert.All(sheet.Families, x => Assert.Empty(x.ConflictWarning));
     }
 
     [Fact]

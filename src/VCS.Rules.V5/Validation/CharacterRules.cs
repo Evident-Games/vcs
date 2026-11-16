@@ -1,4 +1,5 @@
 using VCS.Rules.V5.Advancement;
+using VCS.Content;
 using VCS.Rules.V5.Advantages;
 using VCS.Rules.V5.Predators;
 using VCS.Sheet;
@@ -13,6 +14,7 @@ public sealed class CharacterValidationException(IReadOnlyList<ValidationIssue> 
     public IReadOnlyList<ValidationIssue> Issues { get; } = issues;
 }
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class CharacterRules
 {
     public static IReadOnlyList<TraitValue> DefaultAttributes { get; } = Array.AsReadOnly(new[]
@@ -30,7 +32,13 @@ public static class CharacterRules
 
     public const int NpcMaximumBoxes = 100;
 
-    public static int HealthCapacity(IEnumerable<TraitValue> traits) => Attribute(traits, "attribute-stamina") + 3;
+    public static int HealthCapacity(IEnumerable<TraitValue> traits)
+    {
+        var values = traits.ToArray();
+        var resilience = values.Any(x => x.Category == TraitCategory.DisciplinePower && x.Key == "power-fortitude-resilience");
+        var fortitude = values.FirstOrDefault(x => x.Category == TraitCategory.Discipline && x.Key == "discipline-fortitude")?.Rating ?? 0;
+        return Attribute(values, "attribute-stamina") + 3 + (resilience ? fortitude : 0);
+    }
     public static int WillpowerCapacity(IEnumerable<TraitValue> traits) =>
         Attribute(traits, "attribute-composure") + Attribute(traits, "attribute-resolve");
 
@@ -93,6 +101,19 @@ public static class CharacterRules
             if (note is null) { issues.Add(new(nameof(details.NoteEntries), "Nota invalida.")); continue; }
             issues.Text("NoteEntries.Title", note.Title, 120);
             issues.Text("NoteEntries.Text", note.Text, 100000);
+        }
+        if (details.Exceptions is null || details.Exceptions.Count > 200)
+            issues.Add(new(nameof(details.Exceptions), "Uma ficha pode ter no maximo 200 excecoes registradas."));
+        foreach (var exception in details.Exceptions ?? [])
+        {
+            if (exception is null) { issues.Add(new(nameof(details.Exceptions), "Registro de excecao invalido.")); continue; }
+            issues.Text("Exceptions.Area", exception.Area, 80, true);
+            issues.Text("Exceptions.Subject", exception.Subject, 200, true);
+            issues.Text("Exceptions.RuleOrPrerequisite", exception.RuleOrPrerequisite, 1000);
+            issues.Text("Exceptions.Ruling", exception.Ruling, 2000, true);
+            issues.Text("Exceptions.AuthorizedBy", exception.AuthorizedBy, 120, true);
+            if (exception.Id == Guid.Empty || exception.ApprovedUtc == default)
+                issues.Add(new(nameof(details.Exceptions), "A excecao precisa de identificador e data de aprovacao."));
         }
         foreach (var (field, value) in new (string, string)[]
         {

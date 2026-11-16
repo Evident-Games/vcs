@@ -56,7 +56,97 @@
             <sheet:SkillsView />
         </DataTemplate>
         <DataTemplate x:Key="Disciplines">
+            <StackPanel>
             <catalogs:DisciplineCatalogView />
+            <Expander Header="Preparar ritual conhecido" Margin="8,12"><StackPanel Margin="8">
+                <ComboBox ItemsSource="{Binding Powers.RitualRows}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedPreparedRitual}"/>
+                <TextBlock Text="{Binding SelectedPreparedRitual.Warning}" TextWrapping="Wrap"/>
+                <CheckBox Content="Exceção autorizada pelo Narrador" IsChecked="{Binding RitualExceptionApproved}"/>
+                <TextBlock Text="Justificativa da exceção"/>
+                <TextBox Text="{Binding RitualExceptionReason, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
+                <TextBlock Text="Objeto protegido (para proteção de objeto)"/>
+                <TextBox Text="{Binding WardObject, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="Confira se a regra padrão se aplica; proteções e o ritual de despertar têm testes adiados até seus gatilhos." TextWrapping="Wrap"/>
+                <CheckBox Content="Confirmei ingredientes, tempo, alvo e regra padrão com o Narrador" IsChecked="{Binding RitualConditionsConfirmed}"/>
+                <Button Content="Preparar ritual" Command="{Binding PrepareRitualCommand}" HorizontalAlignment="Left"/>
+                <TextBlock Text="Intruso (nome ou identificação da cena)"/>
+                <TextBox Text="{Binding WardIntruder, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="O intruso é o próprio conjurador" IsChecked="{Binding WardIntruderIsCaster}"/>
+                <CheckBox Content="Narrador confirmou toque voluntário do intruso correspondente" IsChecked="{Binding WardContactConfirmed}"/>
+                <Button Content="Resolver contato da proteção selecionada" Command="{Binding ResolveWardContactCommand}" HorizontalAlignment="Left"/>
+                <TextBlock Text="Intruso já afetado: parada Vigor + Determinação e Fome (0 para mortal)" TextWrapping="Wrap"/>
+                <WrapPanel><controls:NumericField Value="{Binding WardRetryPool}" Minimum="0" Maximum="50"/><controls:NumericField Value="{Binding WardRetryHunger}" Minimum="0" Maximum="5"/></WrapPanel>
+                <CheckBox Content="Narrador confirmou intruso já afetado e gasto de 1 Vontade" IsChecked="{Binding WardRetryCostConfirmed}"/>
+                <Button Content="Rolar resistência à proteção" Command="{Binding RollWardRetryCommand}" HorizontalAlignment="Left"/>
+                <CheckBox Content="Narrador confirmou perigo durante o sono" IsChecked="{Binding AwakeningDangerConfirmed}"/>
+                <Button Content="Resolver perigo: ritual de despertar" Command="{Binding ResolveAwakeningDangerCommand}" HorizontalAlignment="Left"/>
+                <Button Content="Encerrar sono diurno" Command="{Binding EndAwakeningSleepCommand}" HorizontalAlignment="Left"/>
+                <TextBlock Text="Fuga para o Verdadeiro Santuário: selecione o ritual acima para tentar viajar." TextWrapping="Wrap"/>
+                <Expander Header="Preparação dos círculos"><StackPanel Margin="8">
+                    <TextBlock Text="{Binding SanctuaryPreparationProgress}" TextWrapping="Wrap"/>
+                    <TextBlock Text="Círculo 1: partida · Círculo 2: chegada. Cada círculo exige duas horas e duas checagens por noite, durante três noites consecutivas. Pague uma checagem por vez." TextWrapping="Wrap"/>
+                    <ComboBox ItemsSource="{Binding SanctuaryCircles}" SelectedItem="{Binding SanctuaryCircle}"/>
+                    <TextBlock Text="Data da noite na crônica (dd/MM/aaaa)"/>
+                    <TextBox Text="{Binding SanctuaryNight, StringFormat=dd/MM/yyyy, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"/>
+                    <CheckBox Content="Narrador confirmou círculo, ingredientes e as duas horas de preparação desta noite" IsChecked="{Binding SanctuaryPreparationConfirmed}"/>
+                    <Button Content="Pagar próxima Checagem de Sangue" Command="{Binding PrepareSanctuaryCheckCommand}" HorizontalAlignment="Left"/>
+                    <TextBlock Text="As checagens pagas ficam nos efeitos e no diário. Interrupções exigem decisão da mesa; use a justificativa de exceção acima." TextWrapping="Wrap"/>
+                    <CheckBox Content="Narrador confirmou abandono ou inutilização deste par de círculos" IsChecked="{Binding SanctuaryResetConfirmed}"/>
+                    <Button Content="Encerrar preparação do par" Command="{Binding ResetSanctuaryPreparationCommand}" HorizontalAlignment="Left"/>
+                </StackPanel></Expander>
+                <CheckBox Content="Narrador confirmou círculos completos e intactos, partida e concentração" IsChecked="{Binding SanctuaryTravelConfirmed}"/>
+                <Button Content="Rolar viagem ao Santuário" Command="{Binding RollSanctuaryTravelCommand}" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding RitualPreparationSummary}" TextWrapping="Wrap"/>
+            </StackPanel></Expander>
+            <Expander Header="Ativar poder conhecido" Margin="8,12"><StackPanel Margin="8">
+                <ComboBox ItemsSource="{Binding Powers.PowerRows}" DisplayMemberPath="Name" SelectedItem="{Binding ActivationPower}"/>
+                <TextBlock Text="{Binding ActivationPower.Cost}" TextWrapping="Wrap" Margin="0,8,0,0"/>
+                <TextBlock Text="{Binding ActivationPower.DicePool}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding ActivationPower.Warning}" TextWrapping="Wrap"/>
+                <TextBlock Text="Checagens de Sangue exigidas nesta ativação"/>
+                <controls:NumericField Value="{Binding ActivationRouseChecks}" Minimum="0" Maximum="10"/>
+                <TextBlock Text="Custo em Vontade"/><controls:NumericField Value="{Binding ActivationWillpowerCost}" Minimum="0" Maximum="10"/>
+                <TextBlock Text="Alvo"/><TextBox Text="{Binding ActivationTarget}"/>
+                <TextBlock Text="Efeito e duração confirmados pela mesa"/><TextBox Text="{Binding ActivationEffect}" TextWrapping="Wrap" AcceptsReturn="True"/>
+                <sheet:PowerUseView/>
+                <CheckBox Content="Exceção autorizada pelo Narrador" IsChecked="{Binding ActivationExceptionApproved}"/>
+                <CheckBox Content="Conferi os custos desta ativação com a regra do poder" IsChecked="{Binding ActivationCostsConfirmed}"/>
+                <Button Content="Resolver uso e pagar custos" Command="{Binding ActivatePowerCommand}" HorizontalAlignment="Left"/>
+                <Expander Header="Percepção, influência e proteção mental" Margin="0,8">
+                    <StackPanel Margin="8">
+                        <TextBlock Text="Ative o poder conhecido acima. Ajustes manuais também permitem decisões do Narrador; registre a autorização no efeito." TextWrapping="Wrap"/>
+                        <CheckBox Content="Sentidos Aguçados ativos" IsChecked="{Binding HeightenedSensesActive}"/>
+                        <CheckBox Content="Este teste é de percepção" IsChecked="{Binding PerceptionRoll}"/>
+                        <CheckBox Content="Sobrecarga sensorial após falha na resistência (−3 até o fim da cena)" IsChecked="{Binding SensoryOverload}"/>
+                        <TextBlock Text="Estímulo extremo: Raciocínio + Determinação, dificuldade 3 ou maior, definida pelo Narrador." TextWrapping="Wrap"/>
+                        <CheckBox Content="Fascínio ativo (Persuasão ou Performance)" IsChecked="{Binding AweActive}"/>
+                        <CheckBox Content="Narrador permite Fascínio neste outro teste de Carisma" IsChecked="{Binding AweOtherCharismaApproved}"/>
+                        <CheckBox Content="Este alvo resistiu a Fascínio; não aplicar bônus" IsChecked="{Binding AweTargetResisted}"/>
+                        <TextBlock Text="Resistência: Autocontrole + Inteligência contra Manipulação + Presença. Vitória protege por uma cena; crítico, uma noite. Confira ao trocar de alvo." TextWrapping="Wrap"/>
+                        <CheckBox Content="Fortificar a Fachada Interior ativo" IsChecked="{Binding InnerFacadeActive}"/>
+                        <CheckBox Content="Este teste resiste a sondagem mental (substitui aumento da dificuldade)" IsChecked="{Binding MentalProbeResistance}"/>
+                        <TextBlock Text="{Binding ContextPowerSummary}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Expander>
+                <CheckBox Content="Poder Vindo da Dor ativo (Atributos Físicos conforme dano marcado)" IsChecked="{Binding ProwessFromPainActive}"/>
+                <CheckBox Content="Pele de Mármore ativa" IsChecked="{Binding FleshOfMarbleActive}"/>
+                <CheckBox Content="Primeira fonte do turno disponível para Pele de Mármore" IsChecked="{Binding MarbleFirstSourceAvailable}"/>
+                <CheckBox Content="Fonte de dano recebida é luz solar" IsChecked="{Binding IncomingSourceIsSunlight}"/>
+                <CheckBox Content="Ataque recebido teve vitória crítica" IsChecked="{Binding IncomingAttackIsCritical}"/>
+                <CheckBox Content="Rapidez ativa" IsChecked="{Binding FleetnessActive}"/>
+                <CheckBox Content="Teste de combate" IsChecked="{Binding RollIsCombat}"/>
+                <CheckBox Content="Esquiva com Destreza + Atletismo" IsChecked="{Binding RollIsDodge}"/>
+                <Button Content="Iniciar novo turno (libera esquiva de Rapidez)" Command="{Binding BeginPowerTurnCommand}" HorizontalAlignment="Left"/>
+                <CheckBox Content="Tenacidade ativa (redução superficial por Fortitude)" IsChecked="{Binding ToughnessActive}"/>
+                <CheckBox Content="Poderio ativo (bônus de dano por Potência)" IsChecked="{Binding ProwessActive}"/>
+                <CheckBox Content="Usando Armas Brancas (metade da Potência, para cima)" IsChecked="{Binding UsingMeleeWeapon}"/>
+                <CheckBox Content="Mente Inescrutável aplicável a este teste da ficha" IsChecked="{Binding UnswayableMindApplies}"/>
+                <TextBlock Text="{Binding PhysicalPowerGuidance}" TextWrapping="Wrap"/>
+                <CheckBox Content="Armas da Fera ativas (+2 dano; ignora redução superficial no alvo)" IsChecked="{Binding FeralWeaponsActive}"/>
+                <Button Content="Encerrar cena e efeitos temporários" Command="{Binding EndPowerSceneCommand}" HorizontalAlignment="Left" Margin="0,8,0,0"/>
+                <TextBlock Text="{Binding ActivationSummary}" TextWrapping="Wrap" Margin="0,8,0,0"/>
+            </StackPanel></Expander>
+            </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="Advantages">
             <StackPanel>
@@ -84,23 +174,262 @@
                     <StackPanel Margin="8,0,24,16">
                         <TextBlock Text="Fome" Style="{StaticResource FieldLabel}" />
                         <controls:DotTrack Value="{Binding Hunger, Mode=TwoWay}" Maximum="5" AutomationProperties.Name="Fome na ficha" />
+                        <Button Content="Fazer checagem de Sangue" Command="{Binding MakeRouseCheckCommand}" Margin="0,6,0,0"
+                                AutomationProperties.Name="Fazer checagem de Sangue" />
+                        <TextBlock Text="{Binding RouseRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
                     </StackPanel>
                     <StackPanel Margin="8,0,24,16">
                         <TextBlock Text="Humanidade" Style="{StaticResource FieldLabel}" />
                         <controls:DotTrack Value="{Binding Humanity, Mode=TwoWay}" Maximum="10" AutomationProperties.Name="Humanidade na ficha" />
                     </StackPanel>
-                    <StackPanel Margin="8,0,0,16">
-                        <TextBlock Text="Potencia de Sangue" Style="{StaticResource FieldLabel}" />
-                        <TextBlock Text="{Binding StateExperience}" TextWrapping="Wrap" Foreground="{DynamicResource VcsAccentText}" />
-                        <controls:DotTrack Value="{Binding BloodPotency, Mode=TwoWay}" Maximum="10"
-                                           IsEnabled="{Binding CanEditBuild}"
-                                           AutomationProperties.Name="Potencia de sangue na ficha" />
-                    </StackPanel>
                 </WrapPanel>
+                <Border Visibility="{Binding HasBloodPotencyRuleWarning, Converter={StaticResource BoolVisibility}}"
+                        BorderBrush="{DynamicResource VcsAccentBorder}" Background="{DynamicResource VcsInput}"
+                        BorderThickness="1" CornerRadius="7" Padding="10" Margin="8,0,8,10">
+                    <StackPanel>
+                        <TextBlock Text="Aviso de regra" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" />
+                        <TextBlock Text="{Binding BloodPotencyRuleWarning}" TextWrapping="Wrap" Margin="0,3,0,0"
+                                   Foreground="{DynamicResource VcsCardText}" />
+                    </StackPanel>
+                </Border>
+                <TextBlock Text="{Binding GenerationRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Margin="8,0,8,4" Foreground="{DynamicResource VcsInputDescription}" />
+                <sheet:BloodLineageDiagram BloodPotency="{Binding BloodPotency, Mode=TwoWay}"
+                                             Generation="{Binding Generation, Mode=TwoWay}"
+                                             BloodPotencyEnabled="{Binding CanEditBuild}" Margin="8,0,8,12" />
+                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
+                    <StackPanel>
+                        <TextBlock Text="Mending" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding MendingRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" Margin="0,3,0,4" />
+                        <TextBlock Text="Gasta uma checagem de Sangue e recupera o limite de dano superficial de Saúde da Potência do Sangue. A falha ainda aumenta a Fome."
+                                   TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
+                        <Button Content="Fazer Mending" Command="{Binding MendSuperficialHealthCommand}" HorizontalAlignment="Left" Margin="0,6,0,0"
+                                AutomationProperties.Name="Recuperar dano superficial de Saúde com Mending" />
+                    </StackPanel>
+                </Border>
+                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
+                    <StackPanel>
+                        <TextBlock Text="Rolagem de dados V5" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <Expander Header="Modificadores por fonte (parada da ficha)" Margin="0,0,0,10">
+                         <StackPanel>
+                          <ItemsControl ItemsSource="{Binding PoolModifiers}"><ItemsControl.ItemTemplate><DataTemplate>
+                           <StackPanel Margin="0,6">
+                            <CheckBox Content="Aplicar modificador" IsChecked="{Binding IsApplied}"/>
+                            <TextBox Text="{Binding Reason, UpdateSourceTrigger=PropertyChanged}" ToolTip="Motivo"/>
+                            <TextBox Text="{Binding Source, UpdateSourceTrigger=PropertyChanged}" ToolTip="Fonte do modificador"/>
+                            <controls:NumericField Value="{Binding Dice}" Minimum="-50" Maximum="50"/>
+                            <Button Content="Remover" Command="{Binding DataContext.RemovePoolModifierCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" HorizontalAlignment="Left"/>
+                           </StackPanel>
+                          </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+                          <Button Content="Adicionar modificador" Command="{Binding AddPoolModifierCommand}" HorizontalAlignment="Left"/>
+                         </StackPanel>
+                        </Expander>
+                        <TextBlock Text="{Binding DiceRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Margin="0,0,0,8"
+                                   Foreground="{DynamicResource VcsInputDescription}" />
+                        <UniformGrid Columns="3" Margin="0,0,0,8">
+                            <StackPanel Margin="0,0,8,0">
+                                <TextBlock Text="Atributo" Style="{StaticResource FieldLabel}" />
+                                <ComboBox ItemsSource="{Binding RollAttributes}" DisplayMemberPath="Name"
+                                          SelectedItem="{Binding SelectedRollAttribute, Mode=TwoWay}" AutomationProperties.Name="Atributo para montar a parada" />
+                            </StackPanel>
+                            <StackPanel Margin="0,0,8,0">
+                                <TextBlock Text="Habilidade" Style="{StaticResource FieldLabel}" />
+                                <ComboBox ItemsSource="{Binding RollSkills}" DisplayMemberPath="Name"
+                                          SelectedItem="{Binding SelectedRollSkill, Mode=TwoWay}" AutomationProperties.Name="Habilidade para montar a parada" />
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Ajuste da mesa" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding RollSituationalModifier, Mode=TwoWay}" Minimum="-50" Maximum="50"
+                                                       AutomationProperties.Name="Ajuste situacional da parada" />
+                            </StackPanel>
+                        </UniformGrid>
+                        <TextBox Text="{Binding RollModifierSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="Registre a origem do ajuste: circunstância, vantagem/desvantagem ou exceção aprovada pelo Narrador."
+                                 AutomationProperties.Name="Origem do ajuste da parada" Margin="0,0,0,8" />
+                        <CheckBox Content="Especialização se aplica (+1 dado)" IsChecked="{Binding UseRollSpecialization, Mode=TwoWay}"
+                                  IsEnabled="{Binding CanApplyRollSpecialization}" Margin="0,0,0,8"
+                                  AutomationProperties.Name="Adicionar dado por especialização aplicável" />
+                        <CheckBox Content="Aplicar +1 dado de Ressonância/Discrasia neste teste" IsChecked="{Binding UseResonanceBonus, Mode=TwoWay}"
+                                  IsEnabled="{Binding CanUseResonanceBonus}" Margin="0,0,0,8"
+                                  AutomationProperties.Name="Aplicar bônus de Ressonância ou Discrasia neste teste" />
+                        <TextBlock Text="{Binding RollPoolSummary}" TextWrapping="Wrap" Margin="0,0,0,8"
+                                   Foreground="{DynamicResource VcsInputDescription}" />
+                        <WrapPanel VerticalAlignment="Center">
+                            <StackPanel Margin="0,0,12,6">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding UseSheetDicePool}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                                <TextBlock Text="Dados na parada" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding RollDicePool, Mode=TwoWay}" Minimum="0" Maximum="50"
+                                                       AutomationProperties.Name="Dados na parada" />
+                            </StackPanel>
+                            <StackPanel Margin="0,0,12,6">
+                                <TextBlock Text="Dificuldade" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding RollDifficulty, Mode=TwoWay}" Minimum="0" Maximum="50"
+                                                       AutomationProperties.Name="Dificuldade do teste" />
+                            </StackPanel>
+                            <CheckBox Content="Usar dados de Fome" IsChecked="{Binding UseHungerDice, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <CheckBox Content="Usar Surto de Sangue" IsChecked="{Binding UseBloodSurge, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <CheckBox Content="Montar parada com a ficha" IsChecked="{Binding UseSheetDicePool, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" AutomationProperties.Name="Montar parada usando Atributo e Habilidade" />
+                            <Button Content="Rolar teste" Command="{Binding RollTestCommand}" Margin="0,0,0,6"
+                                    AutomationProperties.Name="Rolar teste V5" />
+                        </WrapPanel>
+
+                    </StackPanel>
+                </Border>
+                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
+                    <StackPanel>
+                        <TextBlock Text="Resistência ao Frenesi" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <WrapPanel VerticalAlignment="Center">
+                            <StackPanel Margin="0,0,12,6" MinWidth="260">
+                                <TextBlock Text="Gatilho" Style="{StaticResource FieldLabel}" />
+                                <ComboBox ItemsSource="{Binding FrenzyTriggerOptions}" DisplayMemberPath="Label"
+                                          SelectedItem="{Binding SelectedFrenzyTriggerOption, Mode=TwoWay}"
+                                          AutomationProperties.Name="Gatilho de Frenesi" />
+                            </StackPanel>
+                            <CheckBox Content="Pilar ou amante" IsChecked="{Binding FrenzyTriggerIsPillarOrLover, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <Button Content="Testar resistência" Command="{Binding ResistFrenzyCommand}" Margin="0,0,0,6"
+                                    AutomationProperties.Name="Testar resistência ao Frenesi" />
+                        </WrapPanel>
+                        <TextBlock Text="{Binding FrenzyTriggerGuidance}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
+                    </StackPanel>
+                </Border>
+                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
+                    <StackPanel>
+                        <TextBlock Text="Alimentação" FontWeight="SemiBold" Margin="0,0,0,8" />
+                        <WrapPanel VerticalAlignment="Center">
+                            <StackPanel Margin="0,0,12,6" MinWidth="220">
+                                <TextBlock Text="Fonte de sangue" Style="{StaticResource FieldLabel}" />
+                                <ComboBox ItemsSource="{Binding BloodSourceOptions}" DisplayMemberPath="Label"
+                                          SelectedItem="{Binding SelectedBloodSourceOption, Mode=TwoWay}"
+                                          AutomationProperties.Name="Fonte de sangue" />
+                            </StackPanel>
+                            <CheckBox Content="Animal grande" IsChecked="{Binding FeedingAnimalIsLarge, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <CheckBox Content="Animal excepcional" IsChecked="{Binding FeedingAnimalIsExceptional, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <CheckBox Content="Humano drenado até a morte" IsChecked="{Binding FeedingHumanWasDrained, Mode=TwoWay}"
+                                      VerticalAlignment="Center" Margin="0,0,12,6" />
+                            <Button Content="Aplicar alimentação" Command="{Binding ApplyFeedingCommand}" Margin="0,0,0,6"
+                                    AutomationProperties.Name="Aplicar alimentação" />
+                            <Button Content="Rolar Ressonância" Command="{Binding RollResonanceCommand}" IsEnabled="{Binding CanRollResonance}" Margin="0,0,0,6"
+                                    AutomationProperties.Name="Rolar Ressonância da fonte de sangue" />
+                        </WrapPanel>
+                        <TextBlock Text="{Binding FeedingRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding FeedingPreview}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding FeedingSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
+                        <TextBlock Text="{Binding ResonanceRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" Margin="0,6,0,0" />
+                        <TextBlock Text="{Binding ResonanceSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
+                    </StackPanel>
+                </Border>
+                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
+                    <StackPanel>
+                        <TextBlock Text="Crônica: Vínculo de Sangue e Torpor" FontWeight="SemiBold" Margin="0,0,0,4" />
+                        <TextBlock Text="{Binding ChronicleRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
+                        <WrapPanel Margin="0,6,0,0" VerticalAlignment="Center">
+                            <StackPanel Width="180" Margin="0,0,8,6"><TextBlock Text="Regente" Style="{StaticResource FieldLabel}" />
+                                <TextBox Text="{Binding BloodBondRegnantId, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Regente do Vínculo de Sangue" /></StackPanel>
+                            <StackPanel Width="180" Margin="0,0,8,6"><TextBlock Text="Vassalo" Style="{StaticResource FieldLabel}" />
+                                <TextBox Text="{Binding BloodBondThrallId, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Vassalo do Vínculo de Sangue" /></StackPanel>
+                            <StackPanel Width="84" Margin="0,0,8,6"><TextBlock Text="Nível atual" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding BloodBondLevel, Mode=TwoWay}" Minimum="0" Maximum="3" AutomationProperties.Name="Nível atual do vínculo" /></StackPanel>
+                            <StackPanel Width="145" Margin="0,0,8,6"><TextBlock Text="Último gole" Style="{StaticResource FieldLabel}" />
+                                <DatePicker SelectedDate="{Binding BloodBondLastVitaeDate, Mode=TwoWay}" AutomationProperties.Name="Data do último gole" /></StackPanel>
+                            <StackPanel Width="145" Margin="0,0,8,6"><TextBlock Text="Gole registrado em" Style="{StaticResource FieldLabel}" />
+                                <DatePicker SelectedDate="{Binding BloodBondEventDate, Mode=TwoWay}" AutomationProperties.Name="Data do gole" /></StackPanel>
+                            <Button Content="Registrar gole" Command="{Binding RecordBloodBondDrinkCommand}" VerticalAlignment="Bottom" Margin="0,0,0,6" />
+                        </WrapPanel>
+                        <TextBlock Text="{Binding BloodBondSummary}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding BloodBondEffectiveLevel, StringFormat=Nível efetivo nesta data: {0}/3}" Foreground="{DynamicResource VcsInputDescription}" />
+                        <WrapPanel Margin="0,10,0,0" VerticalAlignment="Center">
+                            <StackPanel Width="145" Margin="0,0,8,6"><TextBlock Text="Entrada em Torpor" Style="{StaticResource FieldLabel}" />
+                                <DatePicker SelectedDate="{Binding TorporEnteredAt, Mode=TwoWay}" AutomationProperties.Name="Data de entrada em Torpor" /></StackPanel>
+                            <StackPanel Width="145" Margin="0,0,8,6"><TextBlock Text="Verificar em" Style="{StaticResource FieldLabel}" />
+                                <DatePicker SelectedDate="{Binding TorporCheckAt, Mode=TwoWay}" AutomationProperties.Name="Data para verificar o Torpor" /></StackPanel>
+                            <CheckBox Content="Está empalado" IsChecked="{Binding TorporStaked, Mode=TwoWay}" VerticalAlignment="Bottom" Margin="0,0,12,10" />
+                            <Button Content="Calcular despertar" Command="{Binding CalculateTorporCommand}" VerticalAlignment="Bottom" Margin="0,0,0,6" />
+                        </WrapPanel>
+                        <TextBlock Text="{Binding TorporRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding TorporSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
+                        <WrapPanel Margin="0,6,0,0" VerticalAlignment="Center">
+                            <StackPanel Width="130" Margin="0,0,8,6"><TextBlock Text="Potência da Vitae" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding TorporVitaeBloodPotency, Mode=TwoWay}" Minimum="0" Maximum="10" /></StackPanel>
+                            <StackPanel Width="130" Margin="0,0,8,6"><TextBlock Text="Fome saciada" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding TorporVitaeHungerSlaked, Mode=TwoWay}" Minimum="0" Maximum="5" /></StackPanel>
+                            <Button Content="Verificar despertar por Vitae" Command="{Binding CheckTorporVitaeCommand}" VerticalAlignment="Bottom" Margin="0,0,0,6" />
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                        BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
+                    <StackPanel>
+                        <TextBlock Text="Resolução de conflito" FontWeight="SemiBold" Margin="0,0,0,4" />
+                        <TextBlock Text="{Binding ConflictRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
+                        <WrapPanel Margin="0,6,0,0" VerticalAlignment="Center">
+                            <StackPanel Width="160" Margin="0,0,8,6"><TextBlock Text="Tipo" Style="{StaticResource FieldLabel}" />
+                                <ComboBox ItemsSource="{Binding ConflictKinds}" DisplayMemberPath="Label" SelectedItem="{Binding SelectedConflictKind, Mode=TwoWay}" /></StackPanel>
+                            <StackPanel Width="150" Margin="0,0,8,6"><TextBlock Text="Dano" Style="{StaticResource FieldLabel}" />
+                                <ComboBox ItemsSource="{Binding ConflictDamageTypes}" DisplayMemberPath="Label" SelectedItem="{Binding SelectedConflictDamageType, Mode=TwoWay}" /></StackPanel>
+                            <StackPanel Width="84" Margin="0,0,8,6"><TextBlock Text="Sucessos lado 1" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding FirstConflictSuccesses, Mode=TwoWay}" Minimum="0" Maximum="50" /></StackPanel>
+                            <StackPanel Width="84" Margin="0,0,8,6"><TextBlock Text="Sucessos lado 2" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding SecondConflictSuccesses, Mode=TwoWay}" Minimum="0" Maximum="50" /></StackPanel>
+                            <StackPanel Width="80" Margin="0,0,8,6"><TextBlock Text="Mod. dano 1" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding FirstConflictDamageModifier, Mode=TwoWay}" Minimum="-20" Maximum="20" /></StackPanel>
+                            <StackPanel Width="80" Margin="0,0,8,6"><TextBlock Text="Mod. dano 2" Style="{StaticResource FieldLabel}" />
+                                <controls:NumericField Value="{Binding SecondConflictDamageModifier, Mode=TwoWay}" Minimum="-20" Maximum="20" /></StackPanel>
+                            <CheckBox Content="Lado 1 é vampiro" IsChecked="{Binding FirstConflictTargetIsVampire, Mode=TwoWay}" VerticalAlignment="Bottom" Margin="0,0,8,10" />
+                            <CheckBox Content="Lado 2 é vampiro" IsChecked="{Binding SecondConflictTargetIsVampire, Mode=TwoWay}" VerticalAlignment="Bottom" Margin="0,0,8,10" />
+                            <Button Content="Resolver troca" Command="{Binding ResolveConflictCommand}" VerticalAlignment="Bottom" Margin="0,0,8,6" />
+                            <Button Content="Aplicar dano ao personagem" Command="{Binding ApplyConflictDamageCommand}" IsEnabled="{Binding CanApplyConflictDamage}" VerticalAlignment="Bottom" Margin="0,0,0,6" />
+                        </WrapPanel>
+                        <TextBlock Text="{Binding ConflictSummary}" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+                <UniformGrid Columns="3" Margin="8,0,8,12">
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,6,6">
+                        <StackPanel><TextBlock Text="Surto de Sangue" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodSurgeSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    </Border>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="3,0,3,6">
+                        <StackPanel><TextBlock Text="Recuperação superficial" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodMendSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    </Border>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="6,0,0,6">
+                        <StackPanel><TextBlock Text="Bônus em poderes" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodPowerBonusSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    </Border>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,6,0">
+                        <StackPanel><TextBlock Text="Rerrolagem de despertar" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodRouseRerollSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    </Border>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="3,0,3,0">
+                        <StackPanel><TextBlock Text="Gravidade da Perdição" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodBaneSeveritySummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    </Border>
+                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="6,0,0,0">
+                        <StackPanel><TextBlock Text="Alimentação" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodFeedingPenaltySummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    </Border>
+                </UniformGrid>
                 <sheet:HumanityView />
-                <TextBlock Text="Sangue: valores de referencia preenchidos pela mesa; sem calculo automatico." TextWrapping="Wrap"
-                           Foreground="{DynamicResource VcsInputDescription}" Margin="8" />
-                <ItemsControl ItemsSource="{Binding BloodFields}" ItemTemplate="{StaticResource SheetExtraField}">
+                        <TextBlock Text="Ressonância e Discrasia são registradas pela mesa. O bônus ativo pode ser aplicado manualmente a um teste compatível no rolador; confirme a disciplina e exceções com o Narrador. Os demais efeitos são calculados pela Potência do Sangue."
+                           TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="8,0,8,4" />
+                <ItemsControl ItemsSource="{Binding BloodAnnotationFields}" ItemTemplate="{StaticResource SheetExtraField}">
                     <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                 </ItemsControl>
             </StackPanel>
@@ -176,6 +505,30 @@
                 </TextBlock>
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="Exceptions">
+            <StackPanel>
+                <TextBlock Text="Registre permissões e decisões da crônica que flexibilizam requisitos da ficha. Este quadro é salvo junto ao personagem e fica visível para consulta." TextWrapping="Wrap" Margin="8,0,8,10" Foreground="{DynamicResource VcsInputDescription}" />
+                <DockPanel Margin="8,0,8,8">
+                    <Button DockPanel.Dock="Right" Content="+ Registrar exceção" Command="{Binding ExceptionRegister.AddCommand}" AutomationProperties.Name="Registrar exceção da ficha" />
+                    <TextBlock Text="{Binding ExceptionRegister.Count, StringFormat={}{0} exceção(ões) registradas}" VerticalAlignment="Center" Foreground="{DynamicResource VcsInputDescription}" />
+                </DockPanel>
+                <DataGrid ItemsSource="{Binding ExceptionRegister.Entries}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserReorderColumns="False" MinHeight="100" MaxHeight="520" HeadersVisibility="Column" IsReadOnly="False" AutomationProperties.Name="Exceções autorizadas pelo narrador">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Área" Binding="{Binding Area, UpdateSourceTrigger=PropertyChanged}" Width="130" />
+                        <DataGridTextColumn Header="Item / escolha" Binding="{Binding Subject, UpdateSourceTrigger=PropertyChanged}" Width="160" />
+                        <DataGridTextColumn Header="Regra ou pré-requisito" Binding="{Binding RuleOrPrerequisite, UpdateSourceTrigger=PropertyChanged}" Width="2*" />
+                        <DataGridTextColumn Header="Decisão / motivo" Binding="{Binding Ruling, UpdateSourceTrigger=PropertyChanged}" Width="2*" />
+                        <DataGridTextColumn Header="Autorizado por" Binding="{Binding AuthorizedBy, UpdateSourceTrigger=PropertyChanged}" Width="130" />
+                        <DataGridTextColumn Header="Data" Binding="{Binding ApprovedDate}" IsReadOnly="True" Width="100" />
+                        <DataGridTemplateColumn Header="" Width="42">
+                            <DataGridTemplateColumn.CellTemplate><DataTemplate>
+                                <Button Content="×" ToolTip="Excluir registro" Command="{Binding DataContext.ExceptionRegister.RemoveCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" AutomationProperties.Name="Excluir exceção" />
+                            </DataTemplate></DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </DataTemplate>
     </UserControl.Resources>
     <Border>
         <Border.Style>
@@ -199,22 +552,33 @@
                 </Style.Triggers>
             </Style>
         </Border.Style>
-        <StackPanel>
-            <TextBlock Text="{Binding Option.DisplayTitle}" FontFamily="Georgia" FontSize="22" HorizontalAlignment="Center"
-                       Foreground="{DynamicResource VcsAccentText}" Margin="0,0,0,16">
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsCompact, RelativeSource={RelativeSource AncestorType=sheet:SheetSectionView}}" Value="True">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                            <!-- The NPC header shows its own heading. -->
-                            <DataTrigger Binding="{Binding Key}" Value="NpcHeader"><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
+        <Expander IsExpanded="True" BorderThickness="0" Background="Transparent" Padding="0"
+                  AutomationProperties.Name="{Binding Option.DisplayTitle}" AutomationProperties.HelpText="Expandir ou recolher esta seção">
+            <Expander.Header>
+                <Grid Margin="0,0,0,12">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsCompact, RelativeSource={RelativeSource AncestorType=sheet:SheetSectionView}}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <!-- The NPC header shows its own heading. -->
+                                <DataTrigger Binding="{Binding Key}" Value="NpcHeader">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="4" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Background="{DynamicResource VcsAccent}" CornerRadius="2" Margin="0,2,12,2" />
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Option.DisplayTitle}" FontSize="14" FontWeight="Bold"
+                                   Foreground="{DynamicResource VcsAccentText}" TextTrimming="CharacterEllipsis" />
+                        <Border Height="1" Background="{DynamicResource VcsBorder}" Margin="0,8,0,0" />
+                    </StackPanel>
+                </Grid>
+            </Expander.Header>
             <ContentControl x:Name="Body" Focusable="False" />
-        </StackPanel>
+        </Expander>
     </Border>
 </UserControl>

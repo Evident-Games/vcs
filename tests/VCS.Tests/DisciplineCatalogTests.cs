@@ -77,13 +77,13 @@ public sealed class DisciplineCatalogTests
         Assert.Equal("", CharacterEditorViewModel.DotSpread([]));
     }
     [Fact]
-    public void All_eighty_four_supplied_entries_are_available_with_stable_unique_ids()
+    public void All_ninety_two_supplied_entries_are_available_with_stable_unique_ids()
     {
-        Assert.Equal(84, _catalog.Powers.Count);
-        Assert.Equal(79, _catalog.Powers.Count(x => !x.IsRitual));
+        Assert.Equal(92, _catalog.Powers.Count);
+        Assert.Equal(87, _catalog.Powers.Count(x => !x.IsRitual));
         Assert.Equal(5, _catalog.Powers.Count(x => x.IsRitual));
         Assert.Equal(11, _catalog.Powers.Where(x => !x.IsRitual).Select(x => x.Discipline).Distinct().Count());
-        Assert.Equal(84, _catalog.Powers.Select(x => x.Id).Distinct().Count());
+        Assert.Equal(92, _catalog.Powers.Select(x => x.Id).Distinct().Count());
         Assert.Equal(_catalog.Powers, new ProvidedDisciplineCatalog().Powers);
         Assert.All(_catalog.Powers, power =>
         {

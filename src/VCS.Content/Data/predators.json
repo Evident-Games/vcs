@@ -30,7 +30,8 @@
     ],
     "allocationOptions": [],
     "flawOptions": [],
-    "humanityDelta": -1
+    "humanityDelta": -1,
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "predator-extortionist",
@@ -74,7 +75,8 @@
       }
     ],
     "allocationPoints": 3,
-    "flawOptions": []
+    "flawOptions": [],
+    "source": "Fonte pendente de conferência (tipo de predador de suplemento V5)"
   },
   {
     "id": "predator-roadside",
@@ -111,7 +113,8 @@
       1
     ],
     "allocationOptions": [],
-    "flawOptions": []
+    "flawOptions": [],
+    "source": "Fonte pendente de conferência (tipo de predador de suplemento V5)"
   },
   {
     "id": "predator-cleaver",
@@ -149,7 +152,8 @@
       1
     ],
     "allocationOptions": [],
-    "flawOptions": []
+    "flawOptions": [],
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "predator-consensualist",
@@ -187,7 +191,8 @@
     ],
     "allocationOptions": [],
     "flawOptions": [],
-    "humanityDelta": 1
+    "humanityDelta": 1,
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "predator-osiris",
@@ -253,7 +258,8 @@
       }
     ],
     "flawPoints": 2,
-    "splitFlaws": true
+    "splitFlaws": true,
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "predator-scene-queen",
@@ -308,7 +314,8 @@
         "category": "flaw"
       }
     ],
-    "flawPoints": 1
+    "flawPoints": 1,
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "predator-siren",
@@ -346,7 +353,8 @@
       1
     ],
     "allocationOptions": [],
-    "flawOptions": []
+    "flawOptions": [],
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "predator-sandman",
@@ -379,7 +387,8 @@
       1
     ],
     "allocationOptions": [],
-    "flawOptions": []
+    "flawOptions": [],
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "predator-graverobber",
@@ -425,7 +434,8 @@
       2
     ],
     "allocationOptions": [],
-    "flawOptions": []
+    "flawOptions": [],
+    "source": "Fonte pendente de conferência (tipo de predador de suplemento V5)"
   },
   {
     "id": "predator-bagger",
@@ -464,7 +474,8 @@
       2
     ],
     "allocationOptions": [],
-    "flawOptions": []
+    "flawOptions": [],
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "predator-blood-leech",
@@ -509,7 +520,8 @@
     ],
     "flawPoints": 2,
     "humanityDelta": -1,
-    "bloodDelta": 1
+    "bloodDelta": 1,
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   },
   {
     "id": "predator-farmer",
@@ -544,6 +556,7 @@
     ],
     "allocationOptions": [],
     "flawOptions": [],
-    "humanityDelta": 1
+    "humanityDelta": 1,
+    "source": "Vampiro: A Máscara V5 (Livro base)"
   }
 ]

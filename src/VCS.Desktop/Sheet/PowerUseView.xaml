@@ -1,0 +1,97 @@
+<UserControl x:Class="VCS.Desktop.Sheet.PowerUseView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls">
+    <StackPanel>
+        <Border Background="{DynamicResource VcsCard}" CornerRadius="8" Padding="12" Margin="0,8">
+            <StackPanel>
+                <TextBlock Text="Resolver o poder" FontSize="16" FontWeight="SemiBold"/>
+                <TextBlock Text="{Binding PowerUseConditions}" TextWrapping="Wrap" Margin="0,8"/>
+                <TextBlock Text="{Binding PowerUsePoolSummary}" TextWrapping="Wrap"/>
+                <WrapPanel Margin="0,8">
+                    <CheckBox Content="Alvo é esta ficha" IsChecked="{Binding PowerTargetIsSelf}" Margin="0,0,16,0"/>
+                    <CheckBox Content="Alvo é vampiro" IsChecked="{Binding PowerTargetIsVampire}"/>
+                </WrapPanel>
+                <CheckBox Content="Este uso exige teste (desmarcar somente quando a regra dispensar ou o Narrador resolver em segredo)" IsChecked="{Binding PowerRollRequired}"/>
+                <WrapPanel>
+                    <StackPanel Margin="0,8,16,8" MinWidth="150"><TextBlock Text="Atributo do teste"/><ComboBox ItemsSource="{Binding RollAttributes}" SelectedItem="{Binding PowerUseAttribute}" DisplayMemberPath="Name"/></StackPanel>
+                    <StackPanel Margin="0,8,16,8" MinWidth="170"><TextBlock Text="Disciplina / habilidade / atributo"/><ComboBox ItemsSource="{Binding PowerUseTraits}" SelectedItem="{Binding PowerUseTrait}" DisplayMemberPath="Name"/></StackPanel>
+                </WrapPanel>
+                <WrapPanel>
+                    <StackPanel Margin="0,8,16,8"><TextBlock Text="Dificuldade"/><controls:NumericField Value="{Binding PowerUseDifficulty}" Minimum="0" Maximum="50"/></StackPanel>
+                    <StackPanel Margin="0,8,16,8"><TextBlock Text="Sucessos do defensor"/><controls:NumericField Value="{Binding PowerOpponentSuccesses}" Minimum="0" Maximum="100"/></StackPanel>
+                    <StackPanel Margin="0,8,16,8"><TextBlock Text="Ajuste de dados"/><controls:NumericField Value="{Binding PowerUseModifier}" Minimum="-50" Maximum="50"/></StackPanel>
+                </WrapPanel>
+                <TextBlock Text="{Binding PowerUseDefense}" TextWrapping="Wrap"/>
+                <TextBlock Text="Em disputa, informe os sucessos do defensor antes de resolver. A dificuldade é usada nos testes sem oposição." TextWrapping="Wrap" Margin="0,6"/>
+                <TextBlock Text="Data na crônica (para vínculos e acompanhamento)"/>
+                <TextBox Text="{Binding PowerGameDate, StringFormat=dd/MM/yyyy, ValidatesOnExceptions=True}"/>
+                <TextBlock Text="Decisão da mesa / justificativa do ajuste"/>
+                <TextBox Text="{Binding PowerRuling, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" MinHeight="52"/>
+                <CheckBox Content="Conferi alvo, condições, entrega do ataque e oposição com o Narrador" IsChecked="{Binding PowerConditionsConfirmed}" Margin="0,8,0,0"/>
+            </StackPanel>
+        </Border>
+        <Expander Header="Efeitos e consequências registrados" Margin="0,8">
+            <StackPanel Margin="8">
+                <TextBlock Text="Custos são pagos uma vez por uso. Resultados para outros alvos são propostas para o Narrador; não alteram silenciosamente outra ficha. Durações em horas/noites são encerradas pela mesa." TextWrapping="Wrap" Margin="0,0,0,8"/>
+                <ListBox ItemsSource="{Binding PowerEffects}" SelectedItem="{Binding SelectedPowerEffect}" MaxHeight="240"
+                         Background="{DynamicResource VcsCard}" Foreground="{DynamicResource VcsCardText}">
+                    <ListBox.ItemTemplate><DataTemplate><StackPanel Margin="6">
+                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding Target}"/>
+                        <TextBlock Text="{Binding Duration}"/>
+                        <CheckBox Content="Ativo" IsChecked="{Binding Active, Mode=OneWay}" IsHitTestVisible="False" Focusable="False"/>
+                    </StackPanel></DataTemplate></ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock Text="{Binding SelectedPowerEffect.Effect}" TextWrapping="Wrap" Margin="0,8"/>
+                <WrapPanel>
+                    <Button Content="Encerrar efeito selecionado" Command="{Binding EndSelectedPowerEffectCommand}" Margin="0,0,8,8"/>
+                    <Button Content="Aplicar dano/Fome à própria ficha" Command="{Binding ApplySelectedPowerConsequencesCommand}" Margin="0,0,8,8"/>
+                </WrapPanel>
+                <TextBlock Text="Aplicação numérica disponível somente quando esta ficha foi indicada como alvo. Não duplica consequências já aplicadas. Para demais alvos, use as ferramentas do Narrador." TextWrapping="Wrap"/>
+            </StackPanel>
+        </Expander>
+        <Expander Header="Contexto de combate e percepção" Margin="0,8">
+            <StackPanel Margin="8">
+                <TextBlock Text="Alvo desta rolagem social (aplica Transe registrado para esse alvo)"/>
+                <TextBox Text="{Binding CurrentPowerRollTarget, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="Teste apenas de equilíbrio (Graça Felina)" IsChecked="{Binding PowerBalanceContext}"/>
+                <CheckBox Content="Suporte aguenta o peso" IsChecked="{Binding PowerTerrainSupportsWeight}"/>
+                <CheckBox Content="Teste de habilidade para escalar (Pegada Sobrenatural)" IsChecked="{Binding PowerClimbingContext}"/>
+                <CheckBox Content="Superfície não metálica e resistente" IsChecked="{Binding PowerNonMetalSurface}"/>
+                <CheckBox Content="Defensor anulou Mira/Golpe com Celeridade 5 e checagem" IsChecked="{Binding PowerCounteredByCelerity}"/>
+                <CheckBox Content="Este teste é um feito de Força (Poderio)" IsChecked="{Binding StrengthFeatContext}"/>
+                <TextBlock Text="Penalidades abaixo são separadas do ajuste manual; não conte duas vezes." TextWrapping="Wrap"/>
+                <WrapPanel>
+                    <StackPanel Margin="0,8,12,8"><TextBlock Text="Escuridão"/><controls:NumericField Value="{Binding VisionPenalty}" Minimum="0" Maximum="5"/></StackPanel>
+                    <StackPanel Margin="0,8,12,8"><TextBlock Text="Falta de cobertura"/><controls:NumericField Value="{Binding LackOfCoverPenalty}" Minimum="0" Maximum="5"/></StackPanel>
+                    <StackPanel Margin="0,8,12,8"><TextBlock Text="Ação menor"/><controls:NumericField Value="{Binding MinorActionPenalty}" Minimum="0" Maximum="5"/></StackPanel>
+                </WrapPanel>
+                <TextBlock Text="Forma animal — perfil confirmado para esta transformação"/>
+                <WrapPanel>
+                    <StackPanel Margin="0,8,12,8"><TextBlock Text="Força"/><controls:NumericField Value="{Binding PowerFormStrength}" Minimum="0" Maximum="10"/></StackPanel>
+                    <StackPanel Margin="0,8,12,8"><TextBlock Text="Destreza"/><controls:NumericField Value="{Binding PowerFormDexterity}" Minimum="0" Maximum="10"/></StackPanel>
+                    <StackPanel Margin="0,8,12,8"><TextBlock Text="Vigor"/><controls:NumericField Value="{Binding PowerFormStamina}" Minimum="0" Maximum="10"/></StackPanel>
+                </WrapPanel>
+                <CheckBox Content="Narrador confirmou o perfil e habilidades naturais da forma" IsChecked="{Binding PowerFormProfileConfirmed}"/>
+                <CheckBox Content="Amedrontar ativo (não acumula com Fascínio)" IsChecked="{Binding DauntActive}"/>
+                <CheckBox Content="Olhos da Besta ativos" IsChecked="{Binding EyesOfTheBeastActive}"/>
+                <CheckBox Content="Intimidação tem alvo mortal" IsChecked="{Binding IntimidationTargetIsMortal}"/>
+                <CheckBox Content="Fantasma na Máquina: contornando vigilância automatizada" IsChecked="{Binding GhostInTheMachineApplies}"/>
+                <CheckBox Content="Corpo Letal: causar agravado desarmado em mortal" IsChecked="{Binding LethalBodyApplies}"/>
+                <CheckBox Content="Punho de Caim ativo" IsChecked="{Binding FistOfCaineActive}"/>
+                <CheckBox Content="Ataque com mordida (2 agravados fixos)" IsChecked="{Binding IsBiteAttack}"/>
+                <CheckBox Content="Desafio à Perdição ativo" IsChecked="{Binding DefyBaneActive}"/>
+                <TextBlock Text="Reserva de conversão restante"/>
+                <controls:NumericField Value="{Binding DefyBaneRemaining}" Minimum="0" Maximum="5"/>
+                <TextBlock Text="Superficial convertido: não curável nesta cena"/>
+                <controls:NumericField Value="{Binding UnhealableSuperficial}" Minimum="0" Maximum="50"/>
+                <CheckBox Content="Peso Pena ativo" IsChecked="{Binding FeatherActive}"/>
+                <CheckBox Content="Dano recebido é queda, colisão ou arremesso" IsChecked="{Binding IncomingDamageIsFall}"/>
+                <CheckBox Content="Forma de Névoa concluída" IsChecked="{Binding MistFormActive}"/>
+                <CheckBox Content="Fonte recebida é fogo ou ataque sobrenatural imaterial" IsChecked="{Binding IncomingDamageIsFireOrSupernatural}"/>
+                <TextBlock Text="Luz solar usa a opção já existente. Névoa só protege após concluir todos os turnos de transformação." TextWrapping="Wrap"/>
+            </StackPanel>
+        </Expander>
+    </StackPanel>
+</UserControl>

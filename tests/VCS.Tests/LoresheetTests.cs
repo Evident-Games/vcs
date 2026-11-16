@@ -183,9 +183,9 @@ public sealed class LoresheetTests
             var service = new CharacterService(new SqliteCharacterRepository(database));
             var catalog = await new SqliteAdvantageCatalog(database).ListAsync();
             var lores = catalog.Where(x => x.Category == TraitCategory.Loresheet).ToArray();
-            Assert.Equal(20, lores.Length);
-            Assert.Equal(new[] { "Carna", "Heresia Cainita", "Os Bahari", "Theo Bell" }, lores.Select(x => x.LoresheetCollection).Distinct().Order());
-            Assert.All(lores, x => Assert.False(x.IsLineage));
+            Assert.Equal(125, lores.Length);
+            Assert.Equal(25, lores.Select(x => x.LoresheetCollection).Distinct().Count());
+            Assert.Equal(35, lores.Count(x => x.IsLineage));
             foreach (var group in lores.GroupBy(x => x.LoresheetCollection))
                 Assert.Equal(new[] { 1, 2, 3, 4, 5 }, group.Select(x => x.Minimum).Order());
             Assert.Equal(AdvantageCatalog.Loresheets.Select(x => x.Description).Order(), lores.Select(x => x.Description).Order());
@@ -193,9 +193,9 @@ public sealed class LoresheetTests
             using var editor = new CharacterEditorViewModel(dto, service, NullLogger<CharacterEditorViewModel>.Instance,
                 new ManualAutosave(), new ProvidedDisciplineCatalog());
             editor.ConfigureAdvantageCatalog(catalog);
-            Assert.Equal(63, editor.AdvantageCatalog!.Families.Sum(x => x.Options.Count));
-            Assert.Equal(20, editor.AdvantageCatalog.Families.Single(x => x.Name == AdvantageCatalogViewModel.LoresheetFamily).Options.Count);
-            Assert.Equal(20, editor.LoresheetBenefits.Count);
+            Assert.Equal(168, editor.AdvantageCatalog!.Families.Sum(x => x.Options.Count));
+            Assert.Equal(125, editor.AdvantageCatalog.Families.Single(x => x.Name == AdvantageCatalogViewModel.LoresheetFamily).Options.Count);
+            Assert.Equal(125, editor.LoresheetBenefits.Count);
             editor.AgeIndex = 2;
             editor.SelectedLoresheetCollection = "Os Bahari";
             Assert.Equal(5, editor.LoresheetBenefits.Count);

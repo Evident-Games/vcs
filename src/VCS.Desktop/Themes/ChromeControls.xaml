@@ -116,8 +116,8 @@
             <Trigger Property="Role" Value="TopLevelHeader">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Foreground" Value="{DynamicResource VcsHeaderText}" />
-                <Setter Property="Padding" Value="8,3" />
-                <Setter Property="FontSize" Value="12.5" />
+                <Setter Property="Padding" Value="10,5" />
+                <Setter Property="FontSize" Value="13" />
             </Trigger>
             <Trigger Property="Role" Value="TopLevelItem">
                 <Setter Property="Background" Value="Transparent" />

@@ -4,7 +4,13 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using VCS.Application.Catalogs;
+using VCS.Application.Blood;
+using VCS.Application.Advantages;
 using VCS.Application.Characters;
+using VCS.Application.Chronicle;
+using VCS.Application.Dice;
+using VCS.Application.Humanity;
+using VCS.Application.Predators;
 using VCS.Content;
 using VCS.Content.Advantages;
 using VCS.Content.Clans;
@@ -12,8 +18,6 @@ using VCS.Content.Disciplines;
 using VCS.Content.Predators;
 using VCS.Content.Skills;
 using VCS.Desktop.Catalogs;
-using VCS.Rules.V5.Advancement;
-using VCS.Rules.V5.Clans;
 using VCS.Rules.V5.Validation;
 using VCS.Sheet;
 
@@ -24,6 +28,14 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     private readonly CharacterService _service;
     private readonly ILogger<CharacterEditorViewModel> _logger;
     private readonly IAutosaveScheduler _autosave;
+    private readonly BloodActions _bloodActions;
+    private readonly HumanityActions _humanityActions;
+    private readonly DiceActions _diceActions;
+    private readonly CharacterSheetActions _characterActions;
+    private readonly ChronicleActions _chronicleActions;
+    private readonly VCS.Rules.Disciplines.PowerRulesetRegistry _powerRulesets;
+    private readonly PredatorActions _predatorActions;
+    private readonly LoresheetActions _loresheetActions;
     private readonly SemaphoreSlim _saveGate = new(1, 1);
     private CharacterDto _current;
     private long _changeVersion;
@@ -40,14 +52,27 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     ];
 
     public CharacterEditorViewModel(CharacterDto character, CharacterService service,
-        ILogger<CharacterEditorViewModel> logger, IAutosaveScheduler autosave, IDisciplineCatalog catalog)
+        ILogger<CharacterEditorViewModel> logger, IAutosaveScheduler autosave, IDisciplineCatalog catalog,
+        BloodActions? bloodActions = null, HumanityActions? humanityActions = null,
+        DiceActions? diceActions = null, CharacterSheetActions? characterActions = null,
+        PredatorActions? predatorActions = null, LoresheetActions? loresheetActions = null,
+        ChronicleActions? chronicleActions = null,
+        VCS.Rules.Disciplines.PowerRulesetRegistry? powerRulesets = null)
     {
         _current = character;
         _service = service;
         _logger = logger;
         _autosave = autosave;
+        _bloodActions = bloodActions ?? new();
+        _humanityActions = humanityActions ?? new();
+        _diceActions = diceActions ?? new();
+        _characterActions = characterActions ?? new();
+        _predatorActions = predatorActions ?? new();
+        _loresheetActions = loresheetActions ?? new();
+        _chronicleActions = chronicleActions ?? new();
+        _powerRulesets = powerRulesets ?? new([new VCS.Rules.V5.Disciplines.V5PowerRuleset()]);
         var d = character.Details;
-        _advancement = (d.Advancement ?? new()) with { AutomaticExperience = true, IsCreating = true, HasCreationProfile = true };
+        _advancement = d.Advancement ?? new() { AutomaticExperience = true };
         _predatorSelection = d.PredatorSelection;
         stains = d.Stains;
         name = d.Name; mortalName = d.MortalName; clan = d.Clan; generation = d.Generation;
@@ -60,8 +85,11 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
             noteEntries = [new(character.Id, "Anotações", d.Notes, character.UpdatedUtc)];
             notes = "";
         }
+        foreach (var effect in d.PowerEffects) PowerEffects.Add(effect);
         Notebook = new(noteEntries);
         Notebook.Changed += OnNotebookChanged;
+        ExceptionRegister = new(d.Exceptions);
+        ExceptionRegister.Changed += OnExceptionsChanged;
         hunger = d.Hunger; humanity = d.Humanity; bloodPotency = d.BloodPotency;
         healthSuperficial = d.HealthSuperficial; healthAggravated = d.HealthAggravated;
         willpowerSuperficial = d.WillpowerSuperficial; willpowerAggravated = d.WillpowerAggravated;
@@ -69,6 +97,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         npcHealthCapacity = d.NpcHealthCapacity; npcWillpowerCapacity = d.NpcWillpowerCapacity;
         Attributes = new(TraitCategory.Attribute, character.Traits);
         Skills = new(TraitCategory.Skill, character.Traits);
+        selectedRollAttribute = Attributes.Items.FirstOrDefault();
+        selectedRollSkill = Skills.Items.FirstOrDefault(x => x.Rating > 0) ?? Skills.Items.FirstOrDefault();
         Disciplines = new(TraitCategory.Discipline, character.Traits);
         foreach (var discipline in catalog.Powers.Where(x => !x.IsRitual).Select(x => x.Discipline).Distinct())
             if (!Disciplines.Items.Any(x => CatalogText.Normalize(x.Name) == CatalogText.Normalize(discipline) ||
@@ -77,7 +107,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         Advantages = new(TraitCategory.Advantage, character.Traits);
         Flaws = new(TraitCategory.Flaw, character.Traits);
         Loresheets = new(TraitCategory.Loresheet, character.Traits);
-        Powers = new(catalog, Disciplines, character.Traits);
+        Powers = new(catalog, Disciplines, character.Traits, _characterActions);
         Powers.Clan = clan;
         Powers.Changed += OnPowersChanged;
         PersonalDisciplines = new(Disciplines);
@@ -111,22 +141,24 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         ];
         BloodFields =
         [
-            new("Resonance", "Ressonancia", d.Resonance), new("BloodSurge", "Surto de Sangue", d.BloodSurge),
-            new("DamageMend", "Quantidade recuperada", d.DamageMend), new("PowerBonus", "Bonus de poder", d.PowerBonus),
-            new("RouseReroll", "Rerrolagem de Sangue", d.RouseReroll), new("FeedingPenalty", "Penalidade de alimentacao", d.FeedingPenalty),
-            new("BaneSeverity", "Gravidade da Perdicao", d.BaneSeverity)
+            new("Resonance", "Ressonancia", d.Resonance), new("Dyscrasia", "Discrasia", d.Dyscrasia, true),
+            new("BloodSurge", "Surto de Sangue", d.BloodSurge), new("DamageMend", "Quantidade recuperada", d.DamageMend),
+            new("PowerBonus", "Bonus de poder", d.PowerBonus), new("RouseReroll", "Rerrolagem de Sangue", d.RouseReroll),
+            new("FeedingPenalty", "Penalidade de alimentacao", d.FeedingPenalty), new("BaneSeverity", "Gravidade da Perdicao", d.BaneSeverity)
         ];
+        BloodAnnotationFields = BloodFields.Where(x => x.Key is not ("BloodSurge" or "DamageMend" or "PowerBonus" or "RouseReroll" or "FeedingPenalty" or "BaneSeverity")).ToArray();
         _extraFields = ExtraFields.ToDictionary(x => x.Key);
         InitializeNpcSheet(d);
         foreach (var field in ExtraFields) field.PropertyChanged += OnExtraFieldChanged;
         experienceTotal = d.ExperienceTotal;
         experienceSpent = d.ExperienceSpent;
         campaignExperienceTotal = d.Advancement?.AutomaticExperience == true ? d.CampaignExperienceTotal :
-            Math.Max(d.CampaignExperienceTotal, d.ExperienceTotal - CharacterAdvancement.StartingXp(_advancement.Age));
+            Math.Max(d.CampaignExperienceTotal, d.ExperienceTotal - _characterActions.StartingExperience(_advancement.Age));
         campaignExperienceSpent = d.CampaignExperienceSpent;
         foreach (var group in Groups) group.Changed += OnTraitsChanged;
         SyncAttributeBase();
         SyncDisciplineBase();
+        RestorePowerEffects();
         _ready = true;
         ConfigureDisplay(Display);
         RefreshAdvancement();
@@ -148,6 +180,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     [ObservableProperty] private string description;
     [ObservableProperty] private string notes;
     public NotesViewModel Notebook { get; }
+    public ExceptionRegisterViewModel ExceptionRegister { get; }
+    private void OnExceptionsChanged(object? sender, EventArgs e) => MarkChanged();
     private void OnNotebookChanged(object? sender, EventArgs e) => MarkChanged();
     [ObservableProperty] private int hunger;
     [ObservableProperty] private int humanity;
@@ -207,6 +241,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
             }
         }
         finally { _ready = wasReady; }
+        SelectedRollSkill ??= Skills.Items.FirstOrDefault(x => x.Rating > 0) ?? Skills.Items.FirstOrDefault();
+        RefreshRollPool();
         RefreshCreation();
     }
     [ObservableProperty] private bool isDirty;
@@ -237,10 +273,43 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     }
     public SheetFieldViewModel[] BackgroundFields { get; }
     public SheetFieldViewModel[] BloodFields { get; }
+    public SheetFieldViewModel[] BloodAnnotationFields { get; }
+    public string BloodSurgeSummary => _bloodActions.BloodSurge(EffectiveBloodPotency);
+    public string BloodMendSummary => _bloodActions.DamageMend(EffectiveBloodPotency);
+    public string BloodPowerBonusSummary => _bloodActions.PowerBonus(EffectiveBloodPotency);
+    public string BloodRouseRerollSummary => _bloodActions.RouseReroll(EffectiveBloodPotency);
+    public string BloodFeedingPenaltySummary => _bloodActions.FeedingPenalty(EffectiveBloodPotency);
+    public string BloodBaneSeveritySummary => _bloodActions.BaneSeverity(EffectiveBloodPotency);
+    public string BloodPotencyRuleWarning
+    {
+        get
+        {
+            var warning = _characterActions.CheckBloodPotency(Generation, BloodPotency);
+            if (!warning.HasDefinedRange)
+                return $"O livro-base não define uma faixa de Potência do Sangue para a {Generation}ª Geração (p. 214); confirme com o Narrador.";
+            if (BloodPotency >= warning.Minimum && BloodPotency <= warning.Maximum) return "";
+
+            var message = $"Potência do Sangue {BloodPotency} está fora da faixa da {Generation}ª Geração ({warning.Minimum}–{warning.Maximum}; livro-base, p. 214).";
+            if (warning.IsThinBlood && BloodPotency > 0)
+                message += " Sangues-Ralos (14ª–16ª) têm Potência 0; só podem aumentá-la se avançarem por Diablerie até a 13ª Geração ou uma geração mais antiga (p. 215).";
+            return message;
+        }
+    }
+    public bool HasBloodPotencyRuleWarning => !string.IsNullOrWhiteSpace(BloodPotencyRuleWarning);
+    public string GenerationSummary => $"Geracao {Generation}";
+    public IReadOnlyList<BloodGenerationDot> GenerationDots => Enumerable.Range(3, 14).Reverse()
+        .Select(value => new BloodGenerationDot(value, value == Generation)).ToArray();
+
     private IEnumerable<SheetFieldViewModel> ExtraFields => IdentityFields.Concat(BackgroundFields).Concat(BloodFields);
     private void OnExtraFieldChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(SheetFieldViewModel.Value)) MarkChanged();
+        if (e.PropertyName != nameof(SheetFieldViewModel.Value)) return;
+        MarkChanged();
+        if (sender is SheetFieldViewModel { Key: "Resonance" or "Dyscrasia" })
+        {
+            if (!HasActiveResonanceBonus) UseResonanceBonus = false;
+            RefreshRollPool();
+        }
     }
     partial void OnExperienceTotalChanged(int value) => OnPropertyChanged(nameof(ExperienceAvailable));
     partial void OnExperienceSpentChanged(int value) => OnPropertyChanged(nameof(ExperienceAvailable));
@@ -270,10 +339,10 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         ? string.Join(" · ", definition.Disciplines.Select(DisciplineCatalog.NameOf)) : "clã sem disciplinas definidas";
     private void RefreshClanDisciplines()
     {
-        foreach (var item in Disciplines.Items) item.IsClanDiscipline = DisciplineAdvancement.IsInClan(Clan, item.Name) == true;
+        foreach (var item in Disciplines.Items) item.IsClanDiscipline = _characterActions.IsDisciplineInClan(Clan, item.Name) == true;
     }
     public string ClanHelp => ClanCatalog.Find(Clan) is { } definition
-        ? $"Ganha: {string.Join(", ", definition.Disciplines.Select(DisciplineCatalog.NameOf))}.{Environment.NewLine}Perdição: {definition.Bane}"
+        ? $"Ganha: {string.Join(", ", definition.Disciplines.Select(DisciplineCatalog.NameOf))}.{Environment.NewLine}Perdição: {definition.Bane}{Environment.NewLine}Fonte: {SourceAttribution.Format(definition.Source)}"
         : "Selecione um clã do catálogo para consultar suas disciplinas e perdição.";
     public string GenerationGuidance
     {
@@ -291,8 +360,8 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
                 : $"{reference} Fora dela continua permitido.";
         }
     }
-    public int HealthCapacity => IsNpc ? NpcHealthCapacity : CharacterRules.HealthCapacity(Attributes.Items.Select(x => x.ToValue()));
-    public int WillpowerCapacity => IsNpc ? NpcWillpowerCapacity : CharacterRules.WillpowerCapacity(Attributes.Items.Select(x => x.ToValue()));
+    public int HealthCapacity => IsNpc ? NpcHealthCapacity : _characterActions.HealthCapacity(Attributes.Items.Concat(Disciplines.Items).Select(x => x.ToValue()).Concat(Powers.SelectedValues()));
+    public int WillpowerCapacity => IsNpc ? NpcWillpowerCapacity : _characterActions.WillpowerCapacity(Attributes.Items.Select(x => x.ToValue()));
     partial void OnNpcHealthCapacityChanged(int value) { OnPropertyChanged(nameof(HealthCapacity)); OnPropertyChanged(nameof(NpcHealthText)); }
     partial void OnNpcWillpowerCapacityChanged(int value) { OnPropertyChanged(nameof(WillpowerCapacity)); OnPropertyChanged(nameof(NpcWillpowerText)); }
     public bool HasErrors => _issues.Count != 0;
@@ -320,8 +389,12 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         if (ReferenceEquals(sender, Attributes)) SyncAttributeBase();
         else if (ReferenceEquals(sender, Disciplines)) SyncDisciplineBase();
         RefreshAdvancement();
+        RefreshRollPool();
+        RefreshPowerUse();
+        OnPropertyChanged(nameof(PhysicalPowerGuidance));
         OnPropertyChanged(nameof(HealthCapacity));
         OnPropertyChanged(nameof(WillpowerCapacity));
+        OnPropertyChanged(nameof(FrenzyTriggerGuidance));
         MarkChanged();
     }
 
@@ -339,15 +412,42 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         OnPropertyChanged(nameof(PredatorHelp));
         OnPropertyChanged(nameof(PredatorDisciplineHint));
     }
-    partial void OnGenerationChanged(int value) => OnPropertyChanged(nameof(GenerationGuidance));
+    partial void OnGenerationChanged(int value)
+    {
+        OnPropertyChanged(nameof(GenerationGuidance));
+        OnPropertyChanged(nameof(BloodPotencyRuleWarning));
+        OnPropertyChanged(nameof(HasBloodPotencyRuleWarning));
+        OnPropertyChanged(nameof(GenerationSummary));
+        OnPropertyChanged(nameof(GenerationDots));
+    }
+    partial void OnBloodPotencyChanged(int value)
+    {
+        OnPropertyChanged(nameof(EffectiveBloodPotency));
+        RefreshPowerUse();
+        OnPropertyChanged(nameof(BloodSurgeSummary));
+        OnPropertyChanged(nameof(BloodMendSummary));
+        OnPropertyChanged(nameof(BloodPowerBonusSummary));
+        OnPropertyChanged(nameof(BloodRouseRerollSummary));
+        OnPropertyChanged(nameof(BloodFeedingPenaltySummary));
+        OnPropertyChanged(nameof(BloodBaneSeveritySummary));
+        OnPropertyChanged(nameof(FeedingPreview));
+        OnPropertyChanged(nameof(BloodPotencyRuleWarning));
+        OnPropertyChanged(nameof(HasBloodPotencyRuleWarning));
+    }
 
     private void RefreshAdvancement()
     {
         foreach (var discipline in Disciplines.Items)
-            discipline.AdvancementInfo = DisciplineXpText.Describe(Clan, discipline.Name, discipline.Rating);
+            discipline.AdvancementInfo = DisciplineXpText.Describe(
+                _characterActions.DescribeDisciplineAdvancement(Clan, discipline.Name, discipline.Rating));
     }
 
-    private void OnPowersChanged(object? sender, EventArgs e) => MarkChanged();
+    private void OnPowersChanged(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(PhysicalPowerGuidance));
+        OnPropertyChanged(nameof(HealthCapacity));
+        MarkChanged();
+    }
 
     public void Dispose()
     {
@@ -361,6 +461,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         foreach (var field in ExtraFields) field.PropertyChanged -= OnExtraFieldChanged;
         DetachNpcAttacks();
         Notebook.Changed -= OnNotebookChanged;
+        ExceptionRegister.Changed -= OnExceptionsChanged;
         foreach (var group in Groups)
         {
             group.Changed -= OnTraitsChanged;
@@ -368,3 +469,5 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         }
     }
 }
+
+public sealed record BloodGenerationDot(int Number, bool IsSelected);

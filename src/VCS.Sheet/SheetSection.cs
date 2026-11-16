@@ -14,4 +14,5 @@ public static class SheetSection
     public const string State = "State";
     public const string Background = "Background";
     public const string Notes = "Notes";
+    public const string Exceptions = "Exceptions";
 }

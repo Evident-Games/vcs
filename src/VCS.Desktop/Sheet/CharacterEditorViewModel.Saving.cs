@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using VCS.Application.Characters;
 using VCS.Content.Clans;
-using VCS.Rules.V5.Validation;
 
 namespace VCS.Desktop.Sheet;
 
@@ -34,7 +33,7 @@ public partial class CharacterEditorViewModel
             Description = Description, Notes = Notes, Hunger = Hunger, Humanity = Humanity,
             BloodPotency = BloodPotency, HealthSuperficial = HealthSuperficial, HealthAggravated = HealthAggravated,
             WillpowerSuperficial = WillpowerSuperficial, WillpowerAggravated = WillpowerAggravated,
-            Ambition = Extra("Ambition"), Desire = Extra("Desire"), Resonance = Extra("Resonance"),
+            Ambition = Extra("Ambition"), Desire = Extra("Desire"), Resonance = Extra("Resonance"), Dyscrasia = Extra("Dyscrasia"),
             ChronicleTenets = Extra("ChronicleTenets"), Touchstones = Extra("Touchstones"), Convictions = Extra("Convictions"),
             ClanBane = Extra("ClanBane"), TrueAge = Extra("TrueAge"), ApparentAge = Extra("ApparentAge"),
             BirthDate = Extra("BirthDate"), DeathDate = Extra("DeathDate"), Appearance = Extra("Appearance"),
@@ -44,7 +43,7 @@ public partial class CharacterEditorViewModel
             ExperienceTotal = ExperienceTotal, ExperienceSpent = ExperienceSpent,
             CampaignExperienceTotal = CampaignExperienceTotal, CampaignExperienceSpent = CampaignExperienceSpent,
             NpcAttacks = [.. NpcAttacks.Select(x => x.ToValue())],
-            NoteEntries = Notebook.ToValues()
+            PowerEffects = SnapshotPowerEffects(), NoteEntries = Notebook.ToValues(), Exceptions = ExceptionRegister.ToValues()
         },
         Traits = [.. Groups.SelectMany(x => x.Items).Select(x => x.ToValue()), .. Powers.SelectedValues()]
     };
@@ -54,7 +53,7 @@ public partial class CharacterEditorViewModel
     {
         var snapshot = Snapshot();
         var previousFields = _issues.Select(x => x.Field).ToArray();
-        _issues = CharacterRules.Validate(snapshot.Details, snapshot.Traits);
+        _issues = _characterActions.Validate(snapshot.Details, snapshot.Traits);
         foreach (var field in previousFields.Concat(_issues.Select(x => x.Field)).Distinct())
             ErrorsChanged?.Invoke(this, new(field));
         OnPropertyChanged(nameof(HasErrors));

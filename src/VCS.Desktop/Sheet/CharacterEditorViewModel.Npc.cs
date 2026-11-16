@@ -1,9 +1,8 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using VCS.Application.Characters;
 using VCS.Content;
-using VCS.Rules.V5.Blood;
-using VCS.Rules.V5.Validation;
 using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
@@ -38,9 +37,9 @@ public partial class CharacterEditorViewModel
     // Keeps values typed by the user; only empty fields or the previous automatic value follow Blood Potency.
     private void FillBloodEffects(int bloodPotency, bool onlyEmpty)
     {
-        Update(NpcBloodSurge, BloodPotencyEffects.BloodSurge(_autoBloodPotency), BloodPotencyEffects.BloodSurge(bloodPotency));
-        Update(NpcDamageMend, BloodPotencyEffects.DamageMend(_autoBloodPotency), BloodPotencyEffects.DamageMend(bloodPotency));
-        Update(NpcPowerBonus, BloodPotencyEffects.PowerBonus(_autoBloodPotency), BloodPotencyEffects.PowerBonus(bloodPotency));
+        Update(NpcBloodSurge, _bloodActions.BloodSurge(_autoBloodPotency), _bloodActions.BloodSurge(bloodPotency));
+        Update(NpcDamageMend, _bloodActions.DamageMend(_autoBloodPotency), _bloodActions.DamageMend(bloodPotency));
+        Update(NpcPowerBonus, _bloodActions.PowerBonus(_autoBloodPotency), _bloodActions.PowerBonus(bloodPotency));
 
         void Update(SheetFieldViewModel field, string previous, string next)
         {
@@ -86,7 +85,7 @@ public partial class CharacterEditorViewModel
         set
         {
             if (int.TryParse(value, out var boxes))
-                NpcHealthCapacity = Math.Clamp(boxes, Math.Max(1, HealthSuperficial + HealthAggravated), CharacterRules.NpcMaximumBoxes);
+                NpcHealthCapacity = Math.Clamp(boxes, Math.Max(1, HealthSuperficial + HealthAggravated), CharacterSheetActions.NpcMaximumBoxes);
             OnPropertyChanged();
         }
     }
@@ -97,7 +96,7 @@ public partial class CharacterEditorViewModel
         set
         {
             if (int.TryParse(value, out var boxes))
-                NpcWillpowerCapacity = Math.Clamp(boxes, Math.Max(1, WillpowerSuperficial + WillpowerAggravated), CharacterRules.NpcMaximumBoxes);
+                NpcWillpowerCapacity = Math.Clamp(boxes, Math.Max(1, WillpowerSuperficial + WillpowerAggravated), CharacterSheetActions.NpcMaximumBoxes);
             OnPropertyChanged();
         }
     }

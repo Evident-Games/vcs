@@ -1,4 +1,5 @@
 using VCS.Content.Clans;
+using VCS.Content;
 using VCS.Rules.V5.Advantages;
 using VCS.Rules.V5.Clans;
 using VCS.Rules.V5.Predators;
@@ -9,6 +10,7 @@ namespace VCS.Rules.V5.Advancement;
 
 public sealed record AdvancementResult(CharacterDetails Details, IReadOnlyList<TraitValue> Traits);
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class CharacterAdvancement
 {
     public static readonly int[] AttributeDistribution = [4, 3, 3, 3, 2, 2, 2, 2, 1];

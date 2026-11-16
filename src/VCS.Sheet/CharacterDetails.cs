@@ -28,9 +28,15 @@ public sealed record CharacterDetails
     public string Notes { get; init; } = "";
     private readonly IReadOnlyList<CharacterNote> _noteEntries = ValueList<CharacterNote>.Empty;
     public IReadOnlyList<CharacterNote> NoteEntries { get => _noteEntries; init => _noteEntries = value is null ? null! : new ValueList<CharacterNote>(value); }
+    private readonly IReadOnlyList<SheetException> _exceptions = ValueList<SheetException>.Empty;
+    /// <summary>Storyteller-approved deviations and table rulings recorded for this character.</summary>
+    public IReadOnlyList<SheetException> Exceptions { get => _exceptions; init => _exceptions = value is null ? null! : new ValueList<SheetException>(value); }
+    private readonly ValueList<PowerEffectEntry> _powerEffects = ValueList<PowerEffectEntry>.Empty;
+    public IReadOnlyList<PowerEffectEntry> PowerEffects { get => _powerEffects; init => _powerEffects = new ValueList<PowerEffectEntry>(value ?? []); }
     public string Ambition { get; init; } = "";
     public string Desire { get; init; } = "";
     public string Resonance { get; init; } = "";
+    public string Dyscrasia { get; init; } = "";
     public string ChronicleTenets { get; init; } = "";
     public string Touchstones { get; init; } = "";
     public string Convictions { get; init; } = "";
@@ -60,3 +66,13 @@ public sealed record CharacterDetails
     public int WillpowerSuperficial { get; init; }
     public int WillpowerAggravated { get; init; }
 }
+
+/// <summary>A character-specific rule exception approved by the Storyteller.</summary>
+public sealed record SheetException(
+    Guid Id,
+    string Area,
+    string Subject,
+    string RuleOrPrerequisite,
+    string Ruling,
+    string AuthorizedBy,
+    DateTime ApprovedUtc);

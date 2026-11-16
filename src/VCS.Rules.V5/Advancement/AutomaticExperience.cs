@@ -1,4 +1,5 @@
 using VCS.Rules.V5.Advantages;
+using VCS.Content;
 using VCS.Rules.V5.Clans;
 using VCS.Rules.V5.Predators;
 using VCS.Rules.V5.Validation;
@@ -10,6 +11,7 @@ public sealed record ExperienceCost(string Section, string Name, int Cost);
 public sealed record ExperienceCalculation(int Total, int Spent, int CampaignSpent,
     IReadOnlyList<ExperienceCost> Costs, IReadOnlyList<ValidationIssue> Warnings);
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class AutomaticExperience
 {
     public static ExperienceCalculation Calculate(CharacterDetails details, IReadOnlyList<TraitValue> traits)

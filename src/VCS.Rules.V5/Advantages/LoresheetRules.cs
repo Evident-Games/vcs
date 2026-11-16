@@ -1,10 +1,12 @@
 using VCS.Rules.V5.Advancement;
+using VCS.Content;
 using VCS.Rules.V5.Predators;
 using VCS.Rules.V5.Validation;
 using VCS.Sheet;
 
 namespace VCS.Rules.V5.Advantages;
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class LoresheetRules
 {
     public static int InitialXpCost(IEnumerable<TraitValue> traits) =>
@@ -26,6 +28,11 @@ public static class LoresheetRules
         if (benefit.Category != TraitCategory.Loresheet || benefit.Loresheet is null ||
             benefit.Rating is < 1 or > 5 || !Enum.IsDefined(payment))
             throw new InvalidOperationException("Beneficio de loresheet invalido.");
+        if (!string.IsNullOrWhiteSpace(benefit.Loresheet.Prerequisite) && !benefit.Loresheet.PrerequisiteConfirmed)
+            throw new InvalidOperationException("Este beneficio tem pre-requisitos; confirme a aprovacao do Narrador e registre a justificativa.");
+        if ((benefit.Loresheet.PrerequisiteConfirmed || benefit.Loresheet.LimitOverrideApproved) &&
+            string.IsNullOrWhiteSpace(benefit.Loresheet.ApprovalNote))
+            throw new InvalidOperationException("Registre a justificativa da aprovacao do Narrador.");
         if (traits.Any(x => x.Category == TraitCategory.Loresheet && x.Key == benefit.Key))
             throw new InvalidOperationException("Este beneficio ja esta na ficha.");
         var state = details.Advancement ?? throw new InvalidOperationException("Inicie a criacao ou registre a base atual para comprar loresheets.");
@@ -49,7 +56,9 @@ public static class LoresheetRules
         {
             if (payment == LoresheetPayment.CampaignXp)
                 throw new InvalidOperationException("Na criacao, escolha pontos de vantagens ou XP inicial.");
-            if (traits.Any(x => x.Category == TraitCategory.Loresheet && x.Loresheet?.IsLineage == benefit.Loresheet.IsLineage))
+            if (!benefit.Loresheet.LimitOverrideApproved &&
+                traits.Any(x => x.Category == TraitCategory.Loresheet && x.Loresheet is { } existing &&
+                    existing.IsLineage == benefit.Loresheet.IsLineage && !existing.LimitOverrideApproved))
                 throw new InvalidOperationException(benefit.Loresheet.IsLineage
                     ? "A criacao permite somente um beneficio de linhagem/descendencia."
                     : "A criacao permite somente um beneficio geral, mesmo de outra colecao.");
@@ -103,14 +112,20 @@ public static class LoresheetRules
             }
             if (trait.Rating is < 1 or > 5 || trait.Loresheet is not { } lore ||
                 string.IsNullOrWhiteSpace(lore.Collection) || lore.Collection.Length > 80 ||
-                lore.Description is null || lore.Description.Length > 20000 || !Enum.IsDefined(lore.Payment))
-                issues.Add(new("Loresheets", "Colecao, descricao, pontuacao ou pagamento do beneficio invalidos."));
+                lore.Description is null || lore.Description.Length > 20000 || !Enum.IsDefined(lore.Payment) ||
+                (lore.Prerequisite?.Length ?? 0) > 500 ||
+                (lore.Source?.Length ?? 0) > 120 ||
+                (lore.ApprovalNote?.Length ?? 0) > 1000 ||
+                !string.IsNullOrWhiteSpace(lore.Prerequisite) && !lore.PrerequisiteConfirmed ||
+                (lore.PrerequisiteConfirmed || lore.LimitOverrideApproved) && string.IsNullOrWhiteSpace(lore.ApprovalNote))
+                issues.Add(new("Loresheets", "Dados do beneficio invalidos ou aprovacao do Narrador sem justificativa."));
         }
         if (details.Advancement is { IsCreating: true, AutomaticExperience: false })
         {
             var selections = traits.Where(x => x.Category == TraitCategory.Loresheet && x.Loresheet is not null).ToArray();
-            if (selections.GroupBy(x => x.Loresheet!.IsLineage).Any(x => x.Count() > 1))
-                issues.Add(new("Loresheets", "Criacao: somente um beneficio geral e um de linhagem/descendencia."));
+            if (selections.Where(x => !x.Loresheet!.LimitOverrideApproved)
+                .GroupBy(x => x.Loresheet!.IsLineage).Any(x => x.Count() > 1))
+                issues.Add(new("Loresheets", "Criacao: somente um beneficio geral e um de linhagem/descendencia sem aprovacao do Narrador."));
             if (selections.Any(x => x.Loresheet!.Payment == LoresheetPayment.CampaignXp))
                 issues.Add(new("Loresheets", "Compras da criacao usam pontos de vantagens ou XP inicial, nao campanha."));
             if (Enum.IsDefined(details.Advancement.Age) && InitialXpCost(selections) > CharacterAdvancement.StartingXp(details.Advancement.Age))

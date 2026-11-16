@@ -33,7 +33,7 @@ public partial class MeritFamilyViewModel : ObservableObject
     [ObservableProperty] private string message = "";
     public string ConflictWarning => FamilyItems.Where(x => x.Rating > 0)
         .GroupBy(ExclusiveSet).Any(x => x.Key is not null && x.Select(Identity).Distinct().Count() > 1)
-        ? "Ha escolhas exclusivas juntas nesta familia. Revise as entradas; nenhum dado antigo foi removido." : "";
+        ? "Ha opcoes relacionadas selecionadas juntas. Confira se essa combinacao foi aprovada para a cronica." : "";
     private IEnumerable<TraitItemViewModel> FamilyItems => _sheet.Items.Where(x => _sheet.FamilyOf(x) == this);
     internal TraitItemViewModel? Find(AdvantageDefinition definition) =>
         _sheet.Traits(definition.Category).Items.FirstOrDefault(x => x.Key == definition.Id);
@@ -58,12 +58,6 @@ public partial class MeritFamilyViewModel : ObservableObject
         var item = Find(definition);
         if (rating > 0)
         {
-            var candidate = item ?? new TraitItemViewModel(new(definition.Category, definition.Id, definition.Name, rating));
-            if (!ResolveConflicts(candidate))
-            {
-                Refresh();
-                return;
-            }
             rating = Math.Clamp(rating, definition.Minimum, definition.Maximum);
             if (item is null) _sheet.Traits(definition.Category).AddEntry(new(definition.Category, definition.Id, definition.Name, rating));
             else item.Rating = rating;
@@ -84,33 +78,12 @@ public partial class MeritFamilyViewModel : ObservableObject
     {
         if (item is not null && !item.IsPredatorGrant) _sheet.Traits(item.Category).RemoveCommand.Execute(item);
     }
-    private bool ResolveConflicts(TraitItemViewModel candidate)
-    {
-        var set = ExclusiveSet(candidate);
-        var conflicts = set is null ? [] : FamilyItems.Where(x => x != candidate && x.Rating > 0 &&
-            ExclusiveSet(x) == set && Identity(x) != Identity(candidate)).ToArray();
-        if (conflicts.Any(x => x.IsPredatorGrant))
-        {
-            Message = "Esta escolha conflita com uma caracteristica do predador. Altere o predador na identidade primeiro.";
-            return false;
-        }
-        foreach (var conflict in conflicts)
-        {
-            if (PersonalEntries.Contains(conflict)) conflict.Rating = 0;
-            else _sheet.Traits(conflict.Category).RemoveCommand.Execute(conflict);
-        }
-        return true;
-    }
     private void OnPersonalChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (_changingSelection || e.PropertyName is not (nameof(TraitItemViewModel.Rating) or nameof(TraitItemViewModel.Name)) ||
-            sender is not TraitItemViewModel { Rating: > 0, IsPredatorGrant: false } item) return;
+            sender is not TraitItemViewModel { Rating: > 0, IsPredatorGrant: false }) return;
         _changingSelection = true;
-        try
-        {
-            Message = "";
-            if (!ResolveConflicts(item)) item.Rating = 0;
-        }
+        try { Message = ""; }
         finally { _changingSelection = false; }
         Refresh();
     }

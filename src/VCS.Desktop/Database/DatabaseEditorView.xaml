@@ -58,7 +58,11 @@
                     <CheckBox DockPanel.Dock="Right" Content="Linhagem" IsChecked="{Binding IsLineage}" Margin="12,0,0,0" />
                     <TextBox Text="{Binding LoresheetCollection, UpdateSourceTrigger=PropertyChanged}" MaxLength="80" />
                 </DockPanel>
-                <TextBlock Text="Descricao" Style="{StaticResource FormLabel}" />
+                <TextBlock Text="Fonte / livro (opcional)" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Source, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" />
+                <TextBlock Text="Pré-requisito (opcional)" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Prerequisite, UpdateSourceTrigger=PropertyChanged}" MaxLength="500" />
+                <TextBlock Text="Descrição" Style="{StaticResource FormLabel}" />
                 <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource LongText}" MaxLength="20000" />
             </StackPanel>
         </DataTemplate>
@@ -117,6 +121,10 @@
                     <TextBlock Text="nivel" Style="{StaticResource FieldLabel}" VerticalAlignment="Center" Margin="12,0,8,0" />
                     <controls:NumericField Value="{Binding AmalgamLevel, Mode=TwoWay}" Minimum="0" Maximum="5" Width="76" />
                 </StackPanel>
+                <TextBlock Text="Pré-requisito (opcional)" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Prerequisite, UpdateSourceTrigger=PropertyChanged}" MaxLength="500" />
+                <TextBlock Text="Fonte / livro (opcional)" Style="{StaticResource FormLabel}" />
+                <TextBox Text="{Binding Source, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" />
                 <TextBlock Text="Resumo" Style="{StaticResource FormLabel}" />
                 <TextBox Text="{Binding Summary, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource LongText}" MaxLength="20000" />
             </StackPanel>

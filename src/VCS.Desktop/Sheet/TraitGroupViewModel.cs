@@ -2,8 +2,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using VCS.Application.Characters;
 using VCS.Content.Advantages;
-using VCS.Rules.V5.Validation;
 using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
@@ -15,7 +15,7 @@ public partial class TraitGroupViewModel : ObservableObject, IDisposable
     public TraitGroupViewModel(TraitCategory category, IEnumerable<TraitValue> values)
     {
         _category = category;
-        var order = CharacterRules.DefaultAttributes.Select((x, index) => (x.Key, index)).ToDictionary(x => x.Key, x => x.index);
+        var order = CharacterSheetActions.DefaultAttributes.Select((x, index) => (x.Key, index)).ToDictionary(x => x.Key, x => x.index);
         foreach (var value in values.Where(x => x.Category == category)
                      .OrderBy(x => category == TraitCategory.Attribute ? order[x.Key] : 0)
                      .ThenBy(x => category == TraitCategory.Attribute ? "" : x.Name, StringComparer.OrdinalIgnoreCase))

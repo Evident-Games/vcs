@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using VCS.Content;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Content.Clans;
 using VCS.Content.Disciplines;
@@ -7,7 +8,6 @@ using VCS.Content.Predators;
 using VCS.Desktop.Catalogs;
 using VCS.Rules.V5.Advancement;
 using VCS.Rules.V5.Blood;
-using VCS.Rules.V5.Predators;
 using VCS.Sheet;
 
 namespace VCS.Desktop.Sheet;
@@ -37,6 +37,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
     [ObservableProperty] private PredatorSpecialization? selectedPredatorSpecialization;
     [ObservableProperty] private string predatorSpecializationText = "";
     [ObservableProperty] private int stains;
+    [ObservableProperty] private string remorseSummary = "A rolagem de Remorso é feita ao fim da sessão quando há Máculas.";
     public bool HasAppliedPredator => _predatorSelection is not null;
     public bool CanEditPredatorText => !HasAppliedPredator;
     public bool IsPredatorSpecializationFreeText => SelectedPredatorSpecialization?.IsFreeText == true;
@@ -44,7 +45,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
     public bool HasPredatorFlawAllocation => PredatorFlaws.Count > 1;
     public string PredatorHelp => SelectedPredatorType is not { } type
         ? "Selecione um predador para ver os benefícios e defeitos."
-        : $"Benefícios: {type.Benefits}{Environment.NewLine}Defeitos: {type.Cost}";
+        : $"Benefícios: {type.Benefits}{Environment.NewLine}Defeitos: {type.Cost}{Environment.NewLine}Fonte: {SourceAttribution.Format(type.Source)}";
     public string PredatorDisciplineHint => _predatorSelection is { Discipline.Length: > 0 } applied &&
         SelectedPredatorType?.Id == applied.Id
         ? $"Bonus do predador aplicado: +1 em {applied.Discipline}."
@@ -60,14 +61,14 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
     public string PredatorSkillLegend => !IsCreating || IsNpc || SelectedPredatorType is not { } type ? ""
         : _predatorSelection is { Skill.Length: > 0 } applied ? $"{applied.Skill} ({applied.Specialization})"
         : string.Join(" ou ", type.Specializations.Select(x => x.Label));
-    public string AppliedPredatorSummary => _predatorSelection is not null ? $"Predador: {Predator}" : "";
-    public string HumanityDescription => Humanity is >= 0 and <= 10 ? HumanityRules.At(Humanity).Description : "Humanidade deve estar entre 0 e 10.";
-    public string HumanitySocialReference => Humanity is >= 0 and <= 10 && HumanityRules.At(Humanity) is { } level
+    public string AppliedPredatorSummary => _predatorSelection is not null ? $"Predador: {Predator} · Fonte: {SourceAttribution.Format(SelectedPredatorType?.Source)}" : "";
+    public string HumanityDescription => _humanityActions.At(Humanity)?.Description ?? "Humanidade deve estar entre 0 e 10.";
+    public string HumanitySocialReference => _humanityActions.At(Humanity) is { } level
         ? $"Referencia social: {level.SocialPenalty} dado(s)" +
           (level.BlushSocialPenalty is { } blush ? $"; com Rubor: {blush}." : ".") + " Sem rolagens ou modificadores automaticos."
         : "";
     public bool IsWassail => Humanity == 0;
-    public IReadOnlyList<HumanityLevel> HumanityLevels => HumanityRules.Levels;
+    public IReadOnlyList<HumanityLevel> HumanityLevels => _humanityActions.Levels;
 
     public void ConfigurePredatorCatalog(IReadOnlyList<PredatorDefinition> definitions)
     {
@@ -128,7 +129,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         var selected = SelectedPredatorDiscipline;
         PredatorDisciplines.Clear();
         if (SelectedPredatorType is { } type)
-            foreach (var id in PredatorRules.DisciplinesFor(type, Clan)) PredatorDisciplines.Add(DisciplineCatalog.NameOf(id));
+            foreach (var id in _predatorActions.DisciplinesFor(type, Clan)) PredatorDisciplines.Add(DisciplineCatalog.NameOf(id));
         _syncingPredator = true;
         try { SelectedPredatorDiscipline = PredatorDisciplines.FirstOrDefault(x => x == selected); }
         finally { _syncingPredator = false; }
@@ -225,7 +226,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         try
         {
             var snapshot = Snapshot();
-            ApplyPredatorResult(PredatorRules.Apply(snapshot.Details, snapshot.Traits,
+            ApplyPredatorResult(_predatorActions.Apply(snapshot.Details, snapshot.Traits,
                 new(type.Id, SelectedPredatorDiscipline ?? "", specialization, PredatorSpecializationText,
                     PredatorAdvantages.Select(x => x.Points).ToArray(), PredatorFlaws.Select(x => x.Points).ToArray())));
         }
@@ -318,7 +319,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
             if (SelectedPredatorType is not { } type) throw new InvalidOperationException("Selecione um predador.");
             var specialization = SelectedPredatorSpecialization is { } choice ? Array.IndexOf(type.Specializations, choice) : -1;
             var snapshot = Snapshot();
-            ApplyPredatorResult(PredatorRules.Apply(snapshot.Details, snapshot.Traits,
+            ApplyPredatorResult(_predatorActions.Apply(snapshot.Details, snapshot.Traits,
                 new(type.Id, SelectedPredatorDiscipline ?? "", specialization, PredatorSpecializationText,
                     PredatorAdvantages.Select(x => x.Points).ToArray(), PredatorFlaws.Select(x => x.Points).ToArray())));
         }
@@ -331,7 +332,7 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         try
         {
             var snapshot = Snapshot();
-            ApplyPredatorResult(PredatorRules.Remove(snapshot.Details, snapshot.Traits));
+            ApplyPredatorResult(_predatorActions.Remove(snapshot.Details, snapshot.Traits));
             _syncingPredator = true;
             try { SelectedPredatorType = null; }
             finally { _syncingPredator = false; }
@@ -374,23 +375,39 @@ public partial class CharacterEditorViewModel : IMeritSheetHost
         Error = "";
         RefreshAdvancement(); RefreshPredatorInfo(); MarkChanged();
     }
-    partial void OnHumanityChanged(int value) => RefreshPredatorInfo();
     [RelayCommand]
     private void ApplyStainDamage()
     {
         try
         {
             var snapshot = Snapshot();
-            WillpowerAggravated = HumanityRules.ApplyStainDamage(snapshot.Details, snapshot.Traits).WillpowerAggravated;
+            WillpowerAggravated = _humanityActions.ApplyStainDamage(snapshot.Details, snapshot.Traits).WillpowerAggravated;
         }
         catch (InvalidOperationException exception) { ReportAdvancementError(exception); }
     }
+    [RelayCommand]
+    private void RollRemorse()
+    {
+        try
+        {
+            var result = _humanityActions.RollRemorse(Snapshot().Details);
+            _ready = false;
+            try { Stains = result.Details.Stains; Humanity = result.Details.Humanity; }
+            finally { _ready = true; }
+            RemorseSummary = $"Remorso: {result.Dice.Count} dados [{string.Join(", ", result.Dice)}], {result.Successes} sucesso(s). " +
+                (result.MaintainedHumanity ? "Humanidade mantida; Máculas removidas." : "Humanidade -1; Máculas removidas.");
+            ShowDiceRoll("Teste de Remorso", RemorseSummary, result.Dice.Select(die => new RolledDieDisplay(die, "REMORSO")));
+            MarkChanged();
+        }
+        catch (InvalidOperationException exception) { ReportAdvancementError(exception); }
+    }
+
     [RelayCommand]
     private void FailRemorse()
     {
         try
         {
-            var result = HumanityRules.FailRemorse(Snapshot().Details);
+            var result = _humanityActions.FailRemorse(Snapshot().Details);
             _ready = false;
             try { Stains = result.Stains; Humanity = result.Humanity; }
             finally { _ready = true; }

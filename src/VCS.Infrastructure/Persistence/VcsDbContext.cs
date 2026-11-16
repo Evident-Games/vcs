@@ -35,6 +35,8 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         powers.Property(x => x.Id).HasMaxLength(120);
         powers.Property(x => x.DisciplineId).HasMaxLength(80).IsRequired();
         powers.Property(x => x.Name).HasMaxLength(80).IsRequired();
+        powers.Property(x => x.Prerequisite).HasMaxLength(500).IsRequired();
+        powers.Property(x => x.Source).HasMaxLength(120).IsRequired();
         var skills = modelBuilder.Entity<SkillDefinition>();
         skills.ToTable("SkillCatalog");
         skills.HasKey(x => x.Id);
@@ -50,6 +52,8 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
         catalog.Property(x => x.Group).HasMaxLength(80).IsRequired();
         catalog.Property(x => x.Description).IsRequired();
         catalog.Property(x => x.LoresheetCollection).HasMaxLength(80).IsRequired();
+        catalog.Property(x => x.Prerequisite).HasMaxLength(500).IsRequired();
+        catalog.Property(x => x.Source).HasMaxLength(120).IsRequired();
         catalog.Property(x => x.PointsLabel).IsRequired();
         var character = modelBuilder.Entity<Character>();
         character.ToTable("Characters");
@@ -83,6 +87,22 @@ public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbCon
                     x => x.Aggregate(0, (hash, note) => HashCode.Combine(hash, note)),
                     x => new ValueList<CharacterNote>(x)))
                 .HasDefaultValue(ValueList<CharacterNote>.Empty).IsRequired();
+            details.Property(x => x.Exceptions).HasConversion(
+                x => JsonSerializer.Serialize(x, (JsonSerializerOptions?)null),
+                x => new ValueList<SheetException>(JsonSerializer.Deserialize<SheetException[]>(x, (JsonSerializerOptions?)null) ?? Array.Empty<SheetException>()),
+                new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<IReadOnlyList<SheetException>>(
+                    (a, b) => a == null ? b == null : b != null && a.SequenceEqual(b),
+                    x => x.Aggregate(0, (hash, exception) => HashCode.Combine(hash, exception)),
+                    x => new ValueList<SheetException>(x)))
+                .HasDefaultValue(ValueList<SheetException>.Empty).IsRequired();
+            details.Property(x => x.PowerEffects).HasConversion(
+                x => JsonSerializer.Serialize(x, (JsonSerializerOptions?)null),
+                x => new ValueList<PowerEffectEntry>(JsonSerializer.Deserialize<PowerEffectEntry[]>(x, (JsonSerializerOptions?)null) ?? Array.Empty<PowerEffectEntry>()),
+                new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<IReadOnlyList<PowerEffectEntry>>(
+                    (a, b) => a == null ? b == null : b != null && a.SequenceEqual(b),
+                    x => x.Aggregate(0, (hash, exception) => HashCode.Combine(hash, exception)),
+                    x => new ValueList<PowerEffectEntry>(x)))
+                .HasDefaultValue(ValueList<PowerEffectEntry>.Empty).IsRequired();
             details.Property(x => x.Name).HasColumnName("Name").HasMaxLength(120).IsRequired();
             details.Property(x => x.Clan).HasColumnName("Clan").HasMaxLength(80).IsRequired();
             details.Property(x => x.ClanKey).HasColumnName("ClanKey").HasMaxLength(80).IsRequired().HasDefaultValue("");

@@ -16,10 +16,13 @@ public sealed partial class AdvantageDraft(AdvantageDefinition advantage) : Obse
     [ObservableProperty] private string description = advantage.Description;
     [ObservableProperty] private string loresheetCollection = advantage.LoresheetCollection;
     [ObservableProperty] private bool isLineage = advantage.IsLineage;
+    [ObservableProperty] private string prerequisite = advantage.Prerequisite;
+    [ObservableProperty] private string source = advantage.Source;
 
     public AdvantageDefinition ToValue() => new()
     {
         Id = advantage.Id, Name = Name.Trim(), Group = Group.Trim(), Category = Category, Minimum = Minimum, Maximum = Maximum,
-        PointsLabel = PointsLabel, Description = Description, LoresheetCollection = LoresheetCollection.Trim(), IsLineage = IsLineage
+        PointsLabel = PointsLabel, Description = Description, LoresheetCollection = LoresheetCollection.Trim(), IsLineage = IsLineage,
+        Prerequisite = Prerequisite.Trim(), Source = Source.Trim()
     };
 }

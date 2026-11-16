@@ -18,9 +18,30 @@ public partial class MainViewModel(
     ILogger<MainViewModel> logger, DisplaySettingsStore? preferencesStore = null,
     IAdvantageCatalog? advantageCatalog = null, ISkillCatalog? skillCatalog = null,
     ICharacterPdfExporter? pdfExporter = null,
-    UpdateService? updates = null, DatabaseEditorViewModel? database = null) : ObservableObject
+    UpdateService? updates = null, DatabaseEditorViewModel? database = null, VCS.Desktop.Chronicle.ChronicleEventsViewModel? narrator = null) : ObservableObject
 {
     private IReadOnlyList<CharacterSummary> _all = [];
+    public VCS.Desktop.Chronicle.ChronicleEventsViewModel? Narrator => narrator;
+    public bool CanOpenNarrator => narrator is not null;
+    [ObservableProperty] private bool isNarratorOpen;
+
+    [RelayCommand]
+    private Task ToggleNarratorAsync() => RunAsync(async () =>
+    {
+        if (narrator is null) return;
+        narrator.ApplyToCharacter = async entry =>
+        {
+            var target = OpenEditors.FirstOrDefault(x => x.Id == entry.CharacterId);
+            if (target is null) return false;
+            target.ApplyNarratorEvent(entry);
+            return await target.FlushAsync();
+        };
+        if (!IsNarratorOpen) await narrator.LoadAsync(_all);
+        IsLayoutSettingsOpen = false;
+        IsHelpOpen = false;
+        IsDatabaseEditorOpen = false;
+        IsNarratorOpen = !IsNarratorOpen;
+    });
 
     [ObservableProperty] private CharacterEditorViewModel? editor;
 
@@ -64,6 +85,8 @@ public partial class MainViewModel(
     public bool IsIdle => !IsBusy;
 
     public bool HasCharacters => Characters.Count != 0;
+
+    public bool HasCreatedCharacters => _all.Count != 0;
 
     public bool IsEmpty => !HasCharacters;
 
@@ -167,6 +190,7 @@ public partial class MainViewModel(
     [RelayCommand]
     private void ToggleLayoutSettings()
     {
+        IsNarratorOpen = false;
         IsHelpOpen = false;
         IsDatabaseEditorOpen = false;
         if (!IsLayoutSettingsOpen) Display.IsEditingNpc = Editor?.IsNpc ?? false;

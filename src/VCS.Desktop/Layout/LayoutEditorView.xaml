@@ -33,9 +33,11 @@
         </Border.Resources>
         <DockPanel>
             <DockPanel DockPanel.Dock="Top">
-                <Button Content="Concluir" Command="{Binding ToggleLayoutSettingsCommand}" DockPanel.Dock="Right" />
-                <TextBlock Text="Layout da ficha" Style="{StaticResource SectionTitle}" />
+                <Button Content="Fechar personalização" Command="{Binding ToggleLayoutSettingsCommand}" DockPanel.Dock="Right" />
+                <TextBlock Text="Personalização da ficha" Style="{StaticResource SectionTitle}" />
             </DockPanel>
+            <TabControl Margin="0,12,0,0" Background="Transparent" BorderThickness="0">
+                <TabItem Header="Organizar ficha"><DockPanel>
             <WrapPanel DockPanel.Dock="Top" Margin="0,14,0,8">
                 <TextBlock Text="Ficha:" VerticalAlignment="Center" Margin="0,0,10,0" />
                 <RadioButton GroupName="LayoutKind" Content="Personagem" IsChecked="{Binding Display.IsEditingPc, Mode=TwoWay}" Margin="0,0,14,0" />
@@ -197,8 +199,117 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </Border>
+
                 </DockPanel>
-            </Grid>
+                </Grid>
+                </DockPanel></TabItem>
+                <TabItem Header="Temas e aparência">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Margin="8,18,8,8">
+                            <TextBlock Text="Temas e aparência" Style="{StaticResource SectionTitle}" />
+                            <TextBlock Text="Escolha o tema do aplicativo e, se quiser, personalize a ficha aberta com um tema próprio. As cores originais de todos os temas são preservadas."
+                                       TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="0,4,0,18" />
+                            <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}"
+                                        BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,8,0"
+                                        TextElement.Foreground="{DynamicResource VcsCardText}">
+                                    <StackPanel>
+                                        <TextBlock Text="Tema do aplicativo" FontSize="18" FontWeight="SemiBold" />
+                                        <TextBlock Text="Afeta a janela, os menus e as áreas compartilhadas." FontSize="12"
+                                                   Foreground="{DynamicResource VcsInputDescription}" Margin="0,3,0,12" />
+                                        <TextBlock Text="Padrões" Style="{StaticResource FieldLabel}" />
+                                        <ItemsControl ItemsSource="{Binding Display.DefaultThemes}" Margin="0,4,0,10">
+                                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <RadioButton Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=OneWay}"
+                                                                 Command="{Binding DataContext.Display.SelectThemeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                 CommandParameter="{Binding Id}" Margin="0,0,8,8"
+                                                                 AutomationProperties.Name="{Binding Name, StringFormat='Tema do aplicativo: {0}'}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <TextBlock Text="Clãs" Style="{StaticResource FieldLabel}" />
+                                        <ItemsControl ItemsSource="{Binding Display.ClanThemes}" Margin="0,4,0,10">
+                                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <RadioButton Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=OneWay}"
+                                                                 Command="{Binding DataContext.Display.SelectThemeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                 CommandParameter="{Binding Id}" Margin="0,0,8,8"
+                                                                 AutomationProperties.Name="{Binding Name, StringFormat='Tema do aplicativo: {0}'}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <TextBlock Text="Especiais" Style="{StaticResource FieldLabel}" />
+                                        <ItemsControl ItemsSource="{Binding Display.SpecialThemes}" Margin="0,4,0,0">
+                                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <RadioButton Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=OneWay}"
+                                                                 Command="{Binding DataContext.Display.SelectThemeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                 CommandParameter="{Binding Id}" Margin="0,0,8,8"
+                                                                 AutomationProperties.Name="{Binding Name, StringFormat='Tema do aplicativo: {0}'}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="1" Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}"
+                                        BorderThickness="1" CornerRadius="12" Padding="18" Margin="8,0,0,0"
+                                        TextElement.Foreground="{DynamicResource VcsCardText}"
+                                        Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibility}}">
+                                    <StackPanel>
+                                        <TextBlock Text="Tema da ficha aberta" FontSize="18" FontWeight="SemiBold" />
+                                        <TextBlock Text="Defina uma aparência exclusiva ou acompanhe o tema global." FontSize="12"
+                                                   Foreground="{DynamicResource VcsInputDescription}" Margin="0,3,0,12" />
+                                        <Button Content="Seguir o tema do aplicativo"
+                                                Command="{Binding SelectSheetThemeCommand}" CommandParameter=""
+                                                Margin="0,0,0,12" HorizontalAlignment="Left" />
+                                        <TextBlock Text="Padrões" Style="{StaticResource FieldLabel}" />
+                                        <ItemsControl ItemsSource="{Binding Display.DefaultSheetThemes}" Margin="0,4,0,10">
+                                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <RadioButton Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=OneWay}"
+                                                                 Command="{Binding DataContext.SelectSheetThemeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                 CommandParameter="{Binding Id}" Margin="0,0,8,8"
+                                                                 AutomationProperties.Name="{Binding Name, StringFormat='Tema da ficha: {0}'}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <TextBlock Text="Clãs" Style="{StaticResource FieldLabel}" />
+                                        <ItemsControl ItemsSource="{Binding Display.ClanSheetThemes}" Margin="0,4,0,10">
+                                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <RadioButton Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=OneWay}"
+                                                                 Command="{Binding DataContext.SelectSheetThemeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                 CommandParameter="{Binding Id}" Margin="0,0,8,8"
+                                                                 AutomationProperties.Name="{Binding Name, StringFormat='Tema da ficha: {0}'}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <TextBlock Text="Especiais" Style="{StaticResource FieldLabel}" />
+                                        <ItemsControl ItemsSource="{Binding Display.SpecialSheetThemes}" Margin="0,4,0,0">
+                                            <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <RadioButton Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=OneWay}"
+                                                                 Command="{Binding DataContext.SelectSheetThemeCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                 CommandParameter="{Binding Id}" Margin="0,0,8,8"
+                                                                 AutomationProperties.Name="{Binding Name, StringFormat='Tema da ficha: {0}'}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
         </DockPanel>
     </Border>
 </UserControl>

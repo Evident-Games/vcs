@@ -37,6 +37,8 @@ public sealed class SqliteAdvantageCatalog(DatabaseAccess database) : IAdvantage
         CatalogValidation.Text("Descricao", value.Description, 20000, required: false);
         CatalogValidation.Text("Rotulo de pontos", value.PointsLabel, 80, required: false);
         CatalogValidation.Text("Colecao", value.LoresheetCollection, 80, required: value.Category == TraitCategory.Loresheet);
+        CatalogValidation.Text("Pre-requisito", value.Prerequisite, 500, required: false);
+        CatalogValidation.Text("Fonte", value.Source, 120, required: false);
         if (value.Category is not (TraitCategory.Advantage or TraitCategory.Flaw or TraitCategory.Loresheet))
             throw new InvalidOperationException("Tipo deve ser vantagem, defeito ou loresheet.");
         CatalogValidation.Range("Minimo", value.Minimum, 1, 5);
@@ -87,11 +89,12 @@ public sealed class SqliteAdvantageCatalog(DatabaseAccess database) : IAdvantage
     private static AdvantageDefinition Copy(AdvantageDefinition x) => new()
     {
         Id = x.Id, Group = x.Group, Name = x.Name, Category = x.Category, Minimum = x.Minimum, Maximum = x.Maximum,
-        PointsLabel = x.PointsLabel, Description = x.Description, LoresheetCollection = x.LoresheetCollection, IsLineage = x.IsLineage
+        PointsLabel = x.PointsLabel, Description = x.Description, LoresheetCollection = x.LoresheetCollection, IsLineage = x.IsLineage,
+        Prerequisite = x.Prerequisite, Source = x.Source
     };
 
     private static bool Same(AdvantageDefinition a, AdvantageDefinition b) =>
         a.Group == b.Group && a.Name == b.Name && a.Category == b.Category && a.Minimum == b.Minimum && a.Maximum == b.Maximum &&
         a.PointsLabel == b.PointsLabel && a.Description == b.Description && a.LoresheetCollection == b.LoresheetCollection &&
-        a.IsLineage == b.IsLineage;
+        a.IsLineage == b.IsLineage && a.Prerequisite == b.Prerequisite && a.Source == b.Source;
 }

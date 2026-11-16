@@ -59,6 +59,16 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Prerequisite")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("AdvantageCatalog", null, t =>
@@ -179,6 +189,16 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Prerequisite")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasMaxLength(120)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Summary")
@@ -352,11 +372,27 @@ namespace VCS.Infrastructure.Persistence.Migrations
                                 .IsRequired()
                                 .HasColumnType("TEXT");
 
+                            b1.Property<string>("Exceptions")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("TEXT")
+                                .HasDefaultValue("[]");
+
+                            b1.Property<string>("PowerEffects")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("TEXT")
+                                .HasDefaultValue("[]");
+
                             b1.Property<string>("Desire")
                                 .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("DistinguishingFeatures")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Dyscrasia")
                                 .IsRequired()
                                 .HasColumnType("TEXT");
 

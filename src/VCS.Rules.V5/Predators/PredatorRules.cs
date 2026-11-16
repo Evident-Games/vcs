@@ -1,4 +1,5 @@
 using VCS.Content.Clans;
+using VCS.Content;
 using VCS.Content.Disciplines;
 using VCS.Content.Predators;
 using VCS.Rules.V5.Advancement;
@@ -10,6 +11,7 @@ namespace VCS.Rules.V5.Predators;
 public sealed record PredatorChoice(string Id, string Discipline, int SpecializationIndex, string SpecializationText,
     int[] AdvantageAllocation, int[] FlawAllocation);
 
+[RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class PredatorRules
 {
     /// <summary>Ids of the disciplines this predator can raise for the clan; Blood Sorcery only for Tremere.</summary>
