@@ -338,7 +338,7 @@ public partial class CharacterEditorViewModel
         foreach (var entry in PowerEffects.Where(x => x.Active).ToArray())
         {
             var duration = PowerUseCatalog.Find(entry.PowerId)?.Duration;
-            if (entry.PowerId is "power-potence-earthshock" or "power-obfuscate-vanish" || duration is "Cena" or "Turno" or "Uma ação" or "Um ataque à distância" or "Um ataque de Briga ou Armas Brancas" or "Cena / turnos" or "Cena ou reserva esgotada")
+            if (entry.PowerId is "power-potence-earthshock" or "power-obfuscate-vanish" or "ritual-sanctuary-travel-attempt" || duration is "Cena" or "Turno" or "Uma ação" or "Um ataque à distância" or "Um ataque de Briga ou Armas Brancas" or "Cena / turnos" or "Cena ou reserva esgotada")
             {
                 ReplacePowerEffect(entry, entry with { Active = false });
                 if (entry.IsSelf) SetPowerState(entry.PowerId, false);
