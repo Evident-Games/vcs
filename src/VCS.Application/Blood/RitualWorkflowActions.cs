@@ -116,6 +116,28 @@ public sealed class RitualWorkflowActions
             "Voo ou flutuação à velocidade de corrida por uma cena. Ao carregar massa de uma pessoa, use velocidade de caminhada; alvo involuntário exige disputa própria.", "Cena"), null);
     }
 
+    public RitualNightEnding EndNighthawk(RitualUseDefinition ritual, RitualWorkflowState state,
+        DateOnly ritualNight, bool eyesRemoved, bool tableConfirmed)
+    {
+        if (ritual.Kind != "nighthawk" || state is not { Stage: "effect", Resolved: true } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione o voo ativo e confirme o fim da noite e o estado dos olhos da ave com o Narrador.");
+        var ending = RitualOngoingRules.EndNighthawk(eyesRemoved);
+        var condition = ending.BlindnessNights == 0 ? null : new RitualWorkflowState(Stage: "blindness", Resolved: true,
+            NightsRemaining: ending.BlindnessNights, LastNightAdvanced: ritualNight);
+        return new(state with { Stage = "ended" }, new(true, ending.Effect, "Voo encerrado"), condition);
+    }
+
+    public RitualWorkflowResolution AdvanceNighthawkBlindness(RitualWorkflowState state, DateOnly completedNight, bool tableConfirmed)
+    {
+        if (state is not { Stage: "blindness", LastNightAdvanced: { } previousNight } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione a cegueira do ritual e confirme quais noites da crônica já terminaram.");
+        var remaining = RitualOngoingRules.AdvanceNighthawkBlindness(state.NightsRemaining, previousNight, completedNight);
+        return new(state with { NightsRemaining = remaining, LastNightAdvanced = completedNight,
+                Stage = remaining == 0 ? "ended" : "blindness" },
+            new(true, remaining == 0 ? "As três noites de cegueira foram concluídas, conforme confirmação da mesa."
+                : $"Cegueira do ritual: {remaining} noite(s) restante(s).", remaining == 0 ? "Encerrado" : $"{remaining} noite(s)"), null);
+    }
+
     public RitualWorkflowState RecordBloodstoneNight(RitualWorkflowState state, DateOnly night, bool confirmed, bool exceptionApproved)
     {
         if (state.Resolved || state.ChecksPaid != 1 || !confirmed)
@@ -177,3 +199,4 @@ public sealed record RitualWorkflowContext(int Pool, int Hunger, int OpponentSuc
 public sealed record RitualCostPayment(RitualWorkflowState State, RouseCheckResult Check);
 public sealed record RitualWorkflowResolution(RitualWorkflowState State, RitualEffectProposal Proposal,
     DicePoolResult? Roll, DicePoolResult? OppositionRoll = null);
+public sealed record RitualNightEnding(RitualWorkflowState EndedState, RitualEffectProposal Proposal, RitualWorkflowState? Condition);
