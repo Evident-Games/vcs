@@ -4,6 +4,7 @@ using VCS.Application.Blood;
 using VCS.Desktop.Catalogs;
 using VCS.Sheet;
 using VCS.Rules.V5.Rituals;
+using VCS.Content.Disciplines;
 
 namespace VCS.Desktop.Sheet;
 
@@ -26,6 +27,8 @@ public partial class CharacterEditorViewModel
 
     partial void OnSelectedPreparedRitualChanged(PowerRowViewModel? value)
     {
+        OnPropertyChanged(nameof(CoreRitualGuidance));
+        CoreRitualConditionsConfirmed = false;
         RitualConditionsConfirmed = false;
         RitualExceptionApproved = false;
         RitualExceptionReason = "";
@@ -87,6 +90,9 @@ public partial class CharacterEditorViewModel
 
     partial void OnSelectedPowerEffectChanged(PowerEffectEntry? value)
     {
+        CoreRitualConditionsConfirmed = false;
+        CoreRitualCandleDamageConfirmed = false;
+        CoreRitualRetryCostConfirmed = false;
         WardContactConfirmed = false;
         WardIntruderIsCaster = false;
         WardRetryCostConfirmed = false;
@@ -111,8 +117,11 @@ public partial class CharacterEditorViewModel
         { RitualPreparationSummary = "Informe a decisão do Narrador para registrar a exceção."; return; }
         if (ritual.Entry?.Definition is not { IsRitual: true } definition)
         { RitualPreparationSummary = "Ritual próprio: resolva custos e teste manualmente com o Narrador."; return; }
-        var deferred = definition.Id is "ritual-ward-against-lupines" or "ritual-ward-against-cainites" or "ritual-wake-with-evenings-freshness";
-        var isWard = definition.Id is "ritual-ward-against-lupines" or "ritual-ward-against-cainites";
+        var kind = RitualUseCatalog.Find(definition.Id)?.Kind;
+        if (kind is not null and not ("ward" or "awakening" or "sanctuary"))
+        { StartRitualWorkflow(); return; }
+        var isWard = kind == "ward";
+        var deferred = isWard || kind == "awakening";
         if (isWard && string.IsNullOrWhiteSpace(WardObject))
         { RitualPreparationSummary = "Informe o objeto protegido antes de pagar o custo."; return; }
         try
@@ -169,7 +178,7 @@ public partial class CharacterEditorViewModel
     private void ResolveWardContact()
     {
         if (SelectedPowerEffect is not { Active: true } ward ||
-            ward.PowerId is not ("ritual-ward-against-lupines" or "ritual-ward-against-cainites"))
+            RitualUseCatalog.Find(ward.PowerId)?.Kind != "ward")
         { RitualPreparationSummary = "Selecione nos efeitos uma proteção de objeto ativa."; return; }
         if (WardRules.ExcludesCaster(ward.PowerId, WardIntruderIsCaster))
         { RitualPreparationSummary = "A Proteção contra Cainitas não afeta o próprio conjurador. Nenhuma rolagem foi feita."; return; }
@@ -213,7 +222,7 @@ public partial class CharacterEditorViewModel
     private void RollWardRetry()
     {
         if (SelectedPowerEffect is not { Active: true, TurnChargeUsed: true } ward ||
-            ward.PowerId is not ("ritual-ward-against-lupines" or "ritual-ward-against-cainites") ||
+            RitualUseCatalog.Find(ward.PowerId)?.Kind != "ward" ||
             ward.PoolBonus is not (2 or 4))
         { RitualPreparationSummary = "Selecione uma proteção com resultado estruturado bem-sucedido."; return; }
         if (WardRules.ExcludesCaster(ward.PowerId, WardIntruderIsCaster))

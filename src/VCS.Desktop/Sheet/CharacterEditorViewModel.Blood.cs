@@ -118,7 +118,7 @@ public partial class CharacterEditorViewModel
     public DicePoolComposition RollPoolComposition => _diceActions.BuildPool(
         SelectedRollAttribute?.Rating ?? 0, SelectedRollSkill?.Rating ?? 0, EffectiveSituationalModifier,
         UseRollSpecialization && CanApplyRollSpecialization);
-    private int EffectiveSituationalModifier => Math.Clamp(RollSituationalModifier + ContextPenalties + FormAttributeAdjustment + PainPoolBonus + ContextPowerBonus + SensoryPenalty + PoolModifiers.Where(x => x.IsApplied).Sum(x => Math.Clamp(x.Dice, -50, 50)), -49, 49) + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0);
+    private int EffectiveSituationalModifier => Math.Clamp(RollSituationalModifier + ContextPenalties + FormAttributeAdjustment + PainPoolBonus + ContextPowerBonus + SensoryPenalty + RitualRollModifier + PoolModifiers.Where(x => x.IsApplied).Sum(x => Math.Clamp(x.Dice, -50, 50)), -49, 49) + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0);
     public int CurrentRollDicePool => UseSheetDicePool ? RollPoolComposition.DicePool : Math.Max(0, RollDicePool + (UseResonanceBonus && CanUseResonanceBonus ? 1 : 0));
     public string RollPoolSummary => UseSheetDicePool
         ? $"Parada montada: {RollPoolComposition.Formula}. {ContextPowerSummary} Origem do ajuste: {RollModifierSource}{ResonanceBonusSummary}. " +
@@ -332,6 +332,12 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void RollTest()
     {
+        if (UseBloodSurge && HasRitualEffect("ritual-incorporeal-passage"))
+        {
+            RollSummary = "Passagem Incorpórea impede Inflamar o Sangue; desmarque o Surto ou encerre o efeito conforme a mesa.";
+            ShowDiceRoll("Teste V5", RollSummary, []);
+            return;
+        }
         if (CurrentRollDicePool is < 0 or > 50 || RollDifficulty is < 0 or > 50)
         {
             RollSummary = "A parada e a dificuldade devem ficar entre 0 e 50.";

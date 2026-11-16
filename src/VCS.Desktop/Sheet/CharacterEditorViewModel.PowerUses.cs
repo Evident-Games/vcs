@@ -49,7 +49,7 @@ public partial class CharacterEditorViewModel
         : "Poder próprio ou ritual: custos e sistema definidos pela mesa.";
     public string PowerUseDefense => SelectedPowerUse?.Defense ?? "";
     public int PowerUsePool => SelectedPowerUse is not null ? Math.Clamp(
-        (PowerUseAttribute?.Rating ?? 0) + (PowerUseTrait?.Rating ?? 0) + VCS.Rules.V5.Blood.BloodPotencyEffects.At(EffectiveBloodPotency).DisciplinePowerBonus + PowerUseModifier, 0, 50) : 0;
+        (PowerUseAttribute?.Rating ?? 0) + (PowerUseTrait?.Rating ?? 0) + VCS.Rules.V5.Blood.BloodPotencyEffects.At(EffectiveBloodPotency).DisciplinePowerBonus + PowerUseModifier + RitualPowerPoolModifier, 0, 50) : 0;
     private int AttributeRating(string key) => Attributes.Items.FirstOrDefault(x => x.Key == "attribute-" + key)?.Rating ?? 0;
     public string PowerUsePoolSummary => SelectedPowerUse is { } use
         ? $"Parada: {PowerUsePool} dados. {ActivationPower?.DicePool}. Fonte: {use.Source}. Potência efetiva: {EffectiveBloodPotency}."
@@ -111,6 +111,8 @@ public partial class CharacterEditorViewModel
     private void ResolvePowerUse()
     {
         if (ActivationPower is not { } power || SelectedPowerUse is not { } use) return;
+        if (power.Entry?.Definition.DisciplineId == "discipline-presence" && HasRitualEffect("ritual-heart-of-stone") && !ActivationExceptionApproved)
+        { ActivationSummary = "Coração de Pedra impede o uso de Presença enquanto estiver ativo. Nenhum custo foi pago."; return; }
         if (!ActivationCostsConfirmed || !PowerConditionsConfirmed)
         { ActivationSummary = "Confira os custos, alvo, oposição e condições do poder antes de resolver."; return; }
         if (!PowerTargetIsSelf && string.IsNullOrWhiteSpace(ActivationTarget))
@@ -274,6 +276,7 @@ public partial class CharacterEditorViewModel
         ReplacePowerEffect(entry, entry with { Active = false });
         if (entry.IsSelf) SetPowerState(entry.PowerId, false);
         RefreshRollPool();
+        RefreshPowerUse();
         Notebook.AppendLog("Usos de Disciplinas", $"Encerrado: {entry.Name} → {entry.Target}.");
         MarkChanged();
     }
@@ -348,7 +351,9 @@ public partial class CharacterEditorViewModel
         foreach (var entry in PowerEffects.Where(x => x.Active).ToArray())
         {
             var duration = PowerUseCatalog.Find(entry.PowerId)?.Duration;
-            if (entry.PowerId is "power-potence-earthshock" or "power-obfuscate-vanish" or "ritual-sanctuary-travel-attempt" || duration is "Cena" or "Turno" or "Uma ação" or "Um ataque à distância" or "Um ataque de Briga ou Armas Brancas" or "Cena / turnos" or "Cena ou reserva esgotada")
+            var ritualSceneEffect = entry.RitualWorkflow is { Stage: "effect" or "statements" } &&
+                entry.Duration is "Cena" or "Cena ou até largar o caco" or "Até falha na disputa ou fim da cena";
+            if (ritualSceneEffect || entry.PowerId is "power-potence-earthshock" or "power-obfuscate-vanish" or "ritual-sanctuary-travel-attempt" || duration is "Cena" or "Turno" or "Uma ação" or "Um ataque à distância" or "Um ataque de Briga ou Armas Brancas" or "Cena / turnos" or "Cena ou reserva esgotada")
             {
                 ReplacePowerEffect(entry, entry with { Active = false });
                 if (entry.IsSelf) SetPowerState(entry.PowerId, false);

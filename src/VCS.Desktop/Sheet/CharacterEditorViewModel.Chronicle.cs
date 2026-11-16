@@ -181,6 +181,19 @@ public partial class CharacterEditorViewModel
     {
         if (_lastConflictExchange is not { } exchange || !CanApplyConflictDamage) return;
         var physical = exchange.Kind == ConflictKind.Physical;
+        var haven = RitualInsideProtectedHaven && PowerEffects.Any(x => x.Active &&
+            x.PowerId == "ritual-defense-of-sacred-haven" && x.RitualWorkflow is { Stage: "effect", Resolved: true });
+        if (physical && VCS.Rules.V5.Rituals.RitualOngoingRules.IgnoresDamage(
+            HasRitualEffect("ritual-incorporeal-passage"),
+            !IncomingSourceIsSunlight && !IncomingDamageIsFireOrSupernatural && !RitualIncomingDamageIsFire,
+            haven, IncomingSourceIsSunlight))
+        {
+            ConflictSummary += " Fonte ignorada pelo ritual ativo no contexto confirmado.";
+            _lastConflictExchange = null;
+            OnPropertyChanged(nameof(CanApplyConflictDamage));
+            Notebook.AppendLog("Conflitos", ConflictSummary);
+            return;
+        }
         if (physical && (FeatherActive && IncomingDamageIsFall ||
             MistFormActive && !IncomingSourceIsSunlight && !IncomingDamageIsFireOrSupernatural))
         {
@@ -203,13 +216,17 @@ public partial class CharacterEditorViewModel
                 return;
             }
         }
+        var damageToApply = physical ? VCS.Rules.V5.Rituals.RitualOngoingRules.FireDamage(exchange.Damage.ToSecond,
+            HasRitualEffect("ritual-firewalker"), RitualIncomingDamageIsFire) : exchange.Damage.ToSecond;
+        if (damageToApply != exchange.Damage.ToSecond)
+            ConflictSummary += $" Andarilho do Fogo: dano de fogo reduzido de {exchange.Damage.ToSecond} para {damageToApply}.";
         var converted = physical && DefyBaneActive && exchange.Damage.Type == ConflictDamageType.Aggravated
-            ? Math.Min(exchange.Damage.ToSecond, Math.Max(0, DefyBaneRemaining)) : 0;
+            ? Math.Min(damageToApply, Math.Max(0, DefyBaneRemaining)) : 0;
         var convertedDamage = DisciplineCombatRules.SuperficialDamage(converted,
             DisciplineRating("discipline-fortitude"), ToughnessActive, SecondConflictTargetIsVampire);
         var initial = _chronicleActions.ApplyDamage(physical ? HealthCapacity : WillpowerCapacity,
             physical ? HealthSuperficial : WillpowerSuperficial, physical ? HealthAggravated : WillpowerAggravated,
-            exchange.Damage.ToSecond - converted, exchange.Damage.Type);
+            damageToApply - converted, exchange.Damage.Type);
         var result = converted > 0 ? _chronicleActions.ApplyDamage(HealthCapacity, initial.Superficial,
             initial.Aggravated, convertedDamage, ConflictDamageType.Superficial) : initial;
         if (converted > 0)

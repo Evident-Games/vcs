@@ -13,6 +13,8 @@ public sealed class RitualActions
     {
         if (ritualId is not null && DisciplineCatalog.UnverifiedPowerIds.Contains(ritualId))
             throw new InvalidOperationException("A fonte deste ritual não foi verificada no livro base fornecido. Resolva manualmente com o Narrador; nenhuma checagem foi feita.");
+        if (ritualId is not null && RitualUseCatalog.Find(ritualId) is { Kind: not ("ward" or "awakening" or "sanctuary") })
+            throw new InvalidOperationException("Use o fluxo específico deste ritual para pagar custos e resolver seu gatilho; nenhuma checagem foi feita.");
         if (RitualRules.RequiresManualPreparation(ritualId))
         {
             var sanctuary = TrueSanctuaryRules.Preparation();

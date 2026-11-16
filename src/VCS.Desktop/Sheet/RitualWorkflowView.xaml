@@ -1,0 +1,66 @@
+<UserControl x:Class="VCS.Desktop.Sheet.RitualWorkflowView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:VCS.Desktop.Controls">
+    <Border Background="{DynamicResource VcsCard}" CornerRadius="8" Padding="12" Margin="0,8">
+        <StackPanel>
+            <TextBlock Text="Procedimento do ritual selecionado" FontSize="16" FontWeight="SemiBold"/>
+            <TextBlock Text="{Binding CoreRitualGuidance}" TextWrapping="Wrap" Margin="0,8"/>
+            <TextBlock Text="As proteções de objeto, o despertar e o Santuário usam seus controles próprios abaixo. Nos demais rituais, Preparar inicia um registro; pague as checagens e confirme cada gatilho antes de resolver." TextWrapping="Wrap"/>
+            <CheckBox Content="Beneficiário é o conjurador (desmarque para objeto, local ou outro alvo)" IsChecked="{Binding CoreRitualTargetsSelf}"/>
+            <TextBlock Text="Alvo / objeto / local"/>
+            <TextBox Text="{Binding CoreRitualTarget, UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Content="Círculo com duração de um ano e um dia" IsChecked="{Binding CoreRitualLongTermCircle}"/>
+            <TextBlock Text="Preparo ou efeito salvo" Margin="0,8,0,0"/>
+            <ComboBox ItemsSource="{Binding PowerEffects}" SelectedItem="{Binding SelectedPowerEffect}" DisplayMemberPath="Name"/>
+            <TextBlock Text="{Binding SelectedPowerEffect.Target}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedPowerEffect.Effect}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding SelectedPowerEffect.Source}" TextWrapping="Wrap"/>
+            <WrapPanel Margin="0,8">
+                <TextBlock Text="Checagens pagas: "/><TextBlock Text="{Binding SelectedPowerEffect.RitualWorkflow.ChecksPaid}"/>
+                <TextBlock Text=" · Etapa: "/><TextBlock Text="{Binding SelectedPowerEffect.RitualWorkflow.Stage}"/>
+                <TextBlock Text=" · Doses: "/><TextBlock Text="{Binding SelectedPowerEffect.RitualWorkflow.Charges}"/>
+            </WrapPanel>
+            <Button Content="Pagar próxima Checagem de Sangue" Command="{Binding PayRitualWorkflowCheckCommand}" HorizontalAlignment="Left"/>
+            <TextBlock Text="Noite na crônica (para Pedra de Sangue)"/>
+            <TextBox Text="{Binding PowerGameDate, StringFormat=dd/MM/yyyy, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"/>
+            <Button Content="Pedra de Sangue: registrar uma hora nesta noite confirmada" Command="{Binding RecordBloodstonePreparationNightCommand}" HorizontalAlignment="Left"/>
+            <WrapPanel>
+                <StackPanel Margin="0,8,16,8"><TextBlock Text="Sucessos da oposição (Verdade / Dagon)"/><controls:NumericField Value="{Binding CoreRitualOpponentSuccesses}" Minimum="0" Maximum="100"/></StackPanel>
+                <StackPanel Margin="0,8,16,8"><TextBlock Text="Raio da área (metros)"/><controls:NumericField Value="{Binding CoreRitualAreaRadius}" Minimum="0" Maximum="100"/></StackPanel>
+                <StackPanel Margin="0,8,0,8"><TextBlock Text="Pedras de Sangue já ativas"/><controls:NumericField Value="{Binding CoreRitualActiveBloodstones}" Minimum="0" Maximum="100"/></StackPanel>
+            </WrapPanel>
+            <CheckBox Content="Alvo é vampiro (tipo de dano de Dagon)" IsChecked="{Binding CoreRitualVampireTarget}"/>
+            <CheckBox Content="Coração de Pedra: a mesa já contabilizou o ponto agravado da vela" IsChecked="{Binding CoreRitualCandleDamageConfirmed}"/>
+            <CheckBox Content="Narrador confirmou tempo, ingredientes, alvo, oposição, validade e gatilho desta etapa" IsChecked="{Binding CoreRitualConditionsConfirmed}"/>
+            <Button Content="Resolver próxima etapa / afirmação" Command="{Binding ResolveRitualWorkflowCommand}" HorizontalAlignment="Left"/>
+            <Button Content="Coração de Pedra: aplicar cura crítica da vela confirmada" Command="{Binding ApplyRitualCandleHealingCommand}" HorizontalAlignment="Left"/>
+            <Button Content="Essência do Ar: consumir uma dose confirmada" Command="{Binding ConsumeRitualAirDoseCommand}" HorizontalAlignment="Left"/>
+            <Button Content="Iluminar Rastro: rolar Inteligência + Sobrevivência" Command="{Binding RollRitualTrackingCommand}" HorizontalAlignment="Left"/>
+            <Expander Header="Fuste: ataque ou extração da lasca" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Ataque: informe a parada de quem usa a estaca, sem o bônus ritual (+3 é acrescentado). Use os sucessos da oposição acima. Cirurgia: informe Destreza + Medicina de outra pessoa e confirme até quatro horas disponíveis. Identifique a Fome do executor, 0 para mortal. Não há alteração automática na vítima." TextWrapping="Wrap"/>
+                <TextBlock Text="Parada do executor"/><controls:NumericField Value="{Binding RitualFollowUpPool}" Minimum="0" Maximum="47"/>
+                <TextBlock Text="Fome do executor"/><controls:NumericField Value="{Binding RitualFollowUpHunger}" Minimum="0" Maximum="5"/>
+                <Button Content="Rolar ataque com estaca ritual confirmado" Command="{Binding RollRitualShaftAttackCommand}" HorizontalAlignment="Left"/>
+                <Button Content="Rolar cirurgia de extração confirmada" Command="{Binding RollRitualShaftSurgeryCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
+            <Expander Header="Travessia de círculo preparado" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Identifique um intruso do tipo correspondente. A mesa confere o sentido da travessia e as tentativas anteriores; danos e custos do intruso são propostas, sem alterar outra ficha." TextWrapping="Wrap"/>
+                <TextBlock Text="Intruso"/><TextBox Text="{Binding CoreRitualIntruder, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="Parada de Vontade do intruso"/><controls:NumericField Value="{Binding CoreRitualIntruderWillpower}" Minimum="0" Maximum="50"/>
+                <CheckBox Content="Nova tentativa de intruso afetado que ainda não atravessou" IsChecked="{Binding CoreRitualRetry}"/>
+                <CheckBox Content="Mesa confirmou gasto de 1 Vontade do intruso para repetir" IsChecked="{Binding CoreRitualRetryCostConfirmed}"/>
+                <Button Content="Resolver disputa de travessia confirmada" Command="{Binding ResolveRitualCircleContactCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
+            <TextBlock Text="Durações em horas, noites, doses e condições narrativas precisam de acompanhamento da mesa. Encerre o efeito no registro quando expirar. Exceções ficam na ficha; outras fichas nunca são modificadas por estes controles." TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}"/>
+            <Expander Header="Contexto dos efeitos em uso" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Coração de Pedra: os ajustes abaixo entram na parada montada da mesa de dados. Remorso aplica −3 automaticamente, com mínimo de um dado. Dominação usa o procedimento do poder, sem a penalidade social. A reversão exige repetir o ritual e encerrar o efeito anterior." TextWrapping="Wrap"/>
+                <CheckBox Content="Teste social ativo (−3; Intimidação é isenta)" IsChecked="{Binding RitualActiveSocialTest}"/>
+                <CheckBox Content="Este teste é resistência contra Presença (+3)" IsChecked="{Binding RitualResistingPresence}"/>
+                <CheckBox Content="O dano físico a aplicar é de fogo (Andarilho do Fogo)" IsChecked="{Binding RitualIncomingDamageIsFire}"/>
+                <CheckBox Content="A ficha está dentro do Refúgio Sagrado ativo, com o conjurador ainda presente" IsChecked="{Binding RitualInsideProtectedHaven}"/>
+                <TextBlock Text="Passagem Incorpórea impede Surto de Sangue e protege de fontes físicas comuns. Fogo, sol e efeitos arcanos devem ser identificados no contexto do dano." TextWrapping="Wrap"/>
+            </StackPanel></Expander>
+        </StackPanel>
+    </Border>
+</UserControl>
