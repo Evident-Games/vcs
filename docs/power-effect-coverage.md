@@ -172,4 +172,4 @@ O teste de escalada de Pegada Sobrenatural não é limitado à habilidade Atleti
 
 `QuellBeastRules` reúne no módulo V5 o bloqueio de Surto de Sangue e a conversão de crítico bestial em crítico normal enquanto a Besta está subjugada. A mesma regra é usada para a rolagem inicial e para a rerrolagem; a duração e o contexto seguem o registro do efeito.
 
-As rolagens de uso de poder também passam por `QuellBeastRules` quando a própria ficha está sob o efeito. Isso corrige a apresentação do resultado sem alterar os dados, os sucessos ou a decisão sobre efeitos de outros alvos. Rolagens de ritual e ferramentas do Narrador ainda exigem revisão específica.
+As rolagens de uso de poder, preparo de ritual, despertar e primeiro contato de proteção do conjurador passam por `QuellBeastRules` quando sua ficha está sob o efeito. Isso não altera dados nem sucessos. A resistência do intruso não herda o estado do conjurador; ferramentas do Narrador ainda exigem revisão específica.

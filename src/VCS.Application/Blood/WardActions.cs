@@ -1,5 +1,6 @@
 using VCS.Rules.V5.Dice;
 using VCS.Rules.V5.Rituals;
+using VCS.Rules.V5.Disciplines;
 
 namespace VCS.Application.Blood;
 
@@ -7,14 +8,14 @@ namespace VCS.Application.Blood;
 public sealed class WardActions
 {
     public WardContactAttempt ResolveFirstContact(int level, int casterHunger, int casterPool,
-        bool matchingIntruder, bool voluntaryContact, Random? random = null)
+        bool matchingIntruder, bool voluntaryContact, Random? random = null, bool casterBeastSubdued = false)
     {
         var requirements = RitualRules.DefaultRequirements(level);
         if (casterHunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(casterHunger));
         if (casterPool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(casterPool));
         if (!matchingIntruder || !voluntaryContact)
             return new(null, WardRules.ResolveFirstContact(matchingIntruder, voluntaryContact, false, false));
-        var roll = DicePoolRules.Roll(casterPool, casterHunger, requirements.Difficulty, random);
+        var roll = QuellBeastRules.ApplyToRoll(DicePoolRules.Roll(casterPool, casterHunger, requirements.Difficulty, random), casterBeastSubdued);
         return new(roll, WardRules.ResolveFirstContact(true, true, roll.IsSuccess, roll.IsCritical));
     }
 

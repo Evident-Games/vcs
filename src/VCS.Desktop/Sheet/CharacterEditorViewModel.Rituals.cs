@@ -62,7 +62,8 @@ public partial class CharacterEditorViewModel
         try
         {
             var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
-            var result = new RitualActions().Prepare(definition.Level, Hunger, pool, deferred);
+            var result = new RitualActions().Prepare(definition.Level, Hunger, pool, deferred,
+                beastSubdued: HasActivePower("power-animalism-quell-the-beast"));
             Hunger = result.Check.HungerAfter;
             if (RitualExceptionApproved)
                 ExceptionRegister.Record(ritual.Name, ritual.HasWarning ? ritual.Warning : "Exceção ao ritual", RitualExceptionReason.Trim());
@@ -136,7 +137,8 @@ public partial class CharacterEditorViewModel
             return;
         }
         var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
-        var attempt = new WardActions().ResolveFirstContact(ward.RemainingPoints, Hunger, pool, true, true);
+        var attempt = new WardActions().ResolveFirstContact(ward.RemainingPoints, Hunger, pool, true, true,
+            casterBeastSubdued: HasActivePower("power-animalism-quell-the-beast"));
         if (attempt.Roll is not { } roll) return;
         RitualPreparationSummary = $"{ward.Name} em {ward.Target}; intruso {intruder}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}. " +
             $"Dano agravado proposto ao intruso: {attempt.Result.AggravatedHealthDamage}. Nenhuma outra ficha foi alterada. Fonte: {ward.Source}.";
@@ -178,7 +180,8 @@ public partial class CharacterEditorViewModel
         if (pending is null) { RitualPreparationSummary = "Nenhum ritual de despertar preparado e ativo nesta ficha."; return; }
         if (!AwakeningDangerConfirmed) { RitualPreparationSummary = "Confirme que há perigo durante o sono com o Narrador."; return; }
         var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
-        var result = new RitualActions().ResolveAwakening(Hunger, pool);
+        var result = new RitualActions().ResolveAwakening(Hunger, pool,
+            beastSubdued: HasActivePower("power-animalism-quell-the-beast"));
         var roll = result.Roll;
         RitualPreparationSummary = $"Despertar: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}: {roll.Outcome}. " +
             result.Effect +
