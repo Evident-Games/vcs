@@ -67,7 +67,7 @@ public partial class CharacterEditorViewModel
         var balance = MovementPowerRules.CatGraceSucceeds(KnowsPower("power-celerity-cats-grace"), PowerBalanceContext,
             PowerTerrainSupportsWeight, SelectedRollAttribute?.Key == "attribute-dexterity" || SelectedRollSkill?.Key == "skill-athletics");
         var climb = MovementPowerRules.UncannyGripSucceeds(HasActivePower("power-potence-uncanny-grip"), PowerClimbingContext,
-            PowerNonMetalSurface, SelectedRollSkill?.Key == "skill-athletics", RollIsCombat);
+            PowerNonMetalSurface, SelectedRollSkill?.Key == "skill-athletics");
         if (!balance && !climb) return false;
         RollSummary = balance ? "Graça Felina: equilíbrio bem-sucedido automaticamente; suporte confirmado para o peso."
             : "Pegada Sobrenatural: escalada bem-sucedida na superfície não metálica confirmada. Rastros permanecem.";

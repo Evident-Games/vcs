@@ -165,3 +165,5 @@ Alterar a identificação do intruso desmarca as confirmações de contato e pag
 As condições dos sucessos automáticos de Graça Felina e Pegada Sobrenatural foram extraídas para `MovementPowerRules` no módulo V5. Os contextos, suporte da superfície e ativação continuam explícitos na ficha; isso é uma separação de lógica, sem alterar a contagem de cobertura.
 
 Graça Felina também funciona em testes de equilíbrio durante combate quando a superfície suporta o peso; o livro base p. 252 não estabelece uma restrição de combate para esse efeito. A confirmação de contexto continua necessária.
+
+Pegada Sobrenatural também não recebe restrição automática por combate: o livro base p. 265 prevê sucesso nos testes de escalada de superfícies não metálicas enquanto o poder estiver ativo. A mesa ainda confirma a superfície e a aplicação ao teste.

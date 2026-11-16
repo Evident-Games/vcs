@@ -11,6 +11,6 @@ public static class MovementPowerRules
         knowsPower && balanceTest && surfaceSupportsWeight && dexterityOrAthletics;
 
     public static bool UncannyGripSucceeds(bool active, bool climbingTest, bool suitableNonMetalSurface,
-        bool athletics, bool inCombat) =>
-        active && climbingTest && suitableNonMetalSurface && athletics && !inCombat;
+        bool athletics) =>
+        active && climbingTest && suitableNonMetalSurface && athletics;
 }
