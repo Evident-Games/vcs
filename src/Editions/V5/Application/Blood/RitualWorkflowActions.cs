@@ -18,6 +18,18 @@ public sealed class RitualWorkflowActions
         if (!string.Equals(_ruleset.EditionId, "V5", StringComparison.OrdinalIgnoreCase))
             throw new NotSupportedException("O coordenador de custos e etapas de rituais instalado atende somente à V5.");
     }
+    /// <summary>Validate the existing self-only beneficiary constraint before creating a ritual preparation.</summary>
+    public static void ValidateBeneficiary(RitualUseDefinition ritual, bool targetsSelf, string target,
+        bool exceptionApproved, string exceptionReason)
+    {
+        if (!targetsSelf && string.IsNullOrWhiteSpace(target))
+            throw new InvalidOperationException("Identifique o alvo, objeto ou local deste preparo.");
+        if (exceptionApproved && string.IsNullOrWhiteSpace(exceptionReason))
+            throw new InvalidOperationException("Confirme o procedimento e justifique qualquer exceção com o Narrador.");
+        if (!targetsSelf && (ritual.Kind is "clinging" or "deflection" or "incorporeal" or "heart-stone" or "nighthawk") && !exceptionApproved)
+            throw new InvalidOperationException("Este ritual beneficia o conjurador; outro beneficiário exige exceção registrada.");
+    }
+
     public RitualCostPayment PayCheck(RitualUseDefinition ritual, RitualWorkflowState state, int hunger, Random? random = null)
     {
         if (ritual.Kind is "sanctuary" or "ward" or "awakening")

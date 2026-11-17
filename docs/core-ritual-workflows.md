@@ -86,3 +86,7 @@ A validação da autorização e justificativa e a alteração do estado de cegu
 ## Proteção dos estados de ritual no encerramento genérico
 
 As três restrições existentes para o botão genérico de encerrar efeito foram transferidas da interface para `RitualWorkflowActions` da V5: voo ou cegueira de Olhos do Falcão Noturno, checagens pagas de preparação do Santuário e marcador de tentativa de viagem na cena. A interface apresenta a orientação retornada e conserva os fluxos dedicados e o histórico. A mudança separa comportamento existente, sem criar novas regras ou aumentar a cobertura; a mesa continua confirmando condições e exceções. A referência existente para Olhos do Falcão é o livro base, página impressa 280; o PDF não estava acessível nesta execução.
+
+## Validação do beneficiário no serviço V5
+
+A verificação já existente para identificação do alvo e para beneficiários excepcionais dos rituais limitados ao conjurador passou do ViewModel para `RitualWorkflowActions`. O serviço também exige justificativa quando recebe uma autorização excepcional; a interface continua registrando a decisão na ficha antes de iniciar o preparo. As condições narrativas e a autorização continuam com a mesa, sem alterar outra ficha. É uma separação da validação existente, sem acrescentar rituais ou reclassificar cobertura. O PDF não estava acessível para nova conferência neste ciclo; nenhuma regra nova foi presumida.

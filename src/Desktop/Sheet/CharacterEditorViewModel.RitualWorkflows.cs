@@ -68,11 +68,14 @@ public partial class CharacterEditorViewModel
         if (!RitualConditionsConfirmed || (row.HasWarning && !RitualExceptionApproved) ||
             (RitualExceptionApproved && string.IsNullOrWhiteSpace(RitualExceptionReason)))
         { RitualPreparationSummary = "Confirme o procedimento e justifique qualquer exceção com o Narrador."; return; }
-        if (!CoreRitualTargetsSelf && string.IsNullOrWhiteSpace(CoreRitualTarget))
-        { RitualPreparationSummary = "Identifique o alvo, objeto ou local deste preparo."; return; }
+        try
+        {
+            RitualWorkflowActions.ValidateBeneficiary(ritual, CoreRitualTargetsSelf, CoreRitualTarget,
+                RitualExceptionApproved, RitualExceptionReason);
+        }
+        catch (InvalidOperationException exception)
+        { RitualPreparationSummary = exception.Message; return; }
         var target = CoreRitualTargetsSelf ? Name : CoreRitualTarget.Trim();
-        if (!CoreRitualTargetsSelf && (ritual.Kind is "clinging" or "deflection" or "incorporeal" or "heart-stone" or "nighthawk") && !RitualExceptionApproved)
-        { RitualPreparationSummary = "Este ritual beneficia o conjurador; outro beneficiário exige exceção registrada."; return; }
         if (PowerEffects.FirstOrDefault(x => x.Active && x.PowerId == ritual.RitualId && x.Target == target &&
             x.RitualWorkflow is { Resolved: false }) is { } pending)
         {
