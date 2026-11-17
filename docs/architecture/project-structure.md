@@ -14,7 +14,7 @@ Os projetos existentes foram movidos fisicamente para as pastas Shared, Editions
 - `tests/VCS.Tests`: projeto de testes existente; testes ligados à V5 estão em `Editions/V5`, enquanto os demais ainda incluem testes compartilhados e de interface. A divisão física não cria projetos de teste separados.
 - V3 e V20 ainda não têm projetos de regras.
 
-O registro de compatibilidade está em VCS.Rules.Modules.RuleModuleRegistry. Ele ainda não está conectado à composição do aplicativo. As fichas também ainda não armazenam a edição selecionada.
+O registro de compatibilidade em `VCS.Rules.Modules.RuleModuleRegistry` é inicializado no Desktop com o manifesto base V5. As fichas ainda não armazenam a edição selecionada; catálogos e fluxos ainda não são compostos dinamicamente por módulo.
 
 ## Estrutura-alvo
 

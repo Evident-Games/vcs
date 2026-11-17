@@ -82,7 +82,7 @@ Os livros-base V3 e V20 consultados não estruturam a criação como a escolha d
 
 ### Separação em andamento e limites atuais
 
-`VCS.Rules.Modules.RuleModuleRegistry` agora valida a composição declarada de módulos: requer uma edição instalada, exige compatibilidade explícita de extensões, dependências satisfeitas e ausência de conflitos. Ele é uma fundação de arquitetura, ainda não ligado ao ponto de composição do Desktop nem aos catálogos/fichas existentes. No estado atual, há implementação de regras V5; não há módulos V3 ou V20 registrados nem seletor por ficha.
+`VCS.Rules.Modules.RuleModuleRegistry` agora valida a composição declarada de módulos: requer uma edição instalada, exige compatibilidade explícita de extensões, dependências satisfeitas e ausência de conflitos. O Desktop registra e valida o manifesto base V5 ao iniciar. Esse registro ainda não compõe catálogos ou fluxos por ficha. No estado atual, há implementação de regras V5; não há módulos V3 ou V20 registrados nem seletor por ficha.
 
 Nenhum conteúdo V3/V20 deve herdar V5 implicitamente. “Compatível” precisa ser declarado e revisado por módulo; o fato de dois livros usarem d10 ou terem Antecedentes parecidos não constitui compatibilidade.
 

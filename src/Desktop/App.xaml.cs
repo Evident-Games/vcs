@@ -28,6 +28,8 @@ using VCS.Infrastructure.Catalogs;
 using VCS.Infrastructure.Characters;
 using VCS.Infrastructure.Persistence;
 using VCS.Rules.Disciplines;
+using VCS.Rules.Modules;
+using VCS.Rules.V5.Modules;
 using VCS.Rules.V5.Disciplines;
 
 namespace VCS.Desktop;
@@ -68,7 +70,13 @@ public partial class App : System.Windows.Application
                 return;
             }
 
+            // Existing sheets currently use V5. Validate the installed base module before
+            // starting services or accessing the database; no other edition is enabled here.
+            var moduleRegistry = new RuleModuleRegistry([V5Module.Manifest]);
+            var moduleSelection = moduleRegistry.Resolve(V5Module.EditionId);
             var builder = Host.CreateApplicationBuilder(e.Args);
+            builder.Services.AddSingleton(moduleRegistry);
+            builder.Services.AddSingleton(moduleSelection);
             builder.Logging.ClearProviders();
             builder.Services.AddSerilog();
             builder.Services.AddSingleton(new DatabaseAccess(databasePath));
