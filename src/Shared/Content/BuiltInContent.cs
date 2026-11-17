@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace VCS.Content;
 
 /// <summary>
-/// Reads the content that ships with the app from the JSON files in Data (embedded in this assembly).
+/// Reads the V5 content embedded in this assembly from Editions/V5/Content/Data.
 /// Only this class knows the file format.
 /// </summary>
 public static class BuiltInContent

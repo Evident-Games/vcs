@@ -17,7 +17,7 @@ Isso é uma fronteira incompleta, não suporte às outras edições. Antes de ha
 
 ## Organização das pastas
 
-A estrutura-alvo sem o prefixo repetido VCS está em [architecture/project-structure.md](architecture/project-structure.md). Ela separa código compartilhado em Shared e conteúdo/regras/fluxos em Editions/V5, Editions/V3 e Editions/V20. Os projetos existentes foram movidos para `src/Shared`, `src/Editions/V5/Rules` e `src/Desktop`, mantendo os nomes dos projetos e namespaces. A separação de lógica e conteúdo por edição ainda está pendente.
+A estrutura-alvo sem o prefixo repetido VCS está em [architecture/project-structure.md](architecture/project-structure.md). Ela separa código compartilhado em Shared e conteúdo/regras/fluxos em Editions/V5, Editions/V3 e Editions/V20. Os projetos existentes foram movidos para `src/Shared`, `src/Editions/V5/Rules` e `src/Desktop`, mantendo os nomes dos projetos e namespaces. Os catálogos JSON da V5 estão em `src/Editions/V5/Content/Data`, mas ainda são incorporados ao assembly compartilhado. A separação de lógica e a composição de conteúdo por edição ainda estão pendentes.
 
 ## Rituais do livro base V5
 

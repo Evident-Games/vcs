@@ -8,6 +8,7 @@ Os projetos existentes foram movidos fisicamente para as pastas Shared, Editions
 
 - `src/Shared/Sheet`, `Content`, `Rules`, `Application` e `Infrastructure`: projetos existentes, ainda com dependências e conteúdo V5 a separar.
 - `src/Editions/V5/Rules`: projeto de regras V5.
+- `src/Editions/V5/Content/Data`: catálogos JSON V5. Ainda são incorporados ao assembly `VCS.Content`, com os nomes de recurso anteriores; a composição por edição permanece pendente.
 - `src/Desktop`: interface WPF, navegação e temas.
 - `tests/VCS.Tests`: suíte existente, ainda mista e não dividida por edição.
 - V3 e V20 ainda não têm projetos de regras.
