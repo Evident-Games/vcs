@@ -158,7 +158,6 @@
                     <Button Style="{StaticResource HudDockButton}" Command="{Binding ToggleHudCommand}" AutomationProperties.Name="Recolher ou expandir painel lateral">
                         <Button.ToolTip><ToolTip x:Name="ToggleTip" Style="{StaticResource HudTip}"><TextBlock><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Text" Value="MINIMIZE"/><Style.Triggers><DataTrigger Binding="{Binding Display.HudCollapsed}" Value="True"><Setter Property="Text" Value="MAXIMIZE"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock></ToolTip></Button.ToolTip>
                         <Grid Width="30" Height="30">
-                            <Ellipse Stroke="{DynamicResource VcsHudText}"><Ellipse.Style><Style TargetType="Ellipse"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding Display.HudCollapsed}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></Ellipse.Style></Ellipse>
                             <Path Data="M3,5 L21,5 L21,19 L3,19 Z M14,5 L14,19" Width="20" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"
                                   Stroke="{DynamicResource VcsHudText}" StrokeThickness="1.5"/>
                         </Grid>

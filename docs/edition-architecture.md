@@ -17,7 +17,7 @@ Isso é uma fronteira incompleta, não suporte às outras edições. Antes de ha
 
 ## Organização das pastas
 
-A estrutura-alvo sem o prefixo repetido VCS está em [architecture/project-structure.md](architecture/project-structure.md). Ela separa código compartilhado em Shared e conteúdo/regras/fluxos em Editions/V5, Editions/V3 e Editions/V20. Essa árvore é planejada: o código atual ainda usa pastas de projeto como VCS.Sheet e VCS.Rules.V5.
+A estrutura-alvo sem o prefixo repetido VCS está em [architecture/project-structure.md](architecture/project-structure.md). Ela separa código compartilhado em Shared e conteúdo/regras/fluxos em Editions/V5, Editions/V3 e Editions/V20. A migração começou pelo projeto de regras V5, agora em `src/Editions/V5/Rules`; os demais projetos ainda usam pastas como `VCS.Sheet`.
 
 ## Rituais do livro base V5
 

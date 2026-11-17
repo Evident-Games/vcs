@@ -1,16 +1,16 @@
 # Estrutura de pastas do VCS
 
-Este documento descreve a organização-alvo do código para manter o núcleo compartilhado separado das regras de cada edição. É um plano de pastas, não uma declaração de que a migração já aconteceu.
+Este documento descreve a organização-alvo do código para manter o núcleo compartilhado separado das regras de cada edição. A migração é gradual e ainda não está concluída.
 
 ## Estrutura atual
 
-Hoje os projetos usam o prefixo VCS nos nomes das pastas. O núcleo compartilhado e a V5 já existem; V3 e V20 ainda não têm projetos de regras.
+A maioria dos projetos ainda usa o prefixo VCS nas pastas. As regras V5 já foram movidas para Editions; V3 e V20 ainda não têm projetos de regras.
 
 - src/
   - VCS.Sheet/ — modelos e dados persistidos das fichas
   - VCS.Content/ — modelos, catálogos e conteúdo atual
   - VCS.Rules/ — contratos compartilhados; alguns ainda contêm campos específicos da V5
-  - VCS.Rules.V5/ — regras V5
+  - Editions/V5/Rules/ — projeto de regras V5 (namespace e nome do projeto preservados)
   - VCS.Application/ — casos de uso comuns e fluxos que ainda dependem de regras V5
   - VCS.Infrastructure/ — persistência, arquivos e acesso a dados
   - VCS.Desktop/ — interface WPF, ViewModels, navegação e temas

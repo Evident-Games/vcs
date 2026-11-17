@@ -4,7 +4,7 @@
 
 Manter a versão Windows em WPF enquanto as regras e os casos de uso ficam independentes da interface. Uma futura interface para macOS ou Android deverá consumir os mesmos serviços, sem duplicar regras.
 
-A árvore-alvo das pastas está em [project-structure.md](project-structure.md). Ela remove o prefixo VCS dos nomes de diretório e separa Shared de Editions. Essa estrutura ainda é planejada; os projetos atuais continuam nos caminhos VCS.* até serem movidos em alterações próprias.
+A árvore-alvo das pastas está em [project-structure.md](project-structure.md). Ela remove o prefixo VCS dos nomes de diretório e separa Shared de Editions. A migração começou pelas regras V5 em `src/Editions/V5/Rules`; os demais projetos continuam nos caminhos VCS.* até serem movidos em alterações próprias.
 
 ## Limites entre projetos
 
