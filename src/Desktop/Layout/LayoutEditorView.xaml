@@ -217,6 +217,12 @@
                                     <TextBlock Text="Opacidade das superfícies" />
                                     <Slider Minimum="0.25" Maximum="1" TickFrequency="0.05" Value="{Binding Display.SurfaceOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Opacidade das superfícies" />
                                     <TextBlock Text="{Binding Display.SurfaceOpacity, StringFormat={}{0:P0}}" HorizontalAlignment="Right" />
+                                    <TextBlock Text="Tamanho do HUD" Margin="0,12,0,4" />
+                                    <ComboBox SelectedValuePath="Tag" SelectedValue="{Binding Display.HudSize, Mode=TwoWay}" AutomationProperties.Name="Tamanho do HUD">
+                                        <ComboBoxItem Content="Mínimo" Tag="Minimal" />
+                                        <ComboBoxItem Content="Padrão" Tag="Default" />
+                                        <ComboBoxItem Content="Grande (tamanho original)" Tag="Large" />
+                                    </ComboBox>
                                     <CheckBox Content="Altura compacta do painel lateral" IsChecked="{Binding Display.HudCompact, Mode=TwoWay}" Margin="0,8,0,0" />
                                 </StackPanel>
                             </Border>

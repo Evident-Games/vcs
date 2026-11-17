@@ -20,6 +20,7 @@ public partial class Sidebar : UserControl
         InitializeComponent();
         SetBinding(IsCollapsedProperty, new Binding("Display.HudCollapsed") { Mode = BindingMode.TwoWay });
         Loaded += OnLoaded;
+        IsVisibleChanged += (_, _) => { if (!IsVisible) ProfilePopup.IsOpen = false; };
     }
 
     private static void OnCollapsedChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
@@ -55,7 +56,8 @@ public partial class Sidebar : UserControl
     private void OnDisplayChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName is nameof(Layout.DisplaySettingsViewModel.HudEdge) or nameof(Layout.DisplaySettingsViewModel.HudPosition)
-            or nameof(Layout.DisplaySettingsViewModel.HudCompact) or nameof(Layout.DisplaySettingsViewModel.HudCollapsed))
+            or nameof(Layout.DisplaySettingsViewModel.HudCompact) or nameof(Layout.DisplaySettingsViewModel.HudCollapsed)
+            or nameof(Layout.DisplaySettingsViewModel.HudSize))
             Dispatcher.BeginInvoke(new Action(UpdateLayoutPosition));
     }
 
@@ -84,12 +86,13 @@ public partial class Sidebar : UserControl
         DockBar.Measure(new Size(w, h));
         var bw = DockBar.DesiredSize.Width;
         var bh = DockBar.DesiredSize.Height;
-        var panelWidth = Math.Min(340, Math.Max(0, w - bw - Gap - 2 * MarginSize));
-        DrawerHost.Width = panelWidth;
-        Drawer.Width = panelWidth;
+        var scale = display.HudScale;
+        var panelWidth = Math.Min(340 * scale, Math.Max(0, w - bw - Gap - 2 * MarginSize));
+        DrawerHost.Width = panelWidth / scale;
+        Drawer.Width = panelWidth / scale;
         var panelHeight = Math.Max(0, (display.HudCompact ? 0.62 : 1) * (h - 2 * MarginSize));
         if (horizontal) panelHeight = Math.Min(panelHeight, Math.Max(0, h - bh - Gap - 2 * MarginSize));
-        DrawerHost.Height = panelHeight;
+        DrawerHost.Height = panelHeight / scale;
         var position = Math.Clamp(display.HudPosition, 0, 1);
         var availableX = Math.Max(0, w - 2 * MarginSize - bw);
         var availableY = Math.Max(0, h - 2 * MarginSize - bh);
@@ -139,13 +142,13 @@ public partial class Sidebar : UserControl
 
     private void OnDragDelta(object sender, DragDeltaEventArgs e)
     {
-        dragX = Math.Clamp(dragX + e.HorizontalChange, 0, Math.Max(0, HudCanvas.ActualWidth - DockBar.ActualWidth));
-        dragY = Math.Clamp(dragY + e.VerticalChange, 0, Math.Max(0, HudCanvas.ActualHeight - DockBar.ActualHeight));
+        dragX = Math.Clamp(dragX + e.HorizontalChange, 0, Math.Max(0, HudCanvas.ActualWidth - DockBar.DesiredSize.Width));
+        dragY = Math.Clamp(dragY + e.VerticalChange, 0, Math.Max(0, HudCanvas.ActualHeight - DockBar.DesiredSize.Height));
         Canvas.SetLeft(DockBar, dragX); Canvas.SetTop(DockBar, dragY);
         Canvas.SetLeft(DrawerHost, dragX + panelDragX); Canvas.SetTop(DrawerHost, dragY + panelDragY);
         var w = HudCanvas.ActualWidth; var h = HudCanvas.ActualHeight;
-        var distances = new[] { ("Left", dragX), ("Right", w - dragX - DockBar.ActualWidth),
-            ("Top", dragY), ("Bottom", h - dragY - DockBar.ActualHeight) };
+        var distances = new[] { ("Left", dragX), ("Right", w - dragX - DockBar.DesiredSize.Width),
+            ("Top", dragY), ("Bottom", h - dragY - DockBar.DesiredSize.Height) };
         previewEdge = distances.OrderBy(x => x.Item2).First().Item1;
         var horizontal = previewEdge is "Top" or "Bottom";
         SnapPreview.Width = horizontal ? w : 5; SnapPreview.Height = horizontal ? 5 : h;
@@ -162,7 +165,7 @@ public partial class Sidebar : UserControl
         {
             var horizontal = previewEdge is "Top" or "Bottom";
             var size = horizontal ? HudCanvas.ActualWidth : HudCanvas.ActualHeight;
-            var bar = horizontal ? DockBar.ActualWidth : DockBar.ActualHeight;
+            var bar = horizontal ? DockBar.DesiredSize.Width : DockBar.DesiredSize.Height;
             var offset = horizontal ? dragX : dragY;
             display.HudEdge = previewEdge;
             display.HudPosition = Math.Clamp((offset - MarginSize) / Math.Max(1, size - 2 * MarginSize - bar), 0, 1);

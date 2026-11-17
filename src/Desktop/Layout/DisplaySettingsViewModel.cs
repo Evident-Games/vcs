@@ -44,6 +44,13 @@ public partial class DisplaySettingsViewModel : ObservableObject
     [ObservableProperty] private string hudEdge = "Right";
     [ObservableProperty] private double hudPosition = 0;
     [ObservableProperty] private bool hudCompact;
+    [ObservableProperty] private string hudSize = "Large";
+    public double HudScale => HudSize switch { "Minimal" => 0.65, "Default" => 0.82, _ => 1.0 };
+    partial void OnHudSizeChanged(string value)
+    {
+        OnPropertyChanged(nameof(HudScale));
+        Changed?.Invoke(this, EventArgs.Empty);
+    }
     partial void OnHudEdgeChanged(string value) => Changed?.Invoke(this, EventArgs.Empty);
     partial void OnHudPositionChanged(double value) => Changed?.Invoke(this, EventArgs.Empty);
     partial void OnHudCompactChanged(bool value) => Changed?.Invoke(this, EventArgs.Empty);
