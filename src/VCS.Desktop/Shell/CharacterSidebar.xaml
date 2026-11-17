@@ -10,7 +10,7 @@
             <Setter Property="Foreground" Value="{DynamicResource VcsHudText}"/><Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value="10"/>
             <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToolTip">
-                <Border x:Name="DockPill" Background="{DynamicResource VcsHudDock}" BorderBrush="{DynamicResource VcsHudBorder}"
+                <Border Background="{DynamicResource VcsHudDock}" BorderBrush="{DynamicResource VcsHudBorder}"
                         BorderThickness="1" CornerRadius="99" Padding="14,9"><ContentPresenter/></Border>
             </ControlTemplate></Setter.Value></Setter>
         </Style>
@@ -123,7 +123,7 @@
                 <TextBlock Text="{Binding HudInitials}" FontFamily="Cinzel, Georgia" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <Ellipse><Ellipse.Fill><ImageBrush ImageSource="{Binding HudAvatarImage}" Stretch="UniformToFill"/></Ellipse.Fill></Ellipse>
             </Grid>
-            <Border Background="{DynamicResource VcsHudDock}" BorderBrush="{DynamicResource VcsHudBorder}" BorderThickness="1"
+            <Border x:Name="DockPill" Background="{DynamicResource VcsHudDock}" BorderBrush="{DynamicResource VcsHudBorder}" BorderThickness="1"
                     CornerRadius="26" Padding="5,10" Margin="0,14,0,0">
                 <Border.Effect><DropShadowEffect BlurRadius="20" ShadowDepth="4" Opacity="0.3"/></Border.Effect>
                 <StackPanel x:Name="DockButtons">

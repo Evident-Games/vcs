@@ -1,7 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media.Animation;
 using System.ComponentModel;
 using System.Windows.Controls.Primitives;
 using Microsoft.Win32;
@@ -26,7 +25,7 @@ public partial class CharacterSidebar : UserControl
     private static void OnCollapsedChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
     {
         var sidebar = (CharacterSidebar)element;
-        if (sidebar.IsLoaded) sidebar.AnimateDrawer(true);
+        if (sidebar.IsLoaded) sidebar.UpdateDrawer();
     }
 
     private const double MarginSize = 16;
@@ -43,7 +42,7 @@ public partial class CharacterSidebar : UserControl
         if (display != null) display.PropertyChanged += OnDisplayChanged;
         Unloaded -= OnUnloaded;
         Unloaded += OnUnloaded;
-        AnimateDrawer(false);
+        UpdateDrawer();
         Dispatcher.BeginInvoke(new Action(UpdateLayoutPosition));
     }
 
@@ -60,7 +59,7 @@ public partial class CharacterSidebar : UserControl
             Dispatcher.BeginInvoke(new Action(UpdateLayoutPosition));
     }
 
-    private void AnimateDrawer(bool animate)
+    private void UpdateDrawer()
     {
         // Keep the collapsed surface out of hit testing and keyboard navigation.
         DrawerHost.Visibility = IsCollapsed ? Visibility.Collapsed : Visibility.Visible;
