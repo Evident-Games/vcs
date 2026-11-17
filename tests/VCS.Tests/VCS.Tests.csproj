@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\src\Shared\Content\VCS.Content.csproj" />
     <ProjectReference Include="..\..\src\Editions\V5\Rules\VCS.Rules.V5.csproj" />
     <ProjectReference Include="..\..\src\Shared\Application\VCS.Application.csproj" />
+    <ProjectReference Include="..\..\src\Editions\V5\Application\VCS.Application.V5.csproj" />
     <ProjectReference Include="..\..\src\Shared\Infrastructure\VCS.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Desktop\VCS.Desktop.csproj" />
   </ItemGroup>

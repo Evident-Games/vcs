@@ -11,7 +11,7 @@ A árvore-alvo das pastas está em [project-structure.md](project-structure.md).
 - `VCS.Sheet`: modelos de ficha e valores persistidos; não deve depender de WPF, SQLite ou controles de interface.
 - `VCS.Content`: catálogos, conteúdo de jogo e atribuição de fontes; não deve depender de UI ou persistência.
 - `VCS.Rules.V5`: resolução determinística das regras V5; não deve depender de WPF, banco de dados, arquivos ou serviços de aplicação.
-- `VCS.Application`: casos de uso comuns e coordenação. Hoje ainda referencia `VCS.Rules.V5` em fluxos como ativação de poderes e predadores; a dependência V5 precisa migrar para um módulo específico.
+- `VCS.Application`: casos de uso comuns e coordenação. Os fluxos que dependem de V5 foram movidos para `VCS.Application.V5`; a aplicação compartilhada não referencia diretamente `VCS.Rules.V5`.
 - `VCS.Infrastructure`: banco, arquivos, exportação e serviços externos; implementa interfaces definidas pela aplicação.
 - `VCS.Desktop`: WPF, ViewModels, comandos, navegação e composição de dependências. Deve chamar casos de uso da aplicação e adaptar seus resultados para a tela.
 

@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Sheet\VCS.Sheet.csproj" />
     <ProjectReference Include="..\Content\VCS.Content.csproj" />
-    <ProjectReference Include="..\..\Editions\V5\Rules\VCS.Rules.V5.csproj" />
     <ProjectReference Include="..\Rules\VCS.Rules.csproj" />
   </ItemGroup>
 </Project>
