@@ -30,7 +30,8 @@
         <ui:TitleBar Title="VCS  /  Vampire Character Sheet" Height="34" Padding="16,0" FontSize="11"
                      Foreground="{DynamicResource VcsHeaderText}" ButtonsForeground="{DynamicResource VcsHeaderText}" />
         <shell:MainMenu Grid.Row="1" />
-        <Grid Grid.Row="2" IsEnabled="{Binding IsIdle}">
+        <Grid Grid.Row="2" IsEnabled="{Binding IsIdle}" ClipToBounds="True">
+            <Image Source="{Binding Display.WorkspaceBackgroundImage}" Stretch="UniformToFill" IsHitTestVisible="False" />
             <shell:WorkspaceView />
             <chronicle:ChronicleEventsView Visibility="{Binding IsNarratorOpen, Converter={StaticResource BoolVisibility}}" />
             <layout:LayoutEditorView />

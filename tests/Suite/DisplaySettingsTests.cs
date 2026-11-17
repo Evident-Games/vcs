@@ -7,6 +7,26 @@ namespace VCS.Tests;
 public sealed class DisplaySettingsTests
 {
     [Fact]
+    public void Workspace_background_path_survives_preferences_roundtrip()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "VCS-settings-" + Guid.NewGuid().ToString("N"));
+        var path = Path.Combine(directory, "settings.json");
+        try
+        {
+            var display = new DisplaySettingsViewModel { WorkspaceBackgroundPath = Path.Combine(directory, "missing.webp") };
+            new DisplaySettingsStore(path).Save(display);
+            var restored = new DisplaySettingsViewModel();
+            new DisplaySettingsStore(path).Load(restored);
+            Assert.Equal(display.WorkspaceBackgroundPath, restored.WorkspaceBackgroundPath);
+            Assert.Null(restored.WorkspaceBackgroundImage);
+        }
+        finally
+        {
+            if (Directory.Exists(directory)) Directory.Delete(directory, true);
+        }
+    }
+
+    [Fact]
     public void Moving_sections_reorders_list_and_tabs_follow_first_section()
     {
         var display = new DisplaySettingsViewModel();

@@ -25,6 +25,10 @@
                           ToolTip="Adicionar ou editar habilidades, vantagens, disciplinas e clas" />
             </MenuItem>
             <MenuItem Header="E_xibir">
+                <MenuItem Header="Fundo da área de trabalho">
+                    <MenuItem Header="Escolher imagem..." Click="OnChooseBackground" />
+                    <MenuItem Header="Remover imagem" Click="OnRemoveBackground" />
+                </MenuItem>
                 <MenuItem Header="Layout da ficha..." Command="{Binding ToggleLayoutSettingsCommand}" />
                 <MenuItem Header="Dados de rolagem em 3D" IsCheckable="True"
                           IsChecked="{Binding Display.Show3DDice, Mode=TwoWay}"
