@@ -27,7 +27,7 @@ public partial class CharacterEditorViewModel
             AweOtherCharismaApproved && SelectedRollAttribute?.Key == "attribute-charisma"),
         InnerFacadeActive && MentalProbeResistance ? DisciplineRating("discipline-fortitude") : 0,
         UnswayableMindApplies && KnowsPower("power-fortitude-unswayable-mind") ? DisciplineRating("discipline-fortitude") : 0);
-    private int SensoryPenalty => PerceptionRoll && SensoryOverload ? -3 : 0;
+    private int SensoryPenalty => VCS.Rules.V5.Conflicts.DisciplinePoolRules.SensoryOverloadPenalty(PerceptionRoll, SensoryOverload);
     public int MentalProbeDifficultyIncrease => InnerFacadeActive && !MentalProbeResistance
         ? VCS.Rules.V5.Conflicts.DisciplineCombatRules.InnerFacadeDifficulty(DisciplineRating("discipline-fortitude")) : 0;
     public string ContextPowerSummary => $"Disciplinas: +{ContextPowerBonus} dados (maior bônus aplicável); sobrecarga sensorial: {SensoryPenalty}. " +

@@ -5,6 +5,10 @@ namespace VCS.Rules.V5.Conflicts;
 [RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 244, 249, 259, 267")]
 public static class DisciplinePoolRules
 {
+    /// <summary>Penalty after sensory overload, while the roll uses perception (core book, p. 249).</summary>
+    public static int SensoryOverloadPenalty(bool perceptionRoll, bool sensoryOverload) =>
+        perceptionRoll && sensoryOverload ? -3 : 0;
+
     // Multiple Disciplines enhancing the same roll do not add their bonuses together.
     public static int StrongestBonus(params int[] bonuses) => bonuses.Length == 0 ? 0 : Math.Max(0, bonuses.Max());
 

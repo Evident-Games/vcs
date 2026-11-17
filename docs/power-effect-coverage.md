@@ -1,5 +1,7 @@
 # Cobertura dos poderes do livro base
 
+O cálculo existente da penalidade de Sentidos Aguçados por sobrecarga sensorial pertence a `DisciplinePoolRules` da V5 (livro-base, p. 249); a interface fornece os estados de percepção e sobrecarga. A mesa ainda determina o estímulo e informa o resultado da resistência. Esta extração preserva o comportamento e não altera a classificação de cobertura.
+
 Catálogo atual: **88 poderes de Disciplinas**, todos com perfil de uso. A conferência dos rituais do livro base encontrou **26 títulos, todos cadastrados e com fluxo de uso**. Há ainda uma entrada legada com fonte não verificada, Ilusão de Morte Pacífica, preservada sem automação. Consulte [o inventário por nível e página](core-ritual-inventory.md). Fórmulas de Alquimia de Sangue-Ralo são contadas separadamente.
 
 **Conferência do arquivo técnico:** `powers.json` contém 115 registros no total: 88 poderes de Disciplina e 27 entradas de rituais. Destas, 26 são rituais confirmados do livro-base; uma entrada legada tem fonte não verificada e permanece sem automação. Portanto, 115 é o total combinado do arquivo, não a quantidade de poderes. Fórmulas de Alquimia de Sangue-Ralo não fazem parte dessa contagem.
