@@ -88,8 +88,7 @@ public sealed class RuleModuleRegistry
                     throw new InvalidOperationException(
                         $"Edition module '{module.ModuleId}' does not match '{editionId}'.");
             }
-            else if (!string.Equals(module.EditionId, editionId, StringComparison.OrdinalIgnoreCase) &&
-                !module.CompatibleEditionIds.Contains(editionId, StringComparer.OrdinalIgnoreCase))
+            else if (!module.CompatibleEditionIds.Contains(editionId, StringComparer.OrdinalIgnoreCase))
             {
                 throw new InvalidOperationException(
                     $"Extension '{module.ModuleId}' has not declared compatibility with '{editionId}'.");

@@ -100,3 +100,7 @@ Nenhum conteúdo V3/V20 deve herdar V5 implicitamente. “Compatível” precisa
 - *Vampire: The Masquerade V5 Corebook*, livro-base anexado; sistema V5 e ficha atual.
 - *Vampiro: A Máscara*, 3ª edição, livro-base em português anexado, especialmente criação de personagem pp. 102–104.
 - *Vampire: The Masquerade 20th Anniversary Edition*, livro-base moderno fornecido pelo usuário; criação de personagens (p. 80), antecedentes e caça.
+
+## Compatibilidade declarada
+
+O registro de módulos exige que uma extensão declare explicitamente a edição selecionada em `CompatibleEditionIds`, inclusive quando ela é sua edição de origem. Esta validação ainda não está integrada à seleção no aplicativo; não habilita conteúdo de outras edições por si só.
