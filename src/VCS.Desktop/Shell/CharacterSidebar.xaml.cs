@@ -104,9 +104,8 @@ public partial class CharacterSidebar : UserControl
         else
         {
             y = MarginSize + position * availableY;
-            var occupied = IsCollapsed ? bw : bw + Gap + panelWidth;
-            x = edge == "Left" ? MarginSize + (IsCollapsed ? 0 : panelWidth + Gap) : w - MarginSize - occupied;
-            px = edge == "Left" ? MarginSize : x + bw + Gap;
+            x = edge == "Left" ? MarginSize : w - MarginSize - bw;
+            px = edge == "Left" ? x + bw + Gap : x - Gap - panelWidth;
             // Align the closest panel end with the bar, then clamp to the visible workspace.
             py = y + bh / 2 <= h / 2 ? y : y + bh - panelHeight;
             py = Math.Clamp(py, MarginSize, Math.Max(MarginSize, h - MarginSize - panelHeight));
