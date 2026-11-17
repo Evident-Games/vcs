@@ -17,7 +17,7 @@ Na raiz do repositório:
 ```powershell
 dotnet restore VCS.slnx
 dotnet build VCS.slnx
-dotnet run --project src\Desktop
+dotnet run --project .\src\Desktop\VCS.Desktop.csproj
 dotnet publish .\src\Desktop\VCS.Desktop.csproj -c Release -p:PublishProfile=WindowsX64 -o .\artifacts\portable
 ```
 
