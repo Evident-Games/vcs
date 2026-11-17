@@ -54,6 +54,20 @@
             <Setter Property="Foreground" Value="{DynamicResource VcsHudMuted}"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
+        <Style x:Key="HudTab" TargetType="RadioButton">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="{DynamicResource VcsHudMuted}"/>
+            <Setter Property="Cursor" Value="Hand"/><Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="RadioButton">
+                <Border Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="Transparent" Padding="{TemplateBinding Padding}" x:Name="TabSurface">
+                    <ContentPresenter HorizontalAlignment="Center"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsChecked" Value="True"><Setter Property="Foreground" Value="{DynamicResource VcsHudAccent}"/><Setter Property="FontWeight" Value="Bold"/><Setter TargetName="TabSurface" Property="BorderBrush" Value="{DynamicResource VcsHudAccent}"/></Trigger>
+                    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="TabSurface" Property="BorderBrush" Value="{DynamicResource VcsHudText}"/></Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate></Setter.Value></Setter>
+        </Style>
         <Style x:Key="HudAddButton" TargetType="Button" BasedOn="{StaticResource HudButton}">
             <Setter Property="Margin" Value="0,8,0,4"/><Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="{DynamicResource VcsHudMuted}"/>
@@ -228,20 +242,24 @@
                                     <Path Data="M10,3 A7,7 0 1 0 10,17 A7,7 0 1 0 10,3 M15,15 L21,21" Stroke="{DynamicResource VcsHudAccent}" StrokeThickness="1.7"
                                           Stretch="Uniform" Width="17" Height="17" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" IsHitTestVisible="False"/>
                                 </Grid>
-                                <Expander Header="PERSONAGENS" Style="{StaticResource HudSection}" IsExpanded="True">
-                                    <StackPanel>
-                                        <ItemsControl x:Name="PcList" ItemsSource="{Binding HudCharacters}" ItemTemplate="{StaticResource HudCharacter}"/>
-                                        <TextBlock Text="Nenhum personagem nesta busca." FontSize="11" Margin="4,10" Foreground="{DynamicResource VcsHudMuted}"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding HasItems, ElementName=PcList}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
-                                        <Button Content="＋ Novo personagem" Style="{StaticResource HudAddButton}" Command="{Binding CreateCommand}"/>
-                                    </StackPanel>
-                                </Expander>
-                                <Expander Header="NPCs" Style="{StaticResource HudSection}">
-                                    <StackPanel>
-                                        <ItemsControl x:Name="NpcList" ItemsSource="{Binding HudNpcs}" ItemTemplate="{StaticResource HudCharacter}"/>
-                                        <TextBlock Text="Nenhum NPC nesta busca." FontSize="11" Margin="4,10" Foreground="{DynamicResource VcsHudMuted}"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding HasItems, ElementName=NpcList}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
-                                        <Button Content="＋ Novo NPC" Style="{StaticResource HudAddButton}" Command="{Binding CreateNpcCommand}"/>
-                                    </StackPanel>
-                                </Expander>
+                                <Grid Margin="0,0,0,12"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <RadioButton x:Name="CharactersTab" Content="Personagens" Style="{StaticResource HudTab}" GroupName="HudRosterTabs" IsChecked="True" AutomationProperties.Name="Aba Personagens"/>
+                                    <TextBlock Grid.Column="1" Text="|" VerticalAlignment="Center" Foreground="{DynamicResource VcsHudBorder}"/>
+                                    <RadioButton x:Name="NpcsTab" Grid.Column="2" Content="NPCs" Style="{StaticResource HudTab}" GroupName="HudRosterTabs" AutomationProperties.Name="Aba NPCs"/>
+                                </Grid>
+                                <StackPanel>
+                                    <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding IsChecked, ElementName=CharactersTab}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></StackPanel.Style>
+                                    <TextBlock Text="Personagens locais" FontSize="10" Foreground="{DynamicResource VcsHudMuted}" Margin="4,0,0,4"/>
+                                    <ItemsControl x:Name="PcList" ItemsSource="{Binding HudCharacters}" ItemTemplate="{StaticResource HudCharacter}"/>
+                                    <TextBlock Text="Nenhum personagem nesta busca." FontSize="11" Margin="4,10" Foreground="{DynamicResource VcsHudMuted}"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding HasItems, ElementName=PcList}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
+                                    <Button Content="＋ Novo personagem" Style="{StaticResource HudAddButton}" Command="{Binding CreateCommand}"/>
+                                </StackPanel>
+                                <StackPanel>
+                                    <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding IsChecked, ElementName=NpcsTab}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></StackPanel.Style>
+                                    <ItemsControl x:Name="NpcList" ItemsSource="{Binding HudNpcs}" ItemTemplate="{StaticResource HudCharacter}"/>
+                                    <TextBlock Text="Nenhum NPC nesta busca." FontSize="11" Margin="4,10" Foreground="{DynamicResource VcsHudMuted}"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding HasItems, ElementName=NpcList}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
+                                    <Button Content="＋ Novo NPC" Style="{StaticResource HudAddButton}" Command="{Binding CreateNpcCommand}"/>
+                                </StackPanel>
                             </StackPanel>
                             <StackPanel Visibility="{Binding IsHudChronicles, Converter={StaticResource BoolVisibility}}">
                                 <TextBlock Text="CRÔNICAS" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource VcsHudMuted}" Margin="0,2,0,12"/>
