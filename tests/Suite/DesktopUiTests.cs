@@ -70,6 +70,30 @@ public sealed class DesktopUiTests(WpfApp wpf)
         Assert.Equal(1, model.LayoutColumns);
     });
 
+    [Fact]
+    public Task Sheet_header_keeps_its_size_when_changing_view_mode() => _wpf.RunAsync(async session =>
+    {
+        var model = session.Model;
+        await model.CreateCommand.ExecuteAsync(null);
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        var header = Find<Border>(session.Window, "Cabeçalho da ficha");
+        Assert.True(header.IsVisible);
+        var originalHeight = header.ActualHeight;
+        Assert.True(originalHeight > 0);
+        foreach (var mode in new[] { "Tabbed", "Bento", "Continuous" })
+        {
+            model.Editor!.WindowViewMode = mode;
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+            Assert.True(header.IsVisible);
+            Assert.InRange(Math.Abs(header.ActualHeight - originalHeight), 0, 1);
+        }
+        model.ToggleFloatingWindowsCommand.Execute(null);
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        var visibleHeader = Descendants<Border>(session.Window).Single(x =>
+            AutomationProperties.GetName(x) == "Cabeçalho da ficha" && x.IsVisible);
+        Assert.True(visibleHeader.ActualHeight > 0);
+    });
+
     /// <summary>Main window chrome, menus and the full PC sheet editing flow.</summary>
     [Fact]
     public Task Window_menus_and_pc_sheet_editing_work() => _wpf.RunAsync(async ui =>
