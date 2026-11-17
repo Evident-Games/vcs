@@ -134,6 +134,40 @@ public sealed class DesktopUiTests(WpfApp wpf)
         Assert.True(header.TranslatePoint(new Point(0, 0), scroll).Y < initialTop);
     });
 
+    [Theory]
+    [InlineData("Tabbed", "Secoes da ficha")]
+    [InlineData("Bento", "Ficha em bento")]
+    public Task Header_follows_the_width_of_the_selected_layout(string mode, string targetName) => _wpf.RunAsync(async session =>
+    {
+        var model = session.Model;
+        await model.CreateCommand.ExecuteAsync(null);
+        model.Editor!.WindowViewMode = mode;
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        var header = Descendants<Border>(session.Window).Single(x =>
+            AutomationProperties.GetName(x) == "Cabeçalho da ficha" && x.IsVisible);
+        var target = Descendants<FrameworkElement>(session.Window).Single(x =>
+            AutomationProperties.GetName(x) == targetName && x.IsVisible);
+        Assert.True(header.ActualWidth > 0);
+        Assert.InRange(Math.Abs(header.ActualWidth - target.ActualWidth), 0, 36);
+    });
+
+    [Fact]
+    public Task Clicking_the_sheet_closes_the_sidebar_without_consuming_the_click() => _wpf.RunAsync(async session =>
+    {
+        await session.Model.CreateCommand.ExecuteAsync(null);
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        session.Model.Display.HudCollapsed = false;
+        var pane = Descendants<Border>(session.Window).Single(x =>
+            AutomationProperties.GetName(x)?.StartsWith("Painel ", StringComparison.Ordinal) == true && x.IsVisible);
+        var click = new MouseButtonEventArgs(Mouse.PrimaryDevice, Environment.TickCount, MouseButton.Left)
+        {
+            RoutedEvent = Mouse.PreviewMouseDownEvent
+        };
+        pane.RaiseEvent(click);
+        Assert.True(session.Model.Display.HudCollapsed);
+        Assert.False(click.Handled);
+    });
+
     /// <summary>Main window chrome, menus and the full PC sheet editing flow.</summary>
     [Fact]
     public Task Window_menus_and_pc_sheet_editing_work() => _wpf.RunAsync(async ui =>

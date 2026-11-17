@@ -92,8 +92,14 @@ public partial class WorkspaceView : UserControl
             mode is "Default" or "Continuous" or "Tabbed" or "Bento") editor.WindowViewMode = mode;
     }
 
-    private void OnSheetPaneMouseDown(object sender, MouseButtonEventArgs e)
+    private void OnSheetPaneMouseDown(object sender, MouseButtonEventArgs e) => ActivateSheetPane(sender);
+
+    private void OnSheetPaneGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => ActivateSheetPane(sender);
+
+    private void ActivateSheetPane(object sender)
     {
-        if ((sender as FrameworkElement)?.DataContext is CharacterEditorViewModel editor) ((MainViewModel)DataContext).ActivateEditorCommand.Execute(editor);
+        if (DataContext is not MainViewModel model || (sender as FrameworkElement)?.DataContext is not CharacterEditorViewModel editor) return;
+        model.Display.HudCollapsed = true;
+        model.ActivateEditorCommand.Execute(editor);
     }
 }

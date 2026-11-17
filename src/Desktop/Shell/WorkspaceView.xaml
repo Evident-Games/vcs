@@ -112,7 +112,7 @@
                     <Border x:Name="Pane" CornerRadius="12" themes:SheetTheme.Id="{Binding EffectiveSheetThemeId}"
                             BorderBrush="{DynamicResource VcsBorder}"
                             BorderThickness="1" Padding="18,14,8,12"
-                            TextElement.Foreground="{DynamicResource VcsCardText}" PreviewMouseDown="OnSheetPaneMouseDown"
+                            TextElement.Foreground="{DynamicResource VcsCardText}" PreviewMouseDown="OnSheetPaneMouseDown" PreviewGotKeyboardFocus="OnSheetPaneGotKeyboardFocus"
                             AutomationProperties.Name="{Binding TabTitle, StringFormat='Painel {0}'}">
                         <Border.Style><Style TargetType="Border"><Setter Property="Tag" Value="{DynamicResource VcsBackground}" /></Style></Border.Style>
                         <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>

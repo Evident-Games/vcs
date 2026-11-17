@@ -19,7 +19,7 @@
         <DataTemplate x:Key="SheetHeader">
         <Border Margin="0,0,0,8" Padding="10,6" Tag="{DynamicResource VcsCard}"
                 BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="14"
-                TextElement.Foreground="{DynamicResource VcsCardText}" MaxWidth="1100" AutomationProperties.Name="Cabeçalho da ficha">
+                TextElement.Foreground="{DynamicResource VcsCardText}" MaxWidth="{Binding Tag, RelativeSource={RelativeSource AncestorType=ContentControl}, FallbackValue=1100, TargetNullValue=1100}" AutomationProperties.Name="Cabeçalho da ficha">
             <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -81,7 +81,7 @@
             <ScrollViewer x:Name="SheetScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                           AutomationProperties.Name="Ficha completa">
                 <StackPanel Margin="0,0,12,0">
-                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SheetHeader}" />
+                    <ContentControl Content="{Binding}" Tag="1100" ContentTemplate="{StaticResource SheetHeader}" />
                     <ItemsControl ItemsSource="{Binding VisibleSections}">
                         <ItemsControl.ItemTemplate><DataTemplate><sheet:SheetSectionView /></DataTemplate></ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -89,7 +89,7 @@
             </ScrollViewer>
         </DataTemplate>
         <DataTemplate x:Key="Tabbed">
-            <TabControl ItemsSource="{Binding VisibleTabs}" SelectedItem="{Binding SelectedTab}"
+            <TabControl MaxWidth="1100" HorizontalAlignment="Stretch" ItemsSource="{Binding VisibleTabs}" SelectedItem="{Binding SelectedTab}"
                         Background="Transparent" BorderThickness="0" AutomationProperties.Name="Secoes da ficha">
                 <TabControl.ItemContainerStyle>
                     <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
@@ -101,7 +101,7 @@
                     <DataTemplate>
                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,12,10,0">
                             <StackPanel>
-                                <ContentControl Content="{Binding DataContext, RelativeSource={RelativeSource AncestorType=TabControl}}" ContentTemplate="{StaticResource SheetHeader}" />
+                                <ContentControl Content="{Binding DataContext, RelativeSource={RelativeSource AncestorType=TabControl}}" Tag="1100" ContentTemplate="{StaticResource SheetHeader}" />
                                 <ItemsControl ItemsSource="{Binding Sections}">
                                     <ItemsControl.ItemTemplate><DataTemplate><sheet:SheetSectionView /></DataTemplate></ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -114,7 +114,7 @@
         <DataTemplate x:Key="Bento">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Ficha bento rolável">
                 <StackPanel Margin="0,0,4,0">
-                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SheetHeader}" />
+                    <ContentControl Content="{Binding}" Tag="100000" ContentTemplate="{StaticResource SheetHeader}" />
             <ItemsControl ItemsSource="{Binding VisibleSections}" Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=sheet:CharacterEditorView}}" AutomationProperties.Name="Ficha em bento">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate><controls:BentoPanel Columns="4" Gap="8" /></ItemsPanelTemplate>
