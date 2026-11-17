@@ -1,6 +1,6 @@
 # Separação de regras por edição
 
-A ficha e a apresentação devem encaminhar as ações à edição correta. `VCS.Rules` contém o contrato inicial de resolução de poderes; `VCS.Rules.V5` fornece a implementação atual. O registro identifica cada implementação pela edição e rejeita edições ausentes.
+A ficha e a apresentação devem encaminhar as ações à edição correta. `VCS.Rules.V5` contém o contrato atual de resolução de poderes e sua implementação V5. O registro identifica cada implementação pela edição e rejeita edições ausentes.
 
 O fluxo de ativação de poderes da aplicação ainda usa Fome, Checagem de Sangue e dados da V5. Por isso ele rejeita explicitamente outras edições antes de pagar custos ou rolar dados. O identificador padrão V5 preserva o comportamento das fichas existentes; ainda não existe seletor nem edição persistida por ficha.
 
@@ -10,7 +10,7 @@ A extração da interface não automatiza poderes ou rituais pendentes. O invent
 
 ## Limite atual do contrato de poderes
 
-O contrato inicial em `IPowerRuleset` ainda não é totalmente neutro: `PowerResolutionContext` inclui `RouseChecks` e `BloodPotency`, e o resultado inclui `HungerIncrease`, todos conceitos da ativação V5. `Wits` é um atributo usado por alguns poderes, mas não torna custos e contexto da V5 universais. Além disso, `PowerUseActions` rejeita edições diferentes de V5 antes de pagar custos ou rolar dados.
+O contrato `IPowerRuleset` está no projeto V5 por ainda não ser neutro: `PowerResolutionContext` inclui `RouseChecks` e `BloodPotency`, e o resultado inclui `HungerIncrease`, todos conceitos da ativação V5. `Wits` é um atributo usado por alguns poderes, mas não torna custos e contexto da V5 universais. Além disso, `PowerUseActions` rejeita edições diferentes de V5 antes de pagar custos ou rolar dados.
 
 Isso é uma fronteira incompleta, não suporte às outras edições. Antes de habilitar outra versão, será necessário separar entradas comuns de rolagem dos contextos de ativação próprios de cada edição e manter os custos dentro do módulo correto. Nenhuma regra V3, V20, V2 ou V1 deve ser adaptada aos campos de Fome/Potência do Sangue da V5.
 
@@ -66,7 +66,7 @@ Os livros-base V3 e V20 consultados não estruturam a criação como a escolha d
 
 - `VCS.Sheet` define os dados de ficha e traços persistidos, sem referência a `VCS.Rules.V5`. Isso dá um núcleo neutro de armazenamento, mas o modelo atual ainda contém campos específicos da V5 e uma estratégia de persistência única; não é um modelo de ficha multi-edição concluído.
 - `VCS.Content` fornece catálogos como JSON embutido. Os dados têm fontes por item, mas os catálogos presentes são majoritariamente V5; ainda não há resolução de pacotes por edição/módulo nem controle completo de dependências e conflitos.
-- `VCS.Rules` contém contratos iniciais para resolução de poderes e proposta de efeitos de rituais. `PowerResolutionContext` ainda expõe `BloodPotency` e `RouseChecks`; o formato `PowerResolution` inclui `HungerIncrease`. O contrato não é neutro e `RitualWorkflowActions` continua sendo coordenador V5.
+- `VCS.Rules` contém o contrato inicial de proposta de efeitos de rituais. O contrato de poderes foi movido para `VCS.Rules.V5`: `PowerResolutionContext` ainda expõe `BloodPotency` e `RouseChecks`; o formato `PowerResolution` inclui `HungerIncrease`. O contrato não é neutro e `RitualWorkflowActions` continua sendo coordenador V5.
 - `VCS.Rules.V5` implementa regras V5, validação, custos e aplicação. O projeto referencia `VCS.Content` e `VCS.Sheet`; ele não pode ser descrito como uma engine independente de dados da edição.
 - Os casos de uso que chamam regras V5, incluindo `PredatorActions`, estão no projeto `VCS.Application.V5`; a aplicação compartilhada não referencia mais o projeto de regras V5. A composição ainda injeta V5 e não há seleção genérica de rulesets para todo o domínio.
 - `VCS.Desktop` apresenta e edita os dados. A tela de ficha chama ações e ViewModels que coordenam distribuição; XAML exibe controles. Apresentação visual é separável, mas a interface atual é construída em torno da ficha e dos conceitos V5, sem seletor genérico de edição.

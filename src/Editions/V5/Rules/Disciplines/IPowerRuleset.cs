@@ -2,23 +2,23 @@ using VCS.Content.Disciplines;
 
 namespace VCS.Rules.Disciplines;
 
-/// <summary>Common result shape; each game edition supplies its own interpretation.</summary>
+/// <summary>Result shape for the current V5 power workflow.</summary>
 public sealed record PowerResolution(bool Succeeded, string Effect, string Duration, int Margin = 0,
     int HealthDamage = 0, bool Aggravated = false, int WillpowerDamage = 0, int HungerIncrease = 0,
     int HealthBonus = 0, int PoolBonus = 0, int PotencyIncrease = 0, int Turns = 0);
 
-/// <summary>Edition-neutral inputs needed to resolve a known discipline power.</summary>
+/// <summary>V5 inputs needed to resolve a known discipline power.</summary>
 public sealed record PowerResolutionContext(int Rating, int Successes, int Difficulty, int OpponentSuccesses,
     bool Rolled, bool Critical, bool VampireTarget, int RouseChecks, int Wits, int BloodPotency);
 
-/// <summary>A plug-in point for the rule implementation of one Vampire edition.</summary>
+/// <summary>Power rules contract used by the V5 workflow; not yet edition-neutral.</summary>
 public interface IPowerRuleset
 {
     string EditionId { get; }
     PowerResolution Resolve(PowerUseDefinition use, PowerResolutionContext context);
 }
 
-/// <summary>Selects an edition implementation without making the sheet depend on its mechanics.</summary>
+/// <summary>Selects an implementation for the existing power workflow.</summary>
 public sealed class PowerRulesetRegistry
 {
     private readonly IReadOnlyDictionary<string, IPowerRuleset> _rulesets;

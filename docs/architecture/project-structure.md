@@ -7,7 +7,7 @@ Este documento descreve a organização-alvo do código para manter o núcleo co
 Os projetos existentes foram movidos fisicamente para as pastas Shared, Editions/V5 e Desktop. Seus nomes de projeto e namespaces `VCS.*` foram mantidos. Essa mudança de caminhos não significa que todo o conteúdo seja neutro: há modelos, catálogos e fluxos V5 em Shared que ainda precisam ser separados.
 
 - `src/Shared/Sheet`, `Content`, `Rules`, `Application` e `Infrastructure`: projetos existentes, ainda com dependências e conteúdo V5 a separar.
-- `src/Editions/V5/Rules`: projeto de regras V5.
+- `src/Editions/V5/Rules`: projeto de regras V5, incluindo o contrato de poderes atual que contém campos V5.
 - `src/Editions/V5/Application`: casos de uso V5, inclusive ficha, sangue, poderes, rituais, dados e crônica; namespaces anteriores preservados.
 - `src/Editions/V5/Content/Data`: catálogos JSON V5. Ainda são incorporados ao assembly `VCS.Content`, com os nomes de recurso anteriores; a composição por edição permanece pendente.
 - `src/Desktop`: interface WPF, navegação e temas.
