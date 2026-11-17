@@ -82,3 +82,7 @@ Foram inspecionados os arquivos, IDs/contagens do catálogo e a legibilidade de 
 ## Separação do encerramento excepcional
 
 A validação da autorização e justificativa e a alteração do estado de cegueira de Olhos do Falcão Noturno foram movidas para `RitualWorkflowActions` da V5. A interface continua registrando a exceção na ficha e apresentando o resultado; nenhum efeito em outra ficha é aplicado. O comportamento e a cobertura de rituais permanecem os mesmos. A regra existente cita o livro base, página impressa 280; o PDF não foi reconferido neste ciclo.
+
+## Proteção dos estados de ritual no encerramento genérico
+
+As três restrições existentes para o botão genérico de encerrar efeito foram transferidas da interface para `RitualWorkflowActions` da V5: voo ou cegueira de Olhos do Falcão Noturno, checagens pagas de preparação do Santuário e marcador de tentativa de viagem na cena. A interface apresenta a orientação retornada e conserva os fluxos dedicados e o histórico. A mudança separa comportamento existente, sem criar novas regras ou aumentar a cobertura; a mesa continua confirmando condições e exceções. A referência existente para Olhos do Falcão é o livro base, página impressa 280; o PDF não estava acessível nesta execução.

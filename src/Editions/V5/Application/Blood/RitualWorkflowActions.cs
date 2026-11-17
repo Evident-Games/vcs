@@ -155,6 +155,18 @@ public sealed class RitualWorkflowActions
                 : $"Cegueira do ritual: {remaining} noite(s) restante(s).", remaining == 0 ? "Encerrado" : $"{remaining} noite(s)"), null);
     }
 
+    /// <summary>Keep ritual state and paid costs from being discarded by the generic effect-ending action.</summary>
+    public static string? GenericEndingBlockReason(PowerEffectEntry entry)
+    {
+        if (entry.PowerId == "ritual-eyes-of-nighthawk" && entry.RitualWorkflow is { Stage: "effect" or "blindness" })
+            return "Use o encerramento de Olhos do Falcão Noturno: confirme os olhos da ave no fim da noite; a cegueira usa noites da crônica ou decisão excepcional registrada.";
+        if (entry.PowerId == "ritual-sanctuary-preparation-check")
+            return "As checagens pagas pertencem ao histórico do par de círculos. Para abandoná-lo, use o encerramento da preparação do Santuário.";
+        if (entry.PowerId == "ritual-sanctuary-travel-attempt")
+            return "O marcador de viagem termina ao encerrar a cena. Uma nova tentativa na mesma cena exige exceção justificada pelo Narrador.";
+        return null;
+    }
+
     /// <summary>End an active ritual blindness early only after a documented Narrator decision.</summary>
     public PowerEffectEntry EndNighthawkBlindnessByRuling(PowerEffectEntry entry, bool tableConfirmed,
         bool exceptionApproved, string reason)

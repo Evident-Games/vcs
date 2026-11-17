@@ -263,19 +263,10 @@ public partial class CharacterEditorViewModel
     private void EndSelectedPowerEffect()
     {
         if (SelectedPowerEffect is not { Active: true } entry) return;
-        if (entry.PowerId == "ritual-eyes-of-nighthawk" && entry.RitualWorkflow is { Stage: "effect" or "blindness" })
+        if (RitualWorkflowActions.GenericEndingBlockReason(entry) is { } reason)
         {
-            ActivationSummary = RitualPreparationSummary = "Use o encerramento de Olhos do Falcão Noturno: confirme os olhos da ave no fim da noite; a cegueira usa noites da crônica ou decisão excepcional registrada.";
-            return;
-        }
-        if (entry.PowerId == "ritual-sanctuary-preparation-check")
-        {
-            ActivationSummary = "As checagens pagas pertencem ao histórico do par de círculos. Para abandoná-lo, use o encerramento da preparação do Santuário.";
-            return;
-        }
-        if (entry.PowerId == "ritual-sanctuary-travel-attempt")
-        {
-            ActivationSummary = "O marcador de viagem termina ao encerrar a cena. Uma nova tentativa na mesma cena exige exceção justificada pelo Narrador.";
+            ActivationSummary = reason;
+            if (entry.PowerId == "ritual-eyes-of-nighthawk") RitualPreparationSummary = reason;
             return;
         }
         ReplacePowerEffect(entry, entry with { Active = false });
