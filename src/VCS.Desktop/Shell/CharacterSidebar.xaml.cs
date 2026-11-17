@@ -179,6 +179,8 @@ public partial class CharacterSidebar : UserControl
         menu.IsOpen = true;
     }
 
+    private void OnOpenProfile(object sender, RoutedEventArgs e) => ProfilePopup.IsOpen = !ProfilePopup.IsOpen;
+
     private void OnChooseAvatar(object sender, RoutedEventArgs e)
     {
         var picker = new OpenFileDialog
