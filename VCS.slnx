@@ -11,6 +11,6 @@
     <Project Path="src/Shared/Sheet/VCS.Sheet.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/VCS.Tests/VCS.Tests.csproj" />
+    <Project Path="tests/Suite/VCS.Tests.csproj" />
   </Folder>
 </Solution>
