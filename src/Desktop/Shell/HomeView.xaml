@@ -1,6 +1,22 @@
 <UserControl x:Class="VCS.Desktop.Shell.HomeView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Style x:Key="HomeAction" TargetType="Button">
+            <Setter Property="Foreground" Value="{DynamicResource VcsHudMuted}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+                <Grid Width="210" MinHeight="42">
+                    <Rectangle x:Name="Outline" Stroke="{DynamicResource VcsHudBorder}" StrokeDashArray="4 3" RadiusX="8" RadiusY="8" Fill="Transparent" />
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+                <ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="{DynamicResource VcsHudAccent}" /></Trigger>
+                    <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Outline" Property="Opacity" Value="0.45" /></Trigger></ControlTemplate.Triggers>
+            </ControlTemplate></Setter.Value></Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Border Background="Transparent">
             <Border.Style>
@@ -21,8 +37,8 @@
                 <TextBlock Text="Escolha uma ficha na barra lateral para abrir seu espaço de jogo."
                            Margin="0,12,0,22" TextWrapping="Wrap" TextAlignment="Center"
                            Foreground="{DynamicResource VcsInputDescription}" />
-                <Button Content="Criar personagem" Command="{Binding CreateCommand}" HorizontalAlignment="Center"
-                        MinWidth="170" AutomationProperties.Name="Criar personagem" />
+                <Button Content="＋ Criar personagem" Command="{Binding CreateCommand}" HorizontalAlignment="Center" Style="{StaticResource HomeAction}" AutomationProperties.Name="Criar personagem" />
+                <Button Content="＋ Criar crônica" Command="{Binding ShowCreateHudChronicleCommand}" IsEnabled="{Binding CanOpenNarrator}" HorizontalAlignment="Center" Style="{StaticResource HomeAction}" AutomationProperties.Name="Criar crônica" />
             </StackPanel>
         </Border>
     </Grid>

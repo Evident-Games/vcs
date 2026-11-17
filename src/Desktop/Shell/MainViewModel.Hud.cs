@@ -4,6 +4,7 @@ using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using VCS.Application.Characters;
+using VCS.Application.Chronicle;
 
 namespace VCS.Desktop.Shell;
 
@@ -13,6 +14,19 @@ public partial class MainViewModel
     [NotifyPropertyChangedFor(nameof(IsHudCharacters))]
     private bool isHudChronicles;
     [ObservableProperty] private string hudNewChronicleName = "";
+    [ObservableProperty] private string hudChronicleSearch = "";
+    [ObservableProperty] private string hudSelectedChronicle = "";
+    [ObservableProperty] private bool hudNewChronicleExpanded;
+    partial void OnHudChronicleSearchChanged(string value) => OnPropertyChanged(nameof(HudChronicles));
+    partial void OnHudSelectedChronicleChanged(string value)
+    {
+        OnPropertyChanged(nameof(HudScenes));
+        OnPropertyChanged(nameof(HasHudSelectedChronicle));
+    }
+    public bool HasHudSelectedChronicle => !string.IsNullOrWhiteSpace(HudSelectedChronicle);
+    public IReadOnlyList<ChronicleEvent> HudScenes => string.IsNullOrWhiteSpace(HudSelectedChronicle) ? [] :
+        (Narrator?.Events.Where(x => string.Equals(x.Chronicle.Trim(), HudSelectedChronicle, StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(x.Kind, "Crônica", StringComparison.OrdinalIgnoreCase)).OrderByDescending(x => x.Date).ToArray() ?? []);
     private bool _hudInitialized;
     private string _hudAvatarLoadedPath = "";
     private BitmapSource? _hudAvatarCached;
@@ -28,7 +42,7 @@ public partial class MainViewModel
     public IReadOnlyList<HudChronicleCard> HudChronicles => _all.Select(x => x.Chronicle)
         .Concat(Narrator?.Events.Select(x => x.Chronicle) ?? [])
         .Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim())
-        .Distinct(StringComparer.OrdinalIgnoreCase).Order(StringComparer.CurrentCultureIgnoreCase)
+        .Distinct(StringComparer.OrdinalIgnoreCase).Where(x => x.Contains(HudChronicleSearch.Trim(), StringComparison.CurrentCultureIgnoreCase)).Order(StringComparer.CurrentCultureIgnoreCase)
         .Select(name => new HudChronicleCard(name,
             _all.Count(x => string.Equals(x.Chronicle.Trim(), name, StringComparison.OrdinalIgnoreCase)),
             Narrator?.Events.Count(x => string.Equals(x.Chronicle.Trim(), name, StringComparison.OrdinalIgnoreCase)) ?? 0)).ToArray();
@@ -75,7 +89,11 @@ public partial class MainViewModel
         RefreshHud();
     }
 
-    private void OnHudEventsChanged(object? sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(HudChronicles));
+    private void OnHudEventsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        OnPropertyChanged(nameof(HudChronicles));
+        OnPropertyChanged(nameof(HudScenes));
+    }
 
     private void RefreshHud()
     {
@@ -106,6 +124,40 @@ public partial class MainViewModel
     }
 
     [RelayCommand]
+    private void ShowCreateHudChronicle()
+    {
+        IsHudChronicles = true;
+        Display.ShowSidebar = true;
+        Display.HudCollapsed = false;
+        HudNewChronicleExpanded = true;
+    }
+
+    [RelayCommand] private void SelectHudChronicle(HudChronicleCard? card)
+    {
+        if (card is not null) HudSelectedChronicle = card.Name;
+    }
+
+    [RelayCommand] private async Task OpenHudSceneAsync(ChronicleEvent? scene)
+    {
+        if (scene is null || Narrator is null) return;
+        if (!IsNarratorOpen) await ToggleNarratorAsync();
+        if (!IsNarratorOpen) return;
+        Narrator.ChronicleScope = scene.Chronicle;
+        Narrator.SelectedEvent = scene;
+        Display.HudCollapsed = true;
+    }
+
+    [RelayCommand] private async Task NewHudSceneAsync()
+    {
+        if (Narrator is null || string.IsNullOrWhiteSpace(HudSelectedChronicle)) return;
+        if (!IsNarratorOpen) await ToggleNarratorAsync();
+        if (!IsNarratorOpen) return;
+        Narrator.ChronicleScope = HudSelectedChronicle;
+        Narrator.NewEventCommand.Execute(null);
+        Display.HudCollapsed = true;
+    }
+
+    [RelayCommand]
     private async Task OpenHudChronicleAsync(HudChronicleCard? card)
     {
         if (card is null || Narrator is null) return;
@@ -126,6 +178,9 @@ public partial class MainViewModel
         if (!HudChronicles.Any(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase)))
             await Narrator.RegisterChronicleAsync(name);
         HudNewChronicleName = "";
+        HudChronicleSearch = "";
+        HudSelectedChronicle = name;
+        HudNewChronicleExpanded = false;
         RefreshHud();
         Message = $"Crônica '{name}' disponível no HUD. Abra o card para organizar seus eventos.";
     });
