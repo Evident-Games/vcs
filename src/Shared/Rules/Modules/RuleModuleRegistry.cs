@@ -142,6 +142,13 @@ public sealed class RuleModuleRegistry
         ArgumentNullException.ThrowIfNull(module.RequiredModuleIds);
         ArgumentNullException.ThrowIfNull(module.ConflictingModuleIds);
 
+        if (module.Kind is not (RuleModuleKind.Edition or RuleModuleKind.Extension))
+            throw new ArgumentException($"Module '{module.ModuleId}' has an unknown kind.", nameof(module));
+        if (module.CompatibleEditionIds.Any(string.IsNullOrWhiteSpace) ||
+            module.RequiredModuleIds.Any(string.IsNullOrWhiteSpace) ||
+            module.ConflictingModuleIds.Any(string.IsNullOrWhiteSpace))
+            throw new ArgumentException($"Module '{module.ModuleId}' contains an empty identifier.", nameof(module));
+
         if (module.Kind == RuleModuleKind.Extension && module.CompatibleEditionIds.Count == 0)
             throw new ArgumentException(
                 $"Extension '{module.ModuleId}' must declare every compatible edition explicitly.", nameof(module));
