@@ -90,6 +90,7 @@ public partial class Sidebar : UserControl
         var panelWidth = Math.Min(340 * scale, Math.Max(0, w - bw - Gap - 2 * MarginSize));
         DrawerHost.Width = panelWidth / scale;
         Drawer.Width = panelWidth / scale;
+        DrawerShadow.Width = panelWidth / scale;
         var panelHeight = Math.Max(0, (display.HudCompact ? 0.62 : 1) * (h - 2 * MarginSize));
         if (horizontal) panelHeight = Math.Min(panelHeight, Math.Max(0, h - bh - Gap - 2 * MarginSize));
         DrawerHost.Height = panelHeight / scale;

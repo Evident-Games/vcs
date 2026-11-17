@@ -61,10 +61,6 @@ public partial class BloodLineageDiagram : UserControl
     private void RenderDiagram()
     {
         Diagram.Children.Clear();
-        for (var column = 2; column <= 12; column++)
-            DrawCell(Column(column), BloodPotencyY);
-        for (var column = 0; column <= 12; column++)
-            DrawCell(Column(column), GenerationY);
         DrawConnections();
         DrawLine((Column(1) + Column(2)) / 2, 10, (Column(1) + Column(2)) / 2, 89, false, "VcsBorder");
         DrawRowLabel("Blood Potency", 0, BloodPotencyY + 1, 118);
@@ -168,21 +164,6 @@ public partial class BloodLineageDiagram : UserControl
         DrawLine(Column(trunkColumn), y, Column(generationColumn), y);
         var center = (Column(trunkColumn) + Column(generationColumn)) / 2;
         DrawLine(center, y, center, y + 5);
-    }
-
-    private void DrawCell(double centerX, double top)
-    {
-        var cell = new Rectangle
-        {
-            Width = 27,
-            Height = 25,
-            Opacity = 0.35,
-            IsHitTestVisible = false
-        };
-        cell.SetResourceReference(Shape.FillProperty, "VcsInput");
-        Canvas.SetLeft(cell, centerX - 13.5);
-        Canvas.SetTop(cell, top - 3.5);
-        Diagram.Children.Add(cell);
     }
 
     private Button CreateDot(bool selected, string name)
