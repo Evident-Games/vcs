@@ -114,7 +114,7 @@ public partial class CharacterSidebar : UserControl
         Canvas.SetLeft(DrawerHost, px); Canvas.SetTop(DrawerHost, py);
         var placement = edge switch { "Left" => PlacementMode.Right, "Top" => PlacementMode.Bottom,
             "Bottom" => PlacementMode.Top, _ => PlacementMode.Left };
-        foreach (var tip in new[] { CharactersTip, ChroniclesTip, ToggleTip })
+        foreach (var tip in new[] { CharactersTip, ChroniclesTip })
         {
             tip.Placement = placement;
             tip.HorizontalOffset = placement == PlacementMode.Left ? -12 : placement == PlacementMode.Right ? 12 : 0;

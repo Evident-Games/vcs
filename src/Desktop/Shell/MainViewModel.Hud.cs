@@ -95,9 +95,15 @@ public partial class MainViewModel
         OnPropertyChanged(nameof(HudAvatarImage));
     }
 
-    [RelayCommand] private void SelectHudCharacters() { IsHudChronicles = false; Display.HudCollapsed = false; }
-    [RelayCommand] private void SelectHudChronicles() { IsHudChronicles = true; Display.HudCollapsed = false; }
-    [RelayCommand] private void ToggleHud() => Display.HudCollapsed = !Display.HudCollapsed;
+    [RelayCommand] private void SelectHudCharacters() => SelectHudSection(false);
+    [RelayCommand] private void SelectHudChronicles() => SelectHudSection(true);
+
+    private void SelectHudSection(bool chronicles)
+    {
+        var close = !Display.HudCollapsed && IsHudChronicles == chronicles;
+        IsHudChronicles = chronicles;
+        Display.HudCollapsed = close;
+    }
 
     [RelayCommand]
     private async Task OpenHudChronicleAsync(HudChronicleCard? card)

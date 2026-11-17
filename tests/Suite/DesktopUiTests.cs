@@ -22,6 +22,30 @@ public sealed class DesktopUiTests(WpfApp wpf)
 {
     private readonly WpfApp _wpf = wpf;
 
+    [Fact]
+    public Task Hud_navigation_buttons_toggle_the_selected_section() => _wpf.RunAsync(session =>
+    {
+        var model = session.Model;
+        model.Display.HudCollapsed = true;
+        model.SelectHudCharactersCommand.Execute(null);
+        Assert.False(model.Display.HudCollapsed);
+        Assert.True(model.IsHudCharacters);
+        model.SelectHudCharactersCommand.Execute(null);
+        Assert.True(model.Display.HudCollapsed);
+        model.SelectHudChroniclesCommand.Execute(null);
+        Assert.False(model.Display.HudCollapsed);
+        Assert.True(model.IsHudChronicles);
+        model.SelectHudCharactersCommand.Execute(null);
+        Assert.False(model.Display.HudCollapsed);
+        Assert.True(model.IsHudCharacters);
+        model.SelectHudChroniclesCommand.Execute(null);
+        Assert.False(model.Display.HudCollapsed);
+        Assert.True(model.IsHudChronicles);
+        model.SelectHudChroniclesCommand.Execute(null);
+        Assert.True(model.Display.HudCollapsed);
+        return Task.CompletedTask;
+    });
+
     /// <summary>Main window chrome, menus and the full PC sheet editing flow.</summary>
     [Fact]
     public Task Window_menus_and_pc_sheet_editing_work() => _wpf.RunAsync(async ui =>

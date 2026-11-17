@@ -2,7 +2,7 @@
 
 O shell Windows/WPF usa um dock à direita e um drawer de 340 unidades, a 20 unidades das bordas da área de trabalho. Não foi introduzida uma aplicação web ou outra biblioteca de interface.
 
-O HUD é uma sobreposição sem coluna reservada. Seu fundo externo é nulo: o espaço não desenhado permanece disponível para a ficha. Ao minimizar, a largura do host cai a zero, a opacidade diminui e o drawer desliza; a superfície recolhida deixa de receber mouse e teclado. Animações respeitam a preferência do Windows de reduzir animações. Os dois botões de navegação reabrem o drawer na aba escolhida; “Exibir” continua podendo ocultar todo o HUD.
+O HUD é uma sobreposição sem coluna reservada. Seu fundo externo é nulo: o espaço não desenhado permanece disponível para a ficha. Ao minimizar, a largura do host cai a zero, a opacidade diminui e o drawer desliza; a superfície recolhida deixa de receber mouse e teclado. Animações respeitam a preferência do Windows de reduzir animações. Cada botão de navegação abre sua aba; clicar novamente na aba aberta recolhe o drawer; clicar na outra aba troca o conteúdo mantendo-o aberto; “Exibir” continua podendo ocultar todo o HUD.
 
 Cabeçalho e rodapé ficam fixos, com conteúdo rolável entre eles. A lista de PCs aparece em Coterie como “Personagens locais”; não se presume que todas as fichas sejam aliadas. NPCs ficam separados. Abrir, criar PC/NPC, duplicar e excluir reaproveitam os comandos existentes; exclusão mantém sua confirmação. A busca continua por nome, clã e crônica.
 
