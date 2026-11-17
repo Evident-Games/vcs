@@ -11,7 +11,7 @@ Os projetos existentes foram movidos fisicamente para as pastas Shared, Editions
 - `src/Editions/V5/Application`: casos de uso V5, inclusive ficha, sangue, poderes, rituais, dados e crônica; namespaces anteriores preservados.
 - `src/Editions/V5/Content/Data`: catálogos JSON V5, incorporados ao assembly `VCS.Content.V5` com os nomes de recurso anteriores. `VCS.Content` ainda referencia explicitamente esse assembly; a composição dinâmica por edição permanece pendente.
 - `src/Desktop`: interface WPF, navegação e temas.
-- `tests/VCS.Tests`: suíte existente, ainda mista e não dividida por edição.
+- `tests/VCS.Tests`: projeto de testes existente; testes ligados à V5 estão em `Editions/V5`, enquanto os demais ainda incluem testes compartilhados e de interface. A divisão física não cria projetos de teste separados.
 - V3 e V20 ainda não têm projetos de regras.
 
 O registro de compatibilidade está em VCS.Rules.Modules.RuleModuleRegistry. Ele ainda não está conectado à composição do aplicativo. As fichas também ainda não armazenam a edição selecionada.
