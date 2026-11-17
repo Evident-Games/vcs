@@ -14,7 +14,8 @@ public sealed class PowerActivationActions
             throw new ArgumentOutOfRangeException(nameof(rouseChecks));
         if (hunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(hunger));
         if (hunger == 5 && rouseChecks > 0) throw new InvalidOperationException("Fome 5: não é possível despertar o Sangue voluntariamente.");
-        if (willpowerSuperficial < 0 || willpowerAggravated < 0 || willpowerCost + willpowerSuperficial + willpowerAggravated > willpowerCapacity)
+        if (willpowerCapacity < 0 || willpowerSuperficial < 0 || willpowerAggravated < 0 ||
+            (long)willpowerCost + willpowerSuperficial + willpowerAggravated > willpowerCapacity)
             throw new InvalidOperationException("Vontade disponível insuficiente para pagar o custo.");
         random ??= Random.Shared;
         var checks = new List<RouseCheckResult>();

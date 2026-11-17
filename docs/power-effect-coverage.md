@@ -213,3 +213,7 @@ O fluxo específico agora permite pagar as 12 checagens individualmente, sem tes
 Cada pagamento fica em um registro estruturado dos efeitos da ficha, com fonte, data e sequência, e no diário; o dado vai para a mesa existente. O novo campo é opcional no JSON dos efeitos, preservando os registros anteriores e dispensando nova coluna no banco. A preparação não expira ao fim da cena. Para abandonar ou inutilizar o par, confirme o encerramento específico: os registros ficam inativos e seus custos permanecem no histórico.
 
 Datas fora da sequência exigem justificativa do Narrador; o app não inventa um reinício ou reembolso. Uma viagem com preparação registrada incompleta também requer uma exceção registrada. Preparações antigas, conduzidas fora do app, continuam dependendo da confirmação explícita da mesa. Ainda faltam identidade e localização persistentes dos círculos, verificação de dano e da carga transportada; não há movimentação automática. Os cinco rituais cadastrados continuam incompletos. As contagens de 37/11/40 poderes foram herdadas do inventário anterior e não foram auditadas integralmente nesta alteração. Build e testes não foram executados por instrução do usuário.
+
+## Validação de custos
+
+A ativação de poderes V5 rejeita capacidade de Vontade negativa e calcula a soma das marcas e do custo com precisão suficiente para evitar transbordamento de inteiro. Isso reforça a validação de entrada; não altera a contagem de efeitos automatizados.
