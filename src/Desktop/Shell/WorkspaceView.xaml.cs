@@ -1,5 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using System.Windows.Input;
 using VCS.Desktop.Sheet;
 
@@ -15,6 +17,7 @@ public partial class WorkspaceView : UserControl
 
     private void OnTabMouseMove(object sender, MouseEventArgs e)
     {
+        if (DataContext is MainViewModel { FloatingWindows: true } && sender is DockPanel) return;
         if (e.LeftButton != MouseButtonState.Pressed || sender is not FrameworkElement { DataContext: CharacterEditorViewModel editor }) return;
         var position = e.GetPosition(this);
         if (Math.Abs(position.X - _tabDragStart.X) < SystemParameters.MinimumHorizontalDragDistance &&
@@ -41,8 +44,22 @@ public partial class WorkspaceView : UserControl
         if (from < 0) return;
         var to = e.GetPosition(workspace).X < workspace.ActualWidth / 2 ? 0 : model.OpenEditors.Count - 1;
         if (from != to) model.OpenEditors.Move(from, to);
+        model.FloatingWindows = false;
         model.SplitWindows = true;
         model.ActivateEditorCommand.Execute(editor);
+        e.Handled = true;
+    }
+
+    private void OnFloatingDragDelta(object sender, DragDeltaEventArgs e)
+    {
+        if (DataContext is not MainViewModel { FloatingWindows: true } model ||
+            sender is not FrameworkElement { DataContext: CharacterEditorViewModel editor } handle) return;
+        DependencyObject? parent = handle;
+        while (parent is not null && parent is not Canvas) parent = VisualTreeHelper.GetParent(parent);
+        if (parent is not Canvas canvas) return;
+        model.ActivateEditorCommand.Execute(editor);
+        editor.FloatingX = Math.Clamp(editor.FloatingX + e.HorizontalChange, 0, Math.Max(0, canvas.ActualWidth - 480));
+        editor.FloatingY = Math.Clamp(editor.FloatingY + e.VerticalChange, 0, Math.Max(0, canvas.ActualHeight - 480));
         e.Handled = true;
     }
 

@@ -21,7 +21,26 @@ public partial class MainViewModel
     }
 
     [RelayCommand]
-    private void ToggleSplitWindows() => SplitWindows = !SplitWindows;
+    private void ToggleSplitWindows()
+    {
+        var enable = !SplitWindows;
+        FloatingWindows = false;
+        SplitWindows = enable;
+    }
+
+    [RelayCommand]
+    private void ToggleFloatingWindows()
+    {
+        var enable = !FloatingWindows;
+        SplitWindows = false;
+        FloatingWindows = enable;
+        if (!enable) return;
+        for (var i = 0; i < OpenEditors.Count; i++)
+        {
+            OpenEditors[i].FloatingX = 24 * (i % 8);
+            OpenEditors[i].FloatingY = 24 * (i % 8);
+        }
+    }
 
     private void NotifyLayout()
     {

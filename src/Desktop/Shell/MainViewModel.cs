@@ -75,6 +75,9 @@ public partial class MainViewModel(
     public int SheetColumns => OpenEditors.Count switch { <= 2 => Math.Max(1, OpenEditors.Count), <= 4 => 2, _ => 3 };
 
     [ObservableProperty] private bool splitWindows;
+    [ObservableProperty] private bool floatingWindows;
+
+    partial void OnFloatingWindowsChanged(bool value) => NotifyLayout();
 
     partial void OnSplitWindowsChanged(bool value) => NotifyLayout();
 

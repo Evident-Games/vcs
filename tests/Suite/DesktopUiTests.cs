@@ -58,6 +58,13 @@ public sealed class DesktopUiTests(WpfApp wpf)
         Assert.True(model.IsSideBySide);
         Assert.Equal(2, model.LayoutColumns);
         Assert.False(model.Display.UseBento);
+        model.ToggleFloatingWindowsCommand.Execute(null);
+        Assert.True(model.FloatingWindows);
+        Assert.False(model.IsSideBySide);
+        model.ToggleFloatingWindowsCommand.Execute(null);
+        Assert.False(model.FloatingWindows);
+        model.ToggleSplitWindowsCommand.Execute(null);
+        Assert.True(model.IsSideBySide);
         model.ToggleSplitWindowsCommand.Execute(null);
         Assert.False(model.IsSideBySide);
         Assert.Equal(1, model.LayoutColumns);

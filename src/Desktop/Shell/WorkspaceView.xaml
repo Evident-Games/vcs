@@ -5,9 +5,15 @@
     xmlns:controls="clr-namespace:VCS.Desktop.Controls"
     xmlns:shell="clr-namespace:VCS.Desktop.Shell"
     xmlns:themes="clr-namespace:VCS.Desktop.Themes">
+    <UserControl.Resources>
+        <ItemsPanelTemplate x:Key="TiledSheetPanel"><UniformGrid Columns="{Binding DataContext.LayoutColumns, RelativeSource={RelativeSource AncestorType=ItemsControl}}" /></ItemsPanelTemplate>
+        <ItemsPanelTemplate x:Key="FloatingSheetPanel"><Canvas ClipToBounds="True" /></ItemsPanelTemplate>
+    </UserControl.Resources>
     <!-- Open sheet tabs, the home view and every open sheet (alone or side by side). -->
     <DockPanel Margin="16,8,16,16">
     <DockPanel DockPanel.Dock="Top" Margin="0,0,0,5" Visibility="{Binding HasOpenEditors, Converter={StaticResource BoolVisibility}}">
+        <Button DockPanel.Dock="Right" Content="▣" Width="30" Height="26" Padding="0" Margin="4,0,0,0" Background="Transparent" BorderThickness="0"
+                ToolTip="Alternar janelas flutuantes" AutomationProperties.Name="Alternar janelas flutuantes" Command="{Binding ToggleFloatingWindowsCommand}" />
         <Button DockPanel.Dock="Right" Content="◫" Width="30" Height="26" Padding="0" Margin="4,0,0,0" Background="Transparent" BorderThickness="0"
                 ToolTip="Alternar fichas lado a lado" AutomationProperties.Name="Alternar fichas lado a lado" Command="{Binding ToggleSplitWindowsCommand}" />
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
@@ -66,16 +72,21 @@
                     <themes:AppThemeMenu />
                 </ContextMenu>
             </ItemsControl.ContextMenu>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="{Binding DataContext.LayoutColumns, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+            <ItemsControl.Style><Style TargetType="ItemsControl">
+                <Setter Property="ItemsPanel" Value="{StaticResource TiledSheetPanel}" />
+                <Style.Triggers><DataTrigger Binding="{Binding FloatingWindows}" Value="True">
+                    <Setter Property="ItemsPanel" Value="{StaticResource FloatingSheetPanel}" />
+                </DataTrigger></Style.Triggers>
+            </Style></ItemsControl.Style>
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
                     <Setter Property="Visibility" Value="Collapsed" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsActive}" Value="True"><Setter Property="Visibility" Value="Visible" /></DataTrigger>
+                        <DataTrigger Binding="{Binding IsActive}" Value="True"><Setter Property="Visibility" Value="Visible" /><Setter Property="Panel.ZIndex" Value="1" /></DataTrigger>
+                        <DataTrigger Binding="{Binding DataContext.FloatingWindows, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" /><Setter Property="Width" Value="480" /><Setter Property="Height" Value="480" />
+                            <Setter Property="Canvas.Left" Value="{Binding FloatingX}" /><Setter Property="Canvas.Top" Value="{Binding FloatingY}" />
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding DataContext.IsSideBySide, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True">
                             <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
@@ -96,6 +107,10 @@
                                         BorderThickness="0" Foreground="{DynamicResource VcsInputDescription}" ToolTip="Fechar ficha"
                                         Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                         CommandParameter="{Binding}" AutomationProperties.Name="{Binding TabTitle, StringFormat='Fechar painel {0}'}" />
+                                <Thumb DockPanel.Dock="Left" Width="20" Height="24" Margin="0,0,6,0" Cursor="SizeAll" DragDelta="OnFloatingDragDelta" ToolTip="Mover janela" AutomationProperties.Name="Mover janela">
+                                    <Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="Transparent"><TextBlock Text="⋮⋮" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsInputDescription}" /></Border></ControlTemplate></Thumb.Template>
+                                    <Thumb.Style><Style TargetType="Thumb"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding DataContext.FloatingWindows, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></Thumb.Style>
+                                </Thumb>
                                 <TextBlock DockPanel.Dock="Right" Text="{Binding Status}" FontSize="11" Margin="0,0,8,0"
                                            Foreground="{DynamicResource VcsInputDescription}" VerticalAlignment="Center" />
                                 <TextBlock Text="{Binding TabTitle}" FontFamily="Georgia" FontSize="15" FontStyle="Italic"
@@ -114,6 +129,11 @@
                             <Setter TargetName="Pane" Property="Background" Value="{DynamicResource VcsCard}" />
                             <Setter TargetName="PaneHeader" Property="Visibility" Value="Visible" />
                             <Setter TargetName="Sheet" Property="IsPane" Value="True" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding DataContext.FloatingWindows, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True">
+                            <Setter TargetName="Pane" Property="Margin" Value="2" /><Setter TargetName="Pane" Property="CornerRadius" Value="8" />
+                            <Setter TargetName="Pane" Property="Padding" Value="10,6,6,8" /><Setter TargetName="Pane" Property="Background" Value="{DynamicResource VcsCard}" />
+                            <Setter TargetName="PaneHeader" Property="Visibility" Value="Visible" /><Setter TargetName="Sheet" Property="IsPane" Value="True" />
                         </DataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
