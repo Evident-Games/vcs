@@ -9,6 +9,18 @@ public sealed class ThemePaletteTests
     private static SolidColorBrush Brush(byte value) => new(Color.FromRgb(value, value, value));
 
     [Fact]
+    public void Surface_opacity_clones_the_brush_without_changing_the_theme()
+    {
+        var original = new SolidColorBrush(Colors.DarkRed);
+        var converter = new SurfaceOpacityConverter();
+        var result = Assert.IsType<SolidColorBrush>(converter.Convert(
+            [original, 0.5], typeof(Brush), null!, System.Globalization.CultureInfo.InvariantCulture));
+        Assert.Equal(0.5, result.Opacity);
+        Assert.Equal(1, original.Opacity);
+        Assert.Equal(original.Color, result.Color);
+    }
+
+    [Fact]
     public void Application_block_lists_only_differences_and_inherits_the_rest_from_the_sheet_block()
     {
         var file = new ResourceDictionary

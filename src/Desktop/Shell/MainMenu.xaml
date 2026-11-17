@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:themes="clr-namespace:VCS.Desktop.Themes">
     <!-- Main menu bar. -->
-    <Border BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1" Padding="10,4">
+    <Border BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1" Padding="8,0">
         <Menu IsEnabled="{Binding IsIdle}" Background="Transparent" Foreground="{DynamicResource VcsHeaderText}"
               AutomationProperties.Name="Menu principal">
             <MenuItem Header="_Arquivo">
@@ -28,6 +28,15 @@
                 <MenuItem Header="Fundo da área de trabalho">
                     <MenuItem Header="Escolher imagem..." Click="OnChooseBackground" />
                     <MenuItem Header="Remover imagem" Click="OnRemoveBackground" />
+                </MenuItem>
+                <MenuItem Header="Transparência do tema">
+                    <MenuItem StaysOpenOnClick="True">
+                        <StackPanel Width="180" Margin="6">
+                            <TextBlock Text="Opacidade das superfícies" Margin="0,0,0,5" />
+                            <Slider Minimum="0.25" Maximum="1" TickFrequency="0.05" Value="{Binding Display.SurfaceOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Opacidade do tema" />
+                            <TextBlock Text="{Binding Display.SurfaceOpacity, StringFormat={}{0:P0}}" HorizontalAlignment="Right" />
+                        </StackPanel>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Layout da ficha..." Command="{Binding ToggleLayoutSettingsCommand}" />
                 <MenuItem Header="Dados de rolagem em 3D" IsCheckable="True"

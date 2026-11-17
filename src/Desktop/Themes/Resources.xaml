@@ -13,6 +13,7 @@
         <themes:ThemePalette />
     </ResourceDictionary.MergedDictionaries>
     <BooleanToVisibilityConverter x:Key="BoolVisibility" />
+    <themes:SurfaceOpacityConverter x:Key="SurfaceOpacityConverter" />
     <DataTemplate x:Key="SheetExtraField">
         <StackPanel Margin="8">
             <TextBlock Text="{Binding Label}" Style="{DynamicResource FieldLabel}" />

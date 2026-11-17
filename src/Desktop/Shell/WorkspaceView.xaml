@@ -97,10 +97,12 @@
                 <DataTemplate>
                     <!-- Alone, the sheet is a rounded surface in its own theme; side by side it becomes a card. -->
                     <Border x:Name="Pane" CornerRadius="12" themes:SheetTheme.Id="{Binding EffectiveSheetThemeId}"
-                            Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                            BorderBrush="{DynamicResource VcsBorder}"
                             BorderThickness="1" Padding="18,14,8,12"
                             TextElement.Foreground="{DynamicResource VcsCardText}" PreviewMouseDown="OnSheetPaneMouseDown"
                             AutomationProperties.Name="{Binding TabTitle, StringFormat='Painel {0}'}">
+                        <Border.Style><Style TargetType="Border"><Setter Property="Tag" Value="{DynamicResource VcsBackground}" /></Style></Border.Style>
+                        <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>
                         <DockPanel>
                             <DockPanel x:Name="PaneHeader" DockPanel.Dock="Top" Margin="0,0,0,6" Visibility="Collapsed" PreviewMouseLeftButtonDown="OnTabMouseDown" PreviewMouseMove="OnTabMouseMove">
                                 <Button DockPanel.Dock="Right" Content="×" Width="22" Height="22" Padding="0" Background="Transparent"
@@ -138,13 +140,13 @@
                             <Setter TargetName="Pane" Property="Padding" Value="10,6,6,8" />
                             <Setter TargetName="Pane" Property="BorderThickness" Value="1" />
                             <Setter TargetName="Pane" Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
-                            <Setter TargetName="Pane" Property="Background" Value="{DynamicResource VcsCard}" />
+                            <Setter TargetName="Pane" Property="Tag" Value="{DynamicResource VcsCard}" />
                             <Setter TargetName="PaneHeader" Property="Visibility" Value="Visible" />
                             <Setter TargetName="Sheet" Property="IsPane" Value="True" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding DataContext.FloatingWindows, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True">
                             <Setter TargetName="Pane" Property="Margin" Value="2" /><Setter TargetName="Pane" Property="CornerRadius" Value="8" />
-                            <Setter TargetName="Pane" Property="Padding" Value="10,6,6,8" /><Setter TargetName="Pane" Property="Background" Value="{DynamicResource VcsCard}" />
+                            <Setter TargetName="Pane" Property="Padding" Value="10,6,6,8" /><Setter TargetName="Pane" Property="Tag" Value="{DynamicResource VcsCard}" />
                             <Setter TargetName="PaneHeader" Property="Visibility" Value="Visible" /><Setter TargetName="Sheet" Property="IsPane" Value="True" />
                         </DataTrigger>
                         <MultiDataTrigger>

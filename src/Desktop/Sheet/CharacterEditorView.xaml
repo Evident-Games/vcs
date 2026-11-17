@@ -57,9 +57,10 @@
                 </ItemsControl.ItemContainerStyle>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}" TextElement.Foreground="{DynamicResource VcsCardText}"
+                        <Border BorderBrush="{DynamicResource VcsBorder}" Tag="{DynamicResource VcsCard}" TextElement.Foreground="{DynamicResource VcsCardText}"
                                 BorderThickness="1" CornerRadius="8" Padding="8,6,4,6"
                                 AutomationProperties.Name="{Binding Option.DisplayTitle, StringFormat=Bloco {0}}">
+                            <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>
                             <DockPanel>
                                 <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1"
                                         Margin="0,0,4,4" Padding="0,0,0,3">
@@ -79,9 +80,10 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
-        <Border Margin="0,0,0,8" Padding="10,6" Background="{DynamicResource VcsCard}"
+        <Border Margin="0,0,0,8" Padding="10,6" Tag="{DynamicResource VcsCard}"
                 BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="14"
                 TextElement.Foreground="{DynamicResource VcsCardText}" AutomationProperties.Name="Cabeçalho da ficha">
+            <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4" />

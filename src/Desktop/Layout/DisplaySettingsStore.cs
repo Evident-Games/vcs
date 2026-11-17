@@ -43,6 +43,7 @@ public sealed class DisplaySettingsStore(string path)
         settings.UseBento = saved.UseBento && !saved.UseTabs;
         settings.ShowSidebar = saved.ShowSidebar;
         settings.Show3DDice = saved.Show3DDice ?? true;
+        settings.SurfaceOpacity = double.IsFinite(saved.SurfaceOpacity) ? Math.Clamp(saved.SurfaceOpacity, 0.25, 1) : 1;
         settings.HudCollapsed = saved.HudCollapsed;
         settings.HudEdge = saved.HudEdge is "Left" or "Top" or "Bottom" or "Right" ? saved.HudEdge : "Right";
         settings.HudPosition = double.IsFinite(saved.HudPosition) ? Math.Clamp(saved.HudPosition, 0, 1) : 0;
@@ -114,7 +115,7 @@ public sealed class DisplaySettingsStore(string path)
                 Layout: Sections(settings.Pc),
                 UseBento: settings.UseBento, SheetThemes: settings.SheetThemeIds,
                 Npc: new LayoutPreferences(Hidden(settings.Npc), Sections(settings.Npc)), Show3DDice: settings.Show3DDice,
-                HudCollapsed: settings.HudCollapsed, HudPlayerName: settings.HudPlayerName, HudAvatarPath: settings.HudAvatarPath, HudEdge: settings.HudEdge, HudPosition: settings.HudPosition, HudCompact: settings.HudCompact, WorkspaceBackgroundPath: settings.WorkspaceBackgroundPath), WriteOptions));
+                HudCollapsed: settings.HudCollapsed, HudPlayerName: settings.HudPlayerName, HudAvatarPath: settings.HudAvatarPath, HudEdge: settings.HudEdge, HudPosition: settings.HudPosition, HudCompact: settings.HudCompact, WorkspaceBackgroundPath: settings.WorkspaceBackgroundPath, SurfaceOpacity: settings.SurfaceOpacity), WriteOptions));
             File.Move(temporary, path, true);
         }
         finally { if (File.Exists(temporary)) File.Delete(temporary); }
@@ -128,7 +129,7 @@ public sealed class DisplaySettingsStore(string path)
     private sealed record Preferences(bool UseTabs, string[] HiddenSections, string? ThemeId = null, bool? DarkTheme = null,
         Dictionary<string, string>? TabNames = null, bool ShowSidebar = true, Dictionary<string, SectionLayout>? Layout = null,
         bool UseBento = false, Dictionary<Guid, string>? SheetThemes = null, LayoutPreferences? Npc = null,
-        bool? Show3DDice = null, bool HudCollapsed = false, string? HudPlayerName = null, string? HudAvatarPath = null, string? HudEdge = null, double HudPosition = 0, bool HudCompact = false, string? WorkspaceBackgroundPath = null);
+        bool? Show3DDice = null, bool HudCollapsed = false, string? HudPlayerName = null, string? HudAvatarPath = null, string? HudEdge = null, double HudPosition = 0, bool HudCompact = false, string? WorkspaceBackgroundPath = null, double SurfaceOpacity = 1);
     private sealed record LayoutPreferences(string[]? HiddenSections, Dictionary<string, SectionLayout>? Layout);
     /// <summary>Span and Height are 0 in files saved before bento sizes existed, meaning "keep the default".</summary>
     private sealed record SectionLayout(string Caption, int SectionOrder, int TabOrder, string? TabName = null,

@@ -135,8 +135,9 @@
                 <TextBlock Text="{Binding HudInitials}" FontFamily="Cinzel, Georgia" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <Ellipse><Ellipse.Fill><ImageBrush ImageSource="{Binding HudAvatarImage}" Stretch="UniformToFill"/></Ellipse.Fill></Ellipse>
             </Grid>
-            <Border x:Name="DockPill" Background="{DynamicResource VcsHudDock}" BorderBrush="{DynamicResource VcsHudBorder}" BorderThickness="1"
+            <Border x:Name="DockPill" Tag="{DynamicResource VcsHudDock}" BorderBrush="{DynamicResource VcsHudBorder}" BorderThickness="1"
                     CornerRadius="26" Padding="5,10" Margin="0,14,0,0">
+                <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>
                 <Border.Effect><DropShadowEffect BlurRadius="20" ShadowDepth="4" Opacity="0.3"/></Border.Effect>
                 <StackPanel x:Name="DockButtons">
                     <Button Command="{Binding SelectHudCharactersCommand}" AutomationProperties.Name="Personagens">
@@ -159,8 +160,9 @@
             </Border>
         </StackPanel>
         <Grid x:Name="DrawerHost" Width="340" ClipToBounds="True">
-            <Border x:Name="Drawer" Width="340" HorizontalAlignment="Left" Background="{DynamicResource VcsHudSurface}"
+            <Border x:Name="Drawer" Width="340" HorizontalAlignment="Left" Tag="{DynamicResource VcsHudSurface}"
                     BorderBrush="{DynamicResource VcsHudBorder}" BorderThickness="1" CornerRadius="14" Padding="18">
+                <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>
                 <Border.RenderTransform><TranslateTransform x:Name="DrawerTranslation"/></Border.RenderTransform>
                 <Border.Effect><DropShadowEffect BlurRadius="30" ShadowDepth="8" Opacity="0.4"/></Border.Effect>
                 <DockPanel>

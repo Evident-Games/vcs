@@ -27,6 +27,22 @@ public sealed class DisplaySettingsTests
     }
 
     [Fact]
+    public void Surface_opacity_survives_preferences_roundtrip()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "VCS-settings-" + Guid.NewGuid().ToString("N"));
+        var path = Path.Combine(directory, "settings.json");
+        try
+        {
+            var display = new DisplaySettingsViewModel { SurfaceOpacity = 0.55 };
+            new DisplaySettingsStore(path).Save(display);
+            var restored = new DisplaySettingsViewModel();
+            new DisplaySettingsStore(path).Load(restored);
+            Assert.Equal(0.55, restored.SurfaceOpacity);
+        }
+        finally { if (Directory.Exists(directory)) Directory.Delete(directory, true); }
+    }
+
+    [Fact]
     public void Moving_sections_reorders_list_and_tabs_follow_first_section()
     {
         var display = new DisplaySettingsViewModel();

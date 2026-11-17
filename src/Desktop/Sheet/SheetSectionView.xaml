@@ -535,7 +535,8 @@
         <Border.Style>
             <Style TargetType="Border">
                 <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
-                <Setter Property="Background" Value="{DynamicResource VcsCard}" />
+                <Setter Property="Tag" Value="{DynamicResource VcsCard}" />
+                <Setter Property="Background"><Setter.Value><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Setter.Value></Setter>
                 <Setter Property="TextElement.Foreground" Value="{DynamicResource VcsCardText}" />
                 <Setter Property="BorderThickness" Value="1" />
                 <Setter Property="CornerRadius" Value="10" />

@@ -38,6 +38,8 @@ public partial class DisplaySettingsViewModel : ObservableObject
     [ObservableProperty] private bool useBento;
     [ObservableProperty] private bool showSidebar = true;
     [ObservableProperty] private bool show3DDice = true;
+    [ObservableProperty] private double surfaceOpacity = 1;
+    partial void OnSurfaceOpacityChanged(double value) => Changed?.Invoke(this, EventArgs.Empty);
     [ObservableProperty] private bool hudCollapsed;
     [ObservableProperty] private string hudEdge = "Right";
     [ObservableProperty] private double hudPosition = 0;
