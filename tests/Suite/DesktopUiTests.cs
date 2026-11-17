@@ -100,13 +100,10 @@ public sealed class DesktopUiTests(WpfApp wpf)
     public Task Animated_workspace_background_advances_and_can_be_removed(string extension) => _wpf.RunAsync(async session =>
     {
         var path = Path.Combine(session.Directory, "animated." + extension);
-        using (var animation = new SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32>(2, 2))
-        {
-            animation.Frames.AddFrame(animation.Frames.RootFrame);
-            animation.Frames[1][0, 0] = new SixLabors.ImageSharp.PixelFormats.Bgra32(255, 0, 0);
-            if (extension == "gif") SixLabors.ImageSharp.ImageExtensions.SaveAsGif(animation, path);
-            else SixLabors.ImageSharp.ImageExtensions.SaveAsWebp(animation, path);
-        }
+        var data = extension == "gif"
+            ? "R0lGODlhAgACAIEAAP8AAAAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQACgAAACwAAAAAAgACAAAIBgABCAQQEAAh+QQBCgABACwAAAAAAgACAIEAAP8AAAAAAAAAAAAIBgABCAQQEAA7"
+            : "UklGRsQAAABXRUJQVlA4WAoAAAACAAAAAQAAAQAAQU5JTQYAAAAAAAAAAABBTk1GSgAAAAAAAAAAAAEAAAEAAGQAAAJWUDggMgAAADABAJ0BKgIAAgABQCYloAADcAD+8ut///mwP/bz/wR6Af//0uD//pcH//S4P/SkAAAAQU5NRkYAAAAAAAAAAAABAAABAABkAAAAVlA4IC4AAAA0AQCdASoCAAIAAAAmJaAAA3AA/vtV4///S4P/+lwf/9Lg/9Lg//rV5Vesq6AA";
+        File.WriteAllBytes(path, Convert.FromBase64String(data));
         var display = session.Model.Display;
         try
         {

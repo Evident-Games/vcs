@@ -12,7 +12,7 @@
     <ProjectReference Include="..\Shared\Application\VCS.Application.csproj" />
     <ProjectReference Include="..\Editions\V5\Application\VCS.Application.V5.csproj" />
     <ProjectReference Include="..\Shared\Infrastructure\VCS.Infrastructure.csproj" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="4.1.3" />
+    <PackageReference Include="SkiaSharp" Version="3.119.4" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="WPF-UI" Version="4.3.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.13" />

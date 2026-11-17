@@ -1,12 +1,9 @@
+using System.Runtime.InteropServices;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.Formats.Gif;
-using SixLabors.ImageSharp.Formats.Webp;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 
 namespace VCS.Desktop.Layout;
 
@@ -30,21 +27,23 @@ public partial class DisplaySettingsViewModel
     {
         try
         {
-            var options = new DecoderOptions { TargetSize = new SixLabors.ImageSharp.Size(1280, 1280) };
-            using var image = SixLabors.ImageSharp.Image.Load<Bgra32>(options, path);
-            var format = image.Metadata.DecodedImageFormat?.Name;
-            foreach (var frame in image.Frames)
+            using var codec = SKCodec.Create(path);
+            if (codec is null) return;
+            var source = codec.Info;
+            var info = new SKImageInfo(source.Width, source.Height, SKColorType.Bgra8888, SKAlphaType.Premul);
+            var frameInfo = codec.FrameInfo;
+            var count = Math.Max(1, codec.FrameCount);
+            for (var index = 0; index < count; index++)
             {
-                var bytes = new byte[checked(frame.Width * frame.Height * 4)];
-                frame.CopyPixelDataTo(bytes);
-                var bitmap = BitmapSource.Create(frame.Width, frame.Height, 96, 96,
-                    PixelFormats.Bgra32, null, bytes, frame.Width * 4);
+                using var decoded = new SKBitmap(info);
+                var result = codec.GetPixels(info, decoded.GetPixels(), decoded.RowBytes, new SKCodecOptions(index, -1));
+                if (result != SKCodecResult.Success) throw new System.IO.InvalidDataException("Não foi possível decodificar a imagem.");
+                var bytes = new byte[checked(decoded.RowBytes * info.Height)];
+                Marshal.Copy(decoded.GetPixels(), bytes, 0, bytes.Length);
+                var bitmap = BitmapSource.Create(info.Width, info.Height, 96, 96,
+                    PixelFormats.Pbgra32, null, bytes, decoded.RowBytes);
                 bitmap.Freeze();
-                var delay = string.Equals(format, "GIF", StringComparison.OrdinalIgnoreCase)
-                    ? (long)frame.Metadata.GetGifMetadata().FrameDelay * 10
-                    : string.Equals(format, "WEBP", StringComparison.OrdinalIgnoreCase)
-                        ? frame.Metadata.GetWebpMetadata().FrameDelay
-                        : 100;
+                var delay = index < frameInfo.Length ? frameInfo[index].Duration : 100;
                 _backgroundFrames.Add((bitmap, TimeSpan.FromMilliseconds(Math.Clamp(delay, 20, 60000))));
             }
             if (_backgroundFrames.Count == 0) return;
