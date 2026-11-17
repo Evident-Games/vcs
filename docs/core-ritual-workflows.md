@@ -90,3 +90,7 @@ As três restrições existentes para o botão genérico de encerrar efeito fora
 ## Validação do beneficiário no serviço V5
 
 A verificação já existente para identificação do alvo e para beneficiários excepcionais dos rituais limitados ao conjurador passou do ViewModel para `RitualWorkflowActions`. O serviço também exige justificativa quando recebe uma autorização excepcional; a interface continua registrando a decisão na ficha antes de iniciar o preparo. As condições narrativas e a autorização continuam com a mesa, sem alterar outra ficha. É uma separação da validação existente, sem acrescentar rituais ou reclassificar cobertura. O PDF não estava acessível para nova conferência neste ciclo; nenhuma regra nova foi presumida.
+
+## Fuste: Besta subjugada do executor
+
+Nos testes posteriores de ataque e cirurgia do Fuste, a mesa pode informar explicitamente que a Besta do executor daquela rolagem está subjugada. O serviço V5 aplica `QuellBeastRules` ao resultado existente e a mesma mesa de dados apresenta as faces e o resultado; não presume que o executor seja o dono da ficha nem altera outra ficha. A marcação é limpa ao selecionar outro efeito, e alterá-la exige confirmar novamente as condições. O livro base, página impressa 246 (página 248 do PDF consultado), prevê imunidade a crítico bestial enquanto a Besta estiver subjugada. A identidade, condições da cirurgia e consequências na vítima continuam sob decisão da mesa. Esta integração amplia procedimentos existentes, sem reclassificar a cobertura de poderes ou rituais.

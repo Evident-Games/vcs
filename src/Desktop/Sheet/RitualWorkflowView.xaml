@@ -52,6 +52,8 @@
                 <TextBlock Text="Ataque: informe a parada de quem usa a estaca, sem o bônus ritual (+3 é acrescentado). Use os sucessos da oposição acima. Cirurgia: informe Destreza + Medicina de outra pessoa e confirme até quatro horas disponíveis. Identifique a Fome do executor, 0 para mortal. Não há alteração automática na vítima." TextWrapping="Wrap"/>
                 <TextBlock Text="Parada do executor"/><controls:NumericField Value="{Binding RitualFollowUpPool}" Minimum="0" Maximum="47"/>
                 <TextBlock Text="Fome do executor"/><controls:NumericField Value="{Binding RitualFollowUpHunger}" Minimum="0" Maximum="5"/>
+                <CheckBox Content="A mesa confirmou que a Besta deste executor está subjugada" IsChecked="{Binding RitualFollowUpBeastSubdued}"/>
+                <TextBlock Text="Aplica a imunidade a crítico bestial somente à rolagem deste executor, inclusive se for outra pessoa. Fonte: Livro base, p. 246." TextWrapping="Wrap"/>
                 <Button Content="Rolar ataque com estaca ritual confirmado" Command="{Binding RollRitualShaftAttackCommand}" HorizontalAlignment="Left"/>
                 <Button Content="Rolar cirurgia de extração confirmada" Command="{Binding RollRitualShaftSurgeryCommand}" HorizontalAlignment="Left"/>
             </StackPanel></Expander>

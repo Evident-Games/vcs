@@ -205,13 +205,14 @@ public sealed class RitualWorkflowActions
     }
 
     public RitualWorkflowResolution StrikeShaft(RitualWorkflowState state, int basePool, int hunger,
-        int oppositionSuccesses, bool confirmed, Random? random = null)
+        int oppositionSuccesses, bool confirmed, Random? random = null, bool beastSubdued = false)
     {
         if (state.Stage != "effect" || !state.Resolved || !confirmed)
             throw new InvalidOperationException("Selecione uma estaca preparada e confirme o ataque contra vampiro com o Narrador.");
         if (basePool is < 0 or > 47 || hunger is < 0 or > 5 || oppositionSuccesses is < 0 or > 100)
             throw new ArgumentOutOfRangeException(nameof(basePool));
-        var roll = DicePoolRules.Roll(basePool + 3, hunger, oppositionSuccesses + 1, random);
+        var roll = QuellBeastRules.ApplyToRoll(
+            DicePoolRules.Roll(basePool + 3, hunger, oppositionSuccesses + 1, random), beastSubdued);
         var margin = roll.Successes - oppositionSuccesses;
         if (margin <= 0) return new(state, new(false, "O ataque não acertou; a estaca continua disponível.", "Até ser usada"), roll);
         var finalDeath = margin >= 5;
@@ -222,12 +223,12 @@ public sealed class RitualWorkflowActions
     }
 
     public RitualWorkflowResolution RemoveShaftSplinter(RitualWorkflowState state, int pool, int hunger,
-        bool confirmed, Random? random = null)
+        bool confirmed, Random? random = null, bool beastSubdued = false)
     {
         if (state.Stage != "splinter" || !confirmed)
             throw new InvalidOperationException("Confirme que outra pessoa pode realizar Destreza + Medicina e que há até quatro horas disponíveis.");
         if (pool is < 0 or > 50 || hunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(pool));
-        var roll = DicePoolRules.Roll(pool, hunger, 6, random);
+        var roll = QuellBeastRules.ApplyToRoll(DicePoolRules.Roll(pool, hunger, 6, random), beastSubdued);
         return new(state with { Stage = roll.IsSuccess ? "removed" : "splinter" },
             new(roll.IsSuccess, roll.IsSuccess ? "Extração cirúrgica bem-sucedida; a lasca foi removida."
                 : "A cirurgia falhou; a lasca permanece. Amputação pode removê-la antes de atingir o tronco, conforme a mesa.",

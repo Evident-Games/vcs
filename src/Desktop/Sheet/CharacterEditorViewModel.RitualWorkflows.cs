@@ -28,6 +28,8 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool ritualInsideProtectedHaven;
     [ObservableProperty] private int ritualFollowUpPool = 5;
     [ObservableProperty] private int ritualFollowUpHunger;
+    [ObservableProperty] private bool ritualFollowUpBeastSubdued;
+    partial void OnRitualFollowUpBeastSubduedChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualFollowUpPoolChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualFollowUpHungerChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnPowerGameDateChanged(DateTime value) => CoreRitualConditionsConfirmed = false;
@@ -203,8 +205,8 @@ public partial class CharacterEditorViewModel
         try
         {
             var actions = new RitualWorkflowActions();
-            var result = surgery ? actions.RemoveShaftSplinter(state, RitualFollowUpPool, RitualFollowUpHunger, CoreRitualConditionsConfirmed)
-                : actions.StrikeShaft(state, RitualFollowUpPool, RitualFollowUpHunger, CoreRitualOpponentSuccesses, CoreRitualConditionsConfirmed);
+            var result = surgery ? actions.RemoveShaftSplinter(state, RitualFollowUpPool, RitualFollowUpHunger, CoreRitualConditionsConfirmed, beastSubdued: RitualFollowUpBeastSubdued)
+                : actions.StrikeShaft(state, RitualFollowUpPool, RitualFollowUpHunger, CoreRitualOpponentSuccesses, CoreRitualConditionsConfirmed, beastSubdued: RitualFollowUpBeastSubdued);
             ReplacePowerEffect(entry, entry with { RitualWorkflow = result.State, Effect = result.Proposal.Effect,
                 Duration = result.Proposal.Duration, Active = result.State.Stage != "removed", PoolBonus = result.State.Stage == "effect" ? 3 : 0 });
             DisplayRitualResolution(entry, result);
