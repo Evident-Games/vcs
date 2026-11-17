@@ -39,6 +39,12 @@ public partial class DisplaySettingsViewModel : ObservableObject
     [ObservableProperty] private bool showSidebar = true;
     [ObservableProperty] private bool show3DDice = true;
     [ObservableProperty] private bool hudCollapsed;
+    [ObservableProperty] private string hudEdge = "Right";
+    [ObservableProperty] private double hudPosition = 0;
+    [ObservableProperty] private bool hudCompact;
+    partial void OnHudEdgeChanged(string value) => Changed?.Invoke(this, EventArgs.Empty);
+    partial void OnHudPositionChanged(double value) => Changed?.Invoke(this, EventArgs.Empty);
+    partial void OnHudCompactChanged(bool value) => Changed?.Invoke(this, EventArgs.Empty);
     [ObservableProperty] private string hudPlayerName = "";
     [ObservableProperty] private string hudAvatarPath = "";
     partial void OnHudCollapsedChanged(bool value) => Changed?.Invoke(this, EventArgs.Empty);

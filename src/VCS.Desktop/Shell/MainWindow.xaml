@@ -36,7 +36,7 @@
             <layout:LayoutEditorView />
             <shell:HelpView />
             <database:DatabaseEditorView />
-            <shell:CharacterSidebar HorizontalAlignment="Right" Margin="20" Panel.ZIndex="9999" />
+            <shell:CharacterSidebar Panel.ZIndex="9999" />
         </Grid>
         <shell:StatusBar Grid.Row="3" />
     </Grid>
