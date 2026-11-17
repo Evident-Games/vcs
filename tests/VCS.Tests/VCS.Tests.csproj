@@ -18,12 +18,12 @@
   <ItemGroup>
     <Using Include="Xunit" />
     <Using Include="System.IO" />
-    <ProjectReference Include="..\..\src\VCS.Sheet\VCS.Sheet.csproj" />
-    <ProjectReference Include="..\..\src\VCS.Content\VCS.Content.csproj" />
+    <ProjectReference Include="..\..\src\Shared\Sheet\VCS.Sheet.csproj" />
+    <ProjectReference Include="..\..\src\Shared\Content\VCS.Content.csproj" />
     <ProjectReference Include="..\..\src\Editions\V5\Rules\VCS.Rules.V5.csproj" />
-    <ProjectReference Include="..\..\src\VCS.Application\VCS.Application.csproj" />
-    <ProjectReference Include="..\..\src\VCS.Infrastructure\VCS.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\src\VCS.Desktop\VCS.Desktop.csproj" />
+    <ProjectReference Include="..\..\src\Shared\Application\VCS.Application.csproj" />
+    <ProjectReference Include="..\..\src\Shared\Infrastructure\VCS.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Desktop\VCS.Desktop.csproj" />
   </ItemGroup>
 
 </Project>

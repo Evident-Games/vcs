@@ -1,12 +1,12 @@
 <Solution>
   <Folder Name="/src/">
-    <Project Path="src/VCS.Application/VCS.Application.csproj" />
-    <Project Path="src/VCS.Desktop/VCS.Desktop.csproj" />
-    <Project Path="src/VCS.Content/VCS.Content.csproj" />
-    <Project Path="src/VCS.Infrastructure/VCS.Infrastructure.csproj" />
+    <Project Path="src/Shared/Application/VCS.Application.csproj" />
+    <Project Path="src/Desktop/VCS.Desktop.csproj" />
+    <Project Path="src/Shared/Content/VCS.Content.csproj" />
+    <Project Path="src/Shared/Infrastructure/VCS.Infrastructure.csproj" />
     <Project Path="src/Editions/V5/Rules/VCS.Rules.V5.csproj" />
-    <Project Path="src/VCS.Rules/VCS.Rules.csproj" />
-    <Project Path="src/VCS.Sheet/VCS.Sheet.csproj" />
+    <Project Path="src/Shared/Rules/VCS.Rules.csproj" />
+    <Project Path="src/Shared/Sheet/VCS.Sheet.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/VCS.Tests/VCS.Tests.csproj" />

@@ -8,6 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VCS.Content\VCS.Content.csproj" />
+    <ProjectReference Include="..\Content\VCS.Content.csproj" />
   </ItemGroup>
 </Project>

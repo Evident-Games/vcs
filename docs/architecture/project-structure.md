@@ -4,18 +4,13 @@ Este documento descreve a organização-alvo do código para manter o núcleo co
 
 ## Estrutura atual
 
-A maioria dos projetos ainda usa o prefixo VCS nas pastas. As regras V5 já foram movidas para Editions; V3 e V20 ainda não têm projetos de regras.
+Os projetos existentes foram movidos fisicamente para as pastas Shared, Editions/V5 e Desktop. Seus nomes de projeto e namespaces `VCS.*` foram mantidos. Essa mudança de caminhos não significa que todo o conteúdo seja neutro: há modelos, catálogos e fluxos V5 em Shared que ainda precisam ser separados.
 
-- src/
-  - VCS.Sheet/ — modelos e dados persistidos das fichas
-  - VCS.Content/ — modelos, catálogos e conteúdo atual
-  - VCS.Rules/ — contratos compartilhados; alguns ainda contêm campos específicos da V5
-  - Editions/V5/Rules/ — projeto de regras V5 (namespace e nome do projeto preservados)
-  - VCS.Application/ — casos de uso comuns e fluxos que ainda dependem de regras V5
-  - VCS.Infrastructure/ — persistência, arquivos e acesso a dados
-  - VCS.Desktop/ — interface WPF, ViewModels, navegação e temas
-- tests/
-  - VCS.Tests/ — testes atuais
+- `src/Shared/Sheet`, `Content`, `Rules`, `Application` e `Infrastructure`: projetos existentes, ainda com dependências e conteúdo V5 a separar.
+- `src/Editions/V5/Rules`: projeto de regras V5.
+- `src/Desktop`: interface WPF, navegação e temas.
+- `tests/VCS.Tests`: suíte existente, ainda mista e não dividida por edição.
+- V3 e V20 ainda não têm projetos de regras.
 
 O registro de compatibilidade está em VCS.Rules.Modules.RuleModuleRegistry. Ele ainda não está conectado à composição do aplicativo. As fichas também ainda não armazenam a edição selecionada.
 

@@ -11,6 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VCS.Sheet\VCS.Sheet.csproj" />
+    <ProjectReference Include="..\Sheet\VCS.Sheet.csproj" />
   </ItemGroup>
 </Project>

@@ -17,8 +17,8 @@ Na raiz do repositório:
 ```powershell
 dotnet restore VCS.slnx
 dotnet build VCS.slnx
-dotnet run --project src\VCS.Desktop
-dotnet publish .\src\VCS.Desktop\VCS.Desktop.csproj -c Release -p:PublishProfile=WindowsX64 -o .\artifacts\portable
+dotnet run --project src\Desktop
+dotnet publish .\src\Desktop\VCS.Desktop.csproj -c Release -p:PublishProfile=WindowsX64 -o .\artifacts\portable
 ```
 
 ## O que você pode fazer

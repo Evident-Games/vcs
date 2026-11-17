@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VCS.Application\VCS.Application.csproj" />
-    <ProjectReference Include="..\VCS.Infrastructure\VCS.Infrastructure.csproj" />
+    <ProjectReference Include="..\Shared\Application\VCS.Application.csproj" />
+    <ProjectReference Include="..\Shared\Infrastructure\VCS.Infrastructure.csproj" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="WPF-UI" Version="4.3.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.13" />
