@@ -20,7 +20,8 @@ public partial class CharacterEditorViewModel
         ProwessActive && StrengthFeatContext && SelectedRollAttribute?.Key == "attribute-strength" ? DisciplineRating("discipline-potence") : 0,
         DauntActive && !RollIsCombat && SelectedRollSkill?.Key == "skill-intimidation" ? DisciplineRating("discipline-presence") : 0,
         EyesOfTheBeastActive && IntimidationTargetIsMortal && SelectedRollSkill?.Key == "skill-intimidation" ? 2 : 0,
-        GhostInTheMachineApplies && KnowsPower("power-obfuscate-ghost-in-the-machine") ? 3 : 0,
+        VCS.Rules.V5.Conflicts.DisciplinePoolRules.GhostInTheMachineBonus(
+            GhostInTheMachineApplies, KnowsPower("power-obfuscate-ghost-in-the-machine")),
         HeightenedSensesActive && PerceptionRoll ? DisciplineRating("discipline-auspex") : 0,
         VCS.Rules.V5.Conflicts.DisciplinePoolRules.AweBonus(DisciplineRating("discipline-presence"),
             AweActive && !RollIsCombat, AweTargetResisted, SelectedRollSkill?.Key,

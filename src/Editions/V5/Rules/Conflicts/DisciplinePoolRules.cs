@@ -2,9 +2,12 @@ using VCS.Content;
 
 namespace VCS.Rules.V5.Conflicts;
 
-[RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 244, 249, 259, 267")]
+[RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 244, 249, 259, 261, 267")]
 public static class DisciplinePoolRules
 {
+    /// <summary>Bonus when Ghost in the Machine applies to automated electronic surveillance (core book, p. 261).</summary>
+    public static int GhostInTheMachineBonus(bool applies, bool knowsPower) => applies && knowsPower ? 3 : 0;
+
     /// <summary>Penalty after sensory overload, while the roll uses perception (core book, p. 249).</summary>
     public static int SensoryOverloadPenalty(bool perceptionRoll, bool sensoryOverload) =>
         perceptionRoll && sensoryOverload ? -3 : 0;

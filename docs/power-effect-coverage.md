@@ -1,5 +1,7 @@
 # Cobertura dos poderes do livro base
 
+O bônus existente de Fantasma na Máquina contra vigilância eletrônica automatizada é calculado nas regras V5; a interface informa se a situação se aplica e se o personagem conhece o poder. A mesa continua determinando a situação, sem alterar outra ficha. A extração não muda a classificação de cobertura.
+
 O cálculo existente da penalidade de Sentidos Aguçados por sobrecarga sensorial pertence a `DisciplinePoolRules` da V5 (livro-base, p. 249); a interface fornece os estados de percepção e sobrecarga. A mesa ainda determina o estímulo e informa o resultado da resistência. Esta extração preserva o comportamento e não altera a classificação de cobertura.
 
 Catálogo atual: **88 poderes de Disciplinas**, todos com perfil de uso. A conferência dos rituais do livro base encontrou **26 títulos, todos cadastrados e com fluxo de uso**. Há ainda uma entrada legada com fonte não verificada, Ilusão de Morte Pacífica, preservada sem automação. Consulte [o inventário por nível e página](core-ritual-inventory.md). Fórmulas de Alquimia de Sangue-Ralo são contadas separadamente.
