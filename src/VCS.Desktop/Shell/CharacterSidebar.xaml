@@ -15,6 +15,7 @@
             </ControlTemplate></Setter.Value></Setter>
         </Style>
         <Style x:Key="HudButton" TargetType="Button">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Foreground" Value="{DynamicResource VcsHudText}"/>
             <Setter Property="Background" Value="Transparent"/><Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Padding" Value="10"/><Setter Property="MinWidth" Value="0"/><Setter Property="MinHeight" Value="36"/>
@@ -26,7 +27,6 @@
                 </Border>
                 <ControlTemplate.Triggers>
                     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="{DynamicResource VcsHudHover}"/></Trigger>
-                    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Surface" Property="BorderBrush" Value="{DynamicResource VcsHudAccent}"/></Trigger>
                     <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Surface" Property="Opacity" Value="0.45"/></Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate></Setter.Value></Setter>
@@ -37,6 +37,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
         <Style x:Key="HudTab" TargetType="RadioButton">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Foreground" Value="{DynamicResource VcsHudMuted}"/>
             <Setter Property="Cursor" Value="Hand"/><Setter Property="Padding" Value="10,6"/>
             <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="RadioButton">
@@ -45,7 +46,6 @@
                 </Border>
                 <ControlTemplate.Triggers>
                     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="TabSurface" Property="Background" Value="{DynamicResource VcsHudHover}"/></Trigger>
-                    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="TabSurface" Property="BorderBrush" Value="{DynamicResource VcsHudAccent}"/><Setter TargetName="TabSurface" Property="BorderThickness" Value="1"/></Trigger>
                     <Trigger Property="IsChecked" Value="True"><Setter Property="Foreground" Value="{DynamicResource VcsHudAccent}"/><Setter Property="FontWeight" Value="Bold"/></Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate></Setter.Value></Setter>
@@ -60,7 +60,6 @@
                 </Grid>
                 <ControlTemplate.Triggers>
                     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="{DynamicResource VcsHudAccent}"/></Trigger>
-                    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="{DynamicResource VcsHudText}"/></Trigger>
                     <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.45"/></Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate></Setter.Value></Setter>
@@ -70,7 +69,7 @@
             <Setter Property="Margin" Value="0,0,0,14"/>
             <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Expander">
                 <StackPanel>
-                    <ToggleButton IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                    <ToggleButton FocusVisualStyle="{x:Null}" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
                         <ToggleButton.Template><ControlTemplate TargetType="ToggleButton">
                             <Border x:Name="Heading" Background="{DynamicResource VcsHudSection}" CornerRadius="5" Padding="12,10">
                                 <DockPanel><TextBlock x:Name="Arrow" DockPanel.Dock="Right" Text="⌄" Foreground="{DynamicResource VcsHudMuted}"/>
@@ -79,7 +78,6 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsChecked" Value="True"><Setter TargetName="Arrow" Property="Text" Value="⌃"/></Trigger>
-                                <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Heading" Property="BorderBrush" Value="{DynamicResource VcsHudAccent}"/><Setter TargetName="Heading" Property="BorderThickness" Value="1"/></Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate></ToggleButton.Template>
                     </ToggleButton>
