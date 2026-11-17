@@ -8,6 +8,13 @@ Para acrescentar outra edição, primeiro defina seus próprios modelos de custo
 
 A extração da interface não automatiza poderes ou rituais pendentes. O inventário detalhado continua em `power-effect-coverage.md`.
 
+## Limite atual do contrato de poderes
+
+O contrato inicial em `IPowerRuleset` ainda não é totalmente neutro: `PowerResolutionContext` inclui `RouseChecks` e `BloodPotency`, e o resultado inclui `HungerIncrease`, todos conceitos da ativação V5. `Wits` é um atributo usado por alguns poderes, mas não torna custos e contexto da V5 universais. Além disso, `PowerUseActions` rejeita edições diferentes de V5 antes de pagar custos ou rolar dados.
+
+Isso é uma fronteira incompleta, não suporte às outras edições. Antes de habilitar outra versão, será necessário separar entradas comuns de rolagem dos contextos de ativação próprios de cada edição e manter os custos dentro do módulo correto. Nenhuma regra V3, V20, V2 ou V1 deve ser adaptada aos campos de Fome/Potência do Sangue da V5.
+
+
 ## Organização das pastas
 
 A estrutura-alvo sem o prefixo repetido VCS está em [architecture/project-structure.md](architecture/project-structure.md). Ela separa código compartilhado em Shared e conteúdo/regras/fluxos em Editions/V5, Editions/V3 e Editions/V20. Essa árvore é planejada: o código atual ainda usa pastas de projeto como VCS.Sheet e VCS.Rules.V5.
