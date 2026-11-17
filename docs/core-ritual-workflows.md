@@ -8,7 +8,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | --- | --- | --- |
 | Aderência do Inseto | Custo, teste, beneficiário conjurador; proposta descreve paredes/tetos, uso das mãos e pés, velocidade aproximada pela metade e cena/noite conforme crítico | A mesa escolhe a superfície da cena e conduz o deslocamento; o app não simula mapa ou velocidade tática |
 | Caminho do Sangue | Custo, teste, informações solicitadas e ampliação crítica | Amostra, geração, nomes e Laços reais do alvo |
-| Criar Pedra de Sangue | Custo, três noites registradas com confirmação de uma hora, teste final e limite por Determinação | Pedras ativas, localização e destruição; a mesa fornece as datas da crônica |
+| Criar Pedra de Sangue | Custo, três noites registradas com confirmação de uma hora, teste final e limite por Determinação; em sucesso, informa duração de uma semana e propõe que o conjurador perceba direção e distância da pedra | Quantidade de pedras ativas, posição real e destruição; a mesa fornece as datas da crônica e confirma se a pedra continua vinculada |
 | Despertar com o Frescor do Anoitecer | Preparo, custo, teste adiado ao perigo, encerramento do sono | Perigo real e limites da vigília; fluxo dedicado |
 | Proteção contra Carniçais | Preparo, custo, contato elegível e resistência posterior | Contato voluntário, identificação do tipo, dano ao intruso |
 | Círculo de Proteção contra Carniçais | Três custos, versão até amanhecer/ano e dia, dificuldade, disputas e histórico por intruso | Círculo intacto, elegibilidade, passagem, custo de Vontade e dano em outra ficha |
@@ -68,6 +68,12 @@ O teste posterior de Iluminar o Rastro da Presa passa por `RitualWorkflowActions
 A rota anterior rolava diretamente na interface e ignorava essa condição da Besta. A integração reutiliza a regra V5 existente (Livro base, p. 246), sem alterar faces ou sucessos; o procedimento de rastreio continua referenciado na p. 277. Não há nova Checagem de Sangue, renovação da duração, consumo de Vontade ou movimento automático de personagem. Confirmar a validade do rastro e informar seu trajeto continuam tarefas da mesa.
 
 Esta alteração mantém as contagens: 88 poderes com perfil, 26 rituais com fluxo, zero rituais confirmados ausentes e uma entrada legada não verificada; a classificação herdada 37/11/40 não foi reavaliada. Revisão textual do serviço e do chamador, sem nova conferência do PDF neste ciclo. Build, testes e execução do aplicativo não foram realizados.
+
+## Revisão da proposta de Criar Pedra de Sangue
+
+`RitualEffectRules` já apresenta, após sucesso, a localização como direção e distância percebidas pelo conjurador, a duração de uma semana e o término se a pedra for destruída. `RitualWorkflowActions` também exige as três noites de preparo e verifica o limite de pedras ativas pela Determinação, com exceção justificada. A linha da matriz foi atualizada para distinguir essas propostas automatizadas das confirmações que continuam pertencendo à mesa: inventário e posição reais, destruição e continuidade do vínculo. O app não rastreia objetos no mundo nem conclui automaticamente que uma pedra foi destruída.
+
+Contagens inalteradas: 88 poderes com perfil (37 diretos, 11 propostas numéricas e 40 assistidos, categorias herdadas sem auditoria nesta rodada), 26 rituais cadastrados com fluxo, nenhum ritual confirmado ausente e uma entrada legada de fonte não verificada. Esta foi uma correção de documentação baseada na leitura do resolver e do fluxo existentes; não acrescenta automação. Build e testes não foram executados por instrução do usuário.
 
 ## Revisão e limites da entrega
 
