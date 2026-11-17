@@ -16,73 +16,10 @@
         </Style>
     </UserControl.Style>
     <UserControl.Resources>
-        <DataTemplate x:Key="Continuous">
-            <ScrollViewer x:Name="SheetScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                          AutomationProperties.Name="Ficha completa">
-                <ItemsControl ItemsSource="{Binding VisibleSections}" Margin="0,0,12,0">
-                    <ItemsControl.ItemTemplate><DataTemplate><sheet:SheetSectionView /></DataTemplate></ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-        </DataTemplate>
-        <DataTemplate x:Key="Tabbed">
-            <TabControl ItemsSource="{Binding VisibleTabs}" SelectedItem="{Binding SelectedTab}"
-                        Background="Transparent" BorderThickness="0" AutomationProperties.Name="Secoes da ficha">
-                <TabControl.ItemContainerStyle>
-                    <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
-                        <Setter Property="AutomationProperties.Name" Value="{Binding Title}" />
-                    </Style>
-                </TabControl.ItemContainerStyle>
-                <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Title}" /></DataTemplate></TabControl.ItemTemplate>
-                <TabControl.ContentTemplate>
-                    <DataTemplate>
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,12,10,0">
-                            <ItemsControl ItemsSource="{Binding Sections}">
-                                <ItemsControl.ItemTemplate><DataTemplate><sheet:SheetSectionView /></DataTemplate></ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-            </TabControl>
-        </DataTemplate>
-        <DataTemplate x:Key="Bento">
-            <ItemsControl ItemsSource="{Binding VisibleSections}" Margin="0,0,4,0" AutomationProperties.Name="Ficha em bento">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate><controls:BentoPanel Columns="4" Gap="8" /></ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemContainerStyle>
-                    <Style TargetType="ContentPresenter">
-                        <Setter Property="controls:BentoPanel.ColumnSpan" Value="{Binding Option.Span}" />
-                        <Setter Property="controls:BentoPanel.RowWeight" Value="{Binding Option.RowWeight}" />
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="{DynamicResource VcsBorder}" Tag="{DynamicResource VcsCard}" TextElement.Foreground="{DynamicResource VcsCardText}"
-                                BorderThickness="1" CornerRadius="8" Padding="8,6,4,6"
-                                AutomationProperties.Name="{Binding Option.DisplayTitle, StringFormat=Bloco {0}}">
-                            <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>
-                            <DockPanel>
-                                <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1"
-                                        Margin="0,0,4,4" Padding="0,0,0,3">
-                                    <TextBlock Text="{Binding Option.DisplayTitle}" FontFamily="Georgia" FontSize="13" FontStyle="Italic"
-                                               Foreground="{DynamicResource VcsAccentText}" TextTrimming="CharacterEllipsis" />
-                                </Border>
-                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                                              controls:ScrollChaining.IsEnabled="True">
-                                    <sheet:SheetSectionView IsCompact="True" Margin="0,0,6,0" />
-                                </ScrollViewer>
-                            </DockPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </DataTemplate>
-    </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+        <DataTemplate x:Key="SheetHeader">
         <Border Margin="0,0,0,8" Padding="10,6" Tag="{DynamicResource VcsCard}"
                 BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="14"
-                TextElement.Foreground="{DynamicResource VcsCardText}" AutomationProperties.Name="Cabeçalho da ficha">
+                TextElement.Foreground="{DynamicResource VcsCardText}" MaxWidth="1100" AutomationProperties.Name="Cabeçalho da ficha">
             <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -139,6 +76,82 @@
                 </StackPanel>
             </Grid>
         </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="Continuous">
+            <ScrollViewer x:Name="SheetScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                          AutomationProperties.Name="Ficha completa">
+                <StackPanel Margin="0,0,12,0">
+                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SheetHeader}" />
+                    <ItemsControl ItemsSource="{Binding VisibleSections}">
+                        <ItemsControl.ItemTemplate><DataTemplate><sheet:SheetSectionView /></DataTemplate></ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </DataTemplate>
+        <DataTemplate x:Key="Tabbed">
+            <TabControl ItemsSource="{Binding VisibleTabs}" SelectedItem="{Binding SelectedTab}"
+                        Background="Transparent" BorderThickness="0" AutomationProperties.Name="Secoes da ficha">
+                <TabControl.ItemContainerStyle>
+                    <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+                        <Setter Property="AutomationProperties.Name" Value="{Binding Title}" />
+                    </Style>
+                </TabControl.ItemContainerStyle>
+                <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Title}" /></DataTemplate></TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,12,10,0">
+                            <StackPanel>
+                                <ContentControl Content="{Binding DataContext, RelativeSource={RelativeSource AncestorType=TabControl}}" ContentTemplate="{StaticResource SheetHeader}" />
+                                <ItemsControl ItemsSource="{Binding Sections}">
+                                    <ItemsControl.ItemTemplate><DataTemplate><sheet:SheetSectionView /></DataTemplate></ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+        </DataTemplate>
+        <DataTemplate x:Key="Bento">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Ficha bento rolável">
+                <StackPanel Margin="0,0,4,0">
+                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SheetHeader}" />
+            <ItemsControl ItemsSource="{Binding VisibleSections}" Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=sheet:CharacterEditorView}}" AutomationProperties.Name="Ficha em bento">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate><controls:BentoPanel Columns="4" Gap="8" /></ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="controls:BentoPanel.ColumnSpan" Value="{Binding Option.Span}" />
+                        <Setter Property="controls:BentoPanel.RowWeight" Value="{Binding Option.RowWeight}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{DynamicResource VcsBorder}" Tag="{DynamicResource VcsCard}" TextElement.Foreground="{DynamicResource VcsCardText}"
+                                BorderThickness="1" CornerRadius="8" Padding="8,6,4,6"
+                                AutomationProperties.Name="{Binding Option.DisplayTitle, StringFormat=Bloco {0}}">
+                            <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>
+                            <DockPanel>
+                                <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1"
+                                        Margin="0,0,4,4" Padding="0,0,0,3">
+                                    <TextBlock Text="{Binding Option.DisplayTitle}" FontFamily="Georgia" FontSize="13" FontStyle="Italic"
+                                               Foreground="{DynamicResource VcsAccentText}" TextTrimming="CharacterEllipsis" />
+                                </Border>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                                              controls:ScrollChaining.IsEnabled="True">
+                                    <sheet:SheetSectionView IsCompact="True" Margin="0,0,6,0" />
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
         <Grid Grid.Row="1">
             <ContentControl Content="{Binding}">
                 <ContentControl.Style>

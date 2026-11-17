@@ -84,6 +84,8 @@ public sealed class DesktopUiTests(WpfApp wpf)
         {
             model.Editor!.WindowViewMode = mode;
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+            header = Descendants<Border>(session.Window).Single(x =>
+                AutomationProperties.GetName(x) == "Cabeçalho da ficha" && x.IsVisible);
             Assert.True(header.IsVisible);
             Assert.InRange(Math.Abs(header.ActualHeight - originalHeight), 0, 1);
         }
@@ -116,6 +118,20 @@ public sealed class DesktopUiTests(WpfApp wpf)
             Assert.Null(display.WorkspaceBackgroundImage);
         }
         finally { display.WorkspaceBackgroundPath = ""; }
+    });
+
+    [Fact]
+    public Task Sheet_header_scrolls_with_the_list() => _wpf.RunAsync(async session =>
+    {
+        await session.Model.CreateCommand.ExecuteAsync(null);
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        var header = Find<Border>(session.Window, "Cabeçalho da ficha");
+        var scroll = Find<ScrollViewer>(session.Window, "Ficha completa");
+        var initialTop = header.TranslatePoint(new Point(0, 0), scroll).Y;
+        scroll.ScrollToVerticalOffset(80);
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        Assert.True(scroll.VerticalOffset > 0);
+        Assert.True(header.TranslatePoint(new Point(0, 0), scroll).Y < initialTop);
     });
 
     /// <summary>Main window chrome, menus and the full PC sheet editing flow.</summary>
