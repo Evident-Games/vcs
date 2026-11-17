@@ -84,7 +84,7 @@
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsActive}" Value="True"><Setter Property="Visibility" Value="Visible" /><Setter Property="Panel.ZIndex" Value="1" /></DataTrigger>
                         <DataTrigger Binding="{Binding DataContext.FloatingWindows, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True">
-                            <Setter Property="Visibility" Value="Visible" /><Setter Property="Width" Value="480" /><Setter Property="Height" Value="480" />
+                            <Setter Property="Visibility" Value="Visible" /><Setter Property="Width" Value="{Binding FloatingWidth}" /><Setter Property="Height" Value="{Binding FloatingHeight}" />
                             <Setter Property="Canvas.Left" Value="{Binding FloatingX}" /><Setter Property="Canvas.Top" Value="{Binding FloatingY}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding DataContext.IsSideBySide, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True">
@@ -107,6 +107,14 @@
                                         BorderThickness="0" Foreground="{DynamicResource VcsInputDescription}" ToolTip="Fechar ficha"
                                         Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                         CommandParameter="{Binding}" AutomationProperties.Name="{Binding TabTitle, StringFormat='Fechar painel {0}'}" />
+                                <Button DockPanel.Dock="Right" Content="Exibir ▾" Padding="4,0" MinHeight="22" Margin="0,0,6,0" Background="Transparent" BorderThickness="0" Click="OnWindowViewMenu" AutomationProperties.Name="Modo de visualização da ficha">
+                                    <Button.ContextMenu><ContextMenu>
+                                        <MenuItem Header="Usar configuração geral" Tag="Default" Click="OnWindowViewSelected" />
+                                        <MenuItem Header="Lista" Tag="Continuous" Click="OnWindowViewSelected" />
+                                        <MenuItem Header="Abas" Tag="Tabbed" Click="OnWindowViewSelected" />
+                                        <MenuItem Header="Bento" Tag="Bento" Click="OnWindowViewSelected" />
+                                    </ContextMenu></Button.ContextMenu>
+                                </Button>
                                 <Thumb DockPanel.Dock="Left" Width="20" Height="24" Margin="0,0,6,0" Cursor="SizeAll" DragDelta="OnFloatingDragDelta" ToolTip="Mover janela" AutomationProperties.Name="Mover janela">
                                     <Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="Transparent"><TextBlock Text="⋮⋮" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsInputDescription}" /></Border></ControlTemplate></Thumb.Template>
                                     <Thumb.Style><Style TargetType="Thumb"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding DataContext.FloatingWindows, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></Thumb.Style>
@@ -116,6 +124,10 @@
                                 <TextBlock Text="{Binding TabTitle}" FontFamily="Georgia" FontSize="15" FontStyle="Italic"
                                            Foreground="{DynamicResource VcsAccentText}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                             </DockPanel>
+                            <Thumb DockPanel.Dock="Bottom" Width="18" Height="18" HorizontalAlignment="Right" Cursor="SizeNWSE" DragDelta="OnFloatingResizeDelta" ToolTip="Redimensionar janela" AutomationProperties.Name="Redimensionar janela">
+                                <Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="Transparent"><TextBlock Text="◢" FontSize="12" Foreground="{DynamicResource VcsInputDescription}" HorizontalAlignment="Right" VerticalAlignment="Bottom" /></Border></ControlTemplate></Thumb.Template>
+                                <Thumb.Style><Style TargetType="Thumb"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding DataContext.FloatingWindows, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></Thumb.Style>
+                            </Thumb>
                             <sheet:CharacterEditorView x:Name="Sheet" />
                         </DockPanel>
                     </Border>

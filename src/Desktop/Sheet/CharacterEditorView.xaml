@@ -176,9 +176,9 @@
                                 </MultiDataTrigger.Conditions>
                                 <Setter Property="ContentTemplate" Value="{StaticResource Bento}" />
                             </MultiDataTrigger>
-                            <DataTrigger Binding="{Binding IsPane, RelativeSource={RelativeSource AncestorType=sheet:CharacterEditorView}}" Value="True">
-                                <Setter Property="ContentTemplate" Value="{StaticResource Continuous}" />
-                            </DataTrigger>
+                            <DataTrigger Binding="{Binding WindowViewMode}" Value="Continuous"><Setter Property="ContentTemplate" Value="{StaticResource Continuous}" /></DataTrigger>
+                            <DataTrigger Binding="{Binding WindowViewMode}" Value="Tabbed"><Setter Property="ContentTemplate" Value="{StaticResource Tabbed}" /></DataTrigger>
+                            <DataTrigger Binding="{Binding WindowViewMode}" Value="Bento"><Setter Property="ContentTemplate" Value="{StaticResource Bento}" /></DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ContentControl.Style>

@@ -58,9 +58,38 @@ public partial class WorkspaceView : UserControl
         while (parent is not null && parent is not Canvas) parent = VisualTreeHelper.GetParent(parent);
         if (parent is not Canvas canvas) return;
         model.ActivateEditorCommand.Execute(editor);
-        editor.FloatingX = Math.Clamp(editor.FloatingX + e.HorizontalChange, 0, Math.Max(0, canvas.ActualWidth - 480));
-        editor.FloatingY = Math.Clamp(editor.FloatingY + e.VerticalChange, 0, Math.Max(0, canvas.ActualHeight - 480));
+        editor.FloatingX = Math.Clamp(editor.FloatingX + e.HorizontalChange, 0, Math.Max(0, canvas.ActualWidth - editor.FloatingWidth));
+        editor.FloatingY = Math.Clamp(editor.FloatingY + e.VerticalChange, 0, Math.Max(0, canvas.ActualHeight - editor.FloatingHeight));
         e.Handled = true;
+    }
+
+    private void OnFloatingResizeDelta(object sender, DragDeltaEventArgs e)
+    {
+        if (DataContext is not MainViewModel { FloatingWindows: true } model ||
+            sender is not FrameworkElement { DataContext: CharacterEditorViewModel editor } handle) return;
+        DependencyObject? parent = handle;
+        while (parent is not null && parent is not Canvas) parent = VisualTreeHelper.GetParent(parent);
+        if (parent is not Canvas canvas) return;
+        model.ActivateEditorCommand.Execute(editor);
+        var maxWidth = Math.Max(1, canvas.ActualWidth - editor.FloatingX);
+        var maxHeight = Math.Max(1, canvas.ActualHeight - editor.FloatingY);
+        editor.FloatingWidth = Math.Clamp(editor.FloatingWidth + e.HorizontalChange, Math.Min(300, maxWidth), maxWidth);
+        editor.FloatingHeight = Math.Clamp(editor.FloatingHeight + e.VerticalChange, Math.Min(240, maxHeight), maxHeight);
+        e.Handled = true;
+    }
+
+    private void OnWindowViewMenu(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { ContextMenu: { } menu } button) return;
+        menu.PlacementTarget = button;
+        menu.DataContext = button.DataContext;
+        menu.IsOpen = true;
+    }
+
+    private void OnWindowViewSelected(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuItem { DataContext: CharacterEditorViewModel editor, Tag: string mode } &&
+            mode is "Default" or "Continuous" or "Tabbed" or "Bento") editor.WindowViewMode = mode;
     }
 
     private void OnSheetPaneMouseDown(object sender, MouseButtonEventArgs e)
