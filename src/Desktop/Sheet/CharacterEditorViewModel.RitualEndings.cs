@@ -70,14 +70,19 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void EndRitualBlindnessByRuling()
     {
-        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-eyes-of-nighthawk", RitualWorkflow: { Stage: "blindness" } state } entry ||
-            !CoreRitualConditionsConfirmed || !RitualEndingExceptionApproved || string.IsNullOrWhiteSpace(RitualEndingExceptionReason))
+        if (SelectedPowerEffect is not { } entry)
         { RitualPreparationSummary = "Selecione a cegueira ativa, confirme a decisão e registre a autorização e a justificativa do Narrador."; return; }
+        PowerEffectEntry updated;
+        try
+        {
+            updated = new RitualWorkflowActions().EndNighthawkBlindnessByRuling(entry, CoreRitualConditionsConfirmed,
+                RitualEndingExceptionApproved, RitualEndingExceptionReason);
+        }
+        catch (InvalidOperationException exception)
+        { RitualPreparationSummary = exception.Message; return; }
         var reason = RitualEndingExceptionReason.Trim();
         ExceptionRegister.Record(entry.Name, "Encerramento da cegueira antes das três noites", reason);
-        ReplacePowerEffect(entry, entry with { Active = false, RitualWorkflow = state with { Stage = "ended", NightsRemaining = 0 },
-            Ruling = string.IsNullOrWhiteSpace(entry.Ruling) ? reason : entry.Ruling + "\n" + reason,
-            Effect = "Cegueira encerrada por decisão excepcional do Narrador: " + reason });
+        ReplacePowerEffect(entry, updated);
         RitualPreparationSummary = "Cegueira encerrada; a decisão excepcional foi registrada na ficha.";
         Notebook.AppendLog("Rituais", RitualPreparationSummary);
         MarkChanged();

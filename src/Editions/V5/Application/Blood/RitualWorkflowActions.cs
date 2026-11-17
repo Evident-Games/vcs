@@ -155,6 +155,19 @@ public sealed class RitualWorkflowActions
                 : $"Cegueira do ritual: {remaining} noite(s) restante(s).", remaining == 0 ? "Encerrado" : $"{remaining} noite(s)"), null);
     }
 
+    /// <summary>End an active ritual blindness early only after a documented Narrator decision.</summary>
+    public PowerEffectEntry EndNighthawkBlindnessByRuling(PowerEffectEntry entry, bool tableConfirmed,
+        bool exceptionApproved, string reason)
+    {
+        if (entry is not { Active: true, PowerId: "ritual-eyes-of-nighthawk", RitualWorkflow: { Stage: "blindness" } state } ||
+            !tableConfirmed || !exceptionApproved || string.IsNullOrWhiteSpace(reason))
+            throw new InvalidOperationException("Selecione a cegueira ativa, confirme a decisão e registre a autorização e a justificativa do Narrador.");
+        var ruling = reason.Trim();
+        return entry with { Active = false, RitualWorkflow = state with { Stage = "ended", NightsRemaining = 0 },
+            Ruling = string.IsNullOrWhiteSpace(entry.Ruling) ? ruling : entry.Ruling + "\n" + ruling,
+            Effect = "Cegueira encerrada por decisão excepcional do Narrador: " + ruling };
+    }
+
     public RitualWorkflowState RecordBloodstoneNight(RitualWorkflowState state, DateOnly night, bool confirmed, bool exceptionApproved)
     {
         if (state.Resolved || state.ChecksPaid != 1 || !confirmed)

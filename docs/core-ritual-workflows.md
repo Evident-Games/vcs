@@ -78,3 +78,7 @@ Contagens inalteradas: 88 poderes com perfil (37 diretos, 11 propostas numérica
 ## Revisão e limites da entrega
 
 Foram inspecionados os arquivos, IDs/contagens do catálogo e a legibilidade de JSON/XML, sem executar a aplicação. **Build, publicação de executáveis e testes não foram executados**, por instrução do usuário. Portanto compilação, persistência em execução, renderização WPF e animação 3D desta integração ainda não foram validadas. As lacunas na tabela continuam abertas; não há declaração de escopo integral concluído.
+
+## Separação do encerramento excepcional
+
+A validação da autorização e justificativa e a alteração do estado de cegueira de Olhos do Falcão Noturno foram movidas para `RitualWorkflowActions` da V5. A interface continua registrando a exceção na ficha e apresentando o resultado; nenhum efeito em outra ficha é aplicado. O comportamento e a cobertura de rituais permanecem os mesmos. A regra existente cita o livro base, página impressa 280; o PDF não foi reconferido neste ciclo.
