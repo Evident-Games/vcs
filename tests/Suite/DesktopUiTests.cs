@@ -94,6 +94,33 @@ public sealed class DesktopUiTests(WpfApp wpf)
         Assert.True(visibleHeader.ActualHeight > 0);
     });
 
+    [Theory]
+    [InlineData("gif")]
+    [InlineData("webp")]
+    public Task Animated_workspace_background_advances_and_can_be_removed(string extension) => _wpf.RunAsync(async session =>
+    {
+        var path = Path.Combine(session.Directory, "animated." + extension);
+        using (var animation = new SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Bgra32>(2, 2))
+        {
+            animation.Frames.AddFrame(animation.Frames.RootFrame);
+            animation.Frames[1][0, 0] = new SixLabors.ImageSharp.PixelFormats.Bgra32(255, 0, 0);
+            if (extension == "gif") SixLabors.ImageSharp.ImageExtensions.SaveAsGif(animation, path);
+            else SixLabors.ImageSharp.ImageExtensions.SaveAsWebp(animation, path);
+        }
+        var display = session.Model.Display;
+        try
+        {
+            display.WorkspaceBackgroundPath = path;
+            var first = Assert.IsAssignableFrom<BitmapSource>(display.WorkspaceBackgroundImage);
+            for (var i = 0; i < 50 && ReferenceEquals(first, display.WorkspaceBackgroundImage); i++)
+                await Task.Delay(20);
+            Assert.NotSame(first, display.WorkspaceBackgroundImage);
+            display.WorkspaceBackgroundPath = "";
+            Assert.Null(display.WorkspaceBackgroundImage);
+        }
+        finally { display.WorkspaceBackgroundPath = ""; }
+    });
+
     /// <summary>Main window chrome, menus and the full PC sheet editing flow.</summary>
     [Fact]
     public Task Window_menus_and_pc_sheet_editing_work() => _wpf.RunAsync(async ui =>

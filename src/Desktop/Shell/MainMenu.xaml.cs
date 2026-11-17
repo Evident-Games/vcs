@@ -15,7 +15,7 @@ public partial class MainMenu : UserControl
         var picker = new OpenFileDialog
         {
             Title = "Escolher fundo da área de trabalho",
-            Filter = "Imagens|*.webp;*.png;*.jpg;*.jpeg;*.bmp|Todos os arquivos|*.*",
+            Filter = "Imagens|*.webp;*.gif;*.png;*.jpg;*.jpeg;*.bmp|Todos os arquivos|*.*",
             CheckFileExists = true
         };
         if (picker.ShowDialog(Window.GetWindow(this)) != true) return;

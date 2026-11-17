@@ -31,7 +31,7 @@
                      Foreground="{DynamicResource VcsHeaderText}" ButtonsForeground="{DynamicResource VcsHeaderText}" />
         <shell:MainMenu Grid.Row="1" />
         <Grid Grid.Row="2" IsEnabled="{Binding IsIdle}" ClipToBounds="True">
-            <Image Source="{Binding Display.WorkspaceBackgroundImage}" Stretch="UniformToFill" IsHitTestVisible="False" />
+            <Image Source="{Binding Display.WorkspaceBackgroundImage}" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False" />
             <shell:WorkspaceView />
             <chronicle:ChronicleEventsView Visibility="{Binding IsNarratorOpen, Converter={StaticResource BoolVisibility}}" />
             <layout:LayoutEditorView />

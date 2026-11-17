@@ -151,6 +151,8 @@ public partial class App : System.Windows.Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        if (MainWindow?.DataContext is MainViewModel model)
+            model.Display.StopWorkspaceBackgroundAnimation();
         _host?.Dispose();
         if (_ownsMutex) _instance?.ReleaseMutex();
         _instance?.Dispose();
