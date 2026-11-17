@@ -25,29 +25,12 @@
                           ToolTip="Adicionar ou editar habilidades, vantagens, disciplinas e clas" />
             </MenuItem>
             <MenuItem Header="E_xibir">
-                <MenuItem Header="Fundo da área de trabalho">
-                    <MenuItem Header="Escolher imagem..." Click="OnChooseBackground" />
-                    <MenuItem Header="Remover imagem" Click="OnRemoveBackground" />
-                </MenuItem>
-                <MenuItem Header="Transparência do tema">
-                    <MenuItem StaysOpenOnClick="True">
-                        <MenuItem.Header><StackPanel Width="180" Margin="6">
-                            <TextBlock Text="Opacidade das superfícies (mínimo 25%)" Margin="0,0,0,5" />
-                            <Slider Minimum="0.25" Maximum="1" TickFrequency="0.05" Value="{Binding Display.SurfaceOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Opacidade do tema" />
-                            <TextBlock Text="{Binding Display.SurfaceOpacity, StringFormat={}{0:P0}}" HorizontalAlignment="Right" />
-                        </StackPanel></MenuItem.Header>
-                    </MenuItem>
-                </MenuItem>
                 <MenuItem Header="Layout da ficha..." Command="{Binding ToggleLayoutSettingsCommand}" />
                 <MenuItem Header="Dados de rolagem em 3D" IsCheckable="True"
                           IsChecked="{Binding Display.Show3DDice, Mode=TwoWay}"
                           ToolTip="Animar todas as rolagens da ficha em uma mesa de dados" />
                 <MenuItem Header="Lista lateral de personagens" IsCheckable="True" IsChecked="{Binding Display.ShowSidebar, Mode=TwoWay}" />
                 <Separator />
-                <MenuItem Header="Temas">
-                    <themes:AppThemeMenu />
-                    <themes:SheetThemeMenu />
-                </MenuItem>
             </MenuItem>
             <MenuItem Header="_Narrador">
                 <MenuItem Header="Eventos da crônica" Command="{Binding ToggleNarratorCommand}" IsEnabled="{Binding CanOpenNarrator}" />

@@ -207,6 +207,19 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <StackPanel Margin="8,18,8,8">
                             <TextBlock Text="Temas e aparência" Style="{StaticResource SectionTitle}" />
+                            <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,8,0,16">
+                                <StackPanel>
+                                    <TextBlock Text="Fundo e transparência" FontSize="18" FontWeight="SemiBold" />
+                                    <WrapPanel Margin="0,10,0,8">
+                                        <Button Content="Escolher imagem…" Click="OnChooseBackground" Margin="0,0,8,0" />
+                                        <Button Content="Remover imagem" Click="OnRemoveBackground" />
+                                    </WrapPanel>
+                                    <TextBlock Text="Opacidade das superfícies" />
+                                    <Slider Minimum="0.25" Maximum="1" TickFrequency="0.05" Value="{Binding Display.SurfaceOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Opacidade das superfícies" />
+                                    <TextBlock Text="{Binding Display.SurfaceOpacity, StringFormat={}{0:P0}}" HorizontalAlignment="Right" />
+                                    <CheckBox Content="Altura compacta do painel lateral" IsChecked="{Binding Display.HudCompact, Mode=TwoWay}" Margin="0,8,0,0" />
+                                </StackPanel>
+                            </Border>
                             <TextBlock Text="Escolha o tema do aplicativo e, se quiser, personalize a ficha aberta com um tema próprio. As cores originais de todos os temas são preservadas."
                                        TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="0,4,0,18" />
                             <Grid>
