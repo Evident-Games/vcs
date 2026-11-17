@@ -135,9 +135,12 @@ public partial class App : System.Windows.Application
             await _host.Services.GetRequiredService<IEditableCatalog<ClanDefinition>>().RefreshAsync();
             await _host.Services.GetRequiredService<IEditableCatalog<PowerDefinition>>().RefreshAsync();
             var viewModel = _host.Services.GetRequiredService<MainViewModel>();
+            // Load saved characters, display preferences and theme before the first paint.
+            // Showing the window first briefly exposes the default home/layout, then replaces it
+            // with the user's real workspace when initialization completes.
+            await viewModel.InitializeAsync();
             MainWindow = _host.Services.GetRequiredService<MainWindow>();
             MainWindow.Show();
-            await viewModel.InitializeAsync();
             _ = viewModel.CheckForUpdateAsync();
             Log.Information("VCS iniciado");
         }
