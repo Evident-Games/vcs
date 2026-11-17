@@ -6,15 +6,28 @@
     xmlns:shell="clr-namespace:VCS.Desktop.Shell"
     xmlns:themes="clr-namespace:VCS.Desktop.Themes">
     <UserControl.Resources>
+        <Style x:Key="WorkspaceOverlayButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Foreground" Value="{DynamicResource VcsOuterText}" />
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+                <Border Background="Transparent" Padding="{TemplateBinding Padding}">
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}" />
+                </Border>
+                <ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Opacity" Value="0.75" /></Trigger></ControlTemplate.Triggers>
+            </ControlTemplate></Setter.Value></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Display.WorkspaceBackgroundIsDark}" Value="True"><Setter Property="Foreground" Value="White" /></DataTrigger>
+                <DataTrigger Binding="{Binding Display.WorkspaceBackgroundIsDark}" Value="False"><Setter Property="Foreground" Value="Black" /></DataTrigger>
+            </Style.Triggers>
+        </Style>
         <ItemsPanelTemplate x:Key="TiledSheetPanel"><UniformGrid Columns="{Binding DataContext.LayoutColumns, RelativeSource={RelativeSource AncestorType=ItemsControl}}" /></ItemsPanelTemplate>
         <ItemsPanelTemplate x:Key="FloatingSheetPanel"><Canvas ClipToBounds="True" /></ItemsPanelTemplate>
     </UserControl.Resources>
     <!-- Open sheet tabs, the home view and every open sheet (alone or side by side). -->
     <DockPanel Margin="16,8,16,16">
     <DockPanel DockPanel.Dock="Top" Margin="0,0,0,5" Visibility="{Binding HasOpenEditors, Converter={StaticResource BoolVisibility}}">
-        <Button DockPanel.Dock="Right" Content="▣" Width="30" Height="26" Padding="0" Margin="4,0,0,0" Background="Transparent" BorderThickness="0"
+        <Button Style="{StaticResource WorkspaceOverlayButton}" DockPanel.Dock="Right" Content="▣" Width="30" Height="26" Padding="0" Margin="4,0,0,0" Background="Transparent" BorderThickness="0"
                 ToolTip="Alternar janelas flutuantes" AutomationProperties.Name="Alternar janelas flutuantes" Command="{Binding ToggleFloatingWindowsCommand}" />
-        <Button DockPanel.Dock="Right" Content="◫" Width="30" Height="26" Padding="0" Margin="4,0,0,0" Background="Transparent" BorderThickness="0"
+        <Button Style="{StaticResource WorkspaceOverlayButton}" DockPanel.Dock="Right" Content="◫" Width="30" Height="26" Padding="0" Margin="4,0,0,0" Background="Transparent" BorderThickness="0"
                 ToolTip="Alternar fichas lado a lado" AutomationProperties.Name="Alternar fichas lado a lado" Command="{Binding ToggleSplitWindowsCommand}" />
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
         <StackPanel Orientation="Horizontal">
@@ -55,7 +68,7 @@
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>
-        <Button Content="+" Width="26" Height="26" MinHeight="0" Padding="0" Background="Transparent" BorderThickness="0"
+        <Button Style="{StaticResource WorkspaceOverlayButton}" Content="+" Width="26" Height="26" MinHeight="0" Padding="0" Background="Transparent" BorderThickness="0"
                 ToolTip="Novo personagem" AutomationProperties.Name="Novo personagem" Command="{Binding CreateCommand}" />
         </StackPanel>
         </ScrollViewer>

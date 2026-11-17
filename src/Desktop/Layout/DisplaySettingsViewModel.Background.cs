@@ -11,6 +11,10 @@ public partial class DisplaySettingsViewModel
 {
     [ObservableProperty] private string workspaceBackgroundPath = "";
     [ObservableProperty] private BitmapSource? workspaceBackgroundImage;
+    [ObservableProperty] private bool? workspaceBackgroundIsDark;
+
+    partial void OnWorkspaceBackgroundImageChanged(BitmapSource? value) =>
+        WorkspaceBackgroundIsDark = value is null ? null : WorkspaceBackgroundContrast.IsDark(value);
     private readonly List<(BitmapSource Bitmap, TimeSpan Delay)> _backgroundFrames = [];
     private DispatcherTimer? _backgroundTimer;
     private int _backgroundFrameIndex;

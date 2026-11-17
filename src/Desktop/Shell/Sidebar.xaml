@@ -128,7 +128,7 @@
         <Border x:Name="SnapPreview" IsHitTestVisible="False" Visibility="Collapsed" Background="{DynamicResource VcsHudAccent}" Opacity="0.18" CornerRadius="4"/>
         <StackPanel x:Name="DockBar" VerticalAlignment="Top">
             <Thumb x:Name="DragHandle" Width="36" Height="12" Cursor="SizeAll" ToolTip="Arrastar HUD" AutomationProperties.Name="Arrastar HUD" DragStarted="OnDragStarted" DragDelta="OnDragDelta" DragCompleted="OnDragCompleted">
-                <Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="Transparent"><TextBlock Text="····" Foreground="{DynamicResource VcsHudMuted}" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border></ControlTemplate></Thumb.Template>
+                <Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="Transparent"><TextBlock Text="····" HorizontalAlignment="Center" VerticalAlignment="Center"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource VcsHudMuted}"/><Style.Triggers><DataTrigger Binding="{Binding Display.WorkspaceBackgroundIsDark}" Value="True"><Setter Property="Foreground" Value="White"/></DataTrigger><DataTrigger Binding="{Binding Display.WorkspaceBackgroundIsDark}" Value="False"><Setter Property="Foreground" Value="Black"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock></Border></ControlTemplate></Thumb.Template>
             </Thumb>
             <Grid Width="52" Height="52" ToolTip="{Binding HudStatus}">
                 <Ellipse Fill="{DynamicResource VcsHudCard}" Stroke="{DynamicResource VcsHudBorder}"/>

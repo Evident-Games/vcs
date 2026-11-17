@@ -8,6 +8,16 @@ public sealed class ThemePaletteTests
 {
     private static SolidColorBrush Brush(byte value) => new(Color.FromRgb(value, value, value));
 
+    [Theory]
+    [InlineData(15, true)]
+    [InlineData(240, false)]
+    public void Workspace_contrast_uses_background_brightness(byte level, bool expectedDark)
+    {
+        var bitmap = System.Windows.Media.Imaging.BitmapSource.Create(1, 1, 96, 96,
+            PixelFormats.Bgra32, null, new byte[] { level, level, level, 255 }, 4);
+        Assert.Equal(expectedDark, VCS.Desktop.Layout.WorkspaceBackgroundContrast.IsDark(bitmap));
+    }
+
     [Fact]
     public void Surface_opacity_clones_the_brush_without_changing_the_theme()
     {
