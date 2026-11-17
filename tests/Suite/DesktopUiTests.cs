@@ -46,6 +46,23 @@ public sealed class DesktopUiTests(WpfApp wpf)
         return Task.CompletedTask;
     });
 
+    [Fact]
+    public Task Split_view_is_independent_of_sheet_layout() => _wpf.RunAsync(async session =>
+    {
+        var model = session.Model;
+        await model.CreateCommand.ExecuteAsync(null);
+        await model.CreateCommand.ExecuteAsync(null);
+        Assert.Equal(2, model.OpenEditors.Count);
+        model.Display.UseBento = false;
+        model.ToggleSplitWindowsCommand.Execute(null);
+        Assert.True(model.IsSideBySide);
+        Assert.Equal(2, model.LayoutColumns);
+        Assert.False(model.Display.UseBento);
+        model.ToggleSplitWindowsCommand.Execute(null);
+        Assert.False(model.IsSideBySide);
+        Assert.Equal(1, model.LayoutColumns);
+    });
+
     /// <summary>Main window chrome, menus and the full PC sheet editing flow.</summary>
     [Fact]
     public Task Window_menus_and_pc_sheet_editing_work() => _wpf.RunAsync(async ui =>

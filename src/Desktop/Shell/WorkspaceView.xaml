@@ -6,28 +6,33 @@
     xmlns:shell="clr-namespace:VCS.Desktop.Shell"
     xmlns:themes="clr-namespace:VCS.Desktop.Themes">
     <!-- Open sheet tabs, the home view and every open sheet (alone or side by side). -->
-    <DockPanel Margin="24,16,24,24">
-    <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding OpenEditors}" Margin="0,0,0,10"
+    <DockPanel Margin="16,8,16,16">
+    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,5" Visibility="{Binding HasOpenEditors, Converter={StaticResource BoolVisibility}}">
+        <Button DockPanel.Dock="Right" Content="◫" Width="30" Height="26" Padding="0" Margin="4,0,0,0" Background="Transparent" BorderThickness="0"
+                ToolTip="Alternar fichas lado a lado" AutomationProperties.Name="Alternar fichas lado a lado" Command="{Binding ToggleSplitWindowsCommand}" />
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        <StackPanel Orientation="Horizontal">
+    <ItemsControl ItemsSource="{Binding OpenEditors}" Margin="0"
                   Visibility="{Binding HasOpenEditors, Converter={StaticResource BoolVisibility}}"
                   AutomationProperties.Name="Fichas abertas">
-        <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+        <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Border x:Name="Tab" Margin="0,0,6,4" CornerRadius="8" BorderThickness="1" Padding="10,3,3,3"
+                <Border x:Name="Tab" Margin="0,0,2,0" CornerRadius="4,4,0,0" BorderThickness="0,0,0,1" Padding="6,0,2,0" MinHeight="26" AllowDrop="True" PreviewMouseLeftButtonDown="OnTabMouseDown" PreviewMouseMove="OnTabMouseMove" Drop="OnTabDrop"
                         BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}">
                     <StackPanel Orientation="Horizontal">
-                        <Button Background="Transparent" BorderThickness="0" Padding="0,2" MaxWidth="180"
+                        <Button Background="Transparent" BorderThickness="0" Padding="0" MinHeight="0" MaxWidth="140"
                                 Command="{Binding DataContext.ActivateEditorCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                 CommandParameter="{Binding}" AutomationProperties.Name="{Binding TabTitle, StringFormat='Aba {0}'}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="NPC" FontSize="10" FontWeight="Bold" Margin="0,0,6,0" VerticalAlignment="Center"
                                            Foreground="{DynamicResource VcsAccentText}"
                                            Visibility="{Binding IsNpc, Converter={StaticResource BoolVisibility}}" />
-                                <TextBlock x:Name="TabTitleText" Text="{Binding TabTitle}" TextTrimming="CharacterEllipsis" FontFamily="Georgia"
+                                <TextBlock x:Name="TabTitleText" Text="{Binding TabTitle}" TextTrimming="CharacterEllipsis" FontSize="12"
                                            Foreground="{DynamicResource VcsCardText}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
-                        <Button Content="×" Width="22" Height="22" Padding="0" Margin="4,0,0,0" Background="Transparent" BorderThickness="0"
+                        <Button Content="×" Width="20" Height="20" MinHeight="0" Padding="0" Margin="4,0,0,0" Background="Transparent" BorderThickness="0"
                                 Foreground="{DynamicResource VcsInputDescription}" ToolTip="Fechar ficha"
                                 Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                 CommandParameter="{Binding}" AutomationProperties.Name="{Binding TabTitle, StringFormat='Fechar {0}'}" />
@@ -36,7 +41,7 @@
                 <DataTemplate.Triggers>
                     <DataTrigger Binding="{Binding IsActive}" Value="True">
                         <Setter TargetName="Tab" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
-                        <Setter TargetName="Tab" Property="BorderThickness" Value="1,1,1,2" />
+                        <Setter TargetName="Tab" Property="BorderThickness" Value="0,0,0,2" />
                         <Setter TargetName="Tab" Property="Background" Value="{DynamicResource VcsSelection}" />
                         <Setter TargetName="TabTitleText" Property="FontWeight" Value="SemiBold" />
                     </DataTrigger>
@@ -44,9 +49,14 @@
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>
+        <Button Content="+" Width="26" Height="26" MinHeight="0" Padding="0" Background="Transparent" BorderThickness="0"
+                ToolTip="Novo personagem" AutomationProperties.Name="Novo personagem" Command="{Binding CreateCommand}" />
+        </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
     <Grid>
     <shell:HomeView Visibility="{Binding IsHome, Converter={StaticResource BoolVisibility}}" />
-    <Grid Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibility}}">
+    <Grid Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibility}}" AllowDrop="True" Drop="OnWorkspaceDrop">
         <!-- One host for every open sheet: each sheet is built once, then shown alone or side by side.
              Switching sheets or turning bento on/off only changes visibility and columns. -->
         <ItemsControl ItemsSource="{Binding OpenEditors}" Focusable="False" Background="Transparent" AutomationProperties.Name="Fichas lado a lado">
@@ -81,7 +91,7 @@
                             TextElement.Foreground="{DynamicResource VcsCardText}" PreviewMouseDown="OnSheetPaneMouseDown"
                             AutomationProperties.Name="{Binding TabTitle, StringFormat='Painel {0}'}">
                         <DockPanel>
-                            <DockPanel x:Name="PaneHeader" DockPanel.Dock="Top" Margin="0,0,0,6" Visibility="Collapsed">
+                            <DockPanel x:Name="PaneHeader" DockPanel.Dock="Top" Margin="0,0,0,6" Visibility="Collapsed" PreviewMouseLeftButtonDown="OnTabMouseDown" PreviewMouseMove="OnTabMouseMove">
                                 <Button DockPanel.Dock="Right" Content="×" Width="22" Height="22" Padding="0" Background="Transparent"
                                         BorderThickness="0" Foreground="{DynamicResource VcsInputDescription}" ToolTip="Fechar ficha"
                                         Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"

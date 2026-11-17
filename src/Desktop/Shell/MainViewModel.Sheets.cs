@@ -20,6 +20,9 @@ public partial class MainViewModel
         RefreshHud();
     }
 
+    [RelayCommand]
+    private void ToggleSplitWindows() => SplitWindows = !SplitWindows;
+
     private void NotifyLayout()
     {
         OnPropertyChanged(nameof(IsSideBySide));
