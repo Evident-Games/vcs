@@ -8,14 +8,14 @@ using Microsoft.Win32;
 namespace VCS.Desktop.Shell;
 
 /// <summary>Native floating HUD. Only its visible surfaces take pointer input.</summary>
-public partial class CharacterSidebar : UserControl
+public partial class Sidebar : UserControl
 {
     public static readonly DependencyProperty IsCollapsedProperty = DependencyProperty.Register(nameof(IsCollapsed),
-        typeof(bool), typeof(CharacterSidebar), new PropertyMetadata(false, OnCollapsedChanged));
+        typeof(bool), typeof(Sidebar), new PropertyMetadata(false, OnCollapsedChanged));
 
     public bool IsCollapsed { get => (bool)GetValue(IsCollapsedProperty); set => SetValue(IsCollapsedProperty, value); }
 
-    public CharacterSidebar()
+    public Sidebar()
     {
         InitializeComponent();
         SetBinding(IsCollapsedProperty, new Binding("Display.HudCollapsed") { Mode = BindingMode.TwoWay });
@@ -24,7 +24,7 @@ public partial class CharacterSidebar : UserControl
 
     private static void OnCollapsedChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
     {
-        var sidebar = (CharacterSidebar)element;
+        var sidebar = (Sidebar)element;
         if (sidebar.IsLoaded) sidebar.UpdateDrawer();
     }
 

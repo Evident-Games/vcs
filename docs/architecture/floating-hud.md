@@ -10,7 +10,7 @@ O nome e o avatar do jogador são preferências locais, configuráveis em Perfil
 
 Crônicas são agrupadas pelos nomes já presentes nas fichas e nos eventos salvos. Criar uma crônica grava um registro inicial no armazenamento existente de eventos, sem introduzir migração ou alterar fichas. Abrir um card mostra as ferramentas do Narrador filtradas pela crônica e recolhe o HUD. O filtro não substitui o rascunho atual nem muda o identificador do evento editado; “Todas as crônicas” remove o filtro. Novos eventos herdam o filtro como crônica inicial.
 
-`HudCollapsed`, `HudPlayerName` e `HudAvatarPath` são campos opcionais das preferências existentes. Preferências anteriores continuam carregando normalmente. `CharacterSidebar.xaml.cs` concentra apenas apresentação, animação e seletor de arquivo; navegação e listas ficam no ViewModel.
+`HudCollapsed`, `HudPlayerName` e `HudAvatarPath` são campos opcionais das preferências existentes. Preferências anteriores continuam carregando normalmente. `Sidebar.xaml.cs` concentra apenas apresentação, animação e seletor de arquivo; navegação e listas ficam no ViewModel.
 
 ## Temas
 
