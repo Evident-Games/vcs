@@ -41,7 +41,13 @@ public sealed class RuleModuleRegistry
         foreach (var module in entries)
             ValidateManifest(module);
 
-        _modules = entries.ToDictionary(module => module.ModuleId, StringComparer.OrdinalIgnoreCase);
+        // Copy caller-owned collections so compatibility cannot change after validation.
+        _modules = entries.Select(module => module with
+        {
+            CompatibleEditionIds = Array.AsReadOnly(module.CompatibleEditionIds.ToArray()),
+            RequiredModuleIds = Array.AsReadOnly(module.RequiredModuleIds.ToArray()),
+            ConflictingModuleIds = Array.AsReadOnly(module.ConflictingModuleIds.ToArray())
+        }).ToDictionary(module => module.ModuleId, StringComparer.OrdinalIgnoreCase);
     }
 
     public RuleModuleSelection Resolve(string editionId, IEnumerable<string>? enabledModuleIds = null)

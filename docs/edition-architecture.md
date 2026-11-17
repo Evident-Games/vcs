@@ -104,3 +104,5 @@ Nenhum conteúdo V3/V20 deve herdar V5 implicitamente. “Compatível” precisa
 ## Compatibilidade declarada
 
 O registro de módulos exige que uma extensão declare explicitamente a edição selecionada em `CompatibleEditionIds`, inclusive quando ela é sua edição de origem. Esta validação ainda não está integrada à seleção no aplicativo; não habilita conteúdo de outras edições por si só.
+
+O registro copia as listas de compatibilidade, dependências e conflitos ao receber os manifestos, para que alterações posteriores nas coleções fornecidas não modifiquem silenciosamente a seleção validada. O registro continua sem integração à interface.
