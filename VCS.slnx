@@ -4,6 +4,7 @@
     <Project Path="src/Desktop/VCS.Desktop.csproj" />
     <Project Path="src/Shared/Content/VCS.Content.csproj" />
     <Project Path="src/Shared/Infrastructure/VCS.Infrastructure.csproj" />
+    <Project Path="src/Editions/V5/Content/VCS.Content.V5.csproj" />
     <Project Path="src/Editions/V5/Rules/VCS.Rules.V5.csproj" />
     <Project Path="src/Editions/V5/Application/VCS.Application.V5.csproj" />
     <Project Path="src/Shared/Rules/VCS.Rules.csproj" />

@@ -1,5 +1,5 @@
 using System.Text.Json;
-using VCS.Content;
+using VCS.Content.V5;
 
 namespace VCS.Tests;
 
@@ -17,7 +17,7 @@ public sealed class EmbeddedCatalogTests
     [InlineData("skills.json")]
     public void V5_catalog_is_embedded_under_its_existing_name(string file)
     {
-        var assembly = typeof(BuiltInContent).Assembly;
+        var assembly = typeof(V5ContentResources).Assembly;
         var name = "VCS.Content.Data." + file;
         Assert.Contains(name, assembly.GetManifestResourceNames());
         using var stream = assembly.GetManifestResourceStream(name);
