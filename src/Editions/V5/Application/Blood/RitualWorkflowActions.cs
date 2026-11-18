@@ -161,6 +161,27 @@ public sealed class RitualWorkflowActions
             "Voo ou flutuação à velocidade de corrida por uma cena. Ao carregar massa de uma pessoa, use velocidade de caminhada; alvo involuntário exige disputa própria.", "Cena"), null);
     }
 
+    /// <summary>Resolve the caster's side when attempting to carry an unwilling passenger.</summary>
+    public RitualWorkflowResolution ResolveAirPassengerContest(RitualUseDefinition ritual, RitualWorkflowState state,
+        string passenger, int casterPool, int casterHunger, int opponentSuccesses, bool confirmed, Random? random = null,
+        bool beastSubdued = false)
+    {
+        if (ritual.Kind != "air" || state is not { Stage: "effect", Resolved: true } ||
+            string.IsNullOrWhiteSpace(passenger) || !confirmed)
+            throw new InvalidOperationException("Selecione um consumo ativo de Essência do Ar e confirme o passageiro involuntário e a oposição com o Narrador.");
+        if (casterPool is < 0 or > 50 || casterHunger is < 0 or > 5 || opponentSuccesses is < 0 or > 100)
+            throw new ArgumentOutOfRangeException(nameof(casterPool));
+        var rollAudit = ApplyBeastToRoll(DicePoolRules.Roll(casterPool, casterHunger,
+            ContestRules.ActingDifficulty(opponentSuccesses), random), beastSubdued);
+        var won = ContestRules.ActingCharacterWins(rollAudit.Roll.Successes, opponentSuccesses);
+        var proposal = new RitualEffectProposal(won, won
+            ? $"O conjurador venceu a disputa para carregar {passenger.Trim()}; movimento e posição continuam sob controle da mesa."
+            : $"O conjurador não conseguiu carregar {passenger.Trim()}; nenhuma ficha foi movida ou alterada.", "Esta tentativa");
+        return new(state, proposal, rollAudit.Roll,
+            BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
+            MessyCriticalConverted: rollAudit.MessyCriticalConverted);
+    }
+
     public RitualNightEnding EndNighthawk(RitualUseDefinition ritual, RitualWorkflowState state,
         DateOnly ritualNight, bool eyesRemoved, bool tableConfirmed)
     {

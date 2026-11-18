@@ -106,6 +106,7 @@ public partial class CharacterEditorViewModel
     partial void OnSelectedPowerEffectChanged(PowerEffectEntry? value)
     {
         RitualFollowUpBeastSubdued = false;
+        RitualAirPassengerBeastSubdued = false;
         RitualEndingExceptionApproved = false;
         RitualEndingExceptionReason = "";
         CoreRitualConditionsConfirmed = false;

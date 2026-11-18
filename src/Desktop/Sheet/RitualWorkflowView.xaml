@@ -26,7 +26,7 @@
             <TextBox Text="{Binding PowerGameDate, StringFormat=dd/MM/yyyy, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"/>
             <Button Content="Pedra de Sangue: registrar uma hora nesta noite confirmada" Command="{Binding RecordBloodstonePreparationNightCommand}" HorizontalAlignment="Left"/>
             <WrapPanel>
-                <StackPanel Margin="0,8,16,8"><TextBlock Text="Sucessos da oposição (Verdade / Dagon)"/><controls:NumericField Value="{Binding CoreRitualOpponentSuccesses}" Minimum="0" Maximum="100"/></StackPanel>
+                <StackPanel Margin="0,8,16,8"><TextBlock Text="Sucessos da oposição (Verdade / Dagon / passageiro)"/><controls:NumericField Value="{Binding CoreRitualOpponentSuccesses}" Minimum="0" Maximum="100"/></StackPanel>
                 <StackPanel Margin="0,8,16,8"><TextBlock Text="Raio da área (metros)"/><controls:NumericField Value="{Binding CoreRitualAreaRadius}" Minimum="0" Maximum="100"/></StackPanel>
                 <StackPanel Margin="0,8,0,8"><TextBlock Text="Pedras de Sangue já ativas"/><controls:NumericField Value="{Binding CoreRitualActiveBloodstones}" Minimum="0" Maximum="100"/></StackPanel>
             </WrapPanel>
@@ -36,6 +36,13 @@
             <Button Content="Resolver próxima etapa / afirmação" Command="{Binding ResolveRitualWorkflowCommand}" HorizontalAlignment="Left"/>
             <Button Content="Coração de Pedra: aplicar cura crítica da vela confirmada" Command="{Binding ApplyRitualCandleHealingCommand}" HorizontalAlignment="Left"/>
             <Button Content="Essência do Ar: consumir uma dose confirmada" Command="{Binding ConsumeRitualAirDoseCommand}" HorizontalAlignment="Left"/>
+            <Expander Header="Essência do Ar: passageiro involuntário" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Selecione o registro de consumo ativo. Identifique o passageiro no campo 'Alvo / objeto / local' acima. Informe Força + Feitiçaria de Sangue do conjurador, a Fome dele e, acima, os sucessos de Força + Atletismo do passageiro. Confirme a situação com o Narrador. O resultado é apenas uma proposta; nenhuma ficha é movida. Fonte: Livro base, p. 279." TextWrapping="Wrap"/>
+                <TextBlock Text="Força + Feitiçaria de Sangue do conjurador"/><controls:NumericField Value="{Binding RitualAirPassengerPool}" Minimum="0" Maximum="50"/>
+                <TextBlock Text="Fome do conjurador"/><controls:NumericField Value="{Binding RitualAirPassengerHunger}" Minimum="0" Maximum="5"/>
+                <CheckBox Content="A mesa confirmou que a Besta do conjurador está subjugada" IsChecked="{Binding RitualAirPassengerBeastSubdued}"/>
+                <Button Content="Resolver disputa confirmada do passageiro" Command="{Binding ResolveRitualAirPassengerContestCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <Button Content="Iluminar Rastro: rolar Inteligência + Sobrevivência" Command="{Binding RollRitualTrackingCommand}" HorizontalAlignment="Left"/>
             <Expander Header="Olhos do Falcão Noturno: encerramento" Margin="0,8"><StackPanel Margin="8">
                 <TextBlock Text="Selecione o voo ativo, informe acima a noite da crônica que terminou e confirme as circunstâncias com o Narrador. Escolha explicitamente o que ocorreu com os olhos da ave. Fonte: Livro base, p. 280." TextWrapping="Wrap"/>

@@ -29,9 +29,15 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private int ritualFollowUpPool = 5;
     [ObservableProperty] private int ritualFollowUpHunger;
     [ObservableProperty] private bool ritualFollowUpBeastSubdued;
+    [ObservableProperty] private int ritualAirPassengerPool = 5;
+    [ObservableProperty] private int ritualAirPassengerHunger;
+    [ObservableProperty] private bool ritualAirPassengerBeastSubdued;
     partial void OnRitualFollowUpBeastSubduedChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualFollowUpPoolChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualFollowUpHungerChanged(int value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualAirPassengerBeastSubduedChanged(bool value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualAirPassengerPoolChanged(int value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualAirPassengerHungerChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnPowerGameDateChanged(DateTime value) => CoreRitualConditionsConfirmed = false;
 
     private bool HasRitualEffect(string id) => PowerEffects.Any(x => x.Active && x.IsSelf &&
@@ -263,6 +269,24 @@ public partial class CharacterEditorViewModel
                 DateTime.UtcNow, result.Proposal.Effect, result.Proposal.Duration, entry.Source, entry.Ruling, true,
                 RitualWorkflow: new(Stage: "effect", Resolved: true));
             PowerEffects.Add(effect);
+            DisplayRitualResolution(entry, result);
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
+    private void ResolveRitualAirPassengerContest()
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-essence-of-air", RitualWorkflow: { } state } entry ||
+            RitualUseCatalog.Find(entry.PowerId) is not { } ritual)
+        { RitualPreparationSummary = "Selecione um consumo ativo de Essência do Ar."; return; }
+        try
+        {
+            var result = new RitualWorkflowActions().ResolveAirPassengerContest(ritual, state,
+                CoreRitualTarget, RitualAirPassengerPool, RitualAirPassengerHunger, CoreRitualOpponentSuccesses,
+                CoreRitualConditionsConfirmed, beastSubdued: RitualAirPassengerBeastSubdued);
+            ReplacePowerEffect(entry, entry with { Effect = result.Proposal.Effect + RitualBeastAudit(result) });
             DisplayRitualResolution(entry, result);
         }
         catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)

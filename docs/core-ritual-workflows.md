@@ -21,7 +21,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | O Chamado de Dagon | Custo por execução, oposição, margem/tipo de dano, empate vencido pelo conjurador ativo e até duas repetições pagas no mesmo preparo | Exposição ao Sangue e intervalo, oposição informada e aplicação na vítima |
 | Círculo de Proteção contra Espíritos | Fluxo dos círculos com nível próprio | Mesmas confirmações dos círculos; ocultistas humanos não têm fluxo próprio |
 | Deflecção da Ruína de Madeira | Preparo/custo separados do teste no primeiro estaqueamento confirmado; resultado e crítico | Estaca genuína, destruição e cegueira de dois turnos no atacante |
-| Essência do Ar | Preparo, teste, uma/duas doses, consumo posterior sem novo custo, efeito por cena | Expiração à noite, deslocamento, carga e disputa por passageiro involuntário |
+| Essência do Ar | Preparo, teste, uma/duas doses, consumo posterior sem novo custo, efeito por cena e disputa confirmada para carregar passageiro involuntário | Expiração à noite, deslocamento, carga real, posição e tentativa de terceiro para puxar o conjurador ao solo |
 | Proteção contra Lupinos | Fluxo dedicado preservado | Elegibilidade e aplicação no intruso |
 | Círculo de Proteção contra Lupinos | Fluxo dos círculos com nível próprio | Elegibilidade e consequências fora da ficha |
 | Defesa do Refúgio Sagrado | Custo, raio máximo, teste ao nascer do sol confirmado e bloqueio de dano solar em área confirmada | Permanência do conjurador, limites do local, tempo e beneficiários |
@@ -152,3 +152,9 @@ Nenhum ritual foi reclassificado e as contagens herdadas não foram reavaliadas 
 Nos rituais Verdade do Sangue e O Chamado de Dagon, o conjurador é o personagem ativo nas disputas descritas nas páginas impressas 277–278 (páginas 279–280 do PDF). Portanto, um empate produz vitória com margem zero. Verdade do Sangue ainda depende do conhecimento e da resposta do alvo; Dagon propõe zero de dano nessa situação, sem alterar automaticamente a ficha da vítima. Círculos reutilizam a mesma regra para o intruso ativo.
 
 Nenhum ritual foi reclassificado e as contagens de cobertura permanecem inalteradas.
+
+## Essência do Ar: passageiro involuntário
+
+O livro base, página impressa 279 (página 281 do PDF fornecido), exige uma disputa de Força + Feitiçaria de Sangue contra Força + Atletismo quando o conjurador tenta carregar um alvo involuntário. `RitualWorkflowActions.ResolveAirPassengerContest` exige a identificação do passageiro e valida o consumo ativo, a confirmação da mesa, a parada, a Fome e os sucessos opostos; aplica a regra V5 de disputas e considera Besta Subjugada quando explicitamente informada para o conjurador.
+
+A interface envia o resultado à mesa de dados existente, registra a proposta no efeito e no diário e não move nem altera a ficha do passageiro. A carga real, o deslocamento e a posição continuam com o Narrador. O caso inverso — outra pessoa puxando o conjurador para o chão — permanece manual porque o executor e sua condição pertencem a outro contexto. A cobertura continua em 26 rituais com fluxo; nenhum procedimento foi reclassificado como aplicação direta.
