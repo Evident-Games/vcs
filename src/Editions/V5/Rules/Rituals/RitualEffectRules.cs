@@ -5,7 +5,7 @@ using Game.Rules.Rituals;
 namespace Game.Rules.V5.Rituals;
 
 /// <summary>Core ritual effects. World facts and changes to targets remain explicit table decisions.</summary>
-[RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 275–282")]
+[RuleSource("Vampiro: A Máscara V5 (Livro base), p. 121 e pp. 275–282")]
 public static class RitualEffectRules
 {
     public static RitualEffectProposal Resolve(RitualUseDefinition ritual, RitualRollContext roll,
@@ -43,10 +43,12 @@ public static class RitualEffectRules
     public static RitualEffectProposal CircleContact(int casterSuccesses, bool critical, int intruderSuccesses)
     {
         if (casterSuccesses < 0 || intruderSuccesses < 0) throw new ArgumentOutOfRangeException(nameof(casterSuccesses));
-        if (casterSuccesses == intruderSuccesses)
-            return new(false, "Empate na disputa do círculo: o Narrador decide o impasse; nenhum dano foi aplicado.", "Decisão pendente");
-        if (intruderSuccesses > casterSuccesses)
-            return new(false, "O intruso venceu a disputa e pode atravessar conforme o sentido do círculo.", "Contato resolvido");
+        // In a V5 contest, the acting character wins by equalling or exceeding the opponent (p. 121).
+        // The intruder is the acting character when attempting to cross the circle (pp. 275–276).
+        if (intruderSuccesses >= casterSuccesses)
+            return new(false, intruderSuccesses == casterSuccesses
+                ? "O intruso igualou os sucessos do círculo e venceu a disputa como personagem ativo; pode atravessar conforme o sentido do círculo."
+                : "O intruso venceu a disputa e pode atravessar conforme o sentido do círculo.", "Contato resolvido");
         return new(true, $"Entrada impedida; dano proposto 3 {(critical ? "agravados" : "superficiais")}. Para tentar novamente após ser afetado, o intruso gasta 1 Vontade e repete sua metade da disputa.", "Contato resolvido", 3, critical);
     }
 }

@@ -11,7 +11,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Criar Pedra de Sangue | Custo, três noites registradas com confirmação de uma hora, teste final e limite por Determinação; em sucesso, informa duração de uma semana e propõe que o conjurador perceba direção e distância da pedra | Quantidade de pedras ativas, posição real e destruição; a mesa fornece as datas da crônica e confirma se a pedra continua vinculada |
 | Despertar com o Frescor do Anoitecer | Preparo, custo, teste adiado ao perigo, encerramento do sono | Perigo real e limites da vigília; fluxo dedicado |
 | Proteção contra Carniçais | Preparo, custo, contato elegível e resistência posterior | Contato voluntário, identificação do tipo, dano ao intruso |
-| Círculo de Proteção contra Carniçais | Três custos, versão até amanhecer/ano e dia, dificuldade, disputas e histórico por intruso | Círculo intacto, elegibilidade, passagem, custo de Vontade e dano em outra ficha |
+| Círculo de Proteção contra Carniçais | Três custos, versão até amanhecer/ano e dia, dificuldade, disputas e histórico por intruso; empate permite a passagem porque o intruso é o personagem ativo | Círculo intacto, elegibilidade, sentido da passagem, custo de Vontade e dano em outra ficha |
 | Comunicação com o Senhor do Membro | Custo, teste, atraso e duração; crítico elimina atraso | Contato e conteúdo da comunicação; sem relógio automático |
 | Iluminar o Rastro da Presa | Custo, teste, dificuldade por margem, duração e rastreio posterior na aplicação; considera Besta Subjugada | Trajeto real, validade temporal e interpretação do Narrador |
 | Olhos de Babel | Custo, teste, semana/mês conforme crítico | Idiomas efetivamente conhecidos pela vítima |
@@ -136,3 +136,11 @@ No fluxo de proteção de objeto, alterar a parada, a Fome ou a indicação de q
 O retorno estruturado de `WardActions.ResolveFirstContact` agora informa se a Besta do conjurador estava subjugada na rolagem e se um crítico bestial foi efetivamente convertido. A ficha grava no efeito e no diário o resultado final, a condição, sua fonte e a conversão quando ela ocorreu. O livro base foi reconferido na página impressa 246 (página 248 do PDF): enquanto a Besta estiver subjugada, o vampiro fica imune a críticos bestiais.
 
 A identificação do intruso e o contato voluntário continuam confirmados pela mesa; dano permanece apenas uma proposta e nenhuma ficha externa é modificada. A alteração melhora a auditoria de um procedimento existente e não muda as contagens de cobertura.
+
+## Empate na disputa dos Círculos de Proteção
+
+O livro base estabelece que, em uma disputa, o personagem que está agindo vence quando iguala ou supera os sucessos do oponente (página impressa 121, página 125 do PDF fornecido). Ao tentar cruzar um Círculo de Proteção, o intruso é quem realiza essa ação contra o resultado do conjurador (páginas impressas 275–276, páginas 277–278 do PDF).
+
+O resolvedor V5 agora considera o empate uma vitória do intruso e o fluxo registra que ele entrou. Antes, o empate era devolvido como decisão pendente e não atualizava o histórico de passagem. A correção permanece nos módulos de regra e aplicação da V5; a interface apenas apresenta a resolução. O sentido do círculo, a elegibilidade do intruso e qualquer dano proposto continuam dependendo da mesa, sem alteração automática de outra ficha.
+
+Nenhum ritual foi reclassificado e as contagens herdadas não foram reavaliadas neste ciclo.

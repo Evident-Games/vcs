@@ -124,7 +124,8 @@ public sealed class RitualWorkflowActions
         var opposition = DicePoolRules.Roll(intruderWillpowerPool, 0, 0, random);
         var proposal = _ruleset.CircleContact(successes, critical, opposition.Successes);
         var affected = proposal.HealthDamage > 0 || previous?.Affected == true;
-        var entered = opposition.Successes > successes || (opposition.Successes == successes && previous?.Entered == true);
+        // The ruleset owns the contest outcome, including the acting intruder winning a tie.
+        var entered = !proposal.Succeeded || previous?.Entered == true;
         var intruders = (state.Intruders ?? []).Where(x => !string.Equals(x.Key, intruder.Trim(), StringComparison.OrdinalIgnoreCase))
             .Append(new RitualCircleIntruder(intruder.Trim(), successes, critical, affected, entered)).ToArray();
         return new(state with { LastIntruder = intruder.Trim(), LastCasterSuccesses = successes,
