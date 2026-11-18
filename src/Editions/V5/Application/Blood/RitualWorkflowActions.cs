@@ -68,7 +68,8 @@ public sealed class RitualWorkflowActions
                 new(true, "Círculo preparado até o amanhecer. A disputa só ocorre quando um intruso tenta atravessar.", "Até o amanhecer"), null);
         var difficulty = ritual.Kind == "firewalker" ? 3 : ritual.Level + 1;
         if (ritual.Kind == "circle") difficulty += 2;
-        if (ritual.Kind is "truth" or "dagon") difficulty = context.OpponentSuccesses + 1;
+        if (ritual.Kind is "truth" or "dagon")
+            difficulty = ContestRules.ActingDifficulty(context.OpponentSuccesses);
         var rollAudit = ApplyBeastToRoll(DicePoolRules.Roll(context.Pool, context.Hunger, difficulty, random),
             context.BeastSubdued);
         var roll = rollAudit.Roll;

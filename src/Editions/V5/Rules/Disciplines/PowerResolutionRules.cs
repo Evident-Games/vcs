@@ -1,10 +1,11 @@
 using Game.Content;
 using Game.Content.Disciplines;
 using Game.Rules.Disciplines;
+using Game.Rules.V5.Dice;
 
 namespace Game.Rules.V5.Disciplines;
 
-[RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 244–274")]
+[RuleSource("Vampiro: A Máscara V5 (Livro base), p. 121 e pp. 244–274")]
 public sealed class V5PowerRuleset : IPowerRuleset
 {
     public string EditionId => "V5";
@@ -17,7 +18,9 @@ public sealed class V5PowerRuleset : IPowerRuleset
             throw new ArgumentOutOfRangeException(nameof(context));
         var opposed = use.Mode == "opposed";
         var margin = context.Rolled ? context.Successes - (opposed ? context.OpponentSuccesses : context.Difficulty) : 0;
-        var won = !context.Rolled || (opposed ? margin > 0 : margin >= 0);
+        var won = !context.Rolled || (opposed
+            ? ContestRules.ActingCharacterWins(context.Successes, context.OpponentSuccesses)
+            : margin >= 0);
         var critical = context.Rolled && won && context.Critical;
         var rating = context.Rating;
         var vampire = context.VampireTarget;

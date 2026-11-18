@@ -35,7 +35,9 @@ public sealed class PowerUseActions
         var costs = new PowerActivationActions().Activate(request.Hunger, request.BloodPotency, request.PowerLevel,
             request.RouseChecks, request.WillpowerCost, request.WillpowerSuperficial,
             request.WillpowerAggravated, request.WillpowerCapacity, random);
-        var rollDifficulty = request.Definition.Mode == "opposed" ? request.OpponentSuccesses + 1 : request.Difficulty;
+        var rollDifficulty = request.Definition.Mode == "opposed"
+            ? ContestRules.ActingDifficulty(request.OpponentSuccesses)
+            : request.Difficulty;
         var originalRoll = request.RollRequired ? DicePoolRules.Roll(request.Pool, costs.Hunger, rollDifficulty, random) : null;
         var messyCriticalSuppressed = request.BeastSubdued && originalRoll?.Outcome == TestOutcome.MessyCritical;
         var roll = originalRoll is null ? null : QuellBeastRules.ApplyToRoll(originalRoll, request.BeastSubdued);

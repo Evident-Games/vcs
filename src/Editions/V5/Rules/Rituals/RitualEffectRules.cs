@@ -1,6 +1,7 @@
 using Game.Content;
 using Game.Content.Disciplines;
 using Game.Rules.Rituals;
+using Game.Rules.V5.Dice;
 
 namespace Game.Rules.V5.Rituals;
 
@@ -13,10 +14,10 @@ public static class RitualEffectRules
     {
         var opposed = ritual.Kind is "truth" or "dagon";
         var margin = opposed ? roll.Successes - opponentSuccesses : roll.Successes - roll.Difficulty;
-        var success = opposed ? margin > 0 : margin >= 0;
-        if (!success) return new(false, opposed && margin == 0
-            ? "Empate: o ritual não obteve margem; confira a disputa com o Narrador."
-            : "O teste falhou; nenhum benefício do ritual foi concedido.", "Encerrado");
+        var success = opposed
+            ? ContestRules.ActingCharacterWins(roll.Successes, opponentSuccesses)
+            : margin >= 0;
+        if (!success) return new(false, "O teste falhou; nenhum benefício do ritual foi concedido.", "Encerrado");
         var critical = roll.Critical;
         return ritual.Kind switch
         {
@@ -45,7 +46,7 @@ public static class RitualEffectRules
         if (casterSuccesses < 0 || intruderSuccesses < 0) throw new ArgumentOutOfRangeException(nameof(casterSuccesses));
         // In a V5 contest, the acting character wins by equalling or exceeding the opponent (p. 121).
         // The intruder is the acting character when attempting to cross the circle (pp. 275–276).
-        if (intruderSuccesses >= casterSuccesses)
+        if (ContestRules.ActingCharacterWins(intruderSuccesses, casterSuccesses))
             return new(false, intruderSuccesses == casterSuccesses
                 ? "O intruso igualou os sucessos do círculo e venceu a disputa como personagem ativo; pode atravessar conforme o sentido do círculo."
                 : "O intruso venceu a disputa e pode atravessar conforme o sentido do círculo.", "Contato resolvido");

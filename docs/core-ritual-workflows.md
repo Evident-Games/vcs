@@ -16,9 +16,9 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Iluminar o Rastro da Presa | Custo, teste, dificuldade por margem, duração e rastreio posterior na aplicação; considera Besta Subjugada | Trajeto real, validade temporal e interpretação do Narrador |
 | Olhos de Babel | Custo, teste, semana/mês conforme crítico | Idiomas efetivamente conhecidos pela vítima |
 | Proteção contra Espíritos | Mesmo fluxo dedicado de objeto, com nível próprio | Identidade, contato e dano no espírito |
-| Verdade do Sangue | Determinação + Feitiçaria, sucessos opostos, afirmações sucessivas sem novo custo; falha/cena encerra | Conhecimento do alvo, memórias e resposta do Narrador |
+| Verdade do Sangue | Determinação + Feitiçaria, sucessos opostos, afirmações sucessivas sem novo custo; o conjurador vence empates como personagem ativo | Conhecimento do alvo, memórias e resposta do Narrador |
 | Andarilho do Fogo | Custo, Vigor + Determinação dificuldade 3, efeito até noite, redução de fogo no dano confirmado desta ficha | Dedo sacrificado, validade temporal e proteção de terceiros; não impõe limite inventado de três beneficiários |
-| O Chamado de Dagon | Custo por execução, oposição, margem/tipo de dano, até duas repetições pagas no mesmo preparo | Exposição ao Sangue e intervalo, oposição informada e aplicação na vítima |
+| O Chamado de Dagon | Custo por execução, oposição, margem/tipo de dano, empate vencido pelo conjurador ativo e até duas repetições pagas no mesmo preparo | Exposição ao Sangue e intervalo, oposição informada e aplicação na vítima |
 | Círculo de Proteção contra Espíritos | Fluxo dos círculos com nível próprio | Mesmas confirmações dos círculos; ocultistas humanos não têm fluxo próprio |
 | Deflecção da Ruína de Madeira | Preparo/custo separados do teste no primeiro estaqueamento confirmado; resultado e crítico | Estaca genuína, destruição e cegueira de dois turnos no atacante |
 | Essência do Ar | Preparo, teste, uma/duas doses, consumo posterior sem novo custo, efeito por cena | Expiração à noite, deslocamento, carga e disputa por passageiro involuntário |
@@ -144,3 +144,11 @@ O livro base estabelece que, em uma disputa, o personagem que está agindo vence
 O resolvedor V5 agora considera o empate uma vitória do intruso e o fluxo registra que ele entrou. Antes, o empate era devolvido como decisão pendente e não atualizava o histórico de passagem. A correção permanece nos módulos de regra e aplicação da V5; a interface apenas apresenta a resolução. O sentido do círculo, a elegibilidade do intruso e qualquer dano proposto continuam dependendo da mesa, sem alteração automática de outra ficha.
 
 Nenhum ritual foi reclassificado e as contagens herdadas não foram reavaliadas neste ciclo.
+
+## Regra única de disputas V5
+
+`ContestRules` concentra a regra geral da página impressa 121 (página 125 do PDF fornecido): o personagem que está agindo vence a disputa quando iguala ou supera os sucessos do oponente. O teste enviado à mesa e o resolvedor agora usam a mesma dificuldade, sem exigir artificialmente um sucesso adicional.
+
+Nos rituais Verdade do Sangue e O Chamado de Dagon, o conjurador é o personagem ativo nas disputas descritas nas páginas impressas 277–278 (páginas 279–280 do PDF). Portanto, um empate produz vitória com margem zero. Verdade do Sangue ainda depende do conhecimento e da resposta do alvo; Dagon propõe zero de dano nessa situação, sem alterar automaticamente a ficha da vítima. Círculos reutilizam a mesma regra para o intruso ativo.
+
+Nenhum ritual foi reclassificado e as contagens de cobertura permanecem inalteradas.
