@@ -265,7 +265,7 @@ internal sealed partial class LegacyContentIds
     /// <summary>
     /// Upgrades every saved sheet in place. Uses SQL instead of the entities so revisions and update times stay as they were.
     /// </summary>
-    public static async Task UpgradeAsync(VcsDbContext db, CancellationToken cancellationToken)
+    public static async Task UpgradeAsync(CharacterDbContext db, CancellationToken cancellationToken)
     {
         await db.Database.OpenConnectionAsync(cancellationToken);
         await using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
@@ -295,7 +295,7 @@ internal sealed partial class LegacyContentIds
         foreach (var (id, predator, advancement, clan, clanKey) in characters)
         {
             var own = traits.Where(x => x.CharacterId == id).ToArray();
-            // Same (default) serializer options as the column conversions in VcsDbContext.
+            // Same (default) serializer options as the column conversions in CharacterDbContext.
             var details = new CharacterDetails
             {
                 Clan = clan, ClanKey = clanKey,
@@ -321,7 +321,7 @@ internal sealed partial class LegacyContentIds
     /// discipline whose id is <see cref="DisciplineCatalog.CustomKey"/>, the key sheets already use for it.
     /// The old "Rituais" pseudo-discipline becomes Blood Sorcery rituals. Ids already converted are kept.
     /// </summary>
-    public static async Task UpgradeDisciplineReferencesAsync(VcsDbContext db, CancellationToken cancellationToken)
+    public static async Task UpgradeDisciplineReferencesAsync(CharacterDbContext db, CancellationToken cancellationToken)
     {
         var known = DisciplineCatalog.Merge(await db.DisciplineCatalog.AsNoTracking()
             .Select(x => new DisciplineDefinition(x.Id, x.Name)).ToListAsync(cancellationToken)).ToList();

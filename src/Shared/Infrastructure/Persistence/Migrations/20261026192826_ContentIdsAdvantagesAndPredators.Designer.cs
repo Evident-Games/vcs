@@ -11,7 +11,7 @@ using VCS.Sheet;
 
 namespace VCS.Infrastructure.Persistence.Migrations
 {
-    [DbContext(typeof(VcsDbContext))]
+    [DbContext(typeof(CharacterDbContext))]
     [Migration("20261026192826_ContentIdsAdvantagesAndPredators")]
     partial class ContentIdsAdvantagesAndPredators
     {

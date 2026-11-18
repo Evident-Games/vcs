@@ -63,7 +63,7 @@ public sealed class SqliteCharacterRepository(DatabaseAccess database) : ICharac
         finally { database.Gate.Release(); }
     }
 
-    private static async Task WriteAsync(VcsDbContext db, Character character, long? expectedRevision, CancellationToken cancellationToken)
+    private static async Task WriteAsync(CharacterDbContext db, Character character, long? expectedRevision, CancellationToken cancellationToken)
     {
         if (expectedRevision is null)
         {

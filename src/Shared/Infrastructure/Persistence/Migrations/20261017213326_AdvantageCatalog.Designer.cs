@@ -10,7 +10,7 @@ using VCS.Infrastructure.Persistence;
 
 namespace VCS.Infrastructure.Persistence.Migrations
 {
-    [DbContext(typeof(VcsDbContext))]
+    [DbContext(typeof(CharacterDbContext))]
     [Migration("20261017213326_AdvantageCatalog")]
     partial class AdvantageCatalog
     {

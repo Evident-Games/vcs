@@ -12,7 +12,7 @@ using VCS.Rules.V5.Validation;
 
 namespace VCS.Infrastructure.Persistence.Migrations
 {
-    [DbContext(typeof(VcsDbContext))]
+    [DbContext(typeof(CharacterDbContext))]
     [Migration("20261025130648_EditableClansAndPowers")]
     partial class EditableClansAndPowers
     {

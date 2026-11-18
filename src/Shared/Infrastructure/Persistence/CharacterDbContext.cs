@@ -6,7 +6,7 @@ using VCS.Sheet;
 
 namespace VCS.Infrastructure.Persistence;
 
-public sealed class VcsDbContext(DbContextOptions<VcsDbContext> options) : DbContext(options)
+public sealed class CharacterDbContext(DbContextOptions<CharacterDbContext> options) : DbContext(options)
 {
     public DbSet<Character> Characters => Set<Character>();
     public DbSet<AdvantageDefinition> AdvantageCatalog => Set<AdvantageDefinition>();

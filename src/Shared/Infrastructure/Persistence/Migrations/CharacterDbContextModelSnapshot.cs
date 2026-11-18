@@ -10,8 +10,8 @@ using VCS.Sheet;
 
 namespace VCS.Infrastructure.Persistence.Migrations
 {
-    [DbContext(typeof(VcsDbContext))]
-    partial class VcsDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CharacterDbContext))]
+    partial class CharacterDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

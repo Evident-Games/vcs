@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VCS.Infrastructure.Persistence.Migrations;
 
-[DbContext(typeof(VcsDbContext))]
+[DbContext(typeof(CharacterDbContext))]
 [Migration("20261115023000_CharacterPowerEffects")]
 public sealed class CharacterPowerEffects : Migration
 {

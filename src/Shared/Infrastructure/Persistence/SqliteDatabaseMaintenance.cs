@@ -84,7 +84,7 @@ public sealed class SqliteDatabaseMaintenance(DatabaseAccess database) : IDataba
             throw new IOException("Escolha um arquivo diferente do banco em uso.");
     }
 
-    private static async Task MigrateKnownSchemaAsync(VcsDbContext db, bool requireExisting, CancellationToken cancellationToken)
+    private static async Task MigrateKnownSchemaAsync(CharacterDbContext db, bool requireExisting, CancellationToken cancellationToken)
     {
         var applied = (await db.Database.GetAppliedMigrationsAsync(cancellationToken)).ToArray();
         var known = db.Database.GetMigrations().ToHashSet();

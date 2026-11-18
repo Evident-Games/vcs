@@ -6,7 +6,7 @@ using VCS.Infrastructure.Persistence;
 
 namespace VCS.Infrastructure.Persistence.Migrations;
 
-[DbContext(typeof(VcsDbContext))]
+[DbContext(typeof(CharacterDbContext))]
 [Migration("20261114220000_RenameDyscrasiaColumn")]
 public sealed class RenameDyscrasiaColumn : Migration
 {
