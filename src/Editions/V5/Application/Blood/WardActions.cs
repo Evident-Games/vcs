@@ -22,7 +22,7 @@ public sealed class WardActions
 
     /// <summary>Roll a confirmed retry; the caller is responsible for the intruder's Willpower payment.</summary>
     public DicePoolResult RollRetry(int initialDamage, int intruderPool, int intruderHunger, Random? random = null,
-        string? ritualId = null, bool intruderIsCaster = false)
+        string? ritualId = null, bool intruderIsCaster = false, bool intruderBeastSubdued = false)
     {
         if (WardRules.ExcludesCaster(ritualId, intruderIsCaster))
             throw new InvalidOperationException("A Proteção contra Cainitas não afeta o próprio conjurador.");
@@ -32,7 +32,8 @@ public sealed class WardActions
         if (intruderPool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(intruderPool));
         if (intruderHunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(intruderHunger));
         var requirements = WardRules.RetryRequirements(initialDamage == 3);
-        return DicePoolRules.Roll(intruderPool, intruderHunger, requirements.Difficulty, random);
+        return QuellBeastRules.ApplyToRoll(
+            DicePoolRules.Roll(intruderPool, intruderHunger, requirements.Difficulty, random), intruderBeastSubdued);
     }
 }
 

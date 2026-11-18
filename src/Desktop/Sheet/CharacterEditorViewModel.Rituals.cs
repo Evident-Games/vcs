@@ -23,6 +23,8 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private int wardRetryPool = 2;
     [ObservableProperty] private int wardRetryHunger;
     [ObservableProperty] private bool wardRetryCostConfirmed;
+    [ObservableProperty] private bool wardRetryBeastSubdued;
+    partial void OnWardRetryBeastSubduedChanged(bool value) => WardRetryCostConfirmed = false;
     [ObservableProperty] private string ritualPreparationSummary = "Selecione um ritual conhecido e confira suas condições.";
 
     partial void OnSelectedPreparedRitualChanged(PowerRowViewModel? value)
@@ -99,11 +101,13 @@ public partial class CharacterEditorViewModel
         WardContactConfirmed = false;
         WardIntruderIsCaster = false;
         WardRetryCostConfirmed = false;
+        WardRetryBeastSubdued = false;
         WardIntruder = "";
     }
 
     partial void OnWardIntruderChanged(string value)
     {
+        WardRetryBeastSubdued = false;
         WardContactConfirmed = false;
         WardIntruderIsCaster = false;
         WardRetryCostConfirmed = false;
@@ -237,9 +241,10 @@ public partial class CharacterEditorViewModel
         if (WardRetryPool is < 0 or > 50 || WardRetryHunger is < 0 or > 5)
         { RitualPreparationSummary = "Parada deve estar entre 0 e 50; Fome entre 0 e 5."; return; }
         var roll = new WardActions().RollRetry(ward.PoolBonus - 1, WardRetryPool, WardRetryHunger,
-            ritualId: ward.PowerId, intruderIsCaster: WardIntruderIsCaster);
+            ritualId: ward.PowerId, intruderIsCaster: WardIntruderIsCaster, intruderBeastSubdued: WardRetryBeastSubdued);
         RitualPreparationSummary = $"Nova tentativa de {WardIntruder.Trim()} contra {ward.Name} em {ward.Target}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}, {roll.Outcome}. " +
             (roll.IsSuccess ? "O intruso pode tentar tocar novamente." : "O intruso não pode tentar tocar nesta ocasião.") +
+            (WardRetryBeastSubdued ? " Besta subjugada confirmada para o intruso (livro base, p. 246)." : "") +
             " Custo registrado pela mesa; nenhuma outra ficha foi alterada. Fonte: Livro base, p. 275.";
         Notebook.AppendLog("Rituais", RitualPreparationSummary);
         ShowDiceRoll("Resistência à proteção", RitualPreparationSummary,

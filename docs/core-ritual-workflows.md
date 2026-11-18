@@ -94,3 +94,7 @@ A verificação já existente para identificação do alvo e para beneficiários
 ## Fuste: Besta subjugada do executor
 
 Nos testes posteriores de ataque e cirurgia do Fuste, a mesa pode informar explicitamente que a Besta do executor daquela rolagem está subjugada. O serviço V5 aplica `QuellBeastRules` ao resultado existente e a mesma mesa de dados apresenta as faces e o resultado; não presume que o executor seja o dono da ficha nem altera outra ficha. A marcação é limpa ao selecionar outro efeito, e alterá-la exige confirmar novamente as condições. O livro base, página impressa 246 (página 248 do PDF consultado), prevê imunidade a crítico bestial enquanto a Besta estiver subjugada. A identidade, condições da cirurgia e consequências na vítima continuam sob decisão da mesa. Esta integração amplia procedimentos existentes, sem reclassificar a cobertura de poderes ou rituais.
+
+## Proteções de objeto: Besta subjugada do intruso
+
+A resistência de nova tentativa aceita confirmação explícita de que a Besta do intruso está subjugada; `WardActions` aplica a regra existente ao resultado do próprio intruso, mantendo a mesa de dados e o registro de faces. A confirmação é limpa ao trocar o intruso ou efeito, e sua alteração exige reconfirmar o gasto já realizado de Vontade. Nenhuma ficha externa é alterada e o Narrador ainda confirma a identidade, o contato anterior e o custo. Referências consultadas: livro base, p. 246 (p. 248 do PDF), e procedimento existente de proteção p. 275. Não há mudança na classificação de cobertura.

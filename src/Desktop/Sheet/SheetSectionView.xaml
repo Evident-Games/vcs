@@ -77,6 +77,7 @@
                 <Button Content="Resolver contato da proteção selecionada" Command="{Binding ResolveWardContactCommand}" HorizontalAlignment="Left"/>
                 <TextBlock Text="Intruso já afetado: parada Vigor + Determinação e Fome (0 para mortal)" TextWrapping="Wrap"/>
                 <WrapPanel><controls:NumericField Value="{Binding WardRetryPool}" Minimum="0" Maximum="50"/><controls:NumericField Value="{Binding WardRetryHunger}" Minimum="0" Maximum="5"/></WrapPanel>
+                <CheckBox Content="Narrador confirmou Besta subjugada para este intruso (Livro base, p. 246)" IsChecked="{Binding WardRetryBeastSubdued}"/>
                 <CheckBox Content="Narrador confirmou intruso já afetado e gasto de 1 Vontade" IsChecked="{Binding WardRetryCostConfirmed}"/>
                 <Button Content="Rolar resistência à proteção" Command="{Binding RollWardRetryCommand}" HorizontalAlignment="Left"/>
                 <CheckBox Content="Narrador confirmou perigo durante o sono" IsChecked="{Binding AwakeningDangerConfirmed}"/>
