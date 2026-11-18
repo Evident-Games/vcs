@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Mantem assemblies e recursos existentes durante a migracao de nomes. -->
+    <AssemblyName>VCS.Tests</AssemblyName>
+    <RootNamespace>VCS.Tests</RootNamespace>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="System.IO" />
+    <ProjectReference Include="..\..\src\Shared\Sheet\Sheet.csproj" />
+    <ProjectReference Include="..\..\src\Shared\Content\Content.csproj" />
+    <ProjectReference Include="..\..\src\Editions\V5\Rules\Rules.V5.csproj" />
+    <ProjectReference Include="..\..\src\Shared\Application\Application.csproj" />
+    <ProjectReference Include="..\..\src\Editions\V5\Application\Application.V5.csproj" />
+    <ProjectReference Include="..\..\src\Shared\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Desktop\Desktop.csproj" />
+  </ItemGroup>
+
+</Project>

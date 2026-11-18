@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <!-- Mantem assemblies e recursos existentes durante a migracao de nomes. -->
+    <AssemblyName>VCS.Rules</AssemblyName>
+    <RootNamespace>VCS.Rules</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -8,6 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Content\VCS.Content.csproj" />
+    <ProjectReference Include="..\Content\Content.csproj" />
   </ItemGroup>
 </Project>

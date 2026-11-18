@@ -13,5 +13,5 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json
-      - run: dotnet build VCS.slnx -c Release
-      - run: dotnet test VCS.slnx -c Release --no-build
+      - run: dotnet build App.slnx -c Release
+      - run: dotnet test App.slnx -c Release --no-build

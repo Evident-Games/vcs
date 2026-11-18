@@ -15,10 +15,10 @@ Acesse [Releases](https://github.com/Evident-Games/vcs/releases) e baixe a vers�
 Na raiz do repositório:
 
 ```powershell
-dotnet restore VCS.slnx
-dotnet build VCS.slnx
-dotnet run --project .\src\Desktop\VCS.Desktop.csproj
-dotnet publish .\src\Desktop\VCS.Desktop.csproj -c Release -p:PublishProfile=WindowsX64 -o .\artifacts\portable
+dotnet restore App.slnx
+dotnet build App.slnx
+dotnet run --project .\src\Desktop\Desktop.csproj
+dotnet publish .\src\Desktop\Desktop.csproj -c Release -p:PublishProfile=WindowsX64 -o .\artifacts\portable
 ```
 
 ## O que você pode fazer

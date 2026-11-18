@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <!-- Mantem assemblies e recursos existentes durante a migracao de nomes. -->
+    <AssemblyName>VCS.Content.V5</AssemblyName>
+    <RootNamespace>VCS.Content.V5</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

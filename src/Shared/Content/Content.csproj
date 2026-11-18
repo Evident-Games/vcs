@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Mantem assemblies e recursos existentes durante a migracao de nomes. -->
+    <AssemblyName>VCS.Content</AssemblyName>
+    <RootNamespace>VCS.Content</RootNamespace>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sheet\Sheet.csproj" />
+    <ProjectReference Include="..\..\Editions\V5\Content\Content.V5.csproj" />
+  </ItemGroup>
+</Project>

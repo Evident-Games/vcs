@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Mantem assemblies e recursos existentes durante a migracao de nomes. -->
+    <AssemblyName>VCS.Rules.V5</AssemblyName>
+    <RootNamespace>VCS.Rules.V5</RootNamespace>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Rules\Rules.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Sheet\Sheet.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Content\Content.csproj" />
+  </ItemGroup>
+</Project>

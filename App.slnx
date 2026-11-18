@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Shared/Application/Application.csproj" />
+    <Project Path="src/Desktop/Desktop.csproj" />
+    <Project Path="src/Shared/Content/Content.csproj" />
+    <Project Path="src/Shared/Infrastructure/Infrastructure.csproj" />
+    <Project Path="src/Editions/V5/Content/Content.V5.csproj" />
+    <Project Path="src/Editions/V5/Rules/Rules.V5.csproj" />
+    <Project Path="src/Editions/V5/Application/Application.V5.csproj" />
+    <Project Path="src/Shared/Rules/Rules.csproj" />
+    <Project Path="src/Shared/Sheet/Sheet.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Suite/Tests.csproj" />
+  </Folder>
+</Solution>

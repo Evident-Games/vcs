@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <!-- Mantem assemblies e recursos existentes durante a migracao de nomes. -->
+    <AssemblyName>VCS.Desktop</AssemblyName>
+    <RootNamespace>VCS.Desktop</RootNamespace>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
@@ -9,9 +12,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Application\VCS.Application.csproj" />
-    <ProjectReference Include="..\Editions\V5\Application\VCS.Application.V5.csproj" />
-    <ProjectReference Include="..\Shared\Infrastructure\VCS.Infrastructure.csproj" />
+    <ProjectReference Include="..\Shared\Application\Application.csproj" />
+    <ProjectReference Include="..\Editions\V5\Application\Application.V5.csproj" />
+    <ProjectReference Include="..\Shared\Infrastructure\Infrastructure.csproj" />
     <PackageReference Include="SkiaSharp" Version="3.119.4" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="WPF-UI" Version="4.3.0" />
