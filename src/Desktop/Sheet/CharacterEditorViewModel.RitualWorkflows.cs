@@ -32,12 +32,20 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private int ritualAirPassengerPool = 5;
     [ObservableProperty] private int ritualAirPassengerHunger;
     [ObservableProperty] private bool ritualAirPassengerBeastSubdued;
+    [ObservableProperty] private int ritualAirGrounderPool = 5;
+    [ObservableProperty] private int ritualAirGrounderHunger;
+    [ObservableProperty] private int ritualAirCasterSuccesses;
+    [ObservableProperty] private bool ritualAirGrounderBeastSubdued;
     partial void OnRitualFollowUpBeastSubduedChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualFollowUpPoolChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualFollowUpHungerChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualAirPassengerBeastSubduedChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualAirPassengerPoolChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualAirPassengerHungerChanged(int value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualAirGrounderBeastSubduedChanged(bool value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualAirGrounderPoolChanged(int value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualAirGrounderHungerChanged(int value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualAirCasterSuccessesChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnPowerGameDateChanged(DateTime value) => CoreRitualConditionsConfirmed = false;
 
     private bool HasRitualEffect(string id) => PowerEffects.Any(x => x.Active && x.IsSelf &&
@@ -286,6 +294,24 @@ public partial class CharacterEditorViewModel
             var result = new RitualWorkflowActions().ResolveAirPassengerContest(ritual, state,
                 CoreRitualTarget, RitualAirPassengerPool, RitualAirPassengerHunger, CoreRitualOpponentSuccesses,
                 CoreRitualConditionsConfirmed, beastSubdued: RitualAirPassengerBeastSubdued);
+            ReplacePowerEffect(entry, entry with { Effect = result.Proposal.Effect + RitualBeastAudit(result) });
+            DisplayRitualResolution(entry, result);
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
+    private void ResolveRitualAirGroundingContest()
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-essence-of-air", RitualWorkflow: { } state } entry ||
+            RitualUseCatalog.Find(entry.PowerId) is not { } ritual)
+        { RitualPreparationSummary = "Selecione um consumo ativo de Essência do Ar."; return; }
+        try
+        {
+            var result = new RitualWorkflowActions().ResolveAirGroundingContest(ritual, state,
+                CoreRitualTarget, RitualAirGrounderPool, RitualAirGrounderHunger, RitualAirCasterSuccesses,
+                CoreRitualConditionsConfirmed, beastSubdued: RitualAirGrounderBeastSubdued);
             ReplacePowerEffect(entry, entry with { Effect = result.Proposal.Effect + RitualBeastAudit(result) });
             DisplayRitualResolution(entry, result);
         }

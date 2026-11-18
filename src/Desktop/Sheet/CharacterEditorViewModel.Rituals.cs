@@ -107,6 +107,7 @@ public partial class CharacterEditorViewModel
     {
         RitualFollowUpBeastSubdued = false;
         RitualAirPassengerBeastSubdued = false;
+        RitualAirGrounderBeastSubdued = false;
         RitualEndingExceptionApproved = false;
         RitualEndingExceptionReason = "";
         CoreRitualConditionsConfirmed = false;

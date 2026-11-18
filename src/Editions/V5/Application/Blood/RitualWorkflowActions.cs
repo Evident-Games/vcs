@@ -182,6 +182,27 @@ public sealed class RitualWorkflowActions
             MessyCriticalConverted: rollAudit.MessyCriticalConverted);
     }
 
+    /// <summary>Resolve an identified opponent's attempt to pull the airborne caster to the ground.</summary>
+    public RitualWorkflowResolution ResolveAirGroundingContest(RitualUseDefinition ritual, RitualWorkflowState state,
+        string opponent, int opponentPool, int opponentHunger, int casterSuccesses, bool confirmed,
+        Random? random = null, bool beastSubdued = false)
+    {
+        if (ritual.Kind != "air" || state is not { Stage: "effect", Resolved: true } ||
+            string.IsNullOrWhiteSpace(opponent) || !confirmed)
+            throw new InvalidOperationException("Selecione um consumo ativo de Essência do Ar e confirme quem tenta puxar o conjurador e a oposição com o Narrador.");
+        if (opponentPool is < 0 or > 50 || opponentHunger is < 0 or > 5 || casterSuccesses is < 0 or > 100)
+            throw new ArgumentOutOfRangeException(nameof(opponentPool));
+        var rollAudit = ApplyBeastToRoll(DicePoolRules.Roll(opponentPool, opponentHunger,
+            ContestRules.ActingDifficulty(casterSuccesses), random), beastSubdued);
+        var won = ContestRules.ActingCharacterWins(rollAudit.Roll.Successes, casterSuccesses);
+        var proposal = new RitualEffectProposal(won, won
+            ? $"{opponent.Trim()} venceu a disputa para puxar o conjurador ao solo; movimento e posição aguardam aplicação confirmada pela mesa."
+            : $"{opponent.Trim()} não conseguiu puxar o conjurador ao solo; nenhuma posição ou ficha foi alterada.", "Esta tentativa");
+        return new(state, proposal, rollAudit.Roll,
+            BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
+            MessyCriticalConverted: rollAudit.MessyCriticalConverted);
+    }
+
     public RitualNightEnding EndNighthawk(RitualUseDefinition ritual, RitualWorkflowState state,
         DateOnly ritualNight, bool eyesRemoved, bool tableConfirmed)
     {

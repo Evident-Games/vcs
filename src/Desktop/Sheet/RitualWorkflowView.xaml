@@ -43,6 +43,14 @@
                 <CheckBox Content="A mesa confirmou que a Besta do conjurador está subjugada" IsChecked="{Binding RitualAirPassengerBeastSubdued}"/>
                 <Button Content="Resolver disputa confirmada do passageiro" Command="{Binding ResolveRitualAirPassengerContestCommand}" HorizontalAlignment="Left"/>
             </StackPanel></Expander>
+            <Expander Header="Essência do Ar: puxar o conjurador ao solo" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Selecione o consumo ativo e identifique no campo 'Alvo / objeto / local' quem tenta puxar o conjurador. Informe Força + Atletismo dessa pessoa, sua Fome (0 para mortal) e os sucessos confirmados de Força + Feitiçaria de Sangue do conjurador. Quem puxa é o personagem ativo e vence empates. O resultado é somente uma proposta; nenhuma posição ou ficha é alterada. Fonte: Livro base, pp. 121 e 279." TextWrapping="Wrap"/>
+                <TextBlock Text="Força + Atletismo de quem puxa"/><controls:NumericField Value="{Binding RitualAirGrounderPool}" Minimum="0" Maximum="50"/>
+                <TextBlock Text="Fome de quem puxa"/><controls:NumericField Value="{Binding RitualAirGrounderHunger}" Minimum="0" Maximum="5"/>
+                <TextBlock Text="Sucessos de Força + Feitiçaria de Sangue do conjurador"/><controls:NumericField Value="{Binding RitualAirCasterSuccesses}" Minimum="0" Maximum="100"/>
+                <CheckBox Content="A mesa confirmou que a Besta de quem puxa está subjugada" IsChecked="{Binding RitualAirGrounderBeastSubdued}"/>
+                <Button Content="Resolver tentativa confirmada de puxar ao solo" Command="{Binding ResolveRitualAirGroundingContestCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <Button Content="Iluminar Rastro: rolar Inteligência + Sobrevivência" Command="{Binding RollRitualTrackingCommand}" HorizontalAlignment="Left"/>
             <Expander Header="Olhos do Falcão Noturno: encerramento" Margin="0,8"><StackPanel Margin="8">
                 <TextBlock Text="Selecione o voo ativo, informe acima a noite da crônica que terminou e confirme as circunstâncias com o Narrador. Escolha explicitamente o que ocorreu com os olhos da ave. Fonte: Livro base, p. 280." TextWrapping="Wrap"/>
