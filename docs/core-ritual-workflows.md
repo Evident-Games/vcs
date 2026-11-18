@@ -98,3 +98,7 @@ Nos testes posteriores de ataque e cirurgia do Fuste, a mesa pode informar expli
 ## Proteções de objeto: Besta subjugada do intruso
 
 A resistência de nova tentativa aceita confirmação explícita de que a Besta do intruso está subjugada; `WardActions` aplica a regra existente ao resultado do próprio intruso, mantendo a mesa de dados e o registro de faces. A confirmação é limpa ao trocar o intruso ou efeito, e sua alteração exige reconfirmar o gasto já realizado de Vontade. Nenhuma ficha externa é alterada e o Narrador ainda confirma a identidade, o contato anterior e o custo. Referências consultadas: livro base, p. 246 (p. 248 do PDF), e procedimento existente de proteção p. 275. Não há mudança na classificação de cobertura.
+
+## Registro da Besta subjugada no Fuste
+
+O resultado dos testes de ataque e de cirurgia do Fuste passa a registrar, quando a mesa confirma a condição, que a Besta do executor estava subjugada e a fonte da regra. A anotação acompanha a proposta salva no efeito e o diário já existente, inclusive em caso de falha. Ela não identifica automaticamente o executor nem modifica ficha externa. A regra existente foi reconferida no livro base, p. 246 (p. 248 do PDF). A cobertura permanece a mesma; a mesa ainda confirma o executor, o contexto e os resultados sobre a vítima.

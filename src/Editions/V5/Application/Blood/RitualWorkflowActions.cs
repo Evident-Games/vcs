@@ -214,11 +214,11 @@ public sealed class RitualWorkflowActions
         var roll = QuellBeastRules.ApplyToRoll(
             DicePoolRules.Roll(basePool + 3, hunger, oppositionSuccesses + 1, random), beastSubdued);
         var margin = roll.Successes - oppositionSuccesses;
-        if (margin <= 0) return new(state, new(false, "O ataque não acertou; a estaca continua disponível.", "Até ser usada"), roll);
+        if (margin <= 0) return new(state, new(false, "O ataque não acertou; a estaca continua disponível." + BeastSubduedNote(beastSubdued), "Até ser usada"), roll);
         var finalDeath = margin >= 5;
         return new(state with { Stage = finalDeath ? "final-death-proposed" : "splinter" },
-            new(true, finalDeath ? "Margem de pelo menos cinco: proposta de Morte Final em um turno; o Narrador confirma o alvo e a consequência."
-                : "A estaca se quebrou: a lasca avança até o coração. O Narrador determina horas/noites conforme o local atingido; o livro não fornece velocidade numérica.",
+            new(true, (finalDeath ? "Margem de pelo menos cinco: proposta de Morte Final em um turno; o Narrador confirma o alvo e a consequência."
+                : "A estaca se quebrou: a lasca avança até o coração. O Narrador determina horas/noites conforme o local atingido; o livro não fornece velocidade numérica.") + BeastSubduedNote(beastSubdued),
                 finalDeath ? "Consequência a confirmar" : "Até extração ou chegada ao coração"), roll);
     }
 
@@ -230,10 +230,14 @@ public sealed class RitualWorkflowActions
         if (pool is < 0 or > 50 || hunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(pool));
         var roll = QuellBeastRules.ApplyToRoll(DicePoolRules.Roll(pool, hunger, 6, random), beastSubdued);
         return new(state with { Stage = roll.IsSuccess ? "removed" : "splinter" },
-            new(roll.IsSuccess, roll.IsSuccess ? "Extração cirúrgica bem-sucedida; a lasca foi removida."
-                : "A cirurgia falhou; a lasca permanece. Amputação pode removê-la antes de atingir o tronco, conforme a mesa.",
+            new(roll.IsSuccess, (roll.IsSuccess ? "Extração cirúrgica bem-sucedida; a lasca foi removida."
+                : "A cirurgia falhou; a lasca permanece. Amputação pode removê-la antes de atingir o tronco, conforme a mesa.") + BeastSubduedNote(beastSubdued),
                 roll.IsSuccess ? "Encerrado" : "Lasca ativa"), roll);
     }
+
+    private static string BeastSubduedNote(bool confirmed) => confirmed
+        ? " Besta subjugada confirmada para o executor; fonte: Livro base, p. 246."
+        : "";
 
     private static void RequireReady(RitualUseDefinition ritual, RitualWorkflowState state, RitualWorkflowContext context)
     {
