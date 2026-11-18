@@ -194,6 +194,8 @@ O fluxo geral de ativação de poderes agora conserva os mesmos dados de auditor
 
 Essa persistência se aplica aos perfis que já usam o fluxo geral, sem transformar efeitos narrativos em aplicação direta nem alterar a classificação de cobertura. Alvos externos continuam recebendo apenas propostas e registros; nenhuma outra ficha é modificada silenciosamente.
 
+O preparo genérico com teste imediato e o despertar adiado também devolvem dados estruturados de auditoria em `RitualPreparation` e `AwakeningResult`. A ficha registra quando a Besta subjugada foi considerada e distingue a conversão efetiva de uma rolagem que não precisou ser alterada. Preparos adiados não recebem anotação antecipada: a condição só é registrada quando o teste acontece. Isso não altera faces, sucessos, cobertura nem efeitos em outras fichas.
+
 Nos testes de cena e conflitos do Narrador, a Besta subjugada pode ser confirmada separadamente para cada participante. A confirmação vale apenas para aquela rolagem, é anotada no resultado e precisa ser refeita no próximo teste; ela não lê nem altera automaticamente outra ficha. Outras ferramentas do Narrador ainda requerem revisão.
 
 A descrição de Proteção contra Cainitas foi corrigida a partir do livro base, pp. 275 e 280: ela protege um objeto, exclui o próprio conjurador e requer cinzas de fogo aceso; sucumbir ao frenesi de terror impede sua inscrição naquela noite. A mesa pode identificar o conjurador no contato para impedir a rolagem contra ele; a identidade continua sendo confirmada manualmente. O frenesi e sua restrição ainda não são controlados automaticamente. Fichas com dados de catálogo editados podem conservar o texto anterior; restaure o catálogo quando necessário. A integração do ritual continua incompleta.

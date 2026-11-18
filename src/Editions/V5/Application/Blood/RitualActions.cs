@@ -25,28 +25,42 @@ public sealed class RitualActions
         if (pool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(pool));
         random ??= Random.Shared;
         var check = RouseCheckRules.Roll(hunger, random);
-        var roll = deferred ? null : DicePoolRules.Roll(pool, check.HungerAfter, requirements.Difficulty, random);
-        if (roll is not null) roll = QuellBeastRules.ApplyToRoll(roll, beastSubdued);
-        return new(requirements, check, roll);
+        var originalRoll = deferred ? null : DicePoolRules.Roll(pool, check.HungerAfter, requirements.Difficulty, random);
+        var roll = originalRoll is null ? null : QuellBeastRules.ApplyToRoll(originalRoll, beastSubdued);
+        return new(requirements, check, roll, beastSubdued && roll is not null,
+            originalRoll?.Outcome == TestOutcome.MessyCritical && roll?.Outcome == TestOutcome.CriticalSuccess);
     }
 
     /// <summary>Roll a previously paid ritual at its confirmed trigger without another Rouse check.</summary>
     public DicePoolResult ResolveDeferred(int level, int hunger, int pool, Random? random = null, bool beastSubdued = false)
+        => ResolveDeferredWithAudit(level, hunger, pool, random, beastSubdued).Roll;
+
+    private static RitualRollResolution ResolveDeferredWithAudit(int level, int hunger, int pool, Random? random,
+        bool beastSubdued)
     {
         var requirements = RitualRules.DefaultRequirements(level);
         if (hunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(hunger));
         if (pool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(pool));
-        return QuellBeastRules.ApplyToRoll(DicePoolRules.Roll(pool, hunger, requirements.Difficulty, random), beastSubdued);
+        var originalRoll = DicePoolRules.Roll(pool, hunger, requirements.Difficulty, random);
+        var roll = QuellBeastRules.ApplyToRoll(originalRoll, beastSubdued);
+        return new(roll, beastSubdued,
+            originalRoll.Outcome == TestOutcome.MessyCritical && roll.Outcome == TestOutcome.CriticalSuccess);
     }
 
     /// <summary>Resolve the awakening ritual after the Storyteller confirms danger.</summary>
     public AwakeningResult ResolveAwakening(int hunger, int pool, Random? random = null, bool beastSubdued = false)
     {
-        var roll = ResolveDeferred(1, hunger, pool, random, beastSubdued);
-        return new(roll, AwakeningRitualRules.Describe(roll.IsSuccess, roll.IsCritical));
+        var resolution = ResolveDeferredWithAudit(1, hunger, pool, random, beastSubdued);
+        return new(resolution.Roll, AwakeningRitualRules.Describe(resolution.Roll.IsSuccess, resolution.Roll.IsCritical),
+            resolution.BeastSubduedConsidered, resolution.MessyCriticalConverted);
     }
 }
 
-public sealed record RitualPreparation(RitualRequirements Requirements, RouseCheckResult Check, DicePoolResult? Roll);
+public sealed record RitualPreparation(RitualRequirements Requirements, RouseCheckResult Check, DicePoolResult? Roll,
+    bool BeastSubduedConsidered, bool MessyCriticalConverted);
 
-public sealed record AwakeningResult(DicePoolResult Roll, string Effect);
+public sealed record AwakeningResult(DicePoolResult Roll, string Effect, bool BeastSubduedConsidered,
+    bool MessyCriticalConverted);
+
+internal sealed record RitualRollResolution(DicePoolResult Roll, bool BeastSubduedConsidered,
+    bool MessyCriticalConverted);

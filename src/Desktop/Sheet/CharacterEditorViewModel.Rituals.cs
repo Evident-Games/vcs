@@ -171,6 +171,11 @@ public partial class CharacterEditorViewModel
                     definition.Id == "ritual-wake-with-evenings-freshness"
                         ? "Teste adiado até surgir perigo durante o sono; resolva o despertar com o Narrador. "
                         : "Proteção: teste adiado até o primeiro contato; registre o objeto e resolva o efeito com o Narrador. ") +
+                (result.BeastSubduedConsidered
+                    ? result.MessyCriticalConverted
+                        ? "Besta Subjugada confirmada: crítico bestial convertido em crítico normal. "
+                        : "Besta Subjugada confirmada e considerada; nenhuma conversão foi necessária. "
+                    : "") +
                 $"Fonte: {definition.Source}. Confira exceções específicas do ritual.";
             Notebook.AppendLog("Rituais", RitualPreparationSummary);
             var dice = new List<RolledDieDisplay> { new(result.Check.Die, "SANGUE") };
@@ -274,6 +279,11 @@ public partial class CharacterEditorViewModel
         var roll = result.Roll;
         RitualPreparationSummary = $"Despertar: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}: {roll.Outcome}. " +
             result.Effect +
+            (result.BeastSubduedConsidered
+                ? result.MessyCriticalConverted
+                    ? " Besta Subjugada confirmada: crítico bestial convertido em crítico normal."
+                    : " Besta Subjugada confirmada e considerada; nenhuma conversão foi necessária."
+                : "") +
             " Fonte: Vampiro: A Máscara V5 (Livro base), p. 276.";
         ReplacePowerEffect(pending, pending with { Active = false, Effect = RitualPreparationSummary });
         Notebook.AppendLog("Rituais", RitualPreparationSummary);

@@ -69,6 +69,12 @@ A rota anterior rolava diretamente na interface e ignorava essa condição da Be
 
 Esta alteração mantém as contagens: 88 poderes com perfil, 26 rituais com fluxo, zero rituais confirmados ausentes e uma entrada legada não verificada; a classificação herdada 37/11/40 não foi reavaliada. Revisão textual do serviço e do chamador, sem nova conferência do PDF neste ciclo. Build, testes e execução do aplicativo não foram realizados.
 
+## Auditoria da Besta no preparo e no despertar
+
+O preparo genérico que rola imediatamente e a resolução adiada de Despertar com o Frescor do Anoitecer conservam no retorno da aplicação se a Besta subjugada foi considerada e se houve conversão real de crítico bestial em crítico normal. A ficha inclui essa distinção no resumo, no diário e na mesa de dados. Um preparo adiado não afirma que a condição foi usada antes da rolagem; o registro é feito somente ao resolver o perigo confirmado.
+
+A regra permanece em `QuellBeastRules`, no módulo V5. O livro base foi reconferido na página impressa 246 (página 248 do PDF fornecido): enquanto a Besta estiver subjugada, o vampiro fica imune a críticos bestiais. A mudança não altera dados ou sucessos, não automatiza o perigo e não afeta outra ficha. As contagens permanecem em 88 poderes com perfil e 26 rituais com fluxo; as classificações herdadas não foram reavaliadas neste ciclo.
+
 ## Revisão da proposta de Criar Pedra de Sangue
 
 `RitualEffectRules` já apresenta, após sucesso, a localização como direção e distância percebidas pelo conjurador, a duração de uma semana e o término se a pedra for destruída. `RitualWorkflowActions` também exige as três noites de preparo e verifica o limite de pedras ativas pela Determinação, com exceção justificada. A linha da matriz foi atualizada para distinguir essas propostas automatizadas das confirmações que continuam pertencendo à mesa: inventário e posição reais, destruição e continuidade do vínculo. O app não rastreia objetos no mundo nem conclui automaticamente que uma pedra foi destruída.
