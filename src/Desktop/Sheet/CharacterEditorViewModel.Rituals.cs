@@ -66,9 +66,15 @@ public partial class CharacterEditorViewModel
         try
         {
             var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
-            var roll = new TrueSanctuaryActions().AttemptTravel(pool, Hunger, true, true, true, true, alreadyAttempted,
+            var result = new TrueSanctuaryActions().AttemptTravel(pool, Hunger, true, true, true, true, alreadyAttempted,
                 beastSubdued: HasActivePower("power-animalism-quell-the-beast"),
                 sceneLimitExceptionApproved: alreadyAttempted && RitualExceptionApproved);
+            var roll = result.Roll;
+            var beastAudit = result.BeastSubduedConsidered
+                ? result.MessyCriticalConverted
+                    ? " Besta Subjugada confirmada: crítico bestial convertido em crítico normal."
+                    : " Besta Subjugada confirmada e considerada; nenhuma conversão foi necessária."
+                : "";
             if (ritual.HasWarning)
                 ExceptionRegister.Record(ritual.Name, ritual.Warning, RitualExceptionReason.Trim());
             if (alreadyAttempted)
@@ -78,13 +84,13 @@ public partial class CharacterEditorViewModel
             if (!alreadyAttempted)
             {
                 PowerEffects.Add(new PowerEffectEntry(Guid.NewGuid(), "ritual-sanctuary-travel-attempt", ritual.Name,
-                    Name, true, DateTime.UtcNow, "Tentativa de viagem realizada nesta cena.", "Até o fim da cena",
-                    "Vampiro: A Máscara V5 (Livro base), p. 281", "", true));
+                    Name, true, DateTime.UtcNow, "Tentativa de viagem realizada nesta cena." + beastAudit, "Até o fim da cena",
+                    "Vampiro: A Máscara V5 (Livro base), pp. 246 e 281", "", true));
                 MarkChanged();
             }
             RitualPreparationSummary = $"Viagem ao Santuário: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}: {roll.Outcome}. " +
                 (roll.IsSuccess ? "A viagem pode ocorrer conforme a decisão da mesa." : "A tentativa falhou; não tente novamente nesta cena.") +
-                " Nenhuma ficha foi movida. Fonte: Vampiro: A Máscara V5 (Livro base), p. 281.";
+                beastAudit + " Nenhuma ficha foi movida. Fonte: Vampiro: A Máscara V5 (Livro base), pp. 246 e 281.";
             Notebook.AppendLog("Rituais", RitualPreparationSummary);
             ShowDiceRoll(ritual.Name, RitualPreparationSummary,
                 roll.NormalDice.Select(x => new RolledDieDisplay(x, "COMUM"))

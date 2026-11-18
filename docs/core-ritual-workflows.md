@@ -75,6 +75,12 @@ O preparo genérico que rola imediatamente e a resolução adiada de Despertar c
 
 A regra permanece em `QuellBeastRules`, no módulo V5. O livro base foi reconferido na página impressa 246 (página 248 do PDF fornecido): enquanto a Besta estiver subjugada, o vampiro fica imune a críticos bestiais. A mudança não altera dados ou sucessos, não automatiza o perigo e não afeta outra ficha. Nenhum item foi reclassificado e as contagens herdadas não foram reavaliadas neste ciclo.
 
+## Auditoria da Besta na viagem ao Santuário
+
+`TrueSanctuaryActions.AttemptTravel` agora devolve a rolagem junto da confirmação de Besta subjugada e da indicação de conversão efetiva de crítico bestial. A ficha preserva esses dados no marcador da tentativa durante a cena, no diário e no resultado da mesa de dados. A confirmação sem conversão também fica explícita, sem afirmar que as faces ou os sucessos foram alterados.
+
+As fontes foram reconferidas no livro base: Subjugar a Besta, página impressa 246 (página 248 do PDF), e Fuga para o Verdadeiro Santuário, página impressa 281 (página 283 do PDF). O fluxo continua apenas propondo a viagem após sucesso; posição, carga, integridade dos círculos e deslocamento permanecem com o Narrador. Nenhum item foi reclassificado e não houve recontagem da cobertura neste ciclo.
+
 ## Revisão da proposta de Criar Pedra de Sangue
 
 `RitualEffectRules` já apresenta, após sucesso, a localização como direção e distância percebidas pelo conjurador, a duração de uma semana e o término se a pedra for destruída. `RitualWorkflowActions` também exige as três noites de preparo e verifica o limite de pedras ativas pela Determinação, com exceção justificada. A linha da matriz foi atualizada para distinguir essas propostas automatizadas das confirmações que continuam pertencendo à mesa: inventário e posição reais, destruição e continuidade do vínculo. O app não rastreia objetos no mundo nem conclui automaticamente que uma pedra foi destruída.
