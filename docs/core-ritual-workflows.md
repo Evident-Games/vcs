@@ -106,3 +106,9 @@ O resultado dos testes de ataque e de cirurgia do Fuste passa a registrar, quand
 ## Confirmação da tentativa de proteção
 
 No fluxo de proteção de objeto, alterar a parada, a Fome ou a indicação de que o intruso é o conjurador desmarca a confirmação da tentativa; mudar a identidade também desmarca a confirmação do contato. A mesa reconfirma o contexto e o gasto já realizado, sem cobrar Vontade automaticamente ou modificar ficha alheia. O livro base consultado, página impressa 275 (277 do PDF), exige gasto de Vontade e teste para que um intruso afetado tente tocar novamente. Esta proteção evita reutilizar uma confirmação em outro contexto; não altera a classificação da cobertura nem supõe identidade ou pagamento.
+
+## Registro da Besta subjugada no primeiro contato
+
+O retorno estruturado de `WardActions.ResolveFirstContact` agora informa se a Besta do conjurador estava subjugada na rolagem e se um crítico bestial foi efetivamente convertido. A ficha grava no efeito e no diário o resultado final, a condição, sua fonte e a conversão quando ela ocorreu. O livro base foi reconferido na página impressa 246 (página 248 do PDF): enquanto a Besta estiver subjugada, o vampiro fica imune a críticos bestiais.
+
+A identificação do intruso e o contato voluntário continuam confirmados pela mesa; dano permanece apenas uma proposta e nenhuma ficha externa é modificada. A alteração melhora a auditoria de um procedimento existente e não muda as contagens de cobertura.

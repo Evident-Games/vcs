@@ -222,8 +222,11 @@ public partial class CharacterEditorViewModel
             casterBeastSubdued: HasActivePower("power-animalism-quell-the-beast"),
             ritualId: ward.PowerId, intruderIsCaster: WardIntruderIsCaster);
         if (attempt.Roll is not { } roll) return;
-        RitualPreparationSummary = $"{ward.Name} em {ward.Target}; intruso {intruder}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}. " +
-            $"Dano agravado proposto ao intruso: {attempt.Result.AggravatedHealthDamage}. Nenhuma outra ficha foi alterada. Fonte: {ward.Source}.";
+        RitualPreparationSummary = $"{ward.Name} em {ward.Target}; intruso {intruder}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}, {roll.Outcome}. " +
+            $"Dano agravado proposto ao intruso: {attempt.Result.AggravatedHealthDamage}." +
+            (attempt.CasterBeastSubdued ? " Besta subjugada confirmada para o conjurador; fonte: Livro base, p. 246." : "") +
+            (attempt.MessyCriticalSuppressed ? " O crítico bestial original foi convertido em crítico normal." : "") +
+            $" Nenhuma outra ficha foi alterada. Fonte: {ward.Source}.";
         ReplacePowerEffect(ward, ward with { TurnChargeUsed = true, PoolBonus = attempt.Result.AggravatedHealthDamage + 1, Effect = RitualPreparationSummary });
         Notebook.AppendLog("Rituais", RitualPreparationSummary);
         ShowDiceRoll(ward.Name, RitualPreparationSummary,

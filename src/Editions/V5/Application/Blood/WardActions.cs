@@ -15,9 +15,12 @@ public sealed class WardActions
         if (casterHunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(casterHunger));
         if (casterPool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(casterPool));
         if (!matchingIntruder || !voluntaryContact || WardRules.ExcludesCaster(ritualId, intruderIsCaster))
-            return new(null, WardRules.ResolveFirstContact(false, voluntaryContact, false, false));
-        var roll = QuellBeastRules.ApplyToRoll(DicePoolRules.Roll(casterPool, casterHunger, requirements.Difficulty, random), casterBeastSubdued);
-        return new(roll, WardRules.ResolveFirstContact(true, true, roll.IsSuccess, roll.IsCritical));
+            return new(null, WardRules.ResolveFirstContact(false, voluntaryContact, false, false), false, false);
+        var originalRoll = DicePoolRules.Roll(casterPool, casterHunger, requirements.Difficulty, random);
+        var messyCriticalSuppressed = casterBeastSubdued && originalRoll.Outcome == TestOutcome.MessyCritical;
+        var roll = QuellBeastRules.ApplyToRoll(originalRoll, casterBeastSubdued);
+        return new(roll, WardRules.ResolveFirstContact(true, true, roll.IsSuccess, roll.IsCritical),
+            casterBeastSubdued, messyCriticalSuppressed);
     }
 
     /// <summary>Roll a confirmed retry; the caller is responsible for the intruder's Willpower payment.</summary>
@@ -38,4 +41,5 @@ public sealed class WardActions
 }
 
 /// <summary>Damage is a proposal; the caller must confirm before applying it to another sheet.</summary>
-public sealed record WardContactAttempt(DicePoolResult? Roll, WardContactResult Result);
+public sealed record WardContactAttempt(DicePoolResult? Roll, WardContactResult Result,
+    bool CasterBeastSubdued = false, bool MessyCriticalSuppressed = false);

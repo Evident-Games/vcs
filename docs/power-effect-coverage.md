@@ -188,6 +188,8 @@ O bloqueio e a classificação dessas rolagens passam pelas ações de aplicaç�
 
 As rolagens de uso de poder, preparo de ritual, despertar e primeiro contato de proteção do conjurador passam por `QuellBeastRules` quando sua ficha está sob o efeito. Isso não altera dados nem sucessos. A resistência do intruso não herda o estado do conjurador; ferramentas do Narrador ainda exigem revisão específica.
 
+No primeiro contato de uma proteção de objeto, o retorno da aplicação também conserva a confirmação de Besta subjugada e informa quando houve conversão real de crítico bestial. A ficha inclui a condição, a conversão e o resultado final no efeito e no diário, sem aplicar o dano proposto ao intruso.
+
 Nos testes de cena e conflitos do Narrador, a Besta subjugada pode ser confirmada separadamente para cada participante. A confirmação vale apenas para aquela rolagem, é anotada no resultado e precisa ser refeita no próximo teste; ela não lê nem altera automaticamente outra ficha. Outras ferramentas do Narrador ainda requerem revisão.
 
 A descrição de Proteção contra Cainitas foi corrigida a partir do livro base, pp. 275 e 280: ela protege um objeto, exclui o próprio conjurador e requer cinzas de fogo aceso; sucumbir ao frenesi de terror impede sua inscrição naquela noite. A mesa pode identificar o conjurador no contato para impedir a rolagem contra ele; a identidade continua sendo confirmada manualmente. O frenesi e sua restrição ainda não são controlados automaticamente. Fichas com dados de catálogo editados podem conservar o texto anterior; restaure o catálogo quando necessário. A integração do ritual continua incompleta.
