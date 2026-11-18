@@ -5,7 +5,7 @@ public enum ThemeGroup { Default, Clan, Special }
 public sealed record ThemeDefinition(string Id, string Name, ThemeGroup Group, string ResourceName)
 {
     /// <summary>Theme palettes live in Themes/Default or Themes/Clan, named after <see cref="ResourceName"/>.</summary>
-    public string ResourcePath => $"/VCS.Desktop;component/Themes/{Group}/{ResourceName}.xaml";
+    public string ResourcePath => $"/Desktop;component/Themes/{Group}/{ResourceName}.xaml";
 }
 
 public static class ThemeCatalog

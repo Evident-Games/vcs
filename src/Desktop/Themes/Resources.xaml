@@ -5,11 +5,11 @@
     <ResourceDictionary.MergedDictionaries>
         <ui:ThemesDictionary Theme="Light" />
         <ui:ControlsDictionary />
-        <ResourceDictionary Source="/VCS.Desktop;component/Themes/ScrollControls.xaml" />
-        <ResourceDictionary Source="/VCS.Desktop;component/Themes/ChromeControls.xaml" />
-        <ResourceDictionary Source="/VCS.Desktop;component/Themes/InputControls.xaml" />
-        <ResourceDictionary Source="/VCS.Desktop;component/Themes/ListControls.xaml" />
-        <ResourceDictionary Source="/VCS.Desktop;component/Themes/ButtonControls.xaml" />
+        <ResourceDictionary Source="/Desktop;component/Themes/ScrollControls.xaml" />
+        <ResourceDictionary Source="/Desktop;component/Themes/ChromeControls.xaml" />
+        <ResourceDictionary Source="/Desktop;component/Themes/InputControls.xaml" />
+        <ResourceDictionary Source="/Desktop;component/Themes/ListControls.xaml" />
+        <ResourceDictionary Source="/Desktop;component/Themes/ButtonControls.xaml" />
         <themes:ThemePalette />
     </ResourceDictionary.MergedDictionaries>
     <BooleanToVisibilityConverter x:Key="BoolVisibility" />

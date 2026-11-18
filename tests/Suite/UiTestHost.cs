@@ -37,7 +37,7 @@ public sealed class WpfApp : IDisposable
             _ = new System.Windows.Application
             {
                 ShutdownMode = ShutdownMode.OnExplicitShutdown,
-                Resources = new ResourceDictionary { Source = new Uri("/VCS.Desktop;component/Themes/Resources.xaml", UriKind.Relative) }
+                Resources = new ResourceDictionary { Source = new Uri("/Desktop;component/Themes/Resources.xaml", UriKind.Relative) }
             };
             ready.SetResult(Dispatcher.CurrentDispatcher);
             Dispatcher.Run();
