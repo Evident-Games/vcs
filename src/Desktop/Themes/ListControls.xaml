@@ -49,7 +49,7 @@
                     <Border x:Name="Row" Background="{TemplateBinding Background}" CornerRadius="5"
                             BorderBrush="Transparent" BorderThickness="2" Padding="{TemplateBinding Padding}">
                         <ContentPresenter x:Name="RowContent" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          TextElement.Foreground="{DynamicResource ThemeCardText}" />
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -59,7 +59,6 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Row" Property="Background" Value="{DynamicResource ThemeSelection}" />
                             <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
-                            <Setter TargetName="RowContent" Property="TextElement.Foreground" Value="{DynamicResource ThemeSelectionText}" />
                             <Setter Property="Foreground" Value="{DynamicResource ThemeSelectionText}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
@@ -82,7 +81,7 @@
                     <Border x:Name="Row" Background="Transparent" BorderBrush="{DynamicResource ThemeBorder}"
                             BorderThickness="2,0,0,1" Padding="{TemplateBinding Padding}">
                         <ContentPresenter x:Name="CharacterRowContent" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="Center" TextElement.Foreground="{DynamicResource ThemeCardText}" />
+                                          VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -91,7 +90,7 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Row" Property="Background" Value="{DynamicResource ThemeSelection}" />
                             <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
-                            <Setter TargetName="CharacterRowContent" Property="TextElement.Foreground" Value="{DynamicResource ThemeSelectionText}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ThemeSelectionText}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
@@ -111,7 +110,7 @@
                     <Border x:Name="Row" Background="Transparent" BorderBrush="{DynamicResource ThemeBorder}"
                             BorderThickness="2,0,0,1" Padding="{TemplateBinding Padding}">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="Center" TextElement.Foreground="{DynamicResource ThemeCardText}" />
+                                          VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

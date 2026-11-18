@@ -10,7 +10,9 @@
         <Setter Property="CaretBrush" Value="{DynamicResource ThemeInputText}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource ThemeSelection}" />
         <Setter Property="SelectionTextBrush" Value="{DynamicResource ThemeSelectionText}" />
-        <Setter Property="SelectionOpacity" Value="1" />
+        <!-- Keep the selection layer translucent so it cannot cover glyphs on custom palettes.
+             SelectionTextBrush still supplies the selected text color. -->
+        <Setter Property="SelectionOpacity" Value="0.72" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
@@ -76,7 +78,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">
                     <Border x:Name="Choice" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                        <ContentPresenter TextElement.Foreground="{DynamicResource ThemeInputText}" />
+                        <ContentPresenter TextElement.Foreground="{TemplateBinding Foreground}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="True">
@@ -118,7 +120,7 @@
                         <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" Margin="2,1,0,1" Padding="8,4"
                                  Background="{DynamicResource ThemeInput}" Foreground="{DynamicResource ThemeInputText}"
                                  CaretBrush="{DynamicResource ThemeInputText}" SelectionBrush="{DynamicResource ThemeSelection}"
-                                 SelectionTextBrush="{DynamicResource ThemeSelectionText}" SelectionOpacity="1"
+                                 SelectionTextBrush="{DynamicResource ThemeSelectionText}" SelectionOpacity="0.72"
                                  BorderThickness="0" MinHeight="0"
                                  IsReadOnly="{TemplateBinding IsReadOnly}" VerticalContentAlignment="Center" />
                         <TextBlock x:Name="Placeholder" Text="{TemplateBinding Tag}" Visibility="Collapsed"
