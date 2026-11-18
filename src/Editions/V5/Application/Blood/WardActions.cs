@@ -24,7 +24,7 @@ public sealed class WardActions
     }
 
     /// <summary>Roll a confirmed retry; the caller is responsible for the intruder's Willpower payment.</summary>
-    public DicePoolResult RollRetry(int initialDamage, int intruderPool, int intruderHunger, Random? random = null,
+    public WardRetryAttempt RollRetry(int initialDamage, int intruderPool, int intruderHunger, Random? random = null,
         string? ritualId = null, bool intruderIsCaster = false, bool intruderBeastSubdued = false)
     {
         if (WardRules.ExcludesCaster(ritualId, intruderIsCaster))
@@ -35,11 +35,16 @@ public sealed class WardActions
         if (intruderPool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(intruderPool));
         if (intruderHunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(intruderHunger));
         var requirements = WardRules.RetryRequirements(initialDamage == 3);
-        return QuellBeastRules.ApplyToRoll(
-            DicePoolRules.Roll(intruderPool, intruderHunger, requirements.Difficulty, random), intruderBeastSubdued);
+        var originalRoll = DicePoolRules.Roll(intruderPool, intruderHunger, requirements.Difficulty, random);
+        var roll = QuellBeastRules.ApplyToRoll(originalRoll, intruderBeastSubdued);
+        return new(roll, intruderBeastSubdued,
+            originalRoll.Outcome == TestOutcome.MessyCritical && roll.Outcome == TestOutcome.CriticalSuccess);
     }
 }
 
 /// <summary>Damage is a proposal; the caller must confirm before applying it to another sheet.</summary>
 public sealed record WardContactAttempt(DicePoolResult? Roll, WardContactResult Result,
     bool CasterBeastSubdued = false, bool MessyCriticalSuppressed = false);
+
+public sealed record WardRetryAttempt(DicePoolResult Roll, bool BeastSubduedConsidered,
+    bool MessyCriticalConverted);

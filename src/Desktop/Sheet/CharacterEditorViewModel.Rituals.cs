@@ -261,12 +261,17 @@ public partial class CharacterEditorViewModel
         { RitualPreparationSummary = "Identifique o intruso para registrar esta tentativa."; return; }
         if (WardRetryPool is < 0 or > 50 || WardRetryHunger is < 0 or > 5)
         { RitualPreparationSummary = "Parada deve estar entre 0 e 50; Fome entre 0 e 5."; return; }
-        var roll = new WardActions().RollRetry(ward.PoolBonus - 1, WardRetryPool, WardRetryHunger,
+        var attempt = new WardActions().RollRetry(ward.PoolBonus - 1, WardRetryPool, WardRetryHunger,
             ritualId: ward.PowerId, intruderIsCaster: WardIntruderIsCaster, intruderBeastSubdued: WardRetryBeastSubdued);
+        var roll = attempt.Roll;
         RitualPreparationSummary = $"Nova tentativa de {WardIntruder.Trim()} contra {ward.Name} em {ward.Target}: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}, {roll.Outcome}. " +
             (roll.IsSuccess ? "O intruso pode tentar tocar novamente." : "O intruso não pode tentar tocar nesta ocasião.") +
-            (WardRetryBeastSubdued ? " Besta subjugada confirmada para o intruso (livro base, p. 246)." : "") +
-            " Custo registrado pela mesa; nenhuma outra ficha foi alterada. Fonte: Livro base, p. 275.";
+            (attempt.BeastSubduedConsidered
+                ? attempt.MessyCriticalConverted
+                    ? " Besta Subjugada confirmada para o intruso: crítico bestial convertido em crítico normal."
+                    : " Besta Subjugada confirmada para o intruso e considerada; nenhuma conversão foi necessária."
+                : "") +
+            " Custo registrado pela mesa; nenhuma outra ficha foi alterada. Fonte: Livro base, pp. 246 e 275.";
         Notebook.AppendLog("Rituais", RitualPreparationSummary);
         ShowDiceRoll("Resistência à proteção", RitualPreparationSummary,
             roll.NormalDice.Select(x => new RolledDieDisplay(x, "COMUM")).Concat(roll.HungerDice.Select(x => new RolledDieDisplay(x, "FOME"))));

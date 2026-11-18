@@ -87,6 +87,12 @@ As fontes foram reconferidas no livro base: Subjugar a Besta, página impressa 2
 
 A oposição do intruso permanece separada e não recebe automaticamente a condição do conjurador. A fonte foi reconferida na página impressa 246 (página 248 do PDF fornecido). Não houve alteração de faces, sucessos, custos, consequências externas ou classificação de cobertura, nem recontagem dos inventários neste ciclo.
 
+## Auditoria da nova tentativa contra Proteções
+
+`WardActions.RollRetry` agora devolve a rolagem junto da confirmação explícita de Besta subjugada do intruso e da indicação de conversão efetiva de crítico bestial. A ficha distingue uma conversão real de uma confirmação que não precisou alterar o resultado e envia essa informação ao diário e à mesa de dados. O estado não é inferido da ficha do conjurador e nenhuma ficha externa é modificada.
+
+As fontes foram reconferidas no livro base: a nova tentativa exige gasto confirmado de Vontade e Vigor + Determinação, na página impressa 275 (página 277 do PDF); a imunidade a críticos bestiais está na página impressa 246 (página 248 do PDF). Pagamento, identidade do intruso e aplicação das consequências continuam sob controle da mesa. Nenhum item foi reclassificado e não houve recontagem da cobertura neste ciclo.
+
 ## Revisão da proposta de Criar Pedra de Sangue
 
 `RitualEffectRules` já apresenta, após sucesso, a localização como direção e distância percebidas pelo conjurador, a duração de uma semana e o término se a pedra for destruída. `RitualWorkflowActions` também exige as três noites de preparo e verifica o limite de pedras ativas pela Determinação, com exceção justificada. A linha da matriz foi atualizada para distinguir essas propostas automatizadas das confirmações que continuam pertencendo à mesa: inventário e posição reais, destruição e continuidade do vínculo. O app não rastreia objetos no mundo nem conclui automaticamente que uma pedra foi destruída.
