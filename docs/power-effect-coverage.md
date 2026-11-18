@@ -190,6 +190,10 @@ As rolagens de uso de poder, preparo de ritual, despertar e primeiro contato de 
 
 No primeiro contato de uma proteção de objeto, o retorno da aplicação também conserva a confirmação de Besta subjugada e informa quando houve conversão real de crítico bestial. A ficha inclui a condição, a conversão e o resultado final no efeito e no diário, sem aplicar o dano proposto ao intruso.
 
+O fluxo geral de ativação de poderes agora conserva os mesmos dados de auditoria no retorno de `PowerUseActions`: se a Besta subjugada foi considerada e se um crítico bestial foi efetivamente convertido. A ficha inclui essas informações no efeito, no diário e no resultado enviado à mesa de dados. Poderes sem teste não recebem uma anotação artificial. O livro base foi reconferido na página impressa 246 (página 248 do PDF).
+
+Essa persistência se aplica aos perfis que já usam o fluxo geral, sem transformar efeitos narrativos em aplicação direta nem alterar a classificação de cobertura. Alvos externos continuam recebendo apenas propostas e registros; nenhuma outra ficha é modificada silenciosamente.
+
 Nos testes de cena e conflitos do Narrador, a Besta subjugada pode ser confirmada separadamente para cada participante. A confirmação vale apenas para aquela rolagem, é anotada no resultado e precisa ser refeita no próximo teste; ela não lê nem altera automaticamente outra ficha. Outras ferramentas do Narrador ainda requerem revisão.
 
 A descrição de Proteção contra Cainitas foi corrigida a partir do livro base, pp. 275 e 280: ela protege um objeto, exclui o próprio conjurador e requer cinzas de fogo aceso; sucumbir ao frenesi de terror impede sua inscrição naquela noite. A mesa pode identificar o conjurador no contato para impedir a rolagem contra ele; a identidade continua sendo confirmada manualmente. O frenesi e sua restrição ainda não são controlados automaticamente. Fichas com dados de catálogo editados podem conservar o texto anterior; restaure o catálogo quando necessário. A integração do ritual continua incompleta.

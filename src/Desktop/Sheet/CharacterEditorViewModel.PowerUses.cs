@@ -173,6 +173,8 @@ public partial class CharacterEditorViewModel
             var target = PowerTargetIsSelf ? Name : ActivationTarget.Trim();
             ActivationSummary = $"{power.Name} → {target}: {outcome.Effect} Duração: {outcome.Duration}. " +
                 (result.Roll is { } roll ? $"{roll.Successes} sucesso(s), {roll.Outcome}; margem {outcome.Margin}. " : "Sem teste, conforme condições confirmadas. ") +
+                (result.BeastSubduedConsidered ? "Besta subjugada considerada; fonte: Livro base, p. 246. " : "") +
+                (result.MessyCriticalSuppressed ? "O crítico bestial original foi convertido em crítico normal. " : "") +
                 $"{use.Source}. Decisão: {PowerRuling}";
             var entry = new PowerEffectEntry(Guid.NewGuid(), power.Key, power.Name, target, PowerTargetIsSelf,
                 DateTime.UtcNow, ActivationSummary, outcome.Duration, use.Source, PowerRuling,

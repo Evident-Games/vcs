@@ -11,7 +11,8 @@ public sealed record PowerUseRequest(PowerUseDefinition Definition, int PowerLev
     int WillpowerSuperficial, int WillpowerAggravated, int WillpowerCapacity, string EditionId = "V5",
     bool BeastSubdued = false);
 
-public sealed record PowerUseResult(PowerActivationResult Costs, DicePoolResult? Roll, PowerResolution Resolution);
+public sealed record PowerUseResult(PowerActivationResult Costs, DicePoolResult? Roll, PowerResolution Resolution,
+    bool BeastSubduedConsidered = false, bool MessyCriticalSuppressed = false);
 
 /// <summary>Resolves one use without mutating a sheet; the caller commits the result once.</summary>
 public sealed class PowerUseActions
@@ -35,11 +36,12 @@ public sealed class PowerUseActions
             request.RouseChecks, request.WillpowerCost, request.WillpowerSuperficial,
             request.WillpowerAggravated, request.WillpowerCapacity, random);
         var rollDifficulty = request.Definition.Mode == "opposed" ? request.OpponentSuccesses + 1 : request.Difficulty;
-        var roll = request.RollRequired ? DicePoolRules.Roll(request.Pool, costs.Hunger, rollDifficulty, random) : null;
-        if (roll is not null) roll = QuellBeastRules.ApplyToRoll(roll, request.BeastSubdued);
+        var originalRoll = request.RollRequired ? DicePoolRules.Roll(request.Pool, costs.Hunger, rollDifficulty, random) : null;
+        var messyCriticalSuppressed = request.BeastSubdued && originalRoll?.Outcome == TestOutcome.MessyCritical;
+        var roll = originalRoll is null ? null : QuellBeastRules.ApplyToRoll(originalRoll, request.BeastSubdued);
         var outcome = ruleset.Resolve(request.Definition, new(request.Rating, roll?.Successes ?? 0,
             request.Difficulty, request.OpponentSuccesses, request.RollRequired, roll?.IsCritical ?? false,
             request.VampireTarget, request.RouseChecks, request.Wits, request.BloodPotency));
-        return new(costs, roll, outcome);
+        return new(costs, roll, outcome, request.BeastSubdued && roll is not null, messyCriticalSuppressed);
     }
 }
