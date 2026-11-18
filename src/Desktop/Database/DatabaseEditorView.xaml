@@ -80,7 +80,7 @@
                     </TextBox.Style>
                 </TextBox>
                 <TextBlock Text="Disciplinas do aplicativo nao mudam; crie uma nova para usar em poderes e clas." Margin="0,8,0,0" TextWrapping="Wrap"
-                           Foreground="{DynamicResource VcsInputDescription}" />
+                           Foreground="{DynamicResource ThemeInputDescription}" />
             </StackPanel>
         </DataTemplate>
 
@@ -164,15 +164,15 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="12"
-            Padding="24" Margin="36" MaxWidth="1100" TextElement.Foreground="{DynamicResource VcsOuterText}"
+    <Border Background="{DynamicResource ThemeBackground}" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" CornerRadius="12"
+            Padding="24" Margin="36" MaxWidth="1100" TextElement.Foreground="{DynamicResource ThemeOuterText}"
             AutomationProperties.Name="Banco de dados">
         <DockPanel>
             <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6">
                 <Button Content="Fechar" Command="{Binding ToggleDatabaseEditorCommand}" DockPanel.Dock="Right" />
                 <TextBlock Text="Banco de dados" Style="{StaticResource SectionTitle}" />
             </DockPanel>
-            <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,12" Foreground="{DynamicResource VcsInputDescription}"
+            <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,12" Foreground="{DynamicResource ThemeInputDescription}"
                        Text="Itens do aplicativo podem ser editados e restaurados, mas nao excluidos, porque fichas podem usa-los. Os seus podem ser excluidos. Fichas abertas usam as mudancas ao serem reabertas." />
             <TabControl ItemsSource="{Binding Database.Tabs}" SelectedIndex="0" AutomationProperties.Name="Catalogos do banco">
                 <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Title}" /></DataTemplate></TabControl.ItemTemplate>
@@ -194,7 +194,7 @@
                                         <DataTemplate>
                                             <DockPanel Margin="2,2">
                                                 <TextBlock DockPanel.Dock="Right" Text="{Binding Badge}" FontSize="10" FontStyle="Italic" VerticalAlignment="Top"
-                                                           Foreground="{DynamicResource VcsAccentText}" Margin="6,0,0,0" />
+                                                           Foreground="{DynamicResource ThemeAccentText}" Margin="6,0,0,0" />
                                                 <StackPanel>
                                                     <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
                                                     <TextBlock Text="{Binding Subtitle}" FontSize="11" TextTrimming="CharacterEllipsis" Opacity="0.8" />
@@ -206,8 +206,8 @@
                             </DockPanel>
                             <DockPanel Grid.Column="2">
                                 <StackPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
-                                    <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" />
-                                    <TextBlock Text="{Binding Status}" Foreground="{DynamicResource VcsInputDescription}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Error}" Foreground="{DynamicResource ThemeAccentText}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Status}" Foreground="{DynamicResource ThemeInputDescription}" TextWrapping="Wrap" />
                                     <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                                         <Button Content="Salvar" Command="{Binding SaveCommand}" Margin="0,0,8,0"
                                                 AutomationProperties.Name="{Binding Title, StringFormat='Salvar em {0}'}" />

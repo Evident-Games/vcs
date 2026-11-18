@@ -7,19 +7,19 @@
     <UserControl.Style>
         <!-- The host pane paints the sheet surface; the sheet sets its text color for that surface. -->
         <Style TargetType="sheet:CharacterEditorView">
-            <Setter Property="Foreground" Value="{DynamicResource VcsOuterText}" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeOuterText}" />
             <Style.Triggers>
                 <Trigger Property="IsPane" Value="True">
-                    <Setter Property="Foreground" Value="{DynamicResource VcsCardText}" />
+                    <Setter Property="Foreground" Value="{DynamicResource ThemeCardText}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
     </UserControl.Style>
     <UserControl.Resources>
         <DataTemplate x:Key="SheetHeader">
-        <Border Margin="0,0,0,8" Padding="10,6" Tag="{DynamicResource VcsCard}"
-                BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="14"
-                TextElement.Foreground="{DynamicResource VcsCardText}" MaxWidth="{Binding Tag, RelativeSource={RelativeSource AncestorType=ContentControl}, FallbackValue=1100, TargetNullValue=1100}" AutomationProperties.Name="Cabeçalho da ficha">
+        <Border Margin="0,0,0,8" Padding="10,6" Tag="{DynamicResource ThemeCard}"
+                BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" CornerRadius="14"
+                TextElement.Foreground="{DynamicResource ThemeCardText}" MaxWidth="{Binding Tag, RelativeSource={RelativeSource AncestorType=ContentControl}, FallbackValue=1100, TargetNullValue=1100}" AutomationProperties.Name="Cabeçalho da ficha">
             <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -27,15 +27,15 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" Background="{DynamicResource VcsAccent}" CornerRadius="2" Margin="0,2,14,2" />
+                <Border Grid.Column="0" Background="{DynamicResource ThemeAccent}" CornerRadius="2" Margin="0,2,14,2" />
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock Text="{Binding IdentityHeading}" FontSize="10" FontWeight="Bold"
-                               Foreground="{DynamicResource VcsAccentText}" />
+                               Foreground="{DynamicResource ThemeAccentText}" />
                     <TextBlock Text="{Binding Name, ValidatesOnNotifyDataErrors=False}" FontFamily="Georgia"
                                FontSize="22" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Margin="0,2,0,0" />
                     <WrapPanel Margin="0,2,0,0" VerticalAlignment="Center">
                         <TextBlock Text="{Binding Clan}" FontWeight="SemiBold" />
-                        <TextBlock Text="{Binding Concept}" Foreground="{DynamicResource VcsInputDescription}" Margin="12,0,0,0">
+                        <TextBlock Text="{Binding Concept}" Foreground="{DynamicResource ThemeInputDescription}" Margin="12,0,0,0">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Style.Triggers>
@@ -48,27 +48,27 @@
                     </WrapPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="16,0,0,0">
-                    <TextBlock Text="{Binding Status}" Foreground="{DynamicResource VcsAccentText}"
+                    <TextBlock Text="{Binding Status}" Foreground="{DynamicResource ThemeAccentText}"
                                FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Right" Margin="0,0,0,3" />
                     <WrapPanel HorizontalAlignment="Right">
-                        <Border Background="{DynamicResource VcsInput}" BorderBrush="{DynamicResource VcsBorder}"
+                        <Border Background="{DynamicResource ThemeInput}" BorderBrush="{DynamicResource ThemeBorder}"
                                 BorderThickness="1" CornerRadius="6" Padding="7,3" Margin="0,0,6,0">
                             <StackPanel>
-                                <TextBlock Text="GERAÇÃO" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource VcsInputDescription}" />
+                                <TextBlock Text="GERAÇÃO" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource ThemeInputDescription}" />
                                 <TextBlock Text="{Binding Generation}" FontFamily="Georgia" FontSize="15" FontWeight="SemiBold" />
                             </StackPanel>
                         </Border>
-                        <Border Background="{DynamicResource VcsInput}" BorderBrush="{DynamicResource VcsBorder}"
+                        <Border Background="{DynamicResource ThemeInput}" BorderBrush="{DynamicResource ThemeBorder}"
                                 BorderThickness="1" CornerRadius="6" Padding="7,3" Margin="0,0,6,0">
                             <StackPanel>
-                                <TextBlock Text="POTÊNCIA" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource VcsInputDescription}" />
+                                <TextBlock Text="POTÊNCIA" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource ThemeInputDescription}" />
                                 <TextBlock Text="{Binding BloodPotency}" FontFamily="Georgia" FontSize="15" FontWeight="SemiBold" />
                             </StackPanel>
                         </Border>
-                        <Border Background="{DynamicResource VcsInput}" BorderBrush="{DynamicResource VcsBorder}"
+                        <Border Background="{DynamicResource ThemeInput}" BorderBrush="{DynamicResource ThemeBorder}"
                                 BorderThickness="1" CornerRadius="6" Padding="7,3">
                             <StackPanel>
-                                <TextBlock Text="FOME" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource VcsInputDescription}" />
+                                <TextBlock Text="FOME" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource ThemeInputDescription}" />
                                 <TextBlock Text="{Binding Hunger}" FontFamily="Georgia" FontSize="15" FontWeight="SemiBold" />
                             </StackPanel>
                         </Border>
@@ -127,15 +127,15 @@
                 </ItemsControl.ItemContainerStyle>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="{DynamicResource VcsBorder}" Tag="{DynamicResource VcsCard}" TextElement.Foreground="{DynamicResource VcsCardText}"
+                        <Border BorderBrush="{DynamicResource ThemeBorder}" Tag="{DynamicResource ThemeCard}" TextElement.Foreground="{DynamicResource ThemeCardText}"
                                 BorderThickness="1" CornerRadius="8" Padding="8,6,4,6"
                                 AutomationProperties.Name="{Binding Option.DisplayTitle, StringFormat=Bloco {0}}">
                             <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>
                             <DockPanel>
-                                <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="0,0,0,1"
+                                <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="0,0,0,1"
                                         Margin="0,0,4,4" Padding="0,0,0,3">
                                     <TextBlock Text="{Binding Option.DisplayTitle}" FontFamily="Georgia" FontSize="13" FontStyle="Italic"
-                                               Foreground="{DynamicResource VcsAccentText}" TextTrimming="CharacterEllipsis" />
+                                               Foreground="{DynamicResource ThemeAccentText}" TextTrimming="CharacterEllipsis" />
                                 </Border>
                                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                                               controls:ScrollChaining.IsEnabled="True">
@@ -191,8 +191,8 @@
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
-                <TextBlock Text="{Binding ValidationSummary}" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" />
-                <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding ValidationSummary}" Foreground="{DynamicResource ThemeAccentText}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding Error}" Foreground="{DynamicResource ThemeAccentText}" TextWrapping="Wrap" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

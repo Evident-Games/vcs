@@ -2,9 +2,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- Error, status message, update notice and busy indicator. -->
-    <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource VcsBorder}" Padding="12,2" TextElement.Foreground="{DynamicResource VcsFooterText}">
+    <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ThemeBorder}" Padding="12,2" TextElement.Foreground="{DynamicResource ThemeFooterText}">
         <StackPanel>
-            <TextBlock Text="{Binding Error}" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" Margin="0,0,0,4">
+            <TextBlock Text="{Binding Error}" Foreground="{DynamicResource ThemeAccentText}" TextWrapping="Wrap" Margin="0,0,0,4">
                 <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers>
                     <DataTrigger Binding="{Binding Error}" Value=""><Setter Property="Visibility" Value="Collapsed" /></DataTrigger>
                 </Style.Triggers></Style></TextBlock.Style>
@@ -21,7 +21,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <TextBlock Text="{Binding Message}" Foreground="{DynamicResource VcsFooterText}" TextWrapping="Wrap" FontSize="12"
+                <TextBlock Text="{Binding Message}" Foreground="{DynamicResource ThemeFooterText}" TextWrapping="Wrap" FontSize="12"
                            VerticalAlignment="Center" Margin="0" />
             </DockPanel>
             <ProgressBar Height="3" IsIndeterminate="True" Margin="0,6,0,0"

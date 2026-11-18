@@ -2,15 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- Lists, character rosters and tabs. -->
     <Style TargetType="TabControl">
-        <Setter Property="Background" Value="{DynamicResource VcsCard}" />
-        <Setter Property="Foreground" Value="{DynamicResource VcsCardText}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
+        <Setter Property="Background" Value="{DynamicResource ThemeCard}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeCardText}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorder}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabControl">
                     <Grid KeyboardNavigation.TabNavigation="Local">
                         <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
-                        <TabPanel x:Name="HeaderPanel" IsItemsHost="True" Background="{DynamicResource VcsCard}" KeyboardNavigation.TabIndex="1" />
+                        <TabPanel x:Name="HeaderPanel" IsItemsHost="True" Background="{DynamicResource ThemeCard}" KeyboardNavigation.TabIndex="1" />
                         <Border Grid.Row="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                             <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" />
                         </Border>
@@ -20,9 +20,9 @@
         </Setter>
     </Style>
     <Style TargetType="ListBox">
-        <Setter Property="Background" Value="{DynamicResource VcsCard}" />
-        <Setter Property="Foreground" Value="{DynamicResource VcsCardText}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
+        <Setter Property="Background" Value="{DynamicResource ThemeCard}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeCardText}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorder}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
@@ -38,7 +38,7 @@
         </Setter>
     </Style>
     <Style TargetType="ListBoxItem">
-        <Setter Property="Foreground" Value="{DynamicResource VcsCardText}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeCardText}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Padding" Value="6" />
@@ -49,21 +49,21 @@
                     <Border x:Name="Row" Background="{TemplateBinding Background}" CornerRadius="5"
                             BorderBrush="Transparent" BorderThickness="2" Padding="{TemplateBinding Padding}">
                         <ContentPresenter x:Name="RowContent" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          TextElement.Foreground="{DynamicResource VcsCardText}" />
+                                          TextElement.Foreground="{DynamicResource ThemeCardText}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Row" Property="Background" Value="{DynamicResource VcsHover}" />
-                            <Setter Property="Foreground" Value="{DynamicResource VcsSelectionText}" />
+                            <Setter TargetName="Row" Property="Background" Value="{DynamicResource ThemeHover}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ThemeSelectionText}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Row" Property="Background" Value="{DynamicResource VcsSelection}" />
-                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
-                            <Setter TargetName="RowContent" Property="TextElement.Foreground" Value="{DynamicResource VcsSelectionText}" />
-                            <Setter Property="Foreground" Value="{DynamicResource VcsSelectionText}" />
+                            <Setter TargetName="Row" Property="Background" Value="{DynamicResource ThemeSelection}" />
+                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
+                            <Setter TargetName="RowContent" Property="TextElement.Foreground" Value="{DynamicResource ThemeSelectionText}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ThemeSelectionText}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.6" />
@@ -79,22 +79,22 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="Row" Background="Transparent" BorderBrush="{DynamicResource VcsBorder}"
+                    <Border x:Name="Row" Background="Transparent" BorderBrush="{DynamicResource ThemeBorder}"
                             BorderThickness="2,0,0,1" Padding="{TemplateBinding Padding}">
                         <ContentPresenter x:Name="CharacterRowContent" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="Center" TextElement.Foreground="{DynamicResource VcsCardText}" />
+                                          VerticalAlignment="Center" TextElement.Foreground="{DynamicResource ThemeCardText}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Row" Property="Background" Value="{DynamicResource VcsHover}" />
+                            <Setter TargetName="Row" Property="Background" Value="{DynamicResource ThemeHover}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Row" Property="Background" Value="{DynamicResource VcsSelection}" />
-                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
-                            <Setter TargetName="CharacterRowContent" Property="TextElement.Foreground" Value="{DynamicResource VcsSelectionText}" />
+                            <Setter TargetName="Row" Property="Background" Value="{DynamicResource ThemeSelection}" />
+                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
+                            <Setter TargetName="CharacterRowContent" Property="TextElement.Foreground" Value="{DynamicResource ThemeSelectionText}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -108,20 +108,20 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="Row" Background="Transparent" BorderBrush="{DynamicResource VcsBorder}"
+                    <Border x:Name="Row" Background="Transparent" BorderBrush="{DynamicResource ThemeBorder}"
                             BorderThickness="2,0,0,1" Padding="{TemplateBinding Padding}">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="Center" TextElement.Foreground="{DynamicResource VcsCardText}" />
+                                          VerticalAlignment="Center" TextElement.Foreground="{DynamicResource ThemeCardText}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -129,7 +129,7 @@
         </Setter>
     </Style>
     <Style TargetType="TabItem">
-        <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeInputDescription}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Padding" Value="12,10" />
         <Setter Property="Template">
@@ -144,12 +144,12 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource VcsSelection}" />
-                            <Setter Property="Foreground" Value="{DynamicResource VcsSelectionText}" />
-                            <Setter TargetName="TabBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter Property="Background" Value="{DynamicResource ThemeSelection}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ThemeSelectionText}" />
+                            <Setter TargetName="TabBorder" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource VcsHover}" />
+                            <Setter Property="Background" Value="{DynamicResource ThemeHover}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5" />

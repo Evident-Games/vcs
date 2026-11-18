@@ -14,7 +14,7 @@
         <Grid Grid.Row="0">
             <Viewport3D x:Name="DieViewport" ClipToBounds="True" IsHitTestVisible="False">
                 <Viewport3D.Resources>
-                    <DiffuseMaterial x:Key="DieMaterial" Brush="{DynamicResource VcsAccent}" />
+                    <DiffuseMaterial x:Key="DieMaterial" Brush="{DynamicResource ThemeAccent}" />
                 </Viewport3D.Resources>
                 <Viewport3D.Camera>
                     <PerspectiveCamera Position="0,0,3.8" LookDirection="0,0,-3.8"
@@ -23,17 +23,17 @@
             </Viewport3D>
             <TextBlock x:Name="DieValue" Text="{Binding Value}" HorizontalAlignment="Center"
                        VerticalAlignment="Center" Margin="0,0,0,2" FontFamily="Georgia"
-                       FontSize="21" FontWeight="Bold" Foreground="{DynamicResource VcsDieNumber}"
+                       FontSize="21" FontWeight="Bold" Foreground="{DynamicResource ThemeDieNumber}"
                        Opacity="0" />
         </Grid>
         <TextBlock Grid.Row="1" Text="{Binding Kind}" HorizontalAlignment="Center" FontSize="9"
                    FontWeight="Bold">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
-                    <Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" />
+                    <Setter Property="Foreground" Value="{DynamicResource ThemeInputDescription}" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsHunger}" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ThemeAccentText}" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

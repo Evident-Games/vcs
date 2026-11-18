@@ -7,7 +7,7 @@
             <DataTemplate>
                 <Button Content="{Binding Mark}" Tag="{Binding Number}" Click="SelectBox" Width="{Binding BoxSize, ElementName=Root}" Height="{Binding BoxSize, ElementName=Root}"
                         Margin="{Binding Margin}" Padding="0" FontWeight="Bold" AutomationProperties.Name="{Binding Label}"
-                        ToolTip="{Binding Label}" BorderBrush="{DynamicResource VcsAccent}" />
+                        ToolTip="{Binding Label}" BorderBrush="{DynamicResource ThemeAccent}" />
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>

@@ -51,7 +51,7 @@ public sealed class SuggestionBox : UserControl
         };
 
         _list = new ListBox { MaxHeight = 260, MinWidth = 220, BorderThickness = new(0), Focusable = false };
-        _list.SetResourceReference(BackgroundProperty, "VcsCard");
+        _list.SetResourceReference(BackgroundProperty, "ThemeCard");
         ScrollViewer.SetHorizontalScrollBarVisibility(_list, ScrollBarVisibility.Disabled);
         _list.ItemTemplate = ItemTemplate();
         _list.PreviewMouseLeftButtonUp += (_, e) =>
@@ -61,8 +61,8 @@ public sealed class SuggestionBox : UserControl
         };
 
         var frame = new Border { Child = _list, BorderThickness = new(1), CornerRadius = new(0, 0, 6, 6), Padding = new(2) };
-        frame.SetResourceReference(Border.BorderBrushProperty, "VcsBorder");
-        frame.SetResourceReference(Border.BackgroundProperty, "VcsCard");
+        frame.SetResourceReference(Border.BorderBrushProperty, "ThemeBorder");
+        frame.SetResourceReference(Border.BackgroundProperty, "ThemeCard");
         _popup = new Popup
         {
             Child = frame, PlacementTarget = _box, Placement = PlacementMode.Bottom, StaysOpen = false,
@@ -70,7 +70,7 @@ public sealed class SuggestionBox : UserControl
         };
 
         var chevron = new TextBlock { Text = "▾", FontSize = 11, VerticalAlignment = VerticalAlignment.Center };
-        chevron.SetResourceReference(TextBlock.ForegroundProperty, "VcsInputDescription");
+        chevron.SetResourceReference(TextBlock.ForegroundProperty, "ThemeInputDescription");
         _toggle = new Button
         {
             Content = chevron, Focusable = false, Cursor = Cursors.Hand, HorizontalAlignment = HorizontalAlignment.Right,
@@ -177,7 +177,7 @@ public sealed class SuggestionBox : UserControl
         detail.SetValue(TextBlock.FontSizeProperty, 11.0);
         detail.SetValue(TextBlock.MarginProperty, new Thickness(12, 0, 0, 0));
         detail.SetValue(TextBlock.VerticalAlignmentProperty, VerticalAlignment.Center);
-        detail.SetResourceReference(TextBlock.ForegroundProperty, "VcsAccent");
+        detail.SetResourceReference(TextBlock.ForegroundProperty, "ThemeAccent");
         var value = new FrameworkElementFactory(typeof(TextBlock));
         value.SetBinding(TextBlock.TextProperty, new System.Windows.Data.Binding(nameof(SuggestionItem.Value)));
         value.SetValue(TextBlock.FontSizeProperty, 12.5);
@@ -191,7 +191,7 @@ public sealed class SuggestionBox : UserControl
         note.SetValue(TextBlock.FontSizeProperty, 10.5);
         note.SetValue(TextBlock.FontStyleProperty, FontStyles.Italic);
         note.SetValue(TextBlock.TextTrimmingProperty, TextTrimming.CharacterEllipsis);
-        note.SetResourceReference(TextBlock.ForegroundProperty, "VcsInputDescription");
+        note.SetResourceReference(TextBlock.ForegroundProperty, "ThemeInputDescription");
         var text = new FrameworkElementFactory(typeof(StackPanel));
         text.AppendChild(value);
         text.AppendChild(note);

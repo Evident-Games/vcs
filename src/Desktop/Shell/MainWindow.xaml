@@ -9,7 +9,7 @@
     xmlns:themes="clr-namespace:VCS.Desktop.Themes"
     Title="VCS - Vampire Character Sheet" Width="1320" Height="900" MinWidth="1000" MinHeight="680"
     WindowStartupLocation="CenterScreen" ExtendsContentIntoTitleBar="True"
-    Background="{DynamicResource VcsBackground}" Foreground="{DynamicResource VcsOuterText}"
+    Background="{DynamicResource ThemeBackground}" Foreground="{DynamicResource ThemeOuterText}"
     FontFamily="Segoe UI" FontSize="14">
     <!-- Transparent, not null: empty space must take the right click that opens the theme menu. -->
     <Grid Background="Transparent">
@@ -28,7 +28,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ui:TitleBar Title="VCS  /  Vampire Character Sheet" Height="26" Padding="12,0" FontSize="11"
-                     Foreground="{DynamicResource VcsHeaderText}" ButtonsForeground="{DynamicResource VcsHeaderText}" />
+                     Foreground="{DynamicResource ThemeHeaderText}" ButtonsForeground="{DynamicResource ThemeHeaderText}" />
         <shell:MainMenu Grid.Row="1" />
         <Grid Grid.Row="2" IsEnabled="{Binding IsIdle}" ClipToBounds="True">
             <Image Source="{Binding Display.WorkspaceBackgroundImage}" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False" />

@@ -4,12 +4,12 @@
     <Style TargetType="TextBox">
         <Setter Property="MinHeight" Value="36" />
         <Setter Property="Padding" Value="10,6" />
-        <Setter Property="Foreground" Value="{DynamicResource VcsInputText}" />
-        <Setter Property="Background" Value="{DynamicResource VcsInput}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
-        <Setter Property="CaretBrush" Value="{DynamicResource VcsInputText}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource VcsSelection}" />
-        <Setter Property="SelectionTextBrush" Value="{DynamicResource VcsSelectionText}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeInputText}" />
+        <Setter Property="Background" Value="{DynamicResource ThemeInput}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorder}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource ThemeInputText}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource ThemeSelection}" />
+        <Setter Property="SelectionTextBrush" Value="{DynamicResource ThemeSelectionText}" />
         <Setter Property="SelectionOpacity" Value="1" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -21,16 +21,16 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="InputBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="InputBorder" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                             <Setter TargetName="InputBorder" Property="BorderThickness" Value="2" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="InputBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="InputBorder" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.58" />
                         </Trigger>
-                        <Trigger Property="Validation.HasError" Value="True"><Setter TargetName="InputBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /></Trigger>
+                        <Trigger Property="Validation.HasError" Value="True"><Setter TargetName="InputBorder" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" /></Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -44,14 +44,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
-                    <Border x:Name="InputBorder" Background="Transparent" BorderBrush="{DynamicResource VcsBorder}"
+                    <Border x:Name="InputBorder" Background="Transparent" BorderBrush="{DynamicResource ThemeBorder}"
                             BorderThickness="0,0,0,1">
                         <Grid>
                             <ScrollViewer x:Name="PART_ContentHost" Margin="0" Padding="{TemplateBinding Padding}" />
                             <!-- Tag holds an optional hint shown while the line is empty. -->
                             <TextBlock x:Name="Placeholder" Text="{TemplateBinding Tag}" Visibility="Collapsed" IsHitTestVisible="False"
                                        Margin="4,0,0,0" VerticalAlignment="Center" FontStyle="Italic" Opacity="0.75"
-                                       Foreground="{DynamicResource VcsInputDescription}" TextTrimming="CharacterEllipsis" />
+                                       Foreground="{DynamicResource ThemeInputDescription}" TextTrimming="CharacterEllipsis" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -59,7 +59,7 @@
                             <Setter TargetName="Placeholder" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="InputBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="InputBorder" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                             <Setter TargetName="Placeholder" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -68,24 +68,24 @@
         </Setter>
     </Style>
     <Style TargetType="ComboBoxItem">
-        <Setter Property="Foreground" Value="{DynamicResource VcsInputText}" />
-        <Setter Property="Background" Value="{DynamicResource VcsInput}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeInputText}" />
+        <Setter Property="Background" Value="{DynamicResource ThemeInput}" />
         <Setter Property="Padding" Value="10,8" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">
                     <Border x:Name="Choice" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                        <ContentPresenter TextElement.Foreground="{DynamicResource VcsInputText}" />
+                        <ContentPresenter TextElement.Foreground="{DynamicResource ThemeInputText}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter TargetName="Choice" Property="Background" Value="{DynamicResource VcsHover}" />
-                            <Setter Property="Foreground" Value="{DynamicResource VcsSelectionText}" />
+                            <Setter TargetName="Choice" Property="Background" Value="{DynamicResource ThemeHover}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ThemeSelectionText}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Choice" Property="Background" Value="{DynamicResource VcsSelection}" />
-                            <Setter Property="Foreground" Value="{DynamicResource VcsSelectionText}" />
+                            <Setter TargetName="Choice" Property="Background" Value="{DynamicResource ThemeSelection}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ThemeSelectionText}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -97,9 +97,9 @@
     </Style>
     <Style TargetType="ComboBox">
         <Setter Property="MinHeight" Value="36" />
-        <Setter Property="Foreground" Value="{DynamicResource VcsInputText}" />
-        <Setter Property="Background" Value="{DynamicResource VcsInput}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeInputText}" />
+        <Setter Property="Background" Value="{DynamicResource ThemeInput}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorder}" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -114,16 +114,16 @@
                                           ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
                                           Margin="10,6,0,6" VerticalAlignment="Center" IsHitTestVisible="False"
-                                          TextElement.Foreground="{DynamicResource VcsInputText}" />
+                                          TextElement.Foreground="{DynamicResource ThemeInputText}" />
                         <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" Margin="2,1,0,1" Padding="8,4"
-                                 Background="{DynamicResource VcsInput}" Foreground="{DynamicResource VcsInputText}"
-                                 CaretBrush="{DynamicResource VcsInputText}" SelectionBrush="{DynamicResource VcsSelection}"
-                                 SelectionTextBrush="{DynamicResource VcsSelectionText}" SelectionOpacity="1"
+                                 Background="{DynamicResource ThemeInput}" Foreground="{DynamicResource ThemeInputText}"
+                                 CaretBrush="{DynamicResource ThemeInputText}" SelectionBrush="{DynamicResource ThemeSelection}"
+                                 SelectionTextBrush="{DynamicResource ThemeSelectionText}" SelectionOpacity="1"
                                  BorderThickness="0" MinHeight="0"
                                  IsReadOnly="{TemplateBinding IsReadOnly}" VerticalContentAlignment="Center" />
                         <TextBlock x:Name="Placeholder" Text="{TemplateBinding Tag}" Visibility="Collapsed"
                                    Margin="10,6,0,6" VerticalAlignment="Center" IsHitTestVisible="False"
-                                   Foreground="{DynamicResource VcsInputDescription}" TextTrimming="CharacterEllipsis" />
+                                   Foreground="{DynamicResource ThemeInputDescription}" TextTrimming="CharacterEllipsis" />
                         <ToggleButton x:Name="DropButton" Grid.ColumnSpan="2" Style="{x:Null}"
                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                       Focusable="False" ClickMode="Press"
@@ -135,7 +135,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" /><ColumnDefinition Width="36" />
                                             </Grid.ColumnDefinitions>
-                                            <Path Grid.Column="1" Data="M 1,1 L 5,5 L 9,1" Stroke="{DynamicResource VcsInputText}" StrokeThickness="1.5"
+                                            <Path Grid.Column="1" Data="M 1,1 L 5,5 L 9,1" Stroke="{DynamicResource ThemeInputText}" StrokeThickness="1.5"
                                                   Width="10" Height="5" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                         </Grid>
                                     </Border>
@@ -145,7 +145,7 @@
                         <Popup x:Name="PART_Popup" Grid.ColumnSpan="2" IsOpen="{TemplateBinding IsDropDownOpen}"
                                PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom"
                                AllowsTransparency="True" Focusable="False">
-                            <Border Background="{DynamicResource VcsInput}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1"
+                            <Border Background="{DynamicResource ThemeInput}" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1"
                                     MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                                     <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
@@ -164,11 +164,11 @@
                             <Setter TargetName="DropButton" Property="Grid.ColumnSpan" Value="1" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                             <Setter TargetName="ComboBorder" Property="BorderThickness" Value="2" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.55" /></Trigger>
                     </ControlTemplate.Triggers>

@@ -19,7 +19,7 @@
                 <TextBlock Text="{Binding Name}" FontSize="13" />
                 <controls:DotTrack x:Name="Track" Value="{Binding Rating, Mode=TwoWay}" AutomationProperties.Name="{Binding Key}" />
                 <!-- Two fixed lines as wide as the dots, so the cost text never widens the column. -->
-                <TextBlock Text="{Binding AdvancementInfo}" FontSize="10" Opacity="0.75" Foreground="{DynamicResource VcsInputDescription}"
+                <TextBlock Text="{Binding AdvancementInfo}" FontSize="10" Opacity="0.75" Foreground="{DynamicResource ThemeInputDescription}"
                            Width="{Binding ActualWidth, ElementName=Track}" Height="28" TextWrapping="Wrap"
                            TextTrimming="CharacterEllipsis" ToolTip="{Binding AdvancementInfo}"
                            AutomationProperties.Name="{Binding Name, StringFormat=Custo de {0}}" />
@@ -30,9 +30,9 @@
             <DockPanel Margin="8,0,8,12">
                 <StackPanel>
                     <TextBlock Text="{Binding AttributesSummary}" FontWeight="SemiBold" TextWrapping="Wrap"
-                               Foreground="{DynamicResource VcsAccentText}" AutomationProperties.Name="Atributos que faltam" />
+                               Foreground="{DynamicResource ThemeAccentText}" AutomationProperties.Name="Atributos que faltam" />
                     <TextBlock Text="{Binding InitialAttributesDescription}" TextWrapping="Wrap" FontSize="11" Opacity="0.75"
-                               Margin="0,2,0,0" Foreground="{DynamicResource VcsInputDescription}"
+                               Margin="0,2,0,0" Foreground="{DynamicResource ThemeInputDescription}"
                                AutomationProperties.Name="Distribuicao inicial de atributos" />
                 </StackPanel>
             </DockPanel>
@@ -79,7 +79,7 @@
                 <WrapPanel><controls:NumericField Value="{Binding WardRetryPool}" Minimum="0" Maximum="50"/><controls:NumericField Value="{Binding WardRetryHunger}" Minimum="0" Maximum="5"/></WrapPanel>
                 <CheckBox Content="Narrador confirmou Besta subjugada para este intruso (Livro base, p. 246)" IsChecked="{Binding WardRetryBeastSubdued}"/>
                 <CheckBox Content="Narrador confirmou intruso já afetado e gasto de 1 Vontade" IsChecked="{Binding WardRetryCostConfirmed}"/>
-                <TextBlock Text="Ao alterar o executor ou sua parada, confirme novamente o gasto já realizado; o aplicativo não cobra Vontade automaticamente." TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}"/>
+                <TextBlock Text="Ao alterar o executor ou sua parada, confirme novamente o gasto já realizado; o aplicativo não cobra Vontade automaticamente." TextWrapping="Wrap" Foreground="{DynamicResource ThemeInputDescription}"/>
                 <Button Content="Rolar resistência à proteção" Command="{Binding RollWardRetryCommand}" HorizontalAlignment="Left"/>
                 <CheckBox Content="Narrador confirmou perigo durante o sono" IsChecked="{Binding AwakeningDangerConfirmed}"/>
                 <Button Content="Resolver perigo: ritual de despertar" Command="{Binding ResolveAwakeningDangerCommand}" HorizontalAlignment="Left"/>
@@ -179,7 +179,7 @@
                         <controls:DotTrack Value="{Binding Hunger, Mode=TwoWay}" Maximum="5" AutomationProperties.Name="Fome na ficha" />
                         <Button Content="Fazer checagem de Sangue" Command="{Binding MakeRouseCheckCommand}" Margin="0,6,0,0"
                                 AutomationProperties.Name="Fazer checagem de Sangue" />
-                        <TextBlock Text="{Binding RouseRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding RouseRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource ThemeInputDescription}" />
                     </StackPanel>
                     <StackPanel Margin="8,0,24,16">
                         <TextBlock Text="Humanidade" Style="{StaticResource FieldLabel}" />
@@ -187,30 +187,30 @@
                     </StackPanel>
                 </WrapPanel>
                 <Border Visibility="{Binding HasBloodPotencyRuleWarning, Converter={StaticResource BoolVisibility}}"
-                        BorderBrush="{DynamicResource VcsAccentBorder}" Background="{DynamicResource VcsInput}"
+                        BorderBrush="{DynamicResource ThemeAccentBorder}" Background="{DynamicResource ThemeInput}"
                         BorderThickness="1" CornerRadius="7" Padding="10" Margin="8,0,8,10">
                     <StackPanel>
-                        <TextBlock Text="Aviso de regra" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" />
+                        <TextBlock Text="Aviso de regra" FontWeight="SemiBold" Foreground="{DynamicResource ThemeAccentText}" />
                         <TextBlock Text="{Binding BloodPotencyRuleWarning}" TextWrapping="Wrap" Margin="0,3,0,0"
-                                   Foreground="{DynamicResource VcsCardText}" />
+                                   Foreground="{DynamicResource ThemeCardText}" />
                     </StackPanel>
                 </Border>
-                <TextBlock Text="{Binding GenerationRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Margin="8,0,8,4" Foreground="{DynamicResource VcsInputDescription}" />
+                <TextBlock Text="{Binding GenerationRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Margin="8,0,8,4" Foreground="{DynamicResource ThemeInputDescription}" />
                 <sheet:BloodLineageDiagram BloodPotency="{Binding BloodPotency, Mode=TwoWay}"
                                              Generation="{Binding Generation, Mode=TwoWay}"
                                              BloodPotencyEnabled="{Binding CanEditBuild}" Margin="8,0,8,12" />
-                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                <Border Background="{DynamicResource ThemeBackground}" BorderBrush="{DynamicResource ThemeBorder}"
                         BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
                     <StackPanel>
                         <TextBlock Text="Mending" FontWeight="SemiBold" />
-                        <TextBlock Text="{Binding MendingRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" Margin="0,3,0,4" />
+                        <TextBlock Text="{Binding MendingRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource ThemeInputDescription}" Margin="0,3,0,4" />
                         <TextBlock Text="Gasta uma checagem de Sangue e recupera o limite de dano superficial de Saúde da Potência do Sangue. A falha ainda aumenta a Fome."
-                                   TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
+                                   TextWrapping="Wrap" Foreground="{DynamicResource ThemeInputDescription}" />
                         <Button Content="Fazer Mending" Command="{Binding MendSuperficialHealthCommand}" HorizontalAlignment="Left" Margin="0,6,0,0"
                                 AutomationProperties.Name="Recuperar dano superficial de Saúde com Mending" />
                     </StackPanel>
                 </Border>
-                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                <Border Background="{DynamicResource ThemeBackground}" BorderBrush="{DynamicResource ThemeBorder}"
                         BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
                     <StackPanel>
                         <TextBlock Text="Rolagem de dados V5" FontWeight="SemiBold" Margin="0,0,0,8" />
@@ -229,7 +229,7 @@
                          </StackPanel>
                         </Expander>
                         <TextBlock Text="{Binding DiceRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Margin="0,0,0,8"
-                                   Foreground="{DynamicResource VcsInputDescription}" />
+                                   Foreground="{DynamicResource ThemeInputDescription}" />
                         <UniformGrid Columns="3" Margin="0,0,0,8">
                             <StackPanel Margin="0,0,8,0">
                                 <TextBlock Text="Atributo" Style="{StaticResource FieldLabel}" />
@@ -257,7 +257,7 @@
                                   IsEnabled="{Binding CanUseResonanceBonus}" Margin="0,0,0,8"
                                   AutomationProperties.Name="Aplicar bônus de Ressonância ou Discrasia neste teste" />
                         <TextBlock Text="{Binding RollPoolSummary}" TextWrapping="Wrap" Margin="0,0,0,8"
-                                   Foreground="{DynamicResource VcsInputDescription}" />
+                                   Foreground="{DynamicResource ThemeInputDescription}" />
                         <WrapPanel VerticalAlignment="Center">
                             <StackPanel Margin="0,0,12,6">
                                 <StackPanel.Style>
@@ -290,7 +290,7 @@
 
                     </StackPanel>
                 </Border>
-                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                <Border Background="{DynamicResource ThemeBackground}" BorderBrush="{DynamicResource ThemeBorder}"
                         BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
                     <StackPanel>
                         <TextBlock Text="Resistência ao Frenesi" FontWeight="SemiBold" Margin="0,0,0,8" />
@@ -306,10 +306,10 @@
                             <Button Content="Testar resistência" Command="{Binding ResistFrenzyCommand}" Margin="0,0,0,6"
                                     AutomationProperties.Name="Testar resistência ao Frenesi" />
                         </WrapPanel>
-                        <TextBlock Text="{Binding FrenzyTriggerGuidance}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding FrenzyTriggerGuidance}" TextWrapping="Wrap" Foreground="{DynamicResource ThemeInputDescription}" />
                     </StackPanel>
                 </Border>
-                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                <Border Background="{DynamicResource ThemeBackground}" BorderBrush="{DynamicResource ThemeBorder}"
                         BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
                     <StackPanel>
                         <TextBlock Text="Alimentação" FontWeight="SemiBold" Margin="0,0,0,8" />
@@ -331,18 +331,18 @@
                             <Button Content="Rolar Ressonância" Command="{Binding RollResonanceCommand}" IsEnabled="{Binding CanRollResonance}" Margin="0,0,0,6"
                                     AutomationProperties.Name="Rolar Ressonância da fonte de sangue" />
                         </WrapPanel>
-                        <TextBlock Text="{Binding FeedingRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
-                        <TextBlock Text="{Binding FeedingPreview}" TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding FeedingRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource ThemeInputDescription}" />
+                        <TextBlock Text="{Binding FeedingPreview}" TextWrapping="Wrap" Foreground="{DynamicResource ThemeInputDescription}" />
                         <TextBlock Text="{Binding FeedingSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
-                        <TextBlock Text="{Binding ResonanceRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" Margin="0,6,0,0" />
+                        <TextBlock Text="{Binding ResonanceRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource ThemeInputDescription}" Margin="0,6,0,0" />
                         <TextBlock Text="{Binding ResonanceSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
                     </StackPanel>
                 </Border>
-                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                <Border Background="{DynamicResource ThemeBackground}" BorderBrush="{DynamicResource ThemeBorder}"
                         BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
                     <StackPanel>
                         <TextBlock Text="Crônica: Vínculo de Sangue e Torpor" FontWeight="SemiBold" Margin="0,0,0,4" />
-                        <TextBlock Text="{Binding ChronicleRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding ChronicleRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource ThemeInputDescription}" />
                         <WrapPanel Margin="0,6,0,0" VerticalAlignment="Center">
                             <StackPanel Width="180" Margin="0,0,8,6"><TextBlock Text="Regente" Style="{StaticResource FieldLabel}" />
                                 <TextBox Text="{Binding BloodBondRegnantId, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Regente do Vínculo de Sangue" /></StackPanel>
@@ -357,7 +357,7 @@
                             <Button Content="Registrar gole" Command="{Binding RecordBloodBondDrinkCommand}" VerticalAlignment="Bottom" Margin="0,0,0,6" />
                         </WrapPanel>
                         <TextBlock Text="{Binding BloodBondSummary}" TextWrapping="Wrap" />
-                        <TextBlock Text="{Binding BloodBondEffectiveLevel, StringFormat=Nível efetivo nesta data: {0}/3}" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding BloodBondEffectiveLevel, StringFormat=Nível efetivo nesta data: {0}/3}" Foreground="{DynamicResource ThemeInputDescription}" />
                         <WrapPanel Margin="0,10,0,0" VerticalAlignment="Center">
                             <StackPanel Width="145" Margin="0,0,8,6"><TextBlock Text="Entrada em Torpor" Style="{StaticResource FieldLabel}" />
                                 <DatePicker SelectedDate="{Binding TorporEnteredAt, Mode=TwoWay}" AutomationProperties.Name="Data de entrada em Torpor" /></StackPanel>
@@ -366,7 +366,7 @@
                             <CheckBox Content="Está empalado" IsChecked="{Binding TorporStaked, Mode=TwoWay}" VerticalAlignment="Bottom" Margin="0,0,12,10" />
                             <Button Content="Calcular despertar" Command="{Binding CalculateTorporCommand}" VerticalAlignment="Bottom" Margin="0,0,0,6" />
                         </WrapPanel>
-                        <TextBlock Text="{Binding TorporRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding TorporRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource ThemeInputDescription}" />
                         <TextBlock Text="{Binding TorporSummary}" TextWrapping="Wrap" Margin="0,4,0,0" />
                         <WrapPanel Margin="0,6,0,0" VerticalAlignment="Center">
                             <StackPanel Width="130" Margin="0,0,8,6"><TextBlock Text="Potência da Vitae" Style="{StaticResource FieldLabel}" />
@@ -377,11 +377,11 @@
                         </WrapPanel>
                     </StackPanel>
                 </Border>
-                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                <Border Background="{DynamicResource ThemeBackground}" BorderBrush="{DynamicResource ThemeBorder}"
                         BorderThickness="1" CornerRadius="8" Padding="12" Margin="8,0,8,12">
                     <StackPanel>
                         <TextBlock Text="Resolução de conflito" FontWeight="SemiBold" Margin="0,0,0,4" />
-                        <TextBlock Text="{Binding ConflictRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
+                        <TextBlock Text="{Binding ConflictRuleSource, StringFormat=Fonte: {0}}" FontSize="10" Foreground="{DynamicResource ThemeInputDescription}" />
                         <WrapPanel Margin="0,6,0,0" VerticalAlignment="Center">
                             <StackPanel Width="160" Margin="0,0,8,6"><TextBlock Text="Tipo" Style="{StaticResource FieldLabel}" />
                                 <ComboBox ItemsSource="{Binding ConflictKinds}" DisplayMemberPath="Label" SelectedItem="{Binding SelectedConflictKind, Mode=TwoWay}" /></StackPanel>
@@ -404,34 +404,34 @@
                     </StackPanel>
                 </Border>
                 <UniformGrid Columns="3" Margin="8,0,8,12">
-                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,6,6">
-                        <StackPanel><TextBlock Text="Surto de Sangue" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding BloodSurgeSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    <Border Background="{DynamicResource ThemeCard}" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,6,6">
+                        <StackPanel><TextBlock Text="Surto de Sangue" Foreground="{DynamicResource ThemeInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodSurgeSummary}" FontWeight="SemiBold" Foreground="{DynamicResource ThemeAccentText}" TextWrapping="Wrap" /></StackPanel>
                     </Border>
-                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="3,0,3,6">
-                        <StackPanel><TextBlock Text="Recuperação superficial" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding BloodMendSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    <Border Background="{DynamicResource ThemeCard}" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="3,0,3,6">
+                        <StackPanel><TextBlock Text="Recuperação superficial" Foreground="{DynamicResource ThemeInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodMendSummary}" FontWeight="SemiBold" Foreground="{DynamicResource ThemeAccentText}" TextWrapping="Wrap" /></StackPanel>
                     </Border>
-                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="6,0,0,6">
-                        <StackPanel><TextBlock Text="Bônus em poderes" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding BloodPowerBonusSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    <Border Background="{DynamicResource ThemeCard}" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="6,0,0,6">
+                        <StackPanel><TextBlock Text="Bônus em poderes" Foreground="{DynamicResource ThemeInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodPowerBonusSummary}" FontWeight="SemiBold" Foreground="{DynamicResource ThemeAccentText}" TextWrapping="Wrap" /></StackPanel>
                     </Border>
-                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,6,0">
-                        <StackPanel><TextBlock Text="Rerrolagem de despertar" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding BloodRouseRerollSummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    <Border Background="{DynamicResource ThemeCard}" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,6,0">
+                        <StackPanel><TextBlock Text="Rerrolagem de despertar" Foreground="{DynamicResource ThemeInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodRouseRerollSummary}" FontWeight="SemiBold" Foreground="{DynamicResource ThemeAccentText}" TextWrapping="Wrap" /></StackPanel>
                     </Border>
-                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="3,0,3,0">
-                        <StackPanel><TextBlock Text="Gravidade da Perdição" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding BloodBaneSeveritySummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    <Border Background="{DynamicResource ThemeCard}" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="3,0,3,0">
+                        <StackPanel><TextBlock Text="Gravidade da Perdição" Foreground="{DynamicResource ThemeInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodBaneSeveritySummary}" FontWeight="SemiBold" Foreground="{DynamicResource ThemeAccentText}" TextWrapping="Wrap" /></StackPanel>
                     </Border>
-                    <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="6,0,0,0">
-                        <StackPanel><TextBlock Text="Alimentação" Foreground="{DynamicResource VcsInputDescription}" FontSize="11" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding BloodFeedingPenaltySummary}" FontWeight="SemiBold" Foreground="{DynamicResource VcsAccentText}" TextWrapping="Wrap" /></StackPanel>
+                    <Border Background="{DynamicResource ThemeCard}" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" CornerRadius="6" Padding="10" Margin="6,0,0,0">
+                        <StackPanel><TextBlock Text="Alimentação" Foreground="{DynamicResource ThemeInputDescription}" FontSize="11" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding BloodFeedingPenaltySummary}" FontWeight="SemiBold" Foreground="{DynamicResource ThemeAccentText}" TextWrapping="Wrap" /></StackPanel>
                     </Border>
                 </UniformGrid>
                 <sheet:HumanityView />
                         <TextBlock Text="Ressonância e Discrasia são registradas pela mesa. O bônus ativo pode ser aplicado manualmente a um teste compatível no rolador; confirme a disciplina e exceções com o Narrador. Os demais efeitos são calculados pela Potência do Sangue."
-                           TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="8,0,8,4" />
+                           TextWrapping="Wrap" Foreground="{DynamicResource ThemeInputDescription}" Margin="8,0,8,4" />
                 <ItemsControl ItemsSource="{Binding BloodAnnotationFields}" ItemTemplate="{StaticResource SheetExtraField}">
                     <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -467,7 +467,7 @@
                                 <StackPanel Margin="2,3">
                                     <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
                                     <TextBlock Text="{Binding Preview}" FontSize="11" TextTrimming="CharacterEllipsis" Opacity="0.8" />
-                                    <TextBlock Text="{Binding DateLabel}" FontSize="10" Foreground="{DynamicResource VcsInputDescription}" />
+                                    <TextBlock Text="{Binding DateLabel}" FontSize="10" Foreground="{DynamicResource ThemeInputDescription}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -486,7 +486,7 @@
                                 Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=Grid}}"
                                 CommandParameter="{Binding}" AutomationProperties.Name="Excluir nota" />
                         <TextBlock DockPanel.Dock="Right" Text="{Binding DateLabel}" FontSize="11" VerticalAlignment="Center"
-                                   Foreground="{DynamicResource VcsInputDescription}" />
+                                   Foreground="{DynamicResource ThemeInputDescription}" />
                         <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" FontFamily="Georgia" FontSize="17"
                                  Style="{StaticResource PaperLineTextBox}" Tag="Titulo da nota" Margin="0,0,12,0"
                                  AutomationProperties.Name="Titulo da nota" />
@@ -497,7 +497,7 @@
                              AutomationProperties.Name="Texto da nota" />
                 </DockPanel>
                 <TextBlock Grid.Column="1" Text="Nenhuma nota ainda. Use + Nova nota para comecar." TextWrapping="Wrap"
-                           HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsInputDescription}">
+                           HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource ThemeInputDescription}">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
@@ -510,10 +510,10 @@
         </DataTemplate>
         <DataTemplate x:Key="Exceptions">
             <StackPanel>
-                <TextBlock Text="Registre permissões e decisões da crônica que flexibilizam requisitos da ficha. Este quadro é salvo junto ao personagem e fica visível para consulta." TextWrapping="Wrap" Margin="8,0,8,10" Foreground="{DynamicResource VcsInputDescription}" />
+                <TextBlock Text="Registre permissões e decisões da crônica que flexibilizam requisitos da ficha. Este quadro é salvo junto ao personagem e fica visível para consulta." TextWrapping="Wrap" Margin="8,0,8,10" Foreground="{DynamicResource ThemeInputDescription}" />
                 <DockPanel Margin="8,0,8,8">
                     <Button DockPanel.Dock="Right" Content="+ Registrar exceção" Command="{Binding ExceptionRegister.AddCommand}" AutomationProperties.Name="Registrar exceção da ficha" />
-                    <TextBlock Text="{Binding ExceptionRegister.Count, StringFormat={}{0} exceção(ões) registradas}" VerticalAlignment="Center" Foreground="{DynamicResource VcsInputDescription}" />
+                    <TextBlock Text="{Binding ExceptionRegister.Count, StringFormat={}{0} exceção(ões) registradas}" VerticalAlignment="Center" Foreground="{DynamicResource ThemeInputDescription}" />
                 </DockPanel>
                 <DataGrid ItemsSource="{Binding ExceptionRegister.Entries}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserReorderColumns="False" MinHeight="100" MaxHeight="520" HeadersVisibility="Column" IsReadOnly="False" AutomationProperties.Name="Exceções autorizadas pelo narrador">
                     <DataGrid.Columns>
@@ -536,10 +536,10 @@
     <Border>
         <Border.Style>
             <Style TargetType="Border">
-                <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
-                <Setter Property="Tag" Value="{DynamicResource VcsCard}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorder}" />
+                <Setter Property="Tag" Value="{DynamicResource ThemeCard}" />
                 <Setter Property="Background"><Setter.Value><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Setter.Value></Setter>
-                <Setter Property="TextElement.Foreground" Value="{DynamicResource VcsCardText}" />
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource ThemeCardText}" />
                 <Setter Property="BorderThickness" Value="1" />
                 <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="Padding" Value="14" />
@@ -574,11 +574,11 @@
                         </Style>
                     </Grid.Style>
                     <Grid.ColumnDefinitions><ColumnDefinition Width="4" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
-                    <Border Grid.Column="0" Background="{DynamicResource VcsAccent}" CornerRadius="2" Margin="0,2,12,2" />
+                    <Border Grid.Column="0" Background="{DynamicResource ThemeAccent}" CornerRadius="2" Margin="0,2,12,2" />
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                         <TextBlock Text="{Binding Option.DisplayTitle}" FontSize="14" FontWeight="Bold"
-                                   Foreground="{DynamicResource VcsAccentText}" TextTrimming="CharacterEllipsis" />
-                        <Border Height="1" Background="{DynamicResource VcsBorder}" Margin="0,8,0,0" />
+                                   Foreground="{DynamicResource ThemeAccentText}" TextTrimming="CharacterEllipsis" />
+                        <Border Height="1" Background="{DynamicResource ThemeBorder}" Margin="0,8,0,0" />
                     </StackPanel>
                 </Grid>
             </Expander.Header>

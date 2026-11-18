@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace VCS.Desktop.Themes;
 
-/// <summary>Application palette: starts with the default theme's application block under the shared Vcs* keys.</summary>
+/// <summary>Application palette: starts with the default theme's application block under the shared Theme* keys.</summary>
 public sealed class ThemePalette : ResourceDictionary
 {
     public ThemePalette()

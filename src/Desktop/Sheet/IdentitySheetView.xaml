@@ -26,24 +26,24 @@
             <Setter Property="Margin" Value="0" />
             <Setter Property="FontSize" Value="10" />
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsAccentText}" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeAccentText}" />
             <Setter Property="ToolTipService.InitialShowDelay" Value="150" />
             <Setter Property="ToolTipService.ShowDuration" Value="20000" />
             <Setter Property="ToolTipService.Placement" Value="Top" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="HelpCircle" Background="{DynamicResource VcsInput}"
-                                BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="9">
+                        <Border x:Name="HelpCircle" Background="{DynamicResource ThemeInput}"
+                                BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" CornerRadius="9">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="HelpCircle" Property="Background" Value="{DynamicResource VcsHover}" />
-                                <Setter TargetName="HelpCircle" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                                <Setter TargetName="HelpCircle" Property="Background" Value="{DynamicResource ThemeHover}" />
+                                <Setter TargetName="HelpCircle" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                             </Trigger>
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="HelpCircle" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                                <Setter TargetName="HelpCircle" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -54,7 +54,7 @@
     <StackPanel>
         <TextBlock Text="{Binding IdentityHeading}" AutomationProperties.Name="{Binding IdentityHeading}"
                    HorizontalAlignment="Left" FontSize="11" Margin="8,0,0,8"
-                   Foreground="{DynamicResource VcsInputDescription}" />
+                   Foreground="{DynamicResource ThemeInputDescription}" />
         <Grid x:Name="IdentityGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" />

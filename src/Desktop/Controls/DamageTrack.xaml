@@ -8,7 +8,7 @@
             <TextBlock Text="{Binding Capacity, ElementName=Root}" FontWeight="SemiBold" />
         </StackPanel>
         <ProgressBar Height="12" Minimum="0" Maximum="{Binding Capacity, ElementName=Root}"
-                     Value="{Binding Remaining, ElementName=Root, Mode=OneWay}" Foreground="{DynamicResource VcsAccent}"
+                     Value="{Binding Remaining, ElementName=Root, Mode=OneWay}" Foreground="{DynamicResource ThemeAccent}"
                      AutomationProperties.Name="Pontos restantes" />
         <WrapPanel Margin="0,14,0,0">
             <StackPanel Margin="0,0,24,0">

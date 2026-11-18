@@ -1,26 +1,26 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- A aplicacao herda as cores da ficha; somente diferencas sao declaradas aqui. -->
-    <SolidColorBrush x:Key="VcsAppHeaderText" Color="#FCB0B3" />
-    <SolidColorBrush x:Key="VcsAppFooterText" Color="#FCB0B3" />
+    <SolidColorBrush x:Key="ThemeAppHeaderText" Color="#FCB0B3" />
+    <SolidColorBrush x:Key="ThemeAppFooterText" Color="#FCB0B3" />
 
     <!-- Cores da ficha e valores base compartilhados. -->
-    <SolidColorBrush x:Key="VcsSheetBackground" Color="#445E93" />
-    <SolidColorBrush x:Key="VcsSheetOuterText" Color="#FFD806" />
-    <SolidColorBrush x:Key="VcsSheetCard" Color="#48649C" />
-    <SolidColorBrush x:Key="VcsSheetCardText" Color="#FFD806" />
-    <SolidColorBrush x:Key="VcsSheetBorder" Color="#FCB0B3" />
-    <SolidColorBrush x:Key="VcsSheetInput" Color="#445E93" />
-    <SolidColorBrush x:Key="VcsSheetInputText" Color="#FFD806" />
-    <SolidColorBrush x:Key="VcsSheetInputTitle" Color="#FFD806" />
-    <SolidColorBrush x:Key="VcsSheetInputDescription" Color="#FFD806" />
-    <SolidColorBrush x:Key="VcsSheetAccent" Color="#FFD806" />
-    <SolidColorBrush x:Key="VcsSheetDieNumber" Color="#0C0B0D" />
-    <SolidColorBrush x:Key="VcsSheetAccentText" Color="#FFD806" />
-    <SolidColorBrush x:Key="VcsSheetAccentBorder" Color="#FCB0B3" />
-    <SolidColorBrush x:Key="VcsSheetAccentHotbar" Color="#FCB0B3" />
-    <SolidColorBrush x:Key="VcsSheetHover" Color="#CE2F37" />
-    <SolidColorBrush x:Key="VcsSheetSelection" Color="#CE2F37" />
-    <SolidColorBrush x:Key="VcsSheetSelectionText" Color="#FFD806" />
-    <SolidColorBrush x:Key="VcsSheetScroll" Color="#CE2F37" />
+    <SolidColorBrush x:Key="ThemeSheetBackground" Color="#445E93" />
+    <SolidColorBrush x:Key="ThemeSheetOuterText" Color="#FFD806" />
+    <SolidColorBrush x:Key="ThemeSheetCard" Color="#48649C" />
+    <SolidColorBrush x:Key="ThemeSheetCardText" Color="#FFD806" />
+    <SolidColorBrush x:Key="ThemeSheetBorder" Color="#FCB0B3" />
+    <SolidColorBrush x:Key="ThemeSheetInput" Color="#445E93" />
+    <SolidColorBrush x:Key="ThemeSheetInputText" Color="#FFD806" />
+    <SolidColorBrush x:Key="ThemeSheetInputTitle" Color="#FFD806" />
+    <SolidColorBrush x:Key="ThemeSheetInputDescription" Color="#FFD806" />
+    <SolidColorBrush x:Key="ThemeSheetAccent" Color="#FFD806" />
+    <SolidColorBrush x:Key="ThemeSheetDieNumber" Color="#0C0B0D" />
+    <SolidColorBrush x:Key="ThemeSheetAccentText" Color="#FFD806" />
+    <SolidColorBrush x:Key="ThemeSheetAccentBorder" Color="#FCB0B3" />
+    <SolidColorBrush x:Key="ThemeSheetAccentHotbar" Color="#FCB0B3" />
+    <SolidColorBrush x:Key="ThemeSheetHover" Color="#CE2F37" />
+    <SolidColorBrush x:Key="ThemeSheetSelection" Color="#CE2F37" />
+    <SolidColorBrush x:Key="ThemeSheetSelectionText" Color="#FFD806" />
+    <SolidColorBrush x:Key="ThemeSheetScroll" Color="#CE2F37" />
 </ResourceDictionary>

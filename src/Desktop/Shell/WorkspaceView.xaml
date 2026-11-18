@@ -7,7 +7,7 @@
     xmlns:themes="clr-namespace:VCS.Desktop.Themes">
     <UserControl.Resources>
         <Style x:Key="WorkspaceOverlayButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Foreground" Value="{DynamicResource VcsOuterText}" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeOuterText}" />
             <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
                 <Border Background="Transparent" Padding="{TemplateBinding Padding}">
                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}" />
@@ -38,30 +38,30 @@
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <Border x:Name="Tab" Margin="0,0,2,0" CornerRadius="4,4,0,0" BorderThickness="0,0,0,1" Padding="6,0,2,0" MinHeight="26" AllowDrop="True" PreviewMouseLeftButtonDown="OnTabMouseDown" PreviewMouseMove="OnTabMouseMove" Drop="OnTabDrop"
-                        BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}">
+                        BorderBrush="{DynamicResource ThemeBorder}" Background="{DynamicResource ThemeCard}">
                     <StackPanel Orientation="Horizontal">
                         <Button Background="Transparent" BorderThickness="0" Padding="0" MinHeight="0" MaxWidth="140"
                                 Command="{Binding DataContext.ActivateEditorCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                 CommandParameter="{Binding}" AutomationProperties.Name="{Binding TabTitle, StringFormat='Aba {0}'}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="NPC" FontSize="10" FontWeight="Bold" Margin="0,0,6,0" VerticalAlignment="Center"
-                                           Foreground="{DynamicResource VcsAccentText}"
+                                           Foreground="{DynamicResource ThemeAccentText}"
                                            Visibility="{Binding IsNpc, Converter={StaticResource BoolVisibility}}" />
                                 <TextBlock x:Name="TabTitleText" Text="{Binding TabTitle}" TextTrimming="CharacterEllipsis" FontSize="12"
-                                           Foreground="{DynamicResource VcsCardText}" VerticalAlignment="Center" />
+                                           Foreground="{DynamicResource ThemeCardText}" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                         <Button Content="×" Width="20" Height="20" MinHeight="0" Padding="0" Margin="4,0,0,0" Background="Transparent" BorderThickness="0"
-                                Foreground="{DynamicResource VcsInputDescription}" ToolTip="Fechar ficha"
+                                Foreground="{DynamicResource ThemeInputDescription}" ToolTip="Fechar ficha"
                                 Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                 CommandParameter="{Binding}" AutomationProperties.Name="{Binding TabTitle, StringFormat='Fechar {0}'}" />
                     </StackPanel>
                 </Border>
                 <DataTemplate.Triggers>
                     <DataTrigger Binding="{Binding IsActive}" Value="True">
-                        <Setter TargetName="Tab" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                        <Setter TargetName="Tab" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                         <Setter TargetName="Tab" Property="BorderThickness" Value="0,0,0,2" />
-                        <Setter TargetName="Tab" Property="Background" Value="{DynamicResource VcsSelection}" />
+                        <Setter TargetName="Tab" Property="Background" Value="{DynamicResource ThemeSelection}" />
                         <Setter TargetName="TabTitleText" Property="FontWeight" Value="SemiBold" />
                     </DataTrigger>
                 </DataTemplate.Triggers>
@@ -110,16 +110,16 @@
                 <DataTemplate>
                     <!-- Alone, the sheet is a rounded surface in its own theme; side by side it becomes a card. -->
                     <Border x:Name="Pane" CornerRadius="12" themes:SheetTheme.Id="{Binding EffectiveSheetThemeId}"
-                            BorderBrush="{DynamicResource VcsBorder}"
+                            BorderBrush="{DynamicResource ThemeBorder}"
                             BorderThickness="1" Padding="18,14,8,12"
-                            TextElement.Foreground="{DynamicResource VcsCardText}" PreviewMouseDown="OnSheetPaneMouseDown" PreviewGotKeyboardFocus="OnSheetPaneGotKeyboardFocus"
+                            TextElement.Foreground="{DynamicResource ThemeCardText}" PreviewMouseDown="OnSheetPaneMouseDown" PreviewGotKeyboardFocus="OnSheetPaneGotKeyboardFocus"
                             AutomationProperties.Name="{Binding TabTitle, StringFormat='Painel {0}'}">
-                        <Border.Style><Style TargetType="Border"><Setter Property="Tag" Value="{DynamicResource VcsBackground}" /></Style></Border.Style>
+                        <Border.Style><Style TargetType="Border"><Setter Property="Tag" Value="{DynamicResource ThemeBackground}" /></Style></Border.Style>
                         <Border.Background><MultiBinding Converter="{StaticResource SurfaceOpacityConverter}"><Binding RelativeSource="{RelativeSource Self}" Path="Tag" /><Binding Path="DataContext.Display.SurfaceOpacity" RelativeSource="{RelativeSource AncestorType=Window}" /></MultiBinding></Border.Background>
                         <DockPanel>
                             <DockPanel x:Name="PaneHeader" DockPanel.Dock="Top" Margin="0,0,0,6" Visibility="Collapsed" PreviewMouseLeftButtonDown="OnTabMouseDown" PreviewMouseMove="OnTabMouseMove">
                                 <Button DockPanel.Dock="Right" Content="×" Width="22" Height="22" Padding="0" Background="Transparent"
-                                        BorderThickness="0" Foreground="{DynamicResource VcsInputDescription}" ToolTip="Fechar ficha"
+                                        BorderThickness="0" Foreground="{DynamicResource ThemeInputDescription}" ToolTip="Fechar ficha"
                                         Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                         CommandParameter="{Binding}" AutomationProperties.Name="{Binding TabTitle, StringFormat='Fechar painel {0}'}" />
                                 <Button DockPanel.Dock="Right" Content="Exibir ▾" Padding="4,0" MinHeight="22" Margin="0,0,6,0" Background="Transparent" BorderThickness="0" Click="OnWindowViewMenu" AutomationProperties.Name="Modo de visualização da ficha">
@@ -131,16 +131,16 @@
                                     </ContextMenu></Button.ContextMenu>
                                 </Button>
                                 <Thumb DockPanel.Dock="Left" Width="20" Height="24" Margin="0,0,6,0" Cursor="SizeAll" DragDelta="OnFloatingDragDelta" ToolTip="Mover janela" AutomationProperties.Name="Mover janela">
-                                    <Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="Transparent"><TextBlock Text="⋮⋮" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource VcsInputDescription}" /></Border></ControlTemplate></Thumb.Template>
+                                    <Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="Transparent"><TextBlock Text="⋮⋮" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource ThemeInputDescription}" /></Border></ControlTemplate></Thumb.Template>
                                     <Thumb.Style><Style TargetType="Thumb"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding DataContext.FloatingWindows, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></Thumb.Style>
                                 </Thumb>
                                 <TextBlock DockPanel.Dock="Right" Text="{Binding Status}" FontSize="11" Margin="0,0,8,0"
-                                           Foreground="{DynamicResource VcsInputDescription}" VerticalAlignment="Center" />
+                                           Foreground="{DynamicResource ThemeInputDescription}" VerticalAlignment="Center" />
                                 <TextBlock Text="{Binding TabTitle}" FontFamily="Georgia" FontSize="15" FontStyle="Italic"
-                                           Foreground="{DynamicResource VcsAccentText}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                                           Foreground="{DynamicResource ThemeAccentText}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                             </DockPanel>
                             <Thumb DockPanel.Dock="Bottom" Width="18" Height="18" HorizontalAlignment="Right" Cursor="SizeNWSE" DragDelta="OnFloatingResizeDelta" ToolTip="Redimensionar janela" AutomationProperties.Name="Redimensionar janela">
-                                <Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="Transparent"><TextBlock Text="◢" FontSize="12" Foreground="{DynamicResource VcsInputDescription}" HorizontalAlignment="Right" VerticalAlignment="Bottom" /></Border></ControlTemplate></Thumb.Template>
+                                <Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="Transparent"><TextBlock Text="◢" FontSize="12" Foreground="{DynamicResource ThemeInputDescription}" HorizontalAlignment="Right" VerticalAlignment="Bottom" /></Border></ControlTemplate></Thumb.Template>
                                 <Thumb.Style><Style TargetType="Thumb"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding DataContext.FloatingWindows, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></Thumb.Style>
                             </Thumb>
                             <sheet:CharacterEditorView x:Name="Sheet" />
@@ -152,14 +152,14 @@
                             <Setter TargetName="Pane" Property="CornerRadius" Value="8" />
                             <Setter TargetName="Pane" Property="Padding" Value="10,6,6,8" />
                             <Setter TargetName="Pane" Property="BorderThickness" Value="1" />
-                            <Setter TargetName="Pane" Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
-                            <Setter TargetName="Pane" Property="Tag" Value="{DynamicResource VcsCard}" />
+                            <Setter TargetName="Pane" Property="BorderBrush" Value="{DynamicResource ThemeBorder}" />
+                            <Setter TargetName="Pane" Property="Tag" Value="{DynamicResource ThemeCard}" />
                             <Setter TargetName="PaneHeader" Property="Visibility" Value="Visible" />
                             <Setter TargetName="Sheet" Property="IsPane" Value="True" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding DataContext.FloatingWindows, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True">
                             <Setter TargetName="Pane" Property="Margin" Value="2" /><Setter TargetName="Pane" Property="CornerRadius" Value="8" />
-                            <Setter TargetName="Pane" Property="Padding" Value="10,6,6,8" /><Setter TargetName="Pane" Property="Tag" Value="{DynamicResource VcsCard}" />
+                            <Setter TargetName="Pane" Property="Padding" Value="10,6,6,8" /><Setter TargetName="Pane" Property="Tag" Value="{DynamicResource ThemeCard}" />
                             <Setter TargetName="PaneHeader" Property="Visibility" Value="Visible" /><Setter TargetName="Sheet" Property="IsPane" Value="True" />
                         </DataTrigger>
                         <MultiDataTrigger>
@@ -167,7 +167,7 @@
                                 <Condition Binding="{Binding DataContext.IsSideBySide, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True" />
                                 <Condition Binding="{Binding IsActive}" Value="True" />
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="Pane" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="Pane" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                         </MultiDataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
@@ -176,7 +176,7 @@
     </Grid>
         <Border HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="12,0,0,12"
                 Width="456" MaxHeight="360" Padding="12" CornerRadius="12"
-                Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}"
+                Background="{DynamicResource ThemeCard}" BorderBrush="{DynamicResource ThemeBorder}"
                 BorderThickness="1" Panel.ZIndex="20" AutomationProperties.Name="Mesa de rolagem 3D"
                 themes:SheetTheme.Id="{Binding Editor.EffectiveSheetThemeId}">
             <Border.Style>
@@ -193,7 +193,7 @@
                 <Grid Margin="0,0,0,8">
                     <StackPanel>
                         <TextBlock Text="MESA DE DADOS" FontSize="10" FontWeight="Bold"
-                                   Foreground="{DynamicResource VcsInputDescription}">
+                                   Foreground="{DynamicResource ThemeInputDescription}">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Style.Triggers>
@@ -205,7 +205,7 @@
                             </TextBlock.Style>
                         </TextBlock>
                         <TextBlock Text="RESULTADO DA ROLAGEM" FontSize="10" FontWeight="Bold"
-                                   Foreground="{DynamicResource VcsInputDescription}">
+                                   Foreground="{DynamicResource ThemeInputDescription}">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Visibility" Value="Collapsed" />
@@ -218,14 +218,14 @@
                             </TextBlock.Style>
                         </TextBlock>
                         <TextBlock Text="{Binding Editor.LastRollLabel}" FontFamily="Georgia" FontSize="16"
-                                   Foreground="{DynamicResource VcsCardText}" />
+                                   Foreground="{DynamicResource ThemeCardText}" />
                     </StackPanel>
                     <Button Content="×" Width="26" Height="26" Padding="0" HorizontalAlignment="Right"
-                            Background="Transparent" BorderThickness="0" Foreground="{DynamicResource VcsInputDescription}"
+                            Background="Transparent" BorderThickness="0" Foreground="{DynamicResource ThemeInputDescription}"
                             ToolTip="Fechar visualização dos dados" Command="{Binding Editor.ClearRolledDiceCommand}"
                             AutomationProperties.Name="Fechar mesa de dados" />
                 </Grid>
-                <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+                <Border Background="{DynamicResource ThemeBackground}" BorderBrush="{DynamicResource ThemeBorder}"
                         BorderThickness="1" CornerRadius="8" Padding="8">
                     <Border.Style>
                         <Style TargetType="Border">
@@ -250,7 +250,7 @@
                     </ScrollViewer>
                 </Border>
                 <TextBlock Text="{Binding Editor.LastRollSummary}" Margin="4,8,4,2"
-                           TextWrapping="Wrap" Foreground="{DynamicResource VcsCardText}"
+                           TextWrapping="Wrap" Foreground="{DynamicResource ThemeCardText}"
                            AutomationProperties.Name="Resultado da rolagem" />
                 <StackPanel Margin="4,6,4,0">
                     <ItemsControl ItemsSource="{Binding Editor.RerollableDice}">

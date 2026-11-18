@@ -3,24 +3,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:VCS.Desktop.Controls">
     <!-- Layout editor: a live preview per mode. Changes apply at once to every open sheet of the chosen kind. -->
-    <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}"
+    <Border Background="{DynamicResource ThemeBackground}" BorderBrush="{DynamicResource ThemeBorder}"
             BorderThickness="1" CornerRadius="12" Padding="24" Margin="36" MaxWidth="980"
             Visibility="{Binding IsLayoutSettingsOpen, Converter={StaticResource BoolVisibility}}"
-            TextElement.Foreground="{DynamicResource VcsOuterText}" AutomationProperties.Name="Layout da ficha">
+            TextElement.Foreground="{DynamicResource ThemeOuterText}" AutomationProperties.Name="Layout da ficha">
         <Border.Resources>
             <!-- Wpf.Ui radio buttons carry their own text color; on this surface they use the outer text. -->
             <Style TargetType="RadioButton" BasedOn="{StaticResource {x:Type RadioButton}}">
-                <Setter Property="Foreground" Value="{DynamicResource VcsOuterText}" />
+                <Setter Property="Foreground" Value="{DynamicResource ThemeOuterText}" />
             </Style>
             <Style x:Key="LayoutChip" TargetType="Border">
-                <Setter Property="Background" Value="{DynamicResource VcsInput}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
+                <Setter Property="Background" Value="{DynamicResource ThemeInput}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorder}" />
                 <Setter Property="BorderThickness" Value="1" />
                 <Setter Property="CornerRadius" Value="8" />
                 <Setter Property="Cursor" Value="SizeAll" />
-                <Setter Property="TextElement.Foreground" Value="{DynamicResource VcsInputText}" />
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource ThemeInputText}" />
                 <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True"><Setter Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /></Trigger>
+                    <Trigger Property="IsMouseOver" Value="True"><Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" /></Trigger>
                     <DataTrigger Binding="{Binding IsVisible}" Value="False"><Setter Property="Opacity" Value="0.45" /></DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -47,7 +47,7 @@
                 <RadioButton GroupName="SheetMode" Content="Abas" IsChecked="{Binding Display.UseTabs, Mode=TwoWay}" Margin="0,0,14,0" />
                 <RadioButton GroupName="SheetMode" Content="Bento" IsChecked="{Binding Display.UseBento, Mode=TwoWay}" />
             </WrapPanel>
-            <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,14" Foreground="{DynamicResource VcsInputDescription}"
+            <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,14" Foreground="{DynamicResource ThemeInputDescription}"
                        AutomationProperties.Name="Dica do layout">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
@@ -71,21 +71,21 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border x:Name="SectionRow" Margin="0,3" Padding="6,4" CornerRadius="8" BorderThickness="1"
-                                        BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}"
-                                        TextElement.Foreground="{DynamicResource VcsCardText}" AllowDrop="True" DragOver="OnSectionDragOver" Drop="OnSectionDrop"
+                                        BorderBrush="{DynamicResource ThemeBorder}" Background="{DynamicResource ThemeCard}"
+                                        TextElement.Foreground="{DynamicResource ThemeCardText}" AllowDrop="True" DragOver="OnSectionDragOver" Drop="OnSectionDrop"
                                         AutomationProperties.Name="{Binding Title, StringFormat='Linha de {0}'}">
                                     <Grid>
                                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="28" /><ColumnDefinition Width="230" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
                                         <Button Content="⋮⋮" Cursor="SizeAll" Width="22" Height="32" Padding="0" Margin="0,0,6,0"
                                                 FontSize="14" FontWeight="Bold" Background="Transparent" BorderThickness="0"
-                                                Foreground="{DynamicResource VcsInputDescription}" VerticalAlignment="Center"
+                                                Foreground="{DynamicResource ThemeInputDescription}" VerticalAlignment="Center"
                                                 PreviewMouseLeftButtonDown="OnSectionHandleDown" PreviewMouseMove="OnSectionHandleMove"
                                                 PreviewKeyDown="OnSectionHandleKey"
                                                 ToolTip="Arraste para reordenar. Pelo teclado: Alt + seta para cima/baixo."
                                                 AutomationProperties.Name="{Binding Title, StringFormat='Mover {0}'}" />
                                         <TextBlock Grid.Column="1" Text="{Binding SectionOrder}" VerticalAlignment="Center"
                                                    HorizontalAlignment="Center" FontSize="11" Opacity="0.6"
-                                                   Foreground="{DynamicResource VcsInputDescription}" />
+                                                   Foreground="{DynamicResource ThemeInputDescription}" />
                                         <CheckBox Grid.Column="2" Content="{Binding Title}" IsChecked="{Binding IsVisible, Mode=TwoWay}" VerticalAlignment="Center" />
                                         <StackPanel Grid.Column="3" Margin="4,0">
                                             <TextBlock Text="Titulo da secao" Style="{StaticResource FieldLabel}" />
@@ -107,8 +107,8 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border Width="190" Margin="0,0,10,0" Padding="8" CornerRadius="10" BorderThickness="1" VerticalAlignment="Top"
-                                            BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}"
-                                            TextElement.Foreground="{DynamicResource VcsCardText}"
+                                            BorderBrush="{DynamicResource ThemeBorder}" Background="{DynamicResource ThemeCard}"
+                                            TextElement.Foreground="{DynamicResource ThemeCardText}"
                                             AllowDrop="True" DragOver="OnTabDragOver" Drop="OnTabDrop"
                                             AutomationProperties.Name="{Binding Name, StringFormat='Coluna da aba {0}'}">
                                         <StackPanel>
@@ -132,10 +132,10 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <Border Width="150" MinHeight="90" Padding="10" CornerRadius="10" BorderThickness="1" VerticalAlignment="Top"
-                                BorderBrush="{DynamicResource VcsBorder}" Background="Transparent" Opacity="0.8"
+                                BorderBrush="{DynamicResource ThemeBorder}" Background="Transparent" Opacity="0.8"
                                 AllowDrop="True" DragOver="OnTabDragOver" Drop="OnTabDrop" AutomationProperties.Name="Nova aba">
                             <TextBlock Text="+ Nova aba&#10;Arraste uma secao aqui" TextWrapping="Wrap" TextAlignment="Center"
-                                       VerticalAlignment="Center" Foreground="{DynamicResource VcsInputDescription}" />
+                                       VerticalAlignment="Center" Foreground="{DynamicResource ThemeInputDescription}" />
                         </Border>
                     </StackPanel>
                 </ScrollViewer>
@@ -160,7 +160,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                     <Border Height="340" Padding="8" CornerRadius="10" BorderThickness="1"
-                            BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}">
+                            BorderBrush="{DynamicResource ThemeBorder}" Background="{DynamicResource ThemeCard}">
                         <ItemsControl ItemsSource="{Binding Display.EditedLayout.OrderedSections}" AutomationProperties.Name="Mini bento">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate><controls:BentoPanel Columns="4" Gap="6" NarrowWidth="0" /></ItemsPanelTemplate>
@@ -207,7 +207,7 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <StackPanel Margin="8,18,8,8">
                             <TextBlock Text="Temas e aparência" Style="{StaticResource SectionTitle}" />
-                            <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,8,0,16">
+                            <Border Background="{DynamicResource ThemeCard}" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,8,0,16">
                                 <StackPanel>
                                     <TextBlock Text="Fundo e transparência" FontSize="18" FontWeight="SemiBold" />
                                     <WrapPanel Margin="0,10,0,8">
@@ -227,16 +227,16 @@
                                 </StackPanel>
                             </Border>
                             <TextBlock Text="Escolha o tema do aplicativo e, se quiser, personalize a ficha aberta com um tema próprio. As cores originais de todos os temas são preservadas."
-                                       TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}" Margin="0,4,0,18" />
+                                       TextWrapping="Wrap" Foreground="{DynamicResource ThemeInputDescription}" Margin="0,4,0,18" />
                             <Grid>
                                 <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}"
+                                <Border Grid.Column="0" Background="{DynamicResource ThemeCard}" BorderBrush="{DynamicResource ThemeBorder}"
                                         BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,8,0"
-                                        TextElement.Foreground="{DynamicResource VcsCardText}">
+                                        TextElement.Foreground="{DynamicResource ThemeCardText}">
                                     <StackPanel>
                                         <TextBlock Text="Tema do aplicativo" FontSize="18" FontWeight="SemiBold" />
                                         <TextBlock Text="Afeta a janela, os menus e as áreas compartilhadas." FontSize="12"
-                                                   Foreground="{DynamicResource VcsInputDescription}" Margin="0,3,0,12" />
+                                                   Foreground="{DynamicResource ThemeInputDescription}" Margin="0,3,0,12" />
                                         <TextBlock Text="Padrões" Style="{StaticResource FieldLabel}" />
                                         <ItemsControl ItemsSource="{Binding Display.DefaultThemes}" Margin="0,4,0,10">
                                             <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
@@ -275,14 +275,14 @@
                                         </ItemsControl>
                                     </StackPanel>
                                 </Border>
-                                <Border Grid.Column="1" Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}"
+                                <Border Grid.Column="1" Background="{DynamicResource ThemeCard}" BorderBrush="{DynamicResource ThemeBorder}"
                                         BorderThickness="1" CornerRadius="12" Padding="18" Margin="8,0,0,0"
-                                        TextElement.Foreground="{DynamicResource VcsCardText}"
+                                        TextElement.Foreground="{DynamicResource ThemeCardText}"
                                         Visibility="{Binding IsEditing, Converter={StaticResource BoolVisibility}}">
                                     <StackPanel>
                                         <TextBlock Text="Tema da ficha aberta" FontSize="18" FontWeight="SemiBold" />
                                         <TextBlock Text="Defina uma aparência exclusiva ou acompanhe o tema global." FontSize="12"
-                                                   Foreground="{DynamicResource VcsInputDescription}" Margin="0,3,0,12" />
+                                                   Foreground="{DynamicResource ThemeInputDescription}" Margin="0,3,0,12" />
                                         <Button Content="Seguir o tema do aplicativo"
                                                 Command="{Binding SelectSheetThemeCommand}" CommandParameter=""
                                                 Margin="0,0,0,12" HorizontalAlignment="Left" />

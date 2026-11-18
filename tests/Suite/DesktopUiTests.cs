@@ -830,64 +830,64 @@ public sealed class DesktopUiTests(WpfApp wpf)
                 Assert.Equal(option.Id, Assert.Single(model.Display.Themes, x => x.IsSelected).Id);
                 var palette = ThemeService.Load(ThemeCatalog.Get(option.Id));
                 var sheetColors = ThemeService.Load(ThemeCatalog.Get(option.Id), ThemePart.Sheet);
-                Assert.Equal(((SolidColorBrush)palette["VcsOuterText"]).Color, ((SolidColorBrush)window.Foreground).Color);
+                Assert.Equal(((SolidColorBrush)palette["ThemeOuterText"]).Color, ((SolidColorBrush)window.Foreground).Color);
                 if (strict)
-                    Assert.True(Contrast(((SolidColorBrush)palette["VcsOuterText"]).Color,
-                        ((SolidColorBrush)palette["VcsBackground"]).Color) >= 4.5,
-                        $"{option.Name}: VcsOuterText/VcsBackground deve ter contraste minimo de 4.5:1.");
+                    Assert.True(Contrast(((SolidColorBrush)palette["ThemeOuterText"]).Color,
+                        ((SolidColorBrush)palette["ThemeBackground"]).Color) >= 4.5,
+                        $"{option.Name}: ThemeOuterText/ThemeBackground deve ter contraste minimo de 4.5:1.");
                 if (option.Id == ThemeCatalog.DefaultId)
                 {
-                    // Outer text follows the window background; the title bar and top menu use VcsHeaderText;
-                    // text inside cards keeps VcsText.
-                    var livePalette = app.Resources.MergedDictionaries.Single(x => x.Contains("VcsBackground"));
-                    var originalOuter = livePalette["VcsOuterText"];
-                    var originalHeader = livePalette["VcsHeaderText"];
+                    // Outer text follows the window background; the title bar and top menu use ThemeHeaderText;
+                    // text inside cards keeps ThemeText.
+                    var livePalette = app.Resources.MergedDictionaries.Single(x => x.Contains("ThemeBackground"));
+                    var originalOuter = livePalette["ThemeOuterText"];
+                    var originalHeader = livePalette["ThemeHeaderText"];
                     var sentinel = Color.FromRgb(0x12, 0x9A, 0x34);
                     var headerSentinel = Color.FromRgb(0x34, 0x12, 0x9A);
-                    livePalette["VcsOuterText"] = new SolidColorBrush(sentinel);
-                    livePalette["VcsHeaderText"] = new SolidColorBrush(headerSentinel);
+                    livePalette["ThemeOuterText"] = new SolidColorBrush(sentinel);
+                    livePalette["ThemeHeaderText"] = new SolidColorBrush(headerSentinel);
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                     var topMenu = Descendants<Menu>(window).First().Items.OfType<MenuItem>().First();
                     Assert.Equal(sentinel, ((SolidColorBrush)window.Foreground).Color);
                     Assert.Equal(headerSentinel, ((SolidColorBrush)Descendants<Wpf.Ui.Controls.TitleBar>(window).Single().Foreground).Color);
                     Assert.Equal(headerSentinel, ((SolidColorBrush)topMenu.Foreground).Color);
-                    var innerText = ((SolidColorBrush)palette["VcsCardText"]).Color;
+                    var innerText = ((SolidColorBrush)palette["ThemeCardText"]).Color;
                     Assert.Equal(innerText, ((SolidColorBrush)Descendants<TextBlock>(window).First(x => x.Text == "Personagens").Foreground).Color);
                     Assert.DoesNotContain(Descendants<SheetSectionView>(window).SelectMany(Descendants<TextBlock>), x => x.Foreground is SolidColorBrush { Color: var color } && color == sentinel);
-                    livePalette["VcsOuterText"] = originalOuter;
-                    livePalette["VcsHeaderText"] = originalHeader;
+                    livePalette["ThemeOuterText"] = originalOuter;
+                    livePalette["ThemeHeaderText"] = originalHeader;
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                 }
-                Assert.Equal(((SolidColorBrush)palette["VcsBackground"]).Color, ((SolidColorBrush)window.Background).Color);
+                Assert.Equal(((SolidColorBrush)palette["ThemeBackground"]).Color, ((SolidColorBrush)window.Background).Color);
                 var titleBar = Descendants<Wpf.Ui.Controls.TitleBar>(window).Single();
-                var headerText = ((SolidColorBrush)palette["VcsHeaderText"]).Color;
+                var headerText = ((SolidColorBrush)palette["ThemeHeaderText"]).Color;
                 Assert.Equal(headerText, ((SolidColorBrush)titleBar.Foreground).Color);
                 Assert.Equal(headerText, ((SolidColorBrush)titleBar.ButtonsForeground).Color);
-                Assert.Equal(((SolidColorBrush)sheetColors["VcsAccent"]).Color,
-                    ((SolidColorBrush)vigor.FindResource("VcsAccent")).Color);
+                Assert.Equal(((SolidColorBrush)sheetColors["ThemeAccent"]).Color,
+                    ((SolidColorBrush)vigor.FindResource("ThemeAccent")).Color);
                 if (!strict)
                 {
                     // Clan palettes keep the user's colors; only check that they load, apply and persist.
-                    Assert.Equal(((SolidColorBrush)sheetColors["VcsInputText"]).Color, ((SolidColorBrush)Find<TextBox>(window, "Nome do personagem").Foreground).Color);
+                    Assert.Equal(((SolidColorBrush)sheetColors["ThemeInputText"]).Color, ((SolidColorBrush)Find<TextBox>(window, "Nome do personagem").Foreground).Color);
                     await WaitUntilAsync(() => !model.Editor.IsDirty);
                     var persistedClan = new DisplaySettingsViewModel();
                     new DisplaySettingsStore(Path.Combine(directory, "display.json")).Load(persistedClan);
                     Assert.Equal(option.Id, persistedClan.ThemeId);
                     continue;
                 }
-                foreach (var background in new[] { "VcsBackground", "VcsCard", "VcsInput", "VcsHover", "VcsSelection" })
-                    foreach (var foreground in new[] { "VcsCardText", "VcsInputDescription", "VcsAccent" })
+                foreach (var background in new[] { "ThemeBackground", "ThemeCard", "ThemeInput", "ThemeHover", "ThemeSelection" })
+                    foreach (var foreground in new[] { "ThemeCardText", "ThemeInputDescription", "ThemeAccent" })
                         Assert.True(!strict || Contrast(((SolidColorBrush)palette[foreground]).Color,
                             ((SolidColorBrush)palette[background]).Color) >= 4.5,
                             $"{option.Name}: {foreground}/{background} deve ter contraste minimo de 4.5:1.");
                 var input = Find<TextBox>(window, "Nome do personagem");
-                Assert.Equal(((SolidColorBrush)sheetColors["VcsInput"]).Color, ((SolidColorBrush)input.Background).Color);
-                Assert.Equal(((SolidColorBrush)sheetColors["VcsInputText"]).Color, ((SolidColorBrush)input.Foreground).Color);
-                Assert.Equal(((SolidColorBrush)sheetColors["VcsSelection"]).Color, ((SolidColorBrush)input.SelectionBrush).Color);
-                Assert.Equal(((SolidColorBrush)sheetColors["VcsSelectionText"]).Color, ((SolidColorBrush)input.SelectionTextBrush).Color);
-                Assert.Equal(((SolidColorBrush)palette["VcsSelection"]).Color,
+                Assert.Equal(((SolidColorBrush)sheetColors["ThemeInput"]).Color, ((SolidColorBrush)input.Background).Color);
+                Assert.Equal(((SolidColorBrush)sheetColors["ThemeInputText"]).Color, ((SolidColorBrush)input.Foreground).Color);
+                Assert.Equal(((SolidColorBrush)sheetColors["ThemeSelection"]).Color, ((SolidColorBrush)input.SelectionBrush).Color);
+                Assert.Equal(((SolidColorBrush)sheetColors["ThemeSelectionText"]).Color, ((SolidColorBrush)input.SelectionTextBrush).Color);
+                Assert.Equal(((SolidColorBrush)palette["ThemeSelection"]).Color,
                     ((SolidColorBrush)app.Resources[SystemColors.InactiveSelectionHighlightBrushKey]).Color);
-                Assert.Equal(((SolidColorBrush)palette["VcsSelectionText"]).Color,
+                Assert.Equal(((SolidColorBrush)palette["ThemeSelectionText"]).Color,
                     ((SolidColorBrush)app.Resources[SystemColors.InactiveSelectionHighlightTextBrushKey]).Color);
                 var inputBorder = Assert.IsType<Border>(input.Template.FindName("InputBorder", input));
                 Assert.Equal(new CornerRadius(7), inputBorder.CornerRadius);
@@ -904,7 +904,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
                 await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                 var predatorItem = Assert.IsType<ComboBoxItem>(predatorCombo.ItemContainerGenerator.ContainerFromItem(predatorCombo.SelectedItem));
                 Assert.Equal(model.Editor.SelectedPredatorType!.Name, AutomationProperties.GetName(predatorItem));
-                Assert.Equal(((SolidColorBrush)sheetColors["VcsSelectionText"]).Color,
+                Assert.Equal(((SolidColorBrush)sheetColors["ThemeSelectionText"]).Color,
                     ((SolidColorBrush)predatorItem.Foreground).Color);
                 var predatorChoice = Assert.IsType<Border>(predatorItem.Template.FindName("Choice", predatorItem));
                 Assert.True(!strict || Contrast(((SolidColorBrush)predatorItem.Foreground).Color,
@@ -976,9 +976,9 @@ public sealed class DesktopUiTests(WpfApp wpf)
                 clanChoice.ApplyTemplate();
                 var clanInput = Assert.IsType<TextBox>(clanChoice.Template.FindName("PART_EditableTextBox", clanChoice));
                 Assert.True(!strict || Contrast(((SolidColorBrush)clanInput.Foreground).Color, ((SolidColorBrush)clanInput.Background).Color) >= 4.5);
-                Assert.Equal(((SolidColorBrush)sheetColors["VcsSelection"]).Color,
+                Assert.Equal(((SolidColorBrush)sheetColors["ThemeSelection"]).Color,
                     ((SolidColorBrush)clanInput.SelectionBrush).Color);
-                Assert.Equal(((SolidColorBrush)sheetColors["VcsSelectionText"]).Color,
+                Assert.Equal(((SolidColorBrush)sheetColors["ThemeSelectionText"]).Color,
                     ((SolidColorBrush)clanInput.SelectionTextBrush).Color);
                 clanChoice.IsDropDownOpen = true;
                 await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
@@ -988,7 +988,7 @@ public sealed class DesktopUiTests(WpfApp wpf)
                     clanChoice.ItemContainerGenerator.ContainerFromItem("Brujah"));
                 var selectedClanBackground = Assert.IsType<Border>(
                     selectedClanRow.Template.FindName("Choice", selectedClanRow)).Background;
-                Assert.Equal(((SolidColorBrush)sheetColors["VcsSelectionText"]).Color,
+                Assert.Equal(((SolidColorBrush)sheetColors["ThemeSelectionText"]).Color,
                     ((SolidColorBrush)selectedClanRow.Foreground).Color);
                 Assert.True(!strict || Contrast(((SolidColorBrush)selectedClanRow.Foreground).Color,
                     ((SolidColorBrush)selectedClanBackground).Color) >= 4.5);
@@ -1099,15 +1099,15 @@ public sealed class DesktopUiTests(WpfApp wpf)
             var appPalette = ThemeService.Load(ThemeCatalog.Get(model.Display.ThemeId));
             var followedPalette = ThemeService.Load(ThemeCatalog.Get(model.Display.ThemeId), ThemePart.Sheet);
             var sheetPalette = ThemeService.Load(ThemeCatalog.Get("brujah"), ThemePart.Sheet);
-            var appInput = ((SolidColorBrush)followedPalette["VcsInput"]).Color;
-            var sheetInput = ((SolidColorBrush)sheetPalette["VcsInput"]).Color;
+            var appInput = ((SolidColorBrush)followedPalette["ThemeInput"]).Color;
+            var sheetInput = ((SolidColorBrush)sheetPalette["ThemeInput"]).Color;
             Assert.NotEqual(appInput, sheetInput);
             model.SelectSheetThemeCommand.Execute("brujah");
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             Assert.False(model.Display.SheetFollowsApp);
             Assert.True(Assert.Single(model.Display.SheetThemes, x => x.IsSelected).Id == "brujah");
             Assert.Equal(sheetInput, ((SolidColorBrush)Find<TextBox>(window, "Nome do personagem").Background).Color);
-            Assert.Equal(((SolidColorBrush)appPalette["VcsBackground"]).Color, ((SolidColorBrush)window.Background).Color);
+            Assert.Equal(((SolidColorBrush)appPalette["ThemeBackground"]).Color, ((SolidColorBrush)window.Background).Color);
             var sheetSettings = new DisplaySettingsViewModel();
             new DisplaySettingsStore(Path.Combine(directory, "display.json")).Load(sheetSettings);
             Assert.Equal("brujah", sheetSettings.SheetThemeFor(model.Editor!.Id));
@@ -1161,9 +1161,9 @@ public sealed class DesktopUiTests(WpfApp wpf)
                 row.Focus();
                 await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                 var border = Assert.IsType<Border>(row.Template.FindName("Row", row));
-                Assert.Equal(((SolidColorBrush)window.FindResource("VcsSelection")).Color,
+                Assert.Equal(((SolidColorBrush)window.FindResource("ThemeSelection")).Color,
                     ((SolidColorBrush)border.Background).Color);
-                Assert.Equal(((SolidColorBrush)window.FindResource("VcsAccentBorder")).Color,
+                Assert.Equal(((SolidColorBrush)window.FindResource("ThemeAccentBorder")).Color,
                     ((SolidColorBrush)border.BorderBrush).Color);
             }
             var originalId = model.Characters[0].Id;
@@ -1320,8 +1320,8 @@ public sealed class DesktopUiTests(WpfApp wpf)
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             Color PaneCard(CharacterEditorViewModel editor) => ((SolidColorBrush)Descendants<Border>(sheetGrid)
                 .Single(x => x.Name == "Pane" && ReferenceEquals(x.DataContext, editor)).Background).Color;
-            var brujahCard = ((SolidColorBrush)ThemeService.Load(ThemeCatalog.Get("brujah"), ThemePart.Sheet)["VcsCard"]).Color;
-            var appCard = ((SolidColorBrush)ThemeService.Load(ThemeCatalog.Get(model.Display.ThemeId), ThemePart.Sheet)["VcsCard"]).Color;
+            var brujahCard = ((SolidColorBrush)ThemeService.Load(ThemeCatalog.Get("brujah"), ThemePart.Sheet)["ThemeCard"]).Color;
+            var appCard = ((SolidColorBrush)ThemeService.Load(ThemeCatalog.Get(model.Display.ThemeId), ThemePart.Sheet)["ThemeCard"]).Color;
             Assert.Equal(brujahCard, PaneCard(original));
             Assert.Equal(appCard, PaneCard(npc));
             SaveSnapshot(window, "sheet-themes-side-by-side");

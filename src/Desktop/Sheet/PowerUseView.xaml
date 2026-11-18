@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:VCS.Desktop.Controls">
     <StackPanel>
-        <Border Background="{DynamicResource VcsCard}" CornerRadius="8" Padding="12" Margin="0,8">
+        <Border Background="{DynamicResource ThemeCard}" CornerRadius="8" Padding="12" Margin="0,8">
             <StackPanel>
                 <TextBlock Text="Resolver o poder" FontSize="16" FontWeight="SemiBold"/>
                 <TextBlock Text="{Binding PowerUseConditions}" TextWrapping="Wrap" Margin="0,8"/>
@@ -35,7 +35,7 @@
             <StackPanel Margin="8">
                 <TextBlock Text="Custos são pagos uma vez por uso. Resultados para outros alvos são propostas para o Narrador; não alteram silenciosamente outra ficha. Durações em horas/noites são encerradas pela mesa." TextWrapping="Wrap" Margin="0,0,0,8"/>
                 <ListBox ItemsSource="{Binding PowerEffects}" SelectedItem="{Binding SelectedPowerEffect}" MaxHeight="240"
-                         Background="{DynamicResource VcsCard}" Foreground="{DynamicResource VcsCardText}">
+                         Background="{DynamicResource ThemeCard}" Foreground="{DynamicResource ThemeCardText}">
                     <ListBox.ItemTemplate><DataTemplate><StackPanel Margin="6">
                         <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
                         <TextBlock Text="{Binding Target}"/>

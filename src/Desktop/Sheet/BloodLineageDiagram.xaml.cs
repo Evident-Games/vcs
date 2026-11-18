@@ -62,7 +62,7 @@ public partial class BloodLineageDiagram : UserControl
     {
         Diagram.Children.Clear();
         DrawConnections();
-        DrawLine((Column(1) + Column(2)) / 2, 10, (Column(1) + Column(2)) / 2, 89, false, "VcsBorder");
+        DrawLine((Column(1) + Column(2)) / 2, 10, (Column(1) + Column(2)) / 2, 89, false, "ThemeBorder");
         DrawRowLabel("Blood Potency", 0, BloodPotencyY + 1, 118);
         DrawRowLabel("Generation", 0, GenerationY + 1, 118);
 
@@ -74,7 +74,7 @@ public partial class BloodLineageDiagram : UserControl
             ToolTip = "Potencia do Sangue 0",
             IsEnabled = BloodPotencyEnabled
         };
-        cross.SetResourceReference(Control.ForegroundProperty, "VcsAccentText");
+        cross.SetResourceReference(Control.ForegroundProperty, "ThemeAccentText");
         AutomationProperties.SetName(cross, "Potencia do Sangue 0");
         cross.Click += OnBloodPotencyClick;
         Canvas.SetLeft(cross, Column(2) - 10);
@@ -101,11 +101,11 @@ public partial class BloodLineageDiagram : UserControl
             Canvas.SetLeft(generationDot, Column(index) - DotSize / 2);
             Canvas.SetTop(generationDot, GenerationY);
             Diagram.Children.Add(generationDot);
-            DrawText($"{generation}.", Column(index) - 16, 91, 32, 15, "Georgia", 12, "VcsCardText", centered: true);
+            DrawText($"{generation}.", Column(index) - 16, 91, 32, 15, "Georgia", 12, "ThemeCardText", centered: true);
         }
 
         DrawGenerationBrackets();
-        DrawText("(see page 214ff.)", 0, 232, 124, 16, "Georgia", 11, "VcsInputDescription", italic: true);
+        DrawText("(see page 214ff.)", 0, 232, 124, 16, "Georgia", 11, "ThemeInputDescription", italic: true);
     }
 
     private void DrawConnections()
@@ -133,7 +133,7 @@ public partial class BloodLineageDiagram : UserControl
     {
         // Dotted reference stems under the generation labels; the last two use the theme accent.
         for (var index = 3; index <= 12; index++)
-            DrawLine(Column(index), 109, Column(index), 129, true, index >= 11 ? "VcsAccentText" : "VcsInputDescription");
+            DrawLine(Column(index), 109, Column(index), 129, true, index >= 11 ? "ThemeAccentText" : "ThemeInputDescription");
 
         // Thin-blood lineage bracket: 16th generation to the 13th.
         DrawLine(Column(0), 132, Column(0), 141);
@@ -155,7 +155,7 @@ public partial class BloodLineageDiagram : UserControl
         JoinNextGeneration(12, 10, 215);
 
         DrawLine(Column(11), 215, Column(11), 222);
-        DrawText("3.", Column(11) - 12, 222, 24, 16, "Georgia", 12, "VcsCardText", centered: true);
+        DrawText("3.", Column(11) - 12, 222, 24, 16, "Georgia", 12, "ThemeCardText", centered: true);
     }
 
     private void JoinNextGeneration(int generationColumn, int trunkColumn, double y)
@@ -169,8 +169,8 @@ public partial class BloodLineageDiagram : UserControl
     private Button CreateDot(bool selected, string name)
     {
         var button = new Button { Style = (Style)FindResource("LineageDotButton"), ToolTip = name };
-        button.SetResourceReference(Control.BackgroundProperty, selected ? "VcsAccentText" : "VcsInput");
-        button.SetResourceReference(Control.BorderBrushProperty, selected ? "VcsAccentBorder" : "VcsInputDescription");
+        button.SetResourceReference(Control.BackgroundProperty, selected ? "ThemeAccentText" : "ThemeInput");
+        button.SetResourceReference(Control.BorderBrushProperty, selected ? "ThemeAccentBorder" : "ThemeInputDescription");
         AutomationProperties.SetName(button, name);
         return button;
     }
@@ -188,7 +188,7 @@ public partial class BloodLineageDiagram : UserControl
     }
 
     private void DrawRowLabel(string text, double x, double y, double width) =>
-        DrawText(text, x, y, width, 22, "Segoe UI", 14, "VcsCardText");
+        DrawText(text, x, y, width, 22, "Segoe UI", 14, "ThemeCardText");
 
     private void DrawText(string text, double x, double y, double width, double height,
         string fontFamily, double fontSize, string foregroundResource, bool centered = false, bool italic = false)
@@ -212,7 +212,7 @@ public partial class BloodLineageDiagram : UserControl
     }
 
     private void DrawLine(double x1, double y1, double x2, double y2, bool dotted = false,
-        string strokeResource = "VcsInputDescription")
+        string strokeResource = "ThemeInputDescription")
     {
         var line = new Line
         {

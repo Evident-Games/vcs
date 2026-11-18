@@ -33,7 +33,7 @@ public sealed class SpecializationPager : UserControl
         _previous = MiniButton("‹", "Especializacoes anteriores", () => GoTo(_page - 1));
         _next = MiniButton("›", "Proximas especializacoes", () => GoTo(_page + 1));
         _add = MiniButton("+", "Adicionar especializacao", AddLine);
-        _count.SetResourceReference(TextBlock.ForegroundProperty, "VcsInputDescription");
+        _count.SetResourceReference(TextBlock.ForegroundProperty, "ThemeInputDescription");
         var side = new StackPanel { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Top, Margin = new(6, 4, 0, 0) };
         side.Children.Add(_previous);
         side.Children.Add(_count);
@@ -124,7 +124,7 @@ public sealed class SpecializationPager : UserControl
             ToolTip = locked ? "Especialização do predador (troque o predador para remover)." : "Enter cria outra especialização."
         };
         box.SetResourceReference(StyleProperty, "PaperLineTextBox");
-        if (locked) box.SetResourceReference(ForegroundProperty, "VcsAccent");
+        if (locked) box.SetResourceReference(ForegroundProperty, "ThemeAccent");
         AutomationProperties.SetName(box, index == 0 ? EditorName : $"{EditorName} {index + 1}");
         box.TextChanged += (_, _) =>
         {
@@ -169,22 +169,22 @@ public sealed class SpecializationPager : UserControl
     private static Button MiniButton(string glyph, string name, Action click)
     {
         var face = new Border { Width = 14, Height = 14, CornerRadius = new(7), BorderThickness = new(1) };
-        face.SetResourceReference(Border.BorderBrushProperty, "VcsBorder");
-        face.SetResourceReference(Border.BackgroundProperty, "VcsInput");
+        face.SetResourceReference(Border.BorderBrushProperty, "ThemeBorder");
+        face.SetResourceReference(Border.BackgroundProperty, "ThemeInput");
         var text = new TextBlock
         {
             Text = glyph, FontSize = 10, LineHeight = 10, LineStackingStrategy = LineStackingStrategy.BlockLineHeight,
             HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center
         };
-        text.SetResourceReference(TextBlock.ForegroundProperty, "VcsAccent");
+        text.SetResourceReference(TextBlock.ForegroundProperty, "ThemeAccent");
         face.Child = text;
         var template = new ControlTemplate(typeof(Button)) { VisualTree = new FrameworkElementFactory(typeof(ContentPresenter)) };
         var button = new Button { Content = face, Template = template, Cursor = Cursors.Hand, Focusable = false, ToolTip = name, VerticalAlignment = VerticalAlignment.Center };
         AutomationProperties.SetName(button, name);
         button.Click += (_, _) => click();
         button.IsEnabledChanged += (_, _) => face.Opacity = button.IsEnabled ? 1 : 0.35;
-        button.MouseEnter += (_, _) => face.SetResourceReference(Border.BorderBrushProperty, "VcsAccent");
-        button.MouseLeave += (_, _) => face.SetResourceReference(Border.BorderBrushProperty, "VcsBorder");
+        button.MouseEnter += (_, _) => face.SetResourceReference(Border.BorderBrushProperty, "ThemeAccent");
+        button.MouseLeave += (_, _) => face.SetResourceReference(Border.BorderBrushProperty, "ThemeBorder");
         return button;
     }
 }

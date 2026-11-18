@@ -10,22 +10,22 @@
             <Setter Property="MinHeight" Value="16" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="FontSize" Value="9" />
-            <Setter Property="Foreground" Value="{DynamicResource VcsInputText}" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeInputText}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="StepCircle" Background="{DynamicResource VcsInput}"
-                                BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="8">
+                        <Border x:Name="StepCircle" Background="{DynamicResource ThemeInput}"
+                                BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" CornerRadius="8">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
                                               TextElement.Foreground="{TemplateBinding Foreground}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="StepCircle" Property="Background" Value="{DynamicResource VcsHover}" />
-                                <Setter TargetName="StepCircle" Property="BorderBrush" Value="{DynamicResource VcsAccent}" />
+                                <Setter TargetName="StepCircle" Property="Background" Value="{DynamicResource ThemeHover}" />
+                                <Setter TargetName="StepCircle" Property="BorderBrush" Value="{DynamicResource ThemeAccent}" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="StepCircle" Property="Background" Value="{DynamicResource VcsSelection}" />
+                                <Setter TargetName="StepCircle" Property="Background" Value="{DynamicResource ThemeSelection}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" Value="0.55" />

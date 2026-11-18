@@ -3,34 +3,34 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
  <UserControl.Resources>
   <Style TargetType="DataGridColumnHeader">
-   <Setter Property="Background" Value="{DynamicResource VcsCard}"/><Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}"/>
-   <Setter Property="Padding" Value="12,10"/><Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}"/><Setter Property="BorderThickness" Value="0,0,0,1"/>
+   <Setter Property="Background" Value="{DynamicResource ThemeCard}"/><Setter Property="Foreground" Value="{DynamicResource ThemeInputDescription}"/>
+   <Setter Property="Padding" Value="12,10"/><Setter Property="BorderBrush" Value="{DynamicResource ThemeBorder}"/><Setter Property="BorderThickness" Value="0,0,0,1"/>
   </Style>
   <Style TargetType="DataGridRow">
-   <Setter Property="Background" Value="{DynamicResource VcsCard}"/><Setter Property="Foreground" Value="{DynamicResource VcsCardText}"/>
+   <Setter Property="Background" Value="{DynamicResource ThemeCard}"/><Setter Property="Foreground" Value="{DynamicResource ThemeCardText}"/>
    <Setter Property="MinHeight" Value="42"/>
-   <Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="{DynamicResource VcsSelection}"/><Setter Property="Foreground" Value="{DynamicResource VcsSelectionText}"/></Trigger></Style.Triggers>
+   <Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="{DynamicResource ThemeSelection}"/><Setter Property="Foreground" Value="{DynamicResource ThemeSelectionText}"/></Trigger></Style.Triggers>
   </Style>
   <Style TargetType="DataGridCell">
    <Setter Property="Padding" Value="10,8"/><Setter Property="BorderThickness" Value="0"/>
-   <Setter Property="Foreground" Value="{DynamicResource VcsCardText}"/>
-   <Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="{DynamicResource VcsSelection}"/><Setter Property="Foreground" Value="{DynamicResource VcsSelectionText}"/></Trigger></Style.Triggers>
+   <Setter Property="Foreground" Value="{DynamicResource ThemeCardText}"/>
+   <Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="{DynamicResource ThemeSelection}"/><Setter Property="Foreground" Value="{DynamicResource ThemeSelectionText}"/></Trigger></Style.Triggers>
   </Style>
-  <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}"><Setter Property="Background" Value="{DynamicResource VcsCard}"/><Setter Property="Foreground" Value="{DynamicResource VcsCardText}"/><Setter Property="CaretBrush" Value="{DynamicResource VcsCardText}"/></Style>
-  <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}"><Setter Property="Background" Value="{DynamicResource VcsCard}"/></Style>
+  <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}"><Setter Property="Background" Value="{DynamicResource ThemeCard}"/><Setter Property="Foreground" Value="{DynamicResource ThemeCardText}"/><Setter Property="CaretBrush" Value="{DynamicResource ThemeCardText}"/></Style>
+  <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}"><Setter Property="Background" Value="{DynamicResource ThemeCard}"/></Style>
  </UserControl.Resources>
- <Border Background="{DynamicResource VcsBackground}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" Padding="24" TextElement.Foreground="{DynamicResource VcsCardText}">
+ <Border Background="{DynamicResource ThemeBackground}" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" Padding="24" TextElement.Foreground="{DynamicResource ThemeCardText}">
  <DockPanel>
  <DockPanel DockPanel.Dock="Top" Margin="0,0,0,16">
  <Button DockPanel.Dock="Right" Content="Voltar às fichas" Command="{Binding ToggleNarratorCommand}" />
- <StackPanel><TextBlock Text="{Binding Narrator.ChronicleScope}" Foreground="{DynamicResource VcsAccentText}"/>
+ <StackPanel><TextBlock Text="{Binding Narrator.ChronicleScope}" Foreground="{DynamicResource ThemeAccentText}"/>
  <Button Content="Todas as crônicas" Command="{Binding Narrator.ClearChronicleScopeCommand}" HorizontalAlignment="Left"/>
  <TextBlock Text="Narrador · Eventos da crônica" FontFamily="Georgia" FontSize="26" />
  <TextBlock Text="Selecione um evento para editar ou registre uma nova decisão da mesa." Margin="0,6,0,0" /></StackPanel>
  </DockPanel>
  <Grid DataContext="{Binding Narrator}">
  <Grid.ColumnDefinitions><ColumnDefinition Width="3*"/><ColumnDefinition Width="2*"/></Grid.ColumnDefinitions>
- <DataGrid ItemsSource="{Binding VisibleEvents}" SelectedItem="{Binding SelectedVisibleEvent}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single" HeadersVisibility="Column" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsCard}" Foreground="{DynamicResource VcsCardText}" BorderBrush="{DynamicResource VcsBorder}" Margin="0,0,20,0" AutomationProperties.Name="Eventos do Narrador">
+ <DataGrid ItemsSource="{Binding VisibleEvents}" SelectedItem="{Binding SelectedVisibleEvent}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single" HeadersVisibility="Column" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource ThemeBorder}" Background="{DynamicResource ThemeCard}" Foreground="{DynamicResource ThemeCardText}" BorderBrush="{DynamicResource ThemeBorder}" Margin="0,0,20,0" AutomationProperties.Name="Eventos do Narrador">
  <DataGrid.Columns>
  <DataGridTextColumn Header="Data" Binding="{Binding Date, StringFormat=dd/MM/yyyy}" Width="100" />
  <DataGridTextColumn Header="Crônica" Binding="{Binding Chronicle}" Width="*" />
@@ -48,7 +48,7 @@
  <Button Content="Sem personagem" Command="{Binding ClearParticipantCommand}" HorizontalAlignment="Left" Margin="0,0,0,10" />
  <TextBlock Text="Título"/><TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,10" />
  <TextBlock Text="Cena, decisões e exceções"/><TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="100" Margin="0,4,0,10" />
- <Border Background="{DynamicResource VcsCard}" BorderBrush="{DynamicResource VcsBorder}" BorderThickness="1" CornerRadius="8" Padding="12" Margin="0,0,0,12">
+ <Border Background="{DynamicResource ThemeCard}" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" CornerRadius="8" Padding="12" Margin="0,0,0,12">
  <StackPanel><TextBlock Text="Teste da cena · Caça e outros eventos" FontWeight="SemiBold"/>
  <TextBlock Text="Parada, dificuldade e consequências são definidas pelo Narrador conforme a cena." TextWrapping="Wrap" Margin="0,6,0,8"/>
  <TextBlock Text="Dados da parada"/><TextBox Text="{Binding Pool, ValidatesOnExceptions=True}"/>

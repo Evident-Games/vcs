@@ -7,9 +7,9 @@
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="{DynamicResource VcsInputText}" />
-        <Setter Property="Background" Value="{DynamicResource VcsInput}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource VcsBorder}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeInputText}" />
+        <Setter Property="Background" Value="{DynamicResource ThemeInput}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorder}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
@@ -21,17 +21,17 @@
                                           TextElement.Foreground="{TemplateBinding Foreground}" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource VcsHover}" /><Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /></Trigger>
-                        <Trigger Property="IsPressed" Value="True"><Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource VcsSelection}" /><Setter Property="Foreground" Value="{DynamicResource VcsSelectionText}" /></Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /><Setter TargetName="ButtonBorder" Property="BorderThickness" Value="2" /></Trigger>
-                        <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource VcsInputDescription}" /><Setter TargetName="ButtonBorder" Property="Opacity" Value="0.58" /></Trigger>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource ThemeHover}" /><Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" /></Trigger>
+                        <Trigger Property="IsPressed" Value="True"><Setter TargetName="ButtonBorder" Property="Background" Value="{DynamicResource ThemeSelection}" /><Setter Property="Foreground" Value="{DynamicResource ThemeSelectionText}" /></Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" /><Setter TargetName="ButtonBorder" Property="BorderThickness" Value="2" /></Trigger>
+                        <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource ThemeInputDescription}" /><Setter TargetName="ButtonBorder" Property="Opacity" Value="0.58" /></Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
     <Style TargetType="CheckBox">
-        <Setter Property="Foreground" Value="{DynamicResource VcsCardText}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeCardText}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -40,8 +40,8 @@
                     <Grid Background="Transparent">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="24" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
                         <Border x:Name="CheckBorder" Width="17" Height="17" CornerRadius="3" VerticalAlignment="Center"
-                                Background="{DynamicResource VcsInput}" BorderBrush="{DynamicResource VcsAccentBorder}" BorderThickness="1">
-                            <TextBlock x:Name="CheckMark" Text="✓" FontSize="12" Foreground="{DynamicResource VcsInputText}"
+                                Background="{DynamicResource ThemeInput}" BorderBrush="{DynamicResource ThemeAccentBorder}" BorderThickness="1">
+                            <TextBlock x:Name="CheckMark" Text="✓" FontSize="12" Foreground="{DynamicResource ThemeInputText}"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" />
                         </Border>
                         <ContentPresenter Grid.Column="1" RecognizesAccessKey="True" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -50,17 +50,17 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True"><Setter TargetName="CheckMark" Property="Visibility" Value="Visible" /></Trigger>
                         <Trigger Property="IsChecked" Value="{x:Null}"><Setter TargetName="CheckMark" Property="Visibility" Value="Visible" /><Setter TargetName="CheckMark" Property="Text" Value="-" /></Trigger>
-                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="CheckBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /></Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="CheckBorder" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" /><Setter TargetName="CheckBorder" Property="BorderThickness" Value="2" /></Trigger>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="CheckBorder" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" /></Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="CheckBorder" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" /><Setter TargetName="CheckBorder" Property="BorderThickness" Value="2" /></Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
     <Style TargetType="ToolTip">
-        <Setter Property="Foreground" Value="{DynamicResource VcsCardText}" />
-        <Setter Property="Background" Value="{DynamicResource VcsCard}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeCardText}" />
+        <Setter Property="Background" Value="{DynamicResource ThemeCard}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="12" />
         <Setter Property="MaxWidth" Value="420" />
@@ -68,7 +68,7 @@
             <Border CornerRadius="7" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
                 <ContentPresenter TextElement.Foreground="{TemplateBinding Foreground}">
-                    <ContentPresenter.Resources><Style TargetType="TextBlock"><Setter Property="TextWrapping" Value="Wrap" /><Setter Property="Foreground" Value="{DynamicResource VcsCardText}" /></Style></ContentPresenter.Resources>
+                    <ContentPresenter.Resources><Style TargetType="TextBlock"><Setter Property="TextWrapping" Value="Wrap" /><Setter Property="Foreground" Value="{DynamicResource ThemeCardText}" /></Style></ContentPresenter.Resources>
                 </ContentPresenter>
             </Border>
         </ControlTemplate></Setter.Value></Setter>
@@ -85,14 +85,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="Face" CornerRadius="10" BorderThickness="1"
-                            BorderBrush="{DynamicResource VcsBorder}" Background="{DynamicResource VcsInput}">
+                            BorderBrush="{DynamicResource ThemeBorder}" Background="{DynamicResource ThemeInput}">
                         <TextBlock Text="{TemplateBinding Content}" FontSize="{TemplateBinding FontSize}" LineHeight="{TemplateBinding FontSize}"
                                    LineStackingStrategy="BlockLineHeight" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Foreground="{DynamicResource VcsAccentText}" />
+                                   Foreground="{DynamicResource ThemeAccentText}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource VcsAccentBorder}" />
+                            <Setter TargetName="Face" Property="BorderBrush" Value="{DynamicResource ThemeAccentBorder}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Face" Property="Opacity" Value="0.35" />

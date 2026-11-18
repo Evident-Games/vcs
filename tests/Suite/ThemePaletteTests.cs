@@ -35,21 +35,21 @@ public sealed class ThemePaletteTests
     {
         var file = new ResourceDictionary
         {
-            ["VcsSheetBackground"] = Brush(1), ["VcsSheetCard"] = Brush(2), ["VcsSheetOuterText"] = Brush(3),
-            ["VcsSheetInputText"] = Brush(4),
-            ["VcsAppBackground"] = Brush(10), ["VcsAppOuterText"] = Brush(11), ["VcsAppHeaderText"] = Brush(12)
+            ["ThemeSheetBackground"] = Brush(1), ["ThemeSheetCard"] = Brush(2), ["ThemeSheetOuterText"] = Brush(3),
+            ["ThemeSheetInputText"] = Brush(4),
+            ["ThemeAppBackground"] = Brush(10), ["ThemeAppOuterText"] = Brush(11), ["ThemeAppHeaderText"] = Brush(12)
         };
 
         var app = ThemeService.Load(file, ThemePart.Application);
         var sheet = ThemeService.Load(file, ThemePart.Sheet);
 
         Color Of(ResourceDictionary palette, string key) => ((SolidColorBrush)palette[key]).Color;
-        Assert.Equal(Color.FromRgb(10, 10, 10), Of(app, "VcsBackground"));
-        Assert.Equal(Color.FromRgb(2, 2, 2), Of(app, "VcsCard"));
-        Assert.Equal(Color.FromRgb(4, 4, 4), Of(app, "VcsInputText"));
-        Assert.Equal(Color.FromRgb(12, 12, 12), Of(app, "VcsHeaderText"));
-        Assert.Equal(Color.FromRgb(11, 11, 11), Of(app, "VcsFooterText"));
-        Assert.Equal(Color.FromRgb(1, 1, 1), Of(sheet, "VcsBackground"));
-        Assert.False(sheet.Contains("VcsHeaderText"));
+        Assert.Equal(Color.FromRgb(10, 10, 10), Of(app, "ThemeBackground"));
+        Assert.Equal(Color.FromRgb(2, 2, 2), Of(app, "ThemeCard"));
+        Assert.Equal(Color.FromRgb(4, 4, 4), Of(app, "ThemeInputText"));
+        Assert.Equal(Color.FromRgb(12, 12, 12), Of(app, "ThemeHeaderText"));
+        Assert.Equal(Color.FromRgb(11, 11, 11), Of(app, "ThemeFooterText"));
+        Assert.Equal(Color.FromRgb(1, 1, 1), Of(sheet, "ThemeBackground"));
+        Assert.False(sheet.Contains("ThemeHeaderText"));
     }
 }

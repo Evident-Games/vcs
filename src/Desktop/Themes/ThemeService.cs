@@ -5,7 +5,7 @@ using Wpf.Ui.Appearance;
 
 namespace VCS.Desktop.Themes;
 
-/// <summary>Each theme file has an application block (VcsApp*) and a sheet block (VcsSheet*).</summary>
+/// <summary>Each theme file has an application block (ThemeApp*) and a sheet block (ThemeSheet*).</summary>
 public enum ThemePart { Application, Sheet }
 
 public sealed class ThemeService
@@ -19,7 +19,7 @@ public sealed class ThemeService
         if (_appliedTheme == themeId) return;
         _appliedTheme = null;
         var replacement = Load(theme);
-        var appearance = IsDark(((SolidColorBrush)replacement["VcsBackground"]).Color) ? ApplicationTheme.Dark : ApplicationTheme.Light;
+        var appearance = IsDark(((SolidColorBrush)replacement["ThemeBackground"]).Color) ? ApplicationTheme.Dark : ApplicationTheme.Light;
         // Wpf.Ui reloads all of its dictionaries on apply, so only do it when light/dark actually changes.
         if (_appearance != appearance)
         {
@@ -33,19 +33,19 @@ public sealed class ThemeService
         SetSelectionColors(replacement);
         var palette = System.Windows.Application.Current.Resources.MergedDictionaries.OfType<ThemePalette>().Single();
         foreach (var key in replacement.Keys) palette[key] = replacement[key];
-        var accent = ((SolidColorBrush)replacement["VcsAccent"]).Color;
+        var accent = ((SolidColorBrush)replacement["ThemeAccent"]).Color;
         if (_accent != accent) ApplicationAccentColorManager.Apply(accent, appearance, false, false);
         _accent = accent;
         foreach (Window window in System.Windows.Application.Current.Windows)
         {
-            window.SetResourceReference(Control.BackgroundProperty, "VcsBackground");
-            window.SetResourceReference(Control.ForegroundProperty, "VcsOuterText");
+            window.SetResourceReference(Control.BackgroundProperty, "ThemeBackground");
+            window.SetResourceReference(Control.ForegroundProperty, "ThemeOuterText");
         }
         _appliedTheme = themeId;
     }
 
     /// <summary>
-    /// Loads one block of a theme file under the shared Vcs* keys the styles use. The application block may
+    /// Loads one block of a theme file under the shared Theme* keys the styles use. The application block may
     /// list only what differs: missing colors come from the sheet block, header and footer text from outer text.
     /// </summary>
     public static ResourceDictionary Load(ThemeDefinition theme, ThemePart part = ThemePart.Application) =>
@@ -57,13 +57,16 @@ public sealed class ThemeService
         void Copy(string prefix)
         {
             foreach (var key in file.Keys.OfType<string>().Where(x => x.StartsWith(prefix, StringComparison.Ordinal)))
-                palette["Vcs" + key[prefix.Length..]] = file[key];
+                palette["Theme" + key[prefix.Length..]] = file[key];
         }
+        // Legacy custom palettes remain readable; new keys take precedence when both exist.
         Copy("VcsSheet");
+        Copy("ThemeSheet");
         if (part == ThemePart.Sheet) return palette;
         Copy("VcsApp");
-        foreach (var key in new[] { "VcsHeaderText", "VcsFooterText" })
-            if (!palette.Contains(key)) palette[key] = palette["VcsOuterText"];
+        Copy("ThemeApp");
+        foreach (var key in new[] { "ThemeHeaderText", "ThemeFooterText" })
+            if (!palette.Contains(key)) palette[key] = palette["ThemeOuterText"];
         AddHudPalette(palette);
         return palette;
     }
@@ -78,20 +81,20 @@ public sealed class ThemeService
             return brush;
         }
         // The HUD follows the application palette in light, dark and customized themes.
-        // Optional VcsAppHud* overrides still take precedence without changing existing theme files.
-        Default("VcsHudSurface", Translucent("VcsCard", 0.97));
-        Default("VcsHudDock", Translucent("VcsCard", 0.92));
+        // Optional ThemeAppHud* overrides still take precedence without changing existing theme files.
+        Default("ThemeHudSurface", Translucent("ThemeCard", 0.97));
+        Default("ThemeHudDock", Translucent("ThemeCard", 0.92));
         foreach (var (hud, theme) in new[]
         {
             ("Card", "Card"), ("Text", "CardText"), ("Muted", "InputDescription"),
             ("Border", "Border"), ("Accent", "Accent"), ("Hover", "Hover"),
             ("Selection", "Selection"), ("SelectionText", "SelectionText"),
             ("Open", "Accent"), ("Closed", "InputDescription")
-        }) Default("VcsHud" + hud, palette["Vcs" + theme]);
-        Default("VcsHudAccentColor", ((SolidColorBrush)palette["VcsHudAccent"]).Color);
-        var card = ((SolidColorBrush)palette["VcsCard"]).Color;
-        var selection = ((SolidColorBrush)palette["VcsSelection"]).Color;
-        Default("VcsHudSection", new LinearGradientBrush(new GradientStopCollection
+        }) Default("ThemeHud" + hud, palette["Theme" + theme]);
+        Default("ThemeHudAccentColor", ((SolidColorBrush)palette["ThemeHudAccent"]).Color);
+        var card = ((SolidColorBrush)palette["ThemeCard"]).Color;
+        var selection = ((SolidColorBrush)palette["ThemeSelection"]).Color;
+        Default("ThemeHudSection", new LinearGradientBrush(new GradientStopCollection
         {
             new(card, 0), new(selection, 0.5), new(card, 1)
         }, new Point(0, 0.5), new Point(1, 0.5)));
@@ -107,10 +110,10 @@ public sealed class ThemeService
 
     private static void SetSelectionColors(ResourceDictionary palette)
     {
-        palette[SystemColors.HighlightBrushKey] = palette["VcsSelection"];
-        palette[SystemColors.InactiveSelectionHighlightBrushKey] = palette["VcsSelection"];
-        palette[SystemColors.HighlightTextBrushKey] = palette["VcsSelectionText"];
-        palette[SystemColors.InactiveSelectionHighlightTextBrushKey] = palette["VcsSelectionText"];
+        palette[SystemColors.HighlightBrushKey] = palette["ThemeSelection"];
+        palette[SystemColors.InactiveSelectionHighlightBrushKey] = palette["ThemeSelection"];
+        palette[SystemColors.HighlightTextBrushKey] = palette["ThemeSelectionText"];
+        palette[SystemColors.InactiveSelectionHighlightTextBrushKey] = palette["ThemeSelectionText"];
     }
 
     public static bool IsDark(Color background) =>

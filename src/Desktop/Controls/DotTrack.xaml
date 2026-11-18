@@ -15,11 +15,11 @@
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border Background="Transparent" Padding="3">
-                                    <Ellipse x:Name="Dot" Width="13" Height="13" Stroke="{DynamicResource VcsAccent}" StrokeThickness="1.5" Fill="Transparent" />
+                                    <Ellipse x:Name="Dot" Width="13" Height="13" Stroke="{DynamicResource ThemeAccent}" StrokeThickness="1.5" Fill="Transparent" />
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <DataTrigger Binding="{Binding Filled}" Value="True">
-                                        <Setter TargetName="Dot" Property="Fill" Value="{DynamicResource VcsAccent}" />
+                                        <Setter TargetName="Dot" Property="Fill" Value="{DynamicResource ThemeAccent}" />
                                     </DataTrigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>

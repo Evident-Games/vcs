@@ -3,16 +3,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <UserControl.Resources>
         <Style x:Key="HomeAction" TargetType="Button">
-            <Setter Property="Foreground" Value="{DynamicResource VcsHudMuted}" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeHudMuted}" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Margin" Value="0,0,0,8" />
             <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
                 <Grid Width="210" MinHeight="42">
-                    <Rectangle x:Name="Outline" Stroke="{DynamicResource VcsHudBorder}" StrokeDashArray="4 3" RadiusX="8" RadiusY="8" Fill="Transparent" />
+                    <Rectangle x:Name="Outline" Stroke="{DynamicResource ThemeHudBorder}" StrokeDashArray="4 3" RadiusX="8" RadiusY="8" Fill="Transparent" />
                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
-                <ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="{DynamicResource VcsHudAccent}" /></Trigger>
+                <ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Outline" Property="Stroke" Value="{DynamicResource ThemeHudAccent}" /></Trigger>
                     <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Outline" Property="Opacity" Value="0.45" /></Trigger></ControlTemplate.Triggers>
             </ControlTemplate></Setter.Value></Setter>
         </Style>
@@ -30,13 +30,13 @@
                 </Style>
             </Border.Style>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="520" Margin="36">
-                <Border Width="44" Height="3" Background="{DynamicResource VcsAccent}" HorizontalAlignment="Center"
+                <Border Width="44" Height="3" Background="{DynamicResource ThemeAccent}" HorizontalAlignment="Center"
                         CornerRadius="2" Margin="0,0,0,20" />
                 <TextBlock Text="Sua crônica começa aqui" FontFamily="Georgia" FontSize="30"
                            TextAlignment="Center" HorizontalAlignment="Center" />
                 <TextBlock Text="Escolha uma ficha na barra lateral para abrir seu espaço de jogo."
                            Margin="0,12,0,22" TextWrapping="Wrap" TextAlignment="Center"
-                           Foreground="{DynamicResource VcsInputDescription}" />
+                           Foreground="{DynamicResource ThemeInputDescription}" />
                 <Button Content="＋ Criar personagem" Command="{Binding CreateCommand}" HorizontalAlignment="Center" Style="{StaticResource HomeAction}" AutomationProperties.Name="Criar personagem" />
                 <Button Content="＋ Criar crônica" Command="{Binding ShowCreateHudChronicleCommand}" IsEnabled="{Binding CanOpenNarrator}" HorizontalAlignment="Center" Style="{StaticResource HomeAction}" AutomationProperties.Name="Criar crônica" />
             </StackPanel>
