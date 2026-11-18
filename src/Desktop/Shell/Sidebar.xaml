@@ -164,7 +164,13 @@
                         </Style.Triggers></Style></Button.Style>
                         <Button.ToolTip><ToolTip x:Name="CharactersTip" Style="{StaticResource HudTip}" Content="CHARACTERS"/></Button.ToolTip>
                         <Path Data="M8,3 A3,3 0 1 1 8,9 A3,3 0 1 1 8,3 M2,19 L2,16 C2,11 14,11 14,16 L14,19 M16,4 A3,3 0 0 1 16,10 M17,13 C21,13 22,16 22,19"
-                              Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.5" Stretch="Uniform" Width="22" Height="22"/>
+                              Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.5" Stretch="Uniform" Width="22" Height="22">
+                            <Path.Style><Style TargetType="Path"><Style.Triggers>
+                                <MultiDataTrigger><MultiDataTrigger.Conditions><Condition Binding="{Binding IsHudCharacters}" Value="True"/><Condition Binding="{Binding Display.HudCollapsed}" Value="False"/></MultiDataTrigger.Conditions>
+                                    <Setter Property="Effect"><Setter.Value><DropShadowEffect Color="{DynamicResource VcsHudAccentColor}" BlurRadius="10" ShadowDepth="0" Opacity="0.7"/></Setter.Value></Setter>
+                                </MultiDataTrigger>
+                            </Style.Triggers></Style></Path.Style>
+                        </Path>
                     </Button>
                     <Button Command="{Binding SelectHudChroniclesCommand}" AutomationProperties.Name="Crônicas">
                         <Button.Style><Style TargetType="Button" BasedOn="{StaticResource HudDockButton}"><Style.Triggers>
@@ -172,7 +178,13 @@
                         </Style.Triggers></Style></Button.Style>
                         <Button.ToolTip><ToolTip x:Name="ChroniclesTip" Style="{StaticResource HudTip}" Content="CHRONICLES"/></Button.ToolTip>
                         <Path Data="M4,2 L15,2 L20,7 L20,22 L4,22 Z M14,2 L14,8 L20,8 M8,12 L16,12 M8,16 L16,16"
-                              Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.5" Stretch="Uniform" Width="20" Height="22"/>
+                              Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.5" Stretch="Uniform" Width="20" Height="22">
+                            <Path.Style><Style TargetType="Path"><Style.Triggers>
+                                <MultiDataTrigger><MultiDataTrigger.Conditions><Condition Binding="{Binding IsHudChronicles}" Value="True"/><Condition Binding="{Binding Display.HudCollapsed}" Value="False"/></MultiDataTrigger.Conditions>
+                                    <Setter Property="Effect"><Setter.Value><DropShadowEffect Color="{DynamicResource VcsHudAccentColor}" BlurRadius="10" ShadowDepth="0" Opacity="0.7"/></Setter.Value></Setter>
+                                </MultiDataTrigger>
+                            </Style.Triggers></Style></Path.Style>
+                        </Path>
                     </Button>
                 </StackPanel>
             </Border>
@@ -273,25 +285,20 @@
                                     </Button>
                                 </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
                                 <TextBlock x:Name="ChronicleEmpty" Text="Nenhuma crônica encontrada." TextWrapping="Wrap" Foreground="{DynamicResource VcsHudMuted}" FontSize="12" Margin="0,8,0,14"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding HasItems, ElementName=ChronicleList}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
-                                <Expander Header="＋ NOVA CRÔNICA" Style="{StaticResource HudSection}" IsEnabled="{Binding CanOpenNarrator}" IsExpanded="{Binding HudNewChronicleExpanded, Mode=TwoWay}">
-                                    <StackPanel><TextBox Text="{Binding HudNewChronicleName, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" AutomationProperties.Name="Nome da nova crônica"/>
-                                        <Button Content="＋ Criar crônica" Style="{StaticResource HudAddButton}" Command="{Binding CreateHudChronicleCommand}"/>
-                                    </StackPanel>
-                                </Expander>
-                                <Expander Header="CENAS E EVENTOS" Style="{StaticResource HudSection}" IsExpanded="True">
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding HudSelectedChronicle}" Foreground="{DynamicResource VcsHudMuted}" TextWrapping="Wrap" Margin="4,0,0,8" />
-                                        <TextBlock Text="Selecione uma crônica para ver suas cenas e eventos." Foreground="{DynamicResource VcsHudMuted}" TextWrapping="Wrap" FontSize="11">
-                                            <TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding HasHudSelectedChronicle}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
-                                        </TextBlock>
-                                        <ItemsControl ItemsSource="{Binding HudScenes}"><ItemsControl.ItemTemplate><DataTemplate>
-                                            <Button Style="{StaticResource HudButton}" Command="{Binding DataContext.OpenHudSceneCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
-                                                <StackPanel><TextBlock Text="{Binding Title}" TextWrapping="Wrap"/><TextBlock Text="{Binding Kind}" FontSize="10" Foreground="{DynamicResource VcsHudMuted}"/></StackPanel>
-                                            </Button>
-                                        </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
-                                        <Button Content="＋ Nova cena ou evento" Style="{StaticResource HudAddButton}" Command="{Binding NewHudSceneCommand}" IsEnabled="{Binding HasHudSelectedChronicle}" />
-                                    </StackPanel>
-                                </Expander>
+                                <TextBlock Text="NOVA CRÔNICA" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource VcsHudMuted}" Margin="4,10,0,8" />
+                                <TextBox Text="{Binding HudNewChronicleName, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" AutomationProperties.Name="Nome da nova crônica" IsEnabled="{Binding CanOpenNarrator}" />
+                                <Button Content="＋ Criar crônica" Style="{StaticResource HudAddButton}" Command="{Binding CreateHudChronicleCommand}" IsEnabled="{Binding CanOpenNarrator}" />
+                                <TextBlock Text="CENAS E EVENTOS" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource VcsHudMuted}" Margin="4,18,0,8" />
+                                <TextBlock Text="{Binding HudSelectedChronicle}" Foreground="{DynamicResource VcsHudMuted}" TextWrapping="Wrap" Margin="4,0,0,8" />
+                                <TextBlock Text="Selecione uma crônica para ver suas cenas e eventos." Foreground="{DynamicResource VcsHudMuted}" TextWrapping="Wrap" FontSize="11">
+                                    <TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding HasHudSelectedChronicle}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+                                </TextBlock>
+                                <ItemsControl ItemsSource="{Binding HudScenes}"><ItemsControl.ItemTemplate><DataTemplate>
+                                    <Button Style="{StaticResource HudButton}" Command="{Binding DataContext.OpenHudSceneCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
+                                        <StackPanel><TextBlock Text="{Binding Title}" TextWrapping="Wrap"/><TextBlock Text="{Binding Kind}" FontSize="10" Foreground="{DynamicResource VcsHudMuted}"/></StackPanel>
+                                    </Button>
+                                </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+                                <Button Content="＋ Nova cena ou evento" Style="{StaticResource HudAddButton}" Command="{Binding NewHudSceneCommand}" IsEnabled="{Binding HasHudSelectedChronicle}" />
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>

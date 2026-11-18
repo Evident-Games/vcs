@@ -16,7 +16,6 @@ public partial class MainViewModel
     [ObservableProperty] private string hudNewChronicleName = "";
     [ObservableProperty] private string hudChronicleSearch = "";
     [ObservableProperty] private string hudSelectedChronicle = "";
-    [ObservableProperty] private bool hudNewChronicleExpanded;
     partial void OnHudChronicleSearchChanged(string value) => OnPropertyChanged(nameof(HudChronicles));
     partial void OnHudSelectedChronicleChanged(string value)
     {
@@ -129,7 +128,6 @@ public partial class MainViewModel
         IsHudChronicles = true;
         Display.ShowSidebar = true;
         Display.HudCollapsed = false;
-        HudNewChronicleExpanded = true;
     }
 
     [RelayCommand] private void SelectHudChronicle(HudChronicleCard? card)
@@ -180,7 +178,6 @@ public partial class MainViewModel
         HudNewChronicleName = "";
         HudChronicleSearch = "";
         HudSelectedChronicle = name;
-        HudNewChronicleExpanded = false;
         RefreshHud();
         Message = $"Crônica '{name}' disponível no HUD. Abra o card para organizar seus eventos.";
     });
