@@ -81,6 +81,12 @@ A regra permanece em `QuellBeastRules`, no módulo V5. O livro base foi reconfer
 
 As fontes foram reconferidas no livro base: Subjugar a Besta, página impressa 246 (página 248 do PDF), e Fuga para o Verdadeiro Santuário, página impressa 281 (página 283 do PDF). O fluxo continua apenas propondo a viagem após sucesso; posição, carga, integridade dos círculos e deslocamento permanecem com o Narrador. Nenhum item foi reclassificado e não houve recontagem da cobertura neste ciclo.
 
+## Auditoria da Besta nos procedimentos coordenados
+
+`RitualWorkflowResolution` agora conserva se a Besta subjugada foi considerada e se um crítico bestial foi realmente convertido. A integração cobre o teste principal dos procedimentos, o rastreio posterior, o ataque e a cirurgia do Fuste e a rolagem do conjurador em círculos de curta duração. A ficha apresenta a distinção no diário e na mesa de dados e a persiste no efeito quando o procedimento altera esse registro.
+
+A oposição do intruso permanece separada e não recebe automaticamente a condição do conjurador. A fonte foi reconferida na página impressa 246 (página 248 do PDF fornecido). Não houve alteração de faces, sucessos, custos, consequências externas ou classificação de cobertura, nem recontagem dos inventários neste ciclo.
+
 ## Revisão da proposta de Criar Pedra de Sangue
 
 `RitualEffectRules` já apresenta, após sucesso, a localização como direção e distância percebidas pelo conjurador, a duração de uma semana e o término se a pedra for destruída. `RitualWorkflowActions` também exige as três noites de preparo e verifica o limite de pedras ativas pela Determinação, com exceção justificada. A linha da matriz foi atualizada para distinguir essas propostas automatizadas das confirmações que continuam pertencendo à mesa: inventário e posição reais, destruição e continuidade do vínculo. O app não rastreia objetos no mundo nem conclui automaticamente que uma pedra foi destruída.

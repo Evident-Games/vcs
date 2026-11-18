@@ -69,21 +69,29 @@ public sealed class RitualWorkflowActions
         var difficulty = ritual.Kind == "firewalker" ? 3 : ritual.Level + 1;
         if (ritual.Kind == "circle") difficulty += 2;
         if (ritual.Kind is "truth" or "dagon") difficulty = context.OpponentSuccesses + 1;
-        var roll = QuellBeastRules.ApplyToRoll(DicePoolRules.Roll(context.Pool, context.Hunger, difficulty, random), context.BeastSubdued);
+        var rollAudit = ApplyBeastToRoll(DicePoolRules.Roll(context.Pool, context.Hunger, difficulty, random),
+            context.BeastSubdued);
+        var roll = rollAudit.Roll;
         if (ritual.Kind == "circle")
             return new(state with { Stage = roll.IsSuccess ? "circle-ready" : "failed", Resolved = true,
                     StoredSuccesses = roll.Successes, StoredCritical = roll.IsCritical },
-                new(roll.IsSuccess, roll.IsSuccess ? "Círculo de um ano e um dia preparado. Seu resultado fica registrado para as disputas de entrada." : "O preparo do círculo falhou.", roll.IsSuccess ? "Um ano e um dia" : "Encerrado"), roll);
+                new(roll.IsSuccess, roll.IsSuccess ? "Círculo de um ano e um dia preparado. Seu resultado fica registrado para as disputas de entrada." : "O preparo do círculo falhou.", roll.IsSuccess ? "Um ano e um dia" : "Encerrado"), roll,
+                BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
+                MessyCriticalConverted: rollAudit.MessyCriticalConverted);
         var proposal = _ruleset.Resolve(ritual, new(roll.Successes, roll.Difficulty, roll.IsCritical), context.OpponentSuccesses, context.VampireTarget);
         if (ritual.Kind == "dagon")
         {
             var executions = state.Executions + 1;
             return new(state with { Executions = executions, Stage = executions < 3 ? "repeat" : proposal.Succeeded ? "effect" : "failed",
-                Resolved = executions >= 3, StoredSuccesses = roll.Successes, StoredCritical = roll.IsCritical }, proposal, roll);
+                Resolved = executions >= 3, StoredSuccesses = roll.Successes, StoredCritical = roll.IsCritical }, proposal, roll,
+                BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
+                MessyCriticalConverted: rollAudit.MessyCriticalConverted);
         }
         var stage = proposal.Succeeded ? ritual.Kind switch { "truth" => "statements", "air" => "potion", _ => "effect" } : "failed";
         return new(state with { Stage = stage, Resolved = ritual.Kind != "truth" || !proposal.Succeeded,
-            StoredSuccesses = roll.Successes, StoredCritical = roll.IsCritical, Charges = proposal.Charges }, proposal, roll);
+            StoredSuccesses = roll.Successes, StoredCritical = roll.IsCritical, Charges = proposal.Charges }, proposal, roll,
+            BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
+            MessyCriticalConverted: rollAudit.MessyCriticalConverted);
     }
 
     public RitualWorkflowResolution CircleContact(RitualUseDefinition ritual, RitualWorkflowState state,
@@ -103,11 +111,14 @@ public sealed class RitualWorkflowActions
         if (retry && (previous is not { Affected: true, Entered: false } || !retryCostConfirmed))
             throw new InvalidOperationException("Uma nova tentativa exige um intruso afetado e 1 Vontade pago, confirmado pela mesa.");
         DicePoolResult? caster = null;
+        RitualRollAudit? casterAudit = null;
         var successes = previous?.CasterSuccesses ?? state.StoredSuccesses;
         var critical = previous?.CasterCritical ?? state.StoredCritical;
         if (!state.LongTermCircle && previous is null)
         {
-            caster = QuellBeastRules.ApplyToRoll(DicePoolRules.Roll(context.Pool, context.Hunger, 0, random), context.BeastSubdued);
+            casterAudit = ApplyBeastToRoll(DicePoolRules.Roll(context.Pool, context.Hunger, 0, random),
+                context.BeastSubdued);
+            caster = casterAudit.Roll;
             successes = caster.Successes; critical = caster.IsCritical;
         }
         var opposition = DicePoolRules.Roll(intruderWillpowerPool, 0, 0, random);
@@ -117,7 +128,8 @@ public sealed class RitualWorkflowActions
         var intruders = (state.Intruders ?? []).Where(x => !string.Equals(x.Key, intruder.Trim(), StringComparison.OrdinalIgnoreCase))
             .Append(new RitualCircleIntruder(intruder.Trim(), successes, critical, affected, entered)).ToArray();
         return new(state with { LastIntruder = intruder.Trim(), LastCasterSuccesses = successes,
-            LastCasterCritical = critical, LastIntruderAffected = affected, Intruders = intruders }, proposal, caster, opposition);
+            LastCasterCritical = critical, LastIntruderAffected = affected, Intruders = intruders }, proposal, caster, opposition,
+            casterAudit?.BeastSubduedConsidered ?? false, casterAudit?.MessyCriticalConverted ?? false);
     }
 
     /// <summary>Follow an already prepared trail without repaying its ritual cost or refreshing its duration.</summary>
@@ -130,11 +142,13 @@ public sealed class RitualWorkflowActions
         if (intelligence is < 0 or > 50 || survival is < 0 or > 50 || intelligence + survival > 50 ||
             hunger is < 0 or > 5 || trail.RemainingPoints is < 0 or > 50)
             throw new ArgumentOutOfRangeException(nameof(trail), "Confira os valores de Inteligência, Sobrevivência, Fome e dificuldade do rastro.");
-        var roll = QuellBeastRules.ApplyToRoll(
+        var rollAudit = ApplyBeastToRoll(
             DicePoolRules.Roll(intelligence + survival, hunger, trail.RemainingPoints, random), beastSubdued);
+        var roll = rollAudit.Roll;
         var effect = roll.IsSuccess ? "O rastro foi seguido; o Narrador descreve o trajeto." : "O teste para seguir o rastro falhou.";
-        if (beastSubdued) effect += " Besta subjugada considerada; fonte: Livro base, p. 246.";
-        return new(state, new(roll.IsSuccess, effect, trail.Duration), roll);
+        return new(state, new(roll.IsSuccess, effect, trail.Duration), roll,
+            BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
+            MessyCriticalConverted: rollAudit.MessyCriticalConverted);
     }
 
     public RitualWorkflowResolution ConsumeAir(RitualUseDefinition ritual, RitualWorkflowState state, bool confirmed)
@@ -211,15 +225,20 @@ public sealed class RitualWorkflowActions
             throw new InvalidOperationException("Selecione uma estaca preparada e confirme o ataque contra vampiro com o Narrador.");
         if (basePool is < 0 or > 47 || hunger is < 0 or > 5 || oppositionSuccesses is < 0 or > 100)
             throw new ArgumentOutOfRangeException(nameof(basePool));
-        var roll = QuellBeastRules.ApplyToRoll(
+        var rollAudit = ApplyBeastToRoll(
             DicePoolRules.Roll(basePool + 3, hunger, oppositionSuccesses + 1, random), beastSubdued);
+        var roll = rollAudit.Roll;
         var margin = roll.Successes - oppositionSuccesses;
-        if (margin <= 0) return new(state, new(false, "O ataque não acertou; a estaca continua disponível." + BeastSubduedNote(beastSubdued), "Até ser usada"), roll);
+        if (margin <= 0) return new(state, new(false, "O ataque não acertou; a estaca continua disponível.", "Até ser usada"), roll,
+            BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
+            MessyCriticalConverted: rollAudit.MessyCriticalConverted);
         var finalDeath = margin >= 5;
         return new(state with { Stage = finalDeath ? "final-death-proposed" : "splinter" },
             new(true, (finalDeath ? "Margem de pelo menos cinco: proposta de Morte Final em um turno; o Narrador confirma o alvo e a consequência."
-                : "A estaca se quebrou: a lasca avança até o coração. O Narrador determina horas/noites conforme o local atingido; o livro não fornece velocidade numérica.") + BeastSubduedNote(beastSubdued),
-                finalDeath ? "Consequência a confirmar" : "Até extração ou chegada ao coração"), roll);
+                : "A estaca se quebrou: a lasca avança até o coração. O Narrador determina horas/noites conforme o local atingido; o livro não fornece velocidade numérica."),
+                finalDeath ? "Consequência a confirmar" : "Até extração ou chegada ao coração"), roll,
+            BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
+            MessyCriticalConverted: rollAudit.MessyCriticalConverted);
     }
 
     public RitualWorkflowResolution RemoveShaftSplinter(RitualWorkflowState state, int pool, int hunger,
@@ -228,16 +247,22 @@ public sealed class RitualWorkflowActions
         if (state.Stage != "splinter" || !confirmed)
             throw new InvalidOperationException("Confirme que outra pessoa pode realizar Destreza + Medicina e que há até quatro horas disponíveis.");
         if (pool is < 0 or > 50 || hunger is < 0 or > 5) throw new ArgumentOutOfRangeException(nameof(pool));
-        var roll = QuellBeastRules.ApplyToRoll(DicePoolRules.Roll(pool, hunger, 6, random), beastSubdued);
+        var rollAudit = ApplyBeastToRoll(DicePoolRules.Roll(pool, hunger, 6, random), beastSubdued);
+        var roll = rollAudit.Roll;
         return new(state with { Stage = roll.IsSuccess ? "removed" : "splinter" },
             new(roll.IsSuccess, (roll.IsSuccess ? "Extração cirúrgica bem-sucedida; a lasca foi removida."
-                : "A cirurgia falhou; a lasca permanece. Amputação pode removê-la antes de atingir o tronco, conforme a mesa.") + BeastSubduedNote(beastSubdued),
-                roll.IsSuccess ? "Encerrado" : "Lasca ativa"), roll);
+                : "A cirurgia falhou; a lasca permanece. Amputação pode removê-la antes de atingir o tronco, conforme a mesa."),
+                roll.IsSuccess ? "Encerrado" : "Lasca ativa"), roll,
+            BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
+            MessyCriticalConverted: rollAudit.MessyCriticalConverted);
     }
 
-    private static string BeastSubduedNote(bool confirmed) => confirmed
-        ? " Besta subjugada confirmada para o executor; fonte: Livro base, p. 246."
-        : "";
+    private static RitualRollAudit ApplyBeastToRoll(DicePoolResult originalRoll, bool beastSubdued)
+    {
+        var roll = QuellBeastRules.ApplyToRoll(originalRoll, beastSubdued);
+        return new(roll, beastSubdued,
+            originalRoll.Outcome == TestOutcome.MessyCritical && roll.Outcome == TestOutcome.CriticalSuccess);
+    }
 
     private static void RequireReady(RitualUseDefinition ritual, RitualWorkflowState state, RitualWorkflowContext context)
     {
@@ -257,5 +282,8 @@ public sealed record RitualWorkflowContext(int Pool, int Hunger, int OpponentSuc
     int WillpowerPool, int Humanity, bool CandleDamageConfirmed, bool ExceptionApproved = false);
 public sealed record RitualCostPayment(RitualWorkflowState State, RouseCheckResult Check);
 public sealed record RitualWorkflowResolution(RitualWorkflowState State, RitualEffectProposal Proposal,
-    DicePoolResult? Roll, DicePoolResult? OppositionRoll = null);
+    DicePoolResult? Roll, DicePoolResult? OppositionRoll = null, bool BeastSubduedConsidered = false,
+    bool MessyCriticalConverted = false);
 public sealed record RitualNightEnding(RitualWorkflowState EndedState, RitualEffectProposal Proposal, RitualWorkflowState? Condition);
+internal sealed record RitualRollAudit(DicePoolResult Roll, bool BeastSubduedConsidered,
+    bool MessyCriticalConverted);

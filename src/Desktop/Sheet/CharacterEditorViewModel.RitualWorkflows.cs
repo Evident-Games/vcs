@@ -146,8 +146,9 @@ public partial class CharacterEditorViewModel
                             (resolution.State.StoredCritical ? "Vitória crítica permite curar o ponto agravado específico da vela, mediante confirmação." : ""), Duration = "Reversão concluída" } };
                 }
             }
+            var beastAudit = RitualBeastAudit(resolution);
             ReplacePowerEffect(entry, entry with { RitualWorkflow = resolution.State,
-                Active = resolution.State.Stage is not ("failed" or "reverted"), Effect = resolution.Proposal.Effect,
+                Active = resolution.State.Stage is not ("failed" or "reverted"), Effect = resolution.Proposal.Effect + beastAudit,
                 Duration = resolution.Proposal.Duration,
                 HealthDamage = entry.IsSelf ? 0 : resolution.Proposal.HealthDamage,
                 Aggravated = resolution.Proposal.Aggravated, PoolBonus = resolution.Proposal.PoolBonus,
@@ -207,7 +208,7 @@ public partial class CharacterEditorViewModel
             var actions = new RitualWorkflowActions();
             var result = surgery ? actions.RemoveShaftSplinter(state, RitualFollowUpPool, RitualFollowUpHunger, CoreRitualConditionsConfirmed, beastSubdued: RitualFollowUpBeastSubdued)
                 : actions.StrikeShaft(state, RitualFollowUpPool, RitualFollowUpHunger, CoreRitualOpponentSuccesses, CoreRitualConditionsConfirmed, beastSubdued: RitualFollowUpBeastSubdued);
-            ReplacePowerEffect(entry, entry with { RitualWorkflow = result.State, Effect = result.Proposal.Effect,
+            ReplacePowerEffect(entry, entry with { RitualWorkflow = result.State, Effect = result.Proposal.Effect + RitualBeastAudit(result),
                 Duration = result.Proposal.Duration, Active = result.State.Stage != "removed", PoolBonus = result.State.Stage == "effect" ? 3 : 0 });
             DisplayRitualResolution(entry, result);
         }
@@ -241,7 +242,7 @@ public partial class CharacterEditorViewModel
                 CoreRitualIntruder, CoreRitualIntruderWillpower, CoreRitualRetry, CoreRitualRetryCostConfirmed);
             // The circle belongs to its location, never copy the intruder's proposed damage to its owner.
             ReplacePowerEffect(entry, entry with { RitualWorkflow = result.State,
-                Effect = $"{CoreRitualIntruder.Trim()}: {result.Proposal.Effect}" });
+                Effect = $"{CoreRitualIntruder.Trim()}: {result.Proposal.Effect}{RitualBeastAudit(result)}" });
             DisplayRitualResolution(entry, result);
         }
         catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
@@ -270,7 +271,7 @@ public partial class CharacterEditorViewModel
 
     private void DisplayRitualResolution(PowerEffectEntry entry, RitualWorkflowResolution resolution)
     {
-        RitualPreparationSummary = $"{entry.Name}: {resolution.Proposal.Effect} Duração: {resolution.Proposal.Duration}. Fonte: {entry.Source}.";
+        RitualPreparationSummary = $"{entry.Name}: {resolution.Proposal.Effect}{RitualBeastAudit(resolution)} Duração: {resolution.Proposal.Duration}. Fonte: {entry.Source}.";
         if (resolution.Roll is { } roll)
             RitualPreparationSummary += $" Teste: {roll.Successes} sucesso(s); dificuldade {roll.Difficulty}; {roll.Outcome}.";
         if (resolution.OppositionRoll is { } opponent)
@@ -292,4 +293,11 @@ public partial class CharacterEditorViewModel
         CoreRitualCandleDamageConfirmed = false;
         CoreRitualRetryCostConfirmed = false;
     }
+
+    private static string RitualBeastAudit(RitualWorkflowResolution resolution) =>
+        resolution.BeastSubduedConsidered
+            ? resolution.MessyCriticalConverted
+                ? " Besta Subjugada confirmada: crítico bestial convertido em crítico normal. Fonte: Livro base, p. 246."
+                : " Besta Subjugada confirmada e considerada; nenhuma conversão foi necessária. Fonte: Livro base, p. 246."
+            : "";
 }
