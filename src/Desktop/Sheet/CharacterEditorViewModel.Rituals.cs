@@ -25,6 +25,13 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool wardRetryCostConfirmed;
     [ObservableProperty] private bool wardRetryBeastSubdued;
     partial void OnWardRetryBeastSubduedChanged(bool value) => WardRetryCostConfirmed = false;
+    partial void OnWardRetryPoolChanged(int value) => WardRetryCostConfirmed = false;
+    partial void OnWardRetryHungerChanged(int value) => WardRetryCostConfirmed = false;
+    partial void OnWardIntruderIsCasterChanged(bool value)
+    {
+        WardContactConfirmed = false;
+        WardRetryCostConfirmed = false;
+    }
     [ObservableProperty] private string ritualPreparationSummary = "Selecione um ritual conhecido e confira suas condições.";
 
     partial void OnSelectedPreparedRitualChanged(PowerRowViewModel? value)

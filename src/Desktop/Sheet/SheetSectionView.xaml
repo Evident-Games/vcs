@@ -79,6 +79,7 @@
                 <WrapPanel><controls:NumericField Value="{Binding WardRetryPool}" Minimum="0" Maximum="50"/><controls:NumericField Value="{Binding WardRetryHunger}" Minimum="0" Maximum="5"/></WrapPanel>
                 <CheckBox Content="Narrador confirmou Besta subjugada para este intruso (Livro base, p. 246)" IsChecked="{Binding WardRetryBeastSubdued}"/>
                 <CheckBox Content="Narrador confirmou intruso já afetado e gasto de 1 Vontade" IsChecked="{Binding WardRetryCostConfirmed}"/>
+                <TextBlock Text="Ao alterar o executor ou sua parada, confirme novamente o gasto já realizado; o aplicativo não cobra Vontade automaticamente." TextWrapping="Wrap" Foreground="{DynamicResource VcsInputDescription}"/>
                 <Button Content="Rolar resistência à proteção" Command="{Binding RollWardRetryCommand}" HorizontalAlignment="Left"/>
                 <CheckBox Content="Narrador confirmou perigo durante o sono" IsChecked="{Binding AwakeningDangerConfirmed}"/>
                 <Button Content="Resolver perigo: ritual de despertar" Command="{Binding ResolveAwakeningDangerCommand}" HorizontalAlignment="Left"/>

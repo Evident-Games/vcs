@@ -102,3 +102,7 @@ A resistência de nova tentativa aceita confirmação explícita de que a Besta 
 ## Registro da Besta subjugada no Fuste
 
 O resultado dos testes de ataque e de cirurgia do Fuste passa a registrar, quando a mesa confirma a condição, que a Besta do executor estava subjugada e a fonte da regra. A anotação acompanha a proposta salva no efeito e o diário já existente, inclusive em caso de falha. Ela não identifica automaticamente o executor nem modifica ficha externa. A regra existente foi reconferida no livro base, p. 246 (p. 248 do PDF). A cobertura permanece a mesma; a mesa ainda confirma o executor, o contexto e os resultados sobre a vítima.
+
+## Confirmação da tentativa de proteção
+
+No fluxo de proteção de objeto, alterar a parada, a Fome ou a indicação de que o intruso é o conjurador desmarca a confirmação da tentativa; mudar a identidade também desmarca a confirmação do contato. A mesa reconfirma o contexto e o gasto já realizado, sem cobrar Vontade automaticamente ou modificar ficha alheia. O livro base consultado, página impressa 275 (277 do PDF), exige gasto de Vontade e teste para que um intruso afetado tente tocar novamente. Esta proteção evita reutilizar uma confirmação em outro contexto; não altera a classificação da cobertura nem supõe identidade ou pagamento.
