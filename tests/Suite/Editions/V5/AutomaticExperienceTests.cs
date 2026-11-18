@@ -1,9 +1,9 @@
 
-using VCS.Rules.V5.Advancement;
-using VCS.Rules.V5.Validation;
-using VCS.Sheet;
+using Game.Rules.V5.Advancement;
+using Game.Rules.V5.Validation;
+using Game.Sheet;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public sealed class AutomaticExperienceTests
 {

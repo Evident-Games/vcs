@@ -1,7 +1,7 @@
 using System.Text.Json;
-using VCS.Content.V5;
+using Game.Content.V5;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public sealed class EmbeddedCatalogTests
 {

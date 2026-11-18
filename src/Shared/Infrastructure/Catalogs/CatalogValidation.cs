@@ -1,4 +1,4 @@
-namespace VCS.Infrastructure.Catalogs;
+namespace Game.Infrastructure.Catalogs;
 
 /// <summary>Checks shared by the editable catalogs; failures are shown to the user as is.</summary>
 internal static class CatalogValidation

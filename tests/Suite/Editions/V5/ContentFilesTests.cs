@@ -1,12 +1,12 @@
-using VCS.Content;
-using VCS.Content.Advantages;
-using VCS.Content.Clans;
-using VCS.Content.Disciplines;
-using VCS.Content.Predators;
-using VCS.Content.Skills;
-using VCS.Sheet;
+using Game.Content;
+using Game.Content.Advantages;
+using Game.Content.Clans;
+using Game.Content.Disciplines;
+using Game.Content.Predators;
+using Game.Content.Skills;
+using Game.Sheet;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 /// <summary>The content JSON files that ship with the app: complete, with unique prefixed ids and references that exist.</summary>
 public sealed class ContentFilesTests

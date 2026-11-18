@@ -1,4 +1,4 @@
-<UserControl x:Class="VCS.Desktop.Sheet.PredatorView"
+<UserControl x:Class="Game.Desktop.Sheet.PredatorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!-- One quiet line: the predator's grants live in the rows below, in Disciplinas and in Habilidades. -->

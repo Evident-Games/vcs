@@ -1,5 +1,5 @@
-namespace VCS.Rules.V5.Blood;
-using VCS.Content;
+namespace Game.Rules.V5.Blood;
+using Game.Content;
 
 /// <summary>Blood Potency limits by Generation from the V5 core book, page 214.</summary>
 [RuleSource("Vampiro: A Máscara V5 (Livro base)")]

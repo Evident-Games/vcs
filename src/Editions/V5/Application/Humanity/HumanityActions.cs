@@ -1,7 +1,7 @@
-using VCS.Rules.V5.Blood;
-using VCS.Sheet;
+using Game.Rules.V5.Blood;
+using Game.Sheet;
 
-namespace VCS.Application.Humanity;
+namespace Game.Application.Humanity;
 
 /// <summary>Coordinates V5 Humanity actions independently of any presentation framework.</summary>
 public sealed class HumanityActions

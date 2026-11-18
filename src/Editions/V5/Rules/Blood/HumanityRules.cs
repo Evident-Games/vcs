@@ -1,8 +1,8 @@
-using VCS.Rules.V5.Validation;
-using VCS.Content;
-using VCS.Sheet;
+using Game.Rules.V5.Validation;
+using Game.Content;
+using Game.Sheet;
 
-namespace VCS.Rules.V5.Blood;
+namespace Game.Rules.V5.Blood;
 
 public sealed record HumanityLevel(int Level, string Description, int SocialPenalty = 0, int? BlushSocialPenalty = null);
 

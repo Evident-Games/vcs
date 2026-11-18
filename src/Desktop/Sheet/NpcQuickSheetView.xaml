@@ -1,9 +1,9 @@
-<UserControl x:Class="VCS.Desktop.Sheet.NpcQuickSheetView"
+<UserControl x:Class="Game.Desktop.Sheet.NpcQuickSheetView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:VCS.Desktop.Controls"
-    xmlns:catalogs="clr-namespace:VCS.Desktop.Catalogs"
-    xmlns:sheet="clr-namespace:VCS.Desktop.Sheet">
+    xmlns:controls="clr-namespace:Game.Desktop.Controls"
+    xmlns:catalogs="clr-namespace:Game.Desktop.Catalogs"
+    xmlns:sheet="clr-namespace:Game.Desktop.Sheet">
     <UserControl.Resources>
         <Style x:Key="NpcLabel" TargetType="TextBlock">
             <Setter Property="Foreground" Value="{DynamicResource ThemeAccentText}" />

@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using VCS.Application.Catalogs;
-using VCS.Content.Clans;
-using VCS.Content.Disciplines;
-using VCS.Infrastructure.Persistence;
+using Game.Application.Catalogs;
+using Game.Content.Clans;
+using Game.Content.Disciplines;
+using Game.Infrastructure.Persistence;
 
-namespace VCS.Infrastructure.Catalogs;
+namespace Game.Infrastructure.Catalogs;
 
 /// <summary>
 /// Built-in disciplines come from <see cref="DisciplineCatalog"/>; the database holds the disciplines the user created.

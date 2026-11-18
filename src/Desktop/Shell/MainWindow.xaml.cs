@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using Wpf.Ui.Controls;
 
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 public partial class MainWindow : FluentWindow
 {

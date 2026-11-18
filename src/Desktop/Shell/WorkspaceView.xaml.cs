@@ -3,9 +3,9 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Input;
-using VCS.Desktop.Sheet;
+using Game.Desktop.Sheet;
 
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 /// <summary>Open sheet tabs, home view and the open sheets.</summary>
 public partial class WorkspaceView : UserControl

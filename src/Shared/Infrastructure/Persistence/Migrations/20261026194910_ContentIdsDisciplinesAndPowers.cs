@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace VCS.Infrastructure.Persistence.Migrations
+namespace Game.Infrastructure.Persistence.Migrations
 {
     // Built-in power edits keep their rows: only the id changes from the pt-BR name hash to an English id.
     // Rituals the user created move from power-custom- to ritual-custom-. Sheets follow in LegacyContentIds.

@@ -1,4 +1,4 @@
-namespace VCS.Application.Characters;
+namespace Game.Application.Characters;
 
 public interface ICharacterFiles
 {

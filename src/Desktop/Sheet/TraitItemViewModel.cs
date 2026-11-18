@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Application.Characters;
-using VCS.Content.Predators;
-using VCS.Sheet;
+using Game.Application.Characters;
+using Game.Content.Predators;
+using Game.Sheet;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class TraitItemViewModel : ObservableObject
 {

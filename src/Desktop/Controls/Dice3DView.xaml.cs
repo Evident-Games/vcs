@@ -4,7 +4,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Media3D;
 
-namespace VCS.Desktop.Controls;
+namespace Game.Desktop.Controls;
 
 /// <summary>Animated, theme-aware low-poly ten-sided die used to display V5 roll results.</summary>
 public partial class Dice3DView : UserControl

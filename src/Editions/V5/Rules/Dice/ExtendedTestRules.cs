@@ -1,5 +1,5 @@
-namespace VCS.Rules.V5.Dice;
-using VCS.Content;
+namespace Game.Rules.V5.Dice;
+using Game.Content;
 
 public enum ExtendedTestStatus
 {

@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Content.Advantages;
-using VCS.Sheet;
+using Game.Content.Advantages;
+using Game.Sheet;
 
-namespace VCS.Desktop.Catalogs;
+namespace Game.Desktop.Catalogs;
 
 public sealed class MeritOptionViewModel(MeritFamilyViewModel family, AdvantageDefinition definition) : ObservableObject
 {

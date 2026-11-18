@@ -3,12 +3,12 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using VCS.Infrastructure.Persistence;
-using VCS.Sheet;
+using Game.Infrastructure.Persistence;
+using Game.Sheet;
 
 #nullable disable
 
-namespace VCS.Infrastructure.Persistence.Migrations
+namespace Game.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CharacterDbContext))]
     partial class CharacterDbContextModelSnapshot : ModelSnapshot
@@ -18,7 +18,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.13");
 
-            modelBuilder.Entity("VCS.Content.Advantages.AdvantageDefinition", b =>
+            modelBuilder.Entity("Game.Content.Advantages.AdvantageDefinition", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(80)
@@ -77,7 +77,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("VCS.Content.Skills.SkillDefinition", b =>
+            modelBuilder.Entity("Game.Content.Skills.SkillDefinition", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -101,7 +101,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.ToTable("SkillCatalog", (string)null);
                 });
 
-            modelBuilder.Entity("VCS.Infrastructure.Persistence.ClanCatalogRecord", b =>
+            modelBuilder.Entity("Game.Infrastructure.Persistence.ClanCatalogRecord", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(80)
@@ -136,7 +136,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.ToTable("ClanCatalog", (string)null);
                 });
 
-            modelBuilder.Entity("VCS.Infrastructure.Persistence.DisciplineCatalogRecord", b =>
+            modelBuilder.Entity("Game.Infrastructure.Persistence.DisciplineCatalogRecord", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(80)
@@ -155,7 +155,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.ToTable("DisciplineCatalog", (string)null);
                 });
 
-            modelBuilder.Entity("VCS.Infrastructure.Persistence.PowerCatalogRecord", b =>
+            modelBuilder.Entity("Game.Infrastructure.Persistence.PowerCatalogRecord", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(120)
@@ -210,7 +210,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.ToTable("PowerCatalog", (string)null);
                 });
 
-            modelBuilder.Entity("VCS.Sheet.Character", b =>
+            modelBuilder.Entity("Game.Sheet.Character", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -231,7 +231,7 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.ToTable("Characters", (string)null);
                 });
 
-            modelBuilder.Entity("VCS.Sheet.CharacterTrait", b =>
+            modelBuilder.Entity("Game.Sheet.CharacterTrait", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -281,9 +281,9 @@ namespace VCS.Infrastructure.Persistence.Migrations
                     b.ToTable("CharacterTraits", (string)null);
                 });
 
-            modelBuilder.Entity("VCS.Sheet.Character", b =>
+            modelBuilder.Entity("Game.Sheet.Character", b =>
                 {
-                    b.OwnsOne("VCS.Sheet.CharacterDetails", "Details", b1 =>
+                    b.OwnsOne("Game.Sheet.CharacterDetails", "Details", b1 =>
                         {
                             b1.Property<Guid>("CharacterId")
                                 .HasColumnType("TEXT");
@@ -523,16 +523,16 @@ namespace VCS.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VCS.Sheet.CharacterTrait", b =>
+            modelBuilder.Entity("Game.Sheet.CharacterTrait", b =>
                 {
-                    b.HasOne("VCS.Sheet.Character", null)
+                    b.HasOne("Game.Sheet.Character", null)
                         .WithMany("Traits")
                         .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VCS.Sheet.Character", b =>
+            modelBuilder.Entity("Game.Sheet.Character", b =>
                 {
                     b.Navigation("Traits");
                 });

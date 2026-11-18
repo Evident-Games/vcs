@@ -1,6 +1,6 @@
 using System.Windows.Controls;
 
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 /// <summary>Main menu bar.</summary>
 public partial class MainMenu : UserControl

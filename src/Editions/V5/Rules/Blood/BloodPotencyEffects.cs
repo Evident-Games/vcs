@@ -1,5 +1,5 @@
-namespace VCS.Rules.V5.Blood;
-using VCS.Content;
+namespace Game.Rules.V5.Blood;
+using Game.Content;
 
 /// <summary>All six effects in the V5 core book Blood Potency table (page 216).</summary>
 [RuleSource("Vampiro: A Máscara V5 (Livro base)")]

@@ -1,9 +1,9 @@
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using VCS.Content.V5;
+using Game.Content.V5;
 
-namespace VCS.Content;
+namespace Game.Content;
 
 /// <summary>
 /// Reads the V5 content embedded in the V5 content assembly.

@@ -1,12 +1,12 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Content;
-using VCS.Content.Disciplines;
-using VCS.Desktop.Catalogs;
-using VCS.Sheet;
+using Game.Content;
+using Game.Content.Disciplines;
+using Game.Desktop.Catalogs;
+using Game.Sheet;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 // One NPC discipline line. It points to an entry of the sheet's discipline group instead of creating
 // parallel data, so catalog disciplines keep their keys and personal names stay unique.

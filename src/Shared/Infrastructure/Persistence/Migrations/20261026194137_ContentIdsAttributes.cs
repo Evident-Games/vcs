@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace VCS.Infrastructure.Persistence.Migrations
+namespace Game.Infrastructure.Persistence.Migrations
 {
     // No schema change: marks where saved attribute keys (Strength) become attribute-strength; see LegacyContentIds.
     /// <inheritdoc />

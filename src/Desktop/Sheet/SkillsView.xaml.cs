@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Controls;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class SkillsView : UserControl
 {

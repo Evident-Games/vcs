@@ -1,12 +1,12 @@
-using VCS.Content.Clans;
-using VCS.Content.Disciplines;
-using VCS.Desktop.Catalogs;
-using VCS.Desktop.Sheet;
-using VCS.Infrastructure.Catalogs;
-using VCS.Rules.V5.Clans;
-using VCS.Sheet;
+using Game.Content.Clans;
+using Game.Content.Disciplines;
+using Game.Desktop.Catalogs;
+using Game.Desktop.Sheet;
+using Game.Infrastructure.Catalogs;
+using Game.Rules.V5.Clans;
+using Game.Sheet;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public sealed class ClanTests
 {

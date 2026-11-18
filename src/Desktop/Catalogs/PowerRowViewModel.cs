@@ -1,10 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Content;
+using Game.Content;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Content.Disciplines;
-using VCS.Sheet;
+using Game.Content.Disciplines;
+using Game.Sheet;
 
-namespace VCS.Desktop.Catalogs;
+namespace Game.Desktop.Catalogs;
 
 /// <summary>A suggestion value; <see cref="Detail"/> shows at the right and <see cref="Note"/> as a muted line below.</summary>
 public sealed record SuggestionItem(string Value, string Detail = "", string Note = "")

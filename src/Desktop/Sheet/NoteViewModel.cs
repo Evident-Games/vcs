@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Sheet;
+using Game.Sheet;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 /// <summary>One note in the notes list; editing it refreshes its date.</summary>
 public sealed partial class NoteViewModel(CharacterNote note) : ObservableObject

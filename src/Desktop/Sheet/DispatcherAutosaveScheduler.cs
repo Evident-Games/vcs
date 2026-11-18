@@ -1,6 +1,6 @@
 using System.Windows.Threading;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public sealed class DispatcherAutosaveScheduler : IAutosaveScheduler
 {

@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using VCS.Desktop.Shell;
-using VCS.Infrastructure.Persistence;
+using Game.Desktop.Shell;
+using Game.Infrastructure.Persistence;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public sealed class UpdateTests
 {

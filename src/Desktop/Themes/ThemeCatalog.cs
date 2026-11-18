@@ -1,4 +1,4 @@
-namespace VCS.Desktop.Themes;
+namespace Game.Desktop.Themes;
 
 public enum ThemeGroup { Default, Clan, Special }
 

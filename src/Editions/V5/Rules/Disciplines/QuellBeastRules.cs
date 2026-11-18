@@ -1,7 +1,7 @@
-using VCS.Content;
-using VCS.Rules.V5.Dice;
+using Game.Content;
+using Game.Rules.V5.Dice;
 
-namespace VCS.Rules.V5.Disciplines;
+namespace Game.Rules.V5.Disciplines;
 
 /// <summary>Effects of a subdued vampire's Beast on its own dice rolls.</summary>
 [RuleSource("Vampiro: A Máscara V5 (Livro base), p. 246")]

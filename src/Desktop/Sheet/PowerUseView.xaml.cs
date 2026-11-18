@@ -1,6 +1,6 @@
 using System.Windows.Controls;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class PowerUseView : UserControl
 {

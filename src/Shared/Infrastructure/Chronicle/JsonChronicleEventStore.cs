@@ -1,8 +1,8 @@
 using System.Text.Json;
-using VCS.Application.Chronicle;
-using VCS.Infrastructure.Persistence;
+using Game.Application.Chronicle;
+using Game.Infrastructure.Persistence;
 
-namespace VCS.Infrastructure.Chronicle;
+namespace Game.Infrastructure.Chronicle;
 
 /// <summary>Stores chronicle events beside the selected character database with atomic replacement.</summary>
 public sealed class JsonChronicleEventStore(DatabaseAccess database) : IChronicleEventStore

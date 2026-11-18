@@ -1,6 +1,6 @@
-using VCS.Content;
+using Game.Content;
 
-namespace VCS.Rules.V5.Rituals;
+namespace Game.Rules.V5.Rituals;
 
 /// <summary>Context must be explicitly supplied by the table; never infer a social test or damage source.</summary>
 [RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 278–281")]

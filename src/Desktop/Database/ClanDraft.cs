@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Content.Clans;
-using VCS.Content.Disciplines;
+using Game.Content.Clans;
+using Game.Content.Disciplines;
 
-namespace VCS.Desktop.Database;
+namespace Game.Desktop.Database;
 
 /// <summary>Clan form; disciplines are ticked in the list of disciplines in use, aliases are comma separated text.</summary>
 public sealed partial class ClanDraft(ClanDefinition clan, bool isBuiltIn) : ObservableObject, ICatalogDraft<ClanDefinition>

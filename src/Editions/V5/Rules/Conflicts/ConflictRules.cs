@@ -1,7 +1,7 @@
-using VCS.Rules.V5.Dice;
-using VCS.Content;
+using Game.Rules.V5.Dice;
+using Game.Content;
 
-namespace VCS.Rules.V5.Conflicts;
+namespace Game.Rules.V5.Conflicts;
 
 public enum ConflictKind
 {

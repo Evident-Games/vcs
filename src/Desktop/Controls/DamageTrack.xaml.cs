@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace VCS.Desktop.Controls;
+namespace Game.Desktop.Controls;
 
 public partial class DamageTrack : UserControl
 {

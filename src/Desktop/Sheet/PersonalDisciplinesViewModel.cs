@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
-using VCS.Sheet;
+using Game.Sheet;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 /// <summary>
 /// Disciplines the player wrote in (not from the catalog or the predator), shown as name + dots lines

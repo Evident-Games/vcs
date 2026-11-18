@@ -1,12 +1,12 @@
-using VCS.Content.Clans;
-using VCS.Content;
-using VCS.Rules.V5.Advantages;
-using VCS.Rules.V5.Clans;
-using VCS.Rules.V5.Predators;
-using VCS.Rules.V5.Validation;
-using VCS.Sheet;
+using Game.Content.Clans;
+using Game.Content;
+using Game.Rules.V5.Advantages;
+using Game.Rules.V5.Clans;
+using Game.Rules.V5.Predators;
+using Game.Rules.V5.Validation;
+using Game.Sheet;
 
-namespace VCS.Rules.V5.Advancement;
+namespace Game.Rules.V5.Advancement;
 
 public sealed record AdvancementResult(CharacterDetails Details, IReadOnlyList<TraitValue> Traits);
 

@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!-- O namespace historico permanece enquanto a migracao e concluida. -->
+    <!-- Namespace da camada e nome do assembly sao configurados separadamente. -->
     <AssemblyName>Sheet</AssemblyName>
-    <RootNamespace>VCS.Sheet</RootNamespace>
+    <RootNamespace>Game.Sheet</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

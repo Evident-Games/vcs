@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Content.Advantages;
-using VCS.Sheet;
+using Game.Content.Advantages;
+using Game.Sheet;
 
-namespace VCS.Desktop.Database;
+namespace Game.Desktop.Database;
 
 public sealed partial class AdvantageDraft(AdvantageDefinition advantage) : ObservableObject, ICatalogDraft<AdvantageDefinition>
 {

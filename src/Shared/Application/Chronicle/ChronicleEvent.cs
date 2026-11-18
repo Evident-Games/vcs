@@ -1,4 +1,4 @@
-namespace VCS.Application.Chronicle;
+namespace Game.Application.Chronicle;
 
 /// <summary>An event adjudicated by the Storyteller, independent of character sheets.</summary>
 public sealed record ChronicleEvent(Guid Id, DateTime Date, string Chronicle, string Kind, string Title,

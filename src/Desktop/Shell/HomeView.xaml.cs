@@ -1,6 +1,6 @@
 using System.Windows.Controls;
 
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 public partial class HomeView : UserControl
 {

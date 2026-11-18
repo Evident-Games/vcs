@@ -1,6 +1,6 @@
-using VCS.Content.Disciplines;
+using Game.Content.Disciplines;
 
-namespace VCS.Application.Catalogs;
+namespace Game.Application.Catalogs;
 
 public interface IDisciplineCatalog
 {

@@ -1,4 +1,4 @@
-namespace VCS.Application.Maintenance;
+namespace Game.Application.Maintenance;
 
 public interface IDatabaseMaintenance
 {

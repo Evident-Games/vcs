@@ -1,6 +1,6 @@
-using VCS.Content;
+using Game.Content;
 
-namespace VCS.Rules.V5.Conflicts;
+namespace Game.Rules.V5.Conflicts;
 
 [RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 258–260, 264–265")]
 public static class DisciplineCombatRules

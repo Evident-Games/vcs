@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using VCS.Application.Catalogs;
-using VCS.Content.Advantages;
-using VCS.Infrastructure.Persistence;
-using VCS.Sheet;
+using Game.Application.Catalogs;
+using Game.Content.Advantages;
+using Game.Infrastructure.Persistence;
+using Game.Sheet;
 
-namespace VCS.Infrastructure.Catalogs;
+namespace Game.Infrastructure.Catalogs;
 
 /// <summary>
 /// Built-in advantages, flaws and loresheets come from <see cref="AdvantageCatalog"/>; the database holds only the user's

@@ -1,11 +1,11 @@
-using VCS.Rules.V5.Advantages;
-using VCS.Content;
-using VCS.Rules.V5.Clans;
-using VCS.Rules.V5.Predators;
-using VCS.Rules.V5.Validation;
-using VCS.Sheet;
+using Game.Rules.V5.Advantages;
+using Game.Content;
+using Game.Rules.V5.Clans;
+using Game.Rules.V5.Predators;
+using Game.Rules.V5.Validation;
+using Game.Sheet;
 
-namespace VCS.Rules.V5.Advancement;
+namespace Game.Rules.V5.Advancement;
 
 public sealed record ExperienceCost(string Section, string Name, int Cost);
 public sealed record ExperienceCalculation(int Total, int Spent, int CampaignSpent,

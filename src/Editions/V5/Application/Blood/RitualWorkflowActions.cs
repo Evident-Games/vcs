@@ -1,12 +1,12 @@
-using VCS.Content.Disciplines;
-using VCS.Rules.Rituals;
-using VCS.Rules.V5.Blood;
-using VCS.Rules.V5.Dice;
-using VCS.Rules.V5.Disciplines;
-using VCS.Rules.V5.Rituals;
-using VCS.Sheet;
+using Game.Content.Disciplines;
+using Game.Rules.Rituals;
+using Game.Rules.V5.Blood;
+using Game.Rules.V5.Dice;
+using Game.Rules.V5.Disciplines;
+using Game.Rules.V5.Rituals;
+using Game.Sheet;
 
-namespace VCS.Application.Blood;
+namespace Game.Application.Blood;
 
 /// <summary>Pay and resolve core rituals once per saved stage, without mutating characters or world facts.</summary>
 public sealed class RitualWorkflowActions

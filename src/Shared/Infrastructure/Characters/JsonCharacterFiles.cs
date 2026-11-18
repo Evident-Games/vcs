@@ -1,11 +1,11 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using VCS.Application.Characters;
-using VCS.Infrastructure.Persistence;
-using VCS.Rules.V5.Validation;
-using VCS.Sheet;
+using Game.Application.Characters;
+using Game.Infrastructure.Persistence;
+using Game.Rules.V5.Validation;
+using Game.Sheet;
 
-namespace VCS.Infrastructure.Characters;
+namespace Game.Infrastructure.Characters;
 
 public sealed class JsonCharacterFiles : ICharacterFiles
 {

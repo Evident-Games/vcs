@@ -7,15 +7,15 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using VCS.Application.Characters;
-using VCS.Desktop.Catalogs;
-using VCS.Desktop.Controls;
-using VCS.Desktop.Layout;
-using VCS.Desktop.Sheet;
-using VCS.Desktop.Themes;
-using VCS.Sheet;
+using Game.Application.Characters;
+using Game.Desktop.Catalogs;
+using Game.Desktop.Controls;
+using Game.Desktop.Layout;
+using Game.Desktop.Sheet;
+using Game.Desktop.Themes;
+using Game.Sheet;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 [Collection(WpfCollection.Name)]
 public sealed class DesktopUiTests(WpfApp wpf)

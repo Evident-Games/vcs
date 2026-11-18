@@ -1,12 +1,12 @@
-using VCS.Content.Clans;
-using VCS.Content;
-using VCS.Content.Disciplines;
-using VCS.Content.Predators;
-using VCS.Rules.V5.Advancement;
-using VCS.Rules.V5.Validation;
-using VCS.Sheet;
+using Game.Content.Clans;
+using Game.Content;
+using Game.Content.Disciplines;
+using Game.Content.Predators;
+using Game.Rules.V5.Advancement;
+using Game.Rules.V5.Validation;
+using Game.Sheet;
 
-namespace VCS.Rules.V5.Predators;
+namespace Game.Rules.V5.Predators;
 
 public sealed record PredatorChoice(string Id, string Discipline, int SpecializationIndex, string SpecializationText,
     int[] AdvantageAllocation, int[] FlawAllocation);

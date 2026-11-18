@@ -1,11 +1,11 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using VCS.Application.Catalogs;
-using VCS.Content.Clans;
-using VCS.Content.Disciplines;
-using VCS.Infrastructure.Persistence;
+using Game.Application.Catalogs;
+using Game.Content.Clans;
+using Game.Content.Disciplines;
+using Game.Infrastructure.Persistence;
 
-namespace VCS.Infrastructure.Catalogs;
+namespace Game.Infrastructure.Catalogs;
 
 /// <summary>Clan edits live in the database; built-in clans stay in <see cref="ClanCatalog"/> and are overridden by id.</summary>
 public sealed class SqliteClanCatalog(DatabaseAccess database) : IEditableCatalog<ClanDefinition>

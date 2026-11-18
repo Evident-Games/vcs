@@ -1,6 +1,6 @@
-using VCS.Rules.Modules;
+using Game.Rules.Modules;
 
-namespace VCS.Rules.V5.Modules;
+namespace Game.Rules.V5.Modules;
 
 /// <summary>The installed V5 base module; optional modules require explicit compatibility.</summary>
 public static class V5Module

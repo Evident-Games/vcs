@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Wpf.Ui.Appearance;
 
-namespace VCS.Desktop.Themes;
+namespace Game.Desktop.Themes;
 
 /// <summary>Each theme file has an application block (ThemeApp*) and a sheet block (ThemeSheet*).</summary>
 public enum ThemePart { Application, Sheet }

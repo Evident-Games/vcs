@@ -1,4 +1,4 @@
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 public interface IDesktopDialogs
 {

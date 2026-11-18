@@ -1,6 +1,6 @@
-using VCS.Content;
+using Game.Content;
 
-namespace VCS.Rules.V5.Dice;
+namespace Game.Rules.V5.Dice;
 
 public sealed record DicePoolComposition(int AttributeDots, int SkillDots, int SpecializationBonus, int SituationalModifier, int DicePool)
 {

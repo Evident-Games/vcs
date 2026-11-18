@@ -1,4 +1,4 @@
-namespace VCS.Content.Advantages;
+namespace Game.Content.Advantages;
 
 public static class AdvantageCatalog
 {

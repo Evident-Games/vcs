@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace VCS.Infrastructure.Persistence.Migrations;
+namespace Game.Infrastructure.Persistence.Migrations;
 
 [DbContext(typeof(CharacterDbContext))]
 [Migration("20261115023000_CharacterPowerEffects")]

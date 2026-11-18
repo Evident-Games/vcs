@@ -1,9 +1,9 @@
-using VCS.Content.Disciplines;
-using VCS.Rules.V5.Dice;
-using VCS.Rules.V5.Disciplines;
-using VCS.Rules.Disciplines;
+using Game.Content.Disciplines;
+using Game.Rules.V5.Dice;
+using Game.Rules.V5.Disciplines;
+using Game.Rules.Disciplines;
 
-namespace VCS.Application.Blood;
+namespace Game.Application.Blood;
 
 public sealed record PowerUseRequest(PowerUseDefinition Definition, int PowerLevel, int Pool, bool RollRequired,
     int Difficulty, int OpponentSuccesses, int Rating, int Wits, bool VampireTarget,

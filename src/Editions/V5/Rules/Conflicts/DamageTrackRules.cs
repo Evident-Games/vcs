@@ -1,6 +1,6 @@
-using VCS.Content;
+using Game.Content;
 
-namespace VCS.Rules.V5.Conflicts;
+namespace Game.Rules.V5.Conflicts;
 
 public sealed record DamageTrackResult(int Superficial, int Aggravated, int UnmarkedDamage)
 {

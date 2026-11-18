@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Desktop.Themes;
+using Game.Desktop.Themes;
 
-namespace VCS.Desktop.Layout;
+namespace Game.Desktop.Layout;
 
 /// <summary>Application theme and per-sheet theme overrides.</summary>
 public partial class DisplaySettingsViewModel

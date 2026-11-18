@@ -1,12 +1,12 @@
-using VCS.Content.Advantages;
-using VCS.Desktop.Catalogs;
-using VCS.Desktop.Sheet;
-using VCS.Infrastructure.Catalogs;
-using VCS.Infrastructure.Persistence;
-using VCS.Rules.V5.Validation;
-using VCS.Sheet;
+using Game.Content.Advantages;
+using Game.Desktop.Catalogs;
+using Game.Desktop.Sheet;
+using Game.Infrastructure.Catalogs;
+using Game.Infrastructure.Persistence;
+using Game.Rules.V5.Validation;
+using Game.Sheet;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public sealed class MeritFamilyTests : IAsyncLifetime
 {

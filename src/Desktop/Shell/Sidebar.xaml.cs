@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows.Controls.Primitives;
 using Microsoft.Win32;
 
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 /// <summary>Native floating HUD. Only its visible surfaces take pointer input.</summary>
 public partial class Sidebar : UserControl

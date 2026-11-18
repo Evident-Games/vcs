@@ -1,8 +1,8 @@
-using VCS.Content;
-using VCS.Content.Disciplines;
-using VCS.Rules.Rituals;
+using Game.Content;
+using Game.Content.Disciplines;
+using Game.Rules.Rituals;
 
-namespace VCS.Rules.V5.Rituals;
+namespace Game.Rules.V5.Rituals;
 
 /// <summary>Core ritual effects. World facts and changes to targets remain explicit table decisions.</summary>
 [RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 275–282")]

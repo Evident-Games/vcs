@@ -1,6 +1,6 @@
-using VCS.Content;
+using Game.Content;
 
-namespace VCS.Rules.V5.Clans;
+namespace Game.Rules.V5.Clans;
 
 [RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 252–254")]
 public static class CelerityRules

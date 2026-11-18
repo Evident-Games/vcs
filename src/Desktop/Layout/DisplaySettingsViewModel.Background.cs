@@ -5,7 +5,7 @@ using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using SkiaSharp;
 
-namespace VCS.Desktop.Layout;
+namespace Game.Desktop.Layout;
 
 public partial class DisplaySettingsViewModel
 {

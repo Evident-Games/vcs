@@ -1,12 +1,12 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Blood;
-using VCS.Content;
-using VCS.Rules.V5.Blood;
-using VCS.Rules.V5.Dice;
+using Game.Application.Blood;
+using Game.Content;
+using Game.Rules.V5.Blood;
+using Game.Rules.V5.Dice;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class CharacterEditorViewModel
 {
@@ -85,15 +85,15 @@ public partial class CharacterEditorViewModel
         OnPropertyChanged(nameof(HasRollDisplay));
         OnPropertyChanged(nameof(CanReroll));
     }
-    public string BloodPotencyRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyEffects));
-    public string GenerationRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyGenerationRules));
-    public string DiceRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(DicePoolRules));
-    public string RouseRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(RouseCheckRules));
-    public string ResonanceRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(ResonanceRules));
-    public string MendingRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(BloodPotencyEffects));
-    public string FeedingRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(FeedingRules));
-    public string FrenzyRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(FrenzyRules));
-    public string HumanityRuleSource => VCS.Content.SourceAttribution.ForRule(typeof(HumanityRules));
+    public string BloodPotencyRuleSource => Game.Content.SourceAttribution.ForRule(typeof(BloodPotencyEffects));
+    public string GenerationRuleSource => Game.Content.SourceAttribution.ForRule(typeof(BloodPotencyGenerationRules));
+    public string DiceRuleSource => Game.Content.SourceAttribution.ForRule(typeof(DicePoolRules));
+    public string RouseRuleSource => Game.Content.SourceAttribution.ForRule(typeof(RouseCheckRules));
+    public string ResonanceRuleSource => Game.Content.SourceAttribution.ForRule(typeof(ResonanceRules));
+    public string MendingRuleSource => Game.Content.SourceAttribution.ForRule(typeof(BloodPotencyEffects));
+    public string FeedingRuleSource => Game.Content.SourceAttribution.ForRule(typeof(FeedingRules));
+    public string FrenzyRuleSource => Game.Content.SourceAttribution.ForRule(typeof(FrenzyRules));
+    public string HumanityRuleSource => Game.Content.SourceAttribution.ForRule(typeof(HumanityRules));
     [ObservableProperty] private string rouseCheckSummary = "Use a checagem ao ativar um poder ou efeito que a exija.";
     [ObservableProperty] private int rollDicePool = 5;
     [ObservableProperty] private int rollDifficulty = 1;

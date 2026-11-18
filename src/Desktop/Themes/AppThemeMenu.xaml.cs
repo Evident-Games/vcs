@@ -1,6 +1,6 @@
 using System.Windows.Controls;
 
-namespace VCS.Desktop.Themes;
+namespace Game.Desktop.Themes;
 
 /// <summary>Application theme menu, reused wherever themes can be picked.</summary>
 public partial class AppThemeMenu : MenuItem

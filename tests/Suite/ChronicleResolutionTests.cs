@@ -1,9 +1,9 @@
-using VCS.Rules.V5.Blood;
-using VCS.Rules.V5.Chronicle;
-using VCS.Rules.V5.Conflicts;
-using VCS.Rules.V5.Dice;
+using Game.Rules.V5.Blood;
+using Game.Rules.V5.Chronicle;
+using Game.Rules.V5.Conflicts;
+using Game.Rules.V5.Dice;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public class ChronicleResolutionTests
 {

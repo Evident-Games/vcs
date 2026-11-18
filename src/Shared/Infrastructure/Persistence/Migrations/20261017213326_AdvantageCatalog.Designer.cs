@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using VCS.Infrastructure.Persistence;
+using Game.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace VCS.Infrastructure.Persistence.Migrations
+namespace Game.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CharacterDbContext))]
     [Migration("20261017213326_AdvantageCatalog")]

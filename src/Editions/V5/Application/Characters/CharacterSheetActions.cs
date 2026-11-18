@@ -1,11 +1,11 @@
-using VCS.Rules.V5.Advancement;
-using VCS.Rules.V5.Blood;
-using VCS.Rules.V5.Validation;
-using VCS.Rules.V5.Clans;
-using VCS.Rules.V5.Predators;
-using VCS.Sheet;
+using Game.Rules.V5.Advancement;
+using Game.Rules.V5.Blood;
+using Game.Rules.V5.Validation;
+using Game.Rules.V5.Clans;
+using Game.Rules.V5.Predators;
+using Game.Sheet;
 
-namespace VCS.Application.Characters;
+namespace Game.Application.Characters;
 
 public sealed record BloodPotencyWarning(int Generation, int BloodPotency, int Minimum, int Maximum, bool HasDefinedRange, bool IsThinBlood);
 public sealed record DisciplineAdvancementGuidance(bool? IsInClan, int CurrentRating, int? NextLevelCost);

@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text.Json;
 
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 public sealed record UpdateInfo(Version Version, string DownloadUrl, string? Sha256, string PageUrl);
 

@@ -8,33 +8,35 @@ A árvore-alvo das pastas está em [project-structure.md](project-structure.md).
 
 ## Limites entre projetos
 
-- `VCS.Sheet`: modelos de ficha e valores persistidos; não deve depender de WPF, SQLite ou controles de interface.
-- `VCS.Content`: catálogos, conteúdo de jogo e atribuição de fontes; não deve depender de UI ou persistência.
-- `VCS.Rules.V5`: resolução determinística das regras V5; não deve depender de WPF, banco de dados, arquivos ou serviços de aplicação.
-- `VCS.Application`: casos de uso comuns e coordenação. Os fluxos que dependem de V5 foram movidos para `VCS.Application.V5`; a aplicação compartilhada não referencia diretamente `VCS.Rules.V5`.
-- `VCS.Infrastructure`: banco, arquivos, exportação e serviços externos; implementa interfaces definidas pela aplicação. Ainda referencia regras V5 para validação, importação e exportação, dependência pendente de separação.
-- `VCS.Desktop`: WPF, ViewModels, comandos, navegação e composição de dependências. Deve chamar casos de uso da aplicação e adaptar seus resultados para a tela.
+- `Sheet`: modelos de ficha e valores persistidos; não deve depender de WPF, SQLite ou controles de interface.
+- `Content`: catálogos, conteúdo de jogo e atribuição de fontes; não deve depender de UI ou persistência.
+- `Rules.V5`: resolução determinística das regras V5; não deve depender de WPF, banco de dados, arquivos ou serviços de aplicação.
+- `Application`: casos de uso comuns e coordenação. Os fluxos que dependem de V5 foram movidos para `Application.V5`; a aplicação compartilhada não referencia diretamente `Rules.V5`.
+- `Infrastructure`: banco, arquivos, exportação e serviços externos; implementa interfaces definidas pela aplicação. Ainda referencia regras V5 para validação, importação e exportação, dependência pendente de separação.
+- `Desktop`: WPF, ViewModels, comandos, navegação e composição de dependências. Deve chamar casos de uso da aplicação e adaptar seus resultados para a tela.
 
 Fluxo atual da ficha V5:
 
-`View WPF → ViewModel → caso de uso em VCS.Application → fluxo/regras V5 → resultado → ViewModel → View WPF`
+`View WPF → ViewModel → caso de uso em Application → fluxo/regras V5 → resultado → ViewModel → View WPF`
 
 Fluxo-alvo:
 
 `View → ViewModel → caso de uso compartilhado → módulo da edição da ficha → resultado → ViewModel → View`
 
-Texto de apresentação, `ObservableCollection`, `ICommand`, `Dispatcher`, `CollectionView` e controles permanecem na camada Desktop. Cálculos e decisões V5 ficam em `VCS.Rules.V5` ou nos fluxos V5 ainda presentes em `VCS.Application`. No alvo, cada decisão de edição ficará no módulo correspondente.
+Texto de apresentação, `ObservableCollection`, `ICommand`, `Dispatcher`, `CollectionView` e controles permanecem na camada Desktop. Cálculos e decisões V5 ficam em `Rules.V5` ou nos fluxos V5 ainda presentes em `Application`. No alvo, cada decisão de edição ficará no módulo correspondente.
 
 ## Primeiro recorte
 
-`VCS.Application.Blood.BloodActions` coordena alimentação, gatilhos e resistência a Frenesi, Surto de Sangue, testes e Checagens de Sangue. `VCS.Application.Humanity.HumanityActions` coordena Remorso, dano por Máculas e consulta aos níveis de Humanidade. `CharacterSheetActions` coordena validação, capacidades, cálculo de XP, bases de criação, dados de apresentação da ficha e verificações de Potência/Geração; `PredatorActions` e `LoresheetActions` coordenam as seleções e alterações de estado. `DiceActions` monta paradas de Atributo + Habilidade, aplica o dado de especialização quando marcado e encaminha a rolagem. A interface mantém a formatação e a apresentação.
+`Game.Application.Blood.BloodActions` coordena alimentação, gatilhos e resistência a Frenesi, Surto de Sangue, testes e Checagens de Sangue. `Game.Application.Humanity.HumanityActions` coordena Remorso, dano por Máculas e consulta aos níveis de Humanidade. `CharacterSheetActions` coordena validação, capacidades, cálculo de XP, bases de criação, dados de apresentação da ficha e verificações de Potência/Geração; `PredatorActions` e `LoresheetActions` coordenam as seleções e alterações de estado. `DiceActions` monta paradas de Atributo + Habilidade, aplica o dado de especialização quando marcado e encaminha a rolagem. A interface mantém a formatação e a apresentação.
 
 ## Próximas etapas pendentes
 
-1. Concluído parcialmente: validação, capacidade de trilhas, cálculo de XP, sincronização das bases, consultas de Humanidade, predador, ficha de conhecimento, custo de disciplina, dados auxiliares da ficha e montagem de parada foram encaminhados a `VCS.Application`. Falta mover o fluxo de compras de XP e completar operações comuns de vantagens/disciplina.
-2. Extrair seleção/aplicação de Vantagens e Disciplinas para fluxos de aplicação; deixar regras puras em `VCS.Rules.V5`.
+1. Concluído parcialmente: validação, capacidade de trilhas, cálculo de XP, sincronização das bases, consultas de Humanidade, predador, ficha de conhecimento, custo de disciplina, dados auxiliares da ficha e montagem de parada foram encaminhados a `Application`. Falta mover o fluxo de compras de XP e completar operações comuns de vantagens/disciplina.
+2. Extrair seleção/aplicação de Vantagens e Disciplinas para fluxos de aplicação; deixar regras puras em `Rules.V5`.
 3. Remover dependências de WPF de ViewModels e helpers que ainda usam `ListCollectionView`, `Dispatcher`, controles ou tipos WPF. Hoje `NotesViewModel` e o filtro de disciplinas ainda usam `ListCollectionView`.
 4. Mover formatação/localização de mensagens para apresentadores da camada Desktop, mantendo resultados de regra tipados.
-5. Manter a interface WPF como cliente atual; só depois de estabilizar os casos de uso, criar outro cliente multiplataforma que reutilize `VCS.Application`.
+5. Manter a interface WPF como cliente atual; só depois de estabilizar os casos de uso, criar outro cliente multiplataforma que reutilize `Application`.
 
 A migração de pastas planejada está descrita em [project-structure.md](project-structure.md). Cada recorte deve preservar comportamento, fichas, fontes, exceções do Narrador e temas personalizados. Nenhuma tela ou regra deve migrar de uma vez sem revisão do respectivo fluxo.
+
+Os namespaces de código usam a raiz técnica `Game`; os assemblies usam os nomes das camadas sem prefixo. Identificadores históricos persistidos e nomes incorporados anteriores permanecem disponíveis por compatibilidade.

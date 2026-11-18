@@ -1,6 +1,6 @@
-using VCS.Content;
+using Game.Content;
 
-namespace VCS.Rules.V5.Rituals;
+namespace Game.Rules.V5.Rituals;
 
 /// <summary>Default ritual requirements; individual rituals can explicitly override them.</summary>
 [RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 274, 281")]

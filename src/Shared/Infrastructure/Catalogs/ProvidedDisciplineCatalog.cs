@@ -1,7 +1,7 @@
-using VCS.Application.Catalogs;
-using VCS.Content.Disciplines;
+using Game.Application.Catalogs;
+using Game.Content.Disciplines;
 
-namespace VCS.Infrastructure.Catalogs;
+namespace Game.Infrastructure.Catalogs;
 
 /// <summary>The powers in use: the built-in ones from <see cref="DisciplineCatalog"/> with the user's database edits applied.</summary>
 public sealed class ProvidedDisciplineCatalog : IDisciplineCatalog

@@ -1,6 +1,6 @@
-using VCS.Content;
+using Game.Content;
 
-namespace VCS.Rules.V5.Rituals;
+namespace Game.Rules.V5.Rituals;
 
 /// <summary>Core V5 object ward resolution, independent of the interface and target persistence.</summary>
 [RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 275, 279–280")]

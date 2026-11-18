@@ -1,4 +1,4 @@
-namespace VCS.Sheet;
+namespace Game.Sheet;
 
 /// <summary>Saved resolution of a power, including the Storyteller's explicit authorization.</summary>
 public sealed record PowerEffectEntry(Guid Id, string PowerId, string Name, string Target, bool IsSelf,

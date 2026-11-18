@@ -1,7 +1,7 @@
-using VCS.Rules.V5.Blood;
-using VCS.Content;
+using Game.Rules.V5.Blood;
+using Game.Content;
 
-namespace VCS.Rules.V5.Dice;
+namespace Game.Rules.V5.Dice;
 
 public enum TestOutcome
 {

@@ -1,10 +1,10 @@
-using VCS.Rules.V5.Advancement;
-using VCS.Content;
-using VCS.Rules.V5.Predators;
-using VCS.Rules.V5.Validation;
-using VCS.Sheet;
+using Game.Rules.V5.Advancement;
+using Game.Content;
+using Game.Rules.V5.Predators;
+using Game.Rules.V5.Validation;
+using Game.Sheet;
 
-namespace VCS.Rules.V5.Advantages;
+namespace Game.Rules.V5.Advantages;
 
 [RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class LoresheetRules

@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
-using VCS.Sheet;
+using Game.Sheet;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public sealed partial class SkillGroupViewModel : IPersonalTraitOwner
 {

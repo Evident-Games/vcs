@@ -2,17 +2,17 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Extensions.Logging.Abstractions;
-using VCS.Application.Characters;
-using VCS.Desktop.Database;
-using VCS.Desktop.Layout;
-using VCS.Desktop.Sheet;
-using VCS.Desktop.Shell;
-using VCS.Desktop.Themes;
-using VCS.Infrastructure.Catalogs;
-using VCS.Infrastructure.Characters;
-using VCS.Infrastructure.Persistence;
+using Game.Application.Characters;
+using Game.Desktop.Database;
+using Game.Desktop.Layout;
+using Game.Desktop.Sheet;
+using Game.Desktop.Shell;
+using Game.Desktop.Themes;
+using Game.Infrastructure.Catalogs;
+using Game.Infrastructure.Characters;
+using Game.Infrastructure.Persistence;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 [CollectionDefinition(Name)]
 public sealed class WpfCollection : ICollectionFixture<WpfApp>
@@ -150,7 +150,7 @@ public sealed class UiSession : IDisposable
     }
 }
 
-public sealed class TestDialogs : VCS.Desktop.Shell.IDesktopDialogs
+public sealed class TestDialogs : Game.Desktop.Shell.IDesktopDialogs
 {
     public string PdfPath { get; init; } = "";
     public string? SavePdf() => PdfPath;

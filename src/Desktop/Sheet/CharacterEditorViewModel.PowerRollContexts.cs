@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Rules.V5.Disciplines;
+using Game.Rules.V5.Disciplines;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class CharacterEditorViewModel
 {

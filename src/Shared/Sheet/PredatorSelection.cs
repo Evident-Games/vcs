@@ -1,4 +1,4 @@
-namespace VCS.Sheet;
+namespace Game.Sheet;
 
 public sealed record PredatorSelection(string Id, string DisciplineKey, string Discipline, string SkillKey,
     string Skill, string Specialization, bool SpecializationAdded, TraitValue[] Grants, int HumanityDelta, int BloodDelta)

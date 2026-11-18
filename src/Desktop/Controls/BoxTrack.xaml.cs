@@ -1,8 +1,8 @@
 using System.Windows;
 using System.Windows.Controls;
-using VCS.Application.Characters;
+using Game.Application.Characters;
 
-namespace VCS.Desktop.Controls;
+namespace Game.Desktop.Controls;
 
 public partial class BoxTrack : UserControl
 {

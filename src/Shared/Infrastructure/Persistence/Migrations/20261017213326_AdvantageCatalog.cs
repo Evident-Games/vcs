@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace VCS.Infrastructure.Persistence.Migrations
+namespace Game.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class AdvantageCatalog : Migration

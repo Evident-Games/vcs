@@ -1,7 +1,7 @@
-using VCS.Content;
-using VCS.Sheet;
+using Game.Content;
+using Game.Sheet;
 
-namespace VCS.Rules.V5.Rituals;
+namespace Game.Rules.V5.Rituals;
 
 /// <summary>Preparation requirements for Escape to the True Sanctuary.</summary>
 [RuleSource("Vampiro: A Máscara V5 (Livro base), p. 281")]

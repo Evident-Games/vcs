@@ -1,10 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Content;
-using VCS.Rules.V5.Blood;
-using VCS.Rules.V5.Conflicts;
+using Game.Content;
+using Game.Rules.V5.Blood;
+using Game.Rules.V5.Conflicts;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public sealed record ConflictKindOption(ConflictKind Kind, string Label)
 {
@@ -183,7 +183,7 @@ public partial class CharacterEditorViewModel
         var physical = exchange.Kind == ConflictKind.Physical;
         var haven = RitualInsideProtectedHaven && PowerEffects.Any(x => x.Active &&
             x.PowerId == "ritual-defense-of-sacred-haven" && x.RitualWorkflow is { Stage: "effect", Resolved: true });
-        if (physical && VCS.Rules.V5.Rituals.RitualOngoingRules.IgnoresDamage(
+        if (physical && Game.Rules.V5.Rituals.RitualOngoingRules.IgnoresDamage(
             HasRitualEffect("ritual-incorporeal-passage"),
             !IncomingSourceIsSunlight && !IncomingDamageIsFireOrSupernatural && !RitualIncomingDamageIsFire,
             haven, IncomingSourceIsSunlight))
@@ -206,7 +206,7 @@ public partial class CharacterEditorViewModel
         if (physical && FleshOfMarbleActive && MarbleFirstSourceAvailable)
         {
             MarbleFirstSourceAvailable = false;
-            if (VCS.Rules.V5.Conflicts.DisciplineCombatRules.MarbleStopsSource(true, true,
+            if (Game.Rules.V5.Conflicts.DisciplineCombatRules.MarbleStopsSource(true, true,
                 IncomingSourceIsSunlight, IncomingAttackIsCritical))
             {
                 ConflictSummary += " Pele de Mármore ignorou a primeira fonte de dano deste turno.";
@@ -216,7 +216,7 @@ public partial class CharacterEditorViewModel
                 return;
             }
         }
-        var damageToApply = physical ? VCS.Rules.V5.Rituals.RitualOngoingRules.FireDamage(exchange.Damage.ToSecond,
+        var damageToApply = physical ? Game.Rules.V5.Rituals.RitualOngoingRules.FireDamage(exchange.Damage.ToSecond,
             HasRitualEffect("ritual-firewalker"), RitualIncomingDamageIsFire) : exchange.Damage.ToSecond;
         if (damageToApply != exchange.Damage.ToSecond)
             ConflictSummary += $" Andarilho do Fogo: dano de fogo reduzido de {exchange.Damage.ToSecond} para {damageToApply}.";

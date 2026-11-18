@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 /// <summary>One section of the NPC sheet; Part is the section key (see SheetLayout.CreateNpc).</summary>
 public partial class NpcQuickSheetView : UserControl

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace VCS.Content.Disciplines;
+namespace Game.Content.Disciplines;
 
 /// <summary>A discipline power, or a ritual (<see cref="IsRitual"/>) of the discipline that performs it.</summary>
 public sealed record PowerDefinition(

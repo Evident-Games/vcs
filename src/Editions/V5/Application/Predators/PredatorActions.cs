@@ -1,9 +1,9 @@
-using VCS.Content.Predators;
-using VCS.Rules.V5.Advancement;
-using VCS.Rules.V5.Predators;
-using VCS.Sheet;
+using Game.Content.Predators;
+using Game.Rules.V5.Advancement;
+using Game.Rules.V5.Predators;
+using Game.Sheet;
 
-namespace VCS.Application.Predators;
+namespace Game.Application.Predators;
 
 /// <summary>Use cases for applying and removing a predator choice during character creation.</summary>
 public sealed class PredatorActions

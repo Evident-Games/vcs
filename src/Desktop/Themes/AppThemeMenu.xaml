@@ -1,4 +1,4 @@
-<MenuItem x:Class="VCS.Desktop.Themes.AppThemeMenu"
+<MenuItem x:Class="Game.Desktop.Themes.AppThemeMenu"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Header="Tema da aplicacao">

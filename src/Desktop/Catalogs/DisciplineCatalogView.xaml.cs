@@ -1,8 +1,8 @@
 using System.Windows.Controls;
 using System.Windows.Data;
-using VCS.Desktop.Sheet;
+using Game.Desktop.Sheet;
 
-namespace VCS.Desktop.Catalogs;
+namespace Game.Desktop.Catalogs;
 
 public partial class DisciplineCatalogView : UserControl
 {

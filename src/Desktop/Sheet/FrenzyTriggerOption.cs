@@ -1,6 +1,6 @@
-using VCS.Rules.V5.Blood;
+using Game.Rules.V5.Blood;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public sealed record FrenzyTriggerOption(FrenzyTrigger Trigger, string Label)
 {

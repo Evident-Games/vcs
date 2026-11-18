@@ -1,4 +1,4 @@
-namespace VCS.Sheet;
+namespace Game.Sheet;
 
 /// <summary>Read-only list with value equality, so CharacterDetails record comparisons ignore the collection instance.</summary>
 public sealed class ValueList<T>(IEnumerable<T> items) : IReadOnlyList<T>, IEquatable<ValueList<T>>

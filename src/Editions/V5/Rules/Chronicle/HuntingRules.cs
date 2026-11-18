@@ -1,6 +1,6 @@
-using VCS.Content;
+using Game.Content;
 
-namespace VCS.Rules.V5.Chronicle;
+namespace Game.Rules.V5.Chronicle;
 
 public sealed record HuntingApproach(string Name, string Pool);
 

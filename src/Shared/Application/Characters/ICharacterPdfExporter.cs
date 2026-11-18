@@ -1,4 +1,4 @@
-namespace VCS.Application.Characters;
+namespace Game.Application.Characters;
 
 public sealed record PdfSection(string Key, string Title);
 

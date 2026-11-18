@@ -1,6 +1,6 @@
-using VCS.Content.Disciplines;
+using Game.Content.Disciplines;
 
-namespace VCS.Rules.Rituals;
+namespace Game.Rules.Rituals;
 
 /// <summary>Presentation-neutral result; world facts are supplied by the Storyteller.</summary>
 public sealed record RitualEffectProposal(bool Succeeded, string Effect, string Duration,

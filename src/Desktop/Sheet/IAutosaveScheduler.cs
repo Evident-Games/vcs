@@ -1,4 +1,4 @@
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public interface IAutosaveScheduler : IDisposable
 {

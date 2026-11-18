@@ -1,9 +1,9 @@
-using VCS.Desktop.Catalogs;
-using VCS.Desktop.Sheet;
-using VCS.Infrastructure.Catalogs;
-using VCS.Sheet;
+using Game.Desktop.Catalogs;
+using Game.Desktop.Sheet;
+using Game.Infrastructure.Catalogs;
+using Game.Sheet;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public sealed class DisciplineCatalogTests
 {

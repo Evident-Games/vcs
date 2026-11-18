@@ -1,8 +1,8 @@
-using VCS.Rules.V5.Blood;
-using VCS.Rules.V5.Conflicts;
-using VCS.Rules.V5.Dice;
+using Game.Rules.V5.Blood;
+using Game.Rules.V5.Conflicts;
+using Game.Rules.V5.Dice;
 
-namespace VCS.Application.Chronicle;
+namespace Game.Application.Chronicle;
 
 /// <summary>Application use cases for chronicle systems that operate across character sheets.</summary>
 public sealed class ChronicleActions

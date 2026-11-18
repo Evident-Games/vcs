@@ -1,6 +1,6 @@
 using System.Windows.Controls;
 
-namespace VCS.Desktop.Themes;
+namespace Game.Desktop.Themes;
 
 /// <summary>Theme menu for the active sheet.</summary>
 public partial class SheetThemeMenu : MenuItem

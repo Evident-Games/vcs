@@ -1,11 +1,11 @@
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
-using VCS.Application.Catalogs;
-using VCS.Application.Characters;
-using VCS.Content.Skills;
+using Game.Application.Catalogs;
+using Game.Application.Characters;
+using Game.Content.Skills;
 
-namespace VCS.Infrastructure.Characters;
+namespace Game.Infrastructure.Characters;
 
 /// <summary>Writes a fillable PDF sheet: page layout, text, ratings and form fields.</summary>
 internal sealed partial class PdfSheetWriter : IDisposable

@@ -3,10 +3,10 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Characters;
-using VCS.Application.Chronicle;
+using Game.Application.Characters;
+using Game.Application.Chronicle;
 
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 public partial class MainViewModel
 {

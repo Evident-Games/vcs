@@ -1,8 +1,8 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using VCS.Sheet;
+using Game.Sheet;
 
-namespace VCS.Desktop.Layout;
+namespace Game.Desktop.Layout;
 
 public sealed record LayoutTab(string Name, SectionOption[] Sections);
 

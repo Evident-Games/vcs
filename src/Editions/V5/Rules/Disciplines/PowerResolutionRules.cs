@@ -1,8 +1,8 @@
-using VCS.Content;
-using VCS.Content.Disciplines;
-using VCS.Rules.Disciplines;
+using Game.Content;
+using Game.Content.Disciplines;
+using Game.Rules.Disciplines;
 
-namespace VCS.Rules.V5.Disciplines;
+namespace Game.Rules.V5.Disciplines;
 
 [RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 244–274")]
 public sealed class V5PowerRuleset : IPowerRuleset

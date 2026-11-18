@@ -1,8 +1,8 @@
 using System.Windows;
 using System.Windows.Controls;
-using VCS.Desktop.Catalogs;
+using Game.Desktop.Catalogs;
 
-namespace VCS.Desktop.Controls;
+namespace Game.Desktop.Controls;
 
 public partial class PowerBrowser : UserControl
 {

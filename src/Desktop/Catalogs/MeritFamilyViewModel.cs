@@ -2,12 +2,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Content;
-using VCS.Content.Advantages;
-using VCS.Desktop.Sheet;
-using VCS.Sheet;
+using Game.Content;
+using Game.Content.Advantages;
+using Game.Desktop.Sheet;
+using Game.Sheet;
 
-namespace VCS.Desktop.Catalogs;
+namespace Game.Desktop.Catalogs;
 
 public partial class MeritFamilyViewModel : ObservableObject
 {

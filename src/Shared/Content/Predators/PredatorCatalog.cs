@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
-using VCS.Content.Advantages;
-using VCS.Content.Skills;
-using VCS.Sheet;
+using Game.Content.Advantages;
+using Game.Content.Skills;
+using Game.Sheet;
 
-namespace VCS.Content.Predators;
+namespace Game.Content.Predators;
 
 public sealed record PredatorSpecialization(string SkillId, string Text, bool IsFreeText = false)
 {

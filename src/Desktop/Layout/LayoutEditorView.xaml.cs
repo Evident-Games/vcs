@@ -3,9 +3,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
-using VCS.Desktop.Shell;
+using Game.Desktop.Shell;
 
-namespace VCS.Desktop.Layout;
+namespace Game.Desktop.Layout;
 
 /// <summary>Layout editor with list, tab and mini bento previews; drag and drop rearranges sections.</summary>
 public partial class LayoutEditorView : UserControl

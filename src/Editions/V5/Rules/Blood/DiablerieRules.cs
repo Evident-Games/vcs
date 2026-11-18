@@ -1,6 +1,6 @@
-using VCS.Content;
+using Game.Content;
 
-namespace VCS.Rules.V5.Blood;
+namespace Game.Rules.V5.Blood;
 
 public sealed record DiablerieResolution(int Humanity, int Generation, int RestrictedExperience, bool Possessed, int AuraYears);
 

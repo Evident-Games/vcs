@@ -1,4 +1,4 @@
-namespace VCS.Content.Skills;
+namespace Game.Content.Skills;
 
 public static class SkillCatalog
 {

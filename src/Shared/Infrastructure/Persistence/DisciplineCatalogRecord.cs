@@ -1,4 +1,4 @@
-namespace VCS.Infrastructure.Persistence;
+namespace Game.Infrastructure.Persistence;
 
 /// <summary>A user discipline, or the user's edit of a built-in one (same id).</summary>
 public sealed class DisciplineCatalogRecord

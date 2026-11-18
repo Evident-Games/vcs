@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Application.Characters;
+using Game.Application.Characters;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 /// <summary>Owner of personal trait lines: turns a typed draft into a trait and drops a line whose name was cleared.</summary>
 public interface IPersonalTraitOwner

@@ -1,4 +1,4 @@
-namespace VCS.Rules.Modules;
+namespace Game.Rules.Modules;
 
 /// <summary>Distinguishes a full edition ruleset from an optional rules/content extension.</summary>
 public enum RuleModuleKind

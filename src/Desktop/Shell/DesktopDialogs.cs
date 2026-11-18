@@ -1,7 +1,7 @@
 using System.Windows;
 using Microsoft.Win32;
 
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 public sealed class DesktopDialogs : IDesktopDialogs
 {

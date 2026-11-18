@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace VCS.Desktop.Themes;
+namespace Game.Desktop.Themes;
 
 /// <summary>Scopes a theme palette to one element, so a sheet can differ from the application theme.</summary>
 public static class SheetTheme

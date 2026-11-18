@@ -1,11 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Content;
-using VCS.Content.Disciplines;
-using VCS.Application.Characters;
-using VCS.Desktop.Sheet;
-using VCS.Sheet;
+using Game.Content;
+using Game.Content.Disciplines;
+using Game.Application.Characters;
+using Game.Desktop.Sheet;
+using Game.Sheet;
 
-namespace VCS.Desktop.Catalogs;
+namespace Game.Desktop.Catalogs;
 
 public partial class PowerItemViewModel : ObservableObject
 {

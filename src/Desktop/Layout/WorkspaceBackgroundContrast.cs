@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace VCS.Desktop.Layout;
+namespace Game.Desktop.Layout;
 
 /// <summary>Estimates image brightness for controls drawn directly over the workspace.</summary>
 public static class WorkspaceBackgroundContrast

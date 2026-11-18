@@ -1,6 +1,6 @@
-using VCS.Desktop.Layout;
+using Game.Desktop.Layout;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 /// <summary>A section shown in one sheet; the option carries its live title, tab and bento size.</summary>
 public sealed record EditorSection(SectionOption Option, CharacterEditorViewModel Editor)

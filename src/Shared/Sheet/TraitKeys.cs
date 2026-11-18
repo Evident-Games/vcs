@@ -1,4 +1,4 @@
-namespace VCS.Sheet;
+namespace Game.Sheet;
 
 /// <summary>Trait keys start with their kind in English: skill-melee, discipline-celerity, advantage-personal-…</summary>
 public static class TraitKeys

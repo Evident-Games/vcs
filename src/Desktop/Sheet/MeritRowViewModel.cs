@@ -1,12 +1,12 @@
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Content;
+using Game.Content;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Content.Advantages;
-using VCS.Desktop.Catalogs;
-using VCS.Sheet;
+using Game.Content.Advantages;
+using Game.Desktop.Catalogs;
+using Game.Sheet;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 /// <summary>One advantage or flaw line of the player sheet: picked from the catalog or written by the player.</summary>
 public sealed partial class MeritRowViewModel : ObservableObject, IDisposable

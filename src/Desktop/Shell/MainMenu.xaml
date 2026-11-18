@@ -1,7 +1,7 @@
-<UserControl x:Class="VCS.Desktop.Shell.MainMenu"
+<UserControl x:Class="Game.Desktop.Shell.MainMenu"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:themes="clr-namespace:VCS.Desktop.Themes">
+    xmlns:themes="clr-namespace:Game.Desktop.Themes">
     <!-- Main menu bar. -->
     <Border BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="0,0,0,1" Padding="8,0">
         <Menu IsEnabled="{Binding IsIdle}" Background="Transparent" Foreground="{DynamicResource ThemeHeaderText}"

@@ -1,9 +1,9 @@
 using System.IO;
 using System.Text.Json;
-using VCS.Desktop.Themes;
-using VCS.Sheet;
+using Game.Desktop.Themes;
+using Game.Sheet;
 
-namespace VCS.Desktop.Layout;
+namespace Game.Desktop.Layout;
 
 public sealed class DisplaySettingsStore(string path)
 {

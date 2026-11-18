@@ -1,6 +1,6 @@
-using VCS.Application.Chronicle;
+using Game.Application.Chronicle;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class CharacterEditorViewModel
 {

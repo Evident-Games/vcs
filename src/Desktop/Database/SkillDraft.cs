@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Content.Skills;
+using Game.Content.Skills;
 
-namespace VCS.Desktop.Database;
+namespace Game.Desktop.Database;
 
 public sealed partial class SkillDraft(SkillDefinition skill) : ObservableObject, ICatalogDraft<SkillDefinition>
 {

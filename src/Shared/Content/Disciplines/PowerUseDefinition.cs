@@ -1,4 +1,4 @@
-namespace VCS.Content.Disciplines;
+namespace Game.Content.Disciplines;
 
 /// <summary>Explicit core-book activation data, independent of localized display text.</summary>
 public sealed record PowerUseDefinition(string PowerId, string Attribute, string Trait, string Mode,

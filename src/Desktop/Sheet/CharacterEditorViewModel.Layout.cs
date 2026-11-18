@@ -1,9 +1,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Desktop.Layout;
+using Game.Desktop.Layout;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 /// <summary>Sections, tabs and sheet theme of this sheet, following the shared PC or NPC layout.</summary>
 public partial class CharacterEditorViewModel

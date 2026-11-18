@@ -1,6 +1,6 @@
-using VCS.Content;
+using Game.Content;
 
-namespace VCS.Rules.V5.Alchemy;
+namespace Game.Rules.V5.Alchemy;
 
 public enum DistillationMethod { AthanorCorporis, Calcinatio, Fixatio }
 public sealed record DistillationResult(int Pool, int FormulaCost, string Effect);

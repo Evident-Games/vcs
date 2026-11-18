@@ -1,8 +1,8 @@
-namespace VCS.Sheet;
+namespace Game.Sheet;
 
 /// <summary>
 /// The stored sheet. It does not know any edition's rules: create and update it through the edition's rules
-/// (CharacterRules.Create / Update in VCS.Rules.V5), which validate first.
+/// (CharacterRules.Create / Update in Game.Rules.V5), which validate first.
 /// </summary>
 public sealed class Character
 {

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace VCS.Desktop.Themes;
+namespace Game.Desktop.Themes;
 
 /// <summary>Applies transparency to the surface brush without fading its contents.</summary>
 public sealed class SurfaceOpacityConverter : IMultiValueConverter

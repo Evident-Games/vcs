@@ -1,4 +1,4 @@
-namespace VCS.Sheet;
+namespace Game.Sheet;
 
 public enum VampireAge { Child, Neonate, Ancilla }
 public enum SkillProfile { Specialist, Balanced, Generalist }

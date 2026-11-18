@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Logging;
-using VCS.Content.Advantages;
-using VCS.Rules.V5.Advancement;
-using VCS.Sheet;
+using Game.Content.Advantages;
+using Game.Rules.V5.Advancement;
+using Game.Sheet;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class CharacterEditorViewModel
 {

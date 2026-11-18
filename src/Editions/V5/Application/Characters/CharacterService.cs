@@ -1,7 +1,7 @@
 
-using VCS.Rules.V5.Validation;
+using Game.Rules.V5.Validation;
 
-namespace VCS.Application.Characters;
+namespace Game.Application.Characters;
 
 public sealed class CharacterService(ICharacterRepository repository)
 {

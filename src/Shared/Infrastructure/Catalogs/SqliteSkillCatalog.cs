@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using VCS.Application.Catalogs;
-using VCS.Content.Skills;
-using VCS.Infrastructure.Persistence;
+using Game.Application.Catalogs;
+using Game.Content.Skills;
+using Game.Infrastructure.Persistence;
 
-namespace VCS.Infrastructure.Catalogs;
+namespace Game.Infrastructure.Catalogs;
 
 /// <summary>Built-in skills come from <see cref="SkillCatalog"/>; the database holds only the user's edits (same id) and new skills.</summary>
 public sealed class SqliteSkillCatalog(DatabaseAccess database) : ISkillCatalog, IEditableCatalog<SkillDefinition>

@@ -5,10 +5,10 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using VCS.Content;
-using VCS.Desktop.Catalogs;
+using Game.Content;
+using Game.Desktop.Catalogs;
 
-namespace VCS.Desktop.Controls;
+namespace Game.Desktop.Controls;
 
 /// <summary>Paper line text box with a filtered drop-down of suggestions; any free text is still accepted.</summary>
 public sealed class SuggestionBox : UserControl

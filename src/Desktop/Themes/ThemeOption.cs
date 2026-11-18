@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace VCS.Desktop.Themes;
+namespace Game.Desktop.Themes;
 
 /// <summary>A theme entry in a theme menu.</summary>
 public partial class ThemeOption(string id, string name, ThemeGroup group) : ObservableObject

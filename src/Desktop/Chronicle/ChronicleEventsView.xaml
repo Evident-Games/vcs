@@ -1,4 +1,4 @@
-<UserControl x:Class="VCS.Desktop.Chronicle.ChronicleEventsView"
+<UserControl x:Class="Game.Desktop.Chronicle.ChronicleEventsView"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
  <UserControl.Resources>

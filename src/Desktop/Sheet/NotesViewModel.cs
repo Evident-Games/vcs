@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.Windows.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Sheet;
+using Game.Sheet;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 /// <summary>Titled notes of a sheet: a searchable list on the left, the selected note's title and text on the right.</summary>
 public sealed partial class NotesViewModel : ObservableObject

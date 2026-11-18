@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Characters;
+using Game.Application.Characters;
 
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 /// <summary>JSON import/export, PDF export, database backup and restore.</summary>
 public partial class MainViewModel

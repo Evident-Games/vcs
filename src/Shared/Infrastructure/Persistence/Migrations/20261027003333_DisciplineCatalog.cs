@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace VCS.Infrastructure.Persistence.Migrations
+namespace Game.Infrastructure.Persistence.Migrations
 {
     // Disciplines become catalog entries that powers and clans point to by id; the names already saved are turned
     // into ids by LegacyContentIds.UpgradeDisciplineReferencesAsync.

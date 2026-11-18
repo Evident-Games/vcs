@@ -1,12 +1,12 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Blood;
-using VCS.Content.Disciplines;
-using VCS.Rules.V5.Conflicts;
-using VCS.Sheet;
+using Game.Application.Blood;
+using Game.Content.Disciplines;
+using Game.Rules.V5.Conflicts;
+using Game.Sheet;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class CharacterEditorViewModel
 {
@@ -49,7 +49,7 @@ public partial class CharacterEditorViewModel
         : "Poder próprio ou ritual: custos e sistema definidos pela mesa.";
     public string PowerUseDefense => SelectedPowerUse?.Defense ?? "";
     public int PowerUsePool => SelectedPowerUse is not null ? Math.Clamp(
-        (PowerUseAttribute?.Rating ?? 0) + (PowerUseTrait?.Rating ?? 0) + VCS.Rules.V5.Blood.BloodPotencyEffects.At(EffectiveBloodPotency).DisciplinePowerBonus + PowerUseModifier + RitualPowerPoolModifier, 0, 50) : 0;
+        (PowerUseAttribute?.Rating ?? 0) + (PowerUseTrait?.Rating ?? 0) + Game.Rules.V5.Blood.BloodPotencyEffects.At(EffectiveBloodPotency).DisciplinePowerBonus + PowerUseModifier + RitualPowerPoolModifier, 0, 50) : 0;
     private int AttributeRating(string key) => Attributes.Items.FirstOrDefault(x => x.Key == "attribute-" + key)?.Rating ?? 0;
     public string PowerUsePoolSummary => SelectedPowerUse is { } use
         ? $"Parada: {PowerUsePool} dados. {ActivationPower?.DicePool}. Fonte: {use.Source}. Potência efetiva: {EffectiveBloodPotency}."

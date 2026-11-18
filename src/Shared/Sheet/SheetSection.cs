@@ -1,4 +1,4 @@
-namespace VCS.Sheet;
+namespace Game.Sheet;
 
 /// <summary>
 /// Keys of the player sheet sections. They tag experience costs and warnings, name the PDF sections and are

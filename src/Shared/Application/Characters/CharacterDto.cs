@@ -1,6 +1,6 @@
-using VCS.Sheet;
+using Game.Sheet;
 
-namespace VCS.Application.Characters;
+namespace Game.Application.Characters;
 
 public sealed record CharacterDto(
     Guid Id, CharacterDetails Details, TraitValue[] Traits,

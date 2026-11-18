@@ -1,8 +1,8 @@
-using VCS.Rules.V5.Dice;
-using VCS.Rules.V5.Rituals;
-using VCS.Rules.V5.Disciplines;
+using Game.Rules.V5.Dice;
+using Game.Rules.V5.Rituals;
+using Game.Rules.V5.Disciplines;
 
-namespace VCS.Application.Blood;
+namespace Game.Application.Blood;
 
 /// <summary>Resolves the first contact with a prepared V5 object ward without modifying the intruder.</summary>
 public sealed class WardActions

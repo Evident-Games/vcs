@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace VCS.Content;
+namespace Game.Content;
 
 /// <summary>Shared display helpers for content and rules citations.</summary>
 public static class SourceAttribution

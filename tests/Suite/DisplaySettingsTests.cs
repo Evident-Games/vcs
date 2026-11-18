@@ -1,8 +1,8 @@
-using VCS.Desktop.Layout;
-using VCS.Desktop.Themes;
+using Game.Desktop.Layout;
+using Game.Desktop.Themes;
 
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public sealed class DisplaySettingsTests
 {

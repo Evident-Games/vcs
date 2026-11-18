@@ -1,15 +1,15 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Content;
+using Game.Content;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Catalogs;
-using VCS.Application.Characters;
-using VCS.Content.Disciplines;
-using VCS.Desktop.Sheet;
-using VCS.Sheet;
+using Game.Application.Catalogs;
+using Game.Application.Characters;
+using Game.Content.Disciplines;
+using Game.Desktop.Sheet;
+using Game.Sheet;
 
-namespace VCS.Desktop.Catalogs;
+namespace Game.Desktop.Catalogs;
 
 public partial class DisciplineCatalogViewModel : ObservableObject, IDisposable
 {

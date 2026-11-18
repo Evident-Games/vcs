@@ -1,16 +1,16 @@
 using System.Globalization;
 using PdfSharp.Drawing;
-using VCS.Application.Characters;
-using VCS.Content;
-using VCS.Content.Predators;
-using VCS.Content.Skills;
-using VCS.Rules.V5.Advancement;
-using VCS.Rules.V5.Advantages;
-using VCS.Rules.V5.Blood;
-using VCS.Rules.V5.Validation;
-using VCS.Sheet;
+using Game.Application.Characters;
+using Game.Content;
+using Game.Content.Predators;
+using Game.Content.Skills;
+using Game.Rules.V5.Advancement;
+using Game.Rules.V5.Advantages;
+using Game.Rules.V5.Blood;
+using Game.Rules.V5.Validation;
+using Game.Sheet;
 
-namespace VCS.Infrastructure.Characters;
+namespace Game.Infrastructure.Characters;
 
 /// <summary>Sheet content: one method per section of the character or NPC sheet.</summary>
 internal sealed partial class PdfSheetWriter

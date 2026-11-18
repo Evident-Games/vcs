@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Characters;
+using Game.Application.Characters;
 
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 /// <summary>Character list: search, refresh, duplicate and delete.</summary>
 public partial class MainViewModel

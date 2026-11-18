@@ -1,6 +1,6 @@
-using VCS.Application.Catalogs;
+using Game.Application.Catalogs;
 
-namespace VCS.Desktop.Database;
+namespace Game.Desktop.Database;
 
 /// <summary>Editable form of one catalog entry.</summary>
 public interface ICatalogDraft<out T>

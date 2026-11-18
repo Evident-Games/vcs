@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace VCS.Desktop.Layout;
+namespace Game.Desktop.Layout;
 
 /// <summary>One section of a sheet layout: visibility, order, tab and bento size.</summary>
 public partial class SectionOption(string key, string title, string defaultTab, int defaultSpan = 1, int defaultHeight = 1)

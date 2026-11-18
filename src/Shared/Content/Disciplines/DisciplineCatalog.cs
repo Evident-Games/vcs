@@ -1,4 +1,4 @@
-namespace VCS.Content.Disciplines;
+namespace Game.Content.Disciplines;
 
 public sealed record DisciplineDefinition(string Id, string Name, string Source = "");
 

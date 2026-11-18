@@ -4,12 +4,12 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
-using VCS.Content.Clans;
-using VCS.Content.Disciplines;
-using VCS.Infrastructure.Catalogs;
-using VCS.Sheet;
+using Game.Content.Clans;
+using Game.Content.Disciplines;
+using Game.Infrastructure.Catalogs;
+using Game.Sheet;
 
-namespace VCS.Infrastructure.Persistence;
+namespace Game.Infrastructure.Persistence;
 
 /// <summary>
 /// Rewrites content ids saved before every id carried its kind in English (databases before the ContentIds

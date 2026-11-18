@@ -1,7 +1,7 @@
-<UserControl x:Class="VCS.Desktop.Sheet.HumanityView"
+<UserControl x:Class="Game.Desktop.Sheet.HumanityView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:VCS.Desktop.Controls">
+    xmlns:controls="clr-namespace:Game.Desktop.Controls">
     <Border Background="{DynamicResource ThemeBackground}" TextElement.Foreground="{DynamicResource ThemeOuterText}" BorderBrush="{DynamicResource ThemeBorder}"
             BorderThickness="1" CornerRadius="8" Padding="12" Margin="6,8">
         <StackPanel>

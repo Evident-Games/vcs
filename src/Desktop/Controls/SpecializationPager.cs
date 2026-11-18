@@ -2,9 +2,9 @@ using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Input;
-using VCS.Content.Clans;
+using Game.Content.Clans;
 
-namespace VCS.Desktop.Controls;
+namespace Game.Desktop.Controls;
 
 /// <summary>Edits one specialization per line, showing two lines per page with + and ‹ › controls.</summary>
 public sealed class SpecializationPager : UserControl

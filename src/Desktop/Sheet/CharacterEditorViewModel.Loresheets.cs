@@ -1,12 +1,12 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Content;
-using VCS.Content.Advantages;
-using VCS.Desktop.Catalogs;
-using VCS.Sheet;
+using Game.Content;
+using Game.Content.Advantages;
+using Game.Desktop.Catalogs;
+using Game.Sheet;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class CharacterEditorViewModel
 {

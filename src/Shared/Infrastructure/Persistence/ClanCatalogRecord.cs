@@ -1,4 +1,4 @@
-namespace VCS.Infrastructure.Persistence;
+namespace Game.Infrastructure.Persistence;
 
 /// <summary>A user clan, or the user's edit of a built-in clan (same id). Lists are stored as JSON arrays.</summary>
 public sealed class ClanCatalogRecord

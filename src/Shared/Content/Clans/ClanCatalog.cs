@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace VCS.Content.Clans;
+namespace Game.Content.Clans;
 
 public sealed record ClanDefinition(
     string Id, string Name, string Description, IReadOnlyList<string> Disciplines, IReadOnlyList<string> Aliases,

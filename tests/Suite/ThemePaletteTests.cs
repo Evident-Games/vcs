@@ -1,8 +1,8 @@
 using System.Windows;
 using System.Windows.Media;
-using VCS.Desktop.Themes;
+using Game.Desktop.Themes;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public sealed class ThemePaletteTests
 {
@@ -15,7 +15,7 @@ public sealed class ThemePaletteTests
     {
         var bitmap = System.Windows.Media.Imaging.BitmapSource.Create(1, 1, 96, 96,
             PixelFormats.Bgra32, null, new byte[] { level, level, level, 255 }, 4);
-        Assert.Equal(expectedDark, VCS.Desktop.Layout.WorkspaceBackgroundContrast.IsDark(bitmap));
+        Assert.Equal(expectedDark, Game.Desktop.Layout.WorkspaceBackgroundContrast.IsDark(bitmap));
     }
 
     [Fact]

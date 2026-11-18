@@ -1,8 +1,8 @@
-using VCS.Rules.V5.Advancement;
-using VCS.Rules.V5.Advantages;
-using VCS.Sheet;
+using Game.Rules.V5.Advancement;
+using Game.Rules.V5.Advantages;
+using Game.Sheet;
 
-namespace VCS.Application.Advantages;
+namespace Game.Application.Advantages;
 
 /// <summary>Use cases for selecting and removing a loresheet benefit.</summary>
 public sealed class LoresheetActions

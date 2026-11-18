@@ -1,4 +1,4 @@
-namespace VCS.Sheet;
+namespace Game.Sheet;
 
 public enum TraitCategory { Attribute, Skill, Discipline, Advantage, Flaw, DisciplinePower, Loresheet }
 

@@ -2,15 +2,15 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using VCS.Application.Catalogs;
-using VCS.Application.Characters;
-using VCS.Application.Maintenance;
-using VCS.Desktop.Database;
-using VCS.Desktop.Layout;
-using VCS.Desktop.Sheet;
-using VCS.Desktop.Themes;
+using Game.Application.Catalogs;
+using Game.Application.Characters;
+using Game.Application.Maintenance;
+using Game.Desktop.Database;
+using Game.Desktop.Layout;
+using Game.Desktop.Sheet;
+using Game.Desktop.Themes;
 
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 public partial class MainViewModel(
     CharacterService service, ICharacterFiles files, IDatabaseMaintenance maintenance,
@@ -18,10 +18,10 @@ public partial class MainViewModel(
     ILogger<MainViewModel> logger, DisplaySettingsStore? preferencesStore = null,
     IAdvantageCatalog? advantageCatalog = null, ISkillCatalog? skillCatalog = null,
     ICharacterPdfExporter? pdfExporter = null,
-    UpdateService? updates = null, DatabaseEditorViewModel? database = null, VCS.Desktop.Chronicle.ChronicleEventsViewModel? narrator = null) : ObservableObject
+    UpdateService? updates = null, DatabaseEditorViewModel? database = null, Game.Desktop.Chronicle.ChronicleEventsViewModel? narrator = null) : ObservableObject
 {
     private IReadOnlyList<CharacterSummary> _all = [];
-    public VCS.Desktop.Chronicle.ChronicleEventsViewModel? Narrator => narrator;
+    public Game.Desktop.Chronicle.ChronicleEventsViewModel? Narrator => narrator;
     public bool CanOpenNarrator => narrator is not null;
     [ObservableProperty] private bool isNarratorOpen;
 

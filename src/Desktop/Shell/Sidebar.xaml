@@ -1,4 +1,4 @@
-<UserControl x:Class="VCS.Desktop.Shell.Sidebar"
+<UserControl x:Class="Game.Desktop.Shell.Sidebar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     FontFamily="Inter, Montserrat, Segoe UI" Foreground="{DynamicResource ThemeHudText}"

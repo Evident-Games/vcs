@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Content.Disciplines;
+using Game.Content.Disciplines;
 
-namespace VCS.Desktop.Database;
+namespace Game.Desktop.Database;
 
 /// <summary>Discipline form; the app's own disciplines are shown read only.</summary>
 public sealed partial class DisciplineDraft(DisciplineDefinition discipline, bool isBuiltIn) : ObservableObject, ICatalogDraft<DisciplineDefinition>

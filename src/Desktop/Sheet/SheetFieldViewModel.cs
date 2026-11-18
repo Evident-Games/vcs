@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class SheetFieldViewModel(string key, string label, string value, bool multiline = false) : ObservableObject
 {

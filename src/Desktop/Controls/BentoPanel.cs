@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace VCS.Desktop.Controls;
+namespace Game.Desktop.Controls;
 
 /// <summary>Packs children row by row into a grid that always fills the available area (no outer scrolling).</summary>
 public sealed class BentoPanel : Panel

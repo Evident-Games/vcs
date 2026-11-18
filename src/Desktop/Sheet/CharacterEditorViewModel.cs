@@ -3,25 +3,25 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
-using VCS.Application.Catalogs;
-using VCS.Application.Blood;
-using VCS.Application.Advantages;
-using VCS.Application.Characters;
-using VCS.Application.Chronicle;
-using VCS.Application.Dice;
-using VCS.Application.Humanity;
-using VCS.Application.Predators;
-using VCS.Content;
-using VCS.Content.Advantages;
-using VCS.Content.Clans;
-using VCS.Content.Disciplines;
-using VCS.Content.Predators;
-using VCS.Content.Skills;
-using VCS.Desktop.Catalogs;
-using VCS.Rules.V5.Validation;
-using VCS.Sheet;
+using Game.Application.Catalogs;
+using Game.Application.Blood;
+using Game.Application.Advantages;
+using Game.Application.Characters;
+using Game.Application.Chronicle;
+using Game.Application.Dice;
+using Game.Application.Humanity;
+using Game.Application.Predators;
+using Game.Content;
+using Game.Content.Advantages;
+using Game.Content.Clans;
+using Game.Content.Disciplines;
+using Game.Content.Predators;
+using Game.Content.Skills;
+using Game.Desktop.Catalogs;
+using Game.Rules.V5.Validation;
+using Game.Sheet;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErrorInfo, IDisposable
 {
@@ -33,7 +33,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
     private readonly DiceActions _diceActions;
     private readonly CharacterSheetActions _characterActions;
     private readonly ChronicleActions _chronicleActions;
-    private readonly VCS.Rules.Disciplines.PowerRulesetRegistry _powerRulesets;
+    private readonly Game.Rules.Disciplines.PowerRulesetRegistry _powerRulesets;
     private readonly PredatorActions _predatorActions;
     private readonly LoresheetActions _loresheetActions;
     private readonly SemaphoreSlim _saveGate = new(1, 1);
@@ -57,7 +57,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         DiceActions? diceActions = null, CharacterSheetActions? characterActions = null,
         PredatorActions? predatorActions = null, LoresheetActions? loresheetActions = null,
         ChronicleActions? chronicleActions = null,
-        VCS.Rules.Disciplines.PowerRulesetRegistry? powerRulesets = null)
+        Game.Rules.Disciplines.PowerRulesetRegistry? powerRulesets = null)
     {
         _current = character;
         _service = service;
@@ -70,7 +70,7 @@ public partial class CharacterEditorViewModel : ObservableObject, INotifyDataErr
         _predatorActions = predatorActions ?? new();
         _loresheetActions = loresheetActions ?? new();
         _chronicleActions = chronicleActions ?? new();
-        _powerRulesets = powerRulesets ?? new([new VCS.Rules.V5.Disciplines.V5PowerRuleset()]);
+        _powerRulesets = powerRulesets ?? new([new Game.Rules.V5.Disciplines.V5PowerRuleset()]);
         var d = character.Details;
         _advancement = d.Advancement ?? new() { AutomaticExperience = true };
         _predatorSelection = d.PredatorSelection;

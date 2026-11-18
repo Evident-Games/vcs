@@ -1,10 +1,10 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Characters;
-using VCS.Application.Chronicle;
+using Game.Application.Characters;
+using Game.Application.Chronicle;
 
-namespace VCS.Desktop.Chronicle;
+namespace Game.Desktop.Chronicle;
 
 public partial class ChronicleEventsViewModel(IChronicleEventStore store) : ObservableObject
 {
@@ -22,14 +22,14 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
             return;
         }
         var beastSubdued = SceneBeastSubdued;
-        var result = new VCS.Application.Dice.DiceActions().Roll(Pool, RollHunger, Difficulty, beastSubdued: beastSubdued);
+        var result = new Game.Application.Dice.DiceActions().Roll(Pool, RollHunger, Difficulty, beastSubdued: beastSubdued);
         SceneBeastSubdued = false;
         var label = result.Outcome switch
         {
-            VCS.Rules.V5.Dice.TestOutcome.MessyCritical => "crítico bestial",
-            VCS.Rules.V5.Dice.TestOutcome.BestialFailure => "falha bestial",
-            VCS.Rules.V5.Dice.TestOutcome.CriticalSuccess => "sucesso crítico",
-            VCS.Rules.V5.Dice.TestOutcome.Success => "sucesso",
+            Game.Rules.V5.Dice.TestOutcome.MessyCritical => "crítico bestial",
+            Game.Rules.V5.Dice.TestOutcome.BestialFailure => "falha bestial",
+            Game.Rules.V5.Dice.TestOutcome.CriticalSuccess => "sucesso crítico",
+            Game.Rules.V5.Dice.TestOutcome.Success => "sucesso",
             _ => "falha"
         };
         Outcome += $"{Environment.NewLine}{Kind}: {label}; {result.Successes} sucessos / dificuldade {Difficulty}. " +
@@ -38,8 +38,8 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
         Status = "Rolagem registrada no rascunho. Salve o evento para manter o resultado.";
     }
 
-    public IReadOnlyList<VCS.Rules.V5.Chronicle.HuntingApproach> HuntingApproaches => VCS.Rules.V5.Chronicle.HuntingRules.Approaches;
-    [ObservableProperty] private VCS.Rules.V5.Chronicle.HuntingApproach selectedApproach = VCS.Rules.V5.Chronicle.HuntingRules.Approaches[0];
+    public IReadOnlyList<Game.Rules.V5.Chronicle.HuntingApproach> HuntingApproaches => Game.Rules.V5.Chronicle.HuntingRules.Approaches;
+    [ObservableProperty] private Game.Rules.V5.Chronicle.HuntingApproach selectedApproach = Game.Rules.V5.Chronicle.HuntingRules.Approaches[0];
     [ObservableProperty] private int territoryDifficulty = 3;
     [ObservableProperty] private int securityModifier;
     [ObservableProperty] private int crowdModifier;
@@ -56,7 +56,7 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
     {
         try
         {
-            Difficulty = VCS.Rules.V5.Chronicle.HuntingRules.Difficulty(TerritoryDifficulty, SecurityModifier, CrowdModifier, OtherHuntModifier);
+            Difficulty = Game.Rules.V5.Chronicle.HuntingRules.Difficulty(TerritoryDifficulty, SecurityModifier, CrowdModifier, OtherHuntModifier);
             Kind = "Caça";
             if (string.IsNullOrWhiteSpace(Title)) Title = "Caçada";
             Notes += $"{Environment.NewLine}Abordagem: {SelectedApproach.Name}; parada sugerida: {SelectedApproach.Pool}. " +
@@ -73,7 +73,7 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
         if (!SoulConsumed) { Status = "Confirme que a alma foi consumida antes de resolver as consequências."; return; }
         try
         {
-            var result = VCS.Rules.V5.Blood.DiablerieRules.Resolve(DiableristHumanity, DiableristGeneration,
+            var result = Game.Rules.V5.Blood.DiablerieRules.Resolve(DiableristHumanity, DiableristGeneration,
                 VictimGeneration, DiableristSuccesses, VictimSuccesses);
             Kind = "Diablerie";
             if (string.IsNullOrWhiteSpace(Title)) Title = "Diablerie";
@@ -111,7 +111,7 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
         { Status = "Selecione o personagem, informe a outra parte e a data."; return; }
         try
         {
-            var state = new VCS.Rules.V5.Blood.BloodBondState(Counterparty, Participant.Id.ToString(), BondLevel,
+            var state = new Game.Rules.V5.Blood.BloodBondState(Counterparty, Participant.Id.ToString(), BondLevel,
                 LastDrink is { } last ? DateOnly.FromDateTime(last) : null);
             var result = new ChronicleActions().RecordVitae(state, DateOnly.FromDateTime(Date.Value));
             BondLevel = result.State.Level;
@@ -131,15 +131,15 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
         if (FirstPool is < 1 or > 50 || SecondPool is < 1 or > 50 || FirstHunger is < 0 or > 5 || SecondHunger is < 0 or > 5 ||
             FirstWeapon is < -20 or > 20 || SecondWeapon is < -20 or > 20 || Round < 1)
         { Status = "Confira as paradas (1–50), Fome (0–5), modificadores (−20 a 20) e turno."; return; }
-        var dice = new VCS.Application.Dice.DiceActions();
+        var dice = new Game.Application.Dice.DiceActions();
         var firstSubdued = FirstBeastSubdued;
         var secondSubdued = SecondBeastSubdued;
         var first = dice.Roll(FirstPool, FirstHunger, 1, beastSubdued: firstSubdued);
         var second = dice.Roll(SecondPool, SecondHunger, 1, beastSubdued: secondSubdued);
         FirstBeastSubdued = false;
         SecondBeastSubdued = false;
-        var result = new ChronicleActions().ResolveConflict(VCS.Rules.V5.Conflicts.ConflictKind.Physical,
-            first, FirstWeapon, second, SecondWeapon, VCS.Rules.V5.Conflicts.ConflictDamageType.Superficial);
+        var result = new ChronicleActions().ResolveConflict(Game.Rules.V5.Conflicts.ConflictKind.Physical,
+            first, FirstWeapon, second, SecondWeapon, Game.Rules.V5.Conflicts.ConflictDamageType.Superficial);
         Kind = "Conflito";
         if (string.IsNullOrWhiteSpace(Title)) Title = "Conflito";
         Outcome += $"{Environment.NewLine}Turno {Round}: {first.Successes} vs {second.Successes} sucessos; " +
@@ -190,10 +190,10 @@ public partial class ChronicleEventsViewModel(IChronicleEventStore store) : Obse
         { Status = "Informe fórmula, ingredientes e Ressonância necessária."; return; }
         try
         {
-            var pool = VCS.Rules.V5.Alchemy.ThinBloodAlchemyRules.Pool(AlchemyAttribute, Alchemy, IngredientModifier,
+            var pool = Game.Rules.V5.Alchemy.ThinBloodAlchemyRules.Pool(AlchemyAttribute, Alchemy, IngredientModifier,
                 Method == "Fixatio" && Improvised);
-            var roll = new VCS.Application.Dice.DiceActions().Roll(pool, 0, 1);
-            var resolution = VCS.Rules.V5.Alchemy.ThinBloodAlchemyRules.Resolve(AlchemyAttribute, Alchemy,
+            var roll = new Game.Application.Dice.DiceActions().Roll(pool, 0, 1);
+            var resolution = Game.Rules.V5.Alchemy.ThinBloodAlchemyRules.Resolve(AlchemyAttribute, Alchemy,
                 FormulaLevel, IngredientModifier, Method == "Fixatio" && Improvised, roll.Successes);
             Kind = "Sangue-Ralo";
             if (string.IsNullOrWhiteSpace(Title)) Title = Formula;

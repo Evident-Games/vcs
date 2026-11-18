@@ -1,6 +1,6 @@
-using VCS.Rules.V5.Dice;
+using Game.Rules.V5.Dice;
 
-namespace VCS.Application.Blood;
+namespace Game.Application.Blood;
 
 public sealed record PowerActivationResult(int Hunger, int WillpowerSuperficial, IReadOnlyList<RouseCheckResult> Checks);
 

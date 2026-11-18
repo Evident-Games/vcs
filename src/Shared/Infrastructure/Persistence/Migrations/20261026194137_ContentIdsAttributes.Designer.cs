@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using VCS.Infrastructure.Persistence;
-using VCS.Sheet;
+using Game.Infrastructure.Persistence;
+using Game.Sheet;
 
 #nullable disable
 
-namespace VCS.Infrastructure.Persistence.Migrations
+namespace Game.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CharacterDbContext))]
     [Migration("20261026194137_ContentIdsAttributes")]

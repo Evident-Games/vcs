@@ -1,4 +1,4 @@
-namespace VCS.Content.Disciplines;
+namespace Game.Content.Disciplines;
 
 /// <summary>Core ritual procedure; mechanics are implemented by the V5 rules module.</summary>
 public sealed record RitualUseDefinition(string RitualId, int Level, string Kind, int RouseChecks,

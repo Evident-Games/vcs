@@ -4,19 +4,19 @@ using Microsoft.Extensions.Logging.Abstractions;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.Advanced;
 using PdfSharp.Pdf.IO;
-using VCS.Application.Characters;
-using VCS.Content.Clans;
-using VCS.Content.Predators;
-using VCS.Desktop.Sheet;
-using VCS.Infrastructure.Catalogs;
-using VCS.Infrastructure.Characters;
-using VCS.Infrastructure.Persistence;
-using VCS.Rules.V5.Advancement;
-using VCS.Rules.V5.Predators;
-using VCS.Rules.V5.Validation;
-using VCS.Sheet;
+using Game.Application.Characters;
+using Game.Content.Clans;
+using Game.Content.Predators;
+using Game.Desktop.Sheet;
+using Game.Infrastructure.Catalogs;
+using Game.Infrastructure.Characters;
+using Game.Infrastructure.Persistence;
+using Game.Rules.V5.Advancement;
+using Game.Rules.V5.Predators;
+using Game.Rules.V5.Validation;
+using Game.Sheet;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public sealed class PredatorTests
 {

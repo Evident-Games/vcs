@@ -1,12 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Blood;
-using VCS.Desktop.Catalogs;
-using VCS.Sheet;
-using VCS.Rules.V5.Rituals;
-using VCS.Content.Disciplines;
+using Game.Application.Blood;
+using Game.Desktop.Catalogs;
+using Game.Sheet;
+using Game.Rules.V5.Rituals;
+using Game.Content.Disciplines;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class CharacterEditorViewModel
 {

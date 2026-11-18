@@ -1,6 +1,6 @@
-using VCS.Content.Disciplines;
+using Game.Content.Disciplines;
 
-namespace VCS.Rules.Disciplines;
+namespace Game.Rules.Disciplines;
 
 /// <summary>Result shape for the current V5 power workflow.</summary>
 public sealed record PowerResolution(bool Succeeded, string Effect, string Duration, int Margin = 0,

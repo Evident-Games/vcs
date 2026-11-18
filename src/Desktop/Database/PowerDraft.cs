@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Content.Disciplines;
+using Game.Content.Disciplines;
 
-namespace VCS.Desktop.Database;
+namespace Game.Desktop.Database;
 
 /// <summary>Power form; the discipline and the amalgam are picked from the disciplines in use.</summary>
 public sealed partial class PowerDraft(PowerDefinition power) : ObservableObject, ICatalogDraft<PowerDefinition>

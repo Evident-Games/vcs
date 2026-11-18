@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace VCS.Desktop.Controls;
+namespace Game.Desktop.Controls;
 
 public static class ScrollChaining
 {

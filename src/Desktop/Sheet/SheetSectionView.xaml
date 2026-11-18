@@ -1,9 +1,9 @@
-<UserControl x:Class="VCS.Desktop.Sheet.SheetSectionView"
+<UserControl x:Class="Game.Desktop.Sheet.SheetSectionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:VCS.Desktop.Controls"
-    xmlns:catalogs="clr-namespace:VCS.Desktop.Catalogs"
-    xmlns:sheet="clr-namespace:VCS.Desktop.Sheet">
+    xmlns:controls="clr-namespace:Game.Desktop.Controls"
+    xmlns:catalogs="clr-namespace:Game.Desktop.Catalogs"
+    xmlns:sheet="clr-namespace:Game.Desktop.Sheet">
     <UserControl.Resources>
         <!-- Body templates are keyed by section key; SheetSectionView.xaml.cs picks one. -->
         <DataTemplate x:Key="Identity"><sheet:IdentitySheetView /></DataTemplate>

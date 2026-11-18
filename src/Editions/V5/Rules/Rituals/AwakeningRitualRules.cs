@@ -1,6 +1,6 @@
-using VCS.Content;
+using Game.Content;
 
-namespace VCS.Rules.V5.Rituals;
+namespace Game.Rules.V5.Rituals;
 
 /// <summary>Effects of the awakening ritual after the danger-triggered roll.</summary>
 [RuleSource("Vampiro: A Máscara V5 (Livro base), p. 276")]

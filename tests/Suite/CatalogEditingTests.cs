@@ -1,13 +1,13 @@
-using VCS.Content.Advantages;
-using VCS.Content.Clans;
-using VCS.Content.Disciplines;
-using VCS.Content.Skills;
-using VCS.Infrastructure.Catalogs;
-using VCS.Infrastructure.Persistence;
-using VCS.Rules.V5.Clans;
-using VCS.Sheet;
+using Game.Content.Advantages;
+using Game.Content.Clans;
+using Game.Content.Disciplines;
+using Game.Content.Skills;
+using Game.Infrastructure.Catalogs;
+using Game.Infrastructure.Persistence;
+using Game.Rules.V5.Clans;
+using Game.Sheet;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 /// <summary>Clan edits change a process-wide catalog, so these tests run alone.</summary>
 [CollectionDefinition(Name, DisableParallelization = true)]

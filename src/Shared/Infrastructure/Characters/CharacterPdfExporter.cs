@@ -1,9 +1,9 @@
 using PdfSharp.Fonts;
-using VCS.Application.Catalogs;
-using VCS.Application.Characters;
-using VCS.Rules.V5.Validation;
+using Game.Application.Catalogs;
+using Game.Application.Characters;
+using Game.Rules.V5.Validation;
 
-namespace VCS.Infrastructure.Characters;
+namespace Game.Infrastructure.Characters;
 
 public sealed class CharacterPdfExporter(IDisciplineCatalog powers, ISkillCatalog skills) : ICharacterPdfExporter
 {

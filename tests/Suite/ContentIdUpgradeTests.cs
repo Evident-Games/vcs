@@ -2,16 +2,16 @@ using System.Text.Json.Nodes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using VCS.Application.Characters;
-using VCS.Content;
-using VCS.Content.Disciplines;
-using VCS.Infrastructure.Catalogs;
-using VCS.Infrastructure.Characters;
-using VCS.Infrastructure.Persistence;
-using VCS.Rules.V5.Validation;
-using VCS.Sheet;
+using Game.Application.Characters;
+using Game.Content;
+using Game.Content.Disciplines;
+using Game.Infrastructure.Catalogs;
+using Game.Infrastructure.Characters;
+using Game.Infrastructure.Persistence;
+using Game.Rules.V5.Validation;
+using Game.Sheet;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 /// <summary>Sheets and catalog edits saved with the old pt-BR ids keep working after the switch to English ids.</summary>
 public sealed class ContentIdUpgradeTests : IAsyncLifetime

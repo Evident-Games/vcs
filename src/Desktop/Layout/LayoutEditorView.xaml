@@ -1,7 +1,7 @@
-<UserControl x:Class="VCS.Desktop.Layout.LayoutEditorView"
+<UserControl x:Class="Game.Desktop.Layout.LayoutEditorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:VCS.Desktop.Controls">
+    xmlns:controls="clr-namespace:Game.Desktop.Controls">
     <!-- Layout editor: a live preview per mode. Changes apply at once to every open sheet of the chosen kind. -->
     <Border Background="{DynamicResource ThemeBackground}" BorderBrush="{DynamicResource ThemeBorder}"
             BorderThickness="1" CornerRadius="12" Padding="24" Margin="36" MaxWidth="980"

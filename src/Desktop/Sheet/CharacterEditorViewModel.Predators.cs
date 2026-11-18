@@ -1,16 +1,16 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using VCS.Content;
+using Game.Content;
 using CommunityToolkit.Mvvm.Input;
-using VCS.Content.Clans;
-using VCS.Content.Disciplines;
-using VCS.Content.Predators;
-using VCS.Desktop.Catalogs;
-using VCS.Rules.V5.Advancement;
-using VCS.Rules.V5.Blood;
-using VCS.Sheet;
+using Game.Content.Clans;
+using Game.Content.Disciplines;
+using Game.Content.Predators;
+using Game.Desktop.Catalogs;
+using Game.Rules.V5.Advancement;
+using Game.Rules.V5.Blood;
+using Game.Sheet;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public partial class PredatorAllocationViewModel(string name, int maximum, TraitCategory category = TraitCategory.Advantage, int minimum = 1)
     : ObservableObject

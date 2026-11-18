@@ -1,4 +1,4 @@
-namespace VCS.Sheet;
+namespace Game.Sheet;
 
 public enum LoresheetPayment { AdvantagePoints, InitialXp, CampaignXp }
 

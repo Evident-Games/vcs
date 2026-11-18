@@ -1,8 +1,8 @@
-<UserControl x:Class="VCS.Desktop.Database.DatabaseEditorView"
+<UserControl x:Class="Game.Desktop.Database.DatabaseEditorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:database="clr-namespace:VCS.Desktop.Database"
-    xmlns:controls="clr-namespace:VCS.Desktop.Controls"
+    xmlns:database="clr-namespace:Game.Desktop.Database"
+    xmlns:controls="clr-namespace:Game.Desktop.Controls"
     Visibility="{Binding IsDatabaseEditorOpen, Converter={StaticResource BoolVisibility}}">
     <!-- Editar › Banco de dados: one tab per catalog, a searchable list on the left and the entry form on the right. -->
     <UserControl.Resources>

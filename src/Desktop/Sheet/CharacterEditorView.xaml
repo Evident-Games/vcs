@@ -1,8 +1,8 @@
-<UserControl x:Class="VCS.Desktop.Sheet.CharacterEditorView"
+<UserControl x:Class="Game.Desktop.Sheet.CharacterEditorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:sheet="clr-namespace:VCS.Desktop.Sheet"
-    xmlns:controls="clr-namespace:VCS.Desktop.Controls"
+    xmlns:sheet="clr-namespace:Game.Desktop.Sheet"
+    xmlns:controls="clr-namespace:Game.Desktop.Controls"
 >
     <UserControl.Style>
         <!-- The host pane paints the sheet surface; the sheet sets its text color for that surface. -->

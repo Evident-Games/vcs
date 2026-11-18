@@ -1,16 +1,16 @@
 using Microsoft.Extensions.Logging.Abstractions;
-using VCS.Application.Characters;
-using VCS.Desktop.Layout;
-using VCS.Desktop.Sheet;
-using VCS.Desktop.Shell;
-using VCS.Desktop.Themes;
-using VCS.Infrastructure.Catalogs;
-using VCS.Infrastructure.Characters;
-using VCS.Infrastructure.Persistence;
-using VCS.Rules.V5.Advancement;
-using VCS.Sheet;
+using Game.Application.Characters;
+using Game.Desktop.Layout;
+using Game.Desktop.Sheet;
+using Game.Desktop.Shell;
+using Game.Desktop.Themes;
+using Game.Infrastructure.Catalogs;
+using Game.Infrastructure.Characters;
+using Game.Infrastructure.Persistence;
+using Game.Rules.V5.Advancement;
+using Game.Sheet;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public sealed class EditorTests : IAsyncLifetime
 {

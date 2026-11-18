@@ -1,8 +1,8 @@
 
-using VCS.Rules.V5.Validation;
-using VCS.Sheet;
+using Game.Rules.V5.Validation;
+using Game.Sheet;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public sealed class CharacterTests
 {

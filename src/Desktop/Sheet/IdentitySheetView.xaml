@@ -1,7 +1,7 @@
-<UserControl x:Class="VCS.Desktop.Sheet.IdentitySheetView"
+<UserControl x:Class="Game.Desktop.Sheet.IdentitySheetView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:VCS.Desktop.Controls">
+    xmlns:controls="clr-namespace:Game.Desktop.Controls">
     <UserControl.Resources>
         <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
             <Setter Property="MinHeight" Value="30" />

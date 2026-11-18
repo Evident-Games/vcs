@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using VCS.Application.Characters;
-using VCS.Content.Clans;
+using Game.Application.Characters;
+using Game.Content.Clans;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 /// <summary>Change tracking, draft snapshot, validation and autosave.</summary>
 public partial class CharacterEditorViewModel

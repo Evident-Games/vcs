@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace VCS.Desktop.Controls;
+namespace Game.Desktop.Controls;
 
 /// <summary>Shrinks a TextBox font so its text fits the visible width; wraps once the minimum size is reached.</summary>
 public static class FitText

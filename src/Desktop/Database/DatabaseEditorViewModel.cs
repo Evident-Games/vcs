@@ -1,11 +1,11 @@
-using VCS.Application.Catalogs;
-using VCS.Content.Advantages;
-using VCS.Content.Clans;
-using VCS.Content.Disciplines;
-using VCS.Content.Skills;
-using VCS.Sheet;
+using Game.Application.Catalogs;
+using Game.Content.Advantages;
+using Game.Content.Clans;
+using Game.Content.Disciplines;
+using Game.Content.Skills;
+using Game.Sheet;
 
-namespace VCS.Desktop.Database;
+namespace Game.Desktop.Database;
 
 /// <summary>Editar › Banco de dados: one tab per editable catalog.</summary>
 public sealed class DatabaseEditorViewModel(

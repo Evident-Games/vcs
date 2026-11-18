@@ -4,7 +4,7 @@ using System.Windows.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace VCS.Desktop.Database;
+namespace Game.Desktop.Database;
 
 /// <summary>A row in a catalog list; Badge tells whether it came with the app, was edited, or was added by the user.</summary>
 public sealed record CatalogRow(string Id, string Title, string Subtitle, bool IsBuiltIn, bool IsModified, object Value)

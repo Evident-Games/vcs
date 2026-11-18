@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Windows;
 
-namespace VCS.Desktop.Themes;
+namespace Game.Desktop.Themes;
 
 /// <summary>Application palette: starts with the default theme's application block under the shared Theme* keys.</summary>
 public sealed class ThemePalette : ResourceDictionary

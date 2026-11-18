@@ -1,10 +1,10 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using VCS.Content.Advantages;
-using VCS.Content.Skills;
-using VCS.Sheet;
+using Game.Content.Advantages;
+using Game.Content.Skills;
+using Game.Sheet;
 
-namespace VCS.Infrastructure.Persistence;
+namespace Game.Infrastructure.Persistence;
 
 public sealed class CharacterDbContext(DbContextOptions<CharacterDbContext> options) : DbContext(options)
 {

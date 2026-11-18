@@ -1,4 +1,4 @@
-namespace VCS.Application.Catalogs;
+namespace Game.Application.Catalogs;
 
 /// <summary>A catalog entry with where it came from: shipped with the app (built in) and whether the user changed it.</summary>
 public sealed record CatalogEntry<T>(string Id, T Value, bool IsBuiltIn, bool IsModified);

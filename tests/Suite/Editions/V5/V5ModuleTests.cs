@@ -1,7 +1,7 @@
-using VCS.Rules.Modules;
-using VCS.Rules.V5.Modules;
+using Game.Rules.Modules;
+using Game.Rules.V5.Modules;
 
-namespace VCS.Tests;
+namespace Game.Tests;
 
 public sealed class V5ModuleTests
 {

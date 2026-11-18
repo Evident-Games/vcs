@@ -1,7 +1,7 @@
-using VCS.Rules.V5.Dice;
-using VCS.Rules.V5.Disciplines;
+using Game.Rules.V5.Dice;
+using Game.Rules.V5.Disciplines;
 
-namespace VCS.Application.Dice;
+namespace Game.Application.Dice;
 
 /// <summary>Application use cases for composing and resolving V5 dice pools.</summary>
 public sealed class DiceActions

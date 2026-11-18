@@ -2,7 +2,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace VCS.Infrastructure.Persistence;
+namespace Game.Infrastructure.Persistence;
 
 public sealed class DatabaseAccess
 {

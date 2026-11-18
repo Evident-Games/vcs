@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:VCS.Desktop.Controls">
+                    xmlns:controls="clr-namespace:Game.Desktop.Controls">
     <Style x:Key="ScrollPageButton" TargetType="RepeatButton">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="RepeatButton"><Border Background="Transparent" /></ControlTemplate></Setter.Value></Setter>

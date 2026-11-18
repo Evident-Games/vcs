@@ -1,8 +1,8 @@
-using VCS.Rules.V5.Blood;
-using VCS.Rules.V5.Dice;
-using VCS.Rules.V5.Disciplines;
+using Game.Rules.V5.Blood;
+using Game.Rules.V5.Dice;
+using Game.Rules.V5.Disciplines;
 
-namespace VCS.Application.Blood;
+namespace Game.Application.Blood;
 
 public enum FeedingApplicationStatus
 {

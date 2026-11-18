@@ -1,6 +1,6 @@
-using VCS.Content;
+using Game.Content;
 
-namespace VCS.Rules.V5.Disciplines;
+namespace Game.Rules.V5.Disciplines;
 
 /// <summary>Context-dependent automatic movement outcomes for V5 discipline powers.</summary>
 [RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 252, 265")]

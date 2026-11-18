@@ -1,6 +1,6 @@
-using VCS.Content.Skills;
+using Game.Content.Skills;
 
-namespace VCS.Application.Catalogs;
+namespace Game.Application.Catalogs;
 
 public interface ISkillCatalog
 {

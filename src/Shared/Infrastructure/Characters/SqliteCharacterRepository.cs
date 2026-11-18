@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using VCS.Application.Characters;
-using VCS.Infrastructure.Persistence;
-using VCS.Sheet;
+using Game.Application.Characters;
+using Game.Infrastructure.Persistence;
+using Game.Sheet;
 
-namespace VCS.Infrastructure.Characters;
+namespace Game.Infrastructure.Characters;
 
 public sealed class SqliteCharacterRepository(DatabaseAccess database) : ICharacterRepository
 {

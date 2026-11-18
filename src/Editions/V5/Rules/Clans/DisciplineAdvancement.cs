@@ -1,8 +1,8 @@
-using VCS.Content.Clans;
-using VCS.Content;
-using VCS.Content.Disciplines;
+using Game.Content.Clans;
+using Game.Content;
+using Game.Content.Disciplines;
 
-namespace VCS.Rules.V5.Clans;
+namespace Game.Rules.V5.Clans;
 
 [RuleSource("Vampiro: A Máscara V5 (Livro base)")]
 public static class DisciplineAdvancement

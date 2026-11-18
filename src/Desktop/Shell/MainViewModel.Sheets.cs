@@ -1,9 +1,9 @@
 using CommunityToolkit.Mvvm.Input;
-using VCS.Application.Characters;
-using VCS.Content.Clans;
-using VCS.Desktop.Sheet;
+using Game.Application.Characters;
+using Game.Content.Clans;
+using Game.Desktop.Sheet;
 
-namespace VCS.Desktop.Shell;
+namespace Game.Desktop.Shell;
 
 /// <summary>Open sheets: create, open, switch, close and sheet themes.</summary>
 public partial class MainViewModel

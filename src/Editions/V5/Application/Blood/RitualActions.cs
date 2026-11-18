@@ -1,9 +1,9 @@
-using VCS.Rules.V5.Dice;
-using VCS.Rules.V5.Rituals;
-using VCS.Rules.V5.Disciplines;
-using VCS.Content.Disciplines;
+using Game.Rules.V5.Dice;
+using Game.Rules.V5.Rituals;
+using Game.Rules.V5.Disciplines;
+using Game.Content.Disciplines;
 
-namespace VCS.Application.Blood;
+namespace Game.Application.Blood;
 
 /// <summary>V5 ritual preparation. Some rituals defer their roll until a trigger occurs.</summary>
 public sealed class RitualActions

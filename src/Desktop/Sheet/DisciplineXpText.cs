@@ -1,6 +1,6 @@
-using VCS.Application.Characters;
+using Game.Application.Characters;
 
-namespace VCS.Desktop.Sheet;
+namespace Game.Desktop.Sheet;
 
 public static class DisciplineXpText
 {

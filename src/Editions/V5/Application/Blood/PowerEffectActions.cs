@@ -1,6 +1,6 @@
-using VCS.Content.Disciplines;
+using Game.Content.Disciplines;
 
-namespace VCS.Application.Blood;
+namespace Game.Application.Blood;
 
 public sealed record PowerEffectGuidance(string Description, int DamageBonus, bool IgnoresSuperficialReduction,
     bool CanUseObjects, bool CanSpeak, string Duration);

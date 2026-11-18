@@ -1,9 +1,9 @@
-using VCS.Rules.V5.Dice;
-using VCS.Rules.V5.Disciplines;
-using VCS.Rules.V5.Rituals;
-using VCS.Sheet;
+using Game.Rules.V5.Dice;
+using Game.Rules.V5.Disciplines;
+using Game.Rules.V5.Rituals;
+using Game.Sheet;
 
-namespace VCS.Application.Blood;
+namespace Game.Application.Blood;
 
 /// <summary>Resolve a confirmed sanctuary travel attempt without moving or changing any character.</summary>
 public sealed class TrueSanctuaryActions

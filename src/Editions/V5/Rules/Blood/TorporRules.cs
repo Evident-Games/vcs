@@ -1,5 +1,5 @@
-namespace VCS.Rules.V5.Blood;
-using VCS.Content;
+namespace Game.Rules.V5.Blood;
+using Game.Content;
 
 public enum TorporDurationUnit
 {

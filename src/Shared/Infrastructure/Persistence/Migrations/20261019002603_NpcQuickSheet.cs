@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace VCS.Infrastructure.Persistence.Migrations
+namespace Game.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class NpcQuickSheet : Migration

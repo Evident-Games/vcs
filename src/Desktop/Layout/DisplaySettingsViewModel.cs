@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace VCS.Desktop.Layout;
+namespace Game.Desktop.Layout;
 
 /// <summary>
 /// Display preferences: sheet mode (list, tabs or bento), sidebar and the PC and NPC layouts.

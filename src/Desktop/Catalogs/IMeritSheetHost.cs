@@ -1,8 +1,8 @@
-using VCS.Content.Advantages;
-using VCS.Desktop.Sheet;
-using VCS.Sheet;
+using Game.Content.Advantages;
+using Game.Desktop.Sheet;
+using Game.Sheet;
 
-namespace VCS.Desktop.Catalogs;
+namespace Game.Desktop.Catalogs;
 
 /// <summary>Sheet services the advantage rows need: predator allocation and loresheet purchases.</summary>
 public interface IMeritSheetHost

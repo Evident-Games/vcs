@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace VCS.Infrastructure.Persistence.Migrations
+namespace Game.Infrastructure.Persistence.Migrations
 {
     // Clan edits are keyed by an English id instead of the name: built-in clans get clan-brujah and so on, user
     // clans clan-custom-<random>. The table is copied by hand because the id must be filled before it is the key.

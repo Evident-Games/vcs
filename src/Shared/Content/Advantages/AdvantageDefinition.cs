@@ -1,7 +1,7 @@
 
-using VCS.Sheet;
+using Game.Sheet;
 
-namespace VCS.Content.Advantages;
+namespace Game.Content.Advantages;
 
 public sealed class AdvantageDefinition
 {

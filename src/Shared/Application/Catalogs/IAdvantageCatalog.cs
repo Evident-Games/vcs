@@ -1,7 +1,7 @@
 
-using VCS.Content.Advantages;
+using Game.Content.Advantages;
 
-namespace VCS.Application.Catalogs;
+namespace Game.Application.Catalogs;
 
 public interface IAdvantageCatalog
 {

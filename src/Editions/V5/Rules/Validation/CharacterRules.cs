@@ -1,10 +1,10 @@
-using VCS.Rules.V5.Advancement;
-using VCS.Content;
-using VCS.Rules.V5.Advantages;
-using VCS.Rules.V5.Predators;
-using VCS.Sheet;
+using Game.Rules.V5.Advancement;
+using Game.Content;
+using Game.Rules.V5.Advantages;
+using Game.Rules.V5.Predators;
+using Game.Sheet;
 
-namespace VCS.Rules.V5.Validation;
+namespace Game.Rules.V5.Validation;
 
 public sealed record ValidationIssue(string Field, string Message);
 
