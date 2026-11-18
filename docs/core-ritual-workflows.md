@@ -73,7 +73,7 @@ Esta alteração mantém as contagens: 88 poderes com perfil, 26 rituais com flu
 
 O preparo genérico que rola imediatamente e a resolução adiada de Despertar com o Frescor do Anoitecer conservam no retorno da aplicação se a Besta subjugada foi considerada e se houve conversão real de crítico bestial em crítico normal. A ficha inclui essa distinção no resumo, no diário e na mesa de dados. Um preparo adiado não afirma que a condição foi usada antes da rolagem; o registro é feito somente ao resolver o perigo confirmado.
 
-A regra permanece em `QuellBeastRules`, no módulo V5. O livro base foi reconferido na página impressa 246 (página 248 do PDF fornecido): enquanto a Besta estiver subjugada, o vampiro fica imune a críticos bestiais. A mudança não altera dados ou sucessos, não automatiza o perigo e não afeta outra ficha. As contagens permanecem em 88 poderes com perfil e 26 rituais com fluxo; as classificações herdadas não foram reavaliadas neste ciclo.
+A regra permanece em `QuellBeastRules`, no módulo V5. O livro base foi reconferido na página impressa 246 (página 248 do PDF fornecido): enquanto a Besta estiver subjugada, o vampiro fica imune a críticos bestiais. A mudança não altera dados ou sucessos, não automatiza o perigo e não afeta outra ficha. Nenhum item foi reclassificado e as contagens herdadas não foram reavaliadas neste ciclo.
 
 ## Revisão da proposta de Criar Pedra de Sangue
 
