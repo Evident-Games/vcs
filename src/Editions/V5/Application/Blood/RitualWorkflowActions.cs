@@ -161,6 +161,18 @@ public sealed class RitualWorkflowActions
             "Voo ou flutuação à velocidade de corrida por uma cena. Ao carregar massa de uma pessoa, use velocidade de caminhada; alvo involuntário exige disputa própria.", "Cena"), null);
     }
 
+    /// <summary>Discard every unused dose after the table confirms that the potion's night has ended.</summary>
+    public RitualWorkflowResolution ExpireAirPotion(RitualUseDefinition ritual, RitualWorkflowState state,
+        DateOnly completedNight, bool tableConfirmed)
+    {
+        if (ritual.Kind != "air" || state is not { Stage: "potion", Resolved: true, Charges: > 0 } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione uma poção ativa de Essência do Ar com doses restantes e confirme o fim da noite da crônica.");
+
+        var discarded = state.Charges;
+        return new(state with { Stage = "expired", Charges = 0, LastNightAdvanced = completedNight },
+            new(true, $"Fim da noite de {completedNight:dd/MM/yyyy} confirmado: {discarded} dose(s) não consumida(s) perderam a potência.", "Encerrado"), null);
+    }
+
     /// <summary>Resolve the caster's side when attempting to carry an unwilling passenger.</summary>
     public RitualWorkflowResolution ResolveAirPassengerContest(RitualUseDefinition ritual, RitualWorkflowState state,
         string passenger, int casterPool, int casterHunger, int opponentSuccesses, bool confirmed, Random? random = null,
@@ -228,6 +240,8 @@ public sealed class RitualWorkflowActions
     /// <summary>Keep ritual state and paid costs from being discarded by the generic effect-ending action.</summary>
     public static string? GenericEndingBlockReason(PowerEffectEntry entry)
     {
+        if (entry.PowerId == "ritual-essence-of-air" && entry.RitualWorkflow is { Stage: "potion", Charges: > 0 })
+            return "Use a expiração de Essência do Ar: informe a noite da crônica concluída e confirme o descarte das doses não consumidas.";
         if (entry.PowerId == "ritual-eyes-of-nighthawk" && entry.RitualWorkflow is { Stage: "effect" or "blindness" })
             return "Use o encerramento de Olhos do Falcão Noturno: confirme os olhos da ave no fim da noite; a cegueira usa noites da crônica ou decisão excepcional registrada.";
         if (entry.PowerId == "ritual-sanctuary-preparation-check")

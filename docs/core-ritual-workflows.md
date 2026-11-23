@@ -21,7 +21,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | O Chamado de Dagon | Custo por execução, oposição, margem/tipo de dano, empate vencido pelo conjurador ativo e até duas repetições pagas no mesmo preparo | Exposição ao Sangue e intervalo, oposição informada e aplicação na vítima |
 | Círculo de Proteção contra Espíritos | Fluxo dos círculos com nível próprio | Mesmas confirmações dos círculos; ocultistas humanos não têm fluxo próprio |
 | Deflecção da Ruína de Madeira | Preparo/custo separados do teste no primeiro estaqueamento confirmado; resultado e crítico | Estaca genuína, destruição e cegueira de dois turnos no atacante |
-| Essência do Ar | Preparo, teste, uma/duas doses, consumo posterior sem novo custo, efeito por cena, disputa confirmada para carregar passageiro involuntário e tentativa confirmada de terceiro para puxar o conjurador ao solo | Expiração à noite, deslocamento, carga real, posição e aplicação narrativa das propostas |
+| Essência do Ar | Preparo, teste, uma/duas doses, consumo posterior sem novo custo, efeito por cena, expiração confirmada das doses ao fim da noite, disputa confirmada para carregar passageiro involuntário e tentativa confirmada de terceiro para puxar o conjurador ao solo | Deslocamento, carga real, posição e aplicação narrativa das propostas |
 | Proteção contra Lupinos | Fluxo dedicado preservado | Elegibilidade e aplicação no intruso |
 | Círculo de Proteção contra Lupinos | Fluxo dos círculos com nível próprio | Elegibilidade e consequências fora da ficha |
 | Defesa do Refúgio Sagrado | Custo, raio máximo, teste ao nascer do sol confirmado e bloqueio de dano solar em área confirmada | Permanência do conjurador, limites do local, tempo e beneficiários |
@@ -158,5 +158,11 @@ Nenhum ritual foi reclassificado e as contagens de cobertura permanecem inaltera
 O livro base, página impressa 279 (página 281 do PDF fornecido), exige uma disputa de Força + Feitiçaria de Sangue contra Força + Atletismo quando o conjurador tenta carregar um alvo involuntário. `RitualWorkflowActions.ResolveAirPassengerContest` exige a identificação do passageiro e valida o consumo ativo, a confirmação da mesa, a parada, a Fome e os sucessos opostos; aplica a regra V5 de disputas e considera Besta Subjugada quando explicitamente informada para o conjurador.
 
 A interface envia o resultado à mesa de dados existente, registra a proposta no efeito e no diário e não move nem altera a ficha do passageiro. A carga real, o deslocamento e a posição continuam com o Narrador.
+
+## Essência do Ar: expiração das doses
+
+O livro base, página impressa 279 (página 281 do PDF fornecido), limita a potência da poção a uma noite. `RitualWorkflowActions.ExpireAirPotion` exige uma poção resolvida com doses restantes, a noite da crônica informada e confirmação explícita da mesa. O fluxo zera as doses, marca o estágio como expirado, grava a noite confirmada no estado opcional já persistido e conserva o registro inativo no histórico da ficha.
+
+O encerramento genérico não pode mais ocultar silenciosamente uma poção ainda válida: ele orienta o uso da ação específica. Não há rolagem nem dado fictício, e o calendário real não é consultado. O usuário continua responsável por informar quando a noite da crônica terminou. A cobertura permanece a mesma; trata-se da integração de uma etapa do procedimento existente.
 
 O caso inverso também está integrado: a mesa identifica quem tenta puxar o conjurador, informa sua Força + Atletismo, Fome e eventual Besta Subjugada, além dos sucessos confirmados de Força + Feitiçaria de Sangue do conjurador. Quem puxa é o personagem ativo nessa tentativa e vence o empate conforme a regra geral da página impressa 121. O serviço devolve apenas a proposta de puxar ao solo e nunca altera posição ou ficha automaticamente. A cobertura continua em 26 rituais com fluxo; nenhum procedimento foi reclassificado como aplicação direta.

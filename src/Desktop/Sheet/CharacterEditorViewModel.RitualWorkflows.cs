@@ -284,6 +284,24 @@ public partial class CharacterEditorViewModel
     }
 
     [RelayCommand]
+    private void ExpireRitualAirPotion()
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-essence-of-air", RitualWorkflow: { } state } entry ||
+            RitualUseCatalog.Find(entry.PowerId) is not { } ritual)
+        { RitualPreparationSummary = "Selecione uma poção ativa de Essência do Ar com doses restantes."; return; }
+        try
+        {
+            var result = new RitualWorkflowActions().ExpireAirPotion(ritual, state,
+                DateOnly.FromDateTime(PowerGameDate), CoreRitualConditionsConfirmed);
+            ReplacePowerEffect(entry, entry with { Active = false, RitualWorkflow = result.State,
+                Effect = result.Proposal.Effect, Duration = result.Proposal.Duration });
+            DisplayRitualResolution(entry, result);
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
     private void ResolveRitualAirPassengerContest()
     {
         if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-essence-of-air", RitualWorkflow: { } state } entry ||
