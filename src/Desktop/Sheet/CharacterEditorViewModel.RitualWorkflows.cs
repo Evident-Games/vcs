@@ -330,6 +330,32 @@ public partial class CharacterEditorViewModel
     }
 
     [RelayCommand]
+    private void EndSacredHavenAfterDay() => EndSacredHaven(SacredHavenEnding.DayEnded);
+
+    [RelayCommand]
+    private void EndSacredHavenAfterCasterLeft() => EndSacredHaven(SacredHavenEnding.CasterLeftArea);
+
+    private void EndSacredHaven(SacredHavenEnding ending)
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-defense-of-sacred-haven" } entry)
+        { RitualPreparationSummary = "Selecione uma Defesa do Refúgio Sagrado ativa."; return; }
+        try
+        {
+            var ended = new RitualWorkflowActions().EndSacredHaven(entry, ending, CoreRitualConditionsConfirmed);
+            ReplacePowerEffect(entry, ended);
+            RitualInsideProtectedHaven = false;
+            RitualPreparationSummary = ended.Effect + $" Fonte: {ended.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            RefreshRollPool();
+            RefreshPowerUse();
+            MarkChanged();
+            CoreRitualConditionsConfirmed = false;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
     private void ResolveRitualAirPassengerContest()
     {
         if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-essence-of-air", RitualWorkflow: { } state } entry ||

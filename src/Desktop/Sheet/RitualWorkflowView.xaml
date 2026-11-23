@@ -60,6 +60,11 @@
                 <TextBox Text="{Binding RitualIncorporealNarratorResolution, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
                 <Button Content="Confirmar materialização e encerrar o efeito" Command="{Binding EndRitualIncorporealPassageCommand}" HorizontalAlignment="Left"/>
             </StackPanel></Expander>
+            <Expander Header="Defesa do Refúgio Sagrado: encerramento" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Selecione a proteção ativa e confirme com a mesa qual condição ocorreu. O efeito dura um dia, mas termina imediatamente se o conjurador deixar a área. Fonte: Livro base, p. 279." TextWrapping="Wrap"/>
+                <Button Content="Confirmar fim do dia protegido" Command="{Binding EndSacredHavenAfterDayCommand}" HorizontalAlignment="Left"/>
+                <Button Content="Confirmar que o conjurador deixou a área" Command="{Binding EndSacredHavenAfterCasterLeftCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <Button Content="Iluminar Rastro: rolar Inteligência + Sobrevivência" Command="{Binding RollRitualTrackingCommand}" HorizontalAlignment="Left"/>
             <Expander Header="Olhos do Falcão Noturno: encerramento" Margin="0,8"><StackPanel Margin="8">
                 <TextBlock Text="Selecione o voo ativo, informe acima a noite da crônica que terminou e confirme as circunstâncias com o Narrador. Escolha explicitamente o que ocorreu com os olhos da ave. Fonte: Livro base, p. 280." TextWrapping="Wrap"/>

@@ -200,6 +200,29 @@ public sealed class RitualWorkflowActions
         };
     }
 
+    /// <summary>End the haven protection only for one of the two endings defined by the V5 ritual.</summary>
+    public PowerEffectEntry EndSacredHaven(PowerEffectEntry entry, SacredHavenEnding ending,
+        bool tableConfirmed)
+    {
+        if (entry is not { Active: true, PowerId: "ritual-defense-of-sacred-haven",
+                RitualWorkflow: { Stage: "effect", Resolved: true } state } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione uma Defesa do Refúgio Sagrado ativa e confirme a condição de encerramento com a mesa.");
+
+        var effect = ending switch
+        {
+            SacredHavenEnding.DayEnded => "O dia protegido terminou; a Defesa do Refúgio Sagrado foi encerrada.",
+            SacredHavenEnding.CasterLeftArea => "O conjurador deixou a área; a Defesa do Refúgio Sagrado foi encerrada imediatamente.",
+            _ => throw new ArgumentOutOfRangeException(nameof(ending))
+        };
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with { Stage = "ended" },
+            Effect = effect,
+            Duration = "Encerrado"
+        };
+    }
+
     /// <summary>Resolve the caster's side when attempting to carry an unwilling passenger.</summary>
     public RitualWorkflowResolution ResolveAirPassengerContest(RitualUseDefinition ritual, RitualWorkflowState state,
         string passenger, int casterPool, int casterHunger, int opponentSuccesses, bool confirmed, Random? random = null,
@@ -271,6 +294,8 @@ public sealed class RitualWorkflowActions
             return "Use a expiração de Essência do Ar: informe a noite da crônica concluída e confirme o descarte das doses não consumidas.";
         if (entry.PowerId == "ritual-incorporeal-passage" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
             return "Use o encerramento de Passagem Incorpórea: confirme se a cena terminou ou o caco foi largado e onde ocorreu a materialização.";
+        if (entry.PowerId == "ritual-defense-of-sacred-haven" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
+            return "Use o encerramento de Defesa do Refúgio Sagrado: confirme o fim do dia protegido ou a saída do conjurador da área.";
         if (entry.PowerId == "ritual-eyes-of-nighthawk" && entry.RitualWorkflow is { Stage: "effect" or "blindness" })
             return "Use o encerramento de Olhos do Falcão Noturno: confirme os olhos da ave no fim da noite; a cegueira usa noites da crônica ou decisão excepcional registrada.";
         if (entry.PowerId == "ritual-sanctuary-preparation-check")
@@ -372,5 +397,6 @@ public sealed record RitualWorkflowResolution(RitualWorkflowState State, RitualE
     DicePoolResult? Roll, DicePoolResult? OppositionRoll = null, bool BeastSubduedConsidered = false,
     bool MessyCriticalConverted = false);
 public sealed record RitualNightEnding(RitualWorkflowState EndedState, RitualEffectProposal Proposal, RitualWorkflowState? Condition);
+public enum SacredHavenEnding { DayEnded, CasterLeftArea }
 internal sealed record RitualRollAudit(DicePoolResult Roll, bool BeastSubduedConsidered,
     bool MessyCriticalConverted);
