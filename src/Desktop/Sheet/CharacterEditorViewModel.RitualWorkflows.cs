@@ -36,6 +36,9 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private int ritualAirGrounderHunger;
     [ObservableProperty] private int ritualAirCasterSuccesses;
     [ObservableProperty] private bool ritualAirGrounderBeastSubdued;
+    [ObservableProperty] private bool ritualIncorporealShardReleased;
+    [ObservableProperty] private bool ritualIncorporealInsideSolid;
+    [ObservableProperty] private string ritualIncorporealNarratorResolution = "";
     partial void OnRitualFollowUpBeastSubduedChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualFollowUpPoolChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualFollowUpHungerChanged(int value) => CoreRitualConditionsConfirmed = false;
@@ -46,6 +49,9 @@ public partial class CharacterEditorViewModel
     partial void OnRitualAirGrounderPoolChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualAirGrounderHungerChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualAirCasterSuccessesChanged(int value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualIncorporealShardReleasedChanged(bool value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualIncorporealInsideSolidChanged(bool value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualIncorporealNarratorResolutionChanged(string value) => CoreRitualConditionsConfirmed = false;
     partial void OnPowerGameDateChanged(DateTime value) => CoreRitualConditionsConfirmed = false;
 
     private bool HasRitualEffect(string id) => PowerEffects.Any(x => x.Active && x.IsSelf &&
@@ -296,6 +302,28 @@ public partial class CharacterEditorViewModel
             ReplacePowerEffect(entry, entry with { Active = false, RitualWorkflow = result.State,
                 Effect = result.Proposal.Effect, Duration = result.Proposal.Duration });
             DisplayRitualResolution(entry, result);
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
+    private void EndRitualIncorporealPassage()
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-incorporeal-passage" } entry)
+        { RitualPreparationSummary = "Selecione uma Passagem Incorpórea ativa."; return; }
+        try
+        {
+            var ended = new RitualWorkflowActions().EndIncorporealPassage(entry,
+                RitualIncorporealShardReleased, RitualIncorporealInsideSolid,
+                CoreRitualConditionsConfirmed, RitualIncorporealNarratorResolution);
+            ReplacePowerEffect(entry, ended);
+            RitualPreparationSummary = ended.Effect + $" Fonte: {ended.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            RefreshRollPool();
+            RefreshPowerUse();
+            MarkChanged();
+            CoreRitualConditionsConfirmed = false;
         }
         catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
         { RitualPreparationSummary = exception.Message; }

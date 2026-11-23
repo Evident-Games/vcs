@@ -26,7 +26,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Círculo de Proteção contra Lupinos | Fluxo dos círculos com nível próprio | Elegibilidade e consequências fora da ficha |
 | Defesa do Refúgio Sagrado | Custo, raio máximo, teste ao nascer do sol confirmado e bloqueio de dano solar em área confirmada | Permanência do conjurador, limites do local, tempo e beneficiários |
 | Olhos do Falcão Noturno | Custo, teste, efeito/crítico, encerramento confirmado, cegueira persistente de três noites e avanço explícito pelas datas da crônica | Controle da ave, ações/Disciplinas e adjudicação de limitações da cegueira; nenhum modificador numérico é inventado |
-| Passagem Incorpórea | Custo, teste, efeito por cena/caco, bloqueio de Surto e proteção contra dano físico comum confirmado | Movimento em sólidos, perda do caco, fontes arcanas e materialização |
+| Passagem Incorpórea | Custo, teste, efeito por cena/caco, bloqueio de Surto, proteção contra dano físico comum confirmado e materialização explícita por fim da cena ou perda do caco | Movimento em sólidos, fontes arcanas e destino exato ao materializar dentro de matéria sólida, decidido e registrado pelo Narrador |
 | Proteção contra Cainitas | Fluxo dedicado preservado, conjurador isento | Leitura da assinatura por Auspícios e consequências no intruso |
 | Círculo de Proteção contra Cainitas | Fluxo dos círculos com nível próprio | Elegibilidade, sentido da travessia e consequências no intruso |
 | Coração de Pedra | Custo, frenesi antes do teste, crítico, cura específica explícita uma vez, reversão por repetição, ajustes sociais/contra Presença, bloqueio de Presença e −3 em Remorso | Confirmar vela e dano já marcado; imunidade a estacas é informada, sem resolvedor universal de estaqueamento |
@@ -164,5 +164,11 @@ A interface envia o resultado à mesa de dados existente, registra a proposta no
 O livro base, página impressa 279 (página 281 do PDF fornecido), limita a potência da poção a uma noite. `RitualWorkflowActions.ExpireAirPotion` exige uma poção resolvida com doses restantes, a noite da crônica informada e confirmação explícita da mesa. O fluxo zera as doses, marca o estágio como expirado, grava a noite confirmada no estado opcional já persistido e conserva o registro inativo no histórico da ficha.
 
 O encerramento genérico não pode mais ocultar silenciosamente uma poção ainda válida: ele orienta o uso da ação específica. Não há rolagem nem dado fictício, e o calendário real não é consultado. O usuário continua responsável por informar quando a noite da crônica terminou. A cobertura permanece a mesma; trata-se da integração de uma etapa do procedimento existente.
+
+## Passagem Incorpórea: materialização confirmada
+
+O livro base, página impressa 280 (página 282 do PDF fornecido), mantém o conjurador incorpóreo enquanto ele segura o caco e determina a materialização quando esse requisito termina. O fluxo dedicado agora exige a seleção do efeito ativo, a confirmação da mesa e a causa do encerramento: fim da cena ou caco largado. O registro é preservado como inativo, com estágio encerrado e causa da materialização; o encerramento genérico fica bloqueado para não apagar esse procedimento.
+
+Quando a materialização ocorre dentro de matéria sólida, o livro entrega o destino exato ao Narrador. Por isso, o serviço V5 exige uma decisão textual e a grava no registro da ficha, sem inventar dano, destruição, deslocamento ou qualquer outra consequência. Movimento através de sólidos, posição e efeitos arcanos continuam manuais. As contagens e a classificação de cobertura permanecem inalteradas.
 
 O caso inverso também está integrado: a mesa identifica quem tenta puxar o conjurador, informa sua Força + Atletismo, Fome e eventual Besta Subjugada, além dos sucessos confirmados de Força + Feitiçaria de Sangue do conjurador. Quem puxa é o personagem ativo nessa tentativa e vence o empate conforme a regra geral da página impressa 121. O serviço devolve apenas a proposta de puxar ao solo e nunca altera posição ou ficha automaticamente. A cobertura continua em 26 rituais com fluxo; nenhum procedimento foi reclassificado como aplicação direta.

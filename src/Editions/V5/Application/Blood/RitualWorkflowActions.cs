@@ -173,6 +173,33 @@ public sealed class RitualWorkflowActions
             new(true, $"Fim da noite de {completedNight:dd/MM/yyyy} confirmado: {discarded} dose(s) não consumida(s) perderam a potência.", "Encerrado"), null);
     }
 
+    /// <summary>End incorporeality only after the table confirms why and where materialization happened.</summary>
+    public PowerEffectEntry EndIncorporealPassage(PowerEffectEntry entry, bool shardReleased,
+        bool insideSolid, bool tableConfirmed, string narratorResolution)
+    {
+        if (entry is not { Active: true, PowerId: "ritual-incorporeal-passage",
+                RitualWorkflow: { Stage: "effect", Resolved: true } state } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione uma Passagem Incorpórea ativa e confirme o fim da cena ou que o caco foi largado.");
+        if (insideSolid && string.IsNullOrWhiteSpace(narratorResolution))
+            throw new InvalidOperationException("Materializar dentro de matéria sólida exige registrar a decisão do Narrador sobre o destino exato.");
+
+        var trigger = shardReleased ? "o caco foi largado" : "a cena terminou";
+        var ruling = narratorResolution.Trim();
+        var effect = insideSolid
+            ? $"Materialização confirmada porque {trigger}, dentro de matéria sólida. Decisão do Narrador: {ruling}"
+            : $"Materialização confirmada porque {trigger}, fora de matéria sólida.";
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with { Stage = "ended" },
+            Effect = effect,
+            Duration = "Encerrado",
+            Ruling = insideSolid
+                ? string.IsNullOrWhiteSpace(entry.Ruling) ? ruling : entry.Ruling + "\n" + ruling
+                : entry.Ruling
+        };
+    }
+
     /// <summary>Resolve the caster's side when attempting to carry an unwilling passenger.</summary>
     public RitualWorkflowResolution ResolveAirPassengerContest(RitualUseDefinition ritual, RitualWorkflowState state,
         string passenger, int casterPool, int casterHunger, int opponentSuccesses, bool confirmed, Random? random = null,
@@ -242,6 +269,8 @@ public sealed class RitualWorkflowActions
     {
         if (entry.PowerId == "ritual-essence-of-air" && entry.RitualWorkflow is { Stage: "potion", Charges: > 0 })
             return "Use a expiração de Essência do Ar: informe a noite da crônica concluída e confirme o descarte das doses não consumidas.";
+        if (entry.PowerId == "ritual-incorporeal-passage" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
+            return "Use o encerramento de Passagem Incorpórea: confirme se a cena terminou ou o caco foi largado e onde ocorreu a materialização.";
         if (entry.PowerId == "ritual-eyes-of-nighthawk" && entry.RitualWorkflow is { Stage: "effect" or "blindness" })
             return "Use o encerramento de Olhos do Falcão Noturno: confirme os olhos da ave no fim da noite; a cegueira usa noites da crônica ou decisão excepcional registrada.";
         if (entry.PowerId == "ritual-sanctuary-preparation-check")

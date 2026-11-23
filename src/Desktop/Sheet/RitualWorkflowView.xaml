@@ -52,6 +52,14 @@
                 <CheckBox Content="A mesa confirmou que a Besta de quem puxa está subjugada" IsChecked="{Binding RitualAirGrounderBeastSubdued}"/>
                 <Button Content="Resolver tentativa confirmada de puxar ao solo" Command="{Binding ResolveRitualAirGroundingContestCommand}" HorizontalAlignment="Left"/>
             </StackPanel></Expander>
+            <Expander Header="Passagem Incorpórea: materialização" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Selecione o efeito ativo. Confirme se ele terminou porque a cena acabou ou porque o caco foi largado. Se o conjurador estiver dentro de matéria sólida, registre abaixo a decisão do Narrador; o app não inventa nem aplica essa consequência. Fonte: Livro base, p. 280." TextWrapping="Wrap"/>
+                <CheckBox Content="O caco foi largado (desmarcado: fim da cena)" IsChecked="{Binding RitualIncorporealShardReleased}"/>
+                <CheckBox Content="A materialização ocorreu dentro de matéria sólida" IsChecked="{Binding RitualIncorporealInsideSolid}"/>
+                <TextBlock Text="Decisão do Narrador sobre a materialização em matéria sólida"/>
+                <TextBox Text="{Binding RitualIncorporealNarratorResolution, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
+                <Button Content="Confirmar materialização e encerrar o efeito" Command="{Binding EndRitualIncorporealPassageCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <Button Content="Iluminar Rastro: rolar Inteligência + Sobrevivência" Command="{Binding RollRitualTrackingCommand}" HorizontalAlignment="Left"/>
             <Expander Header="Olhos do Falcão Noturno: encerramento" Margin="0,8"><StackPanel Margin="8">
                 <TextBlock Text="Selecione o voo ativo, informe acima a noite da crônica que terminou e confirme as circunstâncias com o Narrador. Escolha explicitamente o que ocorreu com os olhos da ave. Fonte: Livro base, p. 280." TextWrapping="Wrap"/>
