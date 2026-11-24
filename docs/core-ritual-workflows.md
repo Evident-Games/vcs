@@ -14,7 +14,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Círculo de Proteção contra Carniçais | Três custos, versão até amanhecer/ano e dia, dificuldade, disputas e histórico por intruso; empate permite a passagem porque o intruso é o personagem ativo | Círculo intacto, elegibilidade, sentido da passagem, custo de Vontade e dano em outra ficha |
 | Comunicação com o Senhor do Membro | Custo, teste, atraso e duração; crítico elimina atraso | Contato e conteúdo da comunicação; sem relógio automático |
 | Iluminar o Rastro da Presa | Custo, teste, dificuldade por margem, duração e rastreio posterior na aplicação; considera Besta Subjugada | Trajeto real, validade temporal e interpretação do Narrador |
-| Olhos de Babel | Custo, teste, semana/mês conforme crítico | Idiomas efetivamente conhecidos pela vítima |
+| Olhos de Babel | Custo, teste, semana/mês conforme crítico, data de início persistida e expiração validada pela data da crônica | Idiomas efetivamente conhecidos pela vítima; a mesa confirma a data atual |
 | Proteção contra Espíritos | Mesmo fluxo dedicado de objeto, com nível próprio | Identidade, contato e dano no espírito |
 | Verdade do Sangue | Determinação + Feitiçaria, sucessos opostos, afirmações sucessivas sem novo custo; o conjurador vence empates como personagem ativo | Conhecimento do alvo, memórias e resposta do Narrador |
 | Andarilho do Fogo | Custo, Vigor + Determinação dificuldade 3, redução de fogo no dano confirmado desta ficha e encerramento explícito pela noite da crônica | Dedo sacrificado e proteção de terceiros; não impõe limite inventado de três beneficiários nem altera outra ficha |
@@ -42,6 +42,12 @@ O resolvedor atual já apresenta esses detalhes e limita o benefício ao conjura
 O encerramento agora passa por `RitualWorkflowActions.EndClinging`: sucesso normal só aceita o fim da cena; vitória crítica só aceita o fim da noite e registra a data da crônica no campo opcional já persistido. O comando genérico fica bloqueado enquanto o benefício estiver ativo, preservando o resultado original e impedindo uma duração incompatível.
 
 O ritual continua parcialmente assistido e as contagens permanecem em 26 rituais com perfil/fluxo. A mesa ainda confirma a superfície, a condição de encerramento e conduz o movimento; esta integração não simula mapa, não cria velocidade numérica e não aumenta a contagem de aplicação direta.
+
+## Expiração de Olhos de Babel
+
+O livro-base V5 (página impressa 277) concede leitura e fala dos idiomas conhecidos pela vítima por uma semana; uma vitória crítica estende a duração para um mês. O fluxo agora persiste a data da crônica na resolução bem-sucedida e `RitualWorkflowActions.ExpireEyesOfBabel` calcula o término com sete dias ou um mês de calendário, conforme o crítico já salvo.
+
+A expiração exige que a mesa informe e confirme a data atual da crônica. Datas anteriores ao prazo são recusadas, o relógio real não encerra efeitos e o comando genérico fica bloqueado enquanto o benefício estiver ativo. Registros antigos usam a data já existente no efeito quando disponível; sem qualquer data, o app não inventa um início. Encerramento antecipado ou sem data exige autorização e justificativa do Narrador, gravadas no efeito e na tabela de exceções. Os idiomas efetivamente conhecidos pela vítima continuam sendo decisão da mesa. A cobertura permanece parcialmente assistida e as contagens não mudam.
 
 ## Contextos, exceções e persistência
 

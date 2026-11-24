@@ -153,7 +153,8 @@ public partial class CharacterEditorViewModel
             RitualUseCatalog.Find(entry.PowerId) is not { } ritual) return;
         try
         {
-            var resolution = new RitualWorkflowActions().Resolve(ritual, state, RitualContext(ritual));
+            var resolution = new RitualWorkflowActions().Resolve(ritual, state, RitualContext(ritual),
+                DateOnly.FromDateTime(PowerGameDate));
             if (ritual.Kind == "heart-stone" && entry.IsSelf && resolution.State.Stage == "effect")
             {
                 var previous = PowerEffects.Where(x => x.Id != entry.Id && x.Active && x.IsSelf &&
@@ -419,6 +420,31 @@ public partial class CharacterEditorViewModel
             Notebook.AppendLog("Rituais", RitualPreparationSummary);
             MarkChanged();
             CoreRitualConditionsConfirmed = false;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
+    private void ExpireEyesOfBabel()
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-eyes-of-babel" } entry)
+        { RitualPreparationSummary = "Selecione Olhos de Babel ativo."; return; }
+        try
+        {
+            var ended = new RitualWorkflowActions().ExpireEyesOfBabel(entry,
+                DateOnly.FromDateTime(PowerGameDate), CoreRitualConditionsConfirmed,
+                RitualEndingExceptionApproved, RitualEndingExceptionReason);
+            ReplacePowerEffect(entry, ended);
+            RitualPreparationSummary = ended.Effect + $" Fonte: {ended.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            if (ended.Duration == "Encerrado por decisão do Narrador")
+                ExceptionRegister.Record(entry.Name, "Encerramento excepcional de Olhos de Babel",
+                    RitualEndingExceptionReason.Trim());
+            MarkChanged();
+            CoreRitualConditionsConfirmed = false;
+            RitualEndingExceptionApproved = false;
+            RitualEndingExceptionReason = "";
         }
         catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
         { RitualPreparationSummary = exception.Message; }

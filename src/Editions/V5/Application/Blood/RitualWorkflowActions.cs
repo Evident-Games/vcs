@@ -43,7 +43,7 @@ public sealed class RitualWorkflowActions
     }
 
     public RitualWorkflowResolution Resolve(RitualUseDefinition ritual, RitualWorkflowState state,
-        RitualWorkflowContext context, Random? random = null)
+        RitualWorkflowContext context, DateOnly ritualDate, Random? random = null)
     {
         RequireReady(ritual, state, context);
         if (state.Resolved) throw new InvalidOperationException("Esta etapa já foi resolvida. Inicie outra execução quando a regra permitir.");
@@ -98,7 +98,8 @@ public sealed class RitualWorkflowActions
             _ => "effect"
         } : "failed";
         return new(state with { Stage = stage, Resolved = ritual.Kind != "truth" || !proposal.Succeeded,
-            StoredSuccesses = roll.Successes, StoredCritical = roll.IsCritical, Charges = proposal.Charges }, proposal, roll,
+            StoredSuccesses = roll.Successes, StoredCritical = roll.IsCritical, Charges = proposal.Charges,
+            EffectStartedOn = proposal.Succeeded ? ritualDate : state.EffectStartedOn }, proposal, roll,
             BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
             MessyCriticalConverted: rollAudit.MessyCriticalConverted);
     }
@@ -299,6 +300,51 @@ public sealed class RitualWorkflowActions
         };
     }
 
+    /// <summary>Expire Eyes of Babel from the confirmed chronicle date stored with its successful ritual roll.</summary>
+    public PowerEffectEntry ExpireEyesOfBabel(PowerEffectEntry entry, DateOnly currentDate, bool tableConfirmed,
+        bool exceptionApproved, string exceptionReason)
+    {
+        if (entry is not { Active: true, PowerId: "ritual-eyes-of-babel",
+                RitualWorkflow: { Stage: "effect", Resolved: true } state } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione Olhos de Babel ativo e confirme a data atual da crônica com a mesa.");
+
+        var startedOn = state.EffectStartedOn ?? (entry.GameDate is { } legacyDate
+            ? DateOnly.FromDateTime(legacyDate)
+            : null);
+        if (startedOn is null)
+            return EndBabelByRuling(entry, state, currentDate, exceptionApproved, exceptionReason,
+                "O registro antigo não informa quando o efeito começou");
+        var confirmedStart = startedOn.Value;
+        var expiresOn = state.StoredCritical ? confirmedStart.AddMonths(1) : confirmedStart.AddDays(7);
+        if (currentDate < expiresOn)
+            return EndBabelByRuling(entry, state, currentDate, exceptionApproved, exceptionReason,
+                $"Olhos de Babel ainda está ativo: começou em {confirmedStart:dd/MM/yyyy} e termina em {expiresOn:dd/MM/yyyy}");
+
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with { Stage = "ended", LastNightAdvanced = currentDate },
+            Effect = $"Data da crônica {currentDate:dd/MM/yyyy} confirmada; Olhos de Babel terminou após {(state.StoredCritical ? "um mês" : "uma semana")}.",
+            Duration = "Encerrado"
+        };
+    }
+
+    private static PowerEffectEntry EndBabelByRuling(PowerEffectEntry entry, RitualWorkflowState state,
+        DateOnly currentDate, bool exceptionApproved, string exceptionReason, string reason)
+    {
+        if (!exceptionApproved || string.IsNullOrWhiteSpace(exceptionReason))
+            throw new InvalidOperationException(reason + "; apenas uma decisão excepcional justificada do Narrador pode encerrar este registro.");
+        var ruling = exceptionReason.Trim();
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with { Stage = "ended", LastNightAdvanced = currentDate },
+            Effect = $"Olhos de Babel encerrado por decisão excepcional do Narrador em {currentDate:dd/MM/yyyy}: {ruling}",
+            Duration = "Encerrado por decisão do Narrador",
+            Ruling = string.IsNullOrWhiteSpace(entry.Ruling) ? ruling : entry.Ruling + " | Encerramento: " + ruling
+        };
+    }
+
     /// <summary>Resolve the caster's side when attempting to carry an unwilling passenger.</summary>
     public RitualWorkflowResolution ResolveAirPassengerContest(RitualUseDefinition ritual, RitualWorkflowState state,
         string passenger, int casterPool, int casterHunger, int opponentSuccesses, bool confirmed, Random? random = null,
@@ -378,6 +424,8 @@ public sealed class RitualWorkflowActions
             return "Use o encerramento de Andarilho do Fogo: informe a noite da crônica e confirme que ela terminou.";
         if (entry.PowerId == "ritual-clinging-of-the-insect" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
             return "Use o encerramento de Aderência do Inseto: confirme o fim da cena ou, em vitória crítica, o fim da noite.";
+        if (entry.PowerId == "ritual-eyes-of-babel" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
+            return "Use a expiração de Olhos de Babel: informe e confirme a data atual da crônica para validar uma semana ou, em vitória crítica, um mês.";
         if (entry.PowerId == "ritual-eyes-of-nighthawk" && entry.RitualWorkflow is { Stage: "effect" or "blindness" })
             return "Use o encerramento de Olhos do Falcão Noturno: confirme os olhos da ave no fim da noite; a cegueira usa noites da crônica ou decisão excepcional registrada.";
         if (entry.PowerId == "ritual-sanctuary-preparation-check")
