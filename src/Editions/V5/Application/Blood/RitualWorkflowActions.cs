@@ -64,7 +64,7 @@ public sealed class RitualWorkflowActions
                 new(frenzy.Resisted, frenzy.Resisted ? "Resistiu ao frenesi. Confirme novamente para rolar o Ritual, sem pagar outro custo." : "Frenesi de terror: o ritual termina sem benefício.", frenzy.Resisted ? "Aguardando teste do Ritual" : "Encerrado"), frenzy.Roll);
         }
         if (ritual.Kind == "circle" && !state.LongTermCircle)
-            return new(state with { Stage = "circle-ready", Resolved = true },
+            return new(state with { Stage = "circle-ready", Resolved = true, EffectStartedOn = ritualDate },
                 new(true, "Círculo preparado até o amanhecer. A disputa só ocorre quando um intruso tenta atravessar.", "Até o amanhecer"), null);
         var difficulty = ritual.Kind == "firewalker" ? 3 : ritual.Level + 1;
         if (ritual.Kind == "circle") difficulty += 2;
@@ -75,7 +75,8 @@ public sealed class RitualWorkflowActions
         var roll = rollAudit.Roll;
         if (ritual.Kind == "circle")
             return new(state with { Stage = roll.IsSuccess ? "circle-ready" : "failed", Resolved = true,
-                    StoredSuccesses = roll.Successes, StoredCritical = roll.IsCritical },
+                    StoredSuccesses = roll.Successes, StoredCritical = roll.IsCritical,
+                    EffectStartedOn = roll.IsSuccess ? ritualDate : state.EffectStartedOn },
                 new(roll.IsSuccess, roll.IsSuccess ? "Círculo de um ano e um dia preparado. Seu resultado fica registrado para as disputas de entrada." : "O preparo do círculo falhou.", roll.IsSuccess ? "Um ano e um dia" : "Encerrado"), roll,
                 BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
                 MessyCriticalConverted: rollAudit.MessyCriticalConverted);
@@ -448,6 +449,45 @@ public sealed class RitualWorkflowActions
         };
     }
 
+    /// <summary>End a protection circle only at its confirmed V5 duration boundary.</summary>
+    public PowerEffectEntry ExpireProtectionCircle(PowerEffectEntry entry, DateOnly currentDate,
+        bool tableConfirmed, bool exceptionApproved, string exceptionReason)
+    {
+        if (entry is not { Active: true, RitualWorkflow: { Stage: "circle-ready", Resolved: true } state } ||
+            RitualUseCatalog.Find(entry.PowerId)?.Kind != "circle" || !tableConfirmed)
+            throw new InvalidOperationException("Selecione um Círculo de Proteção ativo e confirme o amanhecer ou a data atual da crônica com a mesa.");
+
+        if (!state.LongTermCircle)
+            return entry with
+            {
+                Active = false,
+                RitualWorkflow = state with { Stage = "ended", LastNightAdvanced = currentDate },
+                Effect = $"Amanhecer de {currentDate:dd/MM/yyyy} confirmado; o Círculo de Proteção se dissipou.",
+                Duration = "Encerrado: amanhecer confirmado"
+            };
+
+        var startedOn = state.EffectStartedOn ?? (entry.GameDate is { } legacyDate
+            ? DateOnly.FromDateTime(legacyDate)
+            : null);
+        if (startedOn is null)
+            return EndTimedRitualByRuling(entry, state, currentDate, exceptionApproved, exceptionReason,
+                "O registro antigo não informa quando o círculo de um ano e um dia começou", "Círculo de Proteção");
+
+        var expiresOn = ProtectionCircleDurationRules.ExpiresOn(startedOn.Value);
+        if (currentDate < expiresOn)
+            return EndTimedRitualByRuling(entry, state, currentDate, exceptionApproved, exceptionReason,
+                $"O círculo ainda está ativo: começou em {startedOn.Value:dd/MM/yyyy} e termina em {expiresOn:dd/MM/yyyy}",
+                "Círculo de Proteção");
+
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with { Stage = "ended", LastNightAdvanced = currentDate },
+            Effect = $"Data da crônica {currentDate:dd/MM/yyyy} confirmada; o ano e um dia do Círculo de Proteção terminaram.",
+            Duration = "Encerrado: um ano e um dia concluídos"
+        };
+    }
+
     private static PowerEffectEntry EndTimedRitualByRuling(PowerEffectEntry entry, RitualWorkflowState state,
         DateOnly currentDate, bool exceptionApproved, string exceptionReason, string reason, string effectName)
     {
@@ -533,6 +573,9 @@ public sealed class RitualWorkflowActions
     {
         if (entry.Active && RitualUseCatalog.Find(entry.PowerId)?.Kind == "ward")
             return "Use o encerramento da proteção de objeto: confirme com a mesa que o objeto foi fisicamente destruído ou quebrado.";
+        if (entry.Active && RitualUseCatalog.Find(entry.PowerId)?.Kind == "circle" &&
+            entry.RitualWorkflow is { Stage: "circle-ready", Resolved: true })
+            return "Use a expiração do Círculo de Proteção: confirme o amanhecer ou valide um ano e um dia pela data da crônica.";
         if (entry.PowerId == "ritual-essence-of-air" && entry.RitualWorkflow is { Stage: "potion", Charges: > 0 })
             return "Use a expiração de Essência do Ar: informe a noite da crônica concluída e confirme o descarte das doses não consumidas.";
         if (entry.PowerId == "ritual-incorporeal-passage" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })

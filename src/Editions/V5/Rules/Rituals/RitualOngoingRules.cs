@@ -42,4 +42,11 @@ public static class IlluminatedTrailRules
         critical ? castingNight.AddDays(1) : castingNight;
 }
 
+/// <summary>Duration of a long-term protection circle, calculated from the chronicle date supplied by the table.</summary>
+[RuleSource("Vampiro: A Máscara V5 (Livro base), p. 275")]
+public static class ProtectionCircleDurationRules
+{
+    public static DateOnly ExpiresOn(DateOnly castingDate) => castingDate.AddYears(1).AddDays(1);
+}
+
 public sealed record NighthawkEnding(int BlindnessNights, string Effect);

@@ -140,6 +140,12 @@
                 <CheckBox Content="Mesa confirmou gasto de 1 Vontade do intruso para repetir" IsChecked="{Binding CoreRitualRetryCostConfirmed}"/>
                 <Button Content="Resolver disputa de travessia confirmada" Command="{Binding ResolveRitualCircleContactCommand}" HorizontalAlignment="Left"/>
             </StackPanel></Expander>
+            <Expander Header="Círculo de Proteção: expiração" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Selecione um círculo ativo e informe acima a data da crônica. O círculo comum só é encerrado após a mesa confirmar o amanhecer; a versão estendida usa a data de resolução salva para validar um ano e um dia. O relógio real não é consultado. Fonte: Livro base, p. 275." TextWrapping="Wrap"/>
+                <CheckBox Content="Narrador autorizou encerramento excepcional antes do prazo ou sem data de início" IsChecked="{Binding RitualEndingExceptionApproved}"/>
+                <TextBox Text="{Binding RitualEndingExceptionReason, UpdateSourceTrigger=PropertyChanged}" ToolTip="Justificativa obrigatória da decisão excepcional" TextWrapping="Wrap"/>
+                <Button Content="Confirmar amanhecer ou validar um ano e um dia" Command="{Binding ExpireProtectionCircleCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <TextBlock Text="Durações em horas, noites, doses e condições narrativas precisam de acompanhamento da mesa. Encerre o efeito no registro quando expirar. Exceções ficam na ficha; outras fichas nunca são modificadas por estes controles." TextWrapping="Wrap" Foreground="{DynamicResource ThemeInputDescription}"/>
             <Expander Header="Contexto dos efeitos em uso" Margin="0,8"><StackPanel Margin="8">
                 <TextBlock Text="Coração de Pedra: os ajustes abaixo entram na parada montada da mesa de dados. Remorso aplica −3 automaticamente, com mínimo de um dado. Dominação usa o procedimento do poder, sem a penalidade social. A reversão exige repetir o ritual e encerrar o efeito anterior." TextWrapping="Wrap"/>
