@@ -105,8 +105,9 @@ public partial class CharacterEditorViewModel
                 SanctuaryNoCircleInVehicleConfirmed, SanctuaryLocationsConfirmed,
                 RitualExceptionApproved && !string.IsNullOrWhiteSpace(RitualExceptionReason));
             var pair = result.Pair;
-            if (result.EndedPair is { } ended && PowerEffects.FirstOrDefault(x => x.Id == ended.Id) is { } currentPair)
-                ReplacePowerEffect(currentPair, ended);
+            foreach (var ended in result.EndedPairs)
+                if (PowerEffects.FirstOrDefault(x => x.Id == ended.Id) is { } currentPair)
+                    ReplacePowerEffect(currentPair, ended);
             foreach (var updated in result.UpdatedPreparation)
                 if (PowerEffects.FirstOrDefault(x => x.Id == updated.Id) is { } currentPreparation)
                     ReplacePowerEffect(currentPreparation, updated with

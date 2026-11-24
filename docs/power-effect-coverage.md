@@ -280,6 +280,8 @@ O aplicativo não verifica coordenadas, presença física, massa real, dano ocor
 
 Ao confirmar dano em um dos círculos, a ação V5 agora consegue inutilizar também um par persistido que não possua checagens preparatórias estruturadas, preservando fichas legadas e preparações realizadas fora do aplicativo. Antes, esse estado era localizado, mas rejeitado pelo serviço. A ação continua bloqueada se não houver qualquer par ou preparação ativa, exige a identificação confirmada do círculo danificado e apenas encerra os registros do próprio par; custos e histórico permanecem salvos.
 
+O registro ou a correção dos locais do Santuário também impõe o limite de um par em funcionamento por vampiro: todos os registros de par ativos na ficha são encerrados antes da inclusão do par atual. O comportamento anterior encerrava apenas o registro ativo mais recente e podia deixar duplicatas legadas funcionando. Os registros anteriores não são apagados, e a mudança não interfere em outras fichas nem aplica deslocamento.
+
 ## Validação de custos
 
 A ativação de poderes V5 rejeita capacidade de Vontade negativa e calcula a soma das marcas e do custo com precisão suficiente para evitar transbordamento de inteiro. Isso reforça a validação de entrada; não altera a contagem de efeitos automatizados.

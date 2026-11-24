@@ -127,6 +127,8 @@ O livro base, página impressa 281 (página 283 do PDF fornecido), determina que
 
 A invalidação também aceita um par persistido sem checagens preparatórias estruturadas. Isso cobre fichas legadas e preparações conduzidas fora do aplicativo: antes, o serviço encontrava o par, mas o recusava por não haver ao menos uma checagem registrada. Ele agora só rejeita quando não existe nem par nem preparação ativa, e continua exigindo que a mesa confirme qual círculo sofreu dano. Nenhum custo é removido e nenhum outro par ou ficha é alterado.
 
+A mesma página limita cada vampiro a um único par em funcionamento. Ao registrar ou corrigir o par, a aplicação agora encerra todos os registros de par que estejam ativos na própria ficha antes de persistir o atual, em vez de encerrar somente o mais recente. Isso corrige duplicatas legadas sem apagá-las: os pares anteriores permanecem no histórico como inativos. Preparações e fichas externas não são alteradas silenciosamente.
+
 A ficha grava um marcador do dano e impede que a ausência de preparações ativas seja confundida com um par preparado fora do aplicativo. Uma viagem excepcional com esse par exige autorização e justificativa do Narrador pelo mecanismo existente. Um novo preparo posterior inicia outro par normalmente. O aplicativo não detecta dano físico nem altera cenário; a ocorrência continua sendo informada pela mesa. A classificação e as contagens não mudaram.
 
 ## Identidade persistente dos círculos do Santuário

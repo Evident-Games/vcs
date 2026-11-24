@@ -19,8 +19,9 @@ public sealed class TrueSanctuaryActions
             departureFixedSurfaceConfirmed, destinationFixedSurfaceConfirmed,
             noEndpointInVehicleConfirmed, exceptionApproved);
         var pair = validation.Pair;
-        var current = entries.LastOrDefault(x => x.Active && x.IsSelf &&
-            x.PowerId == "ritual-sanctuary-circle-pair" && x.CirclePair is not null);
+        var currentPairs = entries.Where(x => x.Active && x.IsSelf &&
+            x.PowerId == "ritual-sanctuary-circle-pair" && x.CirclePair is not null).ToArray();
+        var current = currentPairs.LastOrDefault();
         var preparation = entries.Where(x => x.Active && x.IsSelf &&
             x.PowerId == "ritual-sanctuary-preparation-check" && x.PreparationStep is not null).ToArray();
         var historyMismatch = preparation.Any(x => !string.IsNullOrWhiteSpace(x.PreparationStep!.Location) &&
@@ -40,7 +41,7 @@ public sealed class TrueSanctuaryActions
                 PreparationStep = entry.PreparationStep with { Location = location }
             };
         }).ToArray();
-        return new(pair, current is null ? null : current with { Active = false }, updated, correction,
+        return new(pair, currentPairs.Select(x => x with { Active = false }).ToArray(), updated, correction,
             validation.PlacementExceptionUsed);
     }
 
@@ -103,7 +104,7 @@ public sealed class TrueSanctuaryActions
 public sealed record SanctuaryPreparationCheckResult(SanctuaryPreparationAdvance Advance, RouseCheckResult Check);
 
 public sealed record SanctuaryCirclePairRegistration(RitualCirclePair Pair,
-    PowerEffectEntry? EndedPair, IReadOnlyList<PowerEffectEntry> UpdatedPreparation, bool CorrectionUsed,
+    IReadOnlyList<PowerEffectEntry> EndedPairs, IReadOnlyList<PowerEffectEntry> UpdatedPreparation, bool CorrectionUsed,
     bool PlacementExceptionUsed);
 
 public sealed record SanctuaryPairInvalidation(IReadOnlyList<PowerEffectEntry> EndedEntries, string Summary);
