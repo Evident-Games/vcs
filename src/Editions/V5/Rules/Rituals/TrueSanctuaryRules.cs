@@ -9,6 +9,14 @@ public static class TrueSanctuaryRules
 {
     public static TrueSanctuaryPreparationRequirements Preparation() => new(2, 3, 120, 2);
 
+    public static string CircleDamageEnding(int damagedCircle, bool tableConfirmed)
+    {
+        if (damagedCircle is < 1 or > 2) throw new ArgumentOutOfRangeException(nameof(damagedCircle));
+        if (!tableConfirmed)
+            throw new InvalidOperationException("Confirme com a mesa qual círculo sofreu dano antes de inutilizar o par.");
+        return $"Dano confirmado no círculo {damagedCircle}: o ritual foi arruinado e os dois círculos ficaram inertes.";
+    }
+
     public static SanctuaryTravelPayload ValidatePayload(bool carriesPerson, bool carriesObjects,
         string description, bool objectMassConfirmed)
     {

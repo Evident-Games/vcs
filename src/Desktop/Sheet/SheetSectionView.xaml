@@ -110,6 +110,8 @@
                     <TextBlock Text="As checagens pagas ficam nos efeitos e no diário. Interrupções exigem decisão da mesa; use a justificativa de exceção acima." TextWrapping="Wrap"/>
                     <CheckBox Content="Narrador confirmou abandono ou inutilização deste par de círculos" IsChecked="{Binding SanctuaryResetConfirmed}"/>
                     <Button Content="Encerrar preparação do par" Command="{Binding ResetSanctuaryPreparationCommand}" HorizontalAlignment="Left"/>
+                    <CheckBox Content="Mesa confirmou que o círculo selecionado sofreu dano" IsChecked="{Binding SanctuaryCircleDamageConfirmed}"/>
+                    <Button Content="Registrar dano e inutilizar os dois círculos" Command="{Binding InvalidateSanctuaryPairAfterDamageCommand}" HorizontalAlignment="Left"/>
                 </StackPanel></Expander>
                 <TextBlock Text="Passageiro ou carga opcional" FontWeight="SemiBold"/>
                 <CheckBox Content="Levar uma pessoa" IsChecked="{Binding SanctuaryCarriesPerson}"/>

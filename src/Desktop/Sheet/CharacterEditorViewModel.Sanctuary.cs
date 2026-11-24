@@ -12,18 +12,56 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private DateTime? sanctuaryNight;
     [ObservableProperty] private bool sanctuaryPreparationConfirmed;
     [ObservableProperty] private bool sanctuaryResetConfirmed;
+    [ObservableProperty] private bool sanctuaryCircleDamageConfirmed;
 
     private RitualPreparationStep[] SanctuaryPaidChecks() => PowerEffects.Where(x => x.Active && x.IsSelf &&
             x.PowerId == "ritual-sanctuary-preparation-check" && x.PreparationStep is not null)
         .Select(x => x.PreparationStep!).ToArray();
+
+    private bool SanctuaryPairWasDamaged()
+    {
+        var lastDamage = PowerEffects.Where(x => x.PowerId == "ritual-sanctuary-circle-damage")
+            .Select(x => (DateTime?)x.CreatedUtc).Max();
+        if (lastDamage is null) return false;
+        var lastNewPreparation = PowerEffects.Where(x => x.IsSelf &&
+                x.PowerId == "ritual-sanctuary-preparation-check" && x.PreparationStep is not null)
+            .Select(x => (DateTime?)x.CreatedUtc).Max();
+        return lastNewPreparation is null || lastNewPreparation <= lastDamage;
+    }
 
     public string SanctuaryPreparationProgress
     {
         get
         {
             var paid = SanctuaryPaidChecks();
-            return $"Partida: {paid.Count(x => x.Circle == 1)}/6 checagens · Chegada: {paid.Count(x => x.Circle == 2)}/6 checagens";
+            var damage = SanctuaryPairWasDamaged() ? " · último par inerte por dano confirmado" : "";
+            return $"Partida: {paid.Count(x => x.Circle == 1)}/6 checagens · Chegada: {paid.Count(x => x.Circle == 2)}/6 checagens{damage}";
         }
+    }
+
+    [RelayCommand]
+    private void InvalidateSanctuaryPairAfterDamage()
+    {
+        try
+        {
+            var result = new TrueSanctuaryActions().InvalidatePairAfterCircleDamage(PowerEffects,
+                SanctuaryCircle, SanctuaryCircleDamageConfirmed);
+            foreach (var ended in result.EndedEntries)
+                if (PowerEffects.FirstOrDefault(x => x.Id == ended.Id) is { } current)
+                    ReplacePowerEffect(current, ended);
+            PowerEffects.Add(new PowerEffectEntry(Guid.NewGuid(), "ritual-sanctuary-circle-damage",
+                "Fuga para o Verdadeiro Santuário", $"Círculo {SanctuaryCircle}", true, DateTime.UtcNow,
+                result.Summary, "Par de círculos inerte", "Vampiro: A Máscara V5 (Livro base), p. 281", "", false));
+            SanctuaryCircleDamageConfirmed = false;
+            SanctuaryPreparationConfirmed = false;
+            SanctuaryTravelConfirmed = false;
+            OnPropertyChanged(nameof(SanctuaryPreparationProgress));
+            RitualPreparationSummary = result.Summary + " Custos anteriores permaneceram no histórico.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            MarkChanged();
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
     }
 
     [RelayCommand]
@@ -35,6 +73,7 @@ public partial class CharacterEditorViewModel
             x.PowerId == "ritual-sanctuary-preparation-check").ToArray())
             ReplacePowerEffect(entry, entry with { Active = false });
         SanctuaryResetConfirmed = false;
+        SanctuaryCircleDamageConfirmed = false;
         SanctuaryPreparationConfirmed = false;
         SanctuaryTravelConfirmed = false;
         OnPropertyChanged(nameof(SanctuaryPreparationProgress));
@@ -43,7 +82,11 @@ public partial class CharacterEditorViewModel
         MarkChanged();
     }
 
-    partial void OnSanctuaryCircleChanged(int value) => SanctuaryPreparationConfirmed = false;
+    partial void OnSanctuaryCircleChanged(int value)
+    {
+        SanctuaryPreparationConfirmed = false;
+        SanctuaryCircleDamageConfirmed = false;
+    }
     partial void OnSanctuaryNightChanged(DateTime? value) => SanctuaryPreparationConfirmed = false;
 
     [RelayCommand]

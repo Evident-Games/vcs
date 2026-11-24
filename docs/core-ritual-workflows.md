@@ -30,7 +30,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Proteção contra Cainitas | Fluxo dedicado preservado, conjurador isento; preparo bloqueado sem confirmação da condição noturna de frenesi de terror ou exceção justificada; encerramento confirmado pela destruição ou quebra do objeto | Leitura da assinatura por Auspícios e consequências no intruso |
 | Círculo de Proteção contra Cainitas | Fluxo dos círculos com nível próprio e orientação persistida | Posição, elegibilidade e consequências no intruso |
 | Coração de Pedra | Custo, frenesi antes do teste, crítico, cura específica explícita uma vez, reversão por repetição, ajustes sociais/contra Presença, bloqueio de Presença e −3 em Remorso | Confirmar vela e dano já marcado; imunidade a estacas é informada, sem resolvedor universal de estaqueamento |
-| Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, dois círculos, rolagem por viagem, limite por cena e proposta validada de uma pessoa ou carga equivalente | Locais, integridade, concentração, massa real e deslocamento narrativo |
+| Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, dois círculos, rolagem por viagem, limite por cena, proposta validada de carga e inutilização persistida do par quando um círculo sofre dano | Locais, confirmação do dano, concentração, massa real e deslocamento narrativo |
 | Fuste de Extinção Tardia | Duas checagens separadas, preparo/teste, ataque com +3, margem de Morte Final/lasca, cirurgia Destreza + Medicina dificuldade 6 | Tempo de avanço da lasca decidido pelo Narrador, não especificado numericamente no livro; vítima, integridade e consequências confirmadas; não aplica Morte Final |
 
 ## Auditoria: Aderência do Inseto
@@ -120,6 +120,12 @@ As fontes foram reconferidas no livro base: Subjugar a Besta, página impressa 2
 O livro base, página impressa 281 (página 283 do PDF fornecido), permite que o conjurador leve uma pessoa ou um objeto ou conjunto de objetos cuja massa total seja aproximadamente a de uma pessoa. `TrueSanctuaryRules.ValidatePayload` impede selecionar simultaneamente pessoa e objetos, exige identificar a proposta e exige confirmação explícita da mesa para o limite de massa dos objetos antes de qualquer rolagem.
 
 O resultado persiste a proposta no marcador da tentativa durante a cena e no diário. Sucesso não move o passageiro, não transfere inventário e não altera outra ficha; massa real, presença no círculo e deslocamento continuam com o Narrador. A mudança amplia o procedimento já existente sem reclassificar o ritual ou alterar as contagens.
+
+## Dano aos círculos do Santuário
+
+O livro base, página impressa 281 (página 283 do PDF fornecido), determina que dano a qualquer um dos círculos arruína completamente o ritual e deixa ambos inertes. `TrueSanctuaryRules.CircleDamageEnding` exige a identificação do círculo e a confirmação da mesa; `TrueSanctuaryActions.InvalidatePairAfterCircleDamage` encerra todos os registros ativos do par, preserva os custos no histórico e devolve a causa estruturada.
+
+A ficha grava um marcador do dano e impede que a ausência de preparações ativas seja confundida com um par preparado fora do aplicativo. Uma viagem excepcional com esse par exige autorização e justificativa do Narrador pelo mecanismo existente. Um novo preparo posterior inicia outro par normalmente. O aplicativo não detecta dano físico nem altera cenário; a ocorrência continua sendo informada pela mesa. A classificação e as contagens não mudaram.
 
 ## Auditoria da Besta nos procedimentos coordenados
 

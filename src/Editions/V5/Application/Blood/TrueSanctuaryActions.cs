@@ -8,6 +8,23 @@ namespace Game.Application.Blood;
 /// <summary>Resolve a confirmed sanctuary travel attempt without moving or changing any character.</summary>
 public sealed class TrueSanctuaryActions
 {
+    public SanctuaryPairInvalidation InvalidatePairAfterCircleDamage(
+        IReadOnlyList<PowerEffectEntry> preparationEntries, int damagedCircle, bool tableConfirmed)
+    {
+        var summary = TrueSanctuaryRules.CircleDamageEnding(damagedCircle, tableConfirmed);
+        var active = preparationEntries.Where(x => x.Active && x.IsSelf &&
+            x.PowerId == "ritual-sanctuary-preparation-check" && x.PreparationStep is not null).ToArray();
+        if (active.Length == 0)
+            throw new InvalidOperationException("Não há preparação ativa do Santuário para inutilizar.");
+        var ended = active.Select(x => x with
+        {
+            Active = false,
+            Effect = $"{x.Effect} {summary}",
+            Duration = "Par de círculos inerte após dano confirmado"
+        }).ToArray();
+        return new(ended, summary);
+    }
+
     public SanctuaryPreparationCheckResult PrepareNextCheck(int circle, DateOnly nightDate,
         IReadOnlyList<RitualPreparationStep> paidChecks, int hunger, bool conditionsConfirmed,
         bool scheduleExceptionApproved = false, Random? random = null)
@@ -41,6 +58,8 @@ public sealed class TrueSanctuaryActions
 }
 
 public sealed record SanctuaryPreparationCheckResult(SanctuaryPreparationAdvance Advance, RouseCheckResult Check);
+
+public sealed record SanctuaryPairInvalidation(IReadOnlyList<PowerEffectEntry> EndedEntries, string Summary);
 
 public sealed record SanctuaryTravelResult(DicePoolResult Roll, SanctuaryTravelPayload Payload,
     bool BeastSubduedConsidered,

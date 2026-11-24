@@ -134,6 +134,8 @@ O resultado para outro alvo não altera outra ficha. Dano/Fome à própria ficha
 
 Fuga para o Verdadeiro Santuário agora valida antes da rolagem a carga opcional prevista na página impressa 281: uma pessoa ou objetos com massa total aproximadamente equivalente à de uma pessoa. A identificação e a confirmação de massa são registradas como proposta no marcador da tentativa; nenhuma ficha, posição ou inventário externo é alterado. O ritual continua como resolução assistida e as contagens permanecem inalteradas.
 
+O dano confirmado a qualquer círculo do Santuário agora inutiliza de forma persistente todos os registros ativos do par e bloqueia nova viagem desse par, conforme a página impressa 281. Custos permanecem no histórico e uma decisão excepcional exige justificativa registrada. O programa não detecta o dano nem modifica o cenário; a confirmação continua com o Narrador. A classificação de resolução assistida e as contagens permanecem inalteradas.
+
 ## Revisão inicial dos rituais
 
 O catálogo mostra a dificuldade geral de ritual como nível + 1 (livro base, p. 274), sujeita às exceções de cada ritual. Proteção contra Lupinos foi corrigida conforme as pp. 275 e 279: protege um objeto e a rolagem ocorre no primeiro toque; círculos são rituais separados. Outros campos antigos dos rituais ainda exigem revisão contra o livro antes de automação. Essas correções são de conteúdo, não resolvedores; os cinco rituais continuam pendentes. Fichas antigas podem preservar os campos editados; restaure o catálogo para atualizar.
