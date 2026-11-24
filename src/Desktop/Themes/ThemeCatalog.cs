@@ -35,6 +35,7 @@ public static class ThemeCatalog
         new ThemeDefinition("tzimisce", "Tzimisce", ThemeGroup.Clan, "Tzimisce"),
         new ThemeDefinition("ventrue", "Ventrue", ThemeGroup.Clan, "Ventrue"),
         new ThemeDefinition("coterie", "O Sínido de Alabastro", ThemeGroup.Special, "Coterie"),
+        new ThemeDefinition("natal", "Natal", ThemeGroup.Special, "Natal"),
 
     });
 
