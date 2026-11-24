@@ -401,6 +401,30 @@ public partial class CharacterEditorViewModel
     }
 
     [RelayCommand]
+    private void EndClingingAfterScene() => EndClinging(ClingingEnding.SceneEnded);
+
+    [RelayCommand]
+    private void EndClingingAfterNight() => EndClinging(ClingingEnding.NightEnded);
+
+    private void EndClinging(ClingingEnding ending)
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-clinging-of-the-insect" } entry)
+        { RitualPreparationSummary = "Selecione uma Aderência do Inseto ativa."; return; }
+        try
+        {
+            var ended = new RitualWorkflowActions().EndClinging(entry, ending,
+                DateOnly.FromDateTime(PowerGameDate), CoreRitualConditionsConfirmed);
+            ReplacePowerEffect(entry, ended);
+            RitualPreparationSummary = ended.Effect + $" Fonte: {ended.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            MarkChanged();
+            CoreRitualConditionsConfirmed = false;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
     private void ResolveRitualAirPassengerContest()
     {
         if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-essence-of-air", RitualWorkflow: { } state } entry ||

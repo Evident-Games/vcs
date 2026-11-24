@@ -271,6 +271,34 @@ public sealed class RitualWorkflowActions
         };
     }
 
+    /// <summary>End Clinging according to the duration stored by its original ritual roll.</summary>
+    public PowerEffectEntry EndClinging(PowerEffectEntry entry, ClingingEnding ending,
+        DateOnly completedNight, bool tableConfirmed)
+    {
+        if (entry is not { Active: true, PowerId: "ritual-clinging-of-the-insect",
+                RitualWorkflow: { Stage: "effect", Resolved: true } state } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione uma Aderência do Inseto ativa e confirme a condição de encerramento com a mesa.");
+        if (state.StoredCritical && ending != ClingingEnding.NightEnded)
+            throw new InvalidOperationException("A vitória crítica estende Aderência do Inseto pela noite inteira; confirme o fim da noite.");
+        if (!state.StoredCritical && ending != ClingingEnding.SceneEnded)
+            throw new InvalidOperationException("Sem vitória crítica, Aderência do Inseto termina ao fim da cena; confirme o fim da cena.");
+
+        var effect = ending == ClingingEnding.NightEnded
+            ? $"Fim da noite de {completedNight:dd/MM/yyyy} confirmado; Aderência do Inseto crítica foi encerrada."
+            : "Fim da cena confirmado; Aderência do Inseto foi encerrada.";
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with
+            {
+                Stage = "ended",
+                LastNightAdvanced = ending == ClingingEnding.NightEnded ? completedNight : state.LastNightAdvanced
+            },
+            Effect = effect,
+            Duration = "Encerrado"
+        };
+    }
+
     /// <summary>Resolve the caster's side when attempting to carry an unwilling passenger.</summary>
     public RitualWorkflowResolution ResolveAirPassengerContest(RitualUseDefinition ritual, RitualWorkflowState state,
         string passenger, int casterPool, int casterHunger, int opponentSuccesses, bool confirmed, Random? random = null,
@@ -348,6 +376,8 @@ public sealed class RitualWorkflowActions
             return "Resolva a primeira tentativa genuína de estaquear ou use o encerramento da Deflecção para confirmar o fim da noite ou a remoção da lasca.";
         if (entry.PowerId == "ritual-firewalker" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
             return "Use o encerramento de Andarilho do Fogo: informe a noite da crônica e confirme que ela terminou.";
+        if (entry.PowerId == "ritual-clinging-of-the-insect" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
+            return "Use o encerramento de Aderência do Inseto: confirme o fim da cena ou, em vitória crítica, o fim da noite.";
         if (entry.PowerId == "ritual-eyes-of-nighthawk" && entry.RitualWorkflow is { Stage: "effect" or "blindness" })
             return "Use o encerramento de Olhos do Falcão Noturno: confirme os olhos da ave no fim da noite; a cegueira usa noites da crônica ou decisão excepcional registrada.";
         if (entry.PowerId == "ritual-sanctuary-preparation-check")
@@ -451,5 +481,6 @@ public sealed record RitualWorkflowResolution(RitualWorkflowState State, RitualE
 public sealed record RitualNightEnding(RitualWorkflowState EndedState, RitualEffectProposal Proposal, RitualWorkflowState? Condition);
 public enum SacredHavenEnding { DayEnded, CasterLeftArea }
 public enum DeflectionEnding { NightEnded, SplinterRemoved }
+public enum ClingingEnding { SceneEnded, NightEnded }
 internal sealed record RitualRollAudit(DicePoolResult Roll, bool BeastSubduedConsidered,
     bool MessyCriticalConverted);

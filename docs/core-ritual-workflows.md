@@ -6,7 +6,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 
 | Ritual | Implementado no fluxo | Permanece com a mesa / integração ainda parcial |
 | --- | --- | --- |
-| Aderência do Inseto | Custo, teste, beneficiário conjurador; proposta descreve paredes/tetos, uso das mãos e pés, velocidade aproximada pela metade e cena/noite conforme crítico | A mesa escolhe a superfície da cena e conduz o deslocamento; o app não simula mapa ou velocidade tática |
+| Aderência do Inseto | Custo, teste, beneficiário conjurador; proposta descreve paredes/tetos, mãos e pés, velocidade aproximada pela metade e encerramento validado por cena ou noite conforme o crítico salvo | A mesa escolhe a superfície e conduz o deslocamento; o app não simula mapa ou velocidade tática |
 | Caminho do Sangue | Custo, teste, informações solicitadas e ampliação crítica | Amostra, geração, nomes e Laços reais do alvo |
 | Criar Pedra de Sangue | Custo, três noites registradas com confirmação de uma hora, teste final e limite por Determinação; em sucesso, informa duração de uma semana e propõe que o conjurador perceba direção e distância da pedra | Quantidade de pedras ativas, posição real e destruição; a mesa fornece as datas da crônica e confirma se a pedra continua vinculada |
 | Despertar com o Frescor do Anoitecer | Preparo, custo, teste adiado ao perigo, encerramento do sono | Perigo real e limites da vigília; fluxo dedicado |
@@ -39,7 +39,9 @@ O livro-base V5 (página impressa 276) descreve que o beneficiário se prende a 
 
 O resolvedor atual já apresenta esses detalhes e limita o benefício ao conjurador. O que ainda não existe é um mapa ou sistema de deslocamento que aplique a condição a uma cena. A mesa precisa confirmar onde a superfície existe e conduzir o movimento. Não converti “aproximadamente metade” em uma velocidade numérica inventada, nem apliquei efeitos a outro personagem.
 
-Por isso, o ritual continua parcialmente assistido e as contagens permanecem em 26 rituais com perfil/fluxo; esta revisão não aumenta a contagem de automação direta.
+O encerramento agora passa por `RitualWorkflowActions.EndClinging`: sucesso normal só aceita o fim da cena; vitória crítica só aceita o fim da noite e registra a data da crônica no campo opcional já persistido. O comando genérico fica bloqueado enquanto o benefício estiver ativo, preservando o resultado original e impedindo uma duração incompatível.
+
+O ritual continua parcialmente assistido e as contagens permanecem em 26 rituais com perfil/fluxo. A mesa ainda confirma a superfície, a condição de encerramento e conduz o movimento; esta integração não simula mapa, não cria velocidade numérica e não aumenta a contagem de aplicação direta.
 
 ## Contextos, exceções e persistência
 

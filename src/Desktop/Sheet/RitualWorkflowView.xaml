@@ -37,6 +37,11 @@
             <Button Content="Coração de Pedra: aplicar cura crítica da vela confirmada" Command="{Binding ApplyRitualCandleHealingCommand}" HorizontalAlignment="Left"/>
             <Button Content="Essência do Ar: consumir uma dose confirmada" Command="{Binding ConsumeRitualAirDoseCommand}" HorizontalAlignment="Left"/>
             <Button Content="Essência do Ar: confirmar fim da noite e descartar doses" Command="{Binding ExpireRitualAirPotionCommand}" HorizontalAlignment="Left"/>
+            <Expander Header="Aderência do Inseto: encerramento" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Selecione o efeito e confirme a condição correta. Sucesso normal dura uma cena; vitória crítica dura a noite inteira e usa a noite da crônica informada acima. Fonte: Livro base, p. 276." TextWrapping="Wrap"/>
+                <Button Content="Confirmar fim da cena (sucesso normal)" Command="{Binding EndClingingAfterSceneCommand}" HorizontalAlignment="Left"/>
+                <Button Content="Confirmar fim da noite (vitória crítica)" Command="{Binding EndClingingAfterNightCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <Expander Header="Andarilho do Fogo: encerramento" Margin="0,8"><StackPanel Margin="8">
                 <TextBlock Text="Selecione o efeito ativo, informe acima a noite da crônica que terminou e confirme com a mesa. A resistência vale somente pelo restante daquela noite. Fonte: Livro base, p. 278." TextWrapping="Wrap"/>
                 <Button Content="Confirmar fim da noite e encerrar resistência" Command="{Binding EndFirewalkerAfterNightCommand}" HorizontalAlignment="Left"/>
