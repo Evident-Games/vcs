@@ -11,6 +11,7 @@
             <TextBlock Text="Alvo / objeto / local"/>
             <TextBox Text="{Binding CoreRitualTarget, UpdateSourceTrigger=PropertyChanged}"/>
             <CheckBox Content="Círculo com duração de um ano e um dia" IsChecked="{Binding CoreRitualLongTermCircle}"/>
+            <CheckBox Content="Círculo inscrito apontando para dentro ao redor do intruso" IsChecked="{Binding CoreRitualCirclePointsInward}"/>
             <TextBlock Text="Preparo ou efeito salvo" Margin="0,8,0,0"/>
             <ComboBox ItemsSource="{Binding PowerEffects}" SelectedItem="{Binding SelectedPowerEffect}" DisplayMemberPath="Name"/>
             <TextBlock Text="{Binding SelectedPowerEffect.Target}" TextWrapping="Wrap"/>
@@ -133,9 +134,10 @@
                 <Button Content="Rolar cirurgia de extração confirmada" Command="{Binding RollRitualShaftSurgeryCommand}" HorizontalAlignment="Left"/>
             </StackPanel></Expander>
             <Expander Header="Travessia de círculo preparado" Margin="0,8"><StackPanel Margin="8">
-                <TextBlock Text="Identifique um intruso do tipo correspondente. A mesa confere o sentido da travessia e as tentativas anteriores; danos e custos do intruso são propostas, sem alterar outra ficha." TextWrapping="Wrap"/>
+                <TextBlock Text="Identifique um intruso do tipo correspondente. A orientação foi salva no preparo; a mesa ainda confirma posição, elegibilidade e tentativas anteriores. Danos e custos do intruso são propostas, sem alterar outra ficha." TextWrapping="Wrap"/>
                 <TextBlock Text="Intruso"/><TextBox Text="{Binding CoreRitualIntruder, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Text="Parada de Vontade do intruso"/><controls:NumericField Value="{Binding CoreRitualIntruderWillpower}" Minimum="0" Maximum="50"/>
+                <CheckBox Content="O intruso está tentando sair do círculo" IsChecked="{Binding CoreRitualIntruderAttemptingToExit}"/>
                 <CheckBox Content="Nova tentativa de intruso afetado que ainda não atravessou" IsChecked="{Binding CoreRitualRetry}"/>
                 <CheckBox Content="Mesa confirmou gasto de 1 Vontade do intruso para repetir" IsChecked="{Binding CoreRitualRetryCostConfirmed}"/>
                 <Button Content="Resolver disputa de travessia confirmada" Command="{Binding ResolveRitualCircleContactCommand}" HorizontalAlignment="Left"/>

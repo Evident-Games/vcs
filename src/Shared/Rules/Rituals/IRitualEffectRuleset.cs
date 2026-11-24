@@ -13,5 +13,6 @@ public interface IRitualEffectRuleset
 {
     string EditionId { get; }
     RitualEffectProposal Resolve(RitualUseDefinition ritual, RitualRollContext roll, int opponentSuccesses, bool vampireTarget);
-    RitualEffectProposal CircleContact(int casterSuccesses, bool critical, int intruderSuccesses);
+    RitualEffectProposal CircleContact(int casterSuccesses, bool critical, int intruderSuccesses,
+        bool attemptingToExit);
 }

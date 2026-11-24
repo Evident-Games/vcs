@@ -12,6 +12,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private string coreRitualTarget = "";
     [ObservableProperty] private bool coreRitualTargetsSelf = true;
     [ObservableProperty] private bool coreRitualLongTermCircle;
+    [ObservableProperty] private bool coreRitualCirclePointsInward;
     [ObservableProperty] private bool coreRitualConditionsConfirmed;
     [ObservableProperty] private int coreRitualOpponentSuccesses;
     [ObservableProperty] private bool coreRitualVampireTarget = true;
@@ -20,6 +21,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool coreRitualCandleDamageConfirmed;
     [ObservableProperty] private string coreRitualIntruder = "";
     [ObservableProperty] private int coreRitualIntruderWillpower = 5;
+    [ObservableProperty] private bool coreRitualIntruderAttemptingToExit;
     [ObservableProperty] private bool coreRitualRetry;
     [ObservableProperty] private bool coreRitualRetryCostConfirmed;
     [ObservableProperty] private bool ritualActiveSocialTest;
@@ -77,6 +79,8 @@ public partial class CharacterEditorViewModel
     partial void OnCoreRitualAreaRadiusChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnCoreRitualActiveBloodstonesChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnCoreRitualIntruderWillpowerChanged(int value) => CoreRitualConditionsConfirmed = false;
+    partial void OnCoreRitualCirclePointsInwardChanged(bool value) => RitualConditionsConfirmed = false;
+    partial void OnCoreRitualIntruderAttemptingToExitChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnCoreRitualIntruderChanged(string value)
     {
         CoreRitualConditionsConfirmed = false;
@@ -108,7 +112,8 @@ public partial class CharacterEditorViewModel
         var entry = new PowerEffectEntry(Guid.NewGuid(), ritual.RitualId, row.Name, target, CoreRitualTargetsSelf,
             DateTime.UtcNow, "Preparo iniciado; nenhuma checagem paga ainda.", "Preparação", ritual.Source,
             RitualExceptionApproved ? RitualExceptionReason.Trim() : "", true,
-            GameDate: PowerGameDate.Date, RitualWorkflow: new(LongTermCircle: CoreRitualLongTermCircle));
+            GameDate: PowerGameDate.Date, RitualWorkflow: new(LongTermCircle: CoreRitualLongTermCircle,
+                CirclePointsInward: CoreRitualCirclePointsInward));
         if (RitualExceptionApproved) ExceptionRegister.Record(row.Name, row.HasWarning ? row.Warning : "Exceção ao ritual", RitualExceptionReason.Trim());
         PowerEffects.Add(entry);
         SelectedPowerEffect = entry;
@@ -375,7 +380,8 @@ public partial class CharacterEditorViewModel
         try
         {
             var result = new RitualWorkflowActions().CircleContact(ritual, state, RitualContext(ritual),
-                CoreRitualIntruder, CoreRitualIntruderWillpower, CoreRitualRetry, CoreRitualRetryCostConfirmed);
+                CoreRitualIntruder, CoreRitualIntruderWillpower, CoreRitualIntruderAttemptingToExit,
+                CoreRitualRetry, CoreRitualRetryCostConfirmed);
             // The circle belongs to its location, never copy the intruder's proposed damage to its owner.
             ReplacePowerEffect(entry, entry with { RitualWorkflow = result.State,
                 Effect = $"{CoreRitualIntruder.Trim()}: {result.Proposal.Effect}{RitualBeastAudit(result)}" });

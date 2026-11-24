@@ -108,11 +108,12 @@ public sealed class RitualWorkflowActions
 
     public RitualWorkflowResolution CircleContact(RitualUseDefinition ritual, RitualWorkflowState state,
         RitualWorkflowContext context, string intruder, int intruderWillpowerPool,
-        bool retry, bool retryCostConfirmed, Random? random = null)
+        bool attemptingToExit, bool retry, bool retryCostConfirmed, Random? random = null)
     {
         RequireReady(ritual, state, context);
         if (ritual.Kind != "circle" || state.Stage != "circle-ready" || string.IsNullOrWhiteSpace(intruder))
             throw new InvalidOperationException("Selecione um círculo preparado e identifique o intruso elegível.");
+        RitualEffectRules.ValidateCircleCrossingDirection(state.CirclePointsInward, attemptingToExit);
         if (intruderWillpowerPool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(intruderWillpowerPool));
         var previous = state.Intruders?.FirstOrDefault(x => string.Equals(x.Key, intruder.Trim(), StringComparison.OrdinalIgnoreCase));
         // Backward compatibility for an execution saved before the per-intruder ledger was available.
@@ -134,7 +135,7 @@ public sealed class RitualWorkflowActions
             successes = caster.Successes; critical = caster.IsCritical;
         }
         var opposition = DicePoolRules.Roll(intruderWillpowerPool, 0, 0, random);
-        var proposal = _ruleset.CircleContact(successes, critical, opposition.Successes);
+        var proposal = _ruleset.CircleContact(successes, critical, opposition.Successes, attemptingToExit);
         var affected = proposal.HealthDamage > 0 || previous?.Affected == true;
         // The ruleset owns the contest outcome, including the acting intruder winning a tie.
         var entered = !proposal.Succeeded || previous?.Entered == true;

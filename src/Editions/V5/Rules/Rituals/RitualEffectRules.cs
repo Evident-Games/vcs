@@ -41,7 +41,14 @@ public static class RitualEffectRules
         };
     }
 
-    public static RitualEffectProposal CircleContact(int casterSuccesses, bool critical, int intruderSuccesses)
+    public static void ValidateCircleCrossingDirection(bool circlePointsInward, bool attemptingToExit)
+    {
+        if (attemptingToExit && !circlePointsInward)
+            throw new InvalidOperationException("Este círculo não aponta para dentro e, por si só, não bloqueia a tentativa de saída; não faça a disputa.");
+    }
+
+    public static RitualEffectProposal CircleContact(int casterSuccesses, bool critical, int intruderSuccesses,
+        bool attemptingToExit)
     {
         if (casterSuccesses < 0 || intruderSuccesses < 0) throw new ArgumentOutOfRangeException(nameof(casterSuccesses));
         // In a V5 contest, the acting character wins by equalling or exceeding the opponent (p. 121).
@@ -50,7 +57,8 @@ public static class RitualEffectRules
             return new(false, intruderSuccesses == casterSuccesses
                 ? "O intruso igualou os sucessos do círculo e venceu a disputa como personagem ativo; pode atravessar conforme o sentido do círculo."
                 : "O intruso venceu a disputa e pode atravessar conforme o sentido do círculo.", "Contato resolvido");
-        return new(true, $"Entrada impedida; dano proposto 3 {(critical ? "agravados" : "superficiais")}. Para tentar novamente após ser afetado, o intruso gasta 1 Vontade e repete sua metade da disputa.", "Contato resolvido", 3, critical);
+        var crossing = attemptingToExit ? "Saída impedida" : "Entrada impedida";
+        return new(true, $"{crossing}; dano proposto 3 {(critical ? "agravados" : "superficiais")}. Para tentar novamente após ser afetado, o intruso gasta 1 Vontade e repete sua metade da disputa.", "Contato resolvido", 3, critical);
     }
 }
 
@@ -59,6 +67,7 @@ public sealed class V5RitualEffectRuleset : IRitualEffectRuleset
     public string EditionId => "V5";
     public RitualEffectProposal Resolve(RitualUseDefinition ritual, RitualRollContext roll, int opponentSuccesses, bool vampireTarget) =>
         RitualEffectRules.Resolve(ritual, roll, opponentSuccesses, vampireTarget);
-    public RitualEffectProposal CircleContact(int casterSuccesses, bool critical, int intruderSuccesses) =>
-        RitualEffectRules.CircleContact(casterSuccesses, critical, intruderSuccesses);
+    public RitualEffectProposal CircleContact(int casterSuccesses, bool critical, int intruderSuccesses,
+        bool attemptingToExit) =>
+        RitualEffectRules.CircleContact(casterSuccesses, critical, intruderSuccesses, attemptingToExit);
 }
