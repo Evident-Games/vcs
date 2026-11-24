@@ -169,7 +169,7 @@ public partial class CharacterEditorViewModel
             }
             var beastAudit = RitualBeastAudit(resolution);
             ReplacePowerEffect(entry, entry with { RitualWorkflow = resolution.State,
-                Active = resolution.State.Stage is not ("failed" or "reverted" or "triggered"), Effect = resolution.Proposal.Effect + beastAudit,
+                Active = resolution.State.Stage is not ("failed" or "reverted" or "triggered" or "completed"), Effect = resolution.Proposal.Effect + beastAudit,
                 Duration = resolution.Proposal.Duration,
                 HealthDamage = entry.IsSelf ? 0 : resolution.Proposal.HealthDamage,
                 Aggravated = resolution.Proposal.Aggravated, PoolBonus = resolution.Proposal.PoolBonus,
@@ -230,6 +230,25 @@ public partial class CharacterEditorViewModel
         try
         {
             var ended = new RitualWorkflowActions().EndTruthOfBloodAfterScene(entry,
+                CoreRitualConditionsConfirmed);
+            ReplacePowerEffect(entry, ended);
+            RitualPreparationSummary = ended.Effect + $" Fonte: {ended.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            MarkChanged();
+            CoreRitualConditionsConfirmed = false;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
+    private void FinishDagonRepetitions()
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-dagons-call" } entry)
+        { RitualPreparationSummary = "Selecione O Chamado de Dagon aguardando repetição."; return; }
+        try
+        {
+            var ended = new RitualWorkflowActions().FinishDagonRepetitions(entry,
                 CoreRitualConditionsConfirmed);
             ReplacePowerEffect(entry, ended);
             RitualPreparationSummary = ended.Effect + $" Fonte: {ended.Source}.";

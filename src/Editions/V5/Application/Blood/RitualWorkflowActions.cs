@@ -83,8 +83,9 @@ public sealed class RitualWorkflowActions
         if (ritual.Kind == "dagon")
         {
             var executions = state.Executions + 1;
-            return new(state with { Executions = executions, Stage = executions < 3 ? "repeat" : proposal.Succeeded ? "effect" : "failed",
-                Resolved = executions >= 3, StoredSuccesses = roll.Successes, StoredCritical = roll.IsCritical }, proposal, roll,
+            var completed = executions >= DagonRules.MaximumExecutions;
+            return new(state with { Executions = executions, Stage = completed ? "completed" : "repeat",
+                Resolved = completed, StoredSuccesses = roll.Successes, StoredCritical = roll.IsCritical }, proposal, roll,
                 BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
                 MessyCriticalConverted: rollAudit.MessyCriticalConverted);
         }
@@ -175,6 +176,22 @@ public sealed class RitualWorkflowActions
             Active = false,
             RitualWorkflow = state with { Stage = "ended" },
             Effect = SireCommunicationRules.EndingEffect(ending),
+            Duration = "Encerrado"
+        };
+    }
+
+    /// <summary>Close Dagon's Call when the caster declines an optional paid repetition.</summary>
+    public PowerEffectEntry FinishDagonRepetitions(PowerEffectEntry entry, bool tableConfirmed)
+    {
+        if (entry is not { Active: true, PowerId: "ritual-dagons-call",
+                RitualWorkflow: { Stage: "repeat", Resolved: false } state } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione O Chamado de Dagon aguardando repetição e confirme a decisão com a mesa.");
+
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with { Stage = "completed", Resolved = true },
+            Effect = DagonRules.CompletionEffect(state.Executions),
             Duration = "Encerrado"
         };
     }
@@ -530,6 +547,8 @@ public sealed class RitualWorkflowActions
             return "Use o encerramento da Comunicação com o Senhor: confirme os dez minutos de comunicação ou uma perturbação em qualquer lado.";
         if (entry.PowerId == "ritual-truth-of-blood" && entry.RitualWorkflow is { Stage: "statements", Resolved: false })
             return "Use o encerramento de Verdade do Sangue: confirme o fim da cena; uma falha na disputa já encerra o ritual automaticamente.";
+        if (entry.PowerId == "ritual-dagons-call" && entry.RitualWorkflow is { Stage: "repeat", Resolved: false })
+            return "Resolva a próxima repetição paga de O Chamado de Dagon ou confirme que o conjurador encerrou o preparo.";
         if (entry.PowerId == "ritual-eyes-of-babel" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
             return "Use a expiração de Olhos de Babel: informe e confirme a data atual da crônica para validar uma semana ou, em vitória crítica, um mês.";
         if (entry.PowerId == "ritual-illuminate-trail-of-prey" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })

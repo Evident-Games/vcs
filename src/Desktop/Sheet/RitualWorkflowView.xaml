@@ -64,6 +64,10 @@
                 <TextBlock Text="Selecione o ritual com afirmações ativas e confirme o fim da cena. Uma falha em qualquer disputa já encerra o ritual; no fim da cena, a mistura vira cinzas. O app não inventa respostas nem recupera memórias. Fonte: Livro base, pp. 277–278." TextWrapping="Wrap"/>
                 <Button Content="Confirmar fim da cena e encerrar afirmações" Command="{Binding EndTruthOfBloodAfterSceneCommand}" HorizontalAlignment="Left"/>
             </StackPanel></Expander>
+            <Expander Header="O Chamado de Dagon: encerrar repetições" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Depois da primeira execução, o conjurador pode repetir o processo até mais duas vezes; cada repetição exige outra Checagem de Sangue. Selecione o preparo na etapa de repetição e confirme quando o conjurador não fará outra. O dano continua sendo apenas uma proposta para a ficha do alvo. Fonte: Livro base, p. 278." TextWrapping="Wrap"/>
+                <Button Content="Confirmar que não haverá outra repetição" Command="{Binding FinishDagonRepetitionsCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <Expander Header="Andarilho do Fogo: encerramento" Margin="0,8"><StackPanel Margin="8">
                 <TextBlock Text="Selecione o efeito ativo, informe acima a noite da crônica que terminou e confirme com a mesa. A resistência vale somente pelo restante daquela noite. Fonte: Livro base, p. 278." TextWrapping="Wrap"/>
                 <Button Content="Confirmar fim da noite e encerrar resistência" Command="{Binding EndFirewalkerAfterNightCommand}" HorizontalAlignment="Left"/>

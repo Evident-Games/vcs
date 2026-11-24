@@ -18,7 +18,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Proteção contra Espíritos | Mesmo fluxo dedicado de objeto, com nível próprio | Identidade, contato e dano no espírito |
 | Verdade do Sangue | Determinação + Feitiçaria, sucessos opostos, afirmações sucessivas sem novo custo; o conjurador vence empates como personagem ativo; falha ou fim de cena encerram o fluxo | Conhecimento do alvo, memórias e resposta do Narrador |
 | Andarilho do Fogo | Custo, Vigor + Determinação dificuldade 3, redução de fogo no dano confirmado desta ficha e encerramento explícito pela noite da crônica | Dedo sacrificado e proteção de terceiros; não impõe limite inventado de três beneficiários nem altera outra ficha |
-| O Chamado de Dagon | Custo por execução, oposição, margem/tipo de dano, empate vencido pelo conjurador ativo e até duas repetições pagas no mesmo preparo | Exposição ao Sangue e intervalo, oposição informada e aplicação na vítima |
+| O Chamado de Dagon | Custo por execução, oposição, margem/tipo de dano, empate vencido pelo conjurador ativo e até duas repetições pagas no mesmo preparo; encerramento explícito quando o conjurador dispensa uma repetição opcional | Exposição ao Sangue e intervalo, oposição informada e aplicação na vítima |
 | Círculo de Proteção contra Espíritos | Fluxo dos círculos com nível próprio | Mesmas confirmações dos círculos; ocultistas humanos não têm fluxo próprio |
 | Deflecção da Ruína de Madeira | Preparo/custo separados do teste no primeiro estaqueamento confirmado; a tentativa consome a proteção; encerramento explícito no fim da noite ou ao remover a lasca | Confirmação de estaca genuína, destruição e cegueira de dois turnos no atacante; nenhuma ficha externa é alterada |
 | Essência do Ar | Preparo, teste, uma/duas doses, consumo posterior sem novo custo, efeito por cena, expiração confirmada das doses ao fim da noite, disputa confirmada para carregar passageiro involuntário e tentativa confirmada de terceiro para puxar o conjurador ao solo | Deslocamento, carga real, posição e aplicação narrativa das propostas |
@@ -184,6 +184,12 @@ Nenhum ritual foi reclassificado e as contagens herdadas não foram reavaliadas 
 Nos rituais Verdade do Sangue e O Chamado de Dagon, o conjurador é o personagem ativo nas disputas descritas nas páginas impressas 277–278 (páginas 279–280 do PDF). Portanto, um empate produz vitória com margem zero. Verdade do Sangue ainda depende do conhecimento e da resposta do alvo; Dagon propõe zero de dano nessa situação, sem alterar automaticamente a ficha da vítima. Círculos reutilizam a mesma regra para o intruso ativo.
 
 Nenhum ritual foi reclassificado e as contagens de cobertura permanecem inalteradas.
+
+## O Chamado de Dagon: ciclo das repetições
+
+O livro base, página impressa 278 (página 280 do PDF fornecido), permite repetir o processo até mais duas vezes, cada uma mediante nova Checagem de Sangue. O fluxo agora mantém o preparo ativo somente enquanto uma repetição opcional estiver disponível. A mesa pode confirmar que o conjurador dispensa a próxima repetição; o registro então é preservado como concluído e inativo. A terceira execução também conclui o preparo automaticamente, sem criar um efeito contínuo inexistente.
+
+O encerramento genérico fica bloqueado durante essa decisão para não descartar silenciosamente o custo e o histórico. Exposição prévia ao Sangue, intervalo de uma hora a uma semana, sucessos da oposição, identidade e natureza do alvo continuam confirmados pela mesa. Cada dano permanece uma proposta e nenhuma ficha externa é alterada. A classificação e as contagens de cobertura não mudaram.
 
 ## Essência do Ar: passageiro involuntário
 
