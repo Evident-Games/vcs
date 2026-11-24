@@ -54,11 +54,28 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool sanctuaryCarriesObjects;
     [ObservableProperty] private string sanctuaryPayloadDescription = "";
     [ObservableProperty] private bool sanctuaryObjectMassConfirmed;
+    [ObservableProperty] private bool sanctuaryCirclesCompleteConfirmed;
+    [ObservableProperty] private bool sanctuaryCirclesIntactConfirmed;
+    [ObservableProperty] private bool sanctuaryAtDepartureCircleConfirmed;
+    [ObservableProperty] private bool sanctuaryConcentratedForTurnConfirmed;
 
     partial void OnSanctuaryCarriesPersonChanged(bool value) => SanctuaryTravelConfirmed = false;
     partial void OnSanctuaryCarriesObjectsChanged(bool value) => SanctuaryTravelConfirmed = false;
     partial void OnSanctuaryPayloadDescriptionChanged(string value) => SanctuaryTravelConfirmed = false;
     partial void OnSanctuaryObjectMassConfirmedChanged(bool value) => SanctuaryTravelConfirmed = false;
+    partial void OnSanctuaryCirclesCompleteConfirmedChanged(bool value) => SanctuaryTravelConfirmed = false;
+    partial void OnSanctuaryCirclesIntactConfirmedChanged(bool value) => SanctuaryTravelConfirmed = false;
+    partial void OnSanctuaryAtDepartureCircleConfirmedChanged(bool value) => SanctuaryTravelConfirmed = false;
+    partial void OnSanctuaryConcentratedForTurnConfirmedChanged(bool value) => SanctuaryTravelConfirmed = false;
+
+    private void ResetSanctuaryTravelConditions()
+    {
+        SanctuaryCirclesCompleteConfirmed = false;
+        SanctuaryCirclesIntactConfirmed = false;
+        SanctuaryAtDepartureCircleConfirmed = false;
+        SanctuaryConcentratedForTurnConfirmed = false;
+        SanctuaryTravelConfirmed = false;
+    }
 
     partial void OnSelectedPreparedRitualChanged(PowerRowViewModel? value)
     {
@@ -68,7 +85,7 @@ public partial class CharacterEditorViewModel
         RitualExceptionApproved = false;
         RitualExceptionReason = "";
         AwakeningDangerConfirmed = false;
-        SanctuaryTravelConfirmed = false;
+        ResetSanctuaryTravelConditions();
         SanctuaryPreparationConfirmed = false;
         SanctuaryResetConfirmed = false;
         SanctuaryCircleDamageConfirmed = false;
@@ -101,11 +118,14 @@ public partial class CharacterEditorViewModel
             (pairDamaged ? "O último par registrado ficou inerte após dano confirmado. " : "") +
             (ritual.HasWarning ? ritual.Warning + " " : "") + "Autorize e justifique a exceção com o Narrador."; return; }
         if (!SanctuaryTravelConfirmed)
-        { RitualPreparationSummary = "Confirme com o Narrador os círculos, a posição, a concentração e o limite por cena."; return; }
+        { RitualPreparationSummary = "Confirme com o Narrador as condições marcadas da tentativa de viagem."; return; }
         try
         {
             var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
-            var result = new TrueSanctuaryActions().AttemptTravel(pool, Hunger, true, !pairDamaged || RitualExceptionApproved, true, true, alreadyAttempted,
+            var result = new TrueSanctuaryActions().AttemptTravel(pool, Hunger,
+                SanctuaryCirclesCompleteConfirmed,
+                SanctuaryCirclesIntactConfirmed && (!pairDamaged || RitualExceptionApproved),
+                SanctuaryAtDepartureCircleConfirmed, SanctuaryConcentratedForTurnConfirmed, alreadyAttempted,
                 SanctuaryCarriesPerson, SanctuaryCarriesObjects, SanctuaryPayloadDescription, SanctuaryObjectMassConfirmed,
                 activePair, preparation.Length > 0, RitualExceptionApproved,
                 beastSubdued: HasActivePower("power-animalism-quell-the-beast"),
@@ -133,18 +153,20 @@ public partial class CharacterEditorViewModel
             if (!alreadyAttempted)
             {
                 PowerEffects.Add(new PowerEffectEntry(Guid.NewGuid(), "ritual-sanctuary-travel-attempt", ritual.Name,
-                    Name, true, DateTime.UtcNow, $"Tentativa de viagem realizada nesta cena. {result.Payload.Summary}{beastAudit}", "Até o fim da cena",
+                    Name, true, DateTime.UtcNow,
+                    $"Tentativa de viagem realizada nesta cena. {result.ConditionsSummary} {result.Payload.Summary}{beastAudit}", "Até o fim da cena",
                     "Vampiro: A Máscara V5 (Livro base), pp. 246 e 281", "", true));
                 MarkChanged();
             }
             RitualPreparationSummary = $"Viagem ao Santuário: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}: {roll.Outcome}. " +
                 (roll.IsSuccess ? "A viagem pode ocorrer conforme a decisão da mesa." : "A tentativa falhou; não tente novamente nesta cena.") +
-                $" {result.Payload.Summary}" + beastAudit + " Nenhuma ficha ou inventário foi alterado. Fonte: Vampiro: A Máscara V5 (Livro base), pp. 246 e 281.";
+                $" {result.ConditionsSummary} {result.Payload.Summary}" + beastAudit +
+                " Nenhuma ficha ou inventário foi alterado. Fonte: Vampiro: A Máscara V5 (Livro base), pp. 246 e 281.";
             Notebook.AppendLog("Rituais", RitualPreparationSummary);
             ShowDiceRoll(ritual.Name, RitualPreparationSummary,
                 roll.NormalDice.Select(x => new RolledDieDisplay(x, "COMUM"))
                     .Concat(roll.HungerDice.Select(x => new RolledDieDisplay(x, "FOME"))));
-            SanctuaryTravelConfirmed = false;
+            ResetSanctuaryTravelConditions();
             RitualExceptionApproved = false;
             RitualExceptionReason = "";
         }

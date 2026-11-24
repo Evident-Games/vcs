@@ -274,6 +274,8 @@ A ficha agora exige e persiste identificações distintas para os círculos de p
 
 O mesmo registro agora conserva três confirmações adicionais da página 281: círculo de partida no solo ou piso de uma construção, círculo de chegada em superfície equivalente e nenhum dos dois em veículo. Sem elas, pares legados não podem pagar nova checagem; a viagem exige reconfirmação ou exceção justificada. A validação pertence às regras e à aplicação V5, enquanto a interface apenas coleta e apresenta as decisões. Os campos novos são opcionais e não apagam fichas anteriores.
 
+A tentativa de viagem agora recebe quatro confirmações independentes em vez de valores constantes: círculos completos, círculos intactos, conjurador no círculo de partida e concentração por um turno. As regras V5 validam cada condição antes de usar a mesa de dados, e o marcador da cena persiste o resumo confirmado. Mudanças relevantes limpam essas confirmações para impedir seu reaproveitamento silencioso. A ocorrência real continua sendo decisão da mesa; nenhuma posição é inferida ou alterada.
+
 O aplicativo não verifica coordenadas, presença física, massa real, dano ocorrido no cenário ou movimento. Esses fatos continuam com a mesa, e a viagem bem-sucedida permanece uma proposta sem alteração automática de ficha ou inventário. Os cinco rituais cadastrados continuam incompletos. As contagens de 37/11/40 poderes foram herdadas do inventário anterior e não foram auditadas integralmente nesta alteração. Build e testes não foram executados por instrução do usuário.
 
 ## Validação de custos

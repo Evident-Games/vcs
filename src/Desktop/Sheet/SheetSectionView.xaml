@@ -128,7 +128,12 @@
                 <CheckBox Content="Levar um objeto ou conjunto de objetos" IsChecked="{Binding SanctuaryCarriesObjects}"/>
                 <TextBox Text="{Binding SanctuaryPayloadDescription, UpdateSourceTrigger=PropertyChanged}" ToolTip="Identificação da pessoa ou descrição da carga"/>
                 <CheckBox Content="Mesa confirmou que a massa total dos objetos é aproximadamente a de uma pessoa" IsChecked="{Binding SanctuaryObjectMassConfirmed}"/>
-                <CheckBox Content="Narrador confirmou círculos completos e intactos, local de partida e concentração" IsChecked="{Binding SanctuaryTravelConfirmed}"/>
+                <TextBlock Text="Condições da tentativa" FontWeight="SemiBold"/>
+                <CheckBox Content="Mesa confirmou que os dois círculos estão completos" IsChecked="{Binding SanctuaryCirclesCompleteConfirmed}"/>
+                <CheckBox Content="Mesa confirmou que os dois círculos permanecem intactos" IsChecked="{Binding SanctuaryCirclesIntactConfirmed}"/>
+                <CheckBox Content="Mesa confirmou que o conjurador está no círculo designado como partida" IsChecked="{Binding SanctuaryAtDepartureCircleConfirmed}"/>
+                <CheckBox Content="Mesa confirmou um turno completo de concentração" IsChecked="{Binding SanctuaryConcentratedForTurnConfirmed}"/>
+                <CheckBox Content="Confirmar tentativa com as condições acima" IsChecked="{Binding SanctuaryTravelConfirmed}"/>
                 <Button Content="Rolar viagem ao Santuário" Command="{Binding RollSanctuaryTravelCommand}" HorizontalAlignment="Left"/>
                 <TextBlock Text="{Binding RitualPreparationSummary}" TextWrapping="Wrap"/>
             </StackPanel></Expander>

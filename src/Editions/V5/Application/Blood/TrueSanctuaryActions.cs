@@ -85,9 +85,8 @@ public sealed class TrueSanctuaryActions
         if (pairExceptionUsed && !pairExceptionApproved)
             throw new InvalidOperationException(
                 "A preparação registrada precisa identificar os dois círculos em superfícies fixas fora de veículos.");
-        if (!TrueSanctuaryRules.CanAttemptTravel(circlesComplete, circlesIntact, atDepartureCircle,
-            concentratedForTurn, alreadyAttemptedThisScene && !sceneLimitExceptionApproved))
-            throw new InvalidOperationException("Confirme os círculos completos e intactos, a posição, a concentração e o limite de uma tentativa por cena.");
+        var conditionsSummary = TrueSanctuaryRules.ValidateTravelConditions(circlesComplete, circlesIntact,
+            atDepartureCircle, concentratedForTurn, alreadyAttemptedThisScene && !sceneLimitExceptionApproved);
         var payload = TrueSanctuaryRules.ValidatePayload(carriesPerson, carriesObjects, payloadDescription,
             objectMassConfirmed);
         if (pool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(pool));
@@ -97,7 +96,7 @@ public sealed class TrueSanctuaryActions
         var roll = QuellBeastRules.ApplyToRoll(originalRoll, beastSubdued);
         return new(roll, payload, beastSubdued,
             originalRoll.Outcome == TestOutcome.MessyCritical && roll.Outcome == TestOutcome.CriticalSuccess,
-            pairExceptionUsed);
+            pairExceptionUsed, conditionsSummary);
     }
 }
 
@@ -112,4 +111,5 @@ public sealed record SanctuaryPairInvalidation(IReadOnlyList<PowerEffectEntry> E
 public sealed record SanctuaryTravelResult(DicePoolResult Roll, SanctuaryTravelPayload Payload,
     bool BeastSubduedConsidered,
     bool MessyCriticalConverted,
-    bool PairExceptionUsed);
+    bool PairExceptionUsed,
+    string ConditionsSummary);

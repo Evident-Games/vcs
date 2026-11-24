@@ -102,9 +102,21 @@ public static class TrueSanctuaryRules
     }
 
     /// <summary>The table confirms the circles, their condition, concentration and attempts in the scene.</summary>
-    public static bool CanAttemptTravel(bool circlesComplete, bool circlesIntact, bool atDepartureCircle,
-        bool concentratedForTurn, bool alreadyAttemptedThisScene) =>
-        circlesComplete && circlesIntact && atDepartureCircle && concentratedForTurn && !alreadyAttemptedThisScene;
+    public static string ValidateTravelConditions(bool circlesComplete, bool circlesIntact,
+        bool atDepartureCircle, bool concentratedForTurn, bool alreadyAttemptedThisScene)
+    {
+        if (!circlesComplete)
+            throw new InvalidOperationException("Confirme que os dois círculos estão completos antes da tentativa.");
+        if (!circlesIntact)
+            throw new InvalidOperationException("Confirme que os dois círculos permanecem intactos antes da tentativa.");
+        if (!atDepartureCircle)
+            throw new InvalidOperationException("Confirme que o conjurador está no círculo designado como partida.");
+        if (!concentratedForTurn)
+            throw new InvalidOperationException("Confirme que o conjurador se concentrou por um turno antes da rolagem.");
+        if (alreadyAttemptedThisScene)
+            throw new InvalidOperationException("O ritual permite somente uma tentativa de viagem por cena.");
+        return "Círculos completos e intactos; conjurador no círculo de partida; concentração de um turno confirmada.";
+    }
 }
 
 public sealed record SanctuaryPreparationAdvance(RitualPreparationStep Step, bool ScheduleExceptionUsed);

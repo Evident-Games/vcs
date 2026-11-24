@@ -60,35 +60,35 @@ public partial class CharacterEditorViewModel
     {
         SanctuaryLocationsConfirmed = false;
         SanctuaryPreparationConfirmed = false;
-        SanctuaryTravelConfirmed = false;
+        ResetSanctuaryTravelConditions();
     }
 
     partial void OnSanctuaryDestinationLocationChanged(string value)
     {
         SanctuaryLocationsConfirmed = false;
         SanctuaryPreparationConfirmed = false;
-        SanctuaryTravelConfirmed = false;
+        ResetSanctuaryTravelConditions();
     }
 
     partial void OnSanctuaryDepartureFixedSurfaceConfirmedChanged(bool value)
     {
         SanctuaryLocationsConfirmed = false;
         SanctuaryPreparationConfirmed = false;
-        SanctuaryTravelConfirmed = false;
+        ResetSanctuaryTravelConditions();
     }
 
     partial void OnSanctuaryDestinationFixedSurfaceConfirmedChanged(bool value)
     {
         SanctuaryLocationsConfirmed = false;
         SanctuaryPreparationConfirmed = false;
-        SanctuaryTravelConfirmed = false;
+        ResetSanctuaryTravelConditions();
     }
 
     partial void OnSanctuaryNoCircleInVehicleConfirmedChanged(bool value)
     {
         SanctuaryLocationsConfirmed = false;
         SanctuaryPreparationConfirmed = false;
-        SanctuaryTravelConfirmed = false;
+        ResetSanctuaryTravelConditions();
     }
 
     [RelayCommand]
@@ -164,7 +164,7 @@ public partial class CharacterEditorViewModel
             SanctuaryCircleDamageConfirmed = false;
             SanctuaryLocationsConfirmed = false;
             SanctuaryPreparationConfirmed = false;
-            SanctuaryTravelConfirmed = false;
+            ResetSanctuaryTravelConditions();
             OnPropertyChanged(nameof(SanctuaryPreparationProgress));
             RitualPreparationSummary = result.Summary + " Custos anteriores permaneceram no histórico.";
             Notebook.AppendLog("Rituais", RitualPreparationSummary);
@@ -187,7 +187,7 @@ public partial class CharacterEditorViewModel
         SanctuaryCircleDamageConfirmed = false;
         SanctuaryLocationsConfirmed = false;
         SanctuaryPreparationConfirmed = false;
-        SanctuaryTravelConfirmed = false;
+        ResetSanctuaryTravelConditions();
         OnPropertyChanged(nameof(SanctuaryPreparationProgress));
         RitualPreparationSummary = "Preparação do par de círculos encerrada pela mesa. Custos anteriores permanecem no histórico; nenhuma Fome foi devolvida.";
         Notebook.AppendLog("Rituais", RitualPreparationSummary);
@@ -241,7 +241,7 @@ public partial class CharacterEditorViewModel
             MarkChanged();
             ShowDiceRoll(ritual.Name, RitualPreparationSummary, [new RolledDieDisplay(check.Die, "SANGUE")]);
             SanctuaryPreparationConfirmed = false;
-            SanctuaryTravelConfirmed = false;
+            ResetSanctuaryTravelConditions();
             RitualExceptionApproved = false;
             RitualExceptionReason = "";
         }
