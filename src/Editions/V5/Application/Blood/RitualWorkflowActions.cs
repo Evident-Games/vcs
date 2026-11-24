@@ -88,7 +88,15 @@ public sealed class RitualWorkflowActions
                 BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
                 MessyCriticalConverted: rollAudit.MessyCriticalConverted);
         }
-        var stage = proposal.Succeeded ? ritual.Kind switch { "truth" => "statements", "air" => "potion", _ => "effect" } : "failed";
+        var stage = proposal.Succeeded ? ritual.Kind switch
+        {
+            "truth" => "statements",
+            "air" => "potion",
+            // Deflection is rolled only when the first genuine staking attempt occurs.
+            // A success consumes the protection just as a failure does; only the recorded proposal differs.
+            "deflection" => "triggered",
+            _ => "effect"
+        } : "failed";
         return new(state with { Stage = stage, Resolved = ritual.Kind != "truth" || !proposal.Succeeded,
             StoredSuccesses = roll.Successes, StoredCritical = roll.IsCritical, Charges = proposal.Charges }, proposal, roll,
             BeastSubduedConsidered: rollAudit.BeastSubduedConsidered,
@@ -223,6 +231,29 @@ public sealed class RitualWorkflowActions
         };
     }
 
+    /// <summary>Expire an untriggered Deflection only for one of the two endings defined by the ritual.</summary>
+    public PowerEffectEntry EndDeflection(PowerEffectEntry entry, DeflectionEnding ending,
+        bool tableConfirmed)
+    {
+        if (entry is not { Active: true, PowerId: "ritual-deflection-of-wooden-doom",
+                RitualWorkflow: { Resolved: false } state } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione uma Deflecção ainda aguardando a primeira tentativa genuína e confirme a condição de encerramento com a mesa.");
+
+        var effect = ending switch
+        {
+            DeflectionEnding.NightEnded => "O fim da noite foi confirmado; a proteção da Deflecção expirou sem ser acionada.",
+            DeflectionEnding.SplinterRemoved => "A lasca foi removida de sob a língua; a proteção da Deflecção foi encerrada sem ser acionada.",
+            _ => throw new ArgumentOutOfRangeException(nameof(ending))
+        };
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with { Stage = "ended", Resolved = true },
+            Effect = effect,
+            Duration = "Encerrado"
+        };
+    }
+
     /// <summary>Resolve the caster's side when attempting to carry an unwilling passenger.</summary>
     public RitualWorkflowResolution ResolveAirPassengerContest(RitualUseDefinition ritual, RitualWorkflowState state,
         string passenger, int casterPool, int casterHunger, int opponentSuccesses, bool confirmed, Random? random = null,
@@ -296,6 +327,8 @@ public sealed class RitualWorkflowActions
             return "Use o encerramento de Passagem Incorpórea: confirme se a cena terminou ou o caco foi largado e onde ocorreu a materialização.";
         if (entry.PowerId == "ritual-defense-of-sacred-haven" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
             return "Use o encerramento de Defesa do Refúgio Sagrado: confirme o fim do dia protegido ou a saída do conjurador da área.";
+        if (entry.PowerId == "ritual-deflection-of-wooden-doom" && entry.RitualWorkflow is { Resolved: false })
+            return "Resolva a primeira tentativa genuína de estaquear ou use o encerramento da Deflecção para confirmar o fim da noite ou a remoção da lasca.";
         if (entry.PowerId == "ritual-eyes-of-nighthawk" && entry.RitualWorkflow is { Stage: "effect" or "blindness" })
             return "Use o encerramento de Olhos do Falcão Noturno: confirme os olhos da ave no fim da noite; a cegueira usa noites da crônica ou decisão excepcional registrada.";
         if (entry.PowerId == "ritual-sanctuary-preparation-check")
@@ -398,5 +431,6 @@ public sealed record RitualWorkflowResolution(RitualWorkflowState State, RitualE
     bool MessyCriticalConverted = false);
 public sealed record RitualNightEnding(RitualWorkflowState EndedState, RitualEffectProposal Proposal, RitualWorkflowState? Condition);
 public enum SacredHavenEnding { DayEnded, CasterLeftArea }
+public enum DeflectionEnding { NightEnded, SplinterRemoved }
 internal sealed record RitualRollAudit(DicePoolResult Roll, bool BeastSubduedConsidered,
     bool MessyCriticalConverted);

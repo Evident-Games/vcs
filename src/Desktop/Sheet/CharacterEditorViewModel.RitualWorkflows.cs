@@ -168,7 +168,7 @@ public partial class CharacterEditorViewModel
             }
             var beastAudit = RitualBeastAudit(resolution);
             ReplacePowerEffect(entry, entry with { RitualWorkflow = resolution.State,
-                Active = resolution.State.Stage is not ("failed" or "reverted"), Effect = resolution.Proposal.Effect + beastAudit,
+                Active = resolution.State.Stage is not ("failed" or "reverted" or "triggered"), Effect = resolution.Proposal.Effect + beastAudit,
                 Duration = resolution.Proposal.Duration,
                 HealthDamage = entry.IsSelf ? 0 : resolution.Proposal.HealthDamage,
                 Aggravated = resolution.Proposal.Aggravated, PoolBonus = resolution.Proposal.PoolBonus,
@@ -348,6 +348,29 @@ public partial class CharacterEditorViewModel
             Notebook.AppendLog("Rituais", RitualPreparationSummary);
             RefreshRollPool();
             RefreshPowerUse();
+            MarkChanged();
+            CoreRitualConditionsConfirmed = false;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
+    private void EndDeflectionAfterNight() => EndDeflection(DeflectionEnding.NightEnded);
+
+    [RelayCommand]
+    private void EndDeflectionAfterSplinterRemoved() => EndDeflection(DeflectionEnding.SplinterRemoved);
+
+    private void EndDeflection(DeflectionEnding ending)
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-deflection-of-wooden-doom" } entry)
+        { RitualPreparationSummary = "Selecione uma Deflecção ainda aguardando a primeira tentativa genuína de estaquear."; return; }
+        try
+        {
+            var ended = new RitualWorkflowActions().EndDeflection(entry, ending, CoreRitualConditionsConfirmed);
+            ReplacePowerEffect(entry, ended);
+            RitualPreparationSummary = ended.Effect + $" Fonte: {ended.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
             MarkChanged();
             CoreRitualConditionsConfirmed = false;
         }

@@ -37,6 +37,11 @@
             <Button Content="Coração de Pedra: aplicar cura crítica da vela confirmada" Command="{Binding ApplyRitualCandleHealingCommand}" HorizontalAlignment="Left"/>
             <Button Content="Essência do Ar: consumir uma dose confirmada" Command="{Binding ConsumeRitualAirDoseCommand}" HorizontalAlignment="Left"/>
             <Button Content="Essência do Ar: confirmar fim da noite e descartar doses" Command="{Binding ExpireRitualAirPotionCommand}" HorizontalAlignment="Left"/>
+            <Expander Header="Deflecção da Ruína de Madeira: encerramento" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="O teste só deve ser resolvido na primeira tentativa genuína de estaquear. Antes desse gatilho, selecione a proteção e confirme com a mesa se ela terminou pelo fim da noite ou pela remoção da lasca sob a língua. Fonte: Livro base, pp. 278–279." TextWrapping="Wrap"/>
+                <Button Content="Confirmar fim da noite sem acionamento" Command="{Binding EndDeflectionAfterNightCommand}" HorizontalAlignment="Left"/>
+                <Button Content="Confirmar remoção da lasca sob a língua" Command="{Binding EndDeflectionAfterSplinterRemovedCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <Expander Header="Essência do Ar: passageiro involuntário" Margin="0,8"><StackPanel Margin="8">
                 <TextBlock Text="Selecione o registro de consumo ativo. Identifique o passageiro no campo 'Alvo / objeto / local' acima. Informe Força + Feitiçaria de Sangue do conjurador, a Fome dele e, acima, os sucessos de Força + Atletismo do passageiro. Confirme a situação com o Narrador. O resultado é apenas uma proposta; nenhuma ficha é movida. Fonte: Livro base, p. 279." TextWrapping="Wrap"/>
                 <TextBlock Text="Força + Feitiçaria de Sangue do conjurador"/><controls:NumericField Value="{Binding RitualAirPassengerPool}" Minimum="0" Maximum="50"/>
