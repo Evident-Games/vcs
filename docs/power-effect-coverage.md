@@ -132,6 +132,8 @@ O resultado para outro alvo não altera outra ficha. Dano/Fome à própria ficha
 - A migração `20261115023000_CharacterPowerEffects` acrescenta o histórico JSON com padrão vazio e acompanha o snapshot EF. Não apaga personagens nem efeitos anteriores.
 - Revisão de código e conteúdo realizada sem executar build ou testes, conforme solicitado. Compilação, migração real, bindings e apresentação WPF ainda precisam de validação em Windows.
 
+Fuga para o Verdadeiro Santuário agora valida antes da rolagem a carga opcional prevista na página impressa 281: uma pessoa ou objetos com massa total aproximadamente equivalente à de uma pessoa. A identificação e a confirmação de massa são registradas como proposta no marcador da tentativa; nenhuma ficha, posição ou inventário externo é alterado. O ritual continua como resolução assistida e as contagens permanecem inalteradas.
+
 ## Revisão inicial dos rituais
 
 O catálogo mostra a dificuldade geral de ritual como nível + 1 (livro base, p. 274), sujeita às exceções de cada ritual. Proteção contra Lupinos foi corrigida conforme as pp. 275 e 279: protege um objeto e a rolagem ocorre no primeiro toque; círculos são rituais separados. Outros campos antigos dos rituais ainda exigem revisão contra o livro antes de automação. Essas correções são de conteúdo, não resolvedores; os cinco rituais continuam pendentes. Fichas antigas podem preservar os campos editados; restaure o catálogo para atualizar.

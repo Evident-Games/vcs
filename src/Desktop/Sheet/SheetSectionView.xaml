@@ -111,6 +111,11 @@
                     <CheckBox Content="Narrador confirmou abandono ou inutilização deste par de círculos" IsChecked="{Binding SanctuaryResetConfirmed}"/>
                     <Button Content="Encerrar preparação do par" Command="{Binding ResetSanctuaryPreparationCommand}" HorizontalAlignment="Left"/>
                 </StackPanel></Expander>
+                <TextBlock Text="Passageiro ou carga opcional" FontWeight="SemiBold"/>
+                <CheckBox Content="Levar uma pessoa" IsChecked="{Binding SanctuaryCarriesPerson}"/>
+                <CheckBox Content="Levar um objeto ou conjunto de objetos" IsChecked="{Binding SanctuaryCarriesObjects}"/>
+                <TextBox Text="{Binding SanctuaryPayloadDescription, UpdateSourceTrigger=PropertyChanged}" ToolTip="Identificação da pessoa ou descrição da carga"/>
+                <CheckBox Content="Mesa confirmou que a massa total dos objetos é aproximadamente a de uma pessoa" IsChecked="{Binding SanctuaryObjectMassConfirmed}"/>
                 <CheckBox Content="Narrador confirmou círculos completos e intactos, partida e concentração" IsChecked="{Binding SanctuaryTravelConfirmed}"/>
                 <Button Content="Rolar viagem ao Santuário" Command="{Binding RollSanctuaryTravelCommand}" HorizontalAlignment="Left"/>
                 <TextBlock Text="{Binding RitualPreparationSummary}" TextWrapping="Wrap"/>

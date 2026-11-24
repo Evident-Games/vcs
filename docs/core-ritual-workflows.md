@@ -30,7 +30,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Proteção contra Cainitas | Fluxo dedicado preservado, conjurador isento; preparo bloqueado sem confirmação da condição noturna de frenesi de terror ou exceção justificada; encerramento confirmado pela destruição ou quebra do objeto | Leitura da assinatura por Auspícios e consequências no intruso |
 | Círculo de Proteção contra Cainitas | Fluxo dos círculos com nível próprio e orientação persistida | Posição, elegibilidade e consequências no intruso |
 | Coração de Pedra | Custo, frenesi antes do teste, crítico, cura específica explícita uma vez, reversão por repetição, ajustes sociais/contra Presença, bloqueio de Presença e −3 em Remorso | Confirmar vela e dano já marcado; imunidade a estacas é informada, sem resolvedor universal de estaqueamento |
-| Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, dois círculos, rolagem por viagem e limite por cena | Locais, integridade, concentração e deslocamento narrativo |
+| Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, dois círculos, rolagem por viagem, limite por cena e proposta validada de uma pessoa ou carga equivalente | Locais, integridade, concentração, massa real e deslocamento narrativo |
 | Fuste de Extinção Tardia | Duas checagens separadas, preparo/teste, ataque com +3, margem de Morte Final/lasca, cirurgia Destreza + Medicina dificuldade 6 | Tempo de avanço da lasca decidido pelo Narrador, não especificado numericamente no livro; vítima, integridade e consequências confirmadas; não aplica Morte Final |
 
 ## Auditoria: Aderência do Inseto
@@ -114,6 +114,12 @@ A regra permanece em `QuellBeastRules`, no módulo V5. O livro base foi reconfer
 `TrueSanctuaryActions.AttemptTravel` agora devolve a rolagem junto da confirmação de Besta subjugada e da indicação de conversão efetiva de crítico bestial. A ficha preserva esses dados no marcador da tentativa durante a cena, no diário e no resultado da mesa de dados. A confirmação sem conversão também fica explícita, sem afirmar que as faces ou os sucessos foram alterados.
 
 As fontes foram reconferidas no livro base: Subjugar a Besta, página impressa 246 (página 248 do PDF), e Fuga para o Verdadeiro Santuário, página impressa 281 (página 283 do PDF). O fluxo continua apenas propondo a viagem após sucesso; posição, carga, integridade dos círculos e deslocamento permanecem com o Narrador. Nenhum item foi reclassificado e não houve recontagem da cobertura neste ciclo.
+
+## Passageiro e carga na viagem ao Santuário
+
+O livro base, página impressa 281 (página 283 do PDF fornecido), permite que o conjurador leve uma pessoa ou um objeto ou conjunto de objetos cuja massa total seja aproximadamente a de uma pessoa. `TrueSanctuaryRules.ValidatePayload` impede selecionar simultaneamente pessoa e objetos, exige identificar a proposta e exige confirmação explícita da mesa para o limite de massa dos objetos antes de qualquer rolagem.
+
+O resultado persiste a proposta no marcador da tentativa durante a cena e no diário. Sucesso não move o passageiro, não transfere inventário e não altera outra ficha; massa real, presença no círculo e deslocamento continuam com o Narrador. A mudança amplia o procedimento já existente sem reclassificar o ritual ou alterar as contagens.
 
 ## Auditoria da Besta nos procedimentos coordenados
 

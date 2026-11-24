@@ -9,6 +9,26 @@ public static class TrueSanctuaryRules
 {
     public static TrueSanctuaryPreparationRequirements Preparation() => new(2, 3, 120, 2);
 
+    public static SanctuaryTravelPayload ValidatePayload(bool carriesPerson, bool carriesObjects,
+        string description, bool objectMassConfirmed)
+    {
+        if (carriesPerson && carriesObjects)
+            throw new InvalidOperationException("A viagem permite uma pessoa ou uma carga de objetos, não as duas opções juntas.");
+        if (!carriesPerson && !carriesObjects)
+        {
+            if (!string.IsNullOrWhiteSpace(description))
+                throw new InvalidOperationException("Marque se a descrição informada representa uma pessoa ou uma carga de objetos.");
+            return new(false, false, "", "Sem passageiro ou carga adicional.");
+        }
+        if (string.IsNullOrWhiteSpace(description))
+            throw new InvalidOperationException("Identifique a pessoa ou a carga proposta para a viagem.");
+        if (carriesObjects && !objectMassConfirmed)
+            throw new InvalidOperationException("Confirme com a mesa que a massa total dos objetos é aproximadamente a de uma pessoa.");
+        var target = description.Trim();
+        return new(carriesPerson, carriesObjects, target,
+            carriesPerson ? $"Passageiro proposto: {target}." : $"Carga de objetos proposta dentro do limite confirmado: {target}.");
+    }
+
     public static bool IsPreparationComplete(IReadOnlyList<RitualPreparationStep> paidChecks)
     {
         var requirements = Preparation();
@@ -44,6 +64,10 @@ public static class TrueSanctuaryRules
 }
 
 public sealed record SanctuaryPreparationAdvance(RitualPreparationStep Step, bool ScheduleExceptionUsed);
+
+/// <summary>A travel payload is only a recorded proposal; another sheet or inventory is never changed.</summary>
+public sealed record SanctuaryTravelPayload(bool CarriesPerson, bool CarriesObjects, string Description,
+    string Summary);
 
 /// <summary>Each circle is consecrated over consecutive nights; the table tracks the schedule.</summary>
 public sealed record TrueSanctuaryPreparationRequirements(

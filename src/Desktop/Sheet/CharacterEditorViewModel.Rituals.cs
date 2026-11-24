@@ -50,6 +50,15 @@ public partial class CharacterEditorViewModel
         WardRetryCostConfirmed = false;
     }
     [ObservableProperty] private string ritualPreparationSummary = "Selecione um ritual conhecido e confira suas condições.";
+    [ObservableProperty] private bool sanctuaryCarriesPerson;
+    [ObservableProperty] private bool sanctuaryCarriesObjects;
+    [ObservableProperty] private string sanctuaryPayloadDescription = "";
+    [ObservableProperty] private bool sanctuaryObjectMassConfirmed;
+
+    partial void OnSanctuaryCarriesPersonChanged(bool value) => SanctuaryTravelConfirmed = false;
+    partial void OnSanctuaryCarriesObjectsChanged(bool value) => SanctuaryTravelConfirmed = false;
+    partial void OnSanctuaryPayloadDescriptionChanged(string value) => SanctuaryTravelConfirmed = false;
+    partial void OnSanctuaryObjectMassConfirmedChanged(bool value) => SanctuaryTravelConfirmed = false;
 
     partial void OnSelectedPreparedRitualChanged(PowerRowViewModel? value)
     {
@@ -86,6 +95,7 @@ public partial class CharacterEditorViewModel
         {
             var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
             var result = new TrueSanctuaryActions().AttemptTravel(pool, Hunger, true, true, true, true, alreadyAttempted,
+                SanctuaryCarriesPerson, SanctuaryCarriesObjects, SanctuaryPayloadDescription, SanctuaryObjectMassConfirmed,
                 beastSubdued: HasActivePower("power-animalism-quell-the-beast"),
                 sceneLimitExceptionApproved: alreadyAttempted && RitualExceptionApproved);
             var roll = result.Roll;
@@ -103,13 +113,13 @@ public partial class CharacterEditorViewModel
             if (!alreadyAttempted)
             {
                 PowerEffects.Add(new PowerEffectEntry(Guid.NewGuid(), "ritual-sanctuary-travel-attempt", ritual.Name,
-                    Name, true, DateTime.UtcNow, "Tentativa de viagem realizada nesta cena." + beastAudit, "Até o fim da cena",
+                    Name, true, DateTime.UtcNow, $"Tentativa de viagem realizada nesta cena. {result.Payload.Summary}{beastAudit}", "Até o fim da cena",
                     "Vampiro: A Máscara V5 (Livro base), pp. 246 e 281", "", true));
                 MarkChanged();
             }
             RitualPreparationSummary = $"Viagem ao Santuário: {roll.Successes} sucesso(s), dificuldade {roll.Difficulty}: {roll.Outcome}. " +
                 (roll.IsSuccess ? "A viagem pode ocorrer conforme a decisão da mesa." : "A tentativa falhou; não tente novamente nesta cena.") +
-                beastAudit + " Nenhuma ficha foi movida. Fonte: Vampiro: A Máscara V5 (Livro base), pp. 246 e 281.";
+                $" {result.Payload.Summary}" + beastAudit + " Nenhuma ficha ou inventário foi alterado. Fonte: Vampiro: A Máscara V5 (Livro base), pp. 246 e 281.";
             Notebook.AppendLog("Rituais", RitualPreparationSummary);
             ShowDiceRoll(ritual.Name, RitualPreparationSummary,
                 roll.NormalDice.Select(x => new RolledDieDisplay(x, "COMUM"))
