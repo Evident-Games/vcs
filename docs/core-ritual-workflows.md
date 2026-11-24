@@ -125,6 +125,8 @@ O resultado persiste a proposta no marcador da tentativa durante a cena e no di�
 
 O livro base, página impressa 281 (página 283 do PDF fornecido), determina que dano a qualquer um dos círculos arruína completamente o ritual e deixa ambos inertes. `TrueSanctuaryRules.CircleDamageEnding` exige a identificação do círculo e a confirmação da mesa; `TrueSanctuaryActions.InvalidatePairAfterCircleDamage` encerra todos os registros ativos do par, preserva os custos no histórico e devolve a causa estruturada.
 
+A invalidação também aceita um par persistido sem checagens preparatórias estruturadas. Isso cobre fichas legadas e preparações conduzidas fora do aplicativo: antes, o serviço encontrava o par, mas o recusava por não haver ao menos uma checagem registrada. Ele agora só rejeita quando não existe nem par nem preparação ativa, e continua exigindo que a mesa confirme qual círculo sofreu dano. Nenhum custo é removido e nenhum outro par ou ficha é alterado.
+
 A ficha grava um marcador do dano e impede que a ausência de preparações ativas seja confundida com um par preparado fora do aplicativo. Uma viagem excepcional com esse par exige autorização e justificativa do Narrador pelo mecanismo existente. Um novo preparo posterior inicia outro par normalmente. O aplicativo não detecta dano físico nem altera cenário; a ocorrência continua sendo informada pela mesa. A classificação e as contagens não mudaram.
 
 ## Identidade persistente dos círculos do Santuário

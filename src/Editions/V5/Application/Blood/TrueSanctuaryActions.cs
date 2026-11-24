@@ -51,7 +51,7 @@ public sealed class TrueSanctuaryActions
         var active = preparationEntries.Where(x => x.Active && x.IsSelf &&
             ((x.PowerId == "ritual-sanctuary-preparation-check" && x.PreparationStep is not null) ||
              (x.PowerId == "ritual-sanctuary-circle-pair" && x.CirclePair is not null))).ToArray();
-        if (active.All(x => x.PreparationStep is null))
+        if (active.Length == 0)
             throw new InvalidOperationException("Não há preparação ativa do Santuário para inutilizar.");
         var ended = active.Select(x => x with
         {

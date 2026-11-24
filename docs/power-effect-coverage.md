@@ -278,6 +278,8 @@ A tentativa de viagem agora recebe quatro confirmações independentes em vez de
 
 O aplicativo não verifica coordenadas, presença física, massa real, dano ocorrido no cenário ou movimento. Esses fatos continuam com a mesa, e a viagem bem-sucedida permanece uma proposta sem alteração automática de ficha ou inventário. Os cinco rituais cadastrados continuam incompletos. As contagens de 37/11/40 poderes foram herdadas do inventário anterior e não foram auditadas integralmente nesta alteração. Build e testes não foram executados por instrução do usuário.
 
+Ao confirmar dano em um dos círculos, a ação V5 agora consegue inutilizar também um par persistido que não possua checagens preparatórias estruturadas, preservando fichas legadas e preparações realizadas fora do aplicativo. Antes, esse estado era localizado, mas rejeitado pelo serviço. A ação continua bloqueada se não houver qualquer par ou preparação ativa, exige a identificação confirmada do círculo danificado e apenas encerra os registros do próprio par; custos e histórico permanecem salvos.
+
 ## Validação de custos
 
 A ativação de poderes V5 rejeita capacidade de Vontade negativa e calcula a soma das marcas e do custo com precisão suficiente para evitar transbordamento de inteiro. Isso reforça a validação de entrada; não altera a contagem de efeitos automatizados.
