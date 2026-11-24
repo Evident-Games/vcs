@@ -531,6 +531,8 @@ public sealed class RitualWorkflowActions
     /// <summary>Keep ritual state and paid costs from being discarded by the generic effect-ending action.</summary>
     public static string? GenericEndingBlockReason(PowerEffectEntry entry)
     {
+        if (entry.Active && RitualUseCatalog.Find(entry.PowerId)?.Kind == "ward")
+            return "Use o encerramento da proteção de objeto: confirme com a mesa que o objeto foi fisicamente destruído ou quebrado.";
         if (entry.PowerId == "ritual-essence-of-air" && entry.RitualWorkflow is { Stage: "potion", Charges: > 0 })
             return "Use a expiração de Essência do Ar: informe a noite da crônica concluída e confirme o descarte das doses não consumidas.";
         if (entry.PowerId == "ritual-incorporeal-passage" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })

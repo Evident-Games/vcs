@@ -1,12 +1,28 @@
+using Game.Content.Disciplines;
+using Game.Rules.V5.Disciplines;
 using Game.Rules.V5.Dice;
 using Game.Rules.V5.Rituals;
-using Game.Rules.V5.Disciplines;
+using Game.Sheet;
 
 namespace Game.Application.Blood;
 
 /// <summary>Resolves the first contact with a prepared V5 object ward without modifying the intruder.</summary>
 public sealed class WardActions
 {
+    public PowerEffectEntry EndAfterObjectDestroyed(PowerEffectEntry ward, bool tableConfirmed)
+    {
+        if (ward is not { Active: true } || RitualUseCatalog.Find(ward.PowerId)?.Kind != "ward" || !tableConfirmed)
+            throw new InvalidOperationException(
+                "Selecione uma proteção de objeto ativa e confirme sua destruição ou quebra física com a mesa.");
+        var ending = WardRules.DestroyedObjectEnding(ward.Target);
+        return ward with
+        {
+            Active = false,
+            Effect = string.IsNullOrWhiteSpace(ward.Effect) ? ending : ward.Effect.TrimEnd() + " " + ending,
+            Duration = "Encerrado: objeto destruído ou quebrado"
+        };
+    }
+
     public WardContactAttempt ResolveFirstContact(int level, int casterHunger, int casterPool,
         bool matchingIntruder, bool voluntaryContact, Random? random = null, bool casterBeastSubdued = false,
         string? ritualId = null, bool intruderIsCaster = false)

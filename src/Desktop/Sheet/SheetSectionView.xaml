@@ -77,6 +77,8 @@
                 <CheckBox Content="O intruso é o próprio conjurador" IsChecked="{Binding WardIntruderIsCaster}"/>
                 <CheckBox Content="Narrador confirmou toque voluntário do intruso correspondente" IsChecked="{Binding WardContactConfirmed}"/>
                 <Button Content="Resolver contato da proteção selecionada" Command="{Binding ResolveWardContactCommand}" HorizontalAlignment="Left"/>
+                <CheckBox Content="A mesa confirmou que o objeto protegido foi fisicamente destruído ou quebrado" IsChecked="{Binding WardObjectDestructionConfirmed}"/>
+                <Button Content="Encerrar proteção do objeto destruído" Command="{Binding EndWardAfterObjectDestroyedCommand}" HorizontalAlignment="Left"/>
                 <TextBlock Text="Intruso já afetado: parada Vigor + Determinação e Fome (0 para mortal)" TextWrapping="Wrap"/>
                 <WrapPanel><controls:NumericField Value="{Binding WardRetryPool}" Minimum="0" Maximum="50"/><controls:NumericField Value="{Binding WardRetryHunger}" Minimum="0" Maximum="5"/></WrapPanel>
                 <CheckBox Content="Narrador confirmou Besta subjugada para este intruso (Livro base, p. 246)" IsChecked="{Binding WardRetryBeastSubdued}"/>

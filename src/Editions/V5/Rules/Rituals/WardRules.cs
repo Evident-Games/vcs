@@ -41,6 +41,13 @@ public static class WardRules
         if (initialDamage is not (0 or 1 or 3)) throw new ArgumentOutOfRangeException(nameof(initialDamage));
         return new(false, initialDamage, initialDamage > 0);
     }
+
+    public static string DestroyedObjectEnding(string target)
+    {
+        if (string.IsNullOrWhiteSpace(target))
+            throw new ArgumentException("Identifique o objeto protegido.", nameof(target));
+        return $"Encerramento confirmado: {target.Trim()} foi fisicamente destruído ou quebrado; a proteção terminou.";
+    }
 }
 
 /// <summary>The caller must obtain confirmation before applying damage to another character.</summary>

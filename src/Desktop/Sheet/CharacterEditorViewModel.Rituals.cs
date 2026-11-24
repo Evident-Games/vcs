@@ -20,6 +20,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool wardCainiteFrenzyConditionConfirmed;
     partial void OnWardCainiteFrenzyConditionConfirmedChanged(bool value) => RitualConditionsConfirmed = false;
     [ObservableProperty] private bool wardContactConfirmed;
+    [ObservableProperty] private bool wardObjectDestructionConfirmed;
     [ObservableProperty] private bool wardIntruderIsCaster;
     [ObservableProperty] private string wardIntruder = "";
     [ObservableProperty] private int wardRetryPool = 2;
@@ -120,6 +121,7 @@ public partial class CharacterEditorViewModel
         CoreRitualCandleDamageConfirmed = false;
         CoreRitualRetryCostConfirmed = false;
         WardContactConfirmed = false;
+        WardObjectDestructionConfirmed = false;
         WardIntruderIsCaster = false;
         WardRetryCostConfirmed = false;
         WardRetryBeastSubdued = false;
@@ -260,6 +262,25 @@ public partial class CharacterEditorViewModel
             roll.NormalDice.Select(x => new RolledDieDisplay(x, "COMUM")).Concat(roll.HungerDice.Select(x => new RolledDieDisplay(x, "FOME"))));
         WardContactConfirmed = false;
         MarkChanged();
+    }
+
+    [RelayCommand]
+    private void EndWardAfterObjectDestroyed()
+    {
+        if (SelectedPowerEffect is not { Active: true } ward ||
+            RitualUseCatalog.Find(ward.PowerId)?.Kind != "ward")
+        { RitualPreparationSummary = "Selecione uma proteção de objeto ativa."; return; }
+        try
+        {
+            var ended = new WardActions().EndAfterObjectDestroyed(ward, WardObjectDestructionConfirmed);
+            ReplacePowerEffect(ward, ended);
+            RitualPreparationSummary = WardRules.DestroyedObjectEnding(ward.Target) + $" Fonte: {ward.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            MarkChanged();
+            WardObjectDestructionConfirmed = false;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
     }
 
     [RelayCommand]
