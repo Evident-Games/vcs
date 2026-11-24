@@ -10,7 +10,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Caminho do Sangue | Custo, teste, informações solicitadas e ampliação crítica | Amostra, geração, nomes e Laços reais do alvo |
 | Criar Pedra de Sangue | Custo, três noites registradas com confirmação de uma hora, teste final, limite por Determinação e encerramento por uma semana ou destruição confirmada | Quantidade e posição reais; a mesa fornece as datas da crônica e confirma a destruição da pedra |
 | Despertar com o Frescor do Anoitecer | Preparo, custo, teste adiado ao perigo, encerramento do sono | Perigo real e limites da vigília; fluxo dedicado |
-| Proteção contra Carniçais | Preparo, custo, disputa de detecção por Sentir o Invisível, contato elegível, resistência posterior e encerramento confirmado quando o objeto é destruído ou quebrado | Contato voluntário, identificação do tipo, dano ao intruso e detalhes revelados pela detecção |
+| Proteção contra Carniçais | Preparo com limite aproximado de um metro confirmado, custo, disputa de detecção por Sentir o Invisível, contato elegível, resistência posterior e encerramento confirmado quando o objeto é destruído ou quebrado | Adequação do objeto ou exceção justificada, contato voluntário, identificação do tipo, dano ao intruso e detalhes revelados pela detecção |
 | Círculo de Proteção contra Carniçais | Três custos, versão até amanhecer/ano e dia, dificuldade, disputas, histórico por intruso e expiração confirmada; empate permite a passagem porque o intruso é o personagem ativo | Círculo intacto, elegibilidade, sentido da passagem, custo de Vontade e dano em outra ficha |
 | Comunicação com o Senhor do Membro | Custo, teste, atraso, duração e encerramento confirmado após dez minutos ou perturbação; crítico elimina atraso | Contato, conteúdo da comunicação e ocorrência real da perturbação; sem relógio automático |
 | Iluminar o Rastro da Presa | Custo, teste, dificuldade por margem, duração, rastreio posterior e expiração confirmada por noite da crônica; considera Besta Subjugada | Trajeto real, validade do rastro anterior ao ritual e interpretação do Narrador |
@@ -210,6 +210,12 @@ O encerramento genérico é bloqueado para as quatro Proteções de objeto do li
 O livro base, página impressa 275 (página 277 do PDF fornecido), permite detectar uma Proteção com uma disputa de Inteligência + Auspícios contra Inteligência + Feitiçaria de Sangue do conjurador. `WardRules.IsDetected` mantém a regra de disputa no módulo V5: quem usa Sentir o Invisível é o personagem ativo e vence um empate. `WardActions.Detect` rola os dois lados somente após confirmação explícita da mesa e reaproveita a mesa de dados existente, incluindo a marcação informada de Besta Subjugada.
 
 A interface recebe a parada e a Fome do detector, enquanto usa a parada e a Fome do conjurador dono desta ficha. O resultado é registrado no diário, mas não altera o efeito nem qualquer personagem. A detecção não revela automaticamente autoria, tipo de intruso, funcionamento ou outra informação além da existência da Proteção; esses detalhes permanecem com o Narrador. A cobertura continua como resolução assistida, sem mudança nas contagens.
+
+## Proteções de objeto: limite do objeto
+
+O livro base, página impressa 275 (página 277 do PDF fornecido), limita uma Proteção a um espaço de aproximadamente um metro e exemplifica que ela pode cobrir um volante, mas não um carro inteiro. O preparo dedicado agora exige que a mesa confirme a adequação do objeto antes de realizar a Checagem de Sangue. `WardRules.ValidatePreparation` mantém esse bloqueio no módulo V5, fora da interface.
+
+Quando o objeto não cabe no limite, o preparo só continua pelo mecanismo existente de exceção do Narrador, com autorização e justificativa obrigatórias. A decisão é copiada para a tabela de exceções e para o texto persistido da Proteção. O aplicativo não mede objetos nem interpreta dimensões narrativas; essa confirmação continua com a mesa. A classificação e as contagens permanecem inalteradas.
 
 ## Essência do Ar: passageiro involuntário
 

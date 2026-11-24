@@ -9,10 +9,13 @@ public static class WardRules
 {
     public const string CainiteWardId = "ritual-ward-against-cainites";
 
-    /// <summary>A failed terror frenzy test prevents inscription of the Cainite ward for that night.</summary>
+    /// <summary>Validate the shared object-size limit and the Cainite ward's nightly frenzy restriction.</summary>
     public static void ValidatePreparation(string? ritualId, bool nightlyFrenzyConditionConfirmed,
-        bool exceptionApproved)
+        bool exceptionApproved, bool objectSizeConfirmed = true)
     {
+        if (!objectSizeConfirmed && !exceptionApproved)
+            throw new InvalidOperationException(
+                "Proteções cobrem aproximadamente um metro; confirme que o objeto cabe nesse limite ou registre uma exceção justificada.");
         if (ritualId == CainiteWardId && !nightlyFrenzyConditionConfirmed && !exceptionApproved)
             throw new InvalidOperationException(
                 "Proteção contra Cainitas exige confirmar que o conjurador não falhou em um teste de frenesi de terror nesta noite.");

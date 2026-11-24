@@ -67,6 +67,8 @@
                 <TextBox Text="{Binding RitualExceptionReason, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
                 <TextBlock Text="Objeto protegido (para proteção de objeto)"/>
                 <TextBox Text="{Binding WardObject, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Content="A mesa confirmou que o objeto protegido cabe no limite aproximado de um metro" IsChecked="{Binding WardObjectSizeConfirmed}"/>
+                <TextBlock Text="Uma Proteção pode cobrir um volante, mas não um carro inteiro. Sem esta confirmação, use a exceção acima com justificativa, que será gravada na ficha. Fonte: Livro base, p. 275." TextWrapping="Wrap" Foreground="{DynamicResource ThemeInputDescription}"/>
                 <CheckBox Content="Proteção contra Cainitas: a mesa confirmou que o conjurador não falhou em teste de frenesi de terror nesta noite" IsChecked="{Binding WardCainiteFrenzyConditionConfirmed}"/>
                 <TextBlock Text="Se essa condição não puder ser confirmada, a proteção não será preparada nem cobrará a Checagem de Sangue. Uma decisão excepcional exige autorização e justificativa acima. Fonte: Livro base, p. 280." TextWrapping="Wrap" Foreground="{DynamicResource ThemeInputDescription}"/>
                 <TextBlock Text="Confira se a regra padrão se aplica; proteções e o ritual de despertar têm testes adiados até seus gatilhos." TextWrapping="Wrap"/>
