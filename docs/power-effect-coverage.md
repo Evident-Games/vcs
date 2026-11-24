@@ -268,7 +268,11 @@ O fluxo específico agora permite pagar as 12 checagens individualmente, sem tes
 
 Cada pagamento fica em um registro estruturado dos efeitos da ficha, com fonte, data e sequência, e no diário; o dado vai para a mesa existente. O novo campo é opcional no JSON dos efeitos, preservando os registros anteriores e dispensando nova coluna no banco. A preparação não expira ao fim da cena. Para abandonar ou inutilizar o par, confirme o encerramento específico: os registros ficam inativos e seus custos permanecem no histórico.
 
-Datas fora da sequência exigem justificativa do Narrador; o app não inventa um reinício ou reembolso. Uma viagem com preparação registrada incompleta também requer uma exceção registrada. Preparações antigas, conduzidas fora do app, continuam dependendo da confirmação explícita da mesa. Ainda faltam identidade e localização persistentes dos círculos, verificação de dano e da carga transportada; não há movimentação automática. Os cinco rituais cadastrados continuam incompletos. As contagens de 37/11/40 poderes foram herdadas do inventário anterior e não foram auditadas integralmente nesta alteração. Build e testes não foram executados por instrução do usuário.
+Datas fora da sequência exigem justificativa do Narrador; o app não inventa um reinício ou reembolso. Uma viagem com preparação registrada incompleta também requer uma exceção registrada. Preparações antigas, conduzidas fora do app, continuam dependendo da confirmação explícita da mesa.
+
+A ficha agora exige e persiste identificações distintas para os círculos de partida e chegada antes de cobrar uma nova checagem. Cada etapa nova conserva seu local; checagens antigas podem ser associadas ao par confirmado sem perda de custos. Corrigir um par existente exige autorização e justificativa persistidas. Encerramento ou dano confirmado inativa o par, e uma preparação registrada sem essa identidade bloqueia a viagem salvo exceção do Narrador. Fonte: livro base, página impressa 281 (página 283 do PDF fornecido).
+
+O aplicativo não verifica coordenadas, presença física, massa real, dano ocorrido no cenário ou movimento. Esses fatos continuam com a mesa, e a viagem bem-sucedida permanece uma proposta sem alteração automática de ficha ou inventário. Os cinco rituais cadastrados continuam incompletos. As contagens de 37/11/40 poderes foram herdadas do inventário anterior e não foram auditadas integralmente nesta alteração. Build e testes não foram executados por instrução do usuário.
 
 ## Validação de custos
 

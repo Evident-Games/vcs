@@ -9,6 +9,21 @@ public static class TrueSanctuaryRules
 {
     public static TrueSanctuaryPreparationRequirements Preparation() => new(2, 3, 120, 2);
 
+    public static RitualCirclePair ValidateCirclePair(string departure, string destination)
+    {
+        var departureLocation = departure.Trim();
+        var destinationLocation = destination.Trim();
+        if (departureLocation.Length == 0 || destinationLocation.Length == 0)
+            throw new InvalidOperationException("Identifique os locais dos círculos de partida e de chegada.");
+        if (string.Equals(departureLocation, destinationLocation, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidOperationException("Os círculos de partida e de chegada precisam ter identificações distintas.");
+        return new(departureLocation, destinationLocation);
+    }
+
+    public static bool CirclePairMatches(RitualCirclePair current, RitualCirclePair proposed) =>
+        string.Equals(current.Departure, proposed.Departure, StringComparison.OrdinalIgnoreCase) &&
+        string.Equals(current.Destination, proposed.Destination, StringComparison.OrdinalIgnoreCase);
+
     public static string CircleDamageEnding(int damagedCircle, bool tableConfirmed)
     {
         if (damagedCircle is < 1 or > 2) throw new ArgumentOutOfRangeException(nameof(damagedCircle));
@@ -46,7 +61,8 @@ public static class TrueSanctuaryRules
     }
 
     public static SanctuaryPreparationAdvance NextPreparationCheck(int circle, DateOnly nightDate,
-        IReadOnlyList<RitualPreparationStep> paidChecks, bool scheduleExceptionApproved = false)
+        IReadOnlyList<RitualPreparationStep> paidChecks, RitualCirclePair circlePair,
+        bool scheduleExceptionApproved = false)
     {
         var requirements = Preparation();
         if (circle < 1 || circle > requirements.CircleCount) throw new ArgumentOutOfRangeException(nameof(circle));
@@ -54,6 +70,10 @@ public static class TrueSanctuaryRules
         for (var index = 0; index < previous.Length; index++)
             if (previous[index].Sequence != index + 1)
                 throw new InvalidOperationException("Histórico de preparação inconsistente; confira os registros com o Narrador antes de pagar outra checagem.");
+        var location = circle == 1 ? circlePair.Departure : circlePair.Destination;
+        if (previous.Any(x => !string.IsNullOrWhiteSpace(x.Location) &&
+            !string.Equals(x.Location, location, StringComparison.OrdinalIgnoreCase)))
+            throw new InvalidOperationException("O local deste círculo não corresponde à preparação já registrada. Corrija o par com confirmação e justificativa do Narrador.");
         var checksPerCircle = requirements.ConsecutiveNightsPerCircle * requirements.RouseChecksPerCirclePerNight;
         if (previous.Length >= checksPerCircle)
             throw new InvalidOperationException("Este círculo já possui todas as checagens de preparação registradas.");
@@ -62,7 +82,7 @@ public static class TrueSanctuaryRules
         var exceptionUsed = expectedDate != nightDate;
         if (exceptionUsed && !scheduleExceptionApproved)
             throw new InvalidOperationException($"A próxima checagem deste círculo deve ocorrer em {expectedDate:dd/MM/yyyy}. Confira a data ou justifique a decisão do Narrador sobre a interrupção.");
-        return new(new(circle, previous.Length + 1, nightDate), exceptionUsed);
+        return new(new(circle, previous.Length + 1, nightDate, location), exceptionUsed);
     }
 
     /// <summary>The table confirms the circles, their condition, concentration and attempts in the scene.</summary>

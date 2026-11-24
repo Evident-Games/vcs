@@ -6,10 +6,14 @@ public sealed record PowerEffectEntry(Guid Id, string PowerId, string Name, stri
     bool Active, int TurnsRemaining = 0, int HealthDamage = 0, bool Aggravated = false,
     int WillpowerDamage = 0, int HungerIncrease = 0, int PotencyIncrease = 0,
     bool ConsequencesApplied = false, int RemainingPoints = 0, int ProtectedSuperficial = 0, int? FormStrength = null, int? FormDexterity = null, int? FormStamina = null, DateTime? GameDate = null, bool TurnChargeUsed = false, int PoolBonus = 0,
-    RitualPreparationStep? PreparationStep = null, RitualWorkflowState? RitualWorkflow = null);
+    RitualPreparationStep? PreparationStep = null, RitualWorkflowState? RitualWorkflow = null,
+    RitualCirclePair? CirclePair = null);
 
 /// <summary>A paid preparation check, with a table-supplied date and edition-specific sequence.</summary>
-public sealed record RitualPreparationStep(int Circle, int Sequence, DateOnly NightDate);
+public sealed record RitualPreparationStep(int Circle, int Sequence, DateOnly NightDate, string Location = "");
+
+/// <summary>Table-supplied identities for the paired True Sanctuary circles.</summary>
+public sealed record RitualCirclePair(string Departure, string Destination);
 
 /// <summary>Saved ritual workflow; stage names are interpreted only by the corresponding edition.</summary>
 public sealed record RitualWorkflowState(int ChecksPaid = 0, string Stage = "preparing", bool Resolved = false,

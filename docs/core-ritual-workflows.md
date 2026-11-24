@@ -30,7 +30,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Proteção contra Cainitas | Fluxo dedicado preservado, conjurador isento; preparo bloqueado sem confirmação da condição noturna de frenesi de terror ou exceção justificada; encerramento confirmado pela destruição ou quebra do objeto | Leitura da assinatura por Auspícios e consequências no intruso |
 | Círculo de Proteção contra Cainitas | Fluxo dos círculos com nível próprio e orientação persistida | Posição, elegibilidade e consequências no intruso |
 | Coração de Pedra | Custo, frenesi antes do teste, crítico, cura específica explícita uma vez, reversão por repetição, ajustes sociais/contra Presença, bloqueio de Presença e −3 em Remorso | Confirmar vela e dano já marcado; imunidade a estacas é informada, sem resolvedor universal de estaqueamento |
-| Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, dois círculos, rolagem por viagem, limite por cena, proposta validada de carga e inutilização persistida do par quando um círculo sofre dano | Locais, confirmação do dano, concentração, massa real e deslocamento narrativo |
+| Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, identidades persistentes de partida/chegada, rolagem por viagem, limite por cena, proposta validada de carga e inutilização persistida do par quando um círculo sofre dano | Presença no círculo, ocorrência real do dano, concentração, massa real e deslocamento narrativo |
 | Fuste de Extinção Tardia | Duas checagens separadas, preparo/teste, ataque com +3, margem de Morte Final/lasca, cirurgia Destreza + Medicina dificuldade 6 | Tempo de avanço da lasca decidido pelo Narrador, não especificado numericamente no livro; vítima, integridade e consequências confirmadas; não aplica Morte Final |
 
 ## Auditoria: Aderência do Inseto
@@ -126,6 +126,12 @@ O resultado persiste a proposta no marcador da tentativa durante a cena e no di�
 O livro base, página impressa 281 (página 283 do PDF fornecido), determina que dano a qualquer um dos círculos arruína completamente o ritual e deixa ambos inertes. `TrueSanctuaryRules.CircleDamageEnding` exige a identificação do círculo e a confirmação da mesa; `TrueSanctuaryActions.InvalidatePairAfterCircleDamage` encerra todos os registros ativos do par, preserva os custos no histórico e devolve a causa estruturada.
 
 A ficha grava um marcador do dano e impede que a ausência de preparações ativas seja confundida com um par preparado fora do aplicativo. Uma viagem excepcional com esse par exige autorização e justificativa do Narrador pelo mecanismo existente. Um novo preparo posterior inicia outro par normalmente. O aplicativo não detecta dano físico nem altera cenário; a ocorrência continua sendo informada pela mesa. A classificação e as contagens não mudaram.
+
+## Identidade persistente dos círculos do Santuário
+
+O livro base, página impressa 281 (página 283 do PDF fornecido), determina que um dos dois círculos seja designado como partida e o outro como chegada. `TrueSanctuaryRules.ValidateCirclePair` exige duas identificações não vazias e distintas; a ficha persiste o par ativo e também grava o local correspondente em cada nova checagem de preparação.
+
+Antes do primeiro custo, a mesa confirma os dois locais. Fichas antigas podem associar explicitamente um par às checagens já registradas sem apagá-las; mudar uma identificação existente exige autorização e justificativa do Narrador, que ficam na ficha. Dano confirmado ou encerramento do preparo inativa também o registro do par. Preparações registradas sem um par identificado bloqueiam a viagem, salvo exceção justificada. O aplicativo não valida coordenadas, não comprova presença física e não move personagens.
 
 ## Auditoria da Besta nos procedimentos coordenados
 

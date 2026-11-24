@@ -72,6 +72,7 @@ public partial class CharacterEditorViewModel
         SanctuaryPreparationConfirmed = false;
         SanctuaryResetConfirmed = false;
         SanctuaryCircleDamageConfirmed = false;
+        SanctuaryLocationsConfirmed = false;
         WardCainiteFrenzyConditionConfirmed = false;
         WardObjectSizeConfirmed = false;
         RitualPreparationSummary = "Confira novamente os ingredientes, o alvo e as condições deste ritual.";
@@ -86,10 +87,13 @@ public partial class CharacterEditorViewModel
         var alreadyAttempted = PowerEffects.Any(x => x.Active && x.IsSelf && x.PowerId == "ritual-sanctuary-travel-attempt");
         var preparation = SanctuaryPaidChecks();
         var preparationIncomplete = preparation.Length > 0 && !TrueSanctuaryRules.IsPreparationComplete(preparation);
+        var pairMissing = preparation.Length > 0 && SanctuaryActivePair() is null;
         var pairDamaged = SanctuaryPairWasDamaged();
-        if ((ritual.HasWarning || alreadyAttempted || preparationIncomplete || pairDamaged) && (!RitualExceptionApproved || string.IsNullOrWhiteSpace(RitualExceptionReason)))
+        if ((ritual.HasWarning || alreadyAttempted || preparationIncomplete || pairMissing || pairDamaged) &&
+            (!RitualExceptionApproved || string.IsNullOrWhiteSpace(RitualExceptionReason)))
         { RitualPreparationSummary = (alreadyAttempted ? "Já houve uma tentativa de viagem nesta cena. " : "") +
             (preparationIncomplete ? "A preparação registrada dos círculos ainda está incompleta. " : "") +
+            (pairMissing ? "A preparação registrada não identifica os locais de partida e chegada. " : "") +
             (pairDamaged ? "O último par registrado ficou inerte após dano confirmado. " : "") +
             (ritual.HasWarning ? ritual.Warning + " " : "") + "Autorize e justifique a exceção com o Narrador."; return; }
         if (!SanctuaryTravelConfirmed)
@@ -113,6 +117,8 @@ public partial class CharacterEditorViewModel
                 ExceptionRegister.Record(ritual.Name, "Nova tentativa de viagem na mesma cena", RitualExceptionReason.Trim());
             if (preparationIncomplete)
                 ExceptionRegister.Record(ritual.Name, "Viagem com preparação registrada incompleta", RitualExceptionReason.Trim());
+            if (pairMissing)
+                ExceptionRegister.Record(ritual.Name, "Viagem sem locais persistidos para o par registrado", RitualExceptionReason.Trim());
             if (pairDamaged)
                 ExceptionRegister.Record(ritual.Name, "Viagem com par de círculos inerte após dano confirmado", RitualExceptionReason.Trim());
             if (!alreadyAttempted)

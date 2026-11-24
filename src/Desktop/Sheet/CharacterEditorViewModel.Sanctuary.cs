@@ -13,10 +13,18 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool sanctuaryPreparationConfirmed;
     [ObservableProperty] private bool sanctuaryResetConfirmed;
     [ObservableProperty] private bool sanctuaryCircleDamageConfirmed;
+    [ObservableProperty] private string sanctuaryDepartureLocation = "";
+    [ObservableProperty] private string sanctuaryDestinationLocation = "";
+    [ObservableProperty] private bool sanctuaryLocationsConfirmed;
 
     private RitualPreparationStep[] SanctuaryPaidChecks() => PowerEffects.Where(x => x.Active && x.IsSelf &&
             x.PowerId == "ritual-sanctuary-preparation-check" && x.PreparationStep is not null)
         .Select(x => x.PreparationStep!).ToArray();
+
+    private PowerEffectEntry? SanctuaryPairEntry() => PowerEffects.LastOrDefault(x => x.Active && x.IsSelf &&
+        x.PowerId == "ritual-sanctuary-circle-pair" && x.CirclePair is not null);
+
+    private RitualCirclePair? SanctuaryActivePair() => SanctuaryPairEntry()?.CirclePair;
 
     private bool SanctuaryPairWasDamaged()
     {
@@ -35,8 +43,71 @@ public partial class CharacterEditorViewModel
         {
             var paid = SanctuaryPaidChecks();
             var damage = SanctuaryPairWasDamaged() ? " · último par inerte por dano confirmado" : "";
-            return $"Partida: {paid.Count(x => x.Circle == 1)}/6 checagens · Chegada: {paid.Count(x => x.Circle == 2)}/6 checagens{damage}";
+            var pair = SanctuaryActivePair();
+            var locations = pair is null ? "locais ainda não registrados" : $"{pair.Departure} → {pair.Destination}";
+            return $"Partida: {paid.Count(x => x.Circle == 1)}/6 checagens · Chegada: {paid.Count(x => x.Circle == 2)}/6 checagens · {locations}{damage}";
         }
+    }
+
+    partial void OnSanctuaryDepartureLocationChanged(string value)
+    {
+        SanctuaryLocationsConfirmed = false;
+        SanctuaryPreparationConfirmed = false;
+        SanctuaryTravelConfirmed = false;
+    }
+
+    partial void OnSanctuaryDestinationLocationChanged(string value)
+    {
+        SanctuaryLocationsConfirmed = false;
+        SanctuaryPreparationConfirmed = false;
+        SanctuaryTravelConfirmed = false;
+    }
+
+    [RelayCommand]
+    private void RegisterSanctuaryCirclePair()
+    {
+        if (SelectedPreparedRitual?.Entry?.Definition is not
+            { Id: "ritual-escape-to-true-sanctuary", IsRitual: true })
+        { RitualPreparationSummary = "Selecione Fuga para o Verdadeiro Santuário nos rituais desta ficha."; return; }
+        try
+        {
+            var result = new TrueSanctuaryActions().RegisterCirclePair(PowerEffects,
+                SanctuaryDepartureLocation, SanctuaryDestinationLocation, SanctuaryLocationsConfirmed,
+                RitualExceptionApproved && !string.IsNullOrWhiteSpace(RitualExceptionReason));
+            var pair = result.Pair;
+            if (result.EndedPair is { } ended && PowerEffects.FirstOrDefault(x => x.Id == ended.Id) is { } currentPair)
+                ReplacePowerEffect(currentPair, ended);
+            foreach (var updated in result.UpdatedPreparation)
+                if (PowerEffects.FirstOrDefault(x => x.Id == updated.Id) is { } currentPreparation)
+                    ReplacePowerEffect(currentPreparation, updated with
+                    {
+                        Ruling = result.CorrectionUsed
+                            ? string.Join(" | ", new[] { updated.Ruling, RitualExceptionReason.Trim() }
+                                .Where(x => !string.IsNullOrWhiteSpace(x)))
+                            : updated.Ruling
+                    });
+            var summary = $"Par do Santuário registrado: partida em {pair.Departure}; chegada em {pair.Destination}.";
+            PowerEffects.Add(new PowerEffectEntry(Guid.NewGuid(), "ritual-sanctuary-circle-pair",
+                "Fuga para o Verdadeiro Santuário", $"{pair.Departure} → {pair.Destination}", true,
+                DateTime.UtcNow, summary, "Enquanto este par permanecer ativo",
+                "Vampiro: A Máscara V5 (Livro base), p. 281",
+                result.CorrectionUsed ? RitualExceptionReason.Trim() : "", true,
+                CirclePair: pair));
+            if (result.CorrectionUsed)
+                ExceptionRegister.Record("Fuga para o Verdadeiro Santuário",
+                    "Correção dos locais do par de círculos", RitualExceptionReason.Trim());
+            SanctuaryDepartureLocation = pair.Departure;
+            SanctuaryDestinationLocation = pair.Destination;
+            SanctuaryLocationsConfirmed = false;
+            RitualExceptionApproved = false;
+            RitualExceptionReason = "";
+            RitualPreparationSummary = summary + " Nenhum personagem foi movido.";
+            OnPropertyChanged(nameof(SanctuaryPreparationProgress));
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            MarkChanged();
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
     }
 
     [RelayCommand]
@@ -53,6 +124,7 @@ public partial class CharacterEditorViewModel
                 "Fuga para o Verdadeiro Santuário", $"Círculo {SanctuaryCircle}", true, DateTime.UtcNow,
                 result.Summary, "Par de círculos inerte", "Vampiro: A Máscara V5 (Livro base), p. 281", "", false));
             SanctuaryCircleDamageConfirmed = false;
+            SanctuaryLocationsConfirmed = false;
             SanctuaryPreparationConfirmed = false;
             SanctuaryTravelConfirmed = false;
             OnPropertyChanged(nameof(SanctuaryPreparationProgress));
@@ -70,10 +142,12 @@ public partial class CharacterEditorViewModel
         if (!SanctuaryResetConfirmed)
         { RitualPreparationSummary = "Confirme com o Narrador o abandono ou a inutilização do par de círculos."; return; }
         foreach (var entry in PowerEffects.Where(x => x.Active && x.IsSelf &&
-            x.PowerId == "ritual-sanctuary-preparation-check").ToArray())
+            (x.PowerId == "ritual-sanctuary-preparation-check" ||
+             x.PowerId == "ritual-sanctuary-circle-pair")).ToArray())
             ReplacePowerEffect(entry, entry with { Active = false });
         SanctuaryResetConfirmed = false;
         SanctuaryCircleDamageConfirmed = false;
+        SanctuaryLocationsConfirmed = false;
         SanctuaryPreparationConfirmed = false;
         SanctuaryTravelConfirmed = false;
         OnPropertyChanged(nameof(SanctuaryPreparationProgress));
@@ -104,17 +178,19 @@ public partial class CharacterEditorViewModel
         try
         {
             var paid = SanctuaryPaidChecks();
+            var pair = SanctuaryActivePair() ?? throw new InvalidOperationException(
+                "Registre e confirme os locais dos círculos de partida e chegada antes de pagar a preparação.");
             var result = new TrueSanctuaryActions().PrepareNextCheck(SanctuaryCircle, DateOnly.FromDateTime(night),
-                paid, Hunger, SanctuaryPreparationConfirmed, RitualExceptionApproved);
+                paid, pair, Hunger, SanctuaryPreparationConfirmed, RitualExceptionApproved);
             var step = result.Advance.Step;
             var check = result.Check;
             Hunger = check.HungerAfter;
-            RitualPreparationSummary = $"Santuário, círculo {step.Circle}, noite {(step.Sequence + 1) / 2}/3, " +
+            RitualPreparationSummary = $"Santuário, círculo {step.Circle} em {step.Location}, noite {(step.Sequence + 1) / 2}/3, " +
                 $"checagem {(step.Sequence - 1) % 2 + 1}/2 em {step.NightDate:dd/MM/yyyy}: dado {check.Die}; Fome {Hunger}. " +
                 (step.Sequence == 6 ? "As seis checagens deste círculo foram pagas. " : "Preparação ainda em andamento. ") +
                 "Fonte: Livro base, p. 281.";
             PowerEffects.Add(new PowerEffectEntry(Guid.NewGuid(), "ritual-sanctuary-preparation-check", ritual.Name,
-                $"Círculo {step.Circle}", true, DateTime.UtcNow, RitualPreparationSummary,
+                $"Círculo {step.Circle}: {step.Location}", true, DateTime.UtcNow, RitualPreparationSummary,
                 "Preparação dos círculos; encerramento pela mesa", definition.Source,
                 RitualExceptionApproved ? RitualExceptionReason.Trim() : "", true,
                 GameDate: night.Date, PreparationStep: step));
