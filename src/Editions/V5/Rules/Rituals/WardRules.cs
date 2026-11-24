@@ -1,4 +1,5 @@
 using Game.Content;
+using Game.Rules.V5.Dice;
 
 namespace Game.Rules.V5.Rituals;
 
@@ -34,6 +35,14 @@ public static class WardRules
     /// <summary>After an intruder was affected, determine the test and cost for another touch.</summary>
     public static WardRetryRequirements RetryRequirements(bool firstContactWasCritical) =>
         new(1, firstContactWasCritical ? 7 : 4);
+
+    /// <summary>The character using Sense the Unseen is acting and therefore wins a tied contest.</summary>
+    public static bool IsDetected(int detectorSuccesses, int casterSuccesses)
+    {
+        if (detectorSuccesses < 0) throw new ArgumentOutOfRangeException(nameof(detectorSuccesses));
+        if (casterSuccesses < 0) throw new ArgumentOutOfRangeException(nameof(casterSuccesses));
+        return ContestRules.ActingCharacterWins(detectorSuccesses, casterSuccesses);
+    }
 
     /// <summary>Translate a stored first-contact result into the effect of a later eligible contact.</summary>
     public static WardContactResult ResolveLaterContact(int initialDamage)

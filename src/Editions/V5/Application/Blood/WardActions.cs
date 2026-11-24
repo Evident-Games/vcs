@@ -56,6 +56,30 @@ public sealed class WardActions
         return new(roll, intruderBeastSubdued,
             originalRoll.Outcome == TestOutcome.MessyCritical && roll.Outcome == TestOutcome.CriticalSuccess);
     }
+
+    /// <summary>Resolve a confirmed Sense the Unseen contest without revealing facts or changing either character.</summary>
+    public WardDetectionAttempt Detect(int detectorPool, int detectorHunger, int casterPool, int casterHunger,
+        bool tableConfirmed, Random? random = null, bool detectorBeastSubdued = false,
+        bool casterBeastSubdued = false)
+    {
+        if (!tableConfirmed)
+            throw new InvalidOperationException("Confirme que o detector está usando Sentir o Invisível contra esta proteção.");
+        if (detectorPool is < 0 or > 50 || casterPool is < 0 or > 50)
+            throw new ArgumentOutOfRangeException(nameof(detectorPool), "As paradas devem estar entre 0 e 50 dados.");
+        if (detectorHunger is < 0 or > 5 || casterHunger is < 0 or > 5)
+            throw new ArgumentOutOfRangeException(nameof(detectorHunger), "A Fome deve estar entre 0 e 5.");
+
+        var detectorOriginal = DicePoolRules.Roll(detectorPool, detectorHunger, 0, random);
+        var casterOriginal = DicePoolRules.Roll(casterPool, casterHunger, 0, random);
+        var detectorRoll = QuellBeastRules.ApplyToRoll(detectorOriginal, detectorBeastSubdued);
+        var casterRoll = QuellBeastRules.ApplyToRoll(casterOriginal, casterBeastSubdued);
+        return new(detectorRoll, casterRoll,
+            WardRules.IsDetected(detectorRoll.Successes, casterRoll.Successes),
+            detectorBeastSubdued,
+            detectorOriginal.Outcome == TestOutcome.MessyCritical && detectorRoll.Outcome == TestOutcome.CriticalSuccess,
+            casterBeastSubdued,
+            casterOriginal.Outcome == TestOutcome.MessyCritical && casterRoll.Outcome == TestOutcome.CriticalSuccess);
+    }
 }
 
 /// <summary>Damage is a proposal; the caller must confirm before applying it to another sheet.</summary>
@@ -64,3 +88,7 @@ public sealed record WardContactAttempt(DicePoolResult? Roll, WardContactResult 
 
 public sealed record WardRetryAttempt(DicePoolResult Roll, bool BeastSubduedConsidered,
     bool MessyCriticalConverted);
+
+public sealed record WardDetectionAttempt(DicePoolResult DetectorRoll, DicePoolResult CasterRoll,
+    bool Detected, bool DetectorBeastSubduedConsidered, bool DetectorMessyCriticalConverted,
+    bool CasterBeastSubduedConsidered, bool CasterMessyCriticalConverted);

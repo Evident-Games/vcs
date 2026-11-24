@@ -85,6 +85,14 @@
                 <CheckBox Content="Narrador confirmou intruso já afetado e gasto de 1 Vontade" IsChecked="{Binding WardRetryCostConfirmed}"/>
                 <TextBlock Text="Ao alterar o executor ou sua parada, confirme novamente o gasto já realizado; o aplicativo não cobra Vontade automaticamente." TextWrapping="Wrap" Foreground="{DynamicResource ThemeInputDescription}"/>
                 <Button Content="Rolar resistência à proteção" Command="{Binding RollWardRetryCommand}" HorizontalAlignment="Left"/>
+                <Expander Header="Sentir o Invisível: detectar proteção" Margin="0,8"><StackPanel Margin="8">
+                    <TextBlock Text="Selecione uma proteção ativa. Informe Inteligência + Auspícios e Fome do detector; o conjurador usa Inteligência + Feitiçaria de Sangue desta ficha. O detector é o personagem ativo e vence empates. Fonte: Livro base, p. 275." TextWrapping="Wrap"/>
+                    <TextBlock Text="Parada e Fome do detector"/>
+                    <WrapPanel><controls:NumericField Value="{Binding WardDetectionPool}" Minimum="0" Maximum="50"/><controls:NumericField Value="{Binding WardDetectionHunger}" Minimum="0" Maximum="5"/></WrapPanel>
+                    <CheckBox Content="A mesa confirmou que a Besta do detector está subjugada" IsChecked="{Binding WardDetectionBeastSubdued}"/>
+                    <CheckBox Content="A mesa confirmou o uso de Sentir o Invisível contra esta proteção" IsChecked="{Binding WardDetectionConfirmed}"/>
+                    <Button Content="Resolver disputa de detecção" Command="{Binding DetectWardCommand}" HorizontalAlignment="Left"/>
+                </StackPanel></Expander>
                 <CheckBox Content="Narrador confirmou perigo durante o sono" IsChecked="{Binding AwakeningDangerConfirmed}"/>
                 <Button Content="Resolver perigo: ritual de despertar" Command="{Binding ResolveAwakeningDangerCommand}" HorizontalAlignment="Left"/>
                 <Button Content="Encerrar sono diurno" Command="{Binding EndAwakeningSleepCommand}" HorizontalAlignment="Left"/>

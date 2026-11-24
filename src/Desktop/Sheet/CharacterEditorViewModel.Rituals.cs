@@ -27,9 +27,16 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private int wardRetryHunger;
     [ObservableProperty] private bool wardRetryCostConfirmed;
     [ObservableProperty] private bool wardRetryBeastSubdued;
+    [ObservableProperty] private int wardDetectionPool = 5;
+    [ObservableProperty] private int wardDetectionHunger;
+    [ObservableProperty] private bool wardDetectionBeastSubdued;
+    [ObservableProperty] private bool wardDetectionConfirmed;
     partial void OnWardRetryBeastSubduedChanged(bool value) => WardRetryCostConfirmed = false;
     partial void OnWardRetryPoolChanged(int value) => WardRetryCostConfirmed = false;
     partial void OnWardRetryHungerChanged(int value) => WardRetryCostConfirmed = false;
+    partial void OnWardDetectionPoolChanged(int value) => WardDetectionConfirmed = false;
+    partial void OnWardDetectionHungerChanged(int value) => WardDetectionConfirmed = false;
+    partial void OnWardDetectionBeastSubduedChanged(bool value) => WardDetectionConfirmed = false;
     partial void OnWardIntruderIsCasterChanged(bool value)
     {
         WardContactConfirmed = false;
@@ -125,6 +132,8 @@ public partial class CharacterEditorViewModel
         WardIntruderIsCaster = false;
         WardRetryCostConfirmed = false;
         WardRetryBeastSubdued = false;
+        WardDetectionConfirmed = false;
+        WardDetectionBeastSubdued = false;
         WardIntruder = "";
     }
 
@@ -313,6 +322,50 @@ public partial class CharacterEditorViewModel
         ShowDiceRoll("Resistência à proteção", RitualPreparationSummary,
             roll.NormalDice.Select(x => new RolledDieDisplay(x, "COMUM")).Concat(roll.HungerDice.Select(x => new RolledDieDisplay(x, "FOME"))));
         WardRetryCostConfirmed = false;
+    }
+
+    [RelayCommand]
+    private void DetectWard()
+    {
+        if (SelectedPowerEffect is not { Active: true } ward ||
+            RitualUseCatalog.Find(ward.PowerId)?.Kind != "ward")
+        { RitualPreparationSummary = "Selecione uma proteção de objeto ativa para a tentativa de detecção."; return; }
+        try
+        {
+            var casterPool = Math.Clamp(AttributeRating("intelligence") +
+                DisciplineRating("discipline-blood-sorcery"), 0, 50);
+            var attempt = new WardActions().Detect(WardDetectionPool, WardDetectionHunger,
+                casterPool, Hunger, WardDetectionConfirmed,
+                detectorBeastSubdued: WardDetectionBeastSubdued,
+                casterBeastSubdued: HasActivePower("power-animalism-quell-the-beast"));
+            var detector = attempt.DetectorRoll;
+            var caster = attempt.CasterRoll;
+            RitualPreparationSummary = $"Sentir o Invisível contra {ward.Name} em {ward.Target}: " +
+                $"detector {detector.Successes} sucesso(s), conjurador {caster.Successes} sucesso(s). " +
+                (attempt.Detected
+                    ? "A proteção foi detectada; natureza, autoria e demais detalhes continuam sob decisão do Narrador."
+                    : "A proteção não foi detectada nesta disputa.") +
+                (attempt.DetectorBeastSubduedConsidered
+                    ? attempt.DetectorMessyCriticalConverted
+                        ? " Besta Subjugada do detector: crítico bestial convertido em crítico normal."
+                        : " Besta Subjugada do detector confirmada e considerada."
+                    : "") +
+                (attempt.CasterBeastSubduedConsidered
+                    ? attempt.CasterMessyCriticalConverted
+                        ? " Besta Subjugada do conjurador: crítico bestial convertido em crítico normal."
+                        : " Besta Subjugada do conjurador confirmada e considerada."
+                    : "") +
+                " Nenhuma ficha foi alterada. Fonte: Livro base, pp. 246 e 275.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            ShowDiceRoll("Detecção de proteção", RitualPreparationSummary,
+                detector.NormalDice.Select(x => new RolledDieDisplay(x, "DETECTOR"))
+                    .Concat(detector.HungerDice.Select(x => new RolledDieDisplay(x, "FOME DETECTOR")))
+                    .Concat(caster.NormalDice.Select(x => new RolledDieDisplay(x, "CONJURADOR")))
+                    .Concat(caster.HungerDice.Select(x => new RolledDieDisplay(x, "FOME CONJURADOR"))));
+            WardDetectionConfirmed = false;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
     }
 
     [RelayCommand]
