@@ -223,6 +223,25 @@ public partial class CharacterEditorViewModel
     }
 
     [RelayCommand]
+    private void EndTruthOfBloodAfterScene()
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-truth-of-blood" } entry)
+        { RitualPreparationSummary = "Selecione Verdade do Sangue com afirmações ativas."; return; }
+        try
+        {
+            var ended = new RitualWorkflowActions().EndTruthOfBloodAfterScene(entry,
+                CoreRitualConditionsConfirmed);
+            ReplacePowerEffect(entry, ended);
+            RitualPreparationSummary = ended.Effect + $" Fonte: {ended.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            MarkChanged();
+            CoreRitualConditionsConfirmed = false;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
     private void ExpireIlluminatedTrail()
     {
         if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-illuminate-trail-of-prey" } entry)

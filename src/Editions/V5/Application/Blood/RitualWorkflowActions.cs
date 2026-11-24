@@ -179,6 +179,22 @@ public sealed class RitualWorkflowActions
         };
     }
 
+    /// <summary>End a still-active Truth of Blood sequence when its scene and mixture end.</summary>
+    public PowerEffectEntry EndTruthOfBloodAfterScene(PowerEffectEntry entry, bool tableConfirmed)
+    {
+        if (entry is not { Active: true, PowerId: "ritual-truth-of-blood",
+                RitualWorkflow: { Stage: "statements", Resolved: false } state } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione Verdade do Sangue com afirmações ativas e confirme o fim da cena com a mesa.");
+
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with { Stage = "ended", Resolved = true },
+            Effect = TruthOfBloodRules.SceneEndingEffect,
+            Duration = "Encerrado"
+        };
+    }
+
     public RitualWorkflowResolution ConsumeAir(RitualUseDefinition ritual, RitualWorkflowState state, bool confirmed)
     {
         if (ritual.Kind != "air" || state.Stage != "potion" || state.Charges < 1 || !confirmed)
@@ -512,6 +528,8 @@ public sealed class RitualWorkflowActions
             return "Use o encerramento de Aderência do Inseto: confirme o fim da cena ou, em vitória crítica, o fim da noite.";
         if (entry.PowerId == "ritual-communicate-with-kindred-sire" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
             return "Use o encerramento da Comunicação com o Senhor: confirme os dez minutos de comunicação ou uma perturbação em qualquer lado.";
+        if (entry.PowerId == "ritual-truth-of-blood" && entry.RitualWorkflow is { Stage: "statements", Resolved: false })
+            return "Use o encerramento de Verdade do Sangue: confirme o fim da cena; uma falha na disputa já encerra o ritual automaticamente.";
         if (entry.PowerId == "ritual-eyes-of-babel" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
             return "Use a expiração de Olhos de Babel: informe e confirme a data atual da crônica para validar uma semana ou, em vitória crítica, um mês.";
         if (entry.PowerId == "ritual-illuminate-trail-of-prey" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })

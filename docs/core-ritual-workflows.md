@@ -16,7 +16,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Iluminar o Rastro da Presa | Custo, teste, dificuldade por margem, duração, rastreio posterior e expiração confirmada por noite da crônica; considera Besta Subjugada | Trajeto real, validade do rastro anterior ao ritual e interpretação do Narrador |
 | Olhos de Babel | Custo, teste, semana/mês conforme crítico, data de início persistida e expiração validada pela data da crônica | Idiomas efetivamente conhecidos pela vítima; a mesa confirma a data atual |
 | Proteção contra Espíritos | Mesmo fluxo dedicado de objeto, com nível próprio | Identidade, contato e dano no espírito |
-| Verdade do Sangue | Determinação + Feitiçaria, sucessos opostos, afirmações sucessivas sem novo custo; o conjurador vence empates como personagem ativo | Conhecimento do alvo, memórias e resposta do Narrador |
+| Verdade do Sangue | Determinação + Feitiçaria, sucessos opostos, afirmações sucessivas sem novo custo; o conjurador vence empates como personagem ativo; falha ou fim de cena encerram o fluxo | Conhecimento do alvo, memórias e resposta do Narrador |
 | Andarilho do Fogo | Custo, Vigor + Determinação dificuldade 3, redução de fogo no dano confirmado desta ficha e encerramento explícito pela noite da crônica | Dedo sacrificado e proteção de terceiros; não impõe limite inventado de três beneficiários nem altera outra ficha |
 | O Chamado de Dagon | Custo por execução, oposição, margem/tipo de dano, empate vencido pelo conjurador ativo e até duas repetições pagas no mesmo preparo | Exposição ao Sangue e intervalo, oposição informada e aplicação na vítima |
 | Círculo de Proteção contra Espíritos | Fluxo dos círculos com nível próprio | Mesmas confirmações dos círculos; ocultistas humanos não têm fluxo próprio |
@@ -66,6 +66,12 @@ O fluxo usa a data de início persistida na resolução. Registros antigos sem d
 O livro-base V5 (página impressa 277) concede dez minutos de comunicação silenciosa e determina que qualquer perturbação em qualquer um dos lados derruba a conexão. `SireCommunicationRules` mantém essas duas condições no módulo de regras V5 e `RitualWorkflowActions.EndSireCommunication` exige confirmação explícita da mesa antes de tornar o registro inativo. O encerramento genérico não pode mais apagar a conexão sem registrar a causa.
 
 O aplicativo não inicia cronômetro, não detecta perturbações e não inventa o contato ou o conteúdo da conversa. A interface apenas permite confirmar uma das duas condições; o resultado é persistido no efeito e no diário existentes. A classificação e as contagens permanecem inalteradas.
+
+## Encerramento de Verdade do Sangue
+
+O livro-base V5 (páginas impressas 277–278) determina que cada afirmação usa uma disputa separada, que uma falha encerra o ritual e que a mistura vira cinzas ao fim da cena. O fluxo já torna o registro inativo após uma disputa perdida; `RitualWorkflowActions.EndTruthOfBloodAfterScene` agora cobre a outra condição, exigindo confirmação explícita da mesa. `TruthOfBloodRules` conserva a fonte e o resultado de encerramento fora da interface, e a ação genérica não pode mais descartar silenciosamente uma sequência ativa.
+
+O aplicativo não determina se uma afirmação é verdadeira, não inventa detalhes críticos e não recupera memórias apagadas. A resposta continua sendo fornecida pelo Narrador conforme o conhecimento do alvo. O encerramento apenas persiste o fim da cena no efeito e no diário existentes; a classificação e as contagens permanecem inalteradas.
 
 ## Contextos, exceções e persistência
 
