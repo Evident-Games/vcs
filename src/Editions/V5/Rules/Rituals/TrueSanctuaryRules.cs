@@ -9,7 +9,9 @@ public static class TrueSanctuaryRules
 {
     public static TrueSanctuaryPreparationRequirements Preparation() => new(2, 3, 120, 2);
 
-    public static RitualCirclePair ValidateCirclePair(string departure, string destination)
+    public static SanctuaryCirclePairValidation ValidateCirclePair(string departure, string destination,
+        bool departureFixedSurfaceConfirmed, bool destinationFixedSurfaceConfirmed,
+        bool noEndpointInVehicleConfirmed, bool placementExceptionApproved = false)
     {
         var departureLocation = departure.Trim();
         var destinationLocation = destination.Trim();
@@ -17,8 +19,19 @@ public static class TrueSanctuaryRules
             throw new InvalidOperationException("Identifique os locais dos círculos de partida e de chegada.");
         if (string.Equals(departureLocation, destinationLocation, StringComparison.OrdinalIgnoreCase))
             throw new InvalidOperationException("Os círculos de partida e de chegada precisam ter identificações distintas.");
-        return new(departureLocation, destinationLocation);
+        var placementValid = departureFixedSurfaceConfirmed && destinationFixedSurfaceConfirmed &&
+            noEndpointInVehicleConfirmed;
+        if (!placementValid && !placementExceptionApproved)
+            throw new InvalidOperationException(
+                "Confirme que os dois círculos estão no solo ou piso de uma construção e que nenhum está em veículo.");
+        return new(new(departureLocation, destinationLocation, departureFixedSurfaceConfirmed,
+            destinationFixedSurfaceConfirmed, noEndpointInVehicleConfirmed,
+            !placementValid && placementExceptionApproved), !placementValid);
     }
+
+    public static bool HasValidOrApprovedPlacement(RitualCirclePair pair) =>
+        (pair.DepartureFixedSurfaceConfirmed && pair.DestinationFixedSurfaceConfirmed &&
+         pair.NoEndpointInVehicleConfirmed) || pair.PlacementExceptionApproved;
 
     public static bool CirclePairMatches(RitualCirclePair current, RitualCirclePair proposed) =>
         string.Equals(current.Departure, proposed.Departure, StringComparison.OrdinalIgnoreCase) &&
@@ -66,6 +79,9 @@ public static class TrueSanctuaryRules
     {
         var requirements = Preparation();
         if (circle < 1 || circle > requirements.CircleCount) throw new ArgumentOutOfRangeException(nameof(circle));
+        if (!HasValidOrApprovedPlacement(circlePair))
+            throw new InvalidOperationException(
+                "Reconfirme que os dois círculos estão em superfícies fixas e fora de veículos antes de pagar outra checagem.");
         var previous = paidChecks.Where(x => x.Circle == circle).OrderBy(x => x.Sequence).ToArray();
         for (var index = 0; index < previous.Length; index++)
             if (previous[index].Sequence != index + 1)
@@ -92,6 +108,8 @@ public static class TrueSanctuaryRules
 }
 
 public sealed record SanctuaryPreparationAdvance(RitualPreparationStep Step, bool ScheduleExceptionUsed);
+
+public sealed record SanctuaryCirclePairValidation(RitualCirclePair Pair, bool PlacementExceptionUsed);
 
 /// <summary>A travel payload is only a recorded proposal; another sheet or inventory is never changed.</summary>
 public sealed record SanctuaryTravelPayload(bool CarriesPerson, bool CarriesObjects, string Description,

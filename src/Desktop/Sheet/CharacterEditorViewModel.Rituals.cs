@@ -87,13 +87,17 @@ public partial class CharacterEditorViewModel
         var alreadyAttempted = PowerEffects.Any(x => x.Active && x.IsSelf && x.PowerId == "ritual-sanctuary-travel-attempt");
         var preparation = SanctuaryPaidChecks();
         var preparationIncomplete = preparation.Length > 0 && !TrueSanctuaryRules.IsPreparationComplete(preparation);
-        var pairMissing = preparation.Length > 0 && SanctuaryActivePair() is null;
+        var activePair = SanctuaryActivePair();
+        var pairMissing = preparation.Length > 0 && activePair is null;
+        var pairPlacementMissing = activePair is not null && !TrueSanctuaryRules.HasValidOrApprovedPlacement(activePair);
         var pairDamaged = SanctuaryPairWasDamaged();
-        if ((ritual.HasWarning || alreadyAttempted || preparationIncomplete || pairMissing || pairDamaged) &&
+        if ((ritual.HasWarning || alreadyAttempted || preparationIncomplete || pairMissing ||
+             pairPlacementMissing || pairDamaged) &&
             (!RitualExceptionApproved || string.IsNullOrWhiteSpace(RitualExceptionReason)))
         { RitualPreparationSummary = (alreadyAttempted ? "Já houve uma tentativa de viagem nesta cena. " : "") +
             (preparationIncomplete ? "A preparação registrada dos círculos ainda está incompleta. " : "") +
             (pairMissing ? "A preparação registrada não identifica os locais de partida e chegada. " : "") +
+            (pairPlacementMissing ? "O par registrado não confirma superfícies fixas fora de veículos. " : "") +
             (pairDamaged ? "O último par registrado ficou inerte após dano confirmado. " : "") +
             (ritual.HasWarning ? ritual.Warning + " " : "") + "Autorize e justifique a exceção com o Narrador."; return; }
         if (!SanctuaryTravelConfirmed)
@@ -103,6 +107,7 @@ public partial class CharacterEditorViewModel
             var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
             var result = new TrueSanctuaryActions().AttemptTravel(pool, Hunger, true, !pairDamaged || RitualExceptionApproved, true, true, alreadyAttempted,
                 SanctuaryCarriesPerson, SanctuaryCarriesObjects, SanctuaryPayloadDescription, SanctuaryObjectMassConfirmed,
+                activePair, preparation.Length > 0, RitualExceptionApproved,
                 beastSubdued: HasActivePower("power-animalism-quell-the-beast"),
                 sceneLimitExceptionApproved: alreadyAttempted && RitualExceptionApproved);
             var roll = result.Roll;
@@ -119,6 +124,10 @@ public partial class CharacterEditorViewModel
                 ExceptionRegister.Record(ritual.Name, "Viagem com preparação registrada incompleta", RitualExceptionReason.Trim());
             if (pairMissing)
                 ExceptionRegister.Record(ritual.Name, "Viagem sem locais persistidos para o par registrado", RitualExceptionReason.Trim());
+            if (pairPlacementMissing)
+                ExceptionRegister.Record(ritual.Name,
+                    "Viagem sem posicionamento persistido dos círculos em superfícies fixas fora de veículos",
+                    RitualExceptionReason.Trim());
             if (pairDamaged)
                 ExceptionRegister.Record(ritual.Name, "Viagem com par de círculos inerte após dano confirmado", RitualExceptionReason.Trim());
             if (!alreadyAttempted)

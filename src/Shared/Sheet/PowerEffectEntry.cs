@@ -12,8 +12,10 @@ public sealed record PowerEffectEntry(Guid Id, string PowerId, string Name, stri
 /// <summary>A paid preparation check, with a table-supplied date and edition-specific sequence.</summary>
 public sealed record RitualPreparationStep(int Circle, int Sequence, DateOnly NightDate, string Location = "");
 
-/// <summary>Table-supplied identities for the paired True Sanctuary circles.</summary>
-public sealed record RitualCirclePair(string Departure, string Destination);
+/// <summary>Table-supplied identities and placement confirmations for a paired ritual circle.</summary>
+public sealed record RitualCirclePair(string Departure, string Destination,
+    bool DepartureFixedSurfaceConfirmed = false, bool DestinationFixedSurfaceConfirmed = false,
+    bool NoEndpointInVehicleConfirmed = false, bool PlacementExceptionApproved = false);
 
 /// <summary>Saved ritual workflow; stage names are interpreted only by the corresponding edition.</summary>
 public sealed record RitualWorkflowState(int ChecksPaid = 0, string Stage = "preparing", bool Resolved = false,

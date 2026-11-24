@@ -30,7 +30,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Proteção contra Cainitas | Fluxo dedicado preservado, conjurador isento; preparo bloqueado sem confirmação da condição noturna de frenesi de terror ou exceção justificada; encerramento confirmado pela destruição ou quebra do objeto | Leitura da assinatura por Auspícios e consequências no intruso |
 | Círculo de Proteção contra Cainitas | Fluxo dos círculos com nível próprio e orientação persistida | Posição, elegibilidade e consequências no intruso |
 | Coração de Pedra | Custo, frenesi antes do teste, crítico, cura específica explícita uma vez, reversão por repetição, ajustes sociais/contra Presença, bloqueio de Presença e −3 em Remorso | Confirmar vela e dano já marcado; imunidade a estacas é informada, sem resolvedor universal de estaqueamento |
-| Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, identidades persistentes de partida/chegada, rolagem por viagem, limite por cena, proposta validada de carga e inutilização persistida do par quando um círculo sofre dano | Presença no círculo, ocorrência real do dano, concentração, massa real e deslocamento narrativo |
+| Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, identidades e posicionamento fixo persistentes, proibição de veículo, rolagem por viagem, limite por cena, proposta validada de carga e inutilização persistida do par quando um círculo sofre dano | Presença no círculo, ocorrência real do dano, concentração, massa real e deslocamento narrativo |
 | Fuste de Extinção Tardia | Duas checagens separadas, preparo/teste, ataque com +3, margem de Morte Final/lasca, cirurgia Destreza + Medicina dificuldade 6 | Tempo de avanço da lasca decidido pelo Narrador, não especificado numericamente no livro; vítima, integridade e consequências confirmadas; não aplica Morte Final |
 
 ## Auditoria: Aderência do Inseto
@@ -132,6 +132,12 @@ A ficha grava um marcador do dano e impede que a ausência de preparações ativ
 O livro base, página impressa 281 (página 283 do PDF fornecido), determina que um dos dois círculos seja designado como partida e o outro como chegada. `TrueSanctuaryRules.ValidateCirclePair` exige duas identificações não vazias e distintas; a ficha persiste o par ativo e também grava o local correspondente em cada nova checagem de preparação.
 
 Antes do primeiro custo, a mesa confirma os dois locais. Fichas antigas podem associar explicitamente um par às checagens já registradas sem apagá-las; mudar uma identificação existente exige autorização e justificativa do Narrador, que ficam na ficha. Dano confirmado ou encerramento do preparo inativa também o registro do par. Preparações registradas sem um par identificado bloqueiam a viagem, salvo exceção justificada. O aplicativo não valida coordenadas, não comprova presença física e não move personagens.
+
+## Posicionamento fixo dos círculos do Santuário
+
+Na mesma página impressa 281 (página 283 do PDF fornecido), o livro determina que os círculos sejam inscritos no solo ou no piso de uma construção e não em veículo. O registro do par agora exige confirmação separada da superfície de partida, da superfície de chegada e da ausência de veículo. Essas decisões ficam no `RitualCirclePair`, com campos opcionais para manter fichas anteriores legíveis.
+
+Um par legado sem essas confirmações bloqueia novas checagens até ser reconfirmado. A viagem também valida o par persistido no serviço de aplicação; uma decisão excepcional exige autorização e justificativa do Narrador e fica gravada na ficha. O aplicativo não inspeciona o cenário nem infere se uma construção ou veículo se moveu: a mesa fornece o fato, e nenhuma posição é alterada automaticamente.
 
 ## Auditoria da Besta nos procedimentos coordenados
 

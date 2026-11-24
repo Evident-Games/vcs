@@ -15,6 +15,9 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool sanctuaryCircleDamageConfirmed;
     [ObservableProperty] private string sanctuaryDepartureLocation = "";
     [ObservableProperty] private string sanctuaryDestinationLocation = "";
+    [ObservableProperty] private bool sanctuaryDepartureFixedSurfaceConfirmed;
+    [ObservableProperty] private bool sanctuaryDestinationFixedSurfaceConfirmed;
+    [ObservableProperty] private bool sanctuaryNoCircleInVehicleConfirmed;
     [ObservableProperty] private bool sanctuaryLocationsConfirmed;
 
     private RitualPreparationStep[] SanctuaryPaidChecks() => PowerEffects.Where(x => x.Active && x.IsSelf &&
@@ -44,7 +47,11 @@ public partial class CharacterEditorViewModel
             var paid = SanctuaryPaidChecks();
             var damage = SanctuaryPairWasDamaged() ? " · último par inerte por dano confirmado" : "";
             var pair = SanctuaryActivePair();
-            var locations = pair is null ? "locais ainda não registrados" : $"{pair.Departure} → {pair.Destination}";
+            var placement = pair is null ? "" : pair.PlacementExceptionApproved
+                ? " · posicionamento por exceção do Narrador"
+                : pair.DepartureFixedSurfaceConfirmed && pair.DestinationFixedSurfaceConfirmed &&
+                  pair.NoEndpointInVehicleConfirmed ? " · superfícies fixas confirmadas" : " · posicionamento legado não confirmado";
+            var locations = pair is null ? "locais ainda não registrados" : $"{pair.Departure} → {pair.Destination}{placement}";
             return $"Partida: {paid.Count(x => x.Circle == 1)}/6 checagens · Chegada: {paid.Count(x => x.Circle == 2)}/6 checagens · {locations}{damage}";
         }
     }
@@ -63,6 +70,27 @@ public partial class CharacterEditorViewModel
         SanctuaryTravelConfirmed = false;
     }
 
+    partial void OnSanctuaryDepartureFixedSurfaceConfirmedChanged(bool value)
+    {
+        SanctuaryLocationsConfirmed = false;
+        SanctuaryPreparationConfirmed = false;
+        SanctuaryTravelConfirmed = false;
+    }
+
+    partial void OnSanctuaryDestinationFixedSurfaceConfirmedChanged(bool value)
+    {
+        SanctuaryLocationsConfirmed = false;
+        SanctuaryPreparationConfirmed = false;
+        SanctuaryTravelConfirmed = false;
+    }
+
+    partial void OnSanctuaryNoCircleInVehicleConfirmedChanged(bool value)
+    {
+        SanctuaryLocationsConfirmed = false;
+        SanctuaryPreparationConfirmed = false;
+        SanctuaryTravelConfirmed = false;
+    }
+
     [RelayCommand]
     private void RegisterSanctuaryCirclePair()
     {
@@ -72,7 +100,9 @@ public partial class CharacterEditorViewModel
         try
         {
             var result = new TrueSanctuaryActions().RegisterCirclePair(PowerEffects,
-                SanctuaryDepartureLocation, SanctuaryDestinationLocation, SanctuaryLocationsConfirmed,
+                SanctuaryDepartureLocation, SanctuaryDestinationLocation,
+                SanctuaryDepartureFixedSurfaceConfirmed, SanctuaryDestinationFixedSurfaceConfirmed,
+                SanctuaryNoCircleInVehicleConfirmed, SanctuaryLocationsConfirmed,
                 RitualExceptionApproved && !string.IsNullOrWhiteSpace(RitualExceptionReason));
             var pair = result.Pair;
             if (result.EndedPair is { } ended && PowerEffects.FirstOrDefault(x => x.Id == ended.Id) is { } currentPair)
@@ -86,16 +116,24 @@ public partial class CharacterEditorViewModel
                                 .Where(x => !string.IsNullOrWhiteSpace(x)))
                             : updated.Ruling
                     });
-            var summary = $"Par do Santuário registrado: partida em {pair.Departure}; chegada em {pair.Destination}.";
+            var placementSummary = result.PlacementExceptionUsed
+                ? " Posicionamento aceito por exceção justificada do Narrador."
+                : " Ambos os círculos foram confirmados no solo ou piso de uma construção e fora de veículos.";
+            var summary = $"Par do Santuário registrado: partida em {pair.Departure}; chegada em {pair.Destination}." +
+                placementSummary;
             PowerEffects.Add(new PowerEffectEntry(Guid.NewGuid(), "ritual-sanctuary-circle-pair",
                 "Fuga para o Verdadeiro Santuário", $"{pair.Departure} → {pair.Destination}", true,
                 DateTime.UtcNow, summary, "Enquanto este par permanecer ativo",
                 "Vampiro: A Máscara V5 (Livro base), p. 281",
-                result.CorrectionUsed ? RitualExceptionReason.Trim() : "", true,
+                result.CorrectionUsed || result.PlacementExceptionUsed ? RitualExceptionReason.Trim() : "", true,
                 CirclePair: pair));
             if (result.CorrectionUsed)
                 ExceptionRegister.Record("Fuga para o Verdadeiro Santuário",
                     "Correção dos locais do par de círculos", RitualExceptionReason.Trim());
+            if (result.PlacementExceptionUsed)
+                ExceptionRegister.Record("Fuga para o Verdadeiro Santuário",
+                    "Posicionamento dos círculos fora da regra de solo ou piso fixo e sem veículo",
+                    RitualExceptionReason.Trim());
             SanctuaryDepartureLocation = pair.Departure;
             SanctuaryDestinationLocation = pair.Destination;
             SanctuaryLocationsConfirmed = false;
