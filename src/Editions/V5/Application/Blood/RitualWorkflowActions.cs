@@ -312,13 +312,14 @@ public sealed class RitualWorkflowActions
             ? DateOnly.FromDateTime(legacyDate)
             : null);
         if (startedOn is null)
-            return EndBabelByRuling(entry, state, currentDate, exceptionApproved, exceptionReason,
-                "O registro antigo não informa quando o efeito começou");
+            return EndTimedRitualByRuling(entry, state, currentDate, exceptionApproved, exceptionReason,
+                "O registro antigo não informa quando o efeito começou", "Olhos de Babel");
         var confirmedStart = startedOn.Value;
         var expiresOn = state.StoredCritical ? confirmedStart.AddMonths(1) : confirmedStart.AddDays(7);
         if (currentDate < expiresOn)
-            return EndBabelByRuling(entry, state, currentDate, exceptionApproved, exceptionReason,
-                $"Olhos de Babel ainda está ativo: começou em {confirmedStart:dd/MM/yyyy} e termina em {expiresOn:dd/MM/yyyy}");
+            return EndTimedRitualByRuling(entry, state, currentDate, exceptionApproved, exceptionReason,
+                $"Olhos de Babel ainda está ativo: começou em {confirmedStart:dd/MM/yyyy} e termina em {expiresOn:dd/MM/yyyy}",
+                "Olhos de Babel");
 
         return entry with
         {
@@ -329,8 +330,46 @@ public sealed class RitualWorkflowActions
         };
     }
 
-    private static PowerEffectEntry EndBabelByRuling(PowerEffectEntry entry, RitualWorkflowState state,
-        DateOnly currentDate, bool exceptionApproved, string exceptionReason, string reason)
+    /// <summary>End a Bloodstone bond after one week or when the table confirms that the stone was destroyed.</summary>
+    public PowerEffectEntry EndBloodstone(PowerEffectEntry entry, BloodstoneEnding ending, DateOnly currentDate,
+        bool tableConfirmed, bool exceptionApproved, string exceptionReason)
+    {
+        if (entry is not { Active: true, PowerId: "ritual-craft-bloodstone",
+                RitualWorkflow: { Stage: "effect", Resolved: true } state } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione uma Pedra de Sangue ativa e confirme a condição de encerramento com a mesa.");
+
+        if (ending == BloodstoneEnding.Destroyed)
+            return entry with
+            {
+                Active = false,
+                RitualWorkflow = state with { Stage = "ended", LastNightAdvanced = currentDate },
+                Effect = $"Destruição da Pedra de Sangue confirmada em {currentDate:dd/MM/yyyy}; o vínculo foi encerrado.",
+                Duration = "Encerrado: pedra destruída"
+            };
+
+        var startedOn = state.EffectStartedOn ?? (entry.GameDate is { } legacyDate
+            ? DateOnly.FromDateTime(legacyDate)
+            : null);
+        if (startedOn is null)
+            return EndTimedRitualByRuling(entry, state, currentDate, exceptionApproved, exceptionReason,
+                "O registro antigo não informa quando o vínculo começou", "Vínculo da Pedra de Sangue");
+        var expiresOn = startedOn.Value.AddDays(7);
+        if (currentDate < expiresOn)
+            return EndTimedRitualByRuling(entry, state, currentDate, exceptionApproved, exceptionReason,
+                $"O vínculo ainda está ativo: começou em {startedOn.Value:dd/MM/yyyy} e termina em {expiresOn:dd/MM/yyyy}",
+                "Vínculo da Pedra de Sangue");
+
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with { Stage = "ended", LastNightAdvanced = currentDate },
+            Effect = $"Data da crônica {currentDate:dd/MM/yyyy} confirmada; a semana da Pedra de Sangue terminou.",
+            Duration = "Encerrado: uma semana concluída"
+        };
+    }
+
+    private static PowerEffectEntry EndTimedRitualByRuling(PowerEffectEntry entry, RitualWorkflowState state,
+        DateOnly currentDate, bool exceptionApproved, string exceptionReason, string reason, string effectName)
     {
         if (!exceptionApproved || string.IsNullOrWhiteSpace(exceptionReason))
             throw new InvalidOperationException(reason + "; apenas uma decisão excepcional justificada do Narrador pode encerrar este registro.");
@@ -339,7 +378,7 @@ public sealed class RitualWorkflowActions
         {
             Active = false,
             RitualWorkflow = state with { Stage = "ended", LastNightAdvanced = currentDate },
-            Effect = $"Olhos de Babel encerrado por decisão excepcional do Narrador em {currentDate:dd/MM/yyyy}: {ruling}",
+            Effect = $"{effectName} encerrado por decisão excepcional do Narrador em {currentDate:dd/MM/yyyy}: {ruling}",
             Duration = "Encerrado por decisão do Narrador",
             Ruling = string.IsNullOrWhiteSpace(entry.Ruling) ? ruling : entry.Ruling + " | Encerramento: " + ruling
         };
@@ -426,6 +465,8 @@ public sealed class RitualWorkflowActions
             return "Use o encerramento de Aderência do Inseto: confirme o fim da cena ou, em vitória crítica, o fim da noite.";
         if (entry.PowerId == "ritual-eyes-of-babel" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
             return "Use a expiração de Olhos de Babel: informe e confirme a data atual da crônica para validar uma semana ou, em vitória crítica, um mês.";
+        if (entry.PowerId == "ritual-craft-bloodstone" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
+            return "Use o encerramento da Pedra de Sangue: confirme sua destruição ou informe a data da crônica para validar uma semana.";
         if (entry.PowerId == "ritual-eyes-of-nighthawk" && entry.RitualWorkflow is { Stage: "effect" or "blindness" })
             return "Use o encerramento de Olhos do Falcão Noturno: confirme os olhos da ave no fim da noite; a cegueira usa noites da crônica ou decisão excepcional registrada.";
         if (entry.PowerId == "ritual-sanctuary-preparation-check")
@@ -530,5 +571,6 @@ public sealed record RitualNightEnding(RitualWorkflowState EndedState, RitualEff
 public enum SacredHavenEnding { DayEnded, CasterLeftArea }
 public enum DeflectionEnding { NightEnded, SplinterRemoved }
 public enum ClingingEnding { SceneEnded, NightEnded }
+public enum BloodstoneEnding { WeekElapsed, Destroyed }
 internal sealed record RitualRollAudit(DicePoolResult Roll, bool BeastSubduedConsidered,
     bool MessyCriticalConverted);

@@ -25,6 +25,13 @@
             <TextBlock Text="Data na crônica (preparo / duração / encerramento)"/>
             <TextBox Text="{Binding PowerGameDate, StringFormat=dd/MM/yyyy, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"/>
             <Button Content="Pedra de Sangue: registrar uma hora nesta noite confirmada" Command="{Binding RecordBloodstonePreparationNightCommand}" HorizontalAlignment="Left"/>
+            <Expander Header="Pedra de Sangue: encerramento do vínculo" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Selecione a pedra ativa, informe acima a data atual da crônica e confirme a condição com a mesa. O vínculo termina após uma semana ou quando a pedra é destruída. Fonte: Livro base, p. 276." TextWrapping="Wrap"/>
+                <CheckBox Content="Narrador autorizou encerramento excepcional antes do prazo ou sem data de início" IsChecked="{Binding RitualEndingExceptionApproved}"/>
+                <TextBox Text="{Binding RitualEndingExceptionReason, UpdateSourceTrigger=PropertyChanged}" ToolTip="Justificativa obrigatória da decisão excepcional" TextWrapping="Wrap"/>
+                <Button Content="Confirmar que uma semana terminou" Command="{Binding EndBloodstoneAfterWeekCommand}" HorizontalAlignment="Left"/>
+                <Button Content="Confirmar que a pedra foi destruída" Command="{Binding EndBloodstoneDestroyedCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <WrapPanel>
                 <StackPanel Margin="0,8,16,8"><TextBlock Text="Sucessos da oposição (Verdade / Dagon / passageiro)"/><controls:NumericField Value="{Binding CoreRitualOpponentSuccesses}" Minimum="0" Maximum="100"/></StackPanel>
                 <StackPanel Margin="0,8,16,8"><TextBlock Text="Raio da área (metros)"/><controls:NumericField Value="{Binding CoreRitualAreaRadius}" Minimum="0" Maximum="100"/></StackPanel>

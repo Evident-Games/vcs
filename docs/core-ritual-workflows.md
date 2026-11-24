@@ -8,7 +8,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | --- | --- | --- |
 | Aderência do Inseto | Custo, teste, beneficiário conjurador; proposta descreve paredes/tetos, mãos e pés, velocidade aproximada pela metade e encerramento validado por cena ou noite conforme o crítico salvo | A mesa escolhe a superfície e conduz o deslocamento; o app não simula mapa ou velocidade tática |
 | Caminho do Sangue | Custo, teste, informações solicitadas e ampliação crítica | Amostra, geração, nomes e Laços reais do alvo |
-| Criar Pedra de Sangue | Custo, três noites registradas com confirmação de uma hora, teste final e limite por Determinação; em sucesso, informa duração de uma semana e propõe que o conjurador perceba direção e distância da pedra | Quantidade de pedras ativas, posição real e destruição; a mesa fornece as datas da crônica e confirma se a pedra continua vinculada |
+| Criar Pedra de Sangue | Custo, três noites registradas com confirmação de uma hora, teste final, limite por Determinação e encerramento por uma semana ou destruição confirmada | Quantidade e posição reais; a mesa fornece as datas da crônica e confirma a destruição da pedra |
 | Despertar com o Frescor do Anoitecer | Preparo, custo, teste adiado ao perigo, encerramento do sono | Perigo real e limites da vigília; fluxo dedicado |
 | Proteção contra Carniçais | Preparo, custo, contato elegível e resistência posterior | Contato voluntário, identificação do tipo, dano ao intruso |
 | Círculo de Proteção contra Carniçais | Três custos, versão até amanhecer/ano e dia, dificuldade, disputas e histórico por intruso; empate permite a passagem porque o intruso é o personagem ativo | Círculo intacto, elegibilidade, sentido da passagem, custo de Vontade e dano em outra ficha |
@@ -48,6 +48,12 @@ O ritual continua parcialmente assistido e as contagens permanecem em 26 rituais
 O livro-base V5 (página impressa 277) concede leitura e fala dos idiomas conhecidos pela vítima por uma semana; uma vitória crítica estende a duração para um mês. O fluxo agora persiste a data da crônica na resolução bem-sucedida e `RitualWorkflowActions.ExpireEyesOfBabel` calcula o término com sete dias ou um mês de calendário, conforme o crítico já salvo.
 
 A expiração exige que a mesa informe e confirme a data atual da crônica. Datas anteriores ao prazo são recusadas, o relógio real não encerra efeitos e o comando genérico fica bloqueado enquanto o benefício estiver ativo. Registros antigos usam a data já existente no efeito quando disponível; sem qualquer data, o app não inventa um início. Encerramento antecipado ou sem data exige autorização e justificativa do Narrador, gravadas no efeito e na tabela de exceções. Os idiomas efetivamente conhecidos pela vítima continuam sendo decisão da mesa. A cobertura permanece parcialmente assistida e as contagens não mudam.
+
+## Encerramento da Pedra de Sangue
+
+O livro-base V5 (página impressa 276) determina que o conjurador sente direção e distância da pedra até ela ser destruída ou até uma semana passar. O fluxo agora usa a data da resolução bem-sucedida para validar a semana e oferece uma causa separada para a destruição confirmada pela mesa. Ambas conservam o registro inativo na ficha; o encerramento genérico fica bloqueado enquanto o vínculo estiver ativo.
+
+O relógio real não encerra o vínculo, e o app não presume destruição, posição ou inventário de pedras. Registros antigos usam sua data existente quando possível. Sem data, ou antes do prazo, o encerramento temporal exige autorização e justificativa do Narrador gravadas no efeito e na tabela de exceções. A quantidade ativa continua sendo informada ao preparar outra pedra, porque o app não rastreia objetos no mundo. A integração melhora o ciclo de vida sem alterar as contagens de cobertura.
 
 ## Contextos, exceções e persistência
 

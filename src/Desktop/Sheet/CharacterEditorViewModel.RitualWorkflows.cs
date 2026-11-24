@@ -451,6 +451,36 @@ public partial class CharacterEditorViewModel
     }
 
     [RelayCommand]
+    private void EndBloodstoneAfterWeek() => EndBloodstone(BloodstoneEnding.WeekElapsed);
+
+    [RelayCommand]
+    private void EndBloodstoneDestroyed() => EndBloodstone(BloodstoneEnding.Destroyed);
+
+    private void EndBloodstone(BloodstoneEnding ending)
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-craft-bloodstone" } entry)
+        { RitualPreparationSummary = "Selecione uma Pedra de Sangue ativa."; return; }
+        try
+        {
+            var ended = new RitualWorkflowActions().EndBloodstone(entry, ending,
+                DateOnly.FromDateTime(PowerGameDate), CoreRitualConditionsConfirmed,
+                RitualEndingExceptionApproved, RitualEndingExceptionReason);
+            ReplacePowerEffect(entry, ended);
+            RitualPreparationSummary = ended.Effect + $" Fonte: {ended.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            if (ended.Duration == "Encerrado por decisão do Narrador")
+                ExceptionRegister.Record(entry.Name, "Encerramento excepcional da Pedra de Sangue",
+                    RitualEndingExceptionReason.Trim());
+            MarkChanged();
+            CoreRitualConditionsConfirmed = false;
+            RitualEndingExceptionApproved = false;
+            RitualEndingExceptionReason = "";
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
     private void ResolveRitualAirPassengerContest()
     {
         if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-essence-of-air", RitualWorkflow: { } state } entry ||
