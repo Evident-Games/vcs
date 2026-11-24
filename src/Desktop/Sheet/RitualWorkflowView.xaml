@@ -93,6 +93,12 @@
                 <Button Content="Confirmar que o conjurador deixou a área" Command="{Binding EndSacredHavenAfterCasterLeftCommand}" HorizontalAlignment="Left"/>
             </StackPanel></Expander>
             <Button Content="Iluminar Rastro: rolar Inteligência + Sobrevivência" Command="{Binding RollRitualTrackingCommand}" HorizontalAlignment="Left"/>
+            <Expander Header="Iluminar o Rastro da Presa: expiração" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Selecione o rastro ativo, informe acima a noite da crônica que terminou e confirme com a mesa. O rastro permanece visível pela noite do ritual; vitória crítica inclui a segunda noite. O app não presume que o trajeto ainda é válido. Fonte: Livro base, p. 277." TextWrapping="Wrap"/>
+                <CheckBox Content="Narrador autorizou encerramento excepcional antes do prazo ou sem noite de início" IsChecked="{Binding RitualEndingExceptionApproved}"/>
+                <TextBox Text="{Binding RitualEndingExceptionReason, UpdateSourceTrigger=PropertyChanged}" ToolTip="Justificativa obrigatória da decisão excepcional" TextWrapping="Wrap"/>
+                <Button Content="Confirmar fim da noite e encerrar quando a duração terminar" Command="{Binding ExpireIlluminatedTrailCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <Expander Header="Olhos do Falcão Noturno: encerramento" Margin="0,8"><StackPanel Margin="8">
                 <TextBlock Text="Selecione o voo ativo, informe acima a noite da crônica que terminou e confirme as circunstâncias com o Narrador. Escolha explicitamente o que ocorreu com os olhos da ave. Fonte: Livro base, p. 280." TextWrapping="Wrap"/>
                 <Button Content="Fim da noite: olhos da ave removidos" Command="{Binding EndNighthawkWithEyesRemovedCommand}" HorizontalAlignment="Left"/>

@@ -330,6 +330,36 @@ public sealed class RitualWorkflowActions
         };
     }
 
+    /// <summary>End an illuminated trail only after the table confirms the last night covered by the ritual.</summary>
+    public PowerEffectEntry ExpireIlluminatedTrail(PowerEffectEntry entry, DateOnly completedNight,
+        bool tableConfirmed, bool exceptionApproved, string exceptionReason)
+    {
+        if (entry is not { Active: true, PowerId: "ritual-illuminate-trail-of-prey",
+                RitualWorkflow: { Stage: "effect", Resolved: true } state } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione um rastro iluminado ativo e confirme com a mesa qual noite da crônica terminou.");
+
+        var startedOn = state.EffectStartedOn ?? (entry.GameDate is { } legacyDate
+            ? DateOnly.FromDateTime(legacyDate)
+            : null);
+        if (startedOn is null)
+            return EndTimedRitualByRuling(entry, state, completedNight, exceptionApproved, exceptionReason,
+                "O registro antigo não informa a noite em que o rastro foi iluminado", "Rastro iluminado");
+
+        var finalNight = IlluminatedTrailRules.ExpiresAfterNight(startedOn.Value, state.StoredCritical);
+        if (completedNight < finalNight)
+            return EndTimedRitualByRuling(entry, state, completedNight, exceptionApproved, exceptionReason,
+                $"O rastro ainda está visível: começou em {startedOn.Value:dd/MM/yyyy} e inclui a noite de {finalNight:dd/MM/yyyy}",
+                "Rastro iluminado");
+
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with { Stage = "ended", LastNightAdvanced = completedNight },
+            Effect = $"Fim da noite de {completedNight:dd/MM/yyyy} confirmado; o rastro iluminado deixou de ser visível.",
+            Duration = "Encerrado"
+        };
+    }
+
     /// <summary>End a Bloodstone bond after one week or when the table confirms that the stone was destroyed.</summary>
     public PowerEffectEntry EndBloodstone(PowerEffectEntry entry, BloodstoneEnding ending, DateOnly currentDate,
         bool tableConfirmed, bool exceptionApproved, string exceptionReason)
@@ -465,6 +495,8 @@ public sealed class RitualWorkflowActions
             return "Use o encerramento de Aderência do Inseto: confirme o fim da cena ou, em vitória crítica, o fim da noite.";
         if (entry.PowerId == "ritual-eyes-of-babel" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
             return "Use a expiração de Olhos de Babel: informe e confirme a data atual da crônica para validar uma semana ou, em vitória crítica, um mês.";
+        if (entry.PowerId == "ritual-illuminate-trail-of-prey" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
+            return "Use a expiração de Iluminar o Rastro da Presa: confirme o fim da noite ou, em vitória crítica, da segunda noite.";
         if (entry.PowerId == "ritual-craft-bloodstone" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
             return "Use o encerramento da Pedra de Sangue: confirme sua destruição ou informe a data da crônica para validar uma semana.";
         if (entry.PowerId == "ritual-eyes-of-nighthawk" && entry.RitualWorkflow is { Stage: "effect" or "blindness" })

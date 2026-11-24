@@ -13,7 +13,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Proteção contra Carniçais | Preparo, custo, contato elegível e resistência posterior | Contato voluntário, identificação do tipo, dano ao intruso |
 | Círculo de Proteção contra Carniçais | Três custos, versão até amanhecer/ano e dia, dificuldade, disputas e histórico por intruso; empate permite a passagem porque o intruso é o personagem ativo | Círculo intacto, elegibilidade, sentido da passagem, custo de Vontade e dano em outra ficha |
 | Comunicação com o Senhor do Membro | Custo, teste, atraso e duração; crítico elimina atraso | Contato e conteúdo da comunicação; sem relógio automático |
-| Iluminar o Rastro da Presa | Custo, teste, dificuldade por margem, duração e rastreio posterior na aplicação; considera Besta Subjugada | Trajeto real, validade temporal e interpretação do Narrador |
+| Iluminar o Rastro da Presa | Custo, teste, dificuldade por margem, duração, rastreio posterior e expiração confirmada por noite da crônica; considera Besta Subjugada | Trajeto real, validade do rastro anterior ao ritual e interpretação do Narrador |
 | Olhos de Babel | Custo, teste, semana/mês conforme crítico, data de início persistida e expiração validada pela data da crônica | Idiomas efetivamente conhecidos pela vítima; a mesa confirma a data atual |
 | Proteção contra Espíritos | Mesmo fluxo dedicado de objeto, com nível próprio | Identidade, contato e dano no espírito |
 | Verdade do Sangue | Determinação + Feitiçaria, sucessos opostos, afirmações sucessivas sem novo custo; o conjurador vence empates como personagem ativo | Conhecimento do alvo, memórias e resposta do Narrador |
@@ -54,6 +54,12 @@ A expiração exige que a mesa informe e confirme a data atual da crônica. Data
 O livro-base V5 (página impressa 276) determina que o conjurador sente direção e distância da pedra até ela ser destruída ou até uma semana passar. O fluxo agora usa a data da resolução bem-sucedida para validar a semana e oferece uma causa separada para a destruição confirmada pela mesa. Ambas conservam o registro inativo na ficha; o encerramento genérico fica bloqueado enquanto o vínculo estiver ativo.
 
 O relógio real não encerra o vínculo, e o app não presume destruição, posição ou inventário de pedras. Registros antigos usam sua data existente quando possível. Sem data, ou antes do prazo, o encerramento temporal exige autorização e justificativa do Narrador gravadas no efeito e na tabela de exceções. A quantidade ativa continua sendo informada ao preparar outra pedra, porque o app não rastreia objetos no mundo. A integração melhora o ciclo de vida sem alterar as contagens de cobertura.
+
+## Expiração de Iluminar o Rastro da Presa
+
+O livro-base V5 (página impressa 277) mantém o rastro visível pela noite inteira; uma vitória crítica estende a visibilidade a duas noites. `IlluminatedTrailRules.ExpiresAfterNight` define a última noite coberta pela regra V5, enquanto `RitualWorkflowActions.ExpireIlluminatedTrail` exige a data da crônica e a confirmação explícita da mesa antes de encerrar o registro. A ação genérica de encerramento não pode mais contornar esse prazo.
+
+O fluxo usa a data de início persistida na resolução. Registros antigos sem data e encerramentos antes da última noite exigem exceção justificada do Narrador, gravada na ficha. A mesa ainda decide se o caminho original foi percorrido nas 24 horas anteriores ao ritual, se o rastro permanece materialmente válido e como o trajeto é descrito; nenhuma posição ou ficha externa é alterada. A classificação e as contagens permanecem inalteradas.
 
 ## Contextos, exceções e persistência
 

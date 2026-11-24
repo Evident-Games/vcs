@@ -33,4 +33,13 @@ public static class RitualOngoingRules
         bool protectedByHaven, bool sunlight) => incorporeal && ordinaryPhysicalSource || protectedByHaven && sunlight;
 }
 
+/// <summary>Duration of the trail is V5-specific and independent of UI or wall-clock time.</summary>
+[RuleSource("Vampiro: A Máscara V5 (Livro base), p. 277")]
+public static class IlluminatedTrailRules
+{
+    /// <summary>The casting night is the first night; a critical success adds one further night.</summary>
+    public static DateOnly ExpiresAfterNight(DateOnly castingNight, bool critical) =>
+        critical ? castingNight.AddDays(1) : castingNight;
+}
+
 public sealed record NighthawkEnding(int BlindnessNights, string Effect);

@@ -197,6 +197,31 @@ public partial class CharacterEditorViewModel
     }
 
     [RelayCommand]
+    private void ExpireIlluminatedTrail()
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-illuminate-trail-of-prey" } entry)
+        { RitualPreparationSummary = "Selecione um rastro iluminado ativo."; return; }
+        try
+        {
+            var ended = new RitualWorkflowActions().ExpireIlluminatedTrail(entry,
+                DateOnly.FromDateTime(PowerGameDate), CoreRitualConditionsConfirmed,
+                RitualEndingExceptionApproved, RitualEndingExceptionReason);
+            ReplacePowerEffect(entry, ended);
+            RitualPreparationSummary = ended.Effect + $" Fonte: {ended.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            if (ended.Duration == "Encerrado por decisão do Narrador")
+                ExceptionRegister.Record(entry.Name, "Encerramento excepcional do rastro iluminado",
+                    RitualEndingExceptionReason.Trim());
+            MarkChanged();
+            CoreRitualConditionsConfirmed = false;
+            RitualEndingExceptionApproved = false;
+            RitualEndingExceptionReason = "";
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
     private void RecordBloodstonePreparationNight()
     {
         if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-craft-bloodstone", RitualWorkflow: { } state } entry)
