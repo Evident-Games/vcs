@@ -674,6 +674,22 @@ public sealed class RitualWorkflowActions
             MessyCriticalConverted: rollAudit.MessyCriticalConverted);
     }
 
+    public RitualWorkflowResolution RemoveShaftSplinterByAmputation(RitualWorkflowState state,
+        bool doctorUnavailableConfirmed, bool amputationConfirmed, bool beforeTrunkConfirmed)
+    {
+        if (state.Stage != "splinter")
+            throw new InvalidOperationException("Selecione uma lasca ativa do Fuste antes de registrar a amputação.");
+        if (!doctorUnavailableConfirmed)
+            throw new InvalidOperationException("Confirme com a mesa que não há médico disponível para extrair a lasca.");
+        if (!beforeTrunkConfirmed)
+            throw new InvalidOperationException("Confirme com a mesa que a lasca ainda não alcançou o tronco.");
+        if (!amputationConfirmed)
+            throw new InvalidOperationException("Confirme com a mesa que o membro afetado foi amputado para remover a lasca.");
+        return new(state with { Stage = "removed" },
+            new(true, "Sem médico disponível, a amputação foi confirmada antes de a lasca alcançar o tronco; a lasca foi removida. Nenhuma ficha externa foi alterada.",
+                "Encerrado"), null);
+    }
+
     private static RitualRollAudit ApplyBeastToRoll(DicePoolResult originalRoll, bool beastSubdued)
     {
         var roll = QuellBeastRules.ApplyToRoll(originalRoll, beastSubdued);

@@ -31,7 +31,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Círculo de Proteção contra Cainitas | Fluxo dos círculos com nível próprio e orientação persistida | Posição, elegibilidade e consequências no intruso |
 | Coração de Pedra | Custo, frenesi antes do teste, crítico, cura específica explícita uma vez, reversão por repetição, ajustes sociais/contra Presença, bloqueio de Presença e −3 em Remorso | Confirmar vela e dano já marcado; imunidade a estacas é informada, sem resolvedor universal de estaqueamento |
 | Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, identidades, diâmetro aproximado e posicionamento fixo persistentes, proibição de veículo, confirmações separadas de integridade/partida/concentração, rolagem por viagem, limite por cena, proposta validada de carga e inutilização persistida do par quando um círculo sofre dano | Ocorrência real das condições confirmadas, medida real, massa real e deslocamento narrativo |
-| Fuste de Extinção Tardia | Duas checagens separadas, preparo/teste, ataque com +3, margem de Morte Final/lasca, cirurgia Destreza + Medicina dificuldade 6 | Tempo de avanço da lasca decidido pelo Narrador, não especificado numericamente no livro; vítima, integridade e consequências confirmadas; não aplica Morte Final |
+| Fuste de Extinção Tardia | Duas checagens separadas, preparo/teste, ataque com +3, margem de Morte Final/lasca, cirurgia Destreza + Medicina dificuldade 6 e remoção confirmada por amputação antes de a lasca alcançar o tronco | Tempo de avanço da lasca decidido pelo Narrador, não especificado numericamente no livro; vítima, integridade, amputação e consequências confirmadas; não aplica Morte Final nem altera ficha externa |
 
 ## Auditoria: Aderência do Inseto
 
@@ -188,6 +188,12 @@ A verificação já existente para identificação do alvo e para beneficiários
 ## Fuste: Besta subjugada do executor
 
 Nos testes posteriores de ataque e cirurgia do Fuste, a mesa pode informar explicitamente que a Besta do executor daquela rolagem está subjugada. O serviço V5 aplica `QuellBeastRules` ao resultado existente e a mesma mesa de dados apresenta as faces e o resultado; não presume que o executor seja o dono da ficha nem altera outra ficha. A marcação é limpa ao selecionar outro efeito, e alterá-la exige confirmar novamente as condições. O livro base, página impressa 246 (página 248 do PDF consultado), prevê imunidade a crítico bestial enquanto a Besta estiver subjugada. A identidade, condições da cirurgia e consequências na vítima continuam sob decisão da mesa. Esta integração amplia procedimentos existentes, sem reclassificar a cobertura de poderes ou rituais.
+
+## Fuste: remoção da lasca por amputação
+
+O livro base, página impressa 282 (página 284 do PDF fornecido), permite que qualquer pessoa remova a lasca de um Fuste amputando o membro afetado quando não há médico disponível, desde que ela ainda não tenha alcançado o tronco. `RitualWorkflowActions` agora oferece essa resolução sem rolagem: exige uma lasca ativa e confirmações separadas de que não há médico disponível, de que a lasca ainda não chegou ao tronco e de que a amputação realmente ocorreu.
+
+A ficha encerra o registro da lasca e grava a proposta no diário, mas não calcula ferimentos, não executa a amputação e não altera a ficha da vítima. As confirmações são limpas ao trocar de efeito, depois de outro resultado de ataque/cirurgia e depois do registro. Local afetado, tempo de avanço, consequências e qualquer atualização externa continuam sob decisão explícita da mesa.
 
 ## Proteções de objeto: Besta subjugada do intruso
 

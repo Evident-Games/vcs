@@ -31,6 +31,9 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private int ritualFollowUpPool = 5;
     [ObservableProperty] private int ritualFollowUpHunger;
     [ObservableProperty] private bool ritualFollowUpBeastSubdued;
+    [ObservableProperty] private bool ritualShaftDoctorUnavailableConfirmed;
+    [ObservableProperty] private bool ritualShaftAmputationConfirmed;
+    [ObservableProperty] private bool ritualShaftBeforeTrunkConfirmed;
     [ObservableProperty] private int ritualAirPassengerPool = 5;
     [ObservableProperty] private int ritualAirPassengerHunger;
     [ObservableProperty] private bool ritualAirPassengerBeastSubdued;
@@ -340,6 +343,30 @@ public partial class CharacterEditorViewModel
     [RelayCommand]
     private void RollRitualShaftSurgery() => ResolveShaftFollowUp(true);
 
+    [RelayCommand]
+    private void ResolveRitualShaftAmputation()
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-shaft-of-belated-quiescence", RitualWorkflow: { } state } entry)
+        { RitualPreparationSummary = "Selecione uma lasca ativa do Fuste."; return; }
+        try
+        {
+            var result = new RitualWorkflowActions().RemoveShaftSplinterByAmputation(state,
+                RitualShaftDoctorUnavailableConfirmed, RitualShaftAmputationConfirmed, RitualShaftBeforeTrunkConfirmed);
+            ReplacePowerEffect(entry, entry with { RitualWorkflow = result.State, Effect = result.Proposal.Effect,
+                Duration = result.Proposal.Duration, Active = false, PoolBonus = 0 });
+            RitualPreparationSummary = $"{entry.Name}: {result.Proposal.Effect} Duração: {result.Proposal.Duration}. Fonte: {entry.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            MarkChanged();
+            RefreshRollPool();
+            RefreshPowerUse();
+            RitualShaftDoctorUnavailableConfirmed = false;
+            RitualShaftAmputationConfirmed = false;
+            RitualShaftBeforeTrunkConfirmed = false;
+        }
+        catch (InvalidOperationException exception)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
     private void ResolveShaftFollowUp(bool surgery)
     {
         if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-shaft-of-belated-quiescence", RitualWorkflow: { } state } entry)
@@ -352,6 +379,9 @@ public partial class CharacterEditorViewModel
             ReplacePowerEffect(entry, entry with { RitualWorkflow = result.State, Effect = result.Proposal.Effect + RitualBeastAudit(result),
                 Duration = result.Proposal.Duration, Active = result.State.Stage != "removed", PoolBonus = result.State.Stage == "effect" ? 3 : 0 });
             DisplayRitualResolution(entry, result);
+            RitualShaftDoctorUnavailableConfirmed = false;
+            RitualShaftAmputationConfirmed = false;
+            RitualShaftBeforeTrunkConfirmed = false;
         }
         catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
         { RitualPreparationSummary = exception.Message; }
