@@ -162,6 +162,23 @@ public sealed class RitualWorkflowActions
             MessyCriticalConverted: rollAudit.MessyCriticalConverted);
     }
 
+    /// <summary>End the Sire communication only when the table confirms its ten minutes or a disturbance.</summary>
+    public PowerEffectEntry EndSireCommunication(PowerEffectEntry entry, SireCommunicationEnding ending,
+        bool tableConfirmed)
+    {
+        if (entry is not { Active: true, PowerId: "ritual-communicate-with-kindred-sire",
+                RitualWorkflow: { Stage: "effect", Resolved: true } state } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione uma Comunicação com o Senhor ativa e confirme a condição de encerramento com a mesa.");
+
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with { Stage = "ended" },
+            Effect = SireCommunicationRules.EndingEffect(ending),
+            Duration = "Encerrado"
+        };
+    }
+
     public RitualWorkflowResolution ConsumeAir(RitualUseDefinition ritual, RitualWorkflowState state, bool confirmed)
     {
         if (ritual.Kind != "air" || state.Stage != "potion" || state.Charges < 1 || !confirmed)
@@ -493,6 +510,8 @@ public sealed class RitualWorkflowActions
             return "Use o encerramento de Andarilho do Fogo: informe a noite da crônica e confirme que ela terminou.";
         if (entry.PowerId == "ritual-clinging-of-the-insect" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
             return "Use o encerramento de Aderência do Inseto: confirme o fim da cena ou, em vitória crítica, o fim da noite.";
+        if (entry.PowerId == "ritual-communicate-with-kindred-sire" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
+            return "Use o encerramento da Comunicação com o Senhor: confirme os dez minutos de comunicação ou uma perturbação em qualquer lado.";
         if (entry.PowerId == "ritual-eyes-of-babel" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
             return "Use a expiração de Olhos de Babel: informe e confirme a data atual da crônica para validar uma semana ou, em vitória crítica, um mês.";
         if (entry.PowerId == "ritual-illuminate-trail-of-prey" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })

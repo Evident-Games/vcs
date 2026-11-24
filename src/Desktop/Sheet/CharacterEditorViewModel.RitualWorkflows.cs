@@ -197,6 +197,32 @@ public partial class CharacterEditorViewModel
     }
 
     [RelayCommand]
+    private void EndSireCommunicationAfterTenMinutes() =>
+        EndSireCommunication(SireCommunicationEnding.TenMinutesElapsed);
+
+    [RelayCommand]
+    private void EndSireCommunicationAfterDisturbance() =>
+        EndSireCommunication(SireCommunicationEnding.Disturbed);
+
+    private void EndSireCommunication(SireCommunicationEnding ending)
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-communicate-with-kindred-sire" } entry)
+        { RitualPreparationSummary = "Selecione uma Comunicação com o Senhor ativa."; return; }
+        try
+        {
+            var ended = new RitualWorkflowActions().EndSireCommunication(entry, ending,
+                CoreRitualConditionsConfirmed);
+            ReplacePowerEffect(entry, ended);
+            RitualPreparationSummary = ended.Effect + $" Fonte: {ended.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            MarkChanged();
+            CoreRitualConditionsConfirmed = false;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
     private void ExpireIlluminatedTrail()
     {
         if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-illuminate-trail-of-prey" } entry)

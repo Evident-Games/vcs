@@ -55,6 +55,11 @@
                 <TextBox Text="{Binding RitualEndingExceptionReason, UpdateSourceTrigger=PropertyChanged}" ToolTip="Justificativa obrigatória da decisão excepcional" TextWrapping="Wrap"/>
                 <Button Content="Confirmar data e encerrar se a duração terminou" Command="{Binding ExpireEyesOfBabelCommand}" HorizontalAlignment="Left"/>
             </StackPanel></Expander>
+            <Expander Header="Comunicação com o Senhor: encerramento" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Selecione a conexão ativa e confirme com a mesa qual condição ocorreu. A comunicação dura dez minutos e qualquer perturbação em qualquer um dos lados encerra a conexão. O app não usa um relógio real nem presume a perturbação. Fonte: Livro base, p. 277." TextWrapping="Wrap"/>
+                <Button Content="Confirmar que os dez minutos terminaram" Command="{Binding EndSireCommunicationAfterTenMinutesCommand}" HorizontalAlignment="Left"/>
+                <Button Content="Confirmar perturbação em um dos lados" Command="{Binding EndSireCommunicationAfterDisturbanceCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <Expander Header="Andarilho do Fogo: encerramento" Margin="0,8"><StackPanel Margin="8">
                 <TextBlock Text="Selecione o efeito ativo, informe acima a noite da crônica que terminou e confirme com a mesa. A resistência vale somente pelo restante daquela noite. Fonte: Livro base, p. 278." TextWrapping="Wrap"/>
                 <Button Content="Confirmar fim da noite e encerrar resistência" Command="{Binding EndFirewalkerAfterNightCommand}" HorizontalAlignment="Left"/>

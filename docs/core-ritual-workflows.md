@@ -12,7 +12,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Despertar com o Frescor do Anoitecer | Preparo, custo, teste adiado ao perigo, encerramento do sono | Perigo real e limites da vigília; fluxo dedicado |
 | Proteção contra Carniçais | Preparo, custo, contato elegível e resistência posterior | Contato voluntário, identificação do tipo, dano ao intruso |
 | Círculo de Proteção contra Carniçais | Três custos, versão até amanhecer/ano e dia, dificuldade, disputas e histórico por intruso; empate permite a passagem porque o intruso é o personagem ativo | Círculo intacto, elegibilidade, sentido da passagem, custo de Vontade e dano em outra ficha |
-| Comunicação com o Senhor do Membro | Custo, teste, atraso e duração; crítico elimina atraso | Contato e conteúdo da comunicação; sem relógio automático |
+| Comunicação com o Senhor do Membro | Custo, teste, atraso, duração e encerramento confirmado após dez minutos ou perturbação; crítico elimina atraso | Contato, conteúdo da comunicação e ocorrência real da perturbação; sem relógio automático |
 | Iluminar o Rastro da Presa | Custo, teste, dificuldade por margem, duração, rastreio posterior e expiração confirmada por noite da crônica; considera Besta Subjugada | Trajeto real, validade do rastro anterior ao ritual e interpretação do Narrador |
 | Olhos de Babel | Custo, teste, semana/mês conforme crítico, data de início persistida e expiração validada pela data da crônica | Idiomas efetivamente conhecidos pela vítima; a mesa confirma a data atual |
 | Proteção contra Espíritos | Mesmo fluxo dedicado de objeto, com nível próprio | Identidade, contato e dano no espírito |
@@ -60,6 +60,12 @@ O relógio real não encerra o vínculo, e o app não presume destruição, posi
 O livro-base V5 (página impressa 277) mantém o rastro visível pela noite inteira; uma vitória crítica estende a visibilidade a duas noites. `IlluminatedTrailRules.ExpiresAfterNight` define a última noite coberta pela regra V5, enquanto `RitualWorkflowActions.ExpireIlluminatedTrail` exige a data da crônica e a confirmação explícita da mesa antes de encerrar o registro. A ação genérica de encerramento não pode mais contornar esse prazo.
 
 O fluxo usa a data de início persistida na resolução. Registros antigos sem data e encerramentos antes da última noite exigem exceção justificada do Narrador, gravada na ficha. A mesa ainda decide se o caminho original foi percorrido nas 24 horas anteriores ao ritual, se o rastro permanece materialmente válido e como o trajeto é descrito; nenhuma posição ou ficha externa é alterada. A classificação e as contagens permanecem inalteradas.
+
+## Encerramento da Comunicação com o Senhor
+
+O livro-base V5 (página impressa 277) concede dez minutos de comunicação silenciosa e determina que qualquer perturbação em qualquer um dos lados derruba a conexão. `SireCommunicationRules` mantém essas duas condições no módulo de regras V5 e `RitualWorkflowActions.EndSireCommunication` exige confirmação explícita da mesa antes de tornar o registro inativo. O encerramento genérico não pode mais apagar a conexão sem registrar a causa.
+
+O aplicativo não inicia cronômetro, não detecta perturbações e não inventa o contato ou o conteúdo da conversa. A interface apenas permite confirmar uma das duas condições; o resultado é persistido no efeito e no diário existentes. A classificação e as contagens permanecem inalteradas.
 
 ## Contextos, exceções e persistência
 
