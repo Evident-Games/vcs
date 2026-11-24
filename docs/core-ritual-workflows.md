@@ -27,7 +27,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Defesa do Refúgio Sagrado | Custo, raio máximo, teste ao nascer do sol confirmado, bloqueio de dano solar em área confirmada e encerramento explícito ao fim do dia ou quando o conjurador deixa a área | Adequação do local, permanência durante o preparo e aplicação a beneficiários externos |
 | Olhos do Falcão Noturno | Custo, teste, efeito/crítico, encerramento confirmado, cegueira persistente de três noites e avanço explícito pelas datas da crônica | Controle da ave, ações/Disciplinas e adjudicação de limitações da cegueira; nenhum modificador numérico é inventado |
 | Passagem Incorpórea | Custo, teste, efeito por cena/caco, bloqueio de Surto, proteção contra dano físico comum confirmado e materialização explícita por fim da cena ou perda do caco | Movimento em sólidos, fontes arcanas e destino exato ao materializar dentro de matéria sólida, decidido e registrado pelo Narrador |
-| Proteção contra Cainitas | Fluxo dedicado preservado, conjurador isento | Leitura da assinatura por Auspícios e consequências no intruso |
+| Proteção contra Cainitas | Fluxo dedicado preservado, conjurador isento; preparo bloqueado sem confirmação da condição noturna de frenesi de terror ou exceção justificada | Leitura da assinatura por Auspícios e consequências no intruso |
 | Círculo de Proteção contra Cainitas | Fluxo dos círculos com nível próprio | Elegibilidade, sentido da travessia e consequências no intruso |
 | Coração de Pedra | Custo, frenesi antes do teste, crítico, cura específica explícita uma vez, reversão por repetição, ajustes sociais/contra Presença, bloqueio de Presença e −3 em Remorso | Confirmar vela e dano já marcado; imunidade a estacas é informada, sem resolvedor universal de estaqueamento |
 | Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, dois círculos, rolagem por viagem e limite por cena | Locais, integridade, concentração e deslocamento narrativo |
@@ -190,6 +190,12 @@ Nenhum ritual foi reclassificado e as contagens de cobertura permanecem inaltera
 O livro base, página impressa 278 (página 280 do PDF fornecido), permite repetir o processo até mais duas vezes, cada uma mediante nova Checagem de Sangue. O fluxo agora mantém o preparo ativo somente enquanto uma repetição opcional estiver disponível. A mesa pode confirmar que o conjurador dispensa a próxima repetição; o registro então é preservado como concluído e inativo. A terceira execução também conclui o preparo automaticamente, sem criar um efeito contínuo inexistente.
 
 O encerramento genérico fica bloqueado durante essa decisão para não descartar silenciosamente o custo e o histórico. Exposição prévia ao Sangue, intervalo de uma hora a uma semana, sucessos da oposição, identidade e natureza do alvo continuam confirmados pela mesa. Cada dano permanece uma proposta e nenhuma ficha externa é alterada. A classificação e as contagens de cobertura não mudaram.
+
+## Proteção contra Cainitas: restrição de frenesi
+
+O livro base, página impressa 280 (página 282 do PDF fornecido), determina que um conjurador que falhou em um teste de frenesi de terror não pode inscrever a Proteção contra Cainitas naquela noite. `WardRules.ValidatePreparation` mantém essa restrição no módulo V5, e o fluxo dedicado exige confirmação explícita da mesa antes de realizar a Checagem de Sangue. Como o ritual não fixa uma dificuldade própria para esse teste, o aplicativo não fabrica uma rolagem; a resistência pode ser resolvida pelo procedimento geral de frenesi conforme o gatilho real da cena.
+
+Sem confirmação, o preparo é bloqueado antes do custo. Uma decisão excepcional só é aceita pelo mecanismo existente de autorização e justificativa do Narrador, gravado no registro da proteção e na tabela de exceções. Leitura da assinatura, identidade, contato e consequências no intruso continuam manuais; nenhuma ficha externa é alterada. As contagens e a classificação permanecem inalteradas.
 
 ## Essência do Ar: passageiro involuntário
 

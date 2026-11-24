@@ -6,9 +6,20 @@ namespace Game.Rules.V5.Rituals;
 [RuleSource("Vampiro: A Máscara V5 (Livro base), pp. 275, 279–280")]
 public static class WardRules
 {
+    public const string CainiteWardId = "ritual-ward-against-cainites";
+
+    /// <summary>A failed terror frenzy test prevents inscription of the Cainite ward for that night.</summary>
+    public static void ValidatePreparation(string? ritualId, bool nightlyFrenzyConditionConfirmed,
+        bool exceptionApproved)
+    {
+        if (ritualId == CainiteWardId && !nightlyFrenzyConditionConfirmed && !exceptionApproved)
+            throw new InvalidOperationException(
+                "Proteção contra Cainitas exige confirmar que o conjurador não falhou em um teste de frenesi de terror nesta noite.");
+    }
+
     /// <summary>The cainite object ward does not affect its caster; identity is confirmed by the table.</summary>
     public static bool ExcludesCaster(string? ritualId, bool intruderIsCaster) =>
-        intruderIsCaster && ritualId == "ritual-ward-against-cainites";
+        intruderIsCaster && ritualId == CainiteWardId;
 
     /// <summary>Resolves a ward's first voluntary contact after the ritual dice have been rolled.</summary>
     public static WardContactResult ResolveFirstContact(bool matchingIntruder, bool voluntaryContact, bool ritualSucceeded, bool critical)

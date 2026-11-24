@@ -17,6 +17,8 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool awakeningDangerConfirmed;
     [ObservableProperty] private bool sanctuaryTravelConfirmed;
     [ObservableProperty] private string wardObject = "";
+    [ObservableProperty] private bool wardCainiteFrenzyConditionConfirmed;
+    partial void OnWardCainiteFrenzyConditionConfirmedChanged(bool value) => RitualConditionsConfirmed = false;
     [ObservableProperty] private bool wardContactConfirmed;
     [ObservableProperty] private bool wardIntruderIsCaster;
     [ObservableProperty] private string wardIntruder = "";
@@ -45,6 +47,7 @@ public partial class CharacterEditorViewModel
         SanctuaryTravelConfirmed = false;
         SanctuaryPreparationConfirmed = false;
         SanctuaryResetConfirmed = false;
+        WardCainiteFrenzyConditionConfirmed = false;
         RitualPreparationSummary = "Confira novamente os ingredientes, o alvo e as condições deste ritual.";
     }
 
@@ -153,7 +156,9 @@ public partial class CharacterEditorViewModel
         {
             var pool = Math.Clamp(AttributeRating("intelligence") + DisciplineRating("discipline-blood-sorcery"), 0, 50);
             var result = new RitualActions().Prepare(definition.Level, Hunger, pool, deferred,
-                beastSubdued: HasActivePower("power-animalism-quell-the-beast"), ritualId: definition.Id);
+                beastSubdued: HasActivePower("power-animalism-quell-the-beast"), ritualId: definition.Id,
+                cainiteWardFrenzyConditionConfirmed: WardCainiteFrenzyConditionConfirmed,
+                exceptionApproved: RitualExceptionApproved);
             Hunger = result.Check.HungerAfter;
             if (RitualExceptionApproved)
                 ExceptionRegister.Record(ritual.Name, ritual.HasWarning ? ritual.Warning : "Exceção ao ritual", RitualExceptionReason.Trim());
@@ -170,7 +175,12 @@ public partial class CharacterEditorViewModel
             if (isWard)
             {
                 var ward = new PowerEffectEntry(Guid.NewGuid(), definition.Id, ritual.Name, WardObject.Trim(), false,
-                    DateTime.UtcNow, "Proteção preparada; aguardando primeiro contato elegível.",
+                    DateTime.UtcNow, "Proteção preparada; aguardando primeiro contato elegível." +
+                        (definition.Id == WardRules.CainiteWardId
+                            ? !WardCainiteFrenzyConditionConfirmed && RitualExceptionApproved
+                                ? " Restrição noturna de frenesi autorizada como exceção pelo Narrador."
+                                : " Condição noturna de frenesi de terror confirmada pela mesa."
+                            : ""),
                     "Até o objeto ser destruído ou quebrado", definition.Source, RitualExceptionReason, true,
                     RemainingPoints: definition.Level);
                 PowerEffects.Add(ward);
@@ -197,6 +207,7 @@ public partial class CharacterEditorViewModel
             }
             ShowDiceRoll(ritual.Name, RitualPreparationSummary, dice);
             RitualConditionsConfirmed = false;
+            WardCainiteFrenzyConditionConfirmed = false;
             RitualExceptionApproved = false;
             RitualExceptionReason = "";
         }

@@ -9,7 +9,8 @@ namespace Game.Application.Blood;
 public sealed class RitualActions
 {
     public RitualPreparation Prepare(int level, int hunger, int pool, bool deferred, Random? random = null,
-        bool beastSubdued = false, string? ritualId = null)
+        bool beastSubdued = false, string? ritualId = null,
+        bool cainiteWardFrenzyConditionConfirmed = false, bool exceptionApproved = false)
     {
         if (ritualId is not null && DisciplineCatalog.UnverifiedPowerIds.Contains(ritualId))
             throw new InvalidOperationException("A fonte deste ritual não foi verificada no livro base fornecido. Resolva manualmente com o Narrador; nenhuma checagem foi feita.");
@@ -20,6 +21,7 @@ public sealed class RitualActions
             var sanctuary = TrueSanctuaryRules.Preparation();
             throw new InvalidOperationException($"Fuga para o Verdadeiro Santuário requer {sanctuary.CircleCount} círculos, cada um preparado em {sanctuary.ConsecutiveNightsPerCircle} noites consecutivas, {sanctuary.MinutesPerCirclePerNight} minutos e {sanctuary.RouseChecksPerCirclePerNight} Checagens de Sangue por noite; {sanctuary.TotalRouseChecks} checagens no total. A rolagem ocorre em cada tentativa de viagem. Resolva e registre o processo com o Narrador. Nenhuma checagem foi feita. Fonte: Livro base, p. 281.");
         }
+        WardRules.ValidatePreparation(ritualId, cainiteWardFrenzyConditionConfirmed, exceptionApproved);
         var requirements = RitualRules.DefaultRequirements(level);
         if (hunger is < 0 or >= 5) throw new InvalidOperationException("Fome 5 impede despertar o Sangue voluntariamente.");
         if (pool is < 0 or > 50) throw new ArgumentOutOfRangeException(nameof(pool));
