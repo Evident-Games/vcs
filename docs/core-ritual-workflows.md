@@ -17,7 +17,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Olhos de Babel | Custo, teste, semana/mês conforme crítico | Idiomas efetivamente conhecidos pela vítima |
 | Proteção contra Espíritos | Mesmo fluxo dedicado de objeto, com nível próprio | Identidade, contato e dano no espírito |
 | Verdade do Sangue | Determinação + Feitiçaria, sucessos opostos, afirmações sucessivas sem novo custo; o conjurador vence empates como personagem ativo | Conhecimento do alvo, memórias e resposta do Narrador |
-| Andarilho do Fogo | Custo, Vigor + Determinação dificuldade 3, efeito até noite, redução de fogo no dano confirmado desta ficha | Dedo sacrificado, validade temporal e proteção de terceiros; não impõe limite inventado de três beneficiários |
+| Andarilho do Fogo | Custo, Vigor + Determinação dificuldade 3, redução de fogo no dano confirmado desta ficha e encerramento explícito pela noite da crônica | Dedo sacrificado e proteção de terceiros; não impõe limite inventado de três beneficiários nem altera outra ficha |
 | O Chamado de Dagon | Custo por execução, oposição, margem/tipo de dano, empate vencido pelo conjurador ativo e até duas repetições pagas no mesmo preparo | Exposição ao Sangue e intervalo, oposição informada e aplicação na vítima |
 | Círculo de Proteção contra Espíritos | Fluxo dos círculos com nível próprio | Mesmas confirmações dos círculos; ocultistas humanos não têm fluxo próprio |
 | Deflecção da Ruína de Madeira | Preparo/custo separados do teste no primeiro estaqueamento confirmado; a tentativa consome a proteção; encerramento explícito no fim da noite ou ao remover a lasca | Confirmação de estaca genuína, destruição e cegueira de dois turnos no atacante; nenhuma ficha externa é alterada |
@@ -184,3 +184,9 @@ O caso inverso também está integrado: a mesa identifica quem tenta puxar o con
 O livro base, páginas impressas 278–279 (páginas 280–281 do PDF fornecido), determina que o teste só ocorre na primeira tentativa genuína de estaquear. O resultado agora encerra o registro tanto no sucesso quanto na falha, preservando a proposta de estaca despedaçada e, em crítico, de cegueira por dois turnos. A cegueira continua apenas registrada: o app não altera silenciosamente a ficha do atacante.
 
 Se a tentativa não ocorrer, `RitualWorkflowActions.EndDeflection` exige confirmação explícita de uma das duas causas previstas: fim da noite ou remoção da lasca sob a língua. O encerramento genérico fica bloqueado enquanto o preparo aguarda o gatilho, evitando perder custo e estado sem registrar a causa. A classificação e as contagens de cobertura permanecem inalteradas: 26 rituais possuem fluxo, mas este procedimento ainda depende da mesa para reconhecer uma tentativa genuína e aplicar consequências externas.
+
+## Andarilho do Fogo: fim da noite
+
+O livro base, página impressa 278 (página 280 do PDF fornecido), limita a resistência a fogo ao restante da noite. `RitualWorkflowActions.EndFirewalker` agora exige que a mesa informe e confirme a noite da crônica concluída, conserva essa data no estado opcional já persistido e encerra o benefício sem criar uma rolagem.
+
+O encerramento genérico fica bloqueado enquanto o efeito estiver ativo. Na própria ficha, a interface também limpa o contexto de dano de fogo; para beneficiários externos, apenas o registro é encerrado e nenhuma outra ficha é modificada. A mesa ainda confirma quando a noite terminou, a origem do dano e quem recebeu o benefício. A classificação e as contagens permanecem inalteradas.

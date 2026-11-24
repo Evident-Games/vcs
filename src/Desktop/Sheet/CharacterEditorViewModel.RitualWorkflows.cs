@@ -379,6 +379,28 @@ public partial class CharacterEditorViewModel
     }
 
     [RelayCommand]
+    private void EndFirewalkerAfterNight()
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-firewalker" } entry)
+        { RitualPreparationSummary = "Selecione um Andarilho do Fogo ativo."; return; }
+        try
+        {
+            var ended = new RitualWorkflowActions().EndFirewalker(entry,
+                DateOnly.FromDateTime(PowerGameDate), CoreRitualConditionsConfirmed);
+            ReplacePowerEffect(entry, ended);
+            if (entry.IsSelf) RitualIncomingDamageIsFire = false;
+            RitualPreparationSummary = ended.Effect + $" Fonte: {ended.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            RefreshRollPool();
+            RefreshPowerUse();
+            MarkChanged();
+            CoreRitualConditionsConfirmed = false;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
     private void ResolveRitualAirPassengerContest()
     {
         if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-essence-of-air", RitualWorkflow: { } state } entry ||

@@ -254,6 +254,23 @@ public sealed class RitualWorkflowActions
         };
     }
 
+    /// <summary>Expire Firewalker only after the table confirms that its chronicle night ended.</summary>
+    public PowerEffectEntry EndFirewalker(PowerEffectEntry entry, DateOnly completedNight,
+        bool tableConfirmed)
+    {
+        if (entry is not { Active: true, PowerId: "ritual-firewalker",
+                RitualWorkflow: { Stage: "effect", Resolved: true } state } || !tableConfirmed)
+            throw new InvalidOperationException("Selecione um Andarilho do Fogo ativo e confirme o fim da noite da crônica com a mesa.");
+
+        return entry with
+        {
+            Active = false,
+            RitualWorkflow = state with { Stage = "ended", LastNightAdvanced = completedNight },
+            Effect = $"Fim da noite de {completedNight:dd/MM/yyyy} confirmado; a resistência de Andarilho do Fogo foi encerrada.",
+            Duration = "Encerrado"
+        };
+    }
+
     /// <summary>Resolve the caster's side when attempting to carry an unwilling passenger.</summary>
     public RitualWorkflowResolution ResolveAirPassengerContest(RitualUseDefinition ritual, RitualWorkflowState state,
         string passenger, int casterPool, int casterHunger, int opponentSuccesses, bool confirmed, Random? random = null,
@@ -329,6 +346,8 @@ public sealed class RitualWorkflowActions
             return "Use o encerramento de Defesa do Refúgio Sagrado: confirme o fim do dia protegido ou a saída do conjurador da área.";
         if (entry.PowerId == "ritual-deflection-of-wooden-doom" && entry.RitualWorkflow is { Resolved: false })
             return "Resolva a primeira tentativa genuína de estaquear ou use o encerramento da Deflecção para confirmar o fim da noite ou a remoção da lasca.";
+        if (entry.PowerId == "ritual-firewalker" && entry.RitualWorkflow is { Stage: "effect", Resolved: true })
+            return "Use o encerramento de Andarilho do Fogo: informe a noite da crônica e confirme que ela terminou.";
         if (entry.PowerId == "ritual-eyes-of-nighthawk" && entry.RitualWorkflow is { Stage: "effect" or "blindness" })
             return "Use o encerramento de Olhos do Falcão Noturno: confirme os olhos da ave no fim da noite; a cegueira usa noites da crônica ou decisão excepcional registrada.";
         if (entry.PowerId == "ritual-sanctuary-preparation-check")
