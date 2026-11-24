@@ -11,13 +11,14 @@ public sealed class TrueSanctuaryActions
     public SanctuaryCirclePairRegistration RegisterCirclePair(IReadOnlyList<PowerEffectEntry> entries,
         string departure, string destination, bool departureFixedSurfaceConfirmed,
         bool destinationFixedSurfaceConfirmed, bool noEndpointInVehicleConfirmed,
+        bool circleDiameterConfirmed,
         bool tableConfirmed, bool exceptionApproved)
     {
         if (!tableConfirmed)
             throw new InvalidOperationException("Confirme com a mesa os locais designados para partida e chegada.");
         var validation = TrueSanctuaryRules.ValidateCirclePair(departure, destination,
             departureFixedSurfaceConfirmed, destinationFixedSurfaceConfirmed,
-            noEndpointInVehicleConfirmed, exceptionApproved);
+            noEndpointInVehicleConfirmed, circleDiameterConfirmed, exceptionApproved);
         var pair = validation.Pair;
         var currentPairs = entries.Where(x => x.Active && x.IsSelf &&
             x.PowerId == "ritual-sanctuary-circle-pair" && x.CirclePair is not null).ToArray();
@@ -42,7 +43,7 @@ public sealed class TrueSanctuaryActions
             };
         }).ToArray();
         return new(pair, currentPairs.Select(x => x with { Active = false }).ToArray(), updated, correction,
-            validation.PlacementExceptionUsed);
+            validation.PlacementExceptionUsed, validation.DiameterExceptionUsed);
     }
 
     public SanctuaryPairInvalidation InvalidatePairAfterCircleDamage(
@@ -82,10 +83,10 @@ public sealed class TrueSanctuaryActions
         Random? random = null, bool beastSubdued = false, bool sceneLimitExceptionApproved = false)
     {
         var pairExceptionUsed = (persistedPairRequired && circlePair is null) ||
-            (circlePair is not null && !TrueSanctuaryRules.HasValidOrApprovedPlacement(circlePair));
+            (circlePair is not null && !TrueSanctuaryRules.HasValidOrApprovedPair(circlePair));
         if (pairExceptionUsed && !pairExceptionApproved)
             throw new InvalidOperationException(
-                "A preparação registrada precisa identificar os dois círculos em superfícies fixas fora de veículos.");
+                "A preparação registrada precisa confirmar o diâmetro aproximado de um metro e identificar os dois círculos em superfícies fixas fora de veículos.");
         var conditionsSummary = TrueSanctuaryRules.ValidateTravelConditions(circlesComplete, circlesIntact,
             atDepartureCircle, concentratedForTurn, alreadyAttemptedThisScene && !sceneLimitExceptionApproved);
         var payload = TrueSanctuaryRules.ValidatePayload(carriesPerson, carriesObjects, payloadDescription,
@@ -105,7 +106,7 @@ public sealed record SanctuaryPreparationCheckResult(SanctuaryPreparationAdvance
 
 public sealed record SanctuaryCirclePairRegistration(RitualCirclePair Pair,
     IReadOnlyList<PowerEffectEntry> EndedPairs, IReadOnlyList<PowerEffectEntry> UpdatedPreparation, bool CorrectionUsed,
-    bool PlacementExceptionUsed);
+    bool PlacementExceptionUsed, bool DiameterExceptionUsed);
 
 public sealed record SanctuaryPairInvalidation(IReadOnlyList<PowerEffectEntry> EndedEntries, string Summary);
 

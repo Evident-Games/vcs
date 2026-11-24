@@ -11,7 +11,8 @@ public static class TrueSanctuaryRules
 
     public static SanctuaryCirclePairValidation ValidateCirclePair(string departure, string destination,
         bool departureFixedSurfaceConfirmed, bool destinationFixedSurfaceConfirmed,
-        bool noEndpointInVehicleConfirmed, bool placementExceptionApproved = false)
+        bool noEndpointInVehicleConfirmed, bool circleDiameterConfirmed,
+        bool pairExceptionApproved = false)
     {
         var departureLocation = departure.Trim();
         var destinationLocation = destination.Trim();
@@ -21,17 +22,27 @@ public static class TrueSanctuaryRules
             throw new InvalidOperationException("Os círculos de partida e de chegada precisam ter identificações distintas.");
         var placementValid = departureFixedSurfaceConfirmed && destinationFixedSurfaceConfirmed &&
             noEndpointInVehicleConfirmed;
-        if (!placementValid && !placementExceptionApproved)
+        if (!placementValid && !pairExceptionApproved)
             throw new InvalidOperationException(
                 "Confirme que os dois círculos estão no solo ou piso de uma construção e que nenhum está em veículo.");
+        if (!circleDiameterConfirmed && !pairExceptionApproved)
+            throw new InvalidOperationException(
+                "Confirme que cada círculo possui aproximadamente um metro de diâmetro.");
         return new(new(departureLocation, destinationLocation, departureFixedSurfaceConfirmed,
             destinationFixedSurfaceConfirmed, noEndpointInVehicleConfirmed,
-            !placementValid && placementExceptionApproved), !placementValid);
+            !placementValid && pairExceptionApproved, circleDiameterConfirmed,
+            !circleDiameterConfirmed && pairExceptionApproved), !placementValid, !circleDiameterConfirmed);
     }
 
     public static bool HasValidOrApprovedPlacement(RitualCirclePair pair) =>
         (pair.DepartureFixedSurfaceConfirmed && pair.DestinationFixedSurfaceConfirmed &&
          pair.NoEndpointInVehicleConfirmed) || pair.PlacementExceptionApproved;
+
+    public static bool HasValidOrApprovedDiameter(RitualCirclePair pair) =>
+        pair.CircleDiameterConfirmed || pair.DiameterExceptionApproved;
+
+    public static bool HasValidOrApprovedPair(RitualCirclePair pair) =>
+        HasValidOrApprovedPlacement(pair) && HasValidOrApprovedDiameter(pair);
 
     public static bool CirclePairMatches(RitualCirclePair current, RitualCirclePair proposed) =>
         string.Equals(current.Departure, proposed.Departure, StringComparison.OrdinalIgnoreCase) &&
@@ -79,9 +90,9 @@ public static class TrueSanctuaryRules
     {
         var requirements = Preparation();
         if (circle < 1 || circle > requirements.CircleCount) throw new ArgumentOutOfRangeException(nameof(circle));
-        if (!HasValidOrApprovedPlacement(circlePair))
+        if (!HasValidOrApprovedPair(circlePair))
             throw new InvalidOperationException(
-                "Reconfirme que os dois círculos estão em superfícies fixas e fora de veículos antes de pagar outra checagem.");
+                "Reconfirme o diâmetro aproximado de um metro e que os dois círculos estão em superfícies fixas fora de veículos antes de pagar outra checagem.");
         var previous = paidChecks.Where(x => x.Circle == circle).OrderBy(x => x.Sequence).ToArray();
         for (var index = 0; index < previous.Length; index++)
             if (previous[index].Sequence != index + 1)
@@ -121,7 +132,8 @@ public static class TrueSanctuaryRules
 
 public sealed record SanctuaryPreparationAdvance(RitualPreparationStep Step, bool ScheduleExceptionUsed);
 
-public sealed record SanctuaryCirclePairValidation(RitualCirclePair Pair, bool PlacementExceptionUsed);
+public sealed record SanctuaryCirclePairValidation(RitualCirclePair Pair, bool PlacementExceptionUsed,
+    bool DiameterExceptionUsed);
 
 /// <summary>A travel payload is only a recorded proposal; another sheet or inventory is never changed.</summary>
 public sealed record SanctuaryTravelPayload(bool CarriesPerson, bool CarriesObjects, string Description,

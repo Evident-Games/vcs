@@ -282,6 +282,8 @@ Ao confirmar dano em um dos círculos, a ação V5 agora consegue inutilizar tam
 
 O registro ou a correção dos locais do Santuário também impõe o limite de um par em funcionamento por vampiro: todos os registros de par ativos na ficha são encerrados antes da inclusão do par atual. O comportamento anterior encerrava apenas o registro ativo mais recente e podia deixar duplicatas legadas funcionando. Os registros anteriores não são apagados, e a mudança não interfere em outras fichas nem aplica deslocamento.
 
+O par persistido agora registra ainda a confirmação de que cada círculo possui aproximadamente um metro de diâmetro, conforme a página impressa 281. A regra V5 bloqueia novas checagens e viagens quando esse dado está ausente, salvo exceção autorizada e justificada, também persistida. Campos opcionais mantêm fichas antigas legíveis; a mesa precisa reconfirmá-las porque o aplicativo não mede círculos no cenário.
+
 ## Validação de custos
 
 A ativação de poderes V5 rejeita capacidade de Vontade negativa e calcula a soma das marcas e do custo com precisão suficiente para evitar transbordamento de inteiro. Isso reforça a validação de entrada; não altera a contagem de efeitos automatizados.

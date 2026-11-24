@@ -18,6 +18,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool sanctuaryDepartureFixedSurfaceConfirmed;
     [ObservableProperty] private bool sanctuaryDestinationFixedSurfaceConfirmed;
     [ObservableProperty] private bool sanctuaryNoCircleInVehicleConfirmed;
+    [ObservableProperty] private bool sanctuaryCircleDiameterConfirmed;
     [ObservableProperty] private bool sanctuaryLocationsConfirmed;
 
     private RitualPreparationStep[] SanctuaryPaidChecks() => PowerEffects.Where(x => x.Active && x.IsSelf &&
@@ -51,7 +52,10 @@ public partial class CharacterEditorViewModel
                 ? " · posicionamento por exceção do Narrador"
                 : pair.DepartureFixedSurfaceConfirmed && pair.DestinationFixedSurfaceConfirmed &&
                   pair.NoEndpointInVehicleConfirmed ? " · superfícies fixas confirmadas" : " · posicionamento legado não confirmado";
-            var locations = pair is null ? "locais ainda não registrados" : $"{pair.Departure} → {pair.Destination}{placement}";
+            var diameter = pair is null ? "" : pair.DiameterExceptionApproved
+                ? " · diâmetro por exceção do Narrador"
+                : pair.CircleDiameterConfirmed ? " · diâmetro aproximado de 1 m confirmado" : " · diâmetro legado não confirmado";
+            var locations = pair is null ? "locais ainda não registrados" : $"{pair.Departure} → {pair.Destination}{placement}{diameter}";
             return $"Partida: {paid.Count(x => x.Circle == 1)}/6 checagens · Chegada: {paid.Count(x => x.Circle == 2)}/6 checagens · {locations}{damage}";
         }
     }
@@ -91,6 +95,13 @@ public partial class CharacterEditorViewModel
         ResetSanctuaryTravelConditions();
     }
 
+    partial void OnSanctuaryCircleDiameterConfirmedChanged(bool value)
+    {
+        SanctuaryLocationsConfirmed = false;
+        SanctuaryPreparationConfirmed = false;
+        ResetSanctuaryTravelConditions();
+    }
+
     [RelayCommand]
     private void RegisterSanctuaryCirclePair()
     {
@@ -102,7 +113,8 @@ public partial class CharacterEditorViewModel
             var result = new TrueSanctuaryActions().RegisterCirclePair(PowerEffects,
                 SanctuaryDepartureLocation, SanctuaryDestinationLocation,
                 SanctuaryDepartureFixedSurfaceConfirmed, SanctuaryDestinationFixedSurfaceConfirmed,
-                SanctuaryNoCircleInVehicleConfirmed, SanctuaryLocationsConfirmed,
+                SanctuaryNoCircleInVehicleConfirmed, SanctuaryCircleDiameterConfirmed,
+                SanctuaryLocationsConfirmed,
                 RitualExceptionApproved && !string.IsNullOrWhiteSpace(RitualExceptionReason));
             var pair = result.Pair;
             foreach (var ended in result.EndedPairs)
@@ -120,13 +132,17 @@ public partial class CharacterEditorViewModel
             var placementSummary = result.PlacementExceptionUsed
                 ? " Posicionamento aceito por exceção justificada do Narrador."
                 : " Ambos os círculos foram confirmados no solo ou piso de uma construção e fora de veículos.";
+            var diameterSummary = result.DiameterExceptionUsed
+                ? " Diâmetro aceito por exceção justificada do Narrador."
+                : " Cada círculo teve o diâmetro aproximado de um metro confirmado.";
             var summary = $"Par do Santuário registrado: partida em {pair.Departure}; chegada em {pair.Destination}." +
-                placementSummary;
+                placementSummary + diameterSummary;
             PowerEffects.Add(new PowerEffectEntry(Guid.NewGuid(), "ritual-sanctuary-circle-pair",
                 "Fuga para o Verdadeiro Santuário", $"{pair.Departure} → {pair.Destination}", true,
                 DateTime.UtcNow, summary, "Enquanto este par permanecer ativo",
                 "Vampiro: A Máscara V5 (Livro base), p. 281",
-                result.CorrectionUsed || result.PlacementExceptionUsed ? RitualExceptionReason.Trim() : "", true,
+                result.CorrectionUsed || result.PlacementExceptionUsed || result.DiameterExceptionUsed
+                    ? RitualExceptionReason.Trim() : "", true,
                 CirclePair: pair));
             if (result.CorrectionUsed)
                 ExceptionRegister.Record("Fuga para o Verdadeiro Santuário",
@@ -134,6 +150,10 @@ public partial class CharacterEditorViewModel
             if (result.PlacementExceptionUsed)
                 ExceptionRegister.Record("Fuga para o Verdadeiro Santuário",
                     "Posicionamento dos círculos fora da regra de solo ou piso fixo e sem veículo",
+                    RitualExceptionReason.Trim());
+            if (result.DiameterExceptionUsed)
+                ExceptionRegister.Record("Fuga para o Verdadeiro Santuário",
+                    "Diâmetro dos círculos fora da medida aproximada de um metro",
                     RitualExceptionReason.Trim());
             SanctuaryDepartureLocation = pair.Departure;
             SanctuaryDestinationLocation = pair.Destination;

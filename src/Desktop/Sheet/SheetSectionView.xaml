@@ -109,9 +109,10 @@
                     <CheckBox Content="Mesa confirmou o círculo de partida no solo ou piso de uma construção" IsChecked="{Binding SanctuaryDepartureFixedSurfaceConfirmed}"/>
                     <CheckBox Content="Mesa confirmou o círculo de chegada no solo ou piso de uma construção" IsChecked="{Binding SanctuaryDestinationFixedSurfaceConfirmed}"/>
                     <CheckBox Content="Mesa confirmou que nenhum dos dois círculos está em veículo" IsChecked="{Binding SanctuaryNoCircleInVehicleConfirmed}"/>
+                    <CheckBox Content="Mesa confirmou aproximadamente um metro de diâmetro em cada círculo" IsChecked="{Binding SanctuaryCircleDiameterConfirmed}"/>
                     <CheckBox Content="Mesa confirmou estes locais e posicionamentos como o par ativo" IsChecked="{Binding SanctuaryLocationsConfirmed}"/>
                     <Button Content="Registrar ou corrigir locais do par" Command="{Binding RegisterSanctuaryCirclePairCommand}" HorizontalAlignment="Left"/>
-                    <TextBlock Text="O livro exige solo ou piso de uma construção e proíbe veículos. Corrigir locais ou aceitar outro posicionamento exige autorização e justificativa do Narrador. O registro não move personagens." TextWrapping="Wrap" Foreground="{DynamicResource ThemeInputDescription}"/>
+                    <TextBlock Text="O livro exige aproximadamente um metro de diâmetro por círculo, solo ou piso de uma construção e proíbe veículos. Corrigir locais ou aceitar outra condição exige autorização e justificativa do Narrador. O registro não move personagens." TextWrapping="Wrap" Foreground="{DynamicResource ThemeInputDescription}"/>
                     <ComboBox ItemsSource="{Binding SanctuaryCircles}" SelectedItem="{Binding SanctuaryCircle}"/>
                     <TextBlock Text="Data da noite na crônica (dd/MM/aaaa)"/>
                     <TextBox Text="{Binding SanctuaryNight, StringFormat=dd/MM/yyyy, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"/>

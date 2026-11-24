@@ -107,14 +107,16 @@ public partial class CharacterEditorViewModel
         var activePair = SanctuaryActivePair();
         var pairMissing = preparation.Length > 0 && activePair is null;
         var pairPlacementMissing = activePair is not null && !TrueSanctuaryRules.HasValidOrApprovedPlacement(activePair);
+        var pairDiameterMissing = activePair is not null && !TrueSanctuaryRules.HasValidOrApprovedDiameter(activePair);
         var pairDamaged = SanctuaryPairWasDamaged();
         if ((ritual.HasWarning || alreadyAttempted || preparationIncomplete || pairMissing ||
-             pairPlacementMissing || pairDamaged) &&
+             pairPlacementMissing || pairDiameterMissing || pairDamaged) &&
             (!RitualExceptionApproved || string.IsNullOrWhiteSpace(RitualExceptionReason)))
         { RitualPreparationSummary = (alreadyAttempted ? "Já houve uma tentativa de viagem nesta cena. " : "") +
             (preparationIncomplete ? "A preparação registrada dos círculos ainda está incompleta. " : "") +
             (pairMissing ? "A preparação registrada não identifica os locais de partida e chegada. " : "") +
             (pairPlacementMissing ? "O par registrado não confirma superfícies fixas fora de veículos. " : "") +
+            (pairDiameterMissing ? "O par registrado não confirma aproximadamente um metro de diâmetro por círculo. " : "") +
             (pairDamaged ? "O último par registrado ficou inerte após dano confirmado. " : "") +
             (ritual.HasWarning ? ritual.Warning + " " : "") + "Autorize e justifique a exceção com o Narrador."; return; }
         if (!SanctuaryTravelConfirmed)
@@ -147,6 +149,10 @@ public partial class CharacterEditorViewModel
             if (pairPlacementMissing)
                 ExceptionRegister.Record(ritual.Name,
                     "Viagem sem posicionamento persistido dos círculos em superfícies fixas fora de veículos",
+                    RitualExceptionReason.Trim());
+            if (pairDiameterMissing)
+                ExceptionRegister.Record(ritual.Name,
+                    "Viagem sem confirmação persistida do diâmetro aproximado de um metro dos círculos",
                     RitualExceptionReason.Trim());
             if (pairDamaged)
                 ExceptionRegister.Record(ritual.Name, "Viagem com par de círculos inerte após dano confirmado", RitualExceptionReason.Trim());
