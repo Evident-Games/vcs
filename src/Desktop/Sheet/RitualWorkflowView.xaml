@@ -29,6 +29,13 @@
                 <CheckBox Content="Ainda não passou uma semana desde a exposição" IsChecked="{Binding RitualDagonWithinWeekConfirmed}"/>
                 <Button Content="Registrar exposição e janela confirmadas" Command="{Binding ConfirmDagonPrerequisiteCommand}" HorizontalAlignment="Left"/>
             </StackPanel></Expander>
+            <Expander Header="Andarilho do Fogo: ingrediente e recipiente" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Antes da Checagem, confirme a ponta de dedo do próprio conjurador e a tigela ou cálice dourado com seu Sangue. O teste posterior determina se a ponta é arrancada; esta confirmação não causa dano nem aplica proteção em outra ficha. Fonte: Livro base, p. 278." TextWrapping="Wrap"/>
+                <CheckBox Content="A ponta de dedo escolhida pertence ao conjurador" IsChecked="{Binding RitualFirewalkerCasterFingertipConfirmed}"/>
+                <CheckBox Content="A tigela ou o cálice usado no processo é dourado" IsChecked="{Binding RitualFirewalkerGoldenVesselConfirmed}"/>
+                <CheckBox Content="O Sangue preparado para a queima pertence ao conjurador" IsChecked="{Binding RitualFirewalkerCasterBloodConfirmed}"/>
+                <Button Content="Registrar preparação de Andarilho do Fogo" Command="{Binding ConfirmFirewalkerPreparationCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <Button Content="Pagar próxima Checagem de Sangue" Command="{Binding PayRitualWorkflowCheckCommand}" HorizontalAlignment="Left"/>
             <TextBlock Text="Data na crônica (preparo / duração / encerramento)"/>
             <TextBox Text="{Binding PowerGameDate, StringFormat=dd/MM/yyyy, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"/>

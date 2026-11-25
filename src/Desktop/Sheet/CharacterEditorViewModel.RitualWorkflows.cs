@@ -19,6 +19,9 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool ritualDagonBloodExposureConfirmed;
     [ObservableProperty] private bool ritualDagonOneHourElapsedConfirmed;
     [ObservableProperty] private bool ritualDagonWithinWeekConfirmed;
+    [ObservableProperty] private bool ritualFirewalkerCasterFingertipConfirmed;
+    [ObservableProperty] private bool ritualFirewalkerGoldenVesselConfirmed;
+    [ObservableProperty] private bool ritualFirewalkerCasterBloodConfirmed;
     [ObservableProperty] private int coreRitualAreaRadius = 3;
     [ObservableProperty] private int coreRitualActiveBloodstones;
     [ObservableProperty] private bool coreRitualCandleDamageConfirmed;
@@ -90,6 +93,9 @@ public partial class CharacterEditorViewModel
     partial void OnRitualDagonBloodExposureConfirmedChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualDagonOneHourElapsedConfirmedChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualDagonWithinWeekConfirmedChanged(bool value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualFirewalkerCasterFingertipConfirmedChanged(bool value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualFirewalkerGoldenVesselConfirmedChanged(bool value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualFirewalkerCasterBloodConfirmedChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnCoreRitualAreaRadiusChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnCoreRitualActiveBloodstonesChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnCoreRitualIntruderWillpowerChanged(int value) => CoreRitualConditionsConfirmed = false;
@@ -181,6 +187,35 @@ public partial class CharacterEditorViewModel
             Notebook.AppendLog("Rituais", RitualPreparationSummary);
             MarkChanged();
             ShowDiceRoll(entry.Name, RitualPreparationSummary, [new RolledDieDisplay(payment.Check.Die, "SANGUE")]);
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
+    private void ConfirmFirewalkerPreparation()
+    {
+        if (SelectedPowerEffect is not { Active: true, RitualWorkflow: { } state } entry ||
+            RitualUseCatalog.Find(entry.PowerId) is not { Kind: "firewalker" } ritual)
+        { RitualPreparationSummary = "Selecione um preparo ativo de Andarilho do Fogo."; return; }
+        try
+        {
+            var exceptionApproved = !string.IsNullOrWhiteSpace(entry.Ruling);
+            var updated = new RitualWorkflowActions().ConfirmFirewalkerPreparation(ritual, state,
+                RitualFirewalkerCasterFingertipConfirmed, RitualFirewalkerGoldenVesselConfirmed,
+                RitualFirewalkerCasterBloodConfirmed, entry.Ruling);
+            var confirmation = exceptionApproved && (!RitualFirewalkerCasterFingertipConfirmed ||
+                !RitualFirewalkerGoldenVesselConfirmed || !RitualFirewalkerCasterBloodConfirmed)
+                ? "Preparação de Andarilho do Fogo aceita pela exceção justificada do Narrador."
+                : "Ponta do dedo do conjurador, recipiente dourado e Sangue do conjurador confirmados pela mesa.";
+            ReplacePowerEffect(entry, entry with { RitualWorkflow = updated, Effect = confirmation });
+            RitualPreparationSummary = confirmation + $" Fonte: {entry.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            MarkChanged();
+            RitualFirewalkerCasterFingertipConfirmed = false;
+            RitualFirewalkerGoldenVesselConfirmed = false;
+            RitualFirewalkerCasterBloodConfirmed = false;
+            CoreRitualConditionsConfirmed = false;
         }
         catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
         { RitualPreparationSummary = exception.Message; }
