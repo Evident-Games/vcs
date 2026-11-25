@@ -84,6 +84,9 @@ public partial class CharacterEditorViewModel
         RitualConditionsConfirmed = false;
         RitualExceptionApproved = false;
         RitualExceptionReason = "";
+        RitualDagonBloodExposureConfirmed = false;
+        RitualDagonOneHourElapsedConfirmed = false;
+        RitualDagonWithinWeekConfirmed = false;
         AwakeningDangerConfirmed = false;
         ResetSanctuaryTravelConditions();
         SanctuaryPreparationConfirmed = false;
@@ -183,6 +186,9 @@ public partial class CharacterEditorViewModel
     partial void OnSelectedPowerEffectChanged(PowerEffectEntry? value)
     {
         RitualFollowUpBeastSubdued = false;
+        RitualDagonBloodExposureConfirmed = false;
+        RitualDagonOneHourElapsedConfirmed = false;
+        RitualDagonWithinWeekConfirmed = false;
         RitualShaftRowanStakeConfirmed = false;
         RitualShaftOakFireConfirmed = false;
         RitualShaftFiveHoursConfirmed = false;

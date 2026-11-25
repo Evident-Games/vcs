@@ -22,6 +22,13 @@
                 <TextBlock Text=" · Etapa: "/><TextBlock Text="{Binding SelectedPowerEffect.RitualWorkflow.Stage}"/>
                 <TextBlock Text=" · Doses: "/><TextBlock Text="{Binding SelectedPowerEffect.RitualWorkflow.Charges}"/>
             </WrapPanel>
+            <Expander Header="O Chamado de Dagon: exposição e janela" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Antes de qualquer Checagem, confirme que a vítima foi exposta ao Sangue do conjurador e que a execução ocorre entre uma hora e uma semana depois. A confirmação fica salva no preparo e vale para suas repetições. Fonte: Livro base, p. 278." TextWrapping="Wrap"/>
+                <CheckBox Content="Vítima foi exposta ao Sangue do conjurador" IsChecked="{Binding RitualDagonBloodExposureConfirmed}"/>
+                <CheckBox Content="Ao menos uma hora passou desde a exposição" IsChecked="{Binding RitualDagonOneHourElapsedConfirmed}"/>
+                <CheckBox Content="Ainda não passou uma semana desde a exposição" IsChecked="{Binding RitualDagonWithinWeekConfirmed}"/>
+                <Button Content="Registrar exposição e janela confirmadas" Command="{Binding ConfirmDagonPrerequisiteCommand}" HorizontalAlignment="Left"/>
+            </StackPanel></Expander>
             <Button Content="Pagar próxima Checagem de Sangue" Command="{Binding PayRitualWorkflowCheckCommand}" HorizontalAlignment="Left"/>
             <TextBlock Text="Data na crônica (preparo / duração / encerramento)"/>
             <TextBox Text="{Binding PowerGameDate, StringFormat=dd/MM/yyyy, UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True}"/>

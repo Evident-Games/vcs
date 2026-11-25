@@ -16,6 +16,9 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool coreRitualConditionsConfirmed;
     [ObservableProperty] private int coreRitualOpponentSuccesses;
     [ObservableProperty] private bool coreRitualVampireTarget = true;
+    [ObservableProperty] private bool ritualDagonBloodExposureConfirmed;
+    [ObservableProperty] private bool ritualDagonOneHourElapsedConfirmed;
+    [ObservableProperty] private bool ritualDagonWithinWeekConfirmed;
     [ObservableProperty] private int coreRitualAreaRadius = 3;
     [ObservableProperty] private int coreRitualActiveBloodstones;
     [ObservableProperty] private bool coreRitualCandleDamageConfirmed;
@@ -84,6 +87,9 @@ public partial class CharacterEditorViewModel
     partial void OnCoreRitualTargetsSelfChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnCoreRitualOpponentSuccessesChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnCoreRitualVampireTargetChanged(bool value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualDagonBloodExposureConfirmedChanged(bool value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualDagonOneHourElapsedConfirmedChanged(bool value) => CoreRitualConditionsConfirmed = false;
+    partial void OnRitualDagonWithinWeekConfirmedChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnCoreRitualAreaRadiusChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnCoreRitualActiveBloodstonesChanged(int value) => CoreRitualConditionsConfirmed = false;
     partial void OnCoreRitualIntruderWillpowerChanged(int value) => CoreRitualConditionsConfirmed = false;
@@ -129,6 +135,35 @@ public partial class CharacterEditorViewModel
         Notebook.AppendLog("Rituais", RitualPreparationSummary);
         MarkChanged();
         RitualConditionsConfirmed = false;
+    }
+
+    [RelayCommand]
+    private void ConfirmDagonPrerequisite()
+    {
+        if (SelectedPowerEffect is not { Active: true, RitualWorkflow: { } state } entry ||
+            RitualUseCatalog.Find(entry.PowerId) is not { Kind: "dagon" } ritual)
+        { RitualPreparationSummary = "Selecione um preparo ativo de O Chamado de Dagon."; return; }
+        try
+        {
+            var exceptionApproved = !string.IsNullOrWhiteSpace(entry.Ruling);
+            var updated = new RitualWorkflowActions().ConfirmDagonPrerequisite(ritual, state,
+                RitualDagonBloodExposureConfirmed, RitualDagonOneHourElapsedConfirmed,
+                RitualDagonWithinWeekConfirmed, entry.Ruling);
+            var confirmation = exceptionApproved && (!RitualDagonBloodExposureConfirmed ||
+                !RitualDagonOneHourElapsedConfirmed || !RitualDagonWithinWeekConfirmed)
+                ? "Pré-requisito de exposição e janela aceito pela exceção justificada do Narrador."
+                : "Exposição da vítima ao Sangue e janela de uma hora a uma semana confirmadas pela mesa.";
+            ReplacePowerEffect(entry, entry with { RitualWorkflow = updated, Effect = confirmation });
+            RitualPreparationSummary = confirmation + $" Fonte: {entry.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            MarkChanged();
+            RitualDagonBloodExposureConfirmed = false;
+            RitualDagonOneHourElapsedConfirmed = false;
+            RitualDagonWithinWeekConfirmed = false;
+            CoreRitualConditionsConfirmed = false;
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { RitualPreparationSummary = exception.Message; }
     }
 
     [RelayCommand]

@@ -36,12 +36,25 @@ public sealed class RitualWorkflowActions
             throw new InvalidOperationException("Use o procedimento dedicado deste ritual.");
         if (ritual.Kind == "shaft" && !state.ShaftPreparationConfirmed)
             throw new InvalidOperationException("Confirme a estaca de sorveira, o fogo de carvalho e as cinco horas antes de pagar as Checagens do Fuste.");
+        if (ritual.Kind == "dagon" && !state.DagonPrerequisiteAccepted)
+            throw new InvalidOperationException("Registre a exposição da vítima ao Sangue e a janela de uma hora a uma semana antes de pagar a Checagem de Sangue.");
         var requiredChecks = ritual.Kind == "dagon" ? state.Executions + 1 : ritual.RouseChecks;
         if (state.Resolved || state.ChecksPaid < 0 || state.ChecksPaid >= requiredChecks)
             throw new InvalidOperationException("Não há outra Checagem de Sangue a pagar nesta execução.");
         if (hunger is < 0 or >= 5) throw new InvalidOperationException("Fome 5 impede despertar o Sangue voluntariamente.");
         var check = RouseCheckRules.Roll(hunger, random);
         return new(state with { ChecksPaid = state.ChecksPaid + 1 }, check);
+    }
+
+    public RitualWorkflowState ConfirmDagonPrerequisite(RitualUseDefinition ritual, RitualWorkflowState state,
+        bool bloodExposureConfirmed, bool oneHourElapsedConfirmed, bool withinOneWeekConfirmed,
+        string exceptionReason)
+    {
+        if (ritual.Kind != "dagon" || state.Resolved || state.Stage is not ("preparing" or "repeat"))
+            throw new InvalidOperationException("Selecione um preparo de O Chamado de Dagon que ainda aceite uma execução.");
+        DagonRules.ValidatePrerequisite(bloodExposureConfirmed, oneHourElapsedConfirmed,
+            withinOneWeekConfirmed, !string.IsNullOrWhiteSpace(exceptionReason));
+        return state with { DagonPrerequisiteAccepted = true };
     }
 
     public RitualWorkflowState ConfirmShaftPreparation(RitualUseDefinition ritual, RitualWorkflowState state,
@@ -740,6 +753,8 @@ public sealed class RitualWorkflowActions
         if (ritual.Kind is "sanctuary" or "ward" or "awakening") throw new InvalidOperationException("Use o procedimento dedicado deste ritual.");
         if (!context.ConditionsConfirmed) throw new InvalidOperationException("Confirme tempo, ingredientes, alvo e gatilho com o Narrador.");
         RitualEffectRules.ValidateTarget(ritual, context.VampireTarget, context.ExceptionApproved);
+        if (ritual.Kind == "dagon" && !state.DagonPrerequisiteAccepted)
+            throw new InvalidOperationException("Registre a exposição da vítima ao Sangue e a janela de uma hora a uma semana antes de resolver.");
         if (ritual.Kind == "shaft" && !state.ShaftPreparationConfirmed)
             throw new InvalidOperationException("Confirme o preparo específico de cinco horas do Fuste antes de resolver.");
         var requiredChecks = ritual.Kind == "dagon" ? state.Executions + 1 : ritual.RouseChecks;

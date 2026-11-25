@@ -24,7 +24,8 @@ public sealed record RitualWorkflowState(int ChecksPaid = 0, string Stage = "pre
     int Charges = 0, string LastIntruder = "", int LastCasterSuccesses = 0, bool LastCasterCritical = false,
     bool LastIntruderAffected = false, IReadOnlyList<RitualCircleIntruder>? Intruders = null, int Executions = 0,
     IReadOnlyList<DateOnly>? PreparationNights = null, int NightsRemaining = 0, DateOnly? LastNightAdvanced = null,
-    DateOnly? EffectStartedOn = null, bool CirclePointsInward = false, bool ShaftPreparationConfirmed = false);
+    DateOnly? EffectStartedOn = null, bool CirclePointsInward = false, bool ShaftPreparationConfirmed = false,
+    bool DagonPrerequisiteAccepted = false);
 
 /// <summary>A circle keeps the original casting result for each identified intruder.</summary>
 public sealed record RitualCircleIntruder(string Key, int CasterSuccesses, bool CasterCritical,
