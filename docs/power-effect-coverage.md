@@ -20,6 +20,8 @@ Catálogo atual: **88 poderes de Disciplinas**, todos com perfil de uso. A confe
 
 **Perfil de uso não significa automação integral.** Custos, dados e texto por si só não contam como integração direta. Portanto ainda há 51 poderes sem aplicação direta de seu efeito principal na ficha; a divisão abaixo permite acompanhar esse trabalho sem confundir cadastro com implementação. Mesmo os 37 diretos podem ter procedimentos secundários conduzidos pelo Narrador.
 
+Ocultar agora conserva numericamente a duração obtida de uma noite mais a margem e permite descontar somente noites da crônica confirmadas pela mesa. A regra V5 valida a sequência das datas; a aplicação persiste o saldo e a última noite avançada, enquanto a interface apenas coleta a confirmação. O calendário real não encerra o poder, e descoberta, interação inevitável, estado do objeto e ocupantes continuam sob decisão do Narrador, sem alterar fichas ou inventários externos. Registros antigos permanecem legíveis, mas não recebem um saldo inventado. Fonte: livro base, página impressa 262 (página 264 do PDF fornecido). A classificação permanece como proposta numérica e as contagens não foram alteradas.
+
 As categorias 37/11/40 são herdadas do inventário anterior e não foram auditadas integralmente nesta conferência. As notas históricas abaixo que mencionam cinco rituais pendentes antecedem a identificação da entrada com fonte incorreta; o inventário atual acima substitui essa contagem.
 
 Veja [a matriz de rituais e suas limitações](core-ritual-workflows.md). Cadastro, pagamento de custos, proposta de efeito e aplicação direta são etapas distintas; os 26 fluxos não devem ser divulgados como 26 automações integrais.

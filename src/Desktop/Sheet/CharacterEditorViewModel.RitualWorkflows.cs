@@ -68,7 +68,11 @@ public partial class CharacterEditorViewModel
     partial void OnRitualIncorporealShardReleasedChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualIncorporealInsideSolidChanged(bool value) => CoreRitualConditionsConfirmed = false;
     partial void OnRitualIncorporealNarratorResolutionChanged(string value) => CoreRitualConditionsConfirmed = false;
-    partial void OnPowerGameDateChanged(DateTime value) => CoreRitualConditionsConfirmed = false;
+    partial void OnPowerGameDateChanged(DateTime value)
+    {
+        CoreRitualConditionsConfirmed = false;
+        PowerNightEndedConfirmed = false;
+    }
 
     private bool HasRitualEffect(string id) => PowerEffects.Any(x => x.Active && x.IsSelf &&
         x.PowerId == id && x.RitualWorkflow is { Stage: "effect", Resolved: true });

@@ -1,4 +1,6 @@
 using Game.Content.Disciplines;
+using Game.Rules.V5.Disciplines;
+using Game.Sheet;
 
 namespace Game.Application.Blood;
 
@@ -8,6 +10,26 @@ public sealed record PowerEffectGuidance(string Description, int DamageBonus, bo
 /// <summary>Core powers with a direct sheet calculation or an explicit application of their main numeric effect. Secondary and narrative rules can still require Storyteller adjudication.</summary>
 public sealed class PowerEffectActions
 {
+    public PowerEffectEntry AdvanceConcealmentNight(PowerEffectEntry entry, DateOnly completedNight,
+        bool tableConfirmed)
+    {
+        if (entry.PowerId != "power-obfuscate-conceal" || !entry.Active)
+            throw new InvalidOperationException("Selecione um efeito ativo de Ocultar.");
+        if (!tableConfirmed)
+            throw new InvalidOperationException("Confirme com a mesa que a noite informada terminou na crônica.");
+        if (entry.GameDate is not { } startedAt)
+            throw new InvalidOperationException("O registro não possui data inicial; o saldo legado não pode ser avançado automaticamente.");
+        var remaining = ObfuscateOngoingRules.AdvanceConcealmentNights(entry.NightsRemaining,
+            DateOnly.FromDateTime(startedAt), entry.LastNightAdvanced, completedNight);
+        return entry with
+        {
+            Active = remaining > 0,
+            NightsRemaining = remaining,
+            LastNightAdvanced = completedNight,
+            Duration = remaining > 0 ? $"{remaining} noite(s) restante(s)" : "Encerrado após as noites confirmadas"
+        };
+    }
+
     public static IReadOnlySet<string> IntegratedMechanicalPowerIds { get; } = new HashSet<string>(StringComparer.Ordinal)
     {
         "power-animalism-animal-succulence",

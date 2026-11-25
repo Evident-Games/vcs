@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Game.Application.Blood;
 using Game.Content.Disciplines;
 using Game.Rules.V5.Conflicts;
+using Game.Rules.V5.Disciplines;
 using Game.Sheet;
 
 namespace Game.Desktop.Sheet;
@@ -39,6 +40,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool mistFormActive;
     [ObservableProperty] private bool isBiteAttack;
     [ObservableProperty] private int temporaryBloodPotencyBonus;
+    [ObservableProperty] private bool powerNightEndedConfirmed;
 
     public int EffectiveBloodPotency => Math.Clamp(BloodPotency + TemporaryBloodPotencyBonus, 0, 10);
     public PowerUseDefinition? SelectedPowerUse => ActivationPower is { } power ? PowerUseCatalog.Find(power.Key) : null;
@@ -184,7 +186,9 @@ public partial class CharacterEditorViewModel
                 use.Operation == "defy" ? DisciplineRating("discipline-fortitude") : 0, 0,
                 use.Operation == "form" ? PowerFormStrength : null,
                 use.Operation == "form" ? PowerFormDexterity : null,
-                use.Operation == "form" ? PowerFormStamina : null, PowerGameDate.Date, PoolBonus: outcome.PoolBonus);
+                use.Operation == "form" ? PowerFormStamina : null, PowerGameDate.Date, PoolBonus: outcome.PoolBonus,
+                NightsRemaining: outcome.Succeeded && use.Operation == "conceal"
+                    ? ObfuscateOngoingRules.ConcealmentDurationNights(outcome.Margin) : 0);
             if (outcome.Succeeded && PowerTargetIsSelf && (use.Operation is "mist" or "form"))
             {
                 foreach (var previous in PowerEffects.Where(x => x.Active && x.IsSelf &&
@@ -277,6 +281,26 @@ public partial class CharacterEditorViewModel
         RefreshPowerUse();
         Notebook.AppendLog("Usos de Disciplinas", $"Encerrado: {entry.Name} → {entry.Target}.");
         MarkChanged();
+    }
+
+    [RelayCommand]
+    private void AdvanceConcealmentNight()
+    {
+        if (SelectedPowerEffect is not { } entry) return;
+        try
+        {
+            var updated = new PowerEffectActions().AdvanceConcealmentNight(entry,
+                DateOnly.FromDateTime(PowerGameDate), PowerNightEndedConfirmed);
+            ReplacePowerEffect(entry, updated);
+            ActivationSummary = updated.Active
+                ? $"Ocultar: {updated.NightsRemaining} noite(s) restante(s). Fonte: {updated.Source}."
+                : $"Ocultar encerrado após a última noite confirmada. Fonte: {updated.Source}.";
+            Notebook.AppendLog("Usos de Disciplinas", ActivationSummary);
+            PowerNightEndedConfirmed = false;
+            MarkChanged();
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { ActivationSummary = exception.Message; }
     }
 
     [RelayCommand]

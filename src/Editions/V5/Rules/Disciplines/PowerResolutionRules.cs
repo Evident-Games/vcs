@@ -64,7 +64,7 @@ public sealed class V5PowerRuleset : IPowerRuleset
             "facade" => result with { Effect = $"Sondagem: +{(rating + 1) / 2} dificuldade, ou +{rating} dados na resistência quando permitida; nunca ambos." },
             "ghost" => result with { PoolBonus = 3, Effect = "+3 em contornar vigilância automatizada; identificação em gravações tem dificuldade +3. Transmissão ao vivo segue o poder de Ofuscação ativo." },
             "vanish" => result with { Effect = vampire ? "Usuário desaparece; a memória do vampiro permanece." : critical ? "Usuário desaparece e é apagado da memória do mortal." : "Usuário desaparece; memória do mortal fica imprecisa." },
-            "conceal" => result with { Duration = $"{1 + Math.Max(0, margin)} noite(s)", Effect = "Objeto e ocupantes ocultos para observadores externos; interação inevitável ou detecção pode revelar." },
+            "conceal" => result with { Duration = $"{ObfuscateOngoingRules.ConcealmentDurationNights(margin)} noite(s)", Effect = "Objeto e ocupantes ocultos para observadores externos; interação inevitável ou detecção pode revelar." },
             "impostor" => result with { Effect = critical ? "Disfarce perfeito, inclusive voz e gestos, sem teste adicional." : "Aparência convincente; voz e gestos ainda exigem Manipulação + Performance." },
             "gathering" => result with { Effect = $"Até {context.Wits + Math.Max(0, context.RouseChecks - 1)} alvo(s) adicional(is), além do usuário. Custos do poder base são separados; revelar o usuário revela o grupo." },
             "leap" => result with { Effect = $"Alcance vertical {rating * 3} m; horizontal {rating * 5} m, sem impulso." },
