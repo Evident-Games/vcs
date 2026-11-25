@@ -183,6 +183,9 @@ public partial class CharacterEditorViewModel
     partial void OnSelectedPowerEffectChanged(PowerEffectEntry? value)
     {
         RitualFollowUpBeastSubdued = false;
+        RitualShaftRowanStakeConfirmed = false;
+        RitualShaftOakFireConfirmed = false;
+        RitualShaftFiveHoursConfirmed = false;
         RitualShaftDoctorUnavailableConfirmed = false;
         RitualShaftAmputationConfirmed = false;
         RitualShaftBeforeTrunkConfirmed = false;

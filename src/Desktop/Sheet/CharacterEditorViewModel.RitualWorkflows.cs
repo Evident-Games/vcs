@@ -31,6 +31,9 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private int ritualFollowUpPool = 5;
     [ObservableProperty] private int ritualFollowUpHunger;
     [ObservableProperty] private bool ritualFollowUpBeastSubdued;
+    [ObservableProperty] private bool ritualShaftRowanStakeConfirmed;
+    [ObservableProperty] private bool ritualShaftOakFireConfirmed;
+    [ObservableProperty] private bool ritualShaftFiveHoursConfirmed;
     [ObservableProperty] private bool ritualShaftDoctorUnavailableConfirmed;
     [ObservableProperty] private bool ritualShaftAmputationConfirmed;
     [ObservableProperty] private bool ritualShaftBeforeTrunkConfirmed;
@@ -341,6 +344,29 @@ public partial class CharacterEditorViewModel
 
     [RelayCommand]
     private void RollRitualShaftAttack() => ResolveShaftFollowUp(false);
+
+    [RelayCommand]
+    private void ConfirmRitualShaftPreparation()
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-shaft-of-belated-quiescence", RitualWorkflow: { } state } entry ||
+            RitualUseCatalog.Find(entry.PowerId) is not { } ritual)
+        { RitualPreparationSummary = "Selecione um preparo pendente do Fuste."; return; }
+        try
+        {
+            var confirmed = new RitualWorkflowActions().ConfirmShaftPreparation(ritual, state,
+                RitualShaftRowanStakeConfirmed, RitualShaftOakFireConfirmed, RitualShaftFiveHoursConfirmed);
+            ReplacePowerEffect(entry, entry with { RitualWorkflow = confirmed,
+                Effect = "Preparo específico do Fuste confirmado; as duas Checagens de Sangue podem ser pagas." });
+            RitualPreparationSummary = $"{entry.Name}: estaca de sorveira, fogo de carvalho e cinco horas confirmados. Fonte: {entry.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            MarkChanged();
+            RitualShaftRowanStakeConfirmed = false;
+            RitualShaftOakFireConfirmed = false;
+            RitualShaftFiveHoursConfirmed = false;
+        }
+        catch (InvalidOperationException exception)
+        { RitualPreparationSummary = exception.Message; }
+    }
 
     [RelayCommand]
     private void RollRitualShaftSurgery() => ResolveShaftFollowUp(true);

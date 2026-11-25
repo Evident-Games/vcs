@@ -125,6 +125,11 @@
                 <Button Content="Encerrar cegueira por exceção justificada" Command="{Binding EndRitualBlindnessByRulingCommand}" HorizontalAlignment="Left"/>
             </StackPanel></Expander>
             <Expander Header="Fuste: ataque ou extração da lasca" Margin="0,8"><StackPanel Margin="8">
+                <TextBlock Text="Antes das duas Checagens, confirme e grave o preparo específico. A confirmação fica na ficha e não precisa ser refeita ao alternar entre efeitos. Fonte: Livro base, p. 281." TextWrapping="Wrap"/>
+                <CheckBox Content="Estaca de sorveira com runas perniciosas confirmada" IsChecked="{Binding RitualShaftRowanStakeConfirmed}"/>
+                <CheckBox Content="Escurecimento em fogo de carvalho confirmado" IsChecked="{Binding RitualShaftOakFireConfirmed}"/>
+                <CheckBox Content="Cinco horas de preparo confirmadas" IsChecked="{Binding RitualShaftFiveHoursConfirmed}"/>
+                <Button Content="Confirmar preparo específico do Fuste" Command="{Binding ConfirmRitualShaftPreparationCommand}" HorizontalAlignment="Left"/>
                 <TextBlock Text="Ataque: informe a parada de quem usa a estaca, sem o bônus ritual (+3 é acrescentado). Use os sucessos da oposição acima. Cirurgia: informe Destreza + Medicina de outra pessoa e confirme até quatro horas disponíveis. Identifique a Fome do executor, 0 para mortal. Não há alteração automática na vítima." TextWrapping="Wrap"/>
                 <TextBlock Text="Parada do executor"/><controls:NumericField Value="{Binding RitualFollowUpPool}" Minimum="0" Maximum="47"/>
                 <TextBlock Text="Fome do executor"/><controls:NumericField Value="{Binding RitualFollowUpHunger}" Minimum="0" Maximum="5"/>

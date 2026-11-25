@@ -34,12 +34,28 @@ public sealed class RitualWorkflowActions
     {
         if (ritual.Kind is "sanctuary" or "ward" or "awakening")
             throw new InvalidOperationException("Use o procedimento dedicado deste ritual.");
+        if (ritual.Kind == "shaft" && !state.ShaftPreparationConfirmed)
+            throw new InvalidOperationException("Confirme a estaca de sorveira, o fogo de carvalho e as cinco horas antes de pagar as Checagens do Fuste.");
         var requiredChecks = ritual.Kind == "dagon" ? state.Executions + 1 : ritual.RouseChecks;
         if (state.Resolved || state.ChecksPaid < 0 || state.ChecksPaid >= requiredChecks)
             throw new InvalidOperationException("Não há outra Checagem de Sangue a pagar nesta execução.");
         if (hunger is < 0 or >= 5) throw new InvalidOperationException("Fome 5 impede despertar o Sangue voluntariamente.");
         var check = RouseCheckRules.Roll(hunger, random);
         return new(state with { ChecksPaid = state.ChecksPaid + 1 }, check);
+    }
+
+    public RitualWorkflowState ConfirmShaftPreparation(RitualUseDefinition ritual, RitualWorkflowState state,
+        bool rowanStakeConfirmed, bool oakFireConfirmed, bool fiveHoursConfirmed)
+    {
+        if (ritual.Kind != "shaft" || state.Resolved || state.Stage != "preparing")
+            throw new InvalidOperationException("Selecione um preparo ainda não resolvido do Fuste de Extinção Tardia.");
+        if (!rowanStakeConfirmed)
+            throw new InvalidOperationException("Confirme que a estaca é de sorveira e possui as runas perniciosas.");
+        if (!oakFireConfirmed)
+            throw new InvalidOperationException("Confirme que a estaca foi escurecida em fogo de carvalho.");
+        if (!fiveHoursConfirmed)
+            throw new InvalidOperationException("Confirme que o processo de preparo durou cinco horas.");
+        return state with { ShaftPreparationConfirmed = true };
     }
 
     public RitualWorkflowResolution Resolve(RitualUseDefinition ritual, RitualWorkflowState state,
@@ -723,6 +739,8 @@ public sealed class RitualWorkflowActions
     {
         if (ritual.Kind is "sanctuary" or "ward" or "awakening") throw new InvalidOperationException("Use o procedimento dedicado deste ritual.");
         if (!context.ConditionsConfirmed) throw new InvalidOperationException("Confirme tempo, ingredientes, alvo e gatilho com o Narrador.");
+        if (ritual.Kind == "shaft" && !state.ShaftPreparationConfirmed)
+            throw new InvalidOperationException("Confirme o preparo específico de cinco horas do Fuste antes de resolver.");
         var requiredChecks = ritual.Kind == "dagon" ? state.Executions + 1 : ritual.RouseChecks;
         if (state.ChecksPaid != requiredChecks) throw new InvalidOperationException("Pague as Checagens de Sangue restantes antes de resolver.");
         if (context.Pool is < 0 or > 50 || context.Hunger is < 0 or > 5 || context.OpponentSuccesses is < 0 or > 100 ||

@@ -31,7 +31,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Círculo de Proteção contra Cainitas | Fluxo dos círculos com nível próprio e orientação persistida | Posição, elegibilidade e consequências no intruso |
 | Coração de Pedra | Custo, frenesi antes do teste, crítico, cura específica explícita uma vez, reversão por repetição, ajustes sociais/contra Presença, bloqueio de Presença e −3 em Remorso | Confirmar vela e dano já marcado; imunidade a estacas é informada, sem resolvedor universal de estaqueamento |
 | Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, identidades, diâmetro aproximado e posicionamento fixo persistentes, proibição de veículo, confirmações separadas de integridade/partida/concentração, rolagem por viagem, limite por cena, proposta validada de carga e inutilização persistida do par quando um círculo sofre dano | Ocorrência real das condições confirmadas, medida real, massa real e deslocamento narrativo |
-| Fuste de Extinção Tardia | Duas checagens separadas, preparo/teste, ataque com +3, margem de Morte Final/lasca, cirurgia Destreza + Medicina dificuldade 6, remoção confirmada por amputação e encerramento confirmado por chegada ao coração ou pelo turno da margem 5+ | Tempo de avanço da lasca decidido pelo Narrador, não especificado numericamente no livro; vítima, integridade, amputação e consequências confirmadas; Morte Final permanece proposta e nenhuma ficha externa é alterada |
+| Fuste de Extinção Tardia | Confirmação persistida de estaca de sorveira, fogo de carvalho e cinco horas antes das duas checagens; preparo/teste, ataque com +3, margem de Morte Final/lasca, cirurgia Destreza + Medicina dificuldade 6, remoção confirmada por amputação e encerramento confirmado por chegada ao coração ou pelo turno da margem 5+ | Ocorrência real do preparo e tempo de avanço da lasca decididos pelo Narrador; vítima, integridade, amputação e consequências confirmadas; Morte Final permanece proposta e nenhuma ficha externa é alterada |
 
 ## Auditoria: Aderência do Inseto
 
@@ -200,6 +200,12 @@ A ficha encerra o registro da lasca e grava a proposta no diário, mas não calc
 Na página impressa 282 (páginas 283–284 do PDF fornecido), uma margem de pelo menos cinco faz o vampiro ser reduzido a cinzas em um turno; com margem positiva menor, a lasca avança até o coração e a Morte Final é assegurada se ela não for extraída. O serviço V5 agora encerra cada acompanhamento apenas depois da confirmação correspondente: chegada da lasca ao coração após o tempo determinado pelo Narrador, ou transcurso de um turno depois da penetração com margem 5+.
 
 Essas ações não rolam dados, não calculam o tempo variável da lasca e não aplicam Morte Final. Elas encerram o marcador persistido e registram a consequência como proposta no diário, sem alterar a ficha da vítima. Trocar de efeito ou obter outro resultado de ataque/cirurgia limpa as confirmações, impedindo reaproveitamento silencioso.
+
+## Fuste: preparo específico antes dos custos
+
+A página impressa 281 (página 283 do PDF fornecido) exige uma estaca de sorveira com runas perniciosas, embebida em Sangue equivalente a duas Checagens enquanto é escurecida em fogo de carvalho durante cinco horas. O estado persistido do procedimento agora registra a confirmação separada desses três elementos. Sem ela, `RitualWorkflowActions` bloqueia tanto o pagamento das Checagens quanto a resolução final.
+
+O novo campo é opcional e assume `false` em fichas antigas, preservando seus dados e custos. Um preparo legado pode receber a confirmação sem refazer ou apagar Checagens já registradas. A interface apenas coleta os fatos da mesa; não mede tempo, identifica madeira ou presume que o processo ocorreu.
 
 ## Proteções de objeto: Besta subjugada do intruso
 
