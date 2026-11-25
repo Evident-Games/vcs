@@ -739,6 +739,7 @@ public sealed class RitualWorkflowActions
     {
         if (ritual.Kind is "sanctuary" or "ward" or "awakening") throw new InvalidOperationException("Use o procedimento dedicado deste ritual.");
         if (!context.ConditionsConfirmed) throw new InvalidOperationException("Confirme tempo, ingredientes, alvo e gatilho com o Narrador.");
+        RitualEffectRules.ValidateTarget(ritual, context.VampireTarget, context.ExceptionApproved);
         if (ritual.Kind == "shaft" && !state.ShaftPreparationConfirmed)
             throw new InvalidOperationException("Confirme o preparo específico de cinco horas do Fuste antes de resolver.");
         var requiredChecks = ritual.Kind == "dagon" ? state.Executions + 1 : ritual.RouseChecks;

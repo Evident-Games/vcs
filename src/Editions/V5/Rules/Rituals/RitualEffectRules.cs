@@ -9,6 +9,13 @@ namespace Game.Rules.V5.Rituals;
 [RuleSource("Vampiro: A Máscara V5 (Livro base), p. 121 e pp. 275–282")]
 public static class RitualEffectRules
 {
+    public static void ValidateTarget(RitualUseDefinition ritual, bool vampireTarget, bool exceptionApproved)
+    {
+        if (ritual.Kind == "blood-walk" && !vampireTarget && !exceptionApproved)
+            throw new InvalidOperationException(
+                "Caminho do Sangue exige Sangue de um alvo vampiro; outro alvo requer exceção justificada do Narrador.");
+    }
+
     public static RitualEffectProposal Resolve(RitualUseDefinition ritual, RitualRollContext roll,
         int opponentSuccesses = 0, bool vampireTarget = true)
     {

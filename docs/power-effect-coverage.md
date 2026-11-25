@@ -24,6 +24,8 @@ As categorias 37/11/40 são herdadas do inventário anterior e não foram audita
 
 Veja [a matriz de rituais e suas limitações](core-ritual-workflows.md). Cadastro, pagamento de custos, proposta de efeito e aplicação direta são etapas distintas; os 26 fluxos não devem ser divulgados como 26 automações integrais.
 
+Caminho do Sangue agora usa no serviço de aplicação a confirmação de alvo vampiro que a ficha já coletava. Conforme o livro base, página impressa 276 (página 278 do PDF fornecido), a resolução é bloqueada antes da rolagem para um alvo não vampírico, salvo decisão excepcional autorizada e justificada pelo Narrador já persistida na ficha. Amostra, identidade, geração, Senhor e Laços continuam fornecidos pela mesa; nenhuma ficha externa é alterada. A classificação de resolução assistida e as contagens permanecem inalteradas.
+
 ## Como usar
 
 Na seção Disciplinas, selecione um poder conhecido, identifique o alvo e confira custo, condições e oposição. Testes secretos ou dispensados pela regra podem ser desmarcados com justificativa. A resolução paga os custos uma vez e envia as faces à mesa de dados, respeitando a preferência global de 3D. Efeitos, fontes, data na crônica e decisões ficam salvos junto à ficha.

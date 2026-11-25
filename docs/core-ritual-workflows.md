@@ -7,7 +7,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Ritual | Implementado no fluxo | Permanece com a mesa / integração ainda parcial |
 | --- | --- | --- |
 | Aderência do Inseto | Custo, teste, beneficiário conjurador; proposta descreve paredes/tetos, mãos e pés, velocidade aproximada pela metade e encerramento validado por cena ou noite conforme o crítico salvo | A mesa escolhe a superfície e conduz o deslocamento; o app não simula mapa ou velocidade tática |
-| Caminho do Sangue | Custo, teste, informações solicitadas e ampliação crítica | Amostra, geração, nomes e Laços reais do alvo |
+| Caminho do Sangue | Custo, validação de alvo vampiro antes da resolução, teste, informações solicitadas e ampliação crítica; alvo não vampírico só passa com exceção justificada já registrada na ficha | Amostra, geração, nomes e Laços reais do alvo |
 | Criar Pedra de Sangue | Custo, três noites registradas com confirmação de uma hora, teste final, limite por Determinação e encerramento por uma semana ou destruição confirmada | Quantidade e posição reais; a mesa fornece as datas da crônica e confirma a destruição da pedra |
 | Despertar com o Frescor do Anoitecer | Preparo, custo, teste adiado ao perigo, encerramento do sono | Perigo real e limites da vigília; fluxo dedicado |
 | Proteção contra Carniçais | Preparo com limite aproximado de um metro confirmado, custo, disputa de detecção por Sentir o Invisível, contato elegível, resistência posterior e encerramento confirmado quando o objeto é destruído ou quebrado | Adequação do objeto ou exceção justificada, contato voluntário, identificação do tipo, dano ao intruso e detalhes revelados pela detecção |
@@ -42,6 +42,12 @@ O resolvedor atual já apresenta esses detalhes e limita o benefício ao conjura
 O encerramento agora passa por `RitualWorkflowActions.EndClinging`: sucesso normal só aceita o fim da cena; vitória crítica só aceita o fim da noite e registra a data da crônica no campo opcional já persistido. O comando genérico fica bloqueado enquanto o benefício estiver ativo, preservando o resultado original e impedindo uma duração incompatível.
 
 O ritual continua parcialmente assistido e as contagens permanecem em 26 rituais com perfil/fluxo. A mesa ainda confirma a superfície, a condição de encerramento e conduz o movimento; esta integração não simula mapa, não cria velocidade numérica e não aumenta a contagem de aplicação direta.
+
+## Validação do alvo de Caminho do Sangue
+
+O livro-base V5 (página impressa 276; página 278 do PDF fornecido) define o alvo de Caminho do Sangue como um vampiro e exige uma amostra de seu Sangue. O fluxo já coletava a confirmação de que o alvo é vampiro, mas ela só era usada para classificar o dano de O Chamado de Dagon. `RitualEffectRules.ValidateTarget` agora aplica o requisito V5 antes da resolução de Caminho do Sangue, e `RitualWorkflowActions` bloqueia a rolagem quando a confirmação está ausente.
+
+Uma decisão diferente só prossegue pela exceção autorizada e justificada do Narrador já persistida no efeito e na tabela de exceções. O aplicativo não verifica a amostra no cenário, não inventa geração, nomes, Senhor ou Laços de Sangue e não altera a ficha do alvo. A cobertura continua como resolução assistida; as contagens não mudam.
 
 ## Expiração de Olhos de Babel
 

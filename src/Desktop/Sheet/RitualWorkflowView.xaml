@@ -38,7 +38,7 @@
                 <StackPanel Margin="0,8,16,8"><TextBlock Text="Raio da área (metros)"/><controls:NumericField Value="{Binding CoreRitualAreaRadius}" Minimum="0" Maximum="100"/></StackPanel>
                 <StackPanel Margin="0,8,0,8"><TextBlock Text="Pedras de Sangue já ativas"/><controls:NumericField Value="{Binding CoreRitualActiveBloodstones}" Minimum="0" Maximum="100"/></StackPanel>
             </WrapPanel>
-            <CheckBox Content="Alvo é vampiro (tipo de dano de Dagon)" IsChecked="{Binding CoreRitualVampireTarget}"/>
+            <CheckBox Content="Alvo é vampiro (obrigatório em Caminho do Sangue; define o dano de Dagon)" IsChecked="{Binding CoreRitualVampireTarget}"/>
             <CheckBox Content="Coração de Pedra: a mesa já contabilizou o ponto agravado da vela" IsChecked="{Binding CoreRitualCandleDamageConfirmed}"/>
             <CheckBox Content="Narrador confirmou tempo, ingredientes, alvo, oposição, validade e gatilho desta etapa" IsChecked="{Binding CoreRitualConditionsConfirmed}"/>
             <Button Content="Resolver próxima etapa / afirmação" Command="{Binding ResolveRitualWorkflowCommand}" HorizontalAlignment="Left"/>
