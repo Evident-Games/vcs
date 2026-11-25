@@ -690,6 +690,28 @@ public sealed class RitualWorkflowActions
                 "Encerrado"), null);
     }
 
+    public RitualWorkflowResolution ConfirmShaftSplinterReachedHeart(RitualWorkflowState state, bool confirmed)
+    {
+        if (state.Stage != "splinter")
+            throw new InvalidOperationException("Selecione uma lasca ativa do Fuste antes de confirmar sua chegada ao coração.");
+        if (!confirmed)
+            throw new InvalidOperationException("Confirme com o Narrador que a lasca alcançou o coração após o tempo determinado por ele.");
+        return new(state with { Stage = "ended" },
+            new(true, "A chegada da lasca ao coração foi confirmada; proposta de Morte Final registrada. Nenhuma ficha externa foi alterada.",
+                "Encerrado"), null);
+    }
+
+    public RitualWorkflowResolution ConfirmShaftFinalDeathAfterTurn(RitualWorkflowState state, bool confirmed)
+    {
+        if (state.Stage != "final-death-proposed")
+            throw new InvalidOperationException("Selecione um Fuste que penetrou o coração com margem de pelo menos cinco.");
+        if (!confirmed)
+            throw new InvalidOperationException("Confirme com o Narrador que um turno transcorreu desde a penetração do coração.");
+        return new(state with { Stage = "ended" },
+            new(true, "Um turno após a penetração com margem de pelo menos cinco foi confirmado; proposta de Morte Final registrada. Nenhuma ficha externa foi alterada.",
+                "Encerrado"), null);
+    }
+
     private static RitualRollAudit ApplyBeastToRoll(DicePoolResult originalRoll, bool beastSubdued)
     {
         var roll = QuellBeastRules.ApplyToRoll(originalRoll, beastSubdued);

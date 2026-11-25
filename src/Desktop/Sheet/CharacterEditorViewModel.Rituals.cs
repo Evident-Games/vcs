@@ -186,6 +186,8 @@ public partial class CharacterEditorViewModel
         RitualShaftDoctorUnavailableConfirmed = false;
         RitualShaftAmputationConfirmed = false;
         RitualShaftBeforeTrunkConfirmed = false;
+        RitualShaftReachedHeartConfirmed = false;
+        RitualShaftTurnElapsedConfirmed = false;
         RitualAirPassengerBeastSubdued = false;
         RitualAirGrounderBeastSubdued = false;
         RitualIncorporealShardReleased = false;

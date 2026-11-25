@@ -137,6 +137,11 @@
                 <CheckBox Content="Mesa confirmou que a lasca ainda não alcançou o tronco" IsChecked="{Binding RitualShaftBeforeTrunkConfirmed}"/>
                 <CheckBox Content="Mesa confirmou que o membro afetado foi amputado para remover a lasca" IsChecked="{Binding RitualShaftAmputationConfirmed}"/>
                 <Button Content="Registrar remoção da lasca por amputação" Command="{Binding ResolveRitualShaftAmputationCommand}" HorizontalAlignment="Left"/>
+                <TextBlock Text="Consequências finais permanecem propostas: confirme a condição correspondente ao estado salvo, sem alterar automaticamente a vítima. Fonte: Livro base, p. 282." TextWrapping="Wrap" Margin="0,8,0,0"/>
+                <CheckBox Content="Narrador confirmou que a lasca alcançou o coração após o tempo por ele determinado" IsChecked="{Binding RitualShaftReachedHeartConfirmed}"/>
+                <Button Content="Registrar chegada da lasca ao coração" Command="{Binding ConfirmRitualShaftReachedHeartCommand}" HorizontalAlignment="Left"/>
+                <CheckBox Content="Narrador confirmou que passou um turno após a penetração com margem 5+" IsChecked="{Binding RitualShaftTurnElapsedConfirmed}"/>
+                <Button Content="Registrar consequência após um turno" Command="{Binding ConfirmRitualShaftFinalDeathAfterTurnCommand}" HorizontalAlignment="Left"/>
             </StackPanel></Expander>
             <Expander Header="Travessia de círculo preparado" Margin="0,8"><StackPanel Margin="8">
                 <TextBlock Text="Identifique um intruso do tipo correspondente. A orientação foi salva no preparo; a mesa ainda confirma posição, elegibilidade e tentativas anteriores. Danos e custos do intruso são propostas, sem alterar outra ficha." TextWrapping="Wrap"/>

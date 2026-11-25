@@ -31,7 +31,7 @@ Na seção Disciplinas, abra “Preparar ritual conhecido”. Escolha o ritual, 
 | Círculo de Proteção contra Cainitas | Fluxo dos círculos com nível próprio e orientação persistida | Posição, elegibilidade e consequências no intruso |
 | Coração de Pedra | Custo, frenesi antes do teste, crítico, cura específica explícita uma vez, reversão por repetição, ajustes sociais/contra Presença, bloqueio de Presença e −3 em Remorso | Confirmar vela e dano já marcado; imunidade a estacas é informada, sem resolvedor universal de estaqueamento |
 | Fuga para o Verdadeiro Santuário | Fluxo dedicado: 12 checagens, noites consecutivas, identidades, diâmetro aproximado e posicionamento fixo persistentes, proibição de veículo, confirmações separadas de integridade/partida/concentração, rolagem por viagem, limite por cena, proposta validada de carga e inutilização persistida do par quando um círculo sofre dano | Ocorrência real das condições confirmadas, medida real, massa real e deslocamento narrativo |
-| Fuste de Extinção Tardia | Duas checagens separadas, preparo/teste, ataque com +3, margem de Morte Final/lasca, cirurgia Destreza + Medicina dificuldade 6 e remoção confirmada por amputação antes de a lasca alcançar o tronco | Tempo de avanço da lasca decidido pelo Narrador, não especificado numericamente no livro; vítima, integridade, amputação e consequências confirmadas; não aplica Morte Final nem altera ficha externa |
+| Fuste de Extinção Tardia | Duas checagens separadas, preparo/teste, ataque com +3, margem de Morte Final/lasca, cirurgia Destreza + Medicina dificuldade 6, remoção confirmada por amputação e encerramento confirmado por chegada ao coração ou pelo turno da margem 5+ | Tempo de avanço da lasca decidido pelo Narrador, não especificado numericamente no livro; vítima, integridade, amputação e consequências confirmadas; Morte Final permanece proposta e nenhuma ficha externa é alterada |
 
 ## Auditoria: Aderência do Inseto
 
@@ -194,6 +194,12 @@ Nos testes posteriores de ataque e cirurgia do Fuste, a mesa pode informar expli
 O livro base, página impressa 282 (página 284 do PDF fornecido), permite que qualquer pessoa remova a lasca de um Fuste amputando o membro afetado quando não há médico disponível, desde que ela ainda não tenha alcançado o tronco. `RitualWorkflowActions` agora oferece essa resolução sem rolagem: exige uma lasca ativa e confirmações separadas de que não há médico disponível, de que a lasca ainda não chegou ao tronco e de que a amputação realmente ocorreu.
 
 A ficha encerra o registro da lasca e grava a proposta no diário, mas não calcula ferimentos, não executa a amputação e não altera a ficha da vítima. As confirmações são limpas ao trocar de efeito, depois de outro resultado de ataque/cirurgia e depois do registro. Local afetado, tempo de avanço, consequências e qualquer atualização externa continuam sob decisão explícita da mesa.
+
+## Fuste: chegada ao coração e margem decisiva
+
+Na página impressa 282 (páginas 283–284 do PDF fornecido), uma margem de pelo menos cinco faz o vampiro ser reduzido a cinzas em um turno; com margem positiva menor, a lasca avança até o coração e a Morte Final é assegurada se ela não for extraída. O serviço V5 agora encerra cada acompanhamento apenas depois da confirmação correspondente: chegada da lasca ao coração após o tempo determinado pelo Narrador, ou transcurso de um turno depois da penetração com margem 5+.
+
+Essas ações não rolam dados, não calculam o tempo variável da lasca e não aplicam Morte Final. Elas encerram o marcador persistido e registram a consequência como proposta no diário, sem alterar a ficha da vítima. Trocar de efeito ou obter outro resultado de ataque/cirurgia limpa as confirmações, impedindo reaproveitamento silencioso.
 
 ## Proteções de objeto: Besta subjugada do intruso
 

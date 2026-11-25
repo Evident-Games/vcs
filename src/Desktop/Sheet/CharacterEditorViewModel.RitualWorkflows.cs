@@ -34,6 +34,8 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool ritualShaftDoctorUnavailableConfirmed;
     [ObservableProperty] private bool ritualShaftAmputationConfirmed;
     [ObservableProperty] private bool ritualShaftBeforeTrunkConfirmed;
+    [ObservableProperty] private bool ritualShaftReachedHeartConfirmed;
+    [ObservableProperty] private bool ritualShaftTurnElapsedConfirmed;
     [ObservableProperty] private int ritualAirPassengerPool = 5;
     [ObservableProperty] private int ritualAirPassengerHunger;
     [ObservableProperty] private bool ritualAirPassengerBeastSubdued;
@@ -362,6 +364,41 @@ public partial class CharacterEditorViewModel
             RitualShaftDoctorUnavailableConfirmed = false;
             RitualShaftAmputationConfirmed = false;
             RitualShaftBeforeTrunkConfirmed = false;
+            RitualShaftReachedHeartConfirmed = false;
+            RitualShaftTurnElapsedConfirmed = false;
+        }
+        catch (InvalidOperationException exception)
+        { RitualPreparationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
+    private void ConfirmRitualShaftReachedHeart() => ResolveShaftFinalConsequence(true);
+
+    [RelayCommand]
+    private void ConfirmRitualShaftFinalDeathAfterTurn() => ResolveShaftFinalConsequence(false);
+
+    private void ResolveShaftFinalConsequence(bool splinterReachedHeart)
+    {
+        if (SelectedPowerEffect is not { Active: true, PowerId: "ritual-shaft-of-belated-quiescence", RitualWorkflow: { } state } entry)
+        { RitualPreparationSummary = "Selecione uma lasca ativa ou uma penetração decisiva do Fuste."; return; }
+        try
+        {
+            var actions = new RitualWorkflowActions();
+            var result = splinterReachedHeart
+                ? actions.ConfirmShaftSplinterReachedHeart(state, RitualShaftReachedHeartConfirmed)
+                : actions.ConfirmShaftFinalDeathAfterTurn(state, RitualShaftTurnElapsedConfirmed);
+            ReplacePowerEffect(entry, entry with { RitualWorkflow = result.State, Effect = result.Proposal.Effect,
+                Duration = result.Proposal.Duration, Active = false, PoolBonus = 0 });
+            RitualPreparationSummary = $"{entry.Name}: {result.Proposal.Effect} Duração: {result.Proposal.Duration}. Fonte: {entry.Source}.";
+            Notebook.AppendLog("Rituais", RitualPreparationSummary);
+            MarkChanged();
+            RefreshRollPool();
+            RefreshPowerUse();
+            RitualShaftDoctorUnavailableConfirmed = false;
+            RitualShaftAmputationConfirmed = false;
+            RitualShaftBeforeTrunkConfirmed = false;
+            RitualShaftReachedHeartConfirmed = false;
+            RitualShaftTurnElapsedConfirmed = false;
         }
         catch (InvalidOperationException exception)
         { RitualPreparationSummary = exception.Message; }
@@ -382,6 +419,8 @@ public partial class CharacterEditorViewModel
             RitualShaftDoctorUnavailableConfirmed = false;
             RitualShaftAmputationConfirmed = false;
             RitualShaftBeforeTrunkConfirmed = false;
+            RitualShaftReachedHeartConfirmed = false;
+            RitualShaftTurnElapsedConfirmed = false;
         }
         catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
         { RitualPreparationSummary = exception.Message; }
