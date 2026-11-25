@@ -18,7 +18,8 @@ public sealed class V5PowerRuleset : IPowerRuleset
             throw new ArgumentOutOfRangeException(nameof(context));
         var opposed = use.Mode == "opposed";
         var margin = context.Rolled ? context.Successes - (opposed ? context.OpponentSuccesses : context.Difficulty) : 0;
-        var won = !context.Rolled || (opposed
+        var totalFailure = context.Rolled && context.Successes == 0;
+        var won = !context.Rolled || !totalFailure && (opposed
             ? ContestRules.ActingCharacterWins(context.Successes, context.OpponentSuccesses)
             : margin >= 0);
         var critical = context.Rolled && won && context.Critical;
@@ -27,13 +28,15 @@ public sealed class V5PowerRuleset : IPowerRuleset
         var result = new PowerResolution(won, use.Conditions, use.Duration, Math.Max(0, margin));
         if (!won)
         {
-            var failure = use.Operation switch
+            var failure = DominateOngoingRules.CreatesStoryLock(use.PowerId, context.Rolled, false, context.Successes)
+                ? "Falha total: novas tentativas de Dominação contra este alvo ficam bloqueadas pelo restante da história."
+                : use.Operation switch
             {
                 "frenzyTransfer" => "Transferência falhou: o usuário entra no frenesi original.",
                 "dread" when !vampire => "Mortal recua e só pode se defender por um turno, mesmo com a falha do usuário.",
                 "entrancement" => "Transe falhou. Se era renovação, o alvo fica imune pelo resto da noite.",
                 "impostor" => "Disfarce pouco convincente; conhecidos da pessoa imitada percebem a diferença.",
-                "command" or "memory" or "memoryScenes" or "possessionHuman" when context.Successes == 0 =>
+                "possessionHuman" when context.Successes == 0 =>
                     "Falha total: novas tentativas de Dominação/Possessão contra este alvo ficam bloqueadas pela história.",
                 _ => "Efeito não obtido. Custos de uma tentativa válida continuam pagos."
             };

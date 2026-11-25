@@ -186,6 +186,7 @@ public partial class CharacterEditorViewModel
     partial void OnSelectedPowerEffectChanged(PowerEffectEntry? value)
     {
         PowerNightEndedConfirmed = false;
+        PowerStoryEndedConfirmed = false;
         RitualFollowUpBeastSubdued = false;
         RitualDagonBloodExposureConfirmed = false;
         RitualDagonOneHourElapsedConfirmed = false;

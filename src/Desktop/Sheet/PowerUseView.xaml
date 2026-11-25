@@ -47,6 +47,8 @@
                 <TextBlock Text="{Binding SelectedPowerEffect.NightsRemaining, StringFormat='Noites restantes registradas: {0}'}"/>
                 <CheckBox Content="Mesa confirmou que a data acima é uma noite concluída da crônica" IsChecked="{Binding PowerNightEndedConfirmed}"/>
                 <Button Content="Ocultar: avançar noites confirmadas" Command="{Binding AdvanceConcealmentNightCommand}" HorizontalAlignment="Left" Margin="0,0,0,8"/>
+                <CheckBox Content="Mesa confirmou que a história terminou" IsChecked="{Binding PowerStoryEndedConfirmed}"/>
+                <Button Content="Dominação: encerrar bloqueio da história" Command="{Binding EndDominateStoryLockCommand}" HorizontalAlignment="Left" Margin="0,0,0,8"/>
                 <WrapPanel>
                     <Button Content="Encerrar efeito selecionado" Command="{Binding EndSelectedPowerEffectCommand}" Margin="0,0,8,8"/>
                     <Button Content="Aplicar dano/Fome à própria ficha" Command="{Binding ApplySelectedPowerConsequencesCommand}" Margin="0,0,8,8"/>

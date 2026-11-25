@@ -10,6 +10,32 @@ public sealed record PowerEffectGuidance(string Description, int DamageBonus, bo
 /// <summary>Core powers with a direct sheet calculation or an explicit application of their main numeric effect. Secondary and narrative rules can still require Storyteller adjudication.</summary>
 public sealed class PowerEffectActions
 {
+    public void EnsureDominateTargetAvailable(IEnumerable<PowerEffectEntry> effects, string powerId, string target,
+        bool exceptionApproved, string exceptionReason)
+    {
+        ArgumentNullException.ThrowIfNull(effects);
+        if (!DominateOngoingRules.IsDominatePower(powerId) ||
+            !effects.Any(x => x.DominateStoryLock && string.Equals(x.Target, target, StringComparison.OrdinalIgnoreCase)))
+            return;
+        if (!exceptionApproved)
+            throw new InvalidOperationException("Uma falha total impede Dominação contra este alvo pelo restante da história.");
+        if (string.IsNullOrWhiteSpace(exceptionReason))
+            throw new InvalidOperationException("A exceção ao bloqueio de Dominação exige justificativa do Narrador.");
+    }
+
+    public PowerEffectEntry EndDominateStoryLock(PowerEffectEntry entry, bool storyEndedConfirmed)
+    {
+        if (!entry.DominateStoryLock)
+            throw new InvalidOperationException("Selecione um registro de falha total de Dominação ainda bloqueado.");
+        if (!storyEndedConfirmed)
+            throw new InvalidOperationException("Confirme com a mesa que a história terminou.");
+        return entry with
+        {
+            DominateStoryLock = false,
+            Effect = $"{entry.Effect} Bloqueio encerrado após confirmação do fim da história."
+        };
+    }
+
     public PowerEffectEntry AdvanceConcealmentNight(PowerEffectEntry entry, DateOnly completedNight,
         bool tableConfirmed)
     {

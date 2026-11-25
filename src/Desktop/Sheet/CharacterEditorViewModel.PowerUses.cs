@@ -41,6 +41,7 @@ public partial class CharacterEditorViewModel
     [ObservableProperty] private bool isBiteAttack;
     [ObservableProperty] private int temporaryBloodPotencyBonus;
     [ObservableProperty] private bool powerNightEndedConfirmed;
+    [ObservableProperty] private bool powerStoryEndedConfirmed;
 
     public int EffectiveBloodPotency => Math.Clamp(BloodPotency + TemporaryBloodPotencyBonus, 0, 10);
     public PowerUseDefinition? SelectedPowerUse => ActivationPower is { } power ? PowerUseCatalog.Find(power.Key) : null;
@@ -147,6 +148,9 @@ public partial class CharacterEditorViewModel
         }
         try
         {
+            var target = PowerTargetIsSelf ? Name : ActivationTarget.Trim();
+            new PowerEffectActions().EnsureDominateTargetAvailable(PowerEffects, power.Key, target,
+                ActivationExceptionApproved, PowerRuling);
             var discipline = power.Entry?.Definition.DisciplineId ?? "";
             var result = new PowerUseActions(_powerRulesets).Resolve(new(use, ActivationExceptionApproved ? power.Level : use.Level, PowerUsePool, PowerRollRequired,
                 PowerUseDifficulty, PowerOpponentSuccesses, DisciplineRating(discipline), AttributeRating("wits"),
@@ -172,7 +176,6 @@ public partial class CharacterEditorViewModel
                     x.Level <= DisciplineRating(discipline) / 2 && x.Entry?.Definition.AmalgamDisciplineId is null).Select(x => x.Name);
                 outcome = outcome with { Effect = outcome.Effect + " Poderes elegíveis: " + string.Join(", ", granted) + "." };
             }
-            var target = PowerTargetIsSelf ? Name : ActivationTarget.Trim();
             ActivationSummary = $"{power.Name} → {target}: {outcome.Effect} Duração: {outcome.Duration}. " +
                 (result.Roll is { } roll ? $"{roll.Successes} sucesso(s), {roll.Outcome}; margem {outcome.Margin}. " : "Sem teste, conforme condições confirmadas. ") +
                 (result.BeastSubduedConsidered ? "Besta subjugada considerada; fonte: Livro base, p. 246. " : "") +
@@ -188,7 +191,9 @@ public partial class CharacterEditorViewModel
                 use.Operation == "form" ? PowerFormDexterity : null,
                 use.Operation == "form" ? PowerFormStamina : null, PowerGameDate.Date, PoolBonus: outcome.PoolBonus,
                 NightsRemaining: outcome.Succeeded && use.Operation == "conceal"
-                    ? ObfuscateOngoingRules.ConcealmentDurationNights(outcome.Margin) : 0);
+                    ? ObfuscateOngoingRules.ConcealmentDurationNights(outcome.Margin) : 0,
+                DominateStoryLock: DominateOngoingRules.CreatesStoryLock(power.Key, result.Roll is not null,
+                    outcome.Succeeded, result.Roll?.Successes ?? 0));
             if (outcome.Succeeded && PowerTargetIsSelf && (use.Operation is "mist" or "form"))
             {
                 foreach (var previous in PowerEffects.Where(x => x.Active && x.IsSelf &&
@@ -297,6 +302,23 @@ public partial class CharacterEditorViewModel
                 : $"Ocultar encerrado após a última noite confirmada. Fonte: {updated.Source}.";
             Notebook.AppendLog("Usos de Disciplinas", ActivationSummary);
             PowerNightEndedConfirmed = false;
+            MarkChanged();
+        }
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
+        { ActivationSummary = exception.Message; }
+    }
+
+    [RelayCommand]
+    private void EndDominateStoryLock()
+    {
+        if (SelectedPowerEffect is not { } entry) return;
+        try
+        {
+            var updated = new PowerEffectActions().EndDominateStoryLock(entry, PowerStoryEndedConfirmed);
+            ReplacePowerEffect(entry, updated);
+            ActivationSummary = $"Bloqueio de Dominação contra {updated.Target} encerrado após confirmação do fim da história. Fonte: {updated.Source}.";
+            Notebook.AppendLog("Usos de Disciplinas", ActivationSummary);
+            PowerStoryEndedConfirmed = false;
             MarkChanged();
         }
         catch (Exception exception) when (exception is ArgumentException or InvalidOperationException)
